@@ -1,0 +1,6 @@
+/.research/
+/build*/
+/.test-pg/
+*.amx
+*.log
+__pycache__/

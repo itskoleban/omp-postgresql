@@ -1,0 +1,67 @@
+#pragma once
+
+#include "session.hpp"
+#include "statement.hpp"
+#include <unordered_map>
+
+namespace pg {
+struct Connection {
+	Owner owner;
+	std::vector<std::unique_ptr<Lane>> lanes;
+	std::vector<Id> reservations;
+	State observed = State::disconnected;
+	bool closing = false;
+	bool close_delivered = false;
+	State state() const;
+	int ready() const;
+};
+
+struct Event {
+	Owner owner;
+	Id connection;
+	State state;
+};
+
+struct Dispatch {
+	std::vector<Event> connections;
+	std::vector<std::shared_ptr<Job>> jobs;
+};
+
+// All public methods must be called from the owning (open.mp main) thread.
+class Engine {
+public:
+	explicit Engine(Limits limits = {}, std::filesystem::path root = "scriptfiles/sql");
+	~Engine();
+	Id connect(Owner owner, std::string profile, int pool_size);
+	Connection &connection(Owner owner, Id id);
+	void disconnect(Owner owner, Id id);
+	Id prepare(Owner owner, Id connection, std::string sql, int parameters, bool file = false,
+	           bool persistent = true);
+	Statement &statement(Owner owner, Id id);
+	void close_statement(Owner owner, Id id);
+	Id execute(Owner owner, Id statement, int lane, Id transaction, int context, bool notify);
+	Id begin(Owner owner, Id connection, int lane, int context, bool notify);
+	Id finish(Owner owner, Id transaction, bool commit, int context, bool notify);
+	std::shared_ptr<Job> job(Owner owner, Id id);
+	void close_job(Owner owner, Id id);
+	void unload(Owner owner);
+	Dispatch poll();
+
+	const Limits &limits() const {
+		return limits_;
+	}
+
+private:
+	Limits limits_;
+	std::filesystem::path root_;
+	Id next_ = 1;
+	CompletionQueue completed_; // outlives lanes
+	std::unordered_map<Id, std::unique_ptr<Connection>> connections_;
+	std::unordered_map<Id, Statement> statements_;
+	std::unordered_map<Id, std::shared_ptr<Job>> jobs_;
+	std::unordered_map<Id, bool> ending_;
+	std::vector<Owner> unloaded_;
+	Id id();
+	Id submit(std::shared_ptr<Job> job);
+};
+} // namespace pg
