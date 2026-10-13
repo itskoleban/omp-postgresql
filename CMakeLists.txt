@@ -139,5 +139,5 @@ install(
 )
 if(PG_BUILD_BENCHMARK)
     add_executable(pg_benchmark tests/benchmark.cpp)
-    target_link_libraries(pg_benchmark PRIVATE PostgreSQL::PostgreSQL)
+    target_link_libraries(pg_benchmark PRIVATE pg_core)
 endif()

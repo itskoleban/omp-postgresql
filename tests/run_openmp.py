@@ -42,9 +42,13 @@ for dll in args.runtime:
     shutil.copy2(dll, root / Path(dll).name)
 exe = root / ("omp-server.exe" if os.name == "nt" else "omp-server")
 flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
-log_path = root / (
-    "pg-smoke-output.log" if args.success_marker == "PG SMOKE PASS" else "pg-callback-output.log"
-)
+log_names = {
+    "PG SMOKE PASS": "pg-smoke-output.log",
+    "PG CALLBACK PASS": "pg-callback-output.log",
+    "PG EXTENSION PASS": "pg-extension-output.log",
+    "PG BOOTSTRAP PASS": "pg-bootstrap-output.log",
+}
+log_path = root / log_names.get(args.success_marker, "pg-custom-output.log")
 with log_path.open("wb") as log:
     proc = subprocess.Popen(
         [str(exe)],

@@ -415,6 +415,67 @@ void streaming(const char *service) {
 	      "Session remains usable after a delivery-only failure");
 	slow.close_job(owner, reusable->id);
 }
+
+void stream_lifecycle(const char *service) {
+	pg::Limits limits;
+	limits.query_ms = 2000;
+	pg::Engine engine(limits);
+	auto connection = engine.connect(owner, service, 1);
+	ready(engine, connection);
+	auto statement =
+	    engine.prepare(owner, connection, "SELECT i FROM generate_series(1,10000) i", 0);
+	auto stalled_stream = [&] {
+		engine.statement(owner, statement).add(limits);
+		auto id = engine.execute_stream(owner, statement, 1, 0, 0, 0, true);
+		auto job = engine.job(owner, id);
+		auto deadline = pg::Clock::now() + std::chrono::seconds(15);
+		while (!job->stream->available()) {
+			engine.poll();
+			if (pg::terminal(job->status.load()) || pg::Clock::now() >= deadline) {
+				throw std::runtime_error("Stream did not reach consumer backpressure");
+			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
+		return job;
+	};
+
+	auto cancelled = stalled_stream();
+	cancelled->cancel.store(true);
+	wait(engine, cancelled->id);
+	check(cancelled->status.load() == pg::Status::uncertain &&
+	          cancelled->error == pg::Error::cancelled && cancelled->completed == 0 &&
+	          cancelled->items_status == std::vector{pg::ItemStatus::uncertain},
+	      "Cancelling a stalled stream preserves an unknown SQL outcome");
+	check(cancelled->stream->next() && cancelled->stream->current()->rows.size() == 1 &&
+	          !cancelled->stream->next(),
+	      "Cancellation retains only the already published block");
+	engine.close_job(owner, cancelled->id);
+	ready(engine, connection);
+
+	auto unloaded = stalled_stream();
+	engine.unload(owner);
+	auto deadline = pg::Clock::now() + std::chrono::seconds(15);
+	bool callbacks_suppressed = true;
+	for (;;) {
+		auto dispatch = engine.poll();
+		callbacks_suppressed &= dispatch.jobs.empty() && dispatch.streams.empty();
+		if (pg::terminal(unloaded->status.load())) {
+			break;
+		}
+		if (pg::Clock::now() >= deadline) {
+			throw std::runtime_error("Unloaded stream did not release its worker");
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+	engine.poll();
+	check(callbacks_suppressed, "Unloading a stream suppresses its job and block callbacks");
+	check(unloaded->status.load() == pg::Status::uncertain &&
+	          unloaded->error == pg::Error::cancelled,
+	      "Unloading a stalled stream releases the producer without claiming confirmation");
+	rejects([&] {
+		engine.job(owner, unloaded->id);
+	});
+}
 } // namespace
 
 int main() {
@@ -428,6 +489,7 @@ int main() {
 		rejection(service);
 		transactions(service);
 		streaming(service);
+		stream_lifecycle(service);
 		std::cout << checks << " extension checks passed\n";
 		return 0;
 	} catch (const std::exception &error) {

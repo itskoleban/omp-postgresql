@@ -32,6 +32,7 @@ parser.add_argument("--runtime", action="append", default=[])
 parser.add_argument("--unload-script")
 parser.add_argument("--callback-gamemode")
 parser.add_argument("--extension-gamemode")
+parser.add_argument("--bootstrap-gamemode")
 parser.add_argument(
     "--only-openmp",
     action="store_true",
@@ -280,6 +281,7 @@ try:
         for gamemode, marker in (
             (args.callback_gamemode, "CALLBACK"),
             (args.extension_gamemode, "EXTENSION"),
+            (args.bootstrap_gamemode, "BOOTSTRAP"),
         ):
             if not gamemode:
                 continue

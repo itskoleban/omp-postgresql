@@ -9,241 +9,243 @@ jobs:
             matrix:
                 sanitize: ["OFF", "ON"]
         steps:
-          - uses: actions/checkout@v4
-          - name: PostgreSQL 17 development tools
-            run: |
-                sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
-                sudo apt-get update
-                sudo apt-get install -y libpq-dev postgresql-17 ninja-build
-                echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
-          - run: |
-                cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_SANITIZE=${{ matrix.sanitize }}
-          - run: |
-                cmake --build build --parallel 4
-          - run: |
-                python3 tests/run_postgres.py --build build
-          - name: Compile Pawn smoke gamemode
-            run: |
-                cmake -S build/_deps/pawn-src/source/compiler -B build-pawn -G Ninja \
-                	-DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_C_FLAGS='-DPAWN_CELL_SIZE=32 -std=gnu17'
-                cmake --build build-pawn --parallel 4
-                git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
-                git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
-                ./build-pawn/pawncc examples/smoke.pwn -ipawn -ibuild-stdlib -ibuild/_deps/pawn-src/include \
-                	-obuild/smoke.amx
+            - uses: actions/checkout@v4
+            - name: PostgreSQL 17 development tools
+              run: |
+                  sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+                  sudo apt-get update
+                  sudo apt-get install -y libpq-dev postgresql-17 ninja-build
+                  echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+            - run: |
+                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_SANITIZE=${{ matrix.sanitize }}
+            - run: |
+                  cmake --build build --parallel 4
+            - run: |
+                  python3 tests/run_postgres.py --build build
+            - name: Compile Pawn smoke gamemode
+              run: |
+                  cmake -S build/_deps/pawn-src/source/compiler -B build-pawn -G Ninja \
+                  	-DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_C_FLAGS='-DPAWN_CELL_SIZE=32 -std=gnu17'
+                  cmake --build build-pawn --parallel 4
+                  git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
+                  git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
+                  ./build-pawn/pawncc examples/smoke.pwn -ipawn -ibuild-stdlib -ibuild/_deps/pawn-src/include \
+                  	-obuild/smoke.amx
     linux-x86:
         name: Linux x86 and open.mp
         runs-on: ubuntu-24.04
         timeout-minutes: 45
         steps:
-          - uses: actions/checkout@v4
-          - name: Install multilib, 32-bit TLS and the PostgreSQL server tools
-            run: |
-                sudo dpkg --add-architecture i386
-                sudo apt-get update
-                sudo apt-get install -y g++-multilib libc6-dev-i386 libssl-dev:i386 bison flex perl ninja-build
-                sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
-                sudo apt-get update
-                sudo apt-get install -y postgresql-17
-                echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
-          - name: Build PostgreSQL 17.11 libpq with 32-bit TLS
-            run: |
-                curl --fail --location --retry 3 \
-                	https://ftp.postgresql.org/pub/source/v17.11/postgresql-17.11.tar.gz -o \
-                	postgresql-17.11.tar.gz
-                echo '5367f6fb2ec97efe1eb2e0c7926bb33438e51b0bd3a9733b88498056a7dc9a7e  postgresql-17.11.tar.gz' | sha256sum --check --strict
-                tar -xzf postgresql-17.11.tar.gz
-                bash scripts/build-libpq-linux32.sh postgresql-17.11 "$PWD/libpq32"
-                echo "LD_LIBRARY_PATH=$PWD/libpq32/lib" >> "$GITHUB_ENV"
-          - name: Build the x86 component
-            run: |
-                cmake -S . -B build-linux32 -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-m32 \
-                	-DCMAKE_C_FLAGS=-m32 "-DPostgreSQL_INCLUDE_DIR=$PWD/libpq32/include" \
-                	"-DPostgreSQL_LIBRARY=$PWD/libpq32/lib/libpq.so"
-                cmake --build build-linux32 --parallel 4
-          - name: Build Pawn32 and compile the server regression scripts
-            run: |
-                cmake -S build-linux32/_deps/pawn-src/source/compiler -B build-pawn32 -G Ninja \
-                	-DCMAKE_POLICY_VERSION_MINIMUM=3.5 '-DCMAKE_C_FLAGS=-m32 -DPAWN_CELL_SIZE=32 -std=gnu17' \
-                	-DBUILD_TESTING=OFF
-                cmake --build build-pawn32 --parallel 4
-                git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
-                git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
-                for script in smoke unload callbacks; do
-                	./build-pawn32/pawncc "examples/$script.pwn" -ipawn -ibuild-stdlib \
-                		-ibuild-linux32/_deps/pawn-src/include "-obuild-linux32/$script.amx"
-                done
-          - name: Obtain the fixed open.mp distribution with dynamic OpenSSL
-            run: |
-                curl --fail --location --retry 3 \
-                	https://github.com/openmultiplayer/open.mp/releases/download/v1.5.8.3079/open.mp-linux-x86-dynssl.tar.gz \
-                	-o openmp-linux-dynssl.tar.gz
-                echo '2be12550e3aaff0e60510ae8823e18b9759990eca3f02c101a49bcb3c985d222  openmp-linux-dynssl.tar.gz' | sha256sum --check --strict
-                mkdir -p "$RUNNER_TEMP/openmp"
-                tar -xzf openmp-linux-dynssl.tar.gz -C "$RUNNER_TEMP/openmp"
-                echo "OPENMP_DIR=$RUNNER_TEMP/openmp/Server" >> "$GITHUB_ENV"
-          - name: Test the x86 core, real server, VM unload and callback regressions
-            run: |
-                python3 tests/run_postgres.py --build build-linux32 --config Release --openmp-dir "$OPENMP_DIR" \
-                	--component build-linux32/omp-postgresql.so --gamemode build-linux32/smoke.amx --unload-script \
-                	build-linux32/unload.amx --callback-gamemode build-linux32/callbacks.amx --runtime \
-                	"$PWD/libpq32/lib/libpq.so.5"
-          - name: Retain the x86 test logs
-            if: always()
-            uses: actions/upload-artifact@v4
-            with:
-                name: linux-x86-test-logs
-                path: |
-                    build-linux32/Testing/Temporary/*.log
-                    ${{ runner.temp }}/openmp/Server/pg-*-output.log
-                    /tmp/omp-pg-integration-*/command-*.log
-                    /tmp/omp-pg-integration-*/server.log
+            - uses: actions/checkout@v4
+            - name: Install multilib, 32-bit TLS and the PostgreSQL server tools
+              run: |
+                  sudo dpkg --add-architecture i386
+                  sudo apt-get update
+                  sudo apt-get install -y g++-multilib libc6-dev-i386 libssl-dev:i386 bison flex perl ninja-build
+                  sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+                  sudo apt-get update
+                  sudo apt-get install -y postgresql-17
+                  echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+            - name: Build PostgreSQL 17.11 libpq with 32-bit TLS
+              run: |
+                  curl --fail --location --retry 3 \
+                  	https://ftp.postgresql.org/pub/source/v17.11/postgresql-17.11.tar.gz -o \
+                  	postgresql-17.11.tar.gz
+                  echo '5367f6fb2ec97efe1eb2e0c7926bb33438e51b0bd3a9733b88498056a7dc9a7e  postgresql-17.11.tar.gz' | sha256sum --check --strict
+                  tar -xzf postgresql-17.11.tar.gz
+                  bash scripts/build-libpq-linux32.sh postgresql-17.11 "$PWD/libpq32"
+                  echo "LD_LIBRARY_PATH=$PWD/libpq32/lib" >> "$GITHUB_ENV"
+            - name: Build the x86 component
+              run: |
+                  cmake -S . -B build-linux32 -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-m32 \
+                  	-DCMAKE_C_FLAGS=-m32 "-DPostgreSQL_INCLUDE_DIR=$PWD/libpq32/include" \
+                  	"-DPostgreSQL_LIBRARY=$PWD/libpq32/lib/libpq.so"
+                  cmake --build build-linux32 --parallel 4
+            - name: Build Pawn32 and compile the server regression scripts
+              run: |
+                  cmake -S build-linux32/_deps/pawn-src/source/compiler -B build-pawn32 -G Ninja \
+                  	-DCMAKE_POLICY_VERSION_MINIMUM=3.5 '-DCMAKE_C_FLAGS=-m32 -DPAWN_CELL_SIZE=32 -std=gnu17' \
+                  	-DBUILD_TESTING=OFF
+                  cmake --build build-pawn32 --parallel 4
+                  git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
+                  git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
+                  for script in smoke unload callbacks extensions bootstrap; do
+                  	./build-pawn32/pawncc "examples/$script.pwn" -ipawn -ibuild-stdlib \
+                  		-ibuild-linux32/_deps/pawn-src/include "-obuild-linux32/$script.amx"
+                  done
+            - name: Obtain the fixed open.mp distribution with dynamic OpenSSL
+              run: |
+                  curl --fail --location --retry 3 \
+                  	https://github.com/openmultiplayer/open.mp/releases/download/v1.5.8.3079/open.mp-linux-x86-dynssl.tar.gz \
+                  	-o openmp-linux-dynssl.tar.gz
+                  echo '2be12550e3aaff0e60510ae8823e18b9759990eca3f02c101a49bcb3c985d222  openmp-linux-dynssl.tar.gz' | sha256sum --check --strict
+                  mkdir -p "$RUNNER_TEMP/openmp"
+                  tar -xzf openmp-linux-dynssl.tar.gz -C "$RUNNER_TEMP/openmp"
+                  echo "OPENMP_DIR=$RUNNER_TEMP/openmp/Server" >> "$GITHUB_ENV"
+            - name: Test the x86 core, real server, VM unload and callback regressions
+              run: |
+                  python3 tests/run_postgres.py --build build-linux32 --config Release --openmp-dir "$OPENMP_DIR" \
+                  	--component build-linux32/omp-postgresql.so --gamemode build-linux32/smoke.amx --unload-script \
+                  	build-linux32/unload.amx --callback-gamemode build-linux32/callbacks.amx \
+                  	--extension-gamemode build-linux32/extensions.amx --bootstrap-gamemode build-linux32/bootstrap.amx --runtime \
+                  	"$PWD/libpq32/lib/libpq.so.5"
+            - name: Retain the x86 test logs
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: linux-x86-test-logs
+                  path: |
+                      build-linux32/Testing/Temporary/*.log
+                      ${{ runner.temp }}/openmp/Server/pg-*-output.log
+                      /tmp/omp-pg-integration-*/command-*.log
+                      /tmp/omp-pg-integration-*/server.log
     windows:
         runs-on: windows-latest
         steps:
-          - uses: actions/checkout@v4
-          - uses: msys2/setup-msys2@v2
-            with:
-                msystem: UCRT64
-                update: true
-                install: mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake 
-                    mingw-w64-ucrt-x86_64-ninja mingw-w64-ucrt-x86_64-postgresql 
-                    mingw-w64-ucrt-x86_64-python git
-          - shell: msys2 {0}
-            run: |
-                cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
-                cmake --build build --parallel 4
-          - name: Obtain isolated PostgreSQL server tools
-            shell: pwsh
-            run: |
-                Invoke-WebRequest `
-                	https://get.enterprisedb.com/postgresql/postgresql-17.11-3-windows-x64-binaries.zip -OutFile `
-                	postgres.zip
-                if ((Get-FileHash postgres.zip -Algorithm SHA256).Hash -ne '4B8DB0930C38F6EF845DB919551DEDDA3B6B845AEB0927B3D79A6E8E9E4537CF') {
-                	throw 'PostgreSQL archive checksum changed'
-                }
-                Expand-Archive postgres.zip -DestinationPath build-server
-          - shell: msys2 {0}
-            run: |
-                python tests/run_postgres.py --build build --postgres-bin build-server/pgsql/bin
+            - uses: actions/checkout@v4
+            - uses: msys2/setup-msys2@v2
+              with:
+                  msystem: UCRT64
+                  update: true
+                  install: mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake
+                      mingw-w64-ucrt-x86_64-ninja mingw-w64-ucrt-x86_64-postgresql
+                      mingw-w64-ucrt-x86_64-python git
+            - shell: msys2 {0}
+              run: |
+                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+                  cmake --build build --parallel 4
+            - name: Obtain isolated PostgreSQL server tools
+              shell: pwsh
+              run: |
+                  Invoke-WebRequest `
+                  	https://get.enterprisedb.com/postgresql/postgresql-17.11-3-windows-x64-binaries.zip -OutFile `
+                  	postgres.zip
+                  if ((Get-FileHash postgres.zip -Algorithm SHA256).Hash -ne '4B8DB0930C38F6EF845DB919551DEDDA3B6B845AEB0927B3D79A6E8E9E4537CF') {
+                  	throw 'PostgreSQL archive checksum changed'
+                  }
+                  Expand-Archive postgres.zip -DestinationPath build-server
+            - shell: msys2 {0}
+              run: |
+                  python tests/run_postgres.py --build build --postgres-bin build-server/pgsql/bin
     windows-x86:
         name: Windows x86 MSVC and open.mp
         runs-on: windows-latest
         timeout-minutes: 45
         steps:
-          - name: Preserve LF in the source build scripts
-            shell: pwsh
-            run: |
-                git config --global core.autocrlf false
-          - uses: actions/checkout@v4
-          - uses: actions/setup-python@v6
-            with:
-                python-version: "3.13"
-                architecture: x64
-          - uses: msys2/setup-msys2@v2
-            with:
-                msystem: MINGW32
-                update: true
-                install: >-
-                    mingw-w64-i686-gcc mingw-w64-i686-openssl
-                    make bison flex perl diffutils git tar curl
-          - name: Build PostgreSQL 17.11 libpq with 32-bit TLS
-            shell: msys2 {0}
-            run: |
-                curl --fail --location --retry 3 \
-                	https://ftp.postgresql.org/pub/source/v17.11/postgresql-17.11.tar.bz2 -o \
-                	postgresql-17.11.tar.bz2
-                echo 'dd27f2b3c59e73ed14aa3324901242bf69a032a6347805f274e6260322d42979  postgresql-17.11.tar.bz2' | sha256sum --check --strict
-                tar -xjf postgresql-17.11.tar.bz2
-                bash scripts/build-libpq-mingw32.sh postgresql-17.11 "$(pwd)/libpq32"
-                cp /mingw32/bin/libssl-3.dll /mingw32/bin/libcrypto-3.dll libpq32/bin/
-                cygpath -w /mingw32/bin >> "$GITHUB_PATH"
-                cygpath -w "$PWD/libpq32/bin" >> "$GITHUB_PATH"
-          - name: Generate the MSVC import library and build the x86 component
-            shell: pwsh
-            run: |
-                $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
-                $vsRoot = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-                if (-not $vsRoot) {
-                	throw 'MSVC C++ tools were not found'
-                }
-                $vcVersion = (Get-Content -LiteralPath (Join-Path $vsRoot 'VC/Auxiliary/Build/Microsoft.VCToolsVersion.default.txt') -Raw).Trim()
-                $libTool = Join-Path $vsRoot "VC/Tools/MSVC/$vcVersion/bin/Hostx64/x86/lib.exe"
-                if (-not (Test-Path -LiteralPath $libTool -PathType Leaf)) {
-                	throw 'MSVC x86 lib.exe was not found'
-                }
-                ./scripts/create-msvc-import.ps1 -PostgreSQLRoot libpq32 -LibTool $libTool
-                cmake -S . -B build-msvc32 -A Win32 `
-                	"-DPostgreSQL_INCLUDE_DIR=$env:GITHUB_WORKSPACE/libpq32/include" `
-                	"-DPostgreSQL_LIBRARY=$env:GITHUB_WORKSPACE/libpq32/lib/libpq.lib"
-                if ($LASTEXITCODE -ne 0) {
-                	throw 'MSVC x86 CMake configuration failed'
-                }
-                cmake --build build-msvc32 --config Release --parallel 4
-                if ($LASTEXITCODE -ne 0) {
-                	throw 'MSVC x86 component build failed'
-                }
-          - name: Build Pawn32 and compile the server regression scripts
-            shell: pwsh
-            run: |
-                cmake -S build-msvc32/_deps/pawn-src/source/compiler -B build-pawn32 -A Win32 `
-                	'-DCMAKE_POLICY_VERSION_MINIMUM=3.5' '-DCMAKE_C_FLAGS=/DPAWN_CELL_SIZE=32 /DHAVE_ALLOCA_H=0' `
-                	-DBUILD_TESTING=OFF
-                if ($LASTEXITCODE -ne 0) {
-                	throw 'Pawn32 CMake configuration failed'
-                }
-                cmake --build build-pawn32 --config Release --parallel 4
-                if ($LASTEXITCODE -ne 0) {
-                	throw 'Pawn32 compiler build failed'
-                }
-                git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
-                if ($LASTEXITCODE -ne 0) {
-                	throw 'open.mp standard library checkout failed'
-                }
-                git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
-                if ($LASTEXITCODE -ne 0) {
-                	throw 'open.mp standard library revision was not found'
-                }
-                foreach ($script in 'smoke', 'unload', 'callbacks') {
-                  & ./build-pawn32/Release/pawncc.exe "examples/$script.pwn" '-ipawn' '-ibuild-stdlib' `
-                  	'-ibuild-msvc32/_deps/pawn-src/include' "-obuild-msvc32/$script.amx"
-                  if ($LASTEXITCODE -ne 0) {
-                  	throw "Pawn32 compilation failed: $script"
+            - name: Preserve LF in the source build scripts
+              shell: pwsh
+              run: |
+                  git config --global core.autocrlf false
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v6
+              with:
+                  python-version: "3.13"
+                  architecture: x64
+            - uses: msys2/setup-msys2@v2
+              with:
+                  msystem: MINGW32
+                  update: true
+                  install: >-
+                      mingw-w64-i686-gcc mingw-w64-i686-openssl
+                      make bison flex perl diffutils git tar curl
+            - name: Build PostgreSQL 17.11 libpq with 32-bit TLS
+              shell: msys2 {0}
+              run: |
+                  curl --fail --location --retry 3 \
+                  	https://ftp.postgresql.org/pub/source/v17.11/postgresql-17.11.tar.bz2 -o \
+                  	postgresql-17.11.tar.bz2
+                  echo 'dd27f2b3c59e73ed14aa3324901242bf69a032a6347805f274e6260322d42979  postgresql-17.11.tar.bz2' | sha256sum --check --strict
+                  tar -xjf postgresql-17.11.tar.bz2
+                  bash scripts/build-libpq-mingw32.sh postgresql-17.11 "$(pwd)/libpq32"
+                  cp /mingw32/bin/libssl-3.dll /mingw32/bin/libcrypto-3.dll libpq32/bin/
+                  cygpath -w /mingw32/bin >> "$GITHUB_PATH"
+                  cygpath -w "$PWD/libpq32/bin" >> "$GITHUB_PATH"
+            - name: Generate the MSVC import library and build the x86 component
+              shell: pwsh
+              run: |
+                  $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+                  $vsRoot = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+                  if (-not $vsRoot) {
+                  	throw 'MSVC C++ tools were not found'
                   }
-                }
-          - name: Obtain the fixed PostgreSQL server and open.mp distributions
-            shell: pwsh
-            run: |
-                Invoke-WebRequest `
-                	https://get.enterprisedb.com/postgresql/postgresql-17.11-3-windows-x64-binaries.zip -OutFile `
-                	postgres.zip
-                if ((Get-FileHash postgres.zip -Algorithm SHA256).Hash -ne '4B8DB0930C38F6EF845DB919551DEDDA3B6B845AEB0927B3D79A6E8E9E4537CF') {
-                	throw 'PostgreSQL archive checksum changed'
-                }
-                Expand-Archive postgres.zip -DestinationPath build-server
-                Invoke-WebRequest `
-                	https://github.com/openmultiplayer/open.mp/releases/download/v1.5.8.3079/open.mp-win-x86.zip `
-                	-OutFile openmp.zip
-                if ((Get-FileHash openmp.zip -Algorithm SHA256).Hash -ne 'D1B5EA1D09E7DE0F144BF0055183E3CEAAD5FF8A0A8E791021141E8973F84E03') {
-                	throw 'open.mp archive checksum changed'
-                }
-                Expand-Archive openmp.zip -DestinationPath build-openmp
-          - name: Test the x86 core, real server, VM unload and callback regressions
-            shell: pwsh
-            run: |
-                python tests/run_postgres.py --build build-msvc32 --config Release --postgres-bin `
-                	build-server/pgsql/bin --openmp-dir build-openmp/Server --component `
-                	build-msvc32/Release/omp-postgresql.dll --gamemode build-msvc32/smoke.amx --unload-script `
-                	build-msvc32/unload.amx --callback-gamemode build-msvc32/callbacks.amx --runtime `
-                	libpq32/bin/libpq.dll --runtime libpq32/bin/libssl-3.dll --runtime libpq32/bin/libcrypto-3.dll
-                if ($LASTEXITCODE -ne 0) {
-                	throw 'MSVC x86 PostgreSQL/open.mp integration failed'
-                }
-          - name: Retain the x86 test logs
-            if: always()
-            uses: actions/upload-artifact@v4
-            with:
-                name: windows-x86-test-logs
-                path: |
-                    build-msvc32/Testing/Temporary/*.log
-                    build-openmp/Server/pg-*-output.log
+                  $vcVersion = (Get-Content -LiteralPath (Join-Path $vsRoot 'VC/Auxiliary/Build/Microsoft.VCToolsVersion.default.txt') -Raw).Trim()
+                  $libTool = Join-Path $vsRoot "VC/Tools/MSVC/$vcVersion/bin/Hostx64/x86/lib.exe"
+                  if (-not (Test-Path -LiteralPath $libTool -PathType Leaf)) {
+                  	throw 'MSVC x86 lib.exe was not found'
+                  }
+                  ./scripts/create-msvc-import.ps1 -PostgreSQLRoot libpq32 -LibTool $libTool
+                  cmake -S . -B build-msvc32 -A Win32 `
+                  	"-DPostgreSQL_INCLUDE_DIR=$env:GITHUB_WORKSPACE/libpq32/include" `
+                  	"-DPostgreSQL_LIBRARY=$env:GITHUB_WORKSPACE/libpq32/lib/libpq.lib"
+                  if ($LASTEXITCODE -ne 0) {
+                  	throw 'MSVC x86 CMake configuration failed'
+                  }
+                  cmake --build build-msvc32 --config Release --parallel 4
+                  if ($LASTEXITCODE -ne 0) {
+                  	throw 'MSVC x86 component build failed'
+                  }
+            - name: Build Pawn32 and compile the server regression scripts
+              shell: pwsh
+              run: |
+                  cmake -S build-msvc32/_deps/pawn-src/source/compiler -B build-pawn32 -A Win32 `
+                  	'-DCMAKE_POLICY_VERSION_MINIMUM=3.5' '-DCMAKE_C_FLAGS=/DPAWN_CELL_SIZE=32 /DHAVE_ALLOCA_H=0' `
+                  	-DBUILD_TESTING=OFF
+                  if ($LASTEXITCODE -ne 0) {
+                  	throw 'Pawn32 CMake configuration failed'
+                  }
+                  cmake --build build-pawn32 --config Release --parallel 4
+                  if ($LASTEXITCODE -ne 0) {
+                  	throw 'Pawn32 compiler build failed'
+                  }
+                  git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
+                  if ($LASTEXITCODE -ne 0) {
+                  	throw 'open.mp standard library checkout failed'
+                  }
+                  git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
+                  if ($LASTEXITCODE -ne 0) {
+                  	throw 'open.mp standard library revision was not found'
+                  }
+                  foreach ($script in 'smoke', 'unload', 'callbacks', 'extensions', 'bootstrap') {
+                    & ./build-pawn32/Release/pawncc.exe "examples/$script.pwn" '-ipawn' '-ibuild-stdlib' `
+                    	'-ibuild-msvc32/_deps/pawn-src/include' "-obuild-msvc32/$script.amx"
+                    if ($LASTEXITCODE -ne 0) {
+                    	throw "Pawn32 compilation failed: $script"
+                    }
+                  }
+            - name: Obtain the fixed PostgreSQL server and open.mp distributions
+              shell: pwsh
+              run: |
+                  Invoke-WebRequest `
+                  	https://get.enterprisedb.com/postgresql/postgresql-17.11-3-windows-x64-binaries.zip -OutFile `
+                  	postgres.zip
+                  if ((Get-FileHash postgres.zip -Algorithm SHA256).Hash -ne '4B8DB0930C38F6EF845DB919551DEDDA3B6B845AEB0927B3D79A6E8E9E4537CF') {
+                  	throw 'PostgreSQL archive checksum changed'
+                  }
+                  Expand-Archive postgres.zip -DestinationPath build-server
+                  Invoke-WebRequest `
+                  	https://github.com/openmultiplayer/open.mp/releases/download/v1.5.8.3079/open.mp-win-x86.zip `
+                  	-OutFile openmp.zip
+                  if ((Get-FileHash openmp.zip -Algorithm SHA256).Hash -ne 'D1B5EA1D09E7DE0F144BF0055183E3CEAAD5FF8A0A8E791021141E8973F84E03') {
+                  	throw 'open.mp archive checksum changed'
+                  }
+                  Expand-Archive openmp.zip -DestinationPath build-openmp
+            - name: Test the x86 core, real server, VM unload and callback regressions
+              shell: pwsh
+              run: |
+                  python tests/run_postgres.py --build build-msvc32 --config Release --postgres-bin `
+                  	build-server/pgsql/bin --openmp-dir build-openmp/Server --component `
+                  	build-msvc32/Release/omp-postgresql.dll --gamemode build-msvc32/smoke.amx --unload-script `
+                  	build-msvc32/unload.amx --callback-gamemode build-msvc32/callbacks.amx `
+                  	--extension-gamemode build-msvc32/extensions.amx --bootstrap-gamemode build-msvc32/bootstrap.amx --runtime `
+                  	libpq32/bin/libpq.dll --runtime libpq32/bin/libssl-3.dll --runtime libpq32/bin/libcrypto-3.dll
+                  if ($LASTEXITCODE -ne 0) {
+                  	throw 'MSVC x86 PostgreSQL/open.mp integration failed'
+                  }
+            - name: Retain the x86 test logs
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: windows-x86-test-logs
+                  path: |
+                      build-msvc32/Testing/Temporary/*.log
+                      build-openmp/Server/pg-*-output.log
