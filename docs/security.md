@@ -54,14 +54,14 @@ to disable additional attempts. Limits are global unless stated otherwise.
 | ------------------- | ------: | ----------------------------------------------------------------------- |
 | MAX_CONNECTIONS     |       8 | Logical connections, including those closing.                           |
 | MAX_LANES           |       8 | Lanes per connection.                                                   |
-| MAX_STATEMENTS      |      64 | Live statements.                                                        |
+| MAX_STATEMENTS      |      64 | Live statement and heterogeneous batch handles combined.                |
 | MAX_JOBS            |     128 | Pending jobs, retained results, and transaction finishing reservations. |
 | MAX_BATCH_COUNT     |    1024 | Statements per batch.                                                   |
 | MAX_BATCH_BYTES     | 1048576 | Captured parameter snapshots per statement/batch.                       |
 | MAX_SQL_BYTES       |  262144 | SQL text or file contents.                                              |
 | MAX_PARAMETER_BYTES |  262144 | Each bound value.                                                       |
-| MAX_RESULT_BYTES    | 2097152 | Estimated accumulated data/object size per job.                         |
-| MAX_RESULT_ROWS     |   10000 | Rows per statement result.                                              |
+| MAX_RESULT_BYTES    | 2097152 | Estimated accumulated data/object size per retained job, or per streaming block. |
+| MAX_RESULT_ROWS     |   10000 | Rows per non-stream statement result.                                  |
 | CONNECT_MS          |   10000 | Each connection attempt.                                                |
 | QUERY_MS            |   30000 | Each statement, including preparation.                                  |
 | TRANSACTION_MS      |   60000 | Total time from confirmed BEGIN.                                        |
@@ -76,6 +76,14 @@ the batch for a later **enqueue attempt**, which is different from replaying SQL
 Reaching a result limit after dispatch produces an uncertain result and closes the session.
 Use LIMIT, selective RETURNING, key-based pagination, or bulk statements that do not return
 every modified row.
+
+Streaming retains at most one pending block, one selected block, and one producer block,
+each subject to the byte limit. Its total row count is not limited by MAX_RESULT_ROWS.
+The producer waits when the channel is full, checking cancellation, shutdown, and the
+query/transaction deadline. Pawn consumers never wait for that producer; drain a bounded
+number of blocks per tick. Cancel a stream that the script no longer intends to consume.
+Rows remain provisional until SQL confirmation. An interrupted trailing delivery after
+confirmation reports job failure separately from a confirmed SQL operation; do not replay it.
 
 Limits bound retained objects but are not a strict RSS limit. libpq may allocate memory for
 a single large row or message before delivering it through single-row mode. Staging up to

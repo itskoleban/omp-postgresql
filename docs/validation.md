@@ -1,98 +1,112 @@
 # Validation results and known limitations
 
+The component remains **0.1 experimental**. Passing the current suite is evidence for the
+listed scenarios, not complete production qualification. Engine tests and real open.mp
+loading are recorded separately.
+
 ## Automated coverage
 
-The regressions include 256 ordered executions, preserved batches after enqueue rejection,
-row/byte limits, transaction expiry, transaction finishing capacity under a full queue,
-client certificate authentication, and an immediate PostgreSQL restart. The latest suite also
-covers prepared-plan cache invalidation after a failed Parse or a changed result shape.
+Checks remain active in Release builds. `tests/run_postgres.py` creates an isolated,
+loopback-only PostgreSQL cluster with TLS and always stops it. Integration tests return
+77 when no service profile is supplied; a skipped test is not a successful integration run.
 
-`tests/tests.cpp` uses checks that remain active in Release builds rather than relying on
-assert. `tests/run_postgres.py` starts an isolated TLS-enabled database, runs the tests,
-and shuts it down. Windows/Linux CI is configured; configuration alone does not prove that
-GitHub Actions has executed it.
+| Suite | Coverage |
+| ----- | -------- |
+| `unit` | Parameter validation, immutable snapshots, limits, SQL/file confinement and UTF-8. |
+| `integration` | Pools, FIFO, 256 ordered executions, NULL, UNNEST, partial failure, prepared-plan invalidation, transaction finishing capacity/expiry, cancellation, backend loss, reconnection and shutdown. |
+| `types_unit` | Sixteen scalar/array OID pairs, BIGINT boundaries, nullable array escaping, all 256 bytes, empty BYTEA and invalid encodings. |
+| `types_integration` | Exact numeric/temporal values, native boolean output versus text casts, scalar/array OIDs, nullable/empty arrays in prepared, direct and heterogeneous execution, BYTEA and server format errors. |
+| `extensions_integration` | Heterogeneous snapshots/rejection/partial outcomes, lane metrics, BEGIN options/defaults, savepoint recovery, 10000-row streaming, zero-column tuples, provisional rows, slow consumers, delivery-only timeout, cancellation and owner unload. |
+| Real open.mp | Native loading, three GMX reloads, unloading a filterscript with pending SQL, callback state restoration, typed batches, savepoint recovery, streaming and gated world initialization. |
 
-| Area                  | Automated coverage                                                                                         |
-| --------------------- | ---------------------------------------------------------------------------------------------------------- |
-| Connections/pools     | Two sessions, cross-owner rejection, and invalid profiles.                                                 |
-| TLS/authentication    | Successful verify-full, wrong host name, and wrong password in the TLS runner.                             |
-| Parameters            | int32, extreme/overflow BIGINT, float, bool, UTF-8, quotes, backslashes, NULL, UUID, JSONB, and BYTEA.     |
-| Arrays                | Text escaping and UNNEST updating two rows in one execution.                                               |
-| Statements            | Reuse, snapshots, stable types, missing bindings, closing in flight, and prepared-cache invalidation.      |
-| Batches/results       | Twenty executions, empty batches, RETURNING, zero-row results with columns, partial failure, and SQLSTATE. |
-| Transactions          | Commit, rollback, lane reservation, and required failure preventing COMMIT.                                |
-| Concurrency           | Two lanes and FIFO updates to the same record.                                                             |
-| Cancellation/recovery | Before dispatch and during pg_sleep, backend termination, timeout, and queries after reconnection.         |
-| Lost confirmation     | A proxy drops COMMIT CommandComplete; the result is UNCERTAIN and exactly one committed row is verified.   |
-| SQL files             | Reading, missing files, size limits, and rejection of paths outside the root.                              |
-| Shutdown              | Owner unloading and resource collection.                                                                   |
-| Memory                | Local Linux ASan/UBSan and leak detection without diagnostics.                                             |
+The TLS runner checks verify-full, incorrect host identity/password, and client certificates.
+A real immediate PostgreSQL restart is exercised. A proxy drops COMMIT CommandComplete:
+the client reports UNCERTAIN and a subsequent connection verifies exactly one committed row.
 
-## Results recorded on October 12, 2026
+## Results recorded on October 13, 2026
 
-The latest cache-regression suite is confirmed on Windows x64. The other platform rows record
-the earlier verified baseline separately; they do not claim that the latest suite has been
-rerun on those platforms.
+`master` was verified at `732d251`; work continues on `codex/stabilize-types-validation`,
+[PR #1](https://github.com/itskoleban/omp-postgresql/pull/1).
 
-| Platform                   | Compiler / libpq                          | Unit checks | Integration checks | Recorded suite                                   |
-| -------------------------- | ----------------------------------------- | ----------: | -----------------: | ------------------------------------------------ |
-| Windows x64                | GCC/MinGW 16.1 / libpq 18.4               |          26 |                146 | Latest, including cache regressions.             |
-| Windows x86                | MSVC 19.51 / TLS-enabled libpq 17.6       |          26 |                135 | Earlier baseline.                                |
-| Linux x64, Debian Bookworm | GCC 12.2, CMake 3.25.1 / libpq 18.6       |          26 |                135 | Earlier baseline, ASan/UBSan and leak detection. |
-| Linux x86                  | GCC 12.2 / libpq 17.11 and OpenSSL 3 i386 |          26 |                135 | Earlier baseline.                                |
+| Platform | Current evidence |
+| -------- | ---------------- |
+| Windows x64 | Local GCC/MinGW 16.1, libpq 18.4, EDB PostgreSQL 17.11: all five CTest suites passed. Counts: 26 core unit, 146 core integration, 97 type unit, 532 type integration, 606 extension checks. |
+| Windows x86 | Local MSVC 19.51, TLS-enabled libpq 17.6, EDB PostgreSQL 17.11: all five suites passed with the same counts. Real open.mp 1.5.8.3079 loaded the component and passed smoke/GMX, unload, callback, extension and bootstrap scenarios. |
+| Linux x64 | [CI run 38476331764](https://github.com/itskoleban/omp-postgresql/actions/runs/38476331764), commit `c4adc11`: both normal and ASan/UBSan jobs succeeded with all five suites. Later Pawn/example and harness fixes require the current branch's CI results. |
+| Linux x86 | The same CI run passed all five core suites, then failed the server unload harness. Corrected command ordering is awaiting current-branch CI confirmation. |
 
-These runs use PostgreSQL server 17.11. Linux sanitizer and leak-detection runs produced no
-diagnostics. The file-read-error detection change was rebuilt and its unit/file checks rerun.
+All five examples compiled locally with Pawn 3.10.11, 32-bit cells and official includes,
+with `-E` treating warnings as errors. Callback sleep/divide-by-zero are deliberate recovery
+tests, not ignored failures. All locally tested server processes exited with code 0.
+The corrected extension test produced `PG EXTENSION PASS`; bootstrap produced
+`PG BOOTSTRAP PASS: properties=2 vehicles=1 clans=2`.
 
-The Windows x86 component loaded in **open.mp 1.5.8.3079**, commit
-c6759bd8d265171ae3d86598895a23d5a8d92a3b. The SQL flow completed four times, including three GMX
-reloads. A filterscript was unloaded with a pending query; no later callback occurred,
-and the server exited with code 0. A separate gamemode verified suspended main(), callbacks
-using sleep and divide-by-zero, closing other completed jobs, and a valid handle during
-PG_DISCONNECTED: `PG CALLBACK PASS`.
+The original array regression was an incorrect BOOLEAN text-cast expectation: element OID
+16, array OID 1000, expected `t`, actual `true`. Native output remains `t`; the regression
+now checks both representations separately, NULL cells and OIDs. No binder change or test
+disablement was required. Real server testing also found indexed Pawn string slots built
+without explicit capacity; supplying their 24-cell width fixed the empty BIGINT input.
 
-Linux x86 also passed real loading and the same GMX, unloading, and callback tests in
-open.mp 1.5.8.3079 dynssl, using libpq 17.11/OpenSSL 3 i386 and isolated PostgreSQL.
-The test processes ran without elevated privileges and exited with code 0. The distribution
-ran on a native Linux filesystem; starting directly from an NTFS bind mount exposed a server
-filesystem metadata problem.
+The Linux server harness sent unload and GMX without waiting for acknowledgement. The
+open.mp console at commit c6759bd8d265171ae3d86598895a23d5a8d92a3b stores one pending command,
+so an immediately following command can replace it before a tick processes it. The harness
+now waits for `PG UNLOAD EXIT` before GMX; missing acknowledgement remains a test failure.
 
-smoke.pwn, unload.pwn, and callbacks.pwn compile without warnings with Pawn 3.10.11, 32-bit
-cells, and official includes. Sleep and divide-by-zero in callbacks.pwn are deliberate;
-the test requires subsequent recovery. Server, component, C++ runtime, and libpq architectures
-must match. These results do not make an x64 binary installable in an x86 server.
+A first local run with the MSYS2 PostgreSQL 18.4 **server** crashed a backend on the
+multiple-command rejection test (exception `0xC0000028`), producing secondary connection
+failures. Validation therefore uses the independent EDB 17.11 server; client libpq 18.4
+continues to pass. The MSYS2 server crash is unresolved external-toolchain evidence, not a
+passing platform run or a reason to remove the multiple-command test.
+
+The [current CI history](https://github.com/itskoleban/omp-postgresql/actions/workflows/ci.yml)
+is authoritative for later commits. CI retains test logs, compiles all examples on Linux,
+and runs real x86 servers on both operating systems. Sanitizer jobs retain their own results;
+matrix fail-fast is disabled. Superseded commits may be cancelled by concurrency control.
+
+Earlier October 12 local results covered the core baseline on Windows x86/x64 and Linux
+x86/x64, including Linux leak detection. They do not prove extension coverage for a later
+commit. The tested Linux server used native Linux storage because running its distribution
+directly from an NTFS bind mount exposed a server filesystem metadata error.
 
 ## Remaining release qualification
 
-Before a production release, account for the following limits and remaining checks:
-
-- x64 builds are for the engine and standalone tests. The distributed open.mp servers tested
-  here are x86. Do not mix binaries or libraries across architectures. Validation applies
-  to the listed platform/version combinations, not every operating-system distribution.
-- Prolonged network partitions and interruptions at every point of BEGIN/ROLLBACK need
-  further testing. Actual PostgreSQL restart and client certificate authentication are covered.
-- AMX input fuzzing, prolonged stress, ThreadSanitizer, and peak-memory measurement remain pending.
-- Backpressure extremes, exhausted IDs, and cancellation/transaction expiry concurrent with
-  shutdown need exhaustive testing. Coverage of every possible interleaving is not claimed.
-- Pipeline integration remains pending. The benchmark evaluates transport, while the engine
-  uses sequential prepared execution. Integration requires correlation, Sync boundaries,
-  backpressure, and failure tests before enabling it.
-- COPY, savepoints, arrays with individual NULL elements, and public streaming are outside
-  the initial API.
-- There is no strict RSS guarantee or independent timeout guarantee for DNS/external providers.
-
-These limitations are explicit. There are no placeholder natives for pending capabilities.
-API 0.1 may evolve before stable compatibility is established.
+- x64 builds qualify the engine and compilation. The tested distributed open.mp server is
+  x86; component, client libraries and server architectures/ABIs must match.
+- Confirm the current branch's complete CI matrix, including the Linux unload correction
+  and warning-free compilation, before claiming all declared platforms are qualified.
+- Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, combined
+  cancellation/transaction expiry/shutdown, exhausted handles and extreme backpressure
+  need more adversarial coverage.
+- AMX input fuzzing, sustained stress, ThreadSanitizer and measured peak memory remain
+  pending. Bounded retained objects do not establish a strict RSS limit; libpq can allocate
+  a large row before the component checks it. DNS/authentication/file providers can delay
+  shutdown independently of socket deadlines.
+- COPY transfer and receiving LISTEN/NOTIFY are excluded from the 0.1 candidate scope.
+  Their dedicated protocol states, bounded queues and lifecycle tests are not implemented.
+  Ordinary queries reject COPY/LISTEN/UNLISTEN. Parameterized `SELECT pg_notify($1,$2)` can
+  send notifications; notifications are not persistent and cannot be recovered after a
+  receiving session disconnects. See the [protocol scope decision](extension-audit.md).
+- Pipeline, automatic lane selection and named-plan caches remain optional optimizations.
+  The sequential FIFO engine does not depend on them. Existing benchmarks measure direct
+  libpq transport, not comparative engine/Pawn batch latency or a statistical distribution.
+- The complete lifecycle is demonstrated by the smoke, extension and bootstrap examples
+  together; a single combined example and a reproducible release-candidate package still
+  require qualification. No release was published or merged automatically.
 
 ## Reproducing validation
 
-For Linux, configure `PG_SANITIZE=ON` and run the test harness as an unprivileged account with
-`ASAN_OPTIONS=detect_leaks=1:halt_on_error=1` and
-`UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1`.
-See [Windows server testing](build-windows.md) and [Linux server testing](build-linux.md).
-`--only-openmp` verifies Pawn bridge changes with another temporary database.
-The configured CI has not been executed on GitHub during this task.
+Configure `PG_SANITIZE=ON` on a supported Linux toolchain and run as an unprivileged user:
 
-Deploy current libpq and OpenSSL maintenance releases. The listed x86 client version records
-local test evidence; it is not a recommendation to retain an old patch, and dependencies are
-not automatically redistributed.
+```sh
+ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 \
+UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1 \
+python3 tests/run_postgres.py --build build
+```
+
+See [Windows server testing](build-windows.md) and [Linux server testing](build-linux.md)
+for the full five-example server commands. `--only-openmp` uses a fresh database to rerun
+bridge tests without claiming a new core-suite run. For the Windows x64 core, use
+`--postgres-bin` to select independent server tools without changing client DLL resolution.
+
+Deploy current libpq/OpenSSL maintenance releases. A recorded client version is test evidence,
+not a recommendation to retain an older patch. Dependencies are not automatically distributed.

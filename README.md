@@ -13,6 +13,10 @@ Version **0.1.0 experimental**. Review the
 - Transactions that reserve a lane, commit/rollback, and rollback after a required operation fails.
 - Cancellation, timeouts, and progressive reconnection without replaying uncertain writes.
 - Worker-based SQL file loading with path confinement and UTF-8 validation.
+- Simple queries, heterogeneous batches, per-operation outcomes, and column OID metadata.
+- Exact numeric/temporal text transport, BYTEA cells, and typed arrays with NULL elements.
+- Explicit isolation/read-only options, savepoints, and asynchronous savepoint recovery.
+- Bounded streaming blocks, slow-consumer backpressure, and session/job statistics.
 
 There is no ORM, query builder, password hashing, application cache, or synchronous Pawn query API.
 Pipeline mode is evaluated by a standalone benchmark; the initial execution engine does not use it.
@@ -88,6 +92,13 @@ pawncc examples/smoke.pwn -ipawn -i/path/to/omp-stdlib -obuild/smoke.amx
 Install the AMX as the gamemode of a test instance, configure the `game` profile, start the
 server, and look for `PG SMOKE PASS`. Asynchronous callbacks must return without `sleep`;
 callback continuations are unsupported.
+
+[extensions.pwn](examples/extensions.pwn) exercises heterogeneous typed batches, binary
+values, savepoint recovery, and a bounded streaming consumer. [bootstrap.pwn](examples/bootstrap.pwn)
+loads properties, vehicles, and clans on the session owning its temporary fixtures, validates
+the results, and keeps players gated until initialization succeeds. The callback and unload
+gamemodes cover VM lifecycle regressions. All five examples are compiled with warnings
+treated as errors in the Linux and Windows x86 server CI jobs.
 
 See the [complete API](docs/api.md), [architecture and reference analysis](docs/design.md),
 [security and concurrency guide](docs/security.md), and [tests and limitations](docs/validation.md).

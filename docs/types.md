@@ -42,6 +42,11 @@ than substituting zero. Inspect `pg_result_is_null` first when NULL is allowed. 
 and server type OIDs are available through `pg_result_column_name` and
 `pg_result_column_type`; output OIDs may differ from input OIDs after SQL casts or expressions.
 
+BOOLEAN output needs a separate distinction: `SELECT true` returns OID 16 and text `t`,
+whereas `SELECT true::text` returns OID 25 and text `true` (`false` likewise becomes `false`
+instead of native `f`). `pg_result_bool` accepts native `t`/`f`; use the string getter for
+an explicit text cast. Array subscripting followed by `::text` follows the same cast rule.
+
 See PostgreSQL's [numeric type reference](https://www.postgresql.org/docs/current/datatype-numeric.html)
 for server precision, scale, and special-value semantics.
 
@@ -74,6 +79,16 @@ This layout avoids compiler-dependent Pawn multidimensional offsets. At most 163
 and 262144 total slot cells are accepted; encoded parameters must also fit the configured
 parameter and batch limits.
 
+When filling a slot through an indexed cell, pass the slot width explicitly to string
+functions; their default `sizeof` does not describe that slot. For example:
+
+```pawn
+new values[72], nulls[] = {0, 1, 0};
+strcat(values, "9223372036854775807", 24);
+strcat(values[48], "-9223372036854775808", 24);
+pg_bind_array(statement, 1, values, 3, 24, PG_INT64, nulls);
+```
+
 All non-NULL elements use textual input, including booleans (`true`), floats, BIGINT decimal
 strings, JSONB, and BYTEA (`\\x00ff`). BIGINT elements are range-checked locally; other element
 formats are checked by PostgreSQL. Quotes, backslashes, commas, and braces are escaped by
@@ -97,7 +112,8 @@ an explicit application policy; neither condition is silently corrected by the b
 `tests/type_tests.cpp` checks the supported scalar and array OIDs, UTF-8 rejection,
 BIGINT boundaries, all 256 byte values, empty binary values, binary validation errors,
 array escaping, and the distinction between NULL and literal text. Its PostgreSQL
-integration mode covers every supported array type, individual NULL elements, typed
+integration mode covers every supported array type in prepared, direct, and heterogeneous
+batch execution, individual NULL elements, scalar/array result OIDs, typed
 whole-array NULLs, numeric precision, date/time normalization, invalid server formats,
 and BYTEA round trips. The open.mp extension gamemode also exercises the Pawn binary and
 array interfaces; see [validation](validation.md) for the actual runs and limitations.
