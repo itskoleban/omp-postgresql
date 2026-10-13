@@ -2,6 +2,9 @@ name: build-and-test
 on: [push, pull_request]
 permissions:
     contents: read
+concurrency:
+    group: build-and-test-${{ github.head_ref || github.ref_name }}
+    cancel-in-progress: true
 jobs:
     linux:
         runs-on: ubuntu-24.04
