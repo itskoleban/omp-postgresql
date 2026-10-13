@@ -16,6 +16,34 @@ The latest baseline passed 26 unit and 146 integration checks on Windows x86, Wi
 Linux x86, and Linux x64. The Linux x64 run included ASan, UBSan, and leak detection. These
 counts describe the baseline, not the extension tests added afterward.
 
+## Stabilization on October 13, 2026
+
+The current code includes the query shortcut, heterogeneous batches, exact scalar transport,
+nullable typed arrays, result OIDs, lane metrics, explicit BEGIN options, savepoints, and
+bounded streaming. The API and security documents now describe those contracts. The original
+baseline above is historical; the [validation record](validation.md) distinguishes each
+expanded suite from it.
+
+Reproducible regressions were corrected without changing the execution architecture:
+
+- The BOOLEAN array test expected native `t` from an explicit `::text` cast, which actually
+  returns `true`. Diagnostics now identify the scalar/array OIDs and comparison, and all
+  sixteen array types are checked in prepared, direct, and heterogeneous execution.
+- The extension gamemode used an indexed string slot without an explicit capacity. Pawn's
+  default `sizeof` did not supply the slot width, leaving an invalid empty BIGINT element.
+  Explicit 24-cell capacities restore the real server test. Bootstrap prototypes also use
+  explicit forwards, and CI treats Pawn warnings as errors.
+- The Linux console can replace its single pending command when unload and GMX are sent
+  together. The server harness waits for unload acknowledgement before testing reloads;
+  it still fails if the script remains loaded or receives a late callback.
+
+COPY transfer and receiving LISTEN/NOTIFY remain excluded from the 0.1 candidate scope.
+They require independently bounded protocol state machines and lifecycle tests; exposing
+them through ordinary query execution would leave transfers or notification queues unmanaged.
+The existing streaming consumer addresses large row retrieval while this scope is qualified.
+No pending capability is advertised as implemented. Pipeline and automatic lane selection
+remain optional measurements-driven work, not prerequisites for the sequential engine.
+
 ## Findings by category
 
 | Category              | Finding and decision                                                                                                                                                                                                                                                                     |

@@ -75,19 +75,21 @@ with log_path.open("wb") as log:
                 command("unloadfs pg_unload")
                 unloading = True
             passes = content.count(args.success_marker)
-            if passes > rounds:
+            unloaded = not args.unload_script or "PG UNLOAD EXIT" in content
+            # Wait for the unload acknowledgement before sending GMX. The Linux
+            # console can otherwise coalesce adjacent stdin commands, and the
+            # pending query must be unloaded before a mode reload is tested.
+            if passes > rounds and unloaded:
                 rounds = passes
                 if rounds <= args.gmx_rounds:
                     command("gmx")
-                elif not args.unload_script or (
-                    "PG UNLOAD EXIT" in content and "PG UNLOAD CALLBACK" not in content
-                ):
-                    # Allow a late result to expose delivery to an unloaded AMX.
-                    time.sleep(3.2 if args.unload_script else 0.1)
-                    passed = "PG UNLOAD CALLBACK" not in log_path.read_text(
-                        encoding="utf8", errors="replace"
-                    )
-                    break
+            if rounds > args.gmx_rounds and unloaded:
+                # Allow a late result to expose delivery to an unloaded AMX.
+                time.sleep(3.2 if args.unload_script else 0.1)
+                passed = "PG UNLOAD CALLBACK" not in log_path.read_text(
+                    encoding="utf8", errors="replace"
+                )
+                break
             if (
                 args.failure_marker in content
                 or "PG SMOKE LOCAL FAILURE" in content

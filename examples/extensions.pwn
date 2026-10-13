@@ -55,6 +55,11 @@ public OnPgConnection(connection, connection_state) {
 }
 
 stock Fail(const message[]) {
+	new detail[256];
+	pg_last_error(detail);
+	if (detail[0]) {
+		printf("PG EXTENSION DETAIL: %s", detail);
+	}
 	Failed = true;
 	printf("PG EXTENSION FAILED: %s", message);
 	if (Database) {
@@ -77,8 +82,9 @@ stock SubmitBatch() {
 	new bytes[] = {0, 127, 128, 255};
 	new invalid[] = {256};
 	new values[72], nulls[] = {0, 1, 0};
-	strcat(values, "9223372036854775807");
-	strcat(values[48], "-9223372036854775808");
+	// Pass each slot's capacity explicitly; sizeof on an indexed cell is not its width.
+	strcat(values, "9223372036854775807", 24);
+	strcat(values[48], "-9223372036854775808", 24);
 	if (!batch || !statement || pg_bind_bytes(statement, 1, invalid) ||
 	    !pg_bind_bytes(statement, 1, bytes) ||
 	    !pg_bind_array(statement, 2, values, 3, 24, PG_INT64, nulls) ||

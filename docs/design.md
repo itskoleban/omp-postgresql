@@ -1,6 +1,6 @@
 # Architecture and implementation contract
 
-Reviewed on October 12, 2026. Initial version 0.1, experimental.
+Reviewed on October 13, 2026. Version 0.1, experimental.
 
 ## References examined
 
@@ -80,8 +80,9 @@ OIDs; later sets must match. `pg_execute` accepts only nonempty batches and retu
 identifier. Acceptance consumes the batch; queue rejection restores it. Closing the
 statement does not affect accepted jobs.
 
-A job/batch has one result per statement, with zero-based result indices, and stops at the
-first error. Earlier statements outside a transaction may already be confirmed. Within a
+A job/batch retains results for the attempted operation prefix, with zero-based indices,
+and stops at the first error. An interrupted operation need not have a retained result.
+Earlier statements outside a transaction may already be confirmed. Within a
 transaction, they remain provisional. COMMIT after a required failure is rejected and rolled
 back. Affected rows and completed statements are separate counts.
 
@@ -90,6 +91,12 @@ only in the originating VM. Suppressing a callback does not make execution synch
 status remains available for polling. Context is an application token. The gamemode must
 check the player's session generation before using it; the component does not interpret
 arbitrary player identifiers.
+
+Heterogeneous batches flatten the added parameter sets of several statements into one job.
+Operation count, attempted results, confirmed operations, returned rows, and affected rows
+are separate measures. Per-operation statuses preserve partial completion. A streaming job
+instead publishes bounded blocks through `OnPgRows` and retains final metadata without
+accumulating all rows. Its main-thread consumer never waits for the producer.
 
 Jobs/results remain alive until `pg_job_close`. There is no active cache or implicit release
 at callback return. Limits account for retained results, staging, parameters, connections,
@@ -103,6 +110,11 @@ submitting statements. COMMIT and ROLLBACK are separate jobs. Reserved lanes rej
 work. Transactions have a total deadline and statements have a query timeout.
 Cancellation observed after dispatch closes the session; its outcome may be uncertain and
 is not equivalent to a confirmed ROLLBACK. Reconnection never restores a transaction.
+
+Explicit BEGIN options can override session defaults. Savepoint commands are independent
+asynchronous jobs on the reserved lane; only confirmed rollback-to clears the failure state.
+Stream delivery can fail after SQL confirmation, in which case the job fails while the SQL
+item remains confirmed. A new execution must never infer that such a write should be replayed.
 
 ## SQL files and security
 

@@ -13,9 +13,9 @@ variables for use on another tick.
 
 ## Return values and local errors
 
-`pg_connect`, `pg_prepare`, `pg_prepare_file`, `pg_execute`, `pg_begin`, `pg_commit`, and
-`pg_rollback` return a positive handle or 0. Boolean operations return true/false.
-`pg_job_status`, `pg_connection_state`, and `pg_result_column` return -1 on error; the column
+Handle-creating and job-submitting natives return a positive handle or 0. Boolean operations
+return true/false. `pg_job_status`, `pg_connection_state`, `pg_lane_state`,
+`pg_job_item_status`, `pg_job_error_index`, and `pg_result_column` return -1 on error; the column
 lookup also returns -1 when no column matches. Counters return 0 on error, so read
 `pg_last_error` to distinguish an error from a valid zero.
 
@@ -39,6 +39,14 @@ does not increase the size of a Pawn output buffer.
 | `pg_connection_ready(connection)`                    | Number of connected physical sessions. Jobs require the entire pool to be ready.            |
 | `pg_connection_message(connection,lane,output,size)` | Last lane diagnostic; empty after connecting. Filter sensitive content before logging.      |
 | `pg_connection_close(connection)`                    | Starts shutdown, rejects new jobs, and cancels pending work. Does not join workers in Pawn. |
+| `pg_lane_state(connection,lane)`                     | Physical session state; validates the zero-based lane index. |
+| `pg_lane_pending(connection,lane)`                   | Approximate number of queued jobs. |
+| `pg_lane_active(connection,lane)`                    | Approximate running-job count, 0 or 1. |
+| `pg_lane_stat(connection,lane,metric,output,size)`    | Cumulative `PG_STAT_*` counter as a decimal string. |
+
+Statistics count jobs, SQL executions, and rows separately. `PG_STAT_SQL_COMMANDS` counts
+execution dispatches, excluding preparation, and is not a confirmation count. Atomic samples
+can describe slightly different instants while work is running. Counters reset with the connection.
 
 `OnPgConnection(connection,connection_state)` reports changes observed on a tick. Transient
 states between ticks may be coalesced. After reconnection attempts are exhausted, close the
@@ -71,6 +79,10 @@ the batch executes. Reading and canonicalization run in the worker. Paths must b
 `.sql` paths under `scriptfiles/sql`. Files must be UTF-8; an initial BOM is accepted.
 File errors appear in the job. This is not a migration system.
 
+`pg_query(connection,sql,lane,transaction,context,notify)` submits one zero-parameter SQL
+operation directly, without a public statement handle. Use binders for untrusted values.
+Neither this shortcut nor a prepared statement accepts multiple commands in one SQL string.
+
 Binding indices start at 1. Rebinding replaces that value before `pg_add`.
 `pg_add` requires every parameter, copies an immutable snapshot, clears all temporary bindings,
 and fixes the statement's parameter types. NULL requires an explicit OID; a missing binding
@@ -84,18 +96,21 @@ Bindings are never executed implicitly without `pg_add`.
 | `pg_bind_float`        | Finite IEEE float32 Pawn Float, OID 700; no double-precision guarantee.      |
 | `pg_bind_bool`         | 0/1, OID 16.                                                                 |
 | `pg_bind_null`         | Explicit supported OID, listed below.                                        |
-| `pg_bind_string`       | UTF-8 without NUL; PG_TEXT by default, or UUID, JSONB, or BYTEA.             |
+| `pg_bind_string`       | UTF-8 without NUL; PG_TEXT by default, plus exact numeric and temporal types, UUID, JSONB, or BYTEA. |
 | `pg_bind_int_array`    | Pawn array with explicit count or sizeof, up to 16384 elements.              |
 | `pg_bind_string_array` | Flat unpacked slots with count and width in cells, up to 262144 cells total. |
+| `pg_bind_bytes`        | BYTEA from integer cells in 0..255, including embedded zero bytes. |
+| `pg_bind_array`        | Flat textual slots, scalar element OID, and a separate 0/1 NULL mask. |
 
-The supported NULL types are PG_BOOL, PG_BYTEA, PG_INT64, PG_INT, PG_TEXT, PG_FLOAT,
-PG_INT_ARRAY, PG_TEXT_ARRAY, PG_UUID, and PG_JSONB.
+All sixteen supported scalar types and their array types accept explicit NULL. See the
+[type and precision contract](types.md) for the full binder/OID mapping, binary output,
+nullable array layout, and server normalization rules.
 
 BYTEA uses PostgreSQL hexadecimal input such as `\x00ff...`, rather than text containing NUL.
 PostgreSQL validates UUID and JSONB values. Arrays use PostgreSQL's text parameter format,
 with quotes and backslashes escaped. `"NULL"` in a text array is text, not SQL NULL.
-The initial array binders do not support individual NULL elements; an entire array may be
-NULL through `pg_bind_null`.
+The original int/string array binders do not support individual NULL elements; use
+`pg_bind_array` for nullable elements and `pg_bind_null` for an entire NULL array.
 
 `pg_execute(statement,lane=0,transaction=0,context=0,notify=true)` requires a nonempty pending
 batch. Acceptance consumes the batch and returns a job. The statement can immediately be
@@ -117,6 +132,25 @@ component does not infer SQL-specific length rules. With duplicate IDs in UPDATE
 PostgreSQL may select one of several source rows. Deduplicate first or define the behavior
 explicitly in SQL.
 
+## Heterogeneous batches
+
+`pg_batch_create(connection)` creates an empty batch handle. `pg_batch_add(batch,statement)`
+transfers every added snapshot from a statement on that same connection, preserving its SQL,
+prepared/direct mode, parameters, and order. The statement keeps its fixed parameter types
+and can be reused or closed. An empty source, wrong owner/connection, or limit violation
+fails without consuming either object.
+
+`pg_batch_execute(batch,lane,transaction,context,notify)` submits all flattened operations
+as one job and consumes them only on acceptance. Enqueue rejection preserves the batch.
+`pg_batch_close(batch)` releases unsent operations without affecting accepted jobs. Live
+statements and batch handles share `MAX_STATEMENTS`; count and byte limits apply to each
+batch. SQL copies and operation objects also count toward heterogeneous batch bytes.
+
+A batch containing twenty snapshots followed by two different statements has twenty-two
+operations and at most twenty-two results, with one completion callback. Operations stop
+at the first failure. Earlier operations may already have committed outside an explicit
+transaction; a batch itself does not provide atomicity.
+
 ## Jobs and results
 
 `OnPgComplete(job,context)` runs once for each job with notify=true while the VM remains loaded.
@@ -137,15 +171,23 @@ an idempotency key or version check; never replay them blindly.
 | `pg_job_status`      | Available while a job is pending.                                             |
 | `pg_job_connection`  | Logical connection identifier, also available while pending.                  |
 | `pg_job_completed`   | Statements with successful responses before failure; not a row count.         |
+| `pg_job_size`        | Total operation count, available while pending; unchanged after completion. |
+| `pg_job_item_status` | Terminal per-operation `PG_ITEM_*` status; unattempted items remain NOT_EXECUTED. |
+| `pg_job_error_index` | Zero-based interrupted/failing operation, or -1 if none is identified. |
 | `pg_job_error`       | General error category, `PG_ERROR_*`.                                         |
 | `pg_job_message`     | Explanation of the general job failure.                                       |
 | `pg_job_duration`    | Execution microseconds as a decimal string, excluding queue wait.             |
+| `pg_job_queue_time`  | Acceptance to worker start, in microseconds as a decimal string. |
+| `pg_job_latency`     | Acceptance to completion dispatch, in microseconds; requires dispatch. |
 | `pg_result_count`    | Available statement results, including a failed SQL result.                   |
 | `pg_result_rows`     | Row count of the selected result.                                             |
 | `pg_result_columns`  | Column count of the selected result.                                          |
 | `pg_result_column`   | First column matching the name, or -1. Prefer unique aliases.                 |
+| `pg_result_column_name` | Exact selected column name. |
+| `pg_result_column_type` | PostgreSQL result OID; SQL casts can change it. |
 | `pg_result_is_null`  | Detects SQL NULL.                                                             |
 | `pg_result_string`   | Text preserving BIGINT/NUMERIC precision. SQL NULL fails.                     |
+| `pg_result_bytes`    | Decode a BYTEA hex result into cells; no partial writes or truncation. |
 | `pg_result_int`      | Strict int32 conversion; overflow and NULL return false.                      |
 | `pg_result_float`    | Finite float32 conversion; higher-precision data may be rounded.              |
 | `pg_result_bool`     | Accepts only PostgreSQL's t/f representation.                                 |
@@ -170,6 +212,10 @@ Retained results count toward the job limit. Without callbacks, close the job af
 that dispatches its terminal completion. Do not close the BEGIN job while its transaction
 still reserves the lane.
 
+Except for status, connection, size, and selected streaming blocks, job/result inspection
+requires terminal publication. A local or transport failure need not have a PostgreSQL
+result or SQLSTATE. Inspect the job category and error index before accessing result entries.
+
 ## Transactions
 
 `pg_begin(connection,lane,context,notify)` reserves the lane immediately and returns a job
@@ -187,7 +233,53 @@ The total transaction deadline closes the session and rolls back unconfirmed wor
 the transaction handle releases the logical reservation. A lost connection during COMMIT
 may leave its result UNCERTAIN.
 
-Transaction-control SQL, COPY, DO, and CALL are rejected to protect this contract.
-Savepoints, prepared transactions/2PC, COPY, and public result streaming are not implemented
-in this version. SQL and database objects are trusted operator inputs. Do not grant the role
-access to unsafe functions that can change critical session policies.
+`pg_begin` inherits the session's default isolation and read-only settings.
+`pg_begin_ex(connection,isolation,read_only,lane,context,notify)` explicitly selects
+PG_READ_COMMITTED, PG_REPEATABLE_READ, or PG_SERIALIZABLE and READ ONLY/READ WRITE.
+
+`pg_savepoint(transaction,name,context,notify)`, `pg_rollback_to`, and
+`pg_release_savepoint` submit separate jobs on the reserved lane. Names have 1..63 ASCII
+letters, digits, or underscores, starting with a letter or underscore; they are quoted as
+identifiers. Wait for confirmation before dependent work. After a SQL error, rollback to
+a previously confirmed savepoint can restore the transaction; ordinary queries and savepoint
+creation/release are rejected while it requires recovery. A failed rollback-to does not
+clear that state. Closing a savepoint job does not release the transaction reservation.
+
+Transaction-control SQL, COPY, LISTEN/UNLISTEN, DO, and CALL are rejected through ordinary
+query/statement execution. Prepared transactions/2PC, COPY transfer, and receiving
+notifications are not implemented. SQL and database objects are trusted operator inputs.
+Do not grant the role access to unsafe functions that can change critical session policies.
+
+## Streaming
+
+Add exactly one execution to a statement, then call
+`pg_stream_execute(statement,chunk_rows,lane,transaction,context,notify)`. The block size
+is 1..1024 rows, default 128. Acceptance and statement-close semantics match `pg_execute`.
+A stream occupies its lane until SQL and block publication finish.
+
+`OnPgRows(job,context)` reports that a block is available when notify=true. It may run again
+on later ticks until the consumer takes that block. `pg_stream_next(job)` never waits: true
+selects the next block and replaces the previous selection; false preserves the selection
+and can be retried. False does not prove end-of-stream. Use result index 0 with existing
+result readers while a block is selected, even before job completion.
+`pg_stream_release(job)` releases the selected block and returns false without an error
+if no block is selected. Both functions reject non-stream jobs.
+
+The producer retains at most one pending block, one consumer block, and one block under
+construction. Each block uses `MAX_RESULT_BYTES`; `MAX_RESULT_ROWS` applies to retained
+non-stream results, not the stream's total row count. A full block channel applies worker
+backpressure under the query/transaction deadline. Limit the number of blocks processed per
+tick and release each promptly. libpq can still allocate a large row before the byte check.
+
+Rows are provisional until final SQL confirmation. If a later row raises an SQL error,
+already published rows do not make the operation successful. Cancellation or timeout before
+the definitive response can yield UNCERTAIN. If SQL is confirmed but trailing block delivery
+times out, the job is FAILED with incomplete delivery while its item remains CONFIRMED and
+completed=1. Reconcile that known SQL outcome instead of replaying a write.
+
+Drain remaining blocks in `OnPgComplete` before closing the job; completion can occur while
+a block is still pending. Terminal results retain SQL metadata and affected-row counts,
+without all streamed rows. Selected block metadata/affected counts may be provisional.
+`notify=false` suppresses both row and completion callbacks; poll on ticks and use the same
+consumer lifecycle. Cancel abandoned streams; owner unload/connection close also stops them.
+See [extensions.pwn](../examples/extensions.pwn) for a bounded consumer and savepoint recovery.

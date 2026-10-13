@@ -57,8 +57,8 @@ does not automatically package arbitrary DLLs from the development machine.
 
 ## Reproducible server test
 
-Download a disposable open.mp distribution and compile examples/smoke.pwn, examples/unload.pwn,
-and examples/callbacks.pwn with 32-bit Pawn cells. The runner starts disposable PostgreSQL
+Download a disposable open.mp distribution and compile all five examples with `-E`
+(warnings as errors) and 32-bit Pawn cells. The runner starts disposable PostgreSQL
 with TLS, runs CTest, and launches open.mp on loopback only. It repeats GMX three times,
 unloads a filterscript with a query in flight, and verifies callback state restoration:
 
@@ -71,6 +71,8 @@ python tests/run_postgres.py `
     --gamemode build/smoke.amx `
     --unload-script build/unload.amx `
     --callback-gamemode build/callbacks.amx `
+    --extension-gamemode build/extensions.amx `
+    --bootstrap-gamemode build/bootstrap.amx `
     --runtime C:/deps/pg32/bin/libpq.dll `
     --runtime C:/deps/openssl32/libssl-3.dll `
     --runtime C:/deps/openssl32/libcrypto-3.dll
@@ -79,4 +81,4 @@ python tests/run_postgres.py `
 `--openmp-dir` must be a disposable copy: the harness changes its network, gamemode, and
 script configuration. Never point it at a production server directory. A successful run
 includes four `PG SMOKE PASS` markers, `PG UNLOAD EXIT` without `PG UNLOAD CALLBACK`,
-`PG CALLBACK PASS`, and a clean shutdown.
+`PG CALLBACK PASS`, `PG EXTENSION PASS`, `PG BOOTSTRAP PASS`, and clean shutdowns.

@@ -28,7 +28,7 @@ constexpr std::array<std::pair<std::uint32_t, std::uint32_t>, 16> types{{
     {3802, 3807},
 }};
 
-void check(bool condition, const char *message) {
+void check(bool condition, const std::string &message) {
 	++checks;
 	if (!condition) {
 		throw std::runtime_error(message);
@@ -235,7 +235,8 @@ void integration(const char *profile) {
 		std::string output;
 	};
 	std::vector<ArrayCase> cases{
-	    {16, "true", "t"},
+	    // boolout emits t/f, but PostgreSQL's explicit boolean-to-text cast emits true/false.
+	    {16, "true", "true"},
 	    {17, "\\x00ff", "\\x00ff"},
 	    {20, "9223372036854775807", "9223372036854775807"},
 	    {21, "-32768", "-32768"},
@@ -252,23 +253,69 @@ void integration(const char *profile) {
 	    {2950, "00112233-4455-6677-8899-aabbccddeeff", "00112233-4455-6677-8899-aabbccddeeff"},
 	    {3802, "{\"value\":1}", "{\"value\": 1}"},
 	};
+	const std::string array_sql =
+	    "SELECT pg_typeof($1)::oid::text,cardinality($1)::text,"
+	    "($1)[2] IS NULL,($1)[1] IS NOT DISTINCT FROM ($1)[3],($1)[1]::text,($1)[1],($1)[2]";
+	auto verify_array = [&](const pg::Result &result, const ArrayCase &test, std::uint32_t oid) {
+		check(result.rows.size() == 1 && result.columns.size() == 7,
+		      "Typed array inspection returns one row and seven columns");
+		const auto &values_row = result.rows[0];
+		const std::array<std::string, 5> expected{std::to_string(oid), "3", "t", "t", test.output};
+		constexpr std::array<const char *, 5> fields{"array OID", "cardinality", "NULL element",
+		                                             "equal elements", "normalized text"};
+		for (std::size_t index = 0; index < expected.size(); ++index) {
+			check(values_row[index] == expected[index],
+			      "Typed array element OID " + std::to_string(test.element_oid) + ", array OID " +
+			          std::to_string(oid) + ", " + fields[index] + ": expected [" +
+			          expected[index] + "], actual [" + values_row[index].value_or("<SQL NULL>") +
+			          "]");
+		}
+		check(result.column_types[5] == test.element_oid &&
+		          result.column_types[6] == test.element_oid && !values_row[6],
+		      "Typed array preserves scalar result OIDs and a real NULL cell, element OID " +
+		          std::to_string(test.element_oid));
+		check(
+		    values_row[5] == (test.element_oid == 16 ? "t" : test.output),
+		    "Typed array scalar output differs from its text cast only for BOOLEAN, element OID " +
+		        std::to_string(test.element_oid));
+	};
+	auto batch = engine.create_batch(owner, connection);
 	for (const auto &test : cases) {
 		std::vector<std::optional<std::string>> values{test.input, std::nullopt, test.input};
 		auto parameter = pg::typed_array(values, test.element_oid);
-		auto array = confirmed(engine, connection,
-		                       "SELECT pg_typeof($1)::oid::text,cardinality($1)::text,"
-		                       "($1)[2] IS NULL,($1)[1] IS NOT DISTINCT FROM ($1)[3],($1)[1]::text",
-		                       {parameter});
-		const auto &values_row = array->results[0].rows[0];
-		check(values_row[0] == std::to_string(parameter.oid) && values_row[1] == "3" &&
-		          values_row[2] == "t" && values_row[3] == "t" && values_row[4] == test.output,
-		      "Typed arrays preserve their SQL type, values and individual NULL elements");
-		engine.close_job(owner, array->id);
-		auto empty_array = confirmed(engine, connection, "SELECT cardinality($1)",
-		                             {pg::typed_array({}, test.element_oid)});
-		check(empty_array->results[0].rows[0][0] == "0", "Real typed empty array");
-		engine.close_job(owner, empty_array->id);
+		for (bool prepared : {true, false}) {
+			auto array = confirmed(engine, connection, array_sql, {parameter}, prepared);
+			verify_array(array->results[0], test, parameter.oid);
+			engine.close_job(owner, array->id);
+			auto empty_array = confirmed(engine, connection, "SELECT cardinality($1)",
+			                             {pg::typed_array({}, test.element_oid)}, prepared);
+			check(empty_array->results[0].rows[0][0] == "0", "Real typed empty array");
+			engine.close_job(owner, empty_array->id);
+		}
+		auto statement = engine.prepare(owner, connection, array_sql, 1);
+		engine.statement(owner, statement).bind(1, parameter, engine.limits());
+		engine.statement(owner, statement).add(engine.limits());
+		engine.add_batch(owner, batch, statement);
+		engine.close_statement(owner, statement);
 	}
+	auto batch_id = engine.execute_batch(owner, batch, 0, 0, 0, false);
+	engine.close_batch(owner, batch);
+	auto arrays = engine.job(owner, batch_id);
+	auto deadline = pg::Clock::now() + std::chrono::seconds(20);
+	while (!pg::terminal(arrays->status.load()) || !arrays->delivered) {
+		engine.poll();
+		if (pg::Clock::now() >= deadline) {
+			throw std::runtime_error("Typed array batch did not complete");
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+	check(arrays->status.load() == pg::Status::confirmed && arrays->completed == cases.size() &&
+	          arrays->results.size() == cases.size(),
+	      "One heterogeneous job confirms all sixteen typed array operations");
+	for (std::size_t index = 0; index < cases.size(); ++index) {
+		verify_array(arrays->results[index], cases[index], types[index].second);
+	}
+	engine.close_job(owner, batch_id);
 
 	std::vector<std::optional<std::string>> text{"NULL", "", std::nullopt,
 	                                             "quote\" slash\\ braces{}, comma, UTF8-\xcf\x80"};
