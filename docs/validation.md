@@ -32,8 +32,15 @@ the client reports UNCERTAIN and a subsequent connection verifies exactly one co
 | -------- | ---------------- |
 | Windows x64 | Local GCC/MinGW 16.1, libpq 18.4, EDB PostgreSQL 17.11: all five CTest suites passed. Counts: 26 core unit, 146 core integration, 97 type unit, 532 type integration, 606 extension checks. |
 | Windows x86 | Local MSVC 19.51, TLS-enabled libpq 17.6, EDB PostgreSQL 17.11: all five suites passed with the same counts. Real open.mp 1.5.8.3079 loaded the component and passed smoke/GMX, unload, callback, extension and bootstrap scenarios. |
-| Linux x64 | [CI run 38476331764](https://github.com/itskoleban/omp-postgresql/actions/runs/38476331764), commit `c4adc11`: both normal and ASan/UBSan jobs succeeded with all five suites. Later Pawn/example and harness fixes require the current branch's CI results. |
-| Linux x86 | The same CI run passed all five core suites, then failed the server unload harness. Corrected command ordering is awaiting current-branch CI confirmation. |
+| Linux x64 | Ubuntu 24.04 CI, GCC 13.3/libpq 18.6: all five suites and all five Pawn examples passed in both normal and ASan/UBSan jobs, with leak detection enabled and no sanitizer diagnostics. |
+| Linux x86 | Ubuntu 24.04 CI, TLS-enabled libpq 17.11: all five suites and all five Pawn examples passed; the real open.mp dynssl server passed smoke/GMX, pending unload, callback, extension and bootstrap scenarios. |
+
+[CI run 38477565124](https://github.com/itskoleban/omp-postgresql/actions/runs/38477565124)
+completed successfully on code/documentation commit `a7a0303`, with **all five jobs green**:
+Windows x64, Windows x86 MSVC/open.mp, Linux x86/open.mp, and Linux x64 with sanitizers
+off/on. The Windows CI uses an independent PostgreSQL 17.11 server and libpq 18.6 on x64,
+17.11 on x86. This record was added in a subsequent documentation-only commit; execution
+code, examples, tests and workflow are identical to the validated commit.
 
 All five examples compiled locally with Pawn 3.10.11, 32-bit cells and official includes,
 with `-E` treating warnings as errors. Callback sleep/divide-by-zero are deliberate recovery
@@ -72,8 +79,9 @@ directly from an NTFS bind mount exposed a server filesystem metadata error.
 
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
   x86; component, client libraries and server architectures/ABIs must match.
-- Confirm the current branch's complete CI matrix, including the Linux unload correction
-  and warning-free compilation, before claiming all declared platforms are qualified.
+- Validation applies to these tested compiler/client/server combinations. Requalify changes
+  to execution code, the bridge, dependencies or the workflow; other distributions are not
+  covered by this successful matrix.
 - Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, combined
   cancellation/transaction expiry/shutdown, exhausted handles and extreme backpressure
   need more adversarial coverage.
