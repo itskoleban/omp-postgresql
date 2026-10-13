@@ -25,6 +25,7 @@ struct Event {
 struct Dispatch {
 	std::vector<Event> connections;
 	std::vector<std::shared_ptr<Job>> jobs;
+	std::vector<std::shared_ptr<Job>> streams;
 };
 
 // All public methods must be called from the owning (open.mp main) thread.
@@ -40,7 +41,18 @@ public:
 	Statement &statement(Owner owner, Id id);
 	void close_statement(Owner owner, Id id);
 	Id execute(Owner owner, Id statement, int lane, Id transaction, int context, bool notify);
-	Id begin(Owner owner, Id connection, int lane, int context, bool notify);
+	Id execute_stream(Owner owner, Id statement, int chunk_rows, int lane, Id transaction,
+	                  int context, bool notify);
+	Id query(Owner owner, Id connection, std::string sql, int lane, Id transaction, int context,
+	         bool notify);
+	Id create_batch(Owner owner, Id connection);
+	void add_batch(Owner owner, Id batch, Id statement);
+	Id execute_batch(Owner owner, Id batch, int lane, Id transaction, int context, bool notify);
+	void close_batch(Owner owner, Id batch);
+	Id begin(Owner owner, Id connection, int lane, int context, bool notify,
+	         Isolation isolation = Isolation::server_default, bool read_only = false);
+	Id savepoint(Owner owner, Id transaction, std::string name, Kind action, int context,
+	             bool notify);
 	Id finish(Owner owner, Id transaction, bool commit, int context, bool notify);
 	std::shared_ptr<Job> job(Owner owner, Id id);
 	void close_job(Owner owner, Id id);
@@ -58,10 +70,15 @@ private:
 	CompletionQueue completed_; // outlives lanes
 	std::unordered_map<Id, std::unique_ptr<Connection>> connections_;
 	std::unordered_map<Id, Statement> statements_;
+	std::unordered_map<Id, Batch> batches_;
 	std::unordered_map<Id, std::shared_ptr<Job>> jobs_;
 	std::unordered_map<Id, bool> ending_;
 	std::vector<Owner> unloaded_;
 	Id id();
 	Id submit(std::shared_ptr<Job> job);
+	Batch &batch(Owner owner, Id id);
+	int transaction_lane(Owner owner, Id connection, Id transaction, int lane);
+	Id execute_statement(Owner owner, Id statement, int lane, Id transaction, int context,
+	                     bool notify, std::shared_ptr<Stream> stream);
 };
 } // namespace pg

@@ -105,11 +105,27 @@ endif()
 include(CTest)
 if(BUILD_TESTING)
     add_executable(pg_tests tests/tests.cpp)
-    target_link_libraries(pg_tests PRIVATE pg_core)
+    add_executable(pg_extension_tests tests/engine_extensions.cpp)
+    add_executable(pg_type_tests tests/type_tests.cpp)
+    foreach(test_target pg_tests pg_extension_tests pg_type_tests)
+        target_link_libraries(${test_target} PRIVATE pg_core)
+        if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+            # GCC's ASan runtime can fail before main with PIE and high-entropy ASLR. Keep this
+            # workaround on test executables; the component remains PIC.
+            target_compile_options(${test_target} PRIVATE -fno-pie)
+            target_link_options(${test_target} PRIVATE -no-pie)
+        endif()
+    endforeach()
     add_test(NAME unit COMMAND pg_tests)
     add_test(NAME integration COMMAND pg_tests --integration)
-    set_tests_properties(unit PROPERTIES TIMEOUT 30)
-    set_tests_properties(integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90)
+    add_test(NAME types_unit COMMAND pg_type_tests)
+    add_test(NAME types_integration COMMAND pg_type_tests --integration)
+    add_test(NAME extensions_integration COMMAND pg_extension_tests)
+    set_tests_properties(unit types_unit PROPERTIES TIMEOUT 30)
+    set_tests_properties(
+        integration types_integration extensions_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT
+                                                                        90
+    )
 endif()
 install(
     FILES pawn/omp-postgresql.inc

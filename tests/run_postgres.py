@@ -5,8 +5,10 @@ The temporary directory is retained for inspection; server is always stopped.
 """
 
 import argparse
+import csv
 import os
 from pathlib import Path
+import re
 import shutil
 import socket
 import subprocess
@@ -29,6 +31,7 @@ parser.add_argument("--gamemode")
 parser.add_argument("--runtime", action="append", default=[])
 parser.add_argument("--unload-script")
 parser.add_argument("--callback-gamemode")
+parser.add_argument("--extension-gamemode")
 parser.add_argument(
     "--only-openmp",
     action="store_true",
@@ -59,8 +62,27 @@ def run(argv, **kwargs):
             argv, creationflags=flags, stdout=output, stderr=subprocess.STDOUT, **kwargs
         )
     print(log.read_text(encoding="utf8", errors="replace"), flush=True)
+    if result.returncode and Path(argv[0]).stem == "pg_ctl":
+        server_log = root / "server.log"
+        if server_log.is_file():
+            print(server_log.read_text(encoding="utf8", errors="replace"), flush=True)
     result.check_returncode()
     return result
+
+
+def grant_windows_fixture_access(directory):
+    # initdb drops administrator privileges. Python 3.13's owner-only temporary
+    # ACL may otherwise deny that token when the directory owner is Administrators.
+    # Grant only the current user's SID, inheritable by this fixture's children.
+    # The username may use an OEM code page; the SID itself is always ASCII.
+    identity = subprocess.check_output(
+        ["whoami", "/user", "/fo", "csv", "/nh"],
+        creationflags=flags,
+    ).decode("ascii", errors="replace")
+    fields = next(csv.reader(identity.splitlines()))
+    if len(fields) != 2 or not re.fullmatch(r"S-\d+(?:-\d+)+", fields[1]):
+        raise RuntimeError("Could not determine the current Windows user SID")
+    run(["icacls", str(directory), "/grant", f"*{fields[1]}:(OI)(CI)F"])
 
 
 for program in ("initdb", "pg_ctl", "psql", "openssl", "ctest"):
@@ -74,6 +96,8 @@ for program in ("initdb", "pg_ctl", "psql", "openssl", "ctest"):
     ):
         raise SystemExit(f"Missing program: {program}")
 root = Path(tempfile.mkdtemp(prefix="omp-pg-integration-")).resolve()
+if os.name == "nt":
+    grant_windows_fixture_access(root)
 data = root / "data"
 with socket.socket() as sock:
     sock.bind(("127.0.0.1", 0))
@@ -146,7 +170,10 @@ os.chmod(root / "client.key", 0o600)
     encoding="utf8",
 )
 with (data / "postgresql.conf").open("a", encoding="utf8") as f:
-    f.write(f"\nlisten_addresses='127.0.0.1'\nport={port}\nssl=on\nssl_ca_file='server.crt'\n")
+    f.write(
+        f"\nlisten_addresses='127.0.0.1'\nport={port}\nunix_socket_directories=''\n"
+        "ssl=on\nssl_ca_file='server.crt'\n"
+    )
 env = os.environ.copy()
 base = f"host=localhost\nhostaddr=127.0.0.1\nport={port}\ndbname=postgres\nuser=omp_test\n"
 cert = (data / "server.crt").as_posix()
@@ -188,12 +215,12 @@ def restart_monitor():
             return
 
 
-started = False
+startup_attempted = False
 proxy = None
 monitor = None
 try:
+    startup_attempted = True
     run(["pg_ctl", "-D", str(data), "-l", str(root / "server.log"), "-w", "start"])
-    started = True
     proxy = CommitLossProxy(port)
     with service.open("a", encoding="utf8") as f:
         f.write(
@@ -250,7 +277,12 @@ try:
         if args.unload_script:
             command.extend(("--unload-script", args.unload_script))
         run(command, env=env)
-        if args.callback_gamemode:
+        for gamemode, marker in (
+            (args.callback_gamemode, "CALLBACK"),
+            (args.extension_gamemode, "EXTENSION"),
+        ):
+            if not gamemode:
+                continue
             command = [
                 sys.executable,
                 str(Path(__file__).with_name("run_openmp.py")),
@@ -259,23 +291,30 @@ try:
                 "--component",
                 args.component,
                 "--gamemode",
-                args.callback_gamemode,
+                gamemode,
                 "--gmx-rounds",
                 "0",
                 "--success-marker",
-                "PG CALLBACK PASS",
+                f"PG {marker} PASS",
                 "--failure-marker",
-                "PG CALLBACK FAILED",
+                f"PG {marker} FAILED",
             ]
             for dll in args.runtime:
                 command.extend(("--runtime", dll))
             run(command, env=env)
 finally:
+    exception_in_flight = sys.exc_info()[0] is not None
     stop_monitor.set()
     if monitor:
         monitor.join(timeout=15)
     if proxy:
         proxy.close()
-    if started:
-        run(["pg_ctl", "-D", str(data), "-m", "immediate", "-w", "stop"])
+    # A failed startup wait can leave the postmaster alive. This PID file can only
+    # belong to the disposable cluster initialized above, never an existing one.
+    if startup_attempted and (data / "postmaster.pid").is_file():
+        try:
+            run(["pg_ctl", "-D", str(data), "-m", "immediate", "-w", "stop"])
+        except subprocess.CalledProcessError:
+            if not exception_in_flight:
+                raise
     print(f"Isolated test artifacts: {root}")

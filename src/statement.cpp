@@ -84,7 +84,7 @@ void validate_sql(const std::string &sql) {
 	}
 	for (auto forbidden :
 	     {"BEGIN", "START", "COMMIT", "END", "ROLLBACK", "ABORT", "SAVEPOINT", "RELEASE", "PREPARE",
-	      "EXECUTE", "DEALLOCATE", "DISCARD", "COPY", "CALL", "DO"}) {
+	      "EXECUTE", "DEALLOCATE", "DISCARD", "COPY", "LISTEN", "UNLISTEN", "CALL", "DO"}) {
 		if (word == forbidden) {
 			throw Failure(Error::invalid,
 			              "Command requires a dedicated protocol or transaction API");

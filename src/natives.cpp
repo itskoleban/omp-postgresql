@@ -1,9 +1,11 @@
 #include "pg/component.hpp"
 #include "pg/parameters.hpp"
+#include "pg/stream.hpp"
 #include <bit>
 #include <charconv>
 #include <cmath>
 #include <limits>
+#include <string_view>
 
 namespace pg {
 namespace {
@@ -58,19 +60,35 @@ Job &done(const std::shared_ptr<Job> &j) {
 	return *j;
 }
 
-Result &result(Job &j, cell index) {
+const Result &result(const Job &j, cell index) {
 	if (index < 0 || static_cast<std::size_t>(index) >= j.results.size()) {
 		throw Failure(Error::invalid, "Result index out of range");
 	}
 	return j.results[index];
 }
 
-const std::optional<std::string> &value(Result &r, cell row, cell column) {
+const std::optional<std::string> &value(const Result &r, cell row, cell column) {
 	if (row < 0 || column < 0 || static_cast<std::size_t>(row) >= r.rows.size() ||
 	    static_cast<std::size_t>(column) >= r.columns.size()) {
 		throw Failure(Error::invalid, "Row or column out of range");
 	}
 	return r.rows[row][column];
+}
+
+void record_error(Script &script, std::string_view message) noexcept {
+	try {
+		script.error.assign(message);
+	} catch (...) {
+		// A diagnostic allocation must not escape the noexcept native boundary.
+		script.error.clear();
+	}
+}
+
+std::size_t column_index(const Result &r, cell column) {
+	if (column < 0 || static_cast<std::size_t>(column) >= r.columns.size()) {
+		throw Failure(Error::invalid, "Column index out of range");
+	}
+	return static_cast<std::size_t>(column);
 }
 
 // clang-format off
@@ -80,6 +98,11 @@ const std::optional<std::string> &value(Result &r, cell row, cell column) {
 	X(pg_connection_state, 1) \
 	X(pg_connection_ready, 1) \
 	X(pg_connection_message, 4) \
+	X(pg_lane_state, 2) \
+	X(pg_lane_pending, 2) \
+	X(pg_lane_active, 2) \
+	X(pg_lane_stat, 5) \
+	X(pg_query, 6) \
 	X(pg_prepare, 4) \
 	X(pg_prepare_file, 4) \
 	X(pg_bind_int, 3) \
@@ -90,26 +113,47 @@ const std::optional<std::string> &value(Result &r, cell row, cell column) {
 	X(pg_bind_string, 4) \
 	X(pg_bind_int_array, 4) \
 	X(pg_bind_string_array, 5) \
+	X(pg_bind_bytes, 4) \
+	X(pg_bind_array, 7) \
 	X(pg_add, 1) \
 	X(pg_execute, 5) \
 	X(pg_statement_close, 1) \
+	X(pg_batch_create, 1) \
+	X(pg_batch_add, 2) \
+	X(pg_batch_execute, 5) \
+	X(pg_batch_close, 1) \
+	X(pg_stream_execute, 6) \
+	X(pg_stream_next, 1) \
+	X(pg_stream_release, 1) \
 	X(pg_begin, 4) \
+	X(pg_begin_ex, 6) \
+	X(pg_savepoint, 4) \
+	X(pg_rollback_to, 4) \
+	X(pg_release_savepoint, 4) \
 	X(pg_commit, 3) \
 	X(pg_rollback, 3) \
 	X(pg_job_status, 1) \
 	X(pg_job_close, 1) \
 	X(pg_cancel, 1) \
 	X(pg_job_completed, 1) \
+	X(pg_job_size, 1) \
+	X(pg_job_item_status, 2) \
+	X(pg_job_error_index, 1) \
 	X(pg_job_error, 1) \
 	X(pg_job_message, 3) \
 	X(pg_job_duration, 3) \
+	X(pg_job_queue_time, 3) \
+	X(pg_job_latency, 3) \
 	X(pg_job_connection, 1) \
 	X(pg_result_count, 1) \
 	X(pg_result_rows, 2) \
 	X(pg_result_columns, 2) \
 	X(pg_result_column, 3) \
+	X(pg_result_column_name, 5) \
+	X(pg_result_column_type, 3) \
 	X(pg_result_is_null, 4) \
 	X(pg_result_string, 6) \
+	X(pg_result_bytes, 7) \
 	X(pg_result_int, 5) \
 	X(pg_result_float, 5) \
 	X(pg_result_bool, 5) \
@@ -125,6 +169,19 @@ enum class Native {
 #undef ENUM
 };
 
+enum class LaneMetric {
+	completed,
+	confirmed,
+	failed,
+	uncertain,
+	cancelled,
+	connection_attempts,
+	reconnects,
+	sql_commands,
+	rows_received,
+	duration_us
+};
+
 cell invoke(Native native, Script &script, const cell *p) {
 	auto &e = Component::instance->engine;
 	auto owner = script.owner;
@@ -132,8 +189,22 @@ cell invoke(Native native, Script &script, const cell *p) {
 	auto get = [&](cell h) {
 		return e.job(owner, h);
 	};
-	auto r = [&]() -> Result & {
-		return result(done(get(p[1])), p[2]);
+	auto lane = [&](cell connection, cell index) -> Lane & {
+		auto &c = e.connection(owner, connection);
+		if (index < 0 || static_cast<std::size_t>(index) >= c.lanes.size()) {
+			throw Failure(Error::invalid, "Lane index out of range");
+		}
+		return *c.lanes[index];
+	};
+	auto r = [&]() -> const Result & {
+		auto job = get(p[1]);
+		if (job->stream && job->stream->current()) {
+			if (p[2] != 0) {
+				throw Failure(Error::invalid, "A stream block has only result index 0");
+			}
+			return *job->stream->current();
+		}
+		return result(done(job), p[2]);
 	};
 	auto bind = [&](Param param) {
 		e.statement(owner, p[1]).bind(p[2], std::move(param), e.limits());
@@ -156,6 +227,54 @@ cell invoke(Native native, Script &script, const cell *p) {
 		}
 		return output(vm, p[3], p[4], c.lanes[p[2]]->diagnostic());
 	}
+	case Native::pg_lane_state:
+		return static_cast<cell>(lane(p[1], p[2]).state.load());
+	case Native::pg_lane_pending:
+		return static_cast<cell>(lane(p[1], p[2]).snapshot().queued_jobs);
+	case Native::pg_lane_active:
+		return static_cast<cell>(lane(p[1], p[2]).snapshot().running_jobs);
+	case Native::pg_lane_stat: {
+		auto stats = lane(p[1], p[2]).snapshot();
+		std::uint64_t counter;
+		switch (static_cast<LaneMetric>(p[3])) {
+		case LaneMetric::completed:
+			counter = stats.completed_jobs;
+			break;
+		case LaneMetric::confirmed:
+			counter = stats.confirmed_jobs;
+			break;
+		case LaneMetric::failed:
+			counter = stats.failed_jobs;
+			break;
+		case LaneMetric::uncertain:
+			counter = stats.uncertain_jobs;
+			break;
+		case LaneMetric::cancelled:
+			counter = stats.cancelled_jobs;
+			break;
+		case LaneMetric::connection_attempts:
+			counter = stats.connection_attempts;
+			break;
+		case LaneMetric::reconnects:
+			counter = stats.reconnects;
+			break;
+		case LaneMetric::sql_commands:
+			counter = stats.sql_commands;
+			break;
+		case LaneMetric::rows_received:
+			counter = stats.rows_received;
+			break;
+		case LaneMetric::duration_us:
+			counter = stats.duration_us;
+			break;
+		default:
+			throw Failure(Error::invalid, "Unknown lane statistics metric");
+		}
+		return output(vm, p[4], p[5], std::to_string(counter));
+	}
+	case Native::pg_query:
+		return e.query(owner, p[1], string(vm, p[2], e.limits().sql_bytes), p[3], p[4], p[5],
+		               p[6] != 0);
 	case Native::pg_prepare:
 	case Native::pg_prepare_file:
 		return e.prepare(owner, p[1], string(vm, p[2], e.limits().sql_bytes), p[3],
@@ -205,6 +324,43 @@ cell invoke(Native native, Script &script, const cell *p) {
 		}
 		return bind(string_array(v));
 	}
+	case Native::pg_bind_bytes: {
+		if (p[4] < 0 || e.limits().parameter_bytes < 2 ||
+		    static_cast<std::size_t>(p[4]) > (e.limits().parameter_bytes - 2) / 2) {
+			throw Failure(Error::limit, "BYTEA exceeds the encoded parameter limit");
+		}
+		std::vector<std::int32_t> bytes;
+		bytes.reserve(p[4]);
+		for (int i = 0; i < p[4]; ++i) {
+			bytes.push_back(*address(vm, p[3], i));
+		}
+		return bind(byte_array(bytes));
+	}
+	case Native::pg_bind_array: {
+		if (p[4] < 0 || p[4] > 16384 || p[5] < 1 ||
+		    static_cast<std::int64_t>(p[4]) * p[5] > 262144) {
+			throw Failure(Error::limit, "Invalid typed array dimensions");
+		}
+		std::vector<std::optional<std::string>> values;
+		values.reserve(p[4]);
+		for (int i = 0; i < p[4]; ++i) {
+			auto is_null = *address(vm, p[7], i);
+			if (is_null != 0 && is_null != 1) {
+				throw Failure(Error::invalid, "Array NULL mask values must be 0 or 1");
+			}
+			if (is_null) {
+				values.emplace_back(std::nullopt);
+				continue;
+			}
+			auto offset = static_cast<std::int64_t>(p[3]) +
+			              static_cast<std::int64_t>(i) * p[5] * sizeof(cell);
+			if (offset < 0 || offset > std::numeric_limits<cell>::max()) {
+				throw Failure(Error::invalid, "Array address overflow");
+			}
+			values.emplace_back(string(vm, static_cast<cell>(offset), p[5] - 1));
+		}
+		return bind(typed_array(values, static_cast<std::uint32_t>(p[6])));
+	}
 	case Native::pg_add:
 		e.statement(owner, p[1]).add(e.limits());
 		return 1;
@@ -213,8 +369,53 @@ cell invoke(Native native, Script &script, const cell *p) {
 	case Native::pg_statement_close:
 		e.close_statement(owner, p[1]);
 		return 1;
+	case Native::pg_batch_create:
+		return e.create_batch(owner, p[1]);
+	case Native::pg_batch_add:
+		e.add_batch(owner, p[1], p[2]);
+		return 1;
+	case Native::pg_batch_execute:
+		return e.execute_batch(owner, p[1], p[2], p[3], p[4], p[5] != 0);
+	case Native::pg_batch_close:
+		e.close_batch(owner, p[1]);
+		return 1;
+	case Native::pg_stream_execute:
+		return e.execute_stream(owner, p[1], p[2], p[3], p[4], p[5], p[6] != 0);
+	case Native::pg_stream_next: {
+		auto job = get(p[1]);
+		if (!job->stream) {
+			throw Failure(Error::invalid, "Job is not a streaming query");
+		}
+		return job->stream->next();
+	}
+	case Native::pg_stream_release: {
+		auto job = get(p[1]);
+		if (!job->stream) {
+			throw Failure(Error::invalid, "Job is not a streaming query");
+		}
+		if (!job->stream->current()) {
+			return 0;
+		}
+		job->stream->release();
+		return 1;
+	}
 	case Native::pg_begin:
 		return e.begin(owner, p[1], p[2], p[3], p[4] != 0);
+	case Native::pg_begin_ex:
+		if (p[2] < 0 || p[2] > 2) {
+			throw Failure(
+			    Error::invalid,
+			    "Explicit isolation must be READ COMMITTED, REPEATABLE READ, or SERIALIZABLE");
+		}
+		return e.begin(owner, p[1], p[4], p[5], p[6] != 0, static_cast<Isolation>(p[2]), p[3] != 0);
+	case Native::pg_savepoint:
+	case Native::pg_rollback_to:
+	case Native::pg_release_savepoint: {
+		auto kind = native == Native::pg_savepoint     ? Kind::savepoint
+		            : native == Native::pg_rollback_to ? Kind::rollback_to
+		                                               : Kind::release_savepoint;
+		return e.savepoint(owner, p[1], string(vm, p[2], 63), kind, p[3], p[4] != 0);
+	}
 	case Native::pg_commit:
 	case Native::pg_rollback:
 		return e.finish(owner, p[1], native == Native::pg_commit, p[2], p[3] != 0);
@@ -233,15 +434,38 @@ cell invoke(Native native, Script &script, const cell *p) {
 	}
 	case Native::pg_job_completed:
 		return static_cast<cell>(done(get(p[1])).completed);
+	case Native::pg_job_size:
+		return static_cast<cell>(get(p[1])->items_status.size());
+	case Native::pg_job_item_status: {
+		auto &j = done(get(p[1]));
+		if (p[2] < 0 || static_cast<std::size_t>(p[2]) >= j.items_status.size()) {
+			throw Failure(Error::invalid, "Job item index out of range");
+		}
+		return static_cast<cell>(j.items_status[p[2]]);
+	}
+	case Native::pg_job_error_index:
+		return done(get(p[1])).error_index;
 	case Native::pg_job_error:
 		return static_cast<cell>(done(get(p[1])).error);
 	case Native::pg_job_message:
 		return output(vm, p[2], p[3], done(get(p[1])).message);
 	case Native::pg_job_duration:
 		return output(vm, p[2], p[3], std::to_string(done(get(p[1])).duration_us));
+	case Native::pg_job_queue_time:
+		return output(vm, p[2], p[3], std::to_string(done(get(p[1])).queue_us));
+	case Native::pg_job_latency: {
+		auto &job = done(get(p[1]));
+		if (!job.delivered) {
+			throw Failure(Error::not_ready, "Job completion has not been dispatched yet");
+		}
+		return output(vm, p[2], p[3], std::to_string(job.delivery_us));
+	}
 	case Native::pg_job_connection:
 		return get(p[1])->connection;
 	case Native::pg_result_count:
+		if (auto job = get(p[1]); job->stream && job->stream->current()) {
+			return 1;
+		}
 		return static_cast<cell>(done(get(p[1])).results.size());
 	case Native::pg_result_rows:
 		return static_cast<cell>(r().rows.size());
@@ -253,6 +477,18 @@ cell invoke(Native native, Script &script, const cell *p) {
 		auto it = std::find(cols.begin(), cols.end(), name);
 		return it == cols.end() ? -1 : static_cast<cell>(it - cols.begin());
 	}
+	case Native::pg_result_column_name: {
+		auto &selected = r();
+		return output(vm, p[4], p[5], selected.columns[column_index(selected, p[3])]);
+	}
+	case Native::pg_result_column_type: {
+		auto &selected = r();
+		auto index = column_index(selected, p[3]);
+		if (index >= selected.column_types.size()) {
+			throw Failure(Error::internal, "Column type metadata is unavailable");
+		}
+		return static_cast<cell>(selected.column_types[index]);
+	}
 	case Native::pg_result_is_null:
 		return !value(r(), p[3], p[4]).has_value();
 	case Native::pg_result_string: {
@@ -261,6 +497,40 @@ cell invoke(Native native, Script &script, const cell *p) {
 			throw Failure(Error::invalid, "SQL NULL is not a string");
 		}
 		return output(vm, p[5], p[6], *v);
+	}
+	case Native::pg_result_bytes: {
+		auto &selected = r();
+		auto index = column_index(selected, p[4]);
+		if (index >= selected.column_types.size() || selected.column_types[index] != 17) {
+			throw Failure(Error::invalid, "Binary output requires a BYTEA column");
+		}
+		auto &encoded = value(selected, p[3], p[4]);
+		if (!encoded) {
+			throw Failure(Error::invalid, "SQL NULL has no binary value");
+		}
+		if (encoded->size() < 2 || encoded->compare(0, 2, "\\x") != 0 ||
+		    (encoded->size() - 2) % 2) {
+			throw Failure(Error::invalid, "BYTEA output must use hexadecimal format");
+		}
+		auto count = (encoded->size() - 2) / 2;
+		if (p[7] < 0 || p[7] > 2 * 1024 * 1024 || count > static_cast<std::size_t>(p[7])) {
+			throw Failure(Error::limit, "Binary output buffer is too small");
+		}
+		auto *written = address(vm, p[6]);
+		for (std::size_t i = 0; i < count; ++i) {
+			address(vm, p[5], i);
+		}
+		auto end = static_cast<std::int64_t>(p[5]) +
+		           static_cast<std::int64_t>(count) * static_cast<std::int64_t>(sizeof(cell));
+		if (count && p[6] >= p[5] && static_cast<std::int64_t>(p[6]) < end) {
+			throw Failure(Error::invalid, "Length output overlaps the byte buffer");
+		}
+		auto bytes = decode_bytea(*encoded);
+		for (std::size_t i = 0; i < bytes.size(); ++i) {
+			*address(vm, p[5], i) = bytes[i];
+		}
+		*written = static_cast<cell>(bytes.size());
+		return 1;
 	}
 	case Native::pg_result_int:
 	case Native::pg_result_float:
@@ -323,12 +593,13 @@ cell AMX_NATIVE_CALL call(AMX *amx, const cell *params) noexcept {
 		}
 		return invoke(native, script, params);
 	} catch (const Failure &f) {
-		script.error = f.detail;
+		record_error(script, f.detail);
 	} catch (...) {
-		script.error = "Native allocation or internal error";
+		record_error(script, "Native allocation or internal error");
 	}
 	if constexpr (native == Native::pg_job_status || native == Native::pg_connection_state ||
-	              native == Native::pg_result_column) {
+	              native == Native::pg_result_column || native == Native::pg_job_item_status ||
+	              native == Native::pg_job_error_index || native == Native::pg_lane_state) {
 		return -1;
 	}
 	return 0;

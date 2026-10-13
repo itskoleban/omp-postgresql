@@ -1,0 +1,75 @@
+# Extension audit and implementation plan
+
+This audit continues the existing 0.1 implementation. It does not replace the worker,
+transaction, ownership, or callback architecture. The baseline was checked against commit
+`ce4e70d` and the working tree, including the PostgreSQL fixture corrections.
+
+## Verified baseline
+
+The engine already provides service-profile connections, exclusive session workers,
+FIFO lanes, immutable parameter snapshots, homogeneous batches, explicit transactions,
+bounded retained results, cancellation, reconnection without replay, and VM-generation
+ownership. The existing 42 natives, examples, and real open.mp loading tests remain the
+compatibility baseline. There is no legacy SA-MP plugin entry point.
+
+The latest baseline passed 26 unit and 146 integration checks on Windows x86, Windows x64,
+Linux x86, and Linux x64. The Linux x64 run included ASan, UBSan, and leak detection. These
+counts describe the baseline, not the extension tests added afterward.
+
+## Findings by category
+
+| Category              | Finding and decision                                                                                                                                                                                                                                                                     |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Infrastructure defect | The first GitHub run failed before integration tests because Linux selected a protected Unix socket directory and Windows initdb dropped privileges against Python 3.13's temporary-directory ACL. Use loopback TCP and grant only the current user access to the fresh Windows fixture. |
+| Infrastructure defect | A failed startup wait could leave the disposable postmaster running. Clean up its PID file without masking the original startup error.                                                                                                                                                   |
+| Toolchain defect      | GCC 12 ASan PIE startup failed before main on the local high-entropy-ASLR Linux host, including a minimal program. A non-PIE sanitizer test executable passed the comparison; the component remains position independent.                                                                |
+| Bridge robustness     | Recording a diagnostic inside a noexcept native wrapper can itself allocate. Make this best effort so allocation failure cannot escape the wrapper.                                                                                                                                      |
+| Fundamental API gap   | A job could repeat only one SQL statement. Add bounded heterogeneous snapshots, retaining FIFO ordering, the same submission path, and explicit partial outcomes.                                                                                                                        |
+| API ergonomics        | Add a zero-parameter query shortcut with no intermediate public statement handle. Values still require bind functions.                                                                                                                                                                   |
+| Result inspection     | Preserve PostgreSQL column type OIDs, expose column names and item outcomes, and keep checked conversions.                                                                                                                                                                               |
+| Type coverage         | Reuse typed text transport for exact numerics and temporal values; add byte arrays and nullable typed arrays with real PostgreSQL validation.                                                                                                                                            |
+| Observability         | Expose nonblocking lane gauges and cumulative counters, plus separate queue, execution, and delivery timings.                                                                                                                                                                            |
+| Advanced transactions | Add explicit isolation/read-only options and controlled savepoint recovery on the reserved session.                                                                                                                                                                                      |
+| Large results         | Add an opt-in bounded row-block channel to the existing execution path. Published rows remain provisional until terminal success.                                                                                                                                                        |
+| Optional optimization | Keep explicit lane selection and the single unnamed plan until comparative measurements justify additional policies.                                                                                                                                                                     |
+
+## Dependency order
+
+1. Preserve the verified baseline and correct fixture/toolchain failures.
+2. Extend job metadata and heterogeneous submission without changing pg_add semantics.
+3. Extend the bridge, exact types, and result inspection; validate ownership and rejection.
+4. Add transaction options and observable session statistics.
+5. Introduce bounded streaming with slow-consumer, cancellation, and unloading tests.
+6. Run the expanded PostgreSQL and open.mp suites on declared platforms, then update the
+   validation record and compilable examples.
+
+Each extension must keep rejected input recoverable, prevent worker access to Pawn memory,
+and publish results before terminal status. No automatic replay is introduced. Existing
+native signatures remain valid; additions do not constitute a stable-API compatibility promise.
+
+## Advanced protocol decisions
+
+Streaming, COPY, and notifications are distinct protocols, not aliases for batch execution.
+[libpq row mode](https://www.postgresql.org/docs/17/libpq-single-row-mode.html) supports
+incremental delivery, but previously delivered rows must be discarded or reconciled if
+the statement ultimately fails. Streaming therefore needs bounded publication and an
+explicit consumer lifecycle before it can be exposed to Pawn.
+
+[COPY](https://www.postgresql.org/docs/17/libpq-copy.html) requires directional protocol
+states, bounded input/output buffers, and draining the final command result. It remains
+excluded from ordinary SQL execution. No COPY native is advertised until those states and
+failure paths are implemented and tested.
+
+[LISTEN/NOTIFY](https://www.postgresql.org/docs/17/libpq-notify.html) needs an independently
+polled listener, bounded notification storage, subscription ownership, and resubscription.
+A dedicated connection is preferable to delaying events behind long queries. It is not a
+persistent message queue; notifications during disconnection cannot be recovered. The
+current extension rejects LISTEN/UNLISTEN through the ordinary query path, which cannot
+drain notifications. This also prevents unbounded notification retention inside libpq.
+Sending a notification remains possible with a normal parameterized
+`SELECT pg_notify($1, $2)` statement; a receiving API is not advertised.
+
+Pipeline, named-plan caches, and automatic lane selection remain optional optimizations.
+Their evaluation must include error correlation, session resets, memory, and ordering,
+not only transport throughput. Existing sequential execution and explicit lanes remain
+usable without these optimizations.

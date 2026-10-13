@@ -14,7 +14,9 @@ using Owner = std::uint64_t;
 using Clock = std::chrono::steady_clock;
 enum class State { disconnected, connecting, connected, reconnecting, failed, closing };
 enum class Status { queued, running, confirmed, failed, uncertain, cancelled };
-enum class Kind { execute, begin, commit, rollback };
+enum class ItemStatus { not_executed, confirmed, failed, uncertain, cancelled };
+enum class Kind { execute, begin, commit, rollback, savepoint, rollback_to, release_savepoint };
+enum class Isolation { server_default = -1, read_committed = 0, repeatable_read, serializable };
 enum class Error {
 	none,
 	invalid,
@@ -51,20 +53,46 @@ using Params = std::vector<Param>;
 
 struct Result {
 	std::vector<std::string> columns;
+	std::vector<std::uint32_t> column_types;
 	std::vector<std::vector<std::optional<std::string>>> rows;
 	std::string affected = "0"; // Decimal: never narrow PostgreSQL's row count to a Pawn cell.
 	std::string sqlstate, message;
 };
+
+struct Operation {
+	std::string sql;
+	bool file = false, prepared = true;
+	Params params;
+};
+
+struct Batch {
+	Owner owner;
+	Id connection;
+	std::vector<Operation> operations;
+	std::size_t bytes = 0;
+};
+
+class Stream;
 
 struct Job {
 	Id id = 0, connection = 0, transaction = 0;
 	Owner owner = 0;
 	int lane = 0, context = 0;
 	Kind kind = Kind::execute;
+	Isolation isolation = Isolation::server_default;
+	bool read_only = false;
+	std::string savepoint;
 	std::string sql;
 	bool file = false, prepared = true, notify = true;
 	bool delivered = false; // Main-thread bookkeeping only.
 	std::vector<Params> batch;
+	std::vector<Operation> operations;
+	std::vector<ItemStatus> items_status;
+	int error_index = -1;
+	std::shared_ptr<Stream> stream;
+	Clock::time_point accepted_at;
+	std::int64_t queue_us = 0;
+	std::int64_t delivery_us = 0; // Main thread, set at completion dispatch.
 	std::atomic<Status> status{Status::queued};
 	std::atomic<bool> cancel{false};
 	// Written only by the worker; readable only after acquire-load of terminal status.

@@ -98,6 +98,14 @@ void Component::onTick(Microseconds, TimePoint) {
 	for (auto &e : dispatch.connections) {
 		callback(e.owner, "OnPgConnection", e.connection, static_cast<cell>(e.state));
 	}
+	for (auto &j : dispatch.streams) {
+		try {
+			engine.job(j->owner, j->id);
+		} catch (const Failure &) {
+			continue;
+		}
+		callback(j->owner, "OnPgRows", j->id, j->context);
+	}
 	for (auto &j : dispatch.jobs) {
 		// An earlier callback can explicitly release another completed job.
 		// Never dispatch that later callback with an already-invalid handle.

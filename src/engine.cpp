@@ -1,4 +1,5 @@
 #include "pg/engine.hpp"
+#include "pg/stream.hpp"
 #include <algorithm>
 #include <limits>
 
@@ -105,7 +106,8 @@ void Engine::disconnect(Owner owner, Id handle) {
 Id Engine::prepare(Owner owner, Id conn, std::string sql, int parameters, bool file,
                    bool persistent) {
 	connection(owner, conn);
-	if (statements_.size() >= limits_.statements || sql.size() > limits_.sql_bytes) {
+	if (statements_.size() + batches_.size() >= limits_.statements ||
+	    sql.size() > limits_.sql_bytes) {
 		throw Failure(Error::limit, "Statement limit");
 	}
 	if (parameters < 0 || parameters > 64) {
@@ -162,10 +164,16 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	if (j->kind == Kind::begin ? reserved != 0 : reserved != j->transaction) {
 		throw Failure(Error::transaction, "Channel is reserved for another transaction");
 	}
-	if (j->transaction && j->kind == Kind::execute && ending_.contains(j->transaction)) {
+	if (j->transaction && j->kind != Kind::commit && j->kind != Kind::rollback &&
+	    ending_.contains(j->transaction)) {
 		throw Failure(Error::transaction, "Transaction is ending");
 	}
 	j->id = id();
+	j->accepted_at = Clock::now();
+	j->items_status.assign(j->kind == Kind::execute
+	                           ? (j->operations.empty() ? j->batch.size() : j->operations.size())
+							   : 1,
+	                       ItemStatus::not_executed);
 	jobs_.emplace(j->id, j);
 	try {
 		c.lanes[j->lane]->enqueue(j);
@@ -176,19 +184,41 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	return j->id;
 }
 
-Id Engine::execute(Owner owner, Id handle, int lane, Id tx, int context, bool notify) {
-	auto &s = statement(owner, handle);
-	if (s.batch.empty()) {
-		throw Failure(Error::invalid, "Cannot execute empty batch; call pg_add first");
-	}
+int Engine::transaction_lane(Owner owner, Id connection, Id tx, int lane) {
 	if (tx) {
 		auto begin_job = job(owner, tx);
 		if (begin_job->kind != Kind::begin || begin_job->status.load() != Status::confirmed ||
-		    begin_job->connection != s.connection) {
+		    begin_job->connection != connection) {
 			throw Failure(Error::transaction, "BEGIN has not succeeded on this connection");
 		}
 		lane = begin_job->lane;
 	}
+	return lane;
+}
+
+Id Engine::execute(Owner owner, Id handle, int lane, Id tx, int context, bool notify) {
+	return execute_statement(owner, handle, lane, tx, context, notify, {});
+}
+
+Id Engine::execute_stream(Owner owner, Id handle, int chunk_rows, int lane, Id tx, int context,
+                          bool notify) {
+	if (chunk_rows < 1 || chunk_rows > 1024) {
+		throw Failure(Error::invalid, "Stream block size must be 1..1024 rows");
+	}
+	if (statement(owner, handle).batch.size() != 1) {
+		throw Failure(Error::invalid, "Streaming requires exactly one added execution");
+	}
+	return execute_statement(owner, handle, lane, tx, context, notify,
+	                         std::make_shared<Stream>(static_cast<std::size_t>(chunk_rows)));
+}
+
+Id Engine::execute_statement(Owner owner, Id handle, int lane, Id tx, int context, bool notify,
+                             std::shared_ptr<Stream> stream) {
+	auto &s = statement(owner, handle);
+	if (s.batch.empty()) {
+		throw Failure(Error::invalid, "Cannot execute empty batch; call pg_add first");
+	}
+	lane = transaction_lane(owner, s.connection, tx, lane);
 	auto j = std::make_shared<Job>();
 	j->owner = owner;
 	j->connection = s.connection;
@@ -196,6 +226,7 @@ Id Engine::execute(Owner owner, Id handle, int lane, Id tx, int context, bool no
 	j->transaction = tx;
 	j->context = context;
 	j->notify = notify;
+	j->stream = std::move(stream);
 	j->sql = s.sql;
 	j->file = s.file;
 	j->prepared = s.prepared;
@@ -213,7 +244,107 @@ Id Engine::execute(Owner owner, Id handle, int lane, Id tx, int context, bool no
 	return handle_job;
 }
 
-Id Engine::begin(Owner owner, Id conn, int lane, int context, bool notify) {
+Id Engine::query(Owner owner, Id conn, std::string sql, int lane, Id tx, int context, bool notify) {
+	if (sql.size() > limits_.sql_bytes) {
+		throw Failure(Error::limit, "SQL exceeds size limit");
+	}
+	validate_sql(sql);
+	auto j = std::make_shared<Job>();
+	j->owner = owner;
+	j->connection = conn;
+	j->lane = transaction_lane(owner, conn, tx, lane);
+	j->transaction = tx;
+	j->context = context;
+	j->notify = notify;
+	j->sql = std::move(sql);
+	j->prepared = false;
+	j->batch.emplace_back();
+	return submit(std::move(j));
+}
+
+Batch &Engine::batch(Owner owner, Id handle) {
+	auto it = batches_.find(handle);
+	if (it == batches_.end() || it->second.owner != owner) {
+		throw Failure(Error::invalid, "Invalid batch handle or owner");
+	}
+	return it->second;
+}
+
+Id Engine::create_batch(Owner owner, Id conn) {
+	connection(owner, conn);
+	if (statements_.size() + batches_.size() >= limits_.statements) {
+		throw Failure(Error::limit, "Statement and batch handle limit");
+	}
+	auto handle = id();
+	batches_.emplace(handle, Batch{owner, conn, {}, 0});
+	return handle;
+}
+
+void Engine::add_batch(Owner owner, Id handle, Id statement_handle) {
+	auto &destination = batch(owner, handle);
+	auto &source = statement(owner, statement_handle);
+	if (source.connection != destination.connection || source.batch.empty()) {
+		throw Failure(Error::invalid, "Batch needs added executions on the same connection");
+	}
+	if (source.batch.size() > limits_.batch_count - destination.operations.size()) {
+		throw Failure(Error::limit, "Batch item limit exceeded");
+	}
+	std::size_t added_bytes = source.bytes;
+	const auto overhead = source.sql.size() + sizeof(Operation);
+	if (added_bytes > limits_.batch_bytes - destination.bytes ||
+	    overhead > (limits_.batch_bytes - destination.bytes - added_bytes) / source.batch.size()) {
+		throw Failure(Error::limit, "Batch memory limit exceeded");
+	}
+	added_bytes += overhead * source.batch.size();
+	// Allocate and copy before consuming anything: rejection preserves both handles.
+	std::vector<Operation> appended;
+	appended.reserve(source.batch.size());
+	for (const auto &params : source.batch) {
+		appended.push_back({source.sql, source.file, source.prepared, params});
+	}
+	destination.operations.reserve(destination.operations.size() + appended.size());
+	for (auto &operation : appended) {
+		destination.operations.push_back(std::move(operation));
+	}
+	destination.bytes += added_bytes;
+	source.batch.clear();
+	source.bytes = 0;
+}
+
+Id Engine::execute_batch(Owner owner, Id handle, int lane, Id tx, int context, bool notify) {
+	auto &source = batch(owner, handle);
+	if (source.operations.empty()) {
+		throw Failure(Error::invalid, "Cannot execute an empty batch");
+	}
+	auto j = std::make_shared<Job>();
+	j->owner = owner;
+	j->connection = source.connection;
+	j->lane = transaction_lane(owner, source.connection, tx, lane);
+	j->transaction = tx;
+	j->context = context;
+	j->notify = notify;
+	j->operations = std::move(source.operations);
+	Id handle_job;
+	try {
+		handle_job = submit(j);
+	} catch (...) {
+		source.operations = std::move(j->operations);
+		throw;
+	}
+	source.bytes = 0;
+	return handle_job;
+}
+
+void Engine::close_batch(Owner owner, Id handle) {
+	batch(owner, handle);
+	batches_.erase(handle);
+}
+
+Id Engine::begin(Owner owner, Id conn, int lane, int context, bool notify, Isolation isolation,
+                 bool read_only) {
+	if (isolation < Isolation::server_default || isolation > Isolation::serializable) {
+		throw Failure(Error::invalid, "Invalid transaction isolation level");
+	}
 	auto j = std::make_shared<Job>();
 	j->owner = owner;
 	j->connection = conn;
@@ -221,9 +352,34 @@ Id Engine::begin(Owner owner, Id conn, int lane, int context, bool notify) {
 	j->kind = Kind::begin;
 	j->context = context;
 	j->notify = notify;
+	j->isolation = isolation;
+	j->read_only = read_only;
 	auto handle = submit(j);
 	connection(owner, conn).reservations[lane] = handle;
 	return handle;
+}
+
+Id Engine::savepoint(Owner owner, Id tx, std::string name, Kind action, int context, bool notify) {
+	constexpr auto letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+	if (name.empty() || name.size() > 63 ||
+	    std::string_view(letters).find(name[0]) == std::string_view::npos ||
+	    name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789") !=
+	        std::string::npos ||
+	    (action != Kind::savepoint && action != Kind::rollback_to &&
+	     action != Kind::release_savepoint)) {
+		throw Failure(Error::invalid, "Invalid savepoint name or action");
+	}
+	auto b = job(owner, tx);
+	auto j = std::make_shared<Job>();
+	j->owner = owner;
+	j->connection = b->connection;
+	j->lane = transaction_lane(owner, b->connection, tx, b->lane);
+	j->transaction = tx;
+	j->kind = action;
+	j->savepoint = std::move(name);
+	j->context = context;
+	j->notify = notify;
+	return submit(std::move(j));
 }
 
 Id Engine::finish(Owner owner, Id tx, bool commit, int context, bool notify) {
@@ -281,6 +437,9 @@ void Engine::unload(Owner owner) {
 	std::erase_if(statements_, [=](auto &pair) {
 		return pair.second.owner == owner;
 	});
+	std::erase_if(batches_, [=](auto &pair) {
+		return pair.second.owner == owner;
+	});
 	for (auto &[id, j] : jobs_) {
 		if (j->owner == owner) {
 			j->cancel.store(true);
@@ -302,6 +461,9 @@ Dispatch Engine::poll() {
 		}
 		auto &j = it->second;
 		j->delivered = true;
+		j->delivery_us =
+		    std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - j->accepted_at)
+		        .count();
 		auto c = connections_.find(j->connection);
 		if (c != connections_.end() &&
 		    ((j->kind == Kind::begin && j->status.load() != Status::confirmed) ||
@@ -311,6 +473,11 @@ Dispatch Engine::poll() {
 		}
 		if (j->notify) {
 			out.jobs.push_back(j);
+		}
+	}
+	for (const auto &[handle, j] : jobs_) {
+		if (j->notify && j->stream && j->stream->available()) {
+			out.streams.push_back(j);
 		}
 	}
 	for (auto &[handle, c] : connections_) {
