@@ -34,8 +34,8 @@ jobs:
                   git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
                   git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
                   for script in smoke unload callbacks extensions bootstrap; do
-                  	./build-pawn/pawncc "examples/$script.pwn" -E -ipawn -ibuild-stdlib \
-                  		-ibuild/_deps/pawn-src/include "-obuild/$script.amx"
+                      ./build-pawn/pawncc "examples/$script.pwn" -E -ipawn -ibuild-stdlib \
+                          -ibuild/_deps/pawn-src/include "-obuild/$script.amx"
                   done
             - name: Retain core test and sanitizer logs
               if: always()
@@ -85,7 +85,7 @@ jobs:
                   git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
                   git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
                   for script in smoke unload callbacks extensions bootstrap; do
-                  	./build-pawn32/pawncc "examples/$script.pwn" -E -ipawn -ibuild-stdlib \
+                      ./build-pawn32/pawncc "examples/$script.pwn" -E -ipawn -ibuild-stdlib \
                   		-ibuild-linux32/_deps/pawn-src/include "-obuild-linux32/$script.amx"
                   done
             - name: Obtain the fixed open.mp distribution with dynamic OpenSSL
