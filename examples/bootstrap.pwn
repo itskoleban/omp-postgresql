@@ -47,10 +47,10 @@ new Clans[MAX_CLANS][E_CLAN];
 new PropertyPickups[MAX_PROPERTIES];
 new SpawnedVehicles[MAX_WORLD_VEHICLES];
 
-stock bool:ReadProperties(job);
-stock bool:ReadVehicles(job);
-stock bool:ReadClans(job);
-stock bool:ActivateWorld();
+forward bool:ReadProperties(job);
+forward bool:ReadVehicles(job);
+forward bool:ReadClans(job);
+forward bool:ActivateWorld();
 
 main() {}
 
