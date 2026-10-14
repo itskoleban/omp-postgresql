@@ -66,6 +66,24 @@ if(PG_BUILD_COMPONENT)
     endif()
     target_link_libraries(omp-postgresql PRIVATE pg_core OMP-SDK)
     set_target_properties(omp-postgresql PROPERTIES PREFIX "")
+    execute_process(
+        COMMAND git rev-parse HEAD
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        OUTPUT_VARIABLE PG_SOURCE_COMMIT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        RESULT_VARIABLE PG_GIT_RESULT
+        ERROR_QUIET
+    )
+    if(NOT PG_GIT_RESULT EQUAL 0)
+        # Source archive builds remain supported; distribution assembly requires Git provenance.
+        set(PG_SOURCE_COMMIT "unknown")
+    endif()
+    file(
+        GENERATE
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/package-build-info-$<CONFIG>.json"
+        CONTENT
+            "{\n\"version\": \"${PROJECT_VERSION}\",\n\"commit\": \"${PG_SOURCE_COMMIT}\",\n\"configuration\": \"$<CONFIG>\",\n\"system\": \"${CMAKE_SYSTEM_NAME}\",\n\"pointer_bytes\": ${CMAKE_SIZEOF_VOID_P},\n\"compiler\": \"${CMAKE_CXX_COMPILER_ID}\",\n\"compiler_version\": \"${CMAKE_CXX_COMPILER_VERSION}\",\n\"cxx_standard\": 20,\n\"libpq_version\": \"${PostgreSQL_VERSION_STRING}\",\n\"sanitize\": \"${PG_SANITIZE}\",\n\"sdk_commit\": \"473b732b2de159773b2e2908fd11aa99f07db284\",\n\"pawn_commit\": \"29f1a8c7fd2e01929807cd8c50353fbc93bbd651\"\n}\n"
+    )
     install(
         TARGETS omp-postgresql
         LIBRARY DESTINATION components COMPONENT omp-postgresql
@@ -136,6 +154,26 @@ install(
     FILES LICENSE NOTICE.md
     DESTINATION share/omp-postgresql
     COMPONENT omp-postgresql
+)
+install(
+    FILES README.md LICENSE NOTICE.md DEPENDENCIES.md
+    DESTINATION .
+    COMPONENT omp-postgresql
+)
+install(
+    DIRECTORY docs/
+    DESTINATION docs
+    COMPONENT omp-postgresql
+    FILES_MATCHING
+    PATTERN "*.md"
+)
+install(
+    DIRECTORY examples/
+    DESTINATION examples
+    COMPONENT omp-postgresql
+    FILES_MATCHING
+    PATTERN "*.pwn"
+    PATTERN "pg_service.conf"
 )
 if(PG_BUILD_BENCHMARK)
     add_executable(pg_benchmark tests/benchmark.cpp)

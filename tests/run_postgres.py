@@ -21,6 +21,9 @@ from commit_proxy import CommitLossProxy
 parser = argparse.ArgumentParser()
 parser.add_argument("--build", default="build")
 parser.add_argument(
+    "--openssl", default="openssl", help="OpenSSL tool path; no change to DLL search PATH"
+)
+parser.add_argument(
     "--postgres-bin", help="Server tools directory; does not alter client DLL search PATH"
 )
 parser.add_argument("--benchmark", action="store_true")
@@ -45,6 +48,8 @@ command_number = 0
 
 def run(argv, **kwargs):
     global command_number
+    if argv[0] == "openssl":
+        argv = [args.openssl, *argv[1:]]
     if args.postgres_bin and argv[0] in ("initdb", "pg_ctl", "psql"):
         argv = [
             str(
@@ -88,7 +93,7 @@ def grant_windows_fixture_access(directory):
 
 for program in ("initdb", "pg_ctl", "psql", "openssl", "ctest"):
     if not shutil.which(
-        program,
+        args.openssl if program == "openssl" else program,
         path=(
             args.postgres_bin
             if args.postgres_bin and program in ("initdb", "pg_ctl", "psql")

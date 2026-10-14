@@ -25,8 +25,11 @@ the client reports UNCERTAIN and a subsequent connection verifies exactly one co
 
 ## Results recorded on October 13, 2026
 
-`master` was verified at `732d251`; work continues on `codex/stabilize-types-validation`,
-[PR #1](https://github.com/itskoleban/omp-postgresql/pull/1).
+The following is historical evidence from
+[PR #1](https://github.com/itskoleban/omp-postgresql/pull/1), integrated as `48b12af`.
+Before packaging work, `master` was verified at `859bdf5`, whose
+[CI run 38505660890](https://github.com/itskoleban/omp-postgresql/actions/runs/38505660890)
+also succeeded. Later package qualification is recorded separately below.
 
 | Platform    | Current evidence                                                                                                                                                                                                                     |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -117,4 +120,5 @@ bridge tests without claiming a new core-suite run. For the Windows x64 core, us
 `--postgres-bin` to select independent server tools without changing client DLL resolution.
 
 Deploy current libpq/OpenSSL maintenance releases. A recorded client version is test evidence,
-not a recommendation to retain an older patch. Dependencies are not automatically distributed.
+not a recommendation to retain an older patch. Experimental packages redistribute only
+the selected runtimes described in [DEPENDENCIES.md](../DEPENDENCIES.md).

@@ -1,5 +1,8 @@
 name: build-and-test
-on: [push, pull_request]
+on:
+    push:
+    pull_request:
+    workflow_dispatch:
 permissions:
     contents: read
 concurrency:
@@ -29,6 +32,8 @@ jobs:
                   cmake --build build --parallel 4
             - run: |
                   python3 tests/run_postgres.py --build build
+            - name: Verify package validation regressions
+              run: python3 -m unittest discover -s tests -p test_package.py -v
             - name: Compile all Pawn examples with warnings treated as errors
               run: |
                   cmake -S build/_deps/pawn-src/source/compiler -B build-pawn -G Ninja \
@@ -107,6 +112,41 @@ jobs:
                   	build-linux32/unload.amx --callback-gamemode build-linux32/callbacks.amx \
                   	--extension-gamemode build-linux32/extensions.amx --bootstrap-gamemode build-linux32/bootstrap.amx --runtime \
                   	"$PWD/libpq32/lib/libpq.so.5"
+            - name: Assemble and verify the Linux x86 package
+              run: |
+                  python3 scripts/package.py create --platform linux --build build-linux32 \
+                      --libpq libpq32/lib/libpq.so.5 --postgres-license postgresql-17.11/COPYRIGHT
+                  python3 scripts/package.py create --platform linux --build build-linux32 \
+                      --libpq libpq32/lib/libpq.so.5 --postgres-license postgresql-17.11/COPYRIGHT \
+                      --output build-dist-repeat
+                  cmp build-dist/*.zip build-dist-repeat/*.zip
+                  python3 scripts/package.py verify --archive "$(echo build-dist/*.zip)" \
+                      --destination build-package-check
+            - name: Compile examples from the extracted package
+              run: |
+                  for script in smoke unload callbacks extensions bootstrap; do
+                      ./build-pawn32/pawncc "build-package-check/omp-postgresql/examples/$script.pwn" -E \
+                          -ibuild-package-check/omp-postgresql/qawno/include -ibuild-stdlib \
+                          -ibuild-linux32/_deps/pawn-src/include "-obuild-linux32/packaged-$script.amx"
+                  done
+            - name: Test the package in a fresh Linux server
+              run: |
+                  mkdir -p "$RUNNER_TEMP/openmp-package"
+                  tar -xzf openmp-linux-dynssl.tar.gz -C "$RUNNER_TEMP/openmp-package"
+                  export LD_LIBRARY_PATH="$PWD/build-package-check/omp-postgresql/lib"
+                  python3 tests/run_postgres.py --build build-linux32 --only-openmp \
+                      --openmp-dir "$RUNNER_TEMP/openmp-package/Server" \
+                      --component build-package-check/omp-postgresql/components/omp-postgresql.so \
+                      --gamemode build-linux32/packaged-smoke.amx --unload-script build-linux32/packaged-unload.amx \
+                      --callback-gamemode build-linux32/packaged-callbacks.amx \
+                      --extension-gamemode build-linux32/packaged-extensions.amx \
+                      --bootstrap-gamemode build-linux32/packaged-bootstrap.amx
+            - name: Upload the validated Linux x86 package and SHA-256
+              uses: actions/upload-artifact@v4
+              with:
+                  name: omp-postgresql-linux-x86-${{ github.sha }}
+                  path: build-dist/*
+                  if-no-files-found: error
             - name: Retain the x86 test logs
               if: always()
               uses: actions/upload-artifact@v4
@@ -115,6 +155,7 @@ jobs:
                   path: |
                       build-linux32/Testing/Temporary/*.log
                       ${{ runner.temp }}/openmp/Server/pg-*-output.log
+                      ${{ runner.temp }}/openmp-package/Server/pg-*-output.log
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
     windows:
@@ -265,6 +306,60 @@ jobs:
                   if ($LASTEXITCODE -ne 0) {
                   	throw 'MSVC x86 PostgreSQL/open.mp integration failed'
                   }
+            - name: Assemble and verify the Windows x86 package
+              shell: pwsh
+              run: |
+                  $packageArgs = @('scripts/package.py', 'create', '--platform', 'windows', '--build', 'build-msvc32',
+                      '--libpq', 'libpq32/bin/libpq.dll', '--runtime-dir', 'C:/msys64/mingw32/bin',
+                      '--postgres-license', 'postgresql-17.11/COPYRIGHT',
+                      '--openssl-license', 'C:/msys64/mingw32/share/licenses/openssl/LICENSE',
+                      '--pthread-license', 'C:/msys64/mingw32/share/licenses/libwinpthread/COPYING',
+                      '--objdump', 'C:/msys64/mingw32/bin/objdump.exe')
+                  python @packageArgs
+                  if ($LASTEXITCODE -ne 0) { throw 'Package assembly failed' }
+                  python @packageArgs --output build-dist-repeat
+                  if ($LASTEXITCODE -ne 0) { throw 'Repeated package assembly failed' }
+                  $archive = (Get-ChildItem -LiteralPath build-dist -Filter '*.zip').FullName
+                  $repeat = (Get-ChildItem -LiteralPath build-dist-repeat -Filter '*.zip').FullName
+                  if ((Get-FileHash -LiteralPath $archive).Hash -ne (Get-FileHash -LiteralPath $repeat).Hash) {
+                      throw 'Archive assembly is not deterministic'
+                  }
+                  python scripts/package.py verify --archive $archive --destination build-package-check
+                  if ($LASTEXITCODE -ne 0) { throw 'Archive verification failed' }
+            - name: Compile examples from the extracted package
+              shell: pwsh
+              run: |
+                  foreach ($script in @('smoke', 'unload', 'callbacks', 'extensions', 'bootstrap')) {
+                      ./build-pawn32/Release/pawncc.exe "build-package-check/omp-postgresql/examples/$script.pwn" -E `
+                          -ibuild-package-check/omp-postgresql/qawno/include -ibuild-stdlib `
+                          -ibuild-msvc32/_deps/pawn-src/include "-obuild-msvc32/packaged-$script.amx"
+                      if ($LASTEXITCODE -ne 0) { throw "Packaged Pawn compilation failed: $script" }
+                  }
+            - name: Test the package in a fresh Windows server
+              shell: pwsh
+              run: |
+                  Expand-Archive openmp.zip -DestinationPath build-openmp-package
+                  # Remove development/runtime directories from DLL search; server tools are explicit.
+                  $env:PATH = "$env:GITHUB_WORKSPACE/build-pawn32/Release;C:/Program Files/CMake/bin;$env:SystemRoot/System32;$env:SystemRoot"
+                  $runtimeArgs = @()
+                  Get-ChildItem -LiteralPath build-package-check/omp-postgresql -Filter '*.dll' | ForEach-Object {
+                      $runtimeArgs += @('--runtime', $_.FullName)
+                  }
+                  & "$env:pythonLocation/python.exe" tests/run_postgres.py --build build-msvc32 --only-openmp `
+                      --postgres-bin build-server/pgsql/bin --openssl C:/msys64/mingw32/bin/openssl.exe `
+                      --openmp-dir build-openmp-package/Server `
+                      --component build-package-check/omp-postgresql/components/omp-postgresql.dll `
+                      --gamemode build-msvc32/packaged-smoke.amx --unload-script build-msvc32/packaged-unload.amx `
+                      --callback-gamemode build-msvc32/packaged-callbacks.amx `
+                      --extension-gamemode build-msvc32/packaged-extensions.amx `
+                      --bootstrap-gamemode build-msvc32/packaged-bootstrap.amx @runtimeArgs
+                  if ($LASTEXITCODE -ne 0) { throw 'Packaged open.mp integration failed' }
+            - name: Upload the validated Windows x86 package and SHA-256
+              uses: actions/upload-artifact@v4
+              with:
+                  name: omp-postgresql-windows-x86-${{ github.sha }}
+                  path: build-dist/*
+                  if-no-files-found: error
             - name: Retain the x86 test logs
               if: always()
               uses: actions/upload-artifact@v4
@@ -273,3 +368,4 @@ jobs:
                   path: |
                       build-msvc32/Testing/Temporary/*.log
                       build-openmp/Server/pg-*-output.log
+                      build-openmp-package/Server/pg-*-output.log

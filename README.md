@@ -43,12 +43,17 @@ and tests. `PG_SANITIZE=ON` enables ASan/UBSan on supported toolchains.
 
 On Windows, distribute `libpq.dll` and its dependencies, including TLS and runtime libraries,
 from the same provider and architecture. On Linux, install the corresponding runtime package.
-This project does not automatically redistribute those libraries or their licenses.
+Experimental x86 Actions packages include selected runtime dependencies and their licenses;
+see [DEPENDENCIES.md](DEPENDENCIES.md) for the remaining system dependencies.
 The SDK and Pawn retain their licenses; neither reference plugin is linked or copied.
 See the [Windows x86 build and runtime guide](docs/build-windows.md) and the
 [Linux x86 build, TLS, and server guide](docs/build-linux.md).
 Installation includes license notices in `share/omp-postgresql`. `PG_PAWN_INCLUDE_DIR`
 can override the default include destination, `qawno/include`.
+The CI workflow generates Windows/Linux x86 ZIPs and SHA-256 only after testing a fresh
+server with the extracted package. See [package installation](docs/installation.md) and
+[reproducible archive assembly](docs/packaging.md). These are experimental artifacts;
+no Release Candidate has been approved or published.
 
 ## Installation and connections
 
