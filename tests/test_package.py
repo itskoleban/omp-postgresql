@@ -108,6 +108,20 @@ class PackageTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             package.validate_payload(self.files, self.manifest)
 
+    def test_broken_documentation_link(self):
+        for target in ("missing.md", "../pawn/omp-postgresql.inc", "../secret.key"):
+            with self.subTest(target=target):
+                files = {**self.files, "docs/api.md": f"[example]({target})".encode()}
+                manifest = {
+                    **self.manifest,
+                    "files": {
+                        **self.manifest["files"],
+                        "docs/api.md": package.digest(files["docs/api.md"]),
+                    },
+                }
+                with self.assertRaises(ValueError):
+                    package.validate_payload(files, manifest)
+
     def test_unexpected_file_even_when_manifest_lists_it(self):
         for name in (
             ".pgpass",

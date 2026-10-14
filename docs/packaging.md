@@ -12,6 +12,8 @@ and includes only required non-system Windows DLLs. Linux distributes libpq alon
 system loader dependencies and symbol-version requirements are inventoried. Staging
 starts in a new temporary directory; developer files, logs and credentials are never
 copied by a recursive repository sweep.
+The API document's include link is adjusted to the installed `qawno/include` location;
+all relative Markdown links are checked against the payload before packaging/extraction.
 
 The name is `omp-postgresql-0.1.0-experimental.COMMIT-PLATFORM-x86.zip`. It contains a
 single `omp-postgresql/` directory, public include, component, docs, examples, legal

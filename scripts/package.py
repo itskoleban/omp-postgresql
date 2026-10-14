@@ -4,7 +4,6 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
-import os
 from pathlib import Path, PurePosixPath
 import re
 import shutil
@@ -177,6 +176,20 @@ def validate_payload(files, manifest):
         )
         if not allowed:
             raise ValueError(f"Unexpected package file: {name}")
+        if name.endswith(".md"):
+            for link in re.findall(r"\]\(([^)]+)\)", data.decode("utf8")):
+                if re.match(r"[a-z]+://", link) or link.startswith("#"):
+                    continue
+                # Public docs currently use simple relative paths; reject missing targets.
+                target = str(PurePosixPath(name).parent / link.split("#", 1)[0])
+                parts = []
+                for part in PurePosixPath(target).parts:
+                    if part == ".." and parts:
+                        parts.pop()
+                    elif part != ".":
+                        parts.append(part)
+                if "/".join(parts) not in files:
+                    raise ValueError(f"Broken package documentation link in {name}: {link}")
     binaries = {
         name
         for name in files
@@ -284,6 +297,13 @@ def create(args):
         )
         copy(args.libpq, stage / ("libpq.dll" if platform == "windows" else "lib/libpq.so.5"))
         copy(args.postgres_license, stage / "licenses/libpq/COPYRIGHT")
+        # Preserve the API document's local include link in the installation layout.
+        api = stage / "docs/api.md"
+        api.write_bytes(
+            api.read_bytes().replace(
+                b"../pawn/omp-postgresql.inc", b"../qawno/include/omp-postgresql.inc"
+            )
+        )
         dependencies = {}
         pending = [component, stage / ("libpq.dll" if platform == "windows" else "lib/libpq.so.5")]
         while pending:
