@@ -50,23 +50,23 @@ Environment variables are read once when the component is created. Values must b
 integers; invalid settings prevent component loading. `RECONNECT_ATTEMPTS` also accepts zero
 to disable additional attempts. Limits are global unless stated otherwise.
 
-| Variable `OMP_PG_*` | Default | Scope                                                                   |
-| ------------------- | ------: | ----------------------------------------------------------------------- |
-| MAX_CONNECTIONS     |       8 | Logical connections, including those closing.                           |
-| MAX_LANES           |       8 | Lanes per connection.                                                   |
-| MAX_STATEMENTS      |      64 | Live statement and heterogeneous batch handles combined.                |
-| MAX_JOBS            |     128 | Pending jobs, retained results, and transaction finishing reservations. |
-| MAX_BATCH_COUNT     |    1024 | Statements per batch.                                                   |
-| MAX_BATCH_BYTES     | 1048576 | Captured parameter snapshots per statement/batch.                       |
-| MAX_SQL_BYTES       |  262144 | SQL text or file contents.                                              |
-| MAX_PARAMETER_BYTES |  262144 | Each bound value.                                                       |
+| Variable `OMP_PG_*` | Default | Scope                                                                            |
+| ------------------- | ------: | -------------------------------------------------------------------------------- |
+| MAX_CONNECTIONS     |       8 | Logical connections, including those closing.                                    |
+| MAX_LANES           |       8 | Lanes per connection.                                                            |
+| MAX_STATEMENTS      |      64 | Live statement and heterogeneous batch handles combined.                         |
+| MAX_JOBS            |     128 | Pending jobs, retained results, and transaction finishing reservations.          |
+| MAX_BATCH_COUNT     |    1024 | Statements per batch.                                                            |
+| MAX_BATCH_BYTES     | 1048576 | Captured parameter snapshots per statement/batch.                                |
+| MAX_SQL_BYTES       |  262144 | SQL text or file contents.                                                       |
+| MAX_PARAMETER_BYTES |  262144 | Each bound value.                                                                |
 | MAX_RESULT_BYTES    | 2097152 | Estimated accumulated data/object size per retained job, or per streaming block. |
-| MAX_RESULT_ROWS     |   10000 | Rows per non-stream statement result.                                  |
-| CONNECT_MS          |   10000 | Each connection attempt.                                                |
-| QUERY_MS            |   30000 | Each statement, including preparation.                                  |
-| TRANSACTION_MS      |   60000 | Total time from confirmed BEGIN.                                        |
-| RECONNECT_ATTEMPTS  |       3 | Additional attempts after the initial attempt.                          |
-| RECONNECT_BASE_MS   |     100 | Default backoff: 100, 200, then 400 ms.                                 |
+| MAX_RESULT_ROWS     |   10000 | Rows per non-stream statement result.                                            |
+| CONNECT_MS          |   10000 | Each connection attempt.                                                         |
+| QUERY_MS            |   30000 | Each statement, including preparation.                                           |
+| TRANSACTION_MS      |   60000 | Total time from confirmed BEGIN.                                                 |
+| RECONNECT_ATTEMPTS  |       3 | Additional attempts after the initial attempt.                                   |
+| RECONNECT_BASE_MS   |     100 | Default backoff: 100, 200, then 400 ms.                                          |
 
 Each BEGIN reserves capacity for its eventual COMMIT/ROLLBACK. Normal jobs cannot consume
 that capacity. `MAX_JOBS` includes these reservations; a limit of 1 does not allow BEGIN.

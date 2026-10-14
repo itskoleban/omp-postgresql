@@ -39,10 +39,10 @@ does not increase the size of a Pawn output buffer.
 | `pg_connection_ready(connection)`                    | Number of connected physical sessions. Jobs require the entire pool to be ready.            |
 | `pg_connection_message(connection,lane,output,size)` | Last lane diagnostic; empty after connecting. Filter sensitive content before logging.      |
 | `pg_connection_close(connection)`                    | Starts shutdown, rejects new jobs, and cancels pending work. Does not join workers in Pawn. |
-| `pg_lane_state(connection,lane)`                     | Physical session state; validates the zero-based lane index. |
-| `pg_lane_pending(connection,lane)`                   | Approximate number of queued jobs. |
-| `pg_lane_active(connection,lane)`                    | Approximate running-job count, 0 or 1. |
-| `pg_lane_stat(connection,lane,metric,output,size)`    | Cumulative `PG_STAT_*` counter as a decimal string. |
+| `pg_lane_state(connection,lane)`                     | Physical session state; validates the zero-based lane index.                                |
+| `pg_lane_pending(connection,lane)`                   | Approximate number of queued jobs.                                                          |
+| `pg_lane_active(connection,lane)`                    | Approximate running-job count, 0 or 1.                                                      |
+| `pg_lane_stat(connection,lane,metric,output,size)`   | Cumulative `PG_STAT_*` counter as a decimal string.                                         |
 
 Statistics count jobs, SQL executions, and rows separately. `PG_STAT_SQL_COMMANDS` counts
 execution dispatches, excluding preparation, and is not a confirmation count. Atomic samples
@@ -89,18 +89,18 @@ and fixes the statement's parameter types. NULL requires an explicit OID; a miss
 is not NULL. Parameter types cannot change between batches of the same statement.
 Bindings are never executed implicitly without `pg_add`.
 
-| Native                 | Representation                                                               |
-| ---------------------- | ---------------------------------------------------------------------------- |
-| `pg_bind_int`          | int32, OID 23.                                                               |
-| `pg_bind_int64`        | Strict signed decimal int64 string covering the full range, OID 20.          |
-| `pg_bind_float`        | Finite IEEE float32 Pawn Float, OID 700; no double-precision guarantee.      |
-| `pg_bind_bool`         | 0/1, OID 16.                                                                 |
-| `pg_bind_null`         | Explicit supported OID, listed below.                                        |
+| Native                 | Representation                                                                                       |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| `pg_bind_int`          | int32, OID 23.                                                                                       |
+| `pg_bind_int64`        | Strict signed decimal int64 string covering the full range, OID 20.                                  |
+| `pg_bind_float`        | Finite IEEE float32 Pawn Float, OID 700; no double-precision guarantee.                              |
+| `pg_bind_bool`         | 0/1, OID 16.                                                                                         |
+| `pg_bind_null`         | Explicit supported OID, listed below.                                                                |
 | `pg_bind_string`       | UTF-8 without NUL; PG_TEXT by default, plus exact numeric and temporal types, UUID, JSONB, or BYTEA. |
-| `pg_bind_int_array`    | Pawn array with explicit count or sizeof, up to 16384 elements.              |
-| `pg_bind_string_array` | Flat unpacked slots with count and width in cells, up to 262144 cells total. |
-| `pg_bind_bytes`        | BYTEA from integer cells in 0..255, including embedded zero bytes. |
-| `pg_bind_array`        | Flat textual slots, scalar element OID, and a separate 0/1 NULL mask. |
+| `pg_bind_int_array`    | Pawn array with explicit count or sizeof, up to 16384 elements.                                      |
+| `pg_bind_string_array` | Flat unpacked slots with count and width in cells, up to 262144 cells total.                         |
+| `pg_bind_bytes`        | BYTEA from integer cells in 0..255, including embedded zero bytes.                                   |
+| `pg_bind_array`        | Flat textual slots, scalar element OID, and a separate 0/1 NULL mask.                                |
 
 All sixteen supported scalar types and their array types accept explicit NULL. See the
 [type and precision contract](types.md) for the full binder/OID mapping, binary output,
@@ -166,36 +166,36 @@ wait for COMMIT confirmation. COMMIT durability also depends on PostgreSQL confi
 including `synchronous_commit`, replication, and storage. Reconcile uncertain writes using
 an idempotency key or version check; never replay them blindly.
 
-| Native               | Contract                                                                      |
-| -------------------- | ----------------------------------------------------------------------------- |
-| `pg_job_status`      | Available while a job is pending.                                             |
-| `pg_job_connection`  | Logical connection identifier, also available while pending.                  |
-| `pg_job_completed`   | Statements with successful responses before failure; not a row count.         |
-| `pg_job_size`        | Total operation count, available while pending; unchanged after completion. |
-| `pg_job_item_status` | Terminal per-operation `PG_ITEM_*` status; unattempted items remain NOT_EXECUTED. |
-| `pg_job_error_index` | Zero-based interrupted/failing operation, or -1 if none is identified. |
-| `pg_job_error`       | General error category, `PG_ERROR_*`.                                         |
-| `pg_job_message`     | Explanation of the general job failure.                                       |
-| `pg_job_duration`    | Execution microseconds as a decimal string, excluding queue wait.             |
-| `pg_job_queue_time`  | Acceptance to worker start, in microseconds as a decimal string. |
-| `pg_job_latency`     | Acceptance to completion dispatch, in microseconds; requires dispatch. |
-| `pg_result_count`    | Available statement results, including a failed SQL result.                   |
-| `pg_result_rows`     | Row count of the selected result.                                             |
-| `pg_result_columns`  | Column count of the selected result.                                          |
-| `pg_result_column`   | First column matching the name, or -1. Prefer unique aliases.                 |
-| `pg_result_column_name` | Exact selected column name. |
-| `pg_result_column_type` | PostgreSQL result OID; SQL casts can change it. |
-| `pg_result_is_null`  | Detects SQL NULL.                                                             |
-| `pg_result_string`   | Text preserving BIGINT/NUMERIC precision. SQL NULL fails.                     |
-| `pg_result_bytes`    | Decode a BYTEA hex result into cells; no partial writes or truncation. |
-| `pg_result_int`      | Strict int32 conversion; overflow and NULL return false.                      |
-| `pg_result_float`    | Finite float32 conversion; higher-precision data may be rounded.              |
-| `pg_result_bool`     | Accepts only PostgreSQL's t/f representation.                                 |
-| `pg_result_affected` | Affected rows as a decimal string; 0 if the command has no count.             |
-| `pg_result_sqlstate` | PostgreSQL SQLSTATE for the selected statement.                               |
-| `pg_result_message`  | PostgreSQL diagnostic for the selected statement; may contain sensitive data. |
-| `pg_job_close`       | Releases the job and all results after its terminal completion is dispatched. |
-| `pg_cancel`          | Requests cancellation; does not guarantee that no effects occurred.           |
+| Native                  | Contract                                                                          |
+| ----------------------- | --------------------------------------------------------------------------------- |
+| `pg_job_status`         | Available while a job is pending.                                                 |
+| `pg_job_connection`     | Logical connection identifier, also available while pending.                      |
+| `pg_job_completed`      | Statements with successful responses before failure; not a row count.             |
+| `pg_job_size`           | Total operation count, available while pending; unchanged after completion.       |
+| `pg_job_item_status`    | Terminal per-operation `PG_ITEM_*` status; unattempted items remain NOT_EXECUTED. |
+| `pg_job_error_index`    | Zero-based interrupted/failing operation, or -1 if none is identified.            |
+| `pg_job_error`          | General error category, `PG_ERROR_*`.                                             |
+| `pg_job_message`        | Explanation of the general job failure.                                           |
+| `pg_job_duration`       | Execution microseconds as a decimal string, excluding queue wait.                 |
+| `pg_job_queue_time`     | Acceptance to worker start, in microseconds as a decimal string.                  |
+| `pg_job_latency`        | Acceptance to completion dispatch, in microseconds; requires dispatch.            |
+| `pg_result_count`       | Available statement results, including a failed SQL result.                       |
+| `pg_result_rows`        | Row count of the selected result.                                                 |
+| `pg_result_columns`     | Column count of the selected result.                                              |
+| `pg_result_column`      | First column matching the name, or -1. Prefer unique aliases.                     |
+| `pg_result_column_name` | Exact selected column name.                                                       |
+| `pg_result_column_type` | PostgreSQL result OID; SQL casts can change it.                                   |
+| `pg_result_is_null`     | Detects SQL NULL.                                                                 |
+| `pg_result_string`      | Text preserving BIGINT/NUMERIC precision. SQL NULL fails.                         |
+| `pg_result_bytes`       | Decode a BYTEA hex result into cells; no partial writes or truncation.            |
+| `pg_result_int`         | Strict int32 conversion; overflow and NULL return false.                          |
+| `pg_result_float`       | Finite float32 conversion; higher-precision data may be rounded.                  |
+| `pg_result_bool`        | Accepts only PostgreSQL's t/f representation.                                     |
+| `pg_result_affected`    | Affected rows as a decimal string; 0 if the command has no count.                 |
+| `pg_result_sqlstate`    | PostgreSQL SQLSTATE for the selected statement.                                   |
+| `pg_result_message`     | PostgreSQL diagnostic for the selected statement; may contain sensitive data.     |
+| `pg_job_close`          | Releases the job and all results after its terminal completion is dispatched.     |
+| `pg_cancel`             | Requests cancellation; does not guarantee that no effects occurred.               |
 
 `pg_cancel(job)` returns true when marking a pending or running job. It returns false without
 an error if the job is already terminal; an invalid handle returns false with a local error.
