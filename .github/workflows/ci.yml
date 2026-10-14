@@ -369,3 +369,23 @@ jobs:
                       build-msvc32/Testing/Temporary/*.log
                       build-openmp/Server/pg-*-output.log
                       build-openmp-package/Server/pg-*-output.log
+    verify-distribution-artifacts:
+        name: Verify downloaded x86 distributions
+        needs: [linux-x86, windows-x86]
+        runs-on: ubuntu-24.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/download-artifact@v4
+              with:
+                  pattern: omp-postgresql-*-x86-*
+                  path: build-dist-download
+                  merge-multiple: true
+            - name: Verify and extract both uploaded packages
+              run: |
+                  shopt -s nullglob
+                  for platform in linux windows; do
+                      archives=(build-dist-download/*-"$platform"-x86.zip)
+                      test "${#archives[@]}" -eq 1
+                      python3 scripts/package.py verify --archive "${archives[0]}" \
+                          --destination "build-verified-download/$platform"
+                  done

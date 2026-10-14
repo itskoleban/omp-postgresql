@@ -35,6 +35,8 @@ The x86 jobs compile all examples using the extracted include, unpack a fresh of
 open.mp server, clear development DLL/loader search paths, and rerun all server scenarios
 using the extracted component and runtime. Only successfully tested ZIPs are uploaded.
 Logs are retained even when a test fails; a failed package is not a release artifact.
+A final job downloads both uploaded artifacts and repeats checksum, inventory, architecture
+and extraction verification. It reuses the x86 build/test jobs without adding another build matrix.
 
 For a local Windows run, pass `--platform windows`, `--build build-msvc32`,
 `--libpq C:/deps/pg32/bin/libpq.dll`, `--runtime-dir C:/msys64/mingw32/bin`,
