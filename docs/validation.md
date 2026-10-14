@@ -78,6 +78,46 @@ x86/x64, including Linux leak detection. They do not prove extension coverage fo
 commit. The tested Linux server used native Linux storage because running its distribution
 directly from an NTFS bind mount exposed a server filesystem metadata error.
 
+## Experimental package qualification on October 14, 2026
+
+[CI run 38648946591](https://github.com/itskoleban/omp-postgresql/actions/runs/38648946591)
+completed successfully with **all six jobs green** on branch commit `24cc29d`.
+The pull-request checkout and both package manifests identify the exact preview merge
+`53ee0d42daf98e1a1a6215afe72f29eed5d66c26`; this is distinct from the branch head and does
+not represent an owner-approved merge into `master`.
+
+- Windows x86 MSVC/libpq 17.11 and Linux x86/libpq 17.11 passed all five core suites and
+  real open.mp scenarios, then assembled two byte-identical ZIPs per platform. SHA-256,
+  architecture, import dependencies, symbol versions on Linux, legal notices, payload
+  inventory and relative documentation links were verified.
+- All five examples compiled again with warnings as errors using the **extracted** include.
+  Fresh official open.mp 1.5.8.3079 distributions loaded the extracted component/runtime,
+  with development runtime search paths removed, and passed four smoke runs/three GMX,
+  pending filterscript unload without a late callback, callbacks, extensions and bootstrap.
+- Both validated ZIPs and their checksum files were uploaded. The sixth job downloaded
+  those artifacts and repeated checksum, manifest, architecture and extraction checks.
+  Packages are available as [Windows x86](https://github.com/itskoleban/omp-postgresql/actions/runs/38648946591/artifacts/11934226810)
+  and [Linux x86](https://github.com/itskoleban/omp-postgresql/actions/runs/38648946591/artifacts/11934006322)
+  Actions artifacts, subject to their retention period.
+- Linux x64 normal/ASan/UBSan and Windows x64 engine jobs also passed all five suites.
+  The 16 package-verifier regressions passed. No integration suite was skipped in these runs.
+
+Local Windows qualification separately used MSVC 19.51, libpq 17.6 and isolated EDB
+PostgreSQL 17.11. All five suites passed (26/146/97/532/606 checks), all extracted examples
+compiled with Pawn 3.10.11 `-E`, and a fresh server passed the same scenarios with development
+DLL directories removed from PATH. The locally tested ZIP belongs to `4e76245`; it is
+separate from the final CI artifacts. Both local assemblies had identical SHA-256.
+
+Earlier CI attempts exposed two packaging defects: downloaded build inputs were incorrectly
+classified as a dirty source checkout, and a fixed local MSYS2 path did not exist on the
+hosted Windows runner. The final procedure rejects tracked changes and untracked install
+assets while allowing non-installed build inputs, and obtains the MSYS2 path from `cygpath`.
+The temporary-Git regression verifies the source-cleanliness policy. Failed/superseded runs
+are not package qualification.
+
+These artifacts remain **0.1.0 experimental**. No RC tag, release, automatic merge or new
+performance measurement was made. See [installation](installation.md) and [packaging](packaging.md).
+
 ## Remaining release qualification
 
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
@@ -101,8 +141,10 @@ directly from an NTFS bind mount exposed a server filesystem metadata error.
   The sequential FIFO engine does not depend on them. Existing benchmarks measure direct
   libpq transport, not comparative engine/Pawn batch latency or a statistical distribution.
 - The complete lifecycle is demonstrated by the smoke, extension and bootstrap examples
-  together; a single combined example and a reproducible release-candidate package still
-  require qualification. No release was published or merged automatically.
+  together; the value of a single combined example still needs review. Experimental x86
+  distribution is now validated; final RC artifacts must be rebuilt and qualified at the
+  approved release commit after stress testing and an actual independent Astra audit.
+  No release was published or merged automatically.
 
 ## Reproducing validation
 
