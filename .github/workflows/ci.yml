@@ -225,6 +225,7 @@ jobs:
                   cp /mingw32/bin/libssl-3.dll /mingw32/bin/libcrypto-3.dll libpq32/bin/
                   cygpath -w /mingw32/bin >> "$GITHUB_PATH"
                   cygpath -w "$PWD/libpq32/bin" >> "$GITHUB_PATH"
+                  echo "MINGW32_ROOT=$(cygpath -m /mingw32)" >> "$GITHUB_ENV"
             - name: Generate the MSVC import library and build the x86 component
               shell: pwsh
               run: |
@@ -310,11 +311,11 @@ jobs:
               shell: pwsh
               run: |
                   $packageArgs = @('scripts/package.py', 'create', '--platform', 'windows', '--build', 'build-msvc32',
-                      '--libpq', 'libpq32/bin/libpq.dll', '--runtime-dir', 'C:/msys64/mingw32/bin',
+                      '--libpq', 'libpq32/bin/libpq.dll', '--runtime-dir', "$env:MINGW32_ROOT/bin",
                       '--postgres-license', 'postgresql-17.11/COPYRIGHT',
-                      '--openssl-license', 'C:/msys64/mingw32/share/licenses/openssl/LICENSE',
-                      '--pthread-license', 'C:/msys64/mingw32/share/licenses/libwinpthread/COPYING',
-                      '--objdump', 'C:/msys64/mingw32/bin/objdump.exe')
+                      '--openssl-license', "$env:MINGW32_ROOT/share/licenses/openssl/LICENSE",
+                      '--pthread-license', "$env:MINGW32_ROOT/share/licenses/libwinpthread/COPYING",
+                      '--objdump', "$env:MINGW32_ROOT/bin/objdump.exe")
                   python @packageArgs
                   if ($LASTEXITCODE -ne 0) { throw 'Package assembly failed' }
                   python @packageArgs --output build-dist-repeat
@@ -340,13 +341,14 @@ jobs:
               run: |
                   Expand-Archive openmp.zip -DestinationPath build-openmp-package
                   # Remove development/runtime directories from DLL search; server tools are explicit.
-                  $env:PATH = "$env:GITHUB_WORKSPACE/build-pawn32/Release;C:/Program Files/CMake/bin;$env:SystemRoot/System32;$env:SystemRoot"
+                  $cmakeBin = Split-Path -Parent (Get-Command cmake).Source
+                  $env:PATH = "$cmakeBin;$env:SystemRoot/System32;$env:SystemRoot"
                   $runtimeArgs = @()
                   Get-ChildItem -LiteralPath build-package-check/omp-postgresql -Filter '*.dll' | ForEach-Object {
                       $runtimeArgs += @('--runtime', $_.FullName)
                   }
                   & "$env:pythonLocation/python.exe" tests/run_postgres.py --build build-msvc32 --only-openmp `
-                      --postgres-bin build-server/pgsql/bin --openssl C:/msys64/mingw32/bin/openssl.exe `
+                      --postgres-bin build-server/pgsql/bin --openssl "$env:MINGW32_ROOT/bin/openssl.exe" `
                       --openmp-dir build-openmp-package/Server `
                       --component build-package-check/omp-postgresql/components/omp-postgresql.dll `
                       --gamemode build-msvc32/packaged-smoke.amx --unload-script build-msvc32/packaged-unload.amx `
