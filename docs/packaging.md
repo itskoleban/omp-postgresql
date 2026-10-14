@@ -5,7 +5,8 @@ The existing CI x86 jobs build once, run the core and server tests, stage the CM
 packages are advertised. `workflow_dispatch` also permits a manual build after the workflow
 is integrated into the default branch. Repository permissions remain `contents: read`.
 
-`scripts/package.py create` requires a clean tracked checkout, a Release build whose
+`scripts/package.py create` requires a clean tracked checkout without untracked installation
+assets, a Release build whose
 generated metadata matches HEAD, the expected x86 binary and explicit libpq/license
 paths. It inspects every included PE/ELF runtime, rejects unexpected dependency imports,
 and includes only required non-system Windows DLLs. Linux distributes libpq alone;

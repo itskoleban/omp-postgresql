@@ -263,9 +263,20 @@ def verify(archive, destination=None):
     return manifest
 
 
+def ensure_checkout(source):
+    if run(["git", "status", "--porcelain", "--untracked-files=no"], cwd=source):
+        raise ValueError("Package requires a clean tracked checkout")
+    # CI downloads build inputs beside the checkout. They are never installed, but
+    # untracked assets under the CMake install directories could contaminate a ZIP.
+    if run(
+        ["git", "ls-files", "--others", "--exclude-standard", "--", "docs", "examples", "pawn"],
+        cwd=source,
+    ):
+        raise ValueError("Package installation directories contain untracked assets")
+
+
 def create(args):
-    if run(["git", "status", "--porcelain", "--untracked-files=normal"], cwd=ROOT):
-        raise ValueError("Package requires a clean checkout")
+    ensure_checkout(ROOT)
     commit = run(["git", "rev-parse", "HEAD"], cwd=ROOT)
     epoch = int(run(["git", "show", "-s", "--format=%ct", "HEAD"], cwd=ROOT))
     build = args.build.resolve()

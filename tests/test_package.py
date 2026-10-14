@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import stat
 import struct
+import subprocess
 import tempfile
 import unittest
 import zipfile
@@ -83,6 +84,41 @@ class PackageTests(unittest.TestCase):
 
     def test_valid_inventory(self):
         package.validate_payload(self.files, self.manifest)
+
+    def test_checkout_allows_downloads_but_rejects_modified_or_untracked_assets(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            subprocess.run(["git", "init", "-q", temp], check=True)
+            (root / "docs").mkdir()
+            tracked = root / "docs/api.md"
+            tracked.write_text("tracked documentation", encoding="utf8")
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(
+                [
+                    "git",
+                    "-c",
+                    "user.name=Package Test",
+                    "-c",
+                    "user.email=package-test@example.invalid",
+                    "commit",
+                    "-qm",
+                    "fixture",
+                ],
+                cwd=root,
+                check=True,
+            )
+            (root / "postgresql-17.11.tar.gz").write_bytes(b"download input")
+            (root / "libpq32").mkdir()
+            (root / "libpq32/libpq.dll").write_bytes(b"download input")
+            package.ensure_checkout(root)
+            untracked = root / "docs/credentials.md"
+            untracked.write_text("must not be packaged", encoding="utf8")
+            with self.assertRaises(ValueError):
+                package.ensure_checkout(root)
+            untracked.unlink()
+            tracked.write_text("changed documentation", encoding="utf8")
+            with self.assertRaises(ValueError):
+                package.ensure_checkout(root)
 
     def test_incorrect_build_configuration(self):
         for field, value in (
