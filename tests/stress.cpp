@@ -321,13 +321,13 @@ void lifecycle(const char *service, std::mt19937 &random, unsigned rounds,
 				for (const auto &job : dispatch.jobs) {
 					check(callbacks.insert(job->id).second, "Completion callback at most once");
 				}
-				settled = std::all_of(pending.begin(), pending.end(),
-				                      [](const auto &job) {
-					                      return pg::terminal(job->status.load()) && job->delivered;
-				                      }) &&
-				          std::all_of(streams.begin(), streams.end(), [](const auto &job) {
-					          return pg::terminal(job->status.load()) && job->delivered;
-				          });
+				// Unloaded owners can be reaped after terminal publication, before the
+				// completion ID is drained. They have no delivery obligation to a dead VM.
+				auto completed = [action](const auto &job) {
+					return pg::terminal(job->status.load()) && (action == 3 || job->delivered);
+				};
+				settled = std::all_of(pending.begin(), pending.end(), completed) &&
+				          std::all_of(streams.begin(), streams.end(), completed);
 				if (pg::Clock::now() >= deadline) {
 					throw std::runtime_error(phase + ": teardown deadline");
 				}
@@ -354,6 +354,9 @@ void lifecycle(const char *service, std::mt19937 &random, unsigned rounds,
 					engine->close_job(owner, job->id);
 				}
 			} else if (action == 3) {
+				auto dispatch = engine->poll(); // Reap any owner jobs that just became terminal.
+				check(dispatch.jobs.empty() && dispatch.streams.empty(),
+				      "Reaping an unloaded owner stays silent");
 				rejects(
 				    [&] {
 					    engine->job(owner, finish);

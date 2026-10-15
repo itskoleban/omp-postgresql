@@ -119,6 +119,27 @@ are not package qualification.
 These artifacts remain **0.1.0 experimental**. No RC tag, release, automatic merge or new
 performance measurement was made. See [installation](installation.md) and [packaging](packaging.md).
 
+[PR #2](https://github.com/itskoleban/omp-postgresql/pull/2) was subsequently merged
+as `a02a0d6`. Its [master CI run 38654671286](https://github.com/itskoleban/omp-postgresql/actions/runs/38654671286)
+and the documentation-only branch run `38650068506` both completed successfully.
+The master run had all six jobs green, with no skipped steps; the preview-merge evidence
+above remains a historical record of the initial package qualification.
+
+## Local stress validation on October 15, 2026
+
+On [PR #3](https://github.com/itskoleban/omp-postgresql/pull/3), Windows x86 MSVC 19.51,
+libpq 17.6 and the disposable EDB PostgreSQL 17.11 TLS fixture passed all six CTest suites,
+without skips. The default seeded run completed 4,640 SQL operations and ten lifecycle
+rounds in 13.20 seconds; process peak working set was 16,596 KiB. After tightening the
+unload assertions to avoid requiring delivery to a dead VM, seed `42` with 25 rounds
+passed 11,600 SQL operations and every lifecycle action five times, with a 16,748 KiB peak.
+Check counts vary because the unload loop asserts on each polling tick.
+
+The 16 package regressions, clang-format, cmakelang, actionlint and whitespace checks also
+passed locally. These are engine/resource stress results, not new local open.mp loading,
+cross-platform results, a throughput benchmark or proof of a maximum memory bound.
+Current PR CI remains authoritative for remote sanitizer and package qualification.
+
 ## Remaining release qualification
 
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
@@ -131,8 +152,7 @@ performance measurement was made. See [installation](installation.md) and [packa
   stress described below covers a bounded, reproducible subset of cancellation/expiry/shutdown.
 - AMX input fuzzing, prolonged soak testing and ThreadSanitizer remain pending. Stress tests
   record process peak memory and verify object release, but do not establish a strict RSS limit;
-  libpq can allocate
-  a large row before the component checks it. DNS/authentication/file providers can delay
+  libpq can allocate a large row before the component checks it. DNS/authentication/file providers can delay
   shutdown independently of socket deadlines.
 - COPY transfer and receiving LISTEN/NOTIFY are excluded from the 0.1 candidate scope.
   Their dedicated protocol states, bounded queues and lifecycle tests are not implemented.
