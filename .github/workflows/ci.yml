@@ -3,8 +3,20 @@ on:
     push:
     pull_request:
     workflow_dispatch:
+        inputs:
+            stress_seed:
+                description: Decimal stress seed (1 to 4294967295)
+                type: string
+                default: "1592594996"
+            stress_rounds:
+                description: Stress rounds (5 to 100 recommended; 180-second test timeout)
+                type: string
+                default: "10"
 permissions:
     contents: read
+env:
+    OMP_PG_STRESS_SEED: ${{ inputs.stress_seed || '1592594996' }}
+    OMP_PG_STRESS_ROUNDS: ${{ inputs.stress_rounds || '10' }}
 concurrency:
     group: build-and-test-${{ github.head_ref || github.ref_name }}
     cancel-in-progress: true

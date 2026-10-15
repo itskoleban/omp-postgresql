@@ -17,6 +17,7 @@ loopback-only PostgreSQL cluster with TLS and always stops it. Integration tests
 | `types_unit`             | Sixteen scalar/array OID pairs, BIGINT boundaries, nullable array escaping, all 256 bytes, empty BYTEA and invalid encodings.                                                                                                                  |
 | `types_integration`      | Exact numeric/temporal values, native boolean output versus text casts, scalar/array OIDs, nullable/empty arrays in prepared, direct and heterogeneous execution, BYTEA and server format errors.                                              |
 | `extensions_integration` | Heterogeneous snapshots/rejection/partial outcomes, lane metrics, BEGIN options/defaults, savepoint recovery, 10000-row streaming, zero-column tuples, provisional rows, slow consumers, delivery-only timeout, cancellation and owner unload. |
+| `stress_integration`     | Seeded four-lane shared-row contention, individual/homogeneous/heterogeneous executions, FIFO, retained-job saturation, reserved COMMIT capacity and repeated cancellation/expiry/disconnect/unload/destruction with blocked streams. |
 | Real open.mp             | Native loading, three GMX reloads, unloading a filterscript with pending SQL, callback state restoration, typed batches, savepoint recovery, streaming and gated world initialization.                                                         |
 
 The TLS runner checks verify-full, incorrect host identity/password, and client certificates.
@@ -125,11 +126,12 @@ performance measurement was made. See [installation](installation.md) and [packa
 - Validation applies to these tested compiler/client/server combinations. Requalify changes
   to execution code, the bridge, dependencies or the workflow; other distributions are not
   covered by this successful matrix.
-- Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, combined
-  cancellation/transaction expiry/shutdown, exhausted handles and extreme backpressure
-  need more adversarial coverage.
-- AMX input fuzzing, sustained stress, ThreadSanitizer and measured peak memory remain
-  pending. Bounded retained objects do not establish a strict RSS limit; libpq can allocate
+- Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, exhausted
+  handles and extreme backpressure need more adversarial coverage. The combined lifecycle
+  stress described below covers a bounded, reproducible subset of cancellation/expiry/shutdown.
+- AMX input fuzzing, prolonged soak testing and ThreadSanitizer remain pending. Stress tests
+  record process peak memory and verify object release, but do not establish a strict RSS limit;
+  libpq can allocate
   a large row before the component checks it. DNS/authentication/file providers can delay
   shutdown independently of socket deadlines.
 - COPY transfer and receiving LISTEN/NOTIFY are excluded from the 0.1 candidate scope.
@@ -147,6 +149,60 @@ performance measurement was made. See [installation](installation.md) and [packa
   No release was published or merged automatically.
 
 ## Reproducing validation
+
+### Combined engine stress
+
+`stress_integration` is part of the existing CTest run on every CI engine platform,
+including Linux ASan/UBSan with leak detection. It uses the same disposable TLS cluster;
+the runner never opens a pre-existing cluster. Direct execution against a service is
+appropriate only for a database that can be discarded: this suite creates uniquely named
+ordinary tables so different physical sessions can verify the same writes. Tables are
+dropped on success; the disposable cluster retains failed fixtures for investigation.
+
+The default seed is `1592594996`, with ten rounds. The load phase executes **4,640 SQL
+operations** across four workers: 20 captured parameter sets per homogeneous job, ordered
+heterogeneous updates/SELECTs, and individual updates. Every update contends on a shared
+row before updating its lane's row, using the same lock order. Assertions check every
+returned counter, FIFO within each lane, affected rows, heterogeneous result order,
+quiescent worker statistics and the final shared counter. Closing statements and batches
+immediately after acceptance verifies snapshot ownership throughout the load.
+
+Ten lifecycle rounds rotate cancellation, transaction expiry, logical disconnect, owner
+unload and engine destruction. Each round retains current and pending eight-row blocks
+on two streams, holds a provisional transaction write, fills the 32-job limit, randomly
+cancels queued writes and submits COMMIT using its reserved slot. The test checks that
+interrupted dispatched streams remain UNCERTAIN, pending writes/COMMIT never execute or
+replay, reservations are released, reconnecting lanes are usable, unloaded owners receive
+no job/row callbacks, and weak references to jobs and blocks expire after resource release.
+A separate connection verifies the provisional write rolled back and no queued write ran.
+Destruction is exercised without waiting for completion dispatch.
+
+Every run prints its seed, round/action, libpq version, pointer width, operation count
+and process peak resident memory in KiB. Windows uses peak working set; Linux uses
+`getrusage(RUSAGE_SELF).ru_maxrss`. This process-wide high-water value includes startup,
+TLS, allocation caches and all earlier phases; it is neither a leak measurement nor a
+memory ceiling. ASan/LSan and explicit ownership checks provide separate evidence.
+CTest logs are retained by the existing CI artifact steps. No latency or throughput
+comparison is inferred from stress-test duration.
+
+For a second seed or a longer bounded run, set the variables before invoking the runner:
+
+```sh
+OMP_PG_STRESS_SEED=42 OMP_PG_STRESS_ROUNDS=25 \
+python3 tests/run_postgres.py --build build
+```
+
+In PowerShell use `$env:OMP_PG_STRESS_SEED='42'` and
+`$env:OMP_PG_STRESS_ROUNDS='25'`. Seeds accept decimal values from 1 to 4294967295;
+rounds accept 1 to 100. At least five lifecycle rounds are needed to visit every action.
+The SQL mix and selected cancellation bits are seeded; thread/network scheduling is not
+claimed to be deterministic. Deadlines fail the test instead of accepting a hang.
+Manual `build-and-test` workflow runs expose `stress_seed` and `stress_rounds` inputs
+for the same CTest suite across the existing matrix, without a second build matrix.
+The CTest stress timeout is 180 seconds, including customized runs; very long soaks
+should be executed directly under a separately managed disposable fixture.
+
+### Sanitizers and server integration
 
 Configure `PG_SANITIZE=ON` on a supported Linux toolchain and run as an unprivileged user:
 

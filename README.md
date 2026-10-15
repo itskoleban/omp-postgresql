@@ -122,6 +122,10 @@ existing database. Its temporary directory remains available for inspection.
 CTest skips integration with exit code 77 when `OMP_PG_TEST_SERVICE` is unset;
 a skipped test is not a successful integration run.
 
+The default run also exercises 4,640 seeded SQL operations across four lanes and ten
+combined lifecycle stress rounds with blocked streams, saturated job limits and
+transaction rollback verification. See [stress reproduction and memory limits](docs/validation.md#combined-engine-stress).
+
 ```sh
 cmake -S . -B build -DPG_BUILD_BENCHMARK=ON
 cmake --build build --parallel

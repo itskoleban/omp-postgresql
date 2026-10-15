@@ -125,7 +125,11 @@ if(BUILD_TESTING)
     add_executable(pg_tests tests/tests.cpp)
     add_executable(pg_extension_tests tests/engine_extensions.cpp)
     add_executable(pg_type_tests tests/type_tests.cpp)
-    foreach(test_target pg_tests pg_extension_tests pg_type_tests)
+    add_executable(pg_stress_tests tests/stress.cpp)
+    if(WIN32)
+        target_link_libraries(pg_stress_tests PRIVATE psapi)
+    endif()
+    foreach(test_target pg_tests pg_extension_tests pg_type_tests pg_stress_tests)
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
             # GCC's ASan runtime can fail before main with PIE and high-entropy ASLR. Keep this
@@ -139,6 +143,10 @@ if(BUILD_TESTING)
     add_test(NAME types_unit COMMAND pg_type_tests)
     add_test(NAME types_integration COMMAND pg_type_tests --integration)
     add_test(NAME extensions_integration COMMAND pg_extension_tests)
+    add_test(NAME stress_integration COMMAND pg_stress_tests)
+    set_tests_properties(
+        stress_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 180 LABELS stress
+    )
     set_tests_properties(unit types_unit PROPERTIES TIMEOUT 30)
     set_tests_properties(
         integration types_integration extensions_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT
