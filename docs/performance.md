@@ -123,3 +123,32 @@ timing thresholds; its Debug/sanitizer timings are not release benchmarks. Logs 
 the CSV. Set `--benchmark` explicitly for larger measurements; no extra CI matrix is added.
 Comparative Pawn/tick measurements and prolonged soak/ThreadSanitizer coverage remain
 separate qualification work. Pipeline remains confined to the standalone transport probe.
+
+### Recorded Engine sample, October 15, 2026
+
+The [raw CSV](https://github.com/itskoleban/omp-postgresql/blob/master/tests/benchmarks/windows-x86-engine-4ca1674.csv)
+contains all 49 measured records (seven modes, seven repetitions), plus metadata from a
+clean configuration of `4ca1674826aaf3cd090753263b4e5e183281e65c`. Windows x86 Release,
+MSVC 19.51.36248.0, libpq 17.6 and disposable EDB PostgreSQL 17.11 used TLS 1.3 verify-full
+over loopback. Host: Windows 11 build 26300, Intel64 family 6/model 186/stepping 2,
+12 logical CPUs. RTT, server CPU and background host load were not measured or controlled.
+An earlier stuck build process was stopped before this recorded run; earlier trial
+timings under concurrent compilation are not the reference CSV.
+
+| Mode | Rows per repetition | SQL commands | Jobs | Median total microseconds across seven repetitions |
+| ---- | ------------------: | -----------: | ---: | ------------------------------------------------: |
+| `individual` | 1000 | 1000 | 1000 | 894670 |
+| `snapshots20` | 1000 | 1000 | 50 | 619681 |
+| `unnest20` | 1000 | 50 | 50 | 64464 |
+| `heterogeneous20` | 1000 | 1000 | 50 | 1108964 |
+| `individual4` | 1000 | 1000 | 1000 | 469937 |
+| `buffered` | 1000 | 1 | 1 | 16008 |
+| `streaming` | 1000 | 1 | 1 | 64651 |
+
+Every repetition passed the data checks. Process peak working set reached 15,516 KiB
+across all modes. Per-repetition CPU, throughput and job/queue/worker percentiles are in
+the CSV; the medians above are total workload times, not pooled job percentiles. This is
+one process run on a shared workstation. Variation, grouping, SQL preparation changes,
+poll scheduling and read/write differences prevent treating the table as a general
+ranking or production sizing evidence. No pipeline or lane-selection change follows
+from this sample.

@@ -141,6 +141,33 @@ passed locally. These are engine/resource stress results, not new local open.mp 
 cross-platform results, a throughput benchmark or proof of a maximum memory bound.
 Current PR CI remains authoritative for remote sanitizer and package qualification.
 
+## Engine benchmark validation on October 15, 2026
+
+Code commit `4ca1674` adds the optional Engine benchmark and enables its correctness
+smoke in the existing CI matrix. Locally, Windows x86 MSVC 19.51/libpq 17.6 with disposable
+TLS EDB PostgreSQL 17.11 passed **all seven CTest suites, without skips**, then both
+standalone benchmarks. The Engine run verified 1,000 rows across seven modes with one
+warmup and seven measured repetitions each; its 49 CSV records and interpretation are
+in [performance](performance.md#recorded-engine-sample-october-15-2026). No component,
+native, Pawn include or example implementation changed.
+
+The benchmark target compiled without diagnostics. Invalid zero/negative/out-of-range
+and trailing-character row arguments were rejected; a missing service returned 77.
+Configuration from an exported source tree without Git succeeded and explicitly marked
+identity `unknown`/`unavailable`. The 16 package regressions, actionlint, C++/CMake/Python
+formatting and whitespace checks passed. Sandbox attempts initially failed on temporary
+file permissions; the recorded database/package runs used the authorized local environment.
+The first general MSBuild invocation stalled and was stopped; targeted builds succeeded.
+No passing build is inferred from that interrupted invocation.
+
+Recovery found `master` at `b00fe2f`, PRs #1-#3 merged and no open PRs. The existing
+[experimental release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-experimental.b00fe2f23787)
+was already public at recovery, published October 15 at 14:48:59 UTC. Its
+[CI run 38754771577](https://github.com/itskoleban/omp-postgresql/actions/runs/38754771577)
+passed all six jobs with no skipped steps, including downloaded x86 package verification.
+That qualifies the earlier package commit; it does not qualify the later benchmark change
+or constitute RC/Astra evidence. This development run did not publish a release or tag.
+
 ## Remaining release qualification
 
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
