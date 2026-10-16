@@ -8,6 +8,7 @@ import argparse
 import csv
 import os
 from pathlib import Path
+import platform
 import re
 import shutil
 import socket
@@ -27,6 +28,8 @@ parser.add_argument(
     "--postgres-bin", help="Server tools directory; does not alter client DLL search PATH"
 )
 parser.add_argument("--benchmark", action="store_true")
+parser.add_argument("--benchmark-rows", type=int, default=1000)
+parser.add_argument("--benchmark-repetitions", type=int, default=7)
 parser.add_argument("--config", default="Release", help="CTest build configuration")
 parser.add_argument("--openmp-dir", help="Disposable extracted open.mp server for end-to-end smoke")
 parser.add_argument("--component")
@@ -42,6 +45,8 @@ parser.add_argument(
     help="Use fresh PostgreSQL fixture and run only server smoke",
 )
 args = parser.parse_args()
+if not 1 <= args.benchmark_rows <= 10000 or not 1 <= args.benchmark_repetitions <= 100:
+    parser.error("Benchmark rows must be 1..10000 and repetitions 1..100")
 flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
 command_number = 0
 
@@ -255,16 +260,23 @@ try:
     elif not args.openmp_dir:
         raise ValueError("--only-openmp requires --openmp-dir")
     if args.benchmark:
-        run(
-            [
-                str(
-                    Path(args.build).resolve()
-                    / ("pg_benchmark.exe" if os.name == "nt" else "pg_benchmark")
-                ),
-                "1000",
-            ],
-            env=env,
+        print(
+            f"Benchmark host: {platform.platform()}; machine={platform.machine()}; "
+            f"processor={platform.processor()}; logical_cpus={os.cpu_count()}; "
+            "network=loopback; TLS=verify-full; RTT=unmeasured",
+            flush=True,
         )
+        for executable, arguments in (
+            ("pg_benchmark", [str(args.benchmark_rows)]),
+            (
+                "pg_engine_benchmark",
+                [str(args.benchmark_rows), str(args.benchmark_repetitions)],
+            ),
+        ):
+            binary = Path(args.build).resolve() / (executable + (".exe" if os.name == "nt" else ""))
+            if not binary.is_file():
+                binary = binary.parent / args.config / binary.name
+            run([str(binary), *arguments], env=env, timeout=1800)
     if args.openmp_dir:
         if not args.component or not args.gamemode:
             raise ValueError("--openmp-dir requires --component and --gamemode")

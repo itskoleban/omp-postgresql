@@ -39,7 +39,7 @@ jobs:
                   sudo apt-get install -y libpq-dev postgresql-17 ninja-build
                   echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
             - run: |
-                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_SANITIZE=${{ matrix.sanitize }}
+                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_SANITIZE=${{ matrix.sanitize }} -DPG_BUILD_BENCHMARK=ON
             - run: |
                   cmake --build build --parallel 4
             - run: |
@@ -93,7 +93,7 @@ jobs:
             - name: Build the x86 component
               run: |
                   cmake -S . -B build-linux32 -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-m32 \
-                  	-DCMAKE_C_FLAGS=-m32 "-DPostgreSQL_INCLUDE_DIR=$PWD/libpq32/include" \
+                      -DCMAKE_C_FLAGS=-m32 -DPG_BUILD_BENCHMARK=ON "-DPostgreSQL_INCLUDE_DIR=$PWD/libpq32/include" \
                   	"-DPostgreSQL_LIBRARY=$PWD/libpq32/lib/libpq.so"
                   cmake --build build-linux32 --parallel 4
             - name: Build Pawn32 and compile the server regression scripts
@@ -183,7 +183,7 @@ jobs:
                       mingw-w64-ucrt-x86_64-python git
             - shell: msys2 {0}
               run: |
-                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_BUILD_BENCHMARK=ON
                   cmake --build build --parallel 4
             - name: Obtain isolated PostgreSQL server tools
               shell: pwsh
@@ -252,7 +252,7 @@ jobs:
                   	throw 'MSVC x86 lib.exe was not found'
                   }
                   ./scripts/create-msvc-import.ps1 -PostgreSQLRoot libpq32 -LibTool $libTool
-                  cmake -S . -B build-msvc32 -A Win32 `
+                  cmake -S . -B build-msvc32 -A Win32 -DPG_BUILD_BENCHMARK=ON `
                   	"-DPostgreSQL_INCLUDE_DIR=$env:GITHUB_WORKSPACE/libpq32/include" `
                   	"-DPostgreSQL_LIBRARY=$env:GITHUB_WORKSPACE/libpq32/lib/libpq.lib"
                   if ($LASTEXITCODE -ne 0) {

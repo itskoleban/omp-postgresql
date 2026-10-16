@@ -129,15 +129,17 @@ transaction rollback verification. See [stress reproduction and memory limits](d
 ```sh
 cmake -S . -B build -DPG_BUILD_BENCHMARK=ON
 cmake --build build --parallel
-# Point PGSERVICEFILE and OMP_PG_TEST_SERVICE at a disposable database.
-./build/pg_benchmark 1000
+# Run both benchmarks in a fresh disposable TLS database, after CTest.
+python tests/run_postgres.py --build build --benchmark --benchmark-repetitions 7
 ```
 
-The benchmark verifies three increments per row and compares individual prepared queries,
-pipeline mode with Sync per statement, and UNNEST. It uses temporary tables and measures
-libpq transport, not Pawn overhead or tick latency. Record versions, TLS, RTT, hardware,
-row count, repetitions, and percentiles. Do not extrapolate a local sample to production;
-benchmark figures are not performance guarantees.
+The transport probe compares direct libpq prepared queries, pipeline with Sync and UNNEST.
+The Engine benchmark compares individual jobs, 20 snapshots, grouped UNNEST, heterogeneous
+batches, four explicit lanes, buffered reads and streaming. It verifies all returned values
+and final database contents, then reports repeated job/queue/worker p50/p95/p99, CPU and
+process peak memory. The existing CI matrix runs a small correctness smoke with no timing
+thresholds. Neither probe measures Pawn or open.mp ticks. See [measurement definitions and
+reproduction](docs/performance.md); local samples are not performance guarantees.
 
 ## Maintenance conventions
 

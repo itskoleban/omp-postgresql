@@ -10,7 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 option(PG_BUILD_COMPONENT "Build the open.mp component" ON)
 option(PG_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
-option(PG_BUILD_BENCHMARK "Build standalone libpq benchmark" OFF)
+option(PG_BUILD_BENCHMARK "Build standalone libpq and Engine benchmarks" OFF)
 set(PG_PAWN_INCLUDE_DIR
     "qawno/include"
     CACHE STRING "Pawn include installation directory"
@@ -186,4 +186,57 @@ install(
 if(PG_BUILD_BENCHMARK)
     add_executable(pg_benchmark tests/benchmark.cpp)
     target_link_libraries(pg_benchmark PRIVATE pg_core)
+    add_executable(pg_engine_benchmark tests/engine_benchmark.cpp)
+    target_link_libraries(pg_engine_benchmark PRIVATE pg_core)
+    if(WIN32)
+        target_link_libraries(pg_engine_benchmark PRIVATE psapi)
+    endif()
+    find_package(Git QUIET)
+    set(PG_BENCH_COMMIT unknown)
+    set(PG_BENCH_TREE unavailable)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        OUTPUT_VARIABLE PG_BENCH_COMMIT
+        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET
+        RESULT_VARIABLE PG_BENCH_GIT_RESULT
+    )
+    if(PG_BENCH_GIT_RESULT EQUAL 0)
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} status --porcelain --untracked-files=normal
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            OUTPUT_VARIABLE PG_BENCH_STATUS COMMAND_ERROR_IS_FATAL ANY
+        )
+        set(PG_BENCH_TREE clean)
+        if(PG_BENCH_STATUS)
+            set(PG_BENCH_TREE dirty)
+        endif()
+    else()
+        # Source archives can benchmark, but cannot claim a verified Git identity.
+        set(PG_BENCH_COMMIT unknown)
+    endif()
+    target_compile_definitions(
+        pg_engine_benchmark
+        PRIVATE PG_BENCH_COMMIT="${PG_BENCH_COMMIT}"
+                PG_BENCH_TREE="${PG_BENCH_TREE}"
+                PG_BENCH_CONFIG="$<CONFIG>"
+                PG_BENCH_COMPILER="${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
+                PG_BENCH_SANITIZE="${PG_SANITIZE}"
+    )
+    if(MSVC)
+        target_compile_definitions(pg_engine_benchmark PRIVATE _CRT_SECURE_NO_WARNINGS)
+        target_compile_options(pg_engine_benchmark PRIVATE /W4 /permissive-)
+    else()
+        target_compile_options(pg_engine_benchmark PRIVATE -Wall -Wextra -Wpedantic)
+    endif()
+    if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        target_compile_options(pg_engine_benchmark PRIVATE -fno-pie)
+        target_link_options(pg_engine_benchmark PRIVATE -no-pie)
+    endif()
+    if(BUILD_TESTING)
+        add_test(NAME engine_benchmark_smoke COMMAND pg_engine_benchmark 41 2)
+        set_tests_properties(
+            engine_benchmark_smoke PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS benchmark
+        )
+    endif()
 endif()

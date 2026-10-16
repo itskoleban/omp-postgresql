@@ -18,6 +18,7 @@ loopback-only PostgreSQL cluster with TLS and always stops it. Integration tests
 | `types_integration`      | Exact numeric/temporal values, native boolean output versus text casts, scalar/array OIDs, nullable/empty arrays in prepared, direct and heterogeneous execution, BYTEA and server format errors.                                              |
 | `extensions_integration` | Heterogeneous snapshots/rejection/partial outcomes, lane metrics, BEGIN options/defaults, savepoint recovery, 10000-row streaming, zero-column tuples, provisional rows, slow consumers, delivery-only timeout, cancellation and owner unload. |
 | `stress_integration`     | Seeded four-lane shared-row contention, individual/homogeneous/heterogeneous executions, FIFO, retained-job saturation, reserved COMMIT capacity and repeated cancellation/expiry/disconnect/unload/destruction with blocked streams. |
+| `engine_benchmark_smoke` | Optional benchmark build: seven Engine workloads, partial 20-item groups, repeated exact returned-data/final-table validation; no timing thresholds. |
 | Real open.mp             | Native loading, three GMX reloads, unloading a filterscript with pending SQL, callback state restoration, typed batches, savepoint recovery, streaming and gated world initialization.                                                         |
 
 The TLS runner checks verify-full, incorrect host identity/password, and client certificates.
@@ -160,8 +161,9 @@ Current PR CI remains authoritative for remote sanitizer and package qualificati
   send notifications; notifications are not persistent and cannot be recovered after a
   receiving session disconnects. See the [protocol scope decision](extension-audit.md).
 - Pipeline, automatic lane selection and named-plan caches remain optional optimizations.
-  The sequential FIFO engine does not depend on them. Existing benchmarks measure direct
-  libpq transport, not comparative engine/Pawn batch latency or a statistical distribution.
+  The sequential FIFO engine does not depend on them. Benchmarks now measure direct
+  libpq transport and repeated Engine job/queue/worker latency, CPU and process peak memory.
+  Comparative Pawn/tick latency remains pending; see [measurement definitions](performance.md).
 - The complete lifecycle is demonstrated by the smoke, extension and bootstrap examples
   together; the value of a single combined example still needs review. Experimental x86
   distribution is now validated; final RC artifacts must be rebuilt and qualified at the
