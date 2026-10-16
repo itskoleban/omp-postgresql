@@ -60,15 +60,15 @@ and run `pg_engine_benchmark 1000 7`. It creates one uniquely named ordinary tab
 cross-session access and drops it on success. Failure may retain that table for inspection;
 the runner's entire database is disposable. Never use a production service.
 
-| Mode | Work per measured repetition |
-| ---- | ---------------------------- |
-| `individual` | N parameterized UPDATE jobs, one SQL each, one lane. |
-| `snapshots20` | Up to 20 immutable `add` snapshots per job, N SQL UPDATEs, one lane. |
-| `unnest20` | Up to 20 IDs in one integer array per job, ceil(N/20) SQL UPDATEs, one lane. |
+| Mode              | Work per measured repetition                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `individual`      | N parameterized UPDATE jobs, one SQL each, one lane.                                                                |
+| `snapshots20`     | Up to 20 immutable `add` snapshots per job, N SQL UPDATEs, one lane.                                                |
+| `unnest20`        | Up to 20 IDs in one integer array per job, ceil(N/20) SQL UPDATEs, one lane.                                        |
 | `heterogeneous20` | Up to 20 alternating SQL forms (`value=value+1` and `value=1+value`) per batch job, N equivalent UPDATEs, one lane. |
-| `individual4` | Same jobs as `individual`, explicitly round-robin across four lanes. |
-| `buffered` | One ordered SELECT of N rows, retaining the full result. |
-| `streaming` | Same SELECT, consuming/releasing blocks of up to 128 rows. |
+| `individual4`     | Same jobs as `individual`, explicitly round-robin across four lanes.                                                |
+| `buffered`        | One ordered SELECT of N rows, retaining the full result.                                                            |
+| `streaming`       | Same SELECT, consuming/releasing blocks of up to 128 rows.                                                          |
 
 All update modes return both ID and value and must increment every row exactly once.
 The benchmark checks result counts, affected rows, duplicate/missing IDs, every returned
@@ -135,15 +135,15 @@ over loopback. Host: Windows 11 build 26300, Intel64 family 6/model 186/stepping
 An earlier stuck build process was stopped before this recorded run; earlier trial
 timings under concurrent compilation are not the reference CSV.
 
-| Mode | Rows per repetition | SQL commands | Jobs | Median total microseconds across seven repetitions |
-| ---- | ------------------: | -----------: | ---: | ------------------------------------------------: |
-| `individual` | 1000 | 1000 | 1000 | 894670 |
-| `snapshots20` | 1000 | 1000 | 50 | 619681 |
-| `unnest20` | 1000 | 50 | 50 | 64464 |
-| `heterogeneous20` | 1000 | 1000 | 50 | 1108964 |
-| `individual4` | 1000 | 1000 | 1000 | 469937 |
-| `buffered` | 1000 | 1 | 1 | 16008 |
-| `streaming` | 1000 | 1 | 1 | 64651 |
+| Mode              | Rows per repetition | SQL commands | Jobs | Median total microseconds across seven repetitions |
+| ----------------- | ------------------: | -----------: | ---: | -------------------------------------------------: |
+| `individual`      |                1000 |         1000 | 1000 |                                             894670 |
+| `snapshots20`     |                1000 |         1000 |   50 |                                             619681 |
+| `unnest20`        |                1000 |           50 |   50 |                                              64464 |
+| `heterogeneous20` |                1000 |         1000 |   50 |                                            1108964 |
+| `individual4`     |                1000 |         1000 | 1000 |                                             469937 |
+| `buffered`        |                1000 |            1 |    1 |                                              16008 |
+| `streaming`       |                1000 |            1 |    1 |                                              64651 |
 
 Every repetition passed the data checks. Process peak working set reached 15,516 KiB
 across all modes. Per-repetition CPU, throughput and job/queue/worker percentiles are in
