@@ -9,10 +9,16 @@ namespace {
 constexpr pg::Owner owner = 71;
 int checks = 0;
 
+[[noreturn]] void fail(const std::string &message) {
+	// A stalled destructor must not hide the error that initiated unwinding.
+	std::cerr << "FAIL: " << message << std::endl;
+	throw std::runtime_error(message);
+}
+
 void check(bool condition, const char *message) {
 	++checks;
 	if (!condition) {
-		throw std::runtime_error(message);
+		fail(message);
 	}
 }
 
@@ -31,7 +37,7 @@ void ready(pg::Engine &engine, pg::Id connection) {
 	while (engine.connection(owner, connection).state() != pg::State::connected) {
 		engine.poll();
 		if (pg::Clock::now() >= deadline) {
-			throw std::runtime_error("Connection deadline");
+			fail("Connection deadline");
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
@@ -43,7 +49,7 @@ std::shared_ptr<pg::Job> wait(pg::Engine &engine, pg::Id id) {
 	while (!pg::terminal(job->status.load()) || !job->delivered) {
 		engine.poll();
 		if (pg::Clock::now() >= deadline) {
-			throw std::runtime_error("Job deadline");
+			fail("Job deadline");
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
@@ -53,7 +59,7 @@ std::shared_ptr<pg::Job> wait(pg::Engine &engine, pg::Id id) {
 std::shared_ptr<pg::Job> success(pg::Engine &engine, pg::Id id) {
 	auto job = wait(engine, id);
 	if (job->status.load() != pg::Status::confirmed) {
-		throw std::runtime_error("Unexpected job failure: " + job->message);
+		fail("Unexpected job failure: " + job->message);
 	}
 	++checks;
 	return job;
@@ -313,7 +319,7 @@ void streaming(const char *service) {
 			break;
 		}
 		if (pg::Clock::now() >= deadline) {
-			throw std::runtime_error("Stream drain deadline");
+			fail("Stream drain deadline");
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
@@ -340,7 +346,7 @@ void streaming(const char *service) {
 			job->stream->release();
 		}
 		if (pg::Clock::now() >= deadline) {
-			throw std::runtime_error("Zero-column stream deadline");
+			fail("Zero-column stream deadline");
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
@@ -363,7 +369,7 @@ void streaming(const char *service) {
 			job->stream->release();
 		}
 		if (pg::Clock::now() >= deadline) {
-			throw std::runtime_error("Failed stream deadline");
+			fail("Failed stream deadline");
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
@@ -432,7 +438,7 @@ void stream_lifecycle(const char *service) {
 		while (!job->stream->available()) {
 			engine.poll();
 			if (pg::terminal(job->status.load()) || pg::Clock::now() >= deadline) {
-				throw std::runtime_error("Stream did not reach consumer backpressure");
+				fail("Stream did not reach consumer backpressure");
 			}
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
@@ -463,7 +469,7 @@ void stream_lifecycle(const char *service) {
 			break;
 		}
 		if (pg::Clock::now() >= deadline) {
-			throw std::runtime_error("Unloaded stream did not release its worker");
+			fail("Unloaded stream did not release its worker");
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
@@ -485,10 +491,15 @@ int main() {
 		return 77;
 	}
 	try {
+		std::cout << "extension phase: batches" << std::endl;
 		batches(service);
+		std::cout << "extension phase: rejection" << std::endl;
 		rejection(service);
+		std::cout << "extension phase: transactions" << std::endl;
 		transactions(service);
+		std::cout << "extension phase: streaming" << std::endl;
 		streaming(service);
+		std::cout << "extension phase: stream lifecycle" << std::endl;
 		stream_lifecycle(service);
 		std::cout << checks << " extension checks passed\n";
 		return 0;

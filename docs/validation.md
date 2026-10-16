@@ -193,8 +193,34 @@ disposable cluster subsequently passed all 606 checks in 9.38 seconds. Further r
 execution and CI qualification must distinguish a worker/shutdown defect from a local
 toolchain or runner issue. These timeouts prevent treating this work as RC qualification.
 
+## Connection lifecycle investigation on October 16, 2026
+
+Recovery verified `master` at `c649966` with PRs #1--#4 merged and no open PRs.
+[CI run 38841611296](https://github.com/itskoleban/omp-postgresql/actions/runs/38841611296)
+passed all six jobs without skipped steps, including downloaded x86 distribution verification.
+That is baseline evidence; it predates the new connection lifecycle suite.
+
+Five direct extension/stress pairs passed against the existing disposable TLS fixture,
+without reproducing the prior timeouts. With the new suite, Windows x86 MSVC 19.51,
+libpq 17.6 and disposable EDB PostgreSQL 17.11 passed all ten CTest suites without skips
+in 47.36 seconds; the final diagnostic build repeated all ten successfully in 41.47 seconds.
+A separate 100-round connection run passed 3,400 checks in 43.80 seconds,
+covering 3,200 worker starts and 800 successful backend-identity queries. The configured
+debugger-on-stall helper did not trigger, so no blocking-thread stack was obtained.
+Missing-service and invalid-round argument guards and all 16 package regressions also passed.
+
+These are correctness/stress results, not comparative performance measurements. No runtime
+fix is inferred from passing repetitions. The original extension/stress timeouts remain
+unresolved and block RC qualification. The new flushed phase/error diagnostics and eight-lane
+regression improve the evidence available on a future failure without changing the API,
+runtime, test assertions or existing test deadlines.
+
 ## Remaining release qualification
 
+- Named SQL sections (`pg_prepare_section`) are requested but not implemented or advertised
+  in the current 68-native API. Their bounded lexer, asynchronous file snapshots, adversarial
+  tests and compilable account example remain a separate work item after the current
+  lifecycle investigation. `pg_prepare_file` still selects a complete single-command file.
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
   x86; component, client libraries and server architectures/ABIs must match.
 - Validation applies to these tested compiler/client/server combinations. Requalify changes
@@ -226,6 +252,29 @@ toolchain or runner issue. These timeouts prevent treating this work as RC quali
   No release was published or merged automatically.
 
 ## Reproducing validation
+
+### Concurrent connection lifecycle
+
+`connection_lifecycle_integration` exercises the actual Engine with eight physical session
+workers per pool. Ten rounds each cover immediate destruction while connections may still
+be starting, destruction after all lanes execute a query, explicit disconnect during startup,
+and destruction after a refused connection has entered retry handling. The ready-pool case
+checks eight distinct PostgreSQL backend PIDs. Disconnect must reject new SQL, dispatch no
+commands and eventually acknowledge stop on every worker. This is a bounded scheduling
+stress test; it does not force a particular instruction-level interleaving.
+
+The suite requires both `OMP_PG_TEST_SERVICE` and `OMP_PG_TEST_BAD_CONNECT`; the disposable
+TLS runner supplies them and CTest runs it in the existing platform/sanitizer matrix.
+Missing profiles return 77 (skipped, never a passing integration run). The default timeout
+is 90 seconds. `OMP_PG_CONNECTION_ROUNDS=1..1000` changes the number of rounds for direct
+diagnostic execution; large runs need an independently managed deadline and disposable
+fixture rather than an increased CI timeout.
+
+Each phase is flushed before creating or destroying an Engine. Extension and load stress
+tests also emit phase markers and print assertion/deadline failures before unwinding, since
+a stalled destructor can otherwise hide the original failure. The last marker narrows the
+investigation but does not identify a root cause without further evidence such as thread
+stacks. Successful repetitions do not resolve the previously recorded local timeouts.
 
 ### Pawn native boundary tests
 

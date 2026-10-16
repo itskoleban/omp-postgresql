@@ -125,6 +125,8 @@ a skipped test is not a successful integration run.
 The default run also exercises 4,640 seeded SQL operations across four lanes and ten
 combined lifecycle stress rounds with blocked streams, saturated job limits and
 transaction rollback verification. See [stress reproduction and memory limits](docs/validation.md#combined-engine-stress).
+An additional [connection lifecycle suite](docs/validation.md#concurrent-connection-lifecycle)
+repeatedly starts and destroys eight-worker pools, including startup and retry interruption.
 When the component is enabled, it also checks the actual native wrappers against the
 public Pawn declarations, invalid AMX addresses and immutable snapshots. See
 [native boundary validation](docs/validation.md#pawn-native-boundary-tests) for its scope.
