@@ -122,6 +122,30 @@ if(PG_BUILD_COMPONENT)
 endif()
 include(CTest)
 if(BUILD_TESTING)
+    if(PG_BUILD_COMPONENT)
+        # Exercise the actual native wrappers with the pinned SDK, including sanitizer builds.
+        add_executable(pg_native_tests tests/native_tests.cpp src/component.cpp src/natives.cpp)
+        target_include_directories(
+            pg_native_tests PRIVATE ${pawn_SOURCE_DIR}/source ${pawn_SOURCE_DIR}/source/linux
+        )
+        target_compile_definitions(
+            pg_native_tests
+            PRIVATE HAVE_STDINT_H=1 PAWN_CELL_SIZE=32
+                    PG_PAWN_API_PATH="${CMAKE_CURRENT_SOURCE_DIR}/pawn/omp-postgresql.inc"
+        )
+        if(WIN32)
+            target_compile_definitions(pg_native_tests PRIVATE HAVE_ALLOCA_H=0)
+        endif()
+        target_link_libraries(pg_native_tests PRIVATE pg_core OMP-SDK)
+        if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+            target_compile_options(pg_native_tests PRIVATE -fno-pie)
+            target_link_options(pg_native_tests PRIVATE -no-pie)
+        endif()
+        add_test(NAME natives_unit COMMAND pg_native_tests)
+        add_test(NAME natives_integration COMMAND pg_native_tests --integration)
+        set_tests_properties(natives_unit PROPERTIES TIMEOUT 30)
+        set_tests_properties(natives_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90)
+    endif()
     add_executable(pg_tests tests/tests.cpp)
     add_executable(pg_extension_tests tests/engine_extensions.cpp)
     add_executable(pg_type_tests tests/type_tests.cpp)

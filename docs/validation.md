@@ -19,6 +19,8 @@ loopback-only PostgreSQL cluster with TLS and always stops it. Integration tests
 | `extensions_integration` | Heterogeneous snapshots/rejection/partial outcomes, lane metrics, BEGIN options/defaults, savepoint recovery, 10000-row streaming, zero-column tuples, provisional rows, slow consumers, delivery-only timeout, cancellation and owner unload. |
 | `stress_integration`     | Seeded four-lane shared-row contention, individual/homogeneous/heterogeneous executions, FIFO, retained-job saturation, reserved COMMIT capacity and repeated cancellation/expiry/disconnect/unload/destruction with blocked streams. |
 | `engine_benchmark_smoke` | Optional benchmark build: seven Engine workloads, partial 20-item groups, repeated exact returned-data/final-table validation; no timing thresholds. |
+| `natives_unit` | Component builds: public Pawn/native name and arity parity, malformed argument counts, seeded invalid addresses, packed/unpacked strings, array limits/NULL masks, allocation failures and output preflight. |
+| `natives_integration` | Actual native wrappers with disposable PostgreSQL: snapshot ownership after memory reuse, nullable/empty arrays and BYTEA, rejected rebind preservation, output overlap/capacity/address checks and VM ownership. |
 | Real open.mp             | Native loading, three GMX reloads, unloading a filterscript with pending SQL, callback state restoration, typed batches, savepoint recovery, streaming and gated world initialization.                                                         |
 
 The TLS runner checks verify-full, incorrect host identity/password, and client certificates.
@@ -168,6 +170,29 @@ passed all six jobs with no skipped steps, including downloaded x86 package veri
 That qualifies the earlier package commit; it does not qualify the later benchmark change
 or constitute RC/Astra evidence. This development run did not publish a release or tag.
 
+The subsequent [master CI run 38834343351](https://github.com/itskoleban/omp-postgresql/actions/runs/38834343351)
+on `c0ac4dc578f9051e54d3136a1bcff4a02945420e` passed all six jobs with no skipped steps.
+All seven CTest suites, including the Engine benchmark smoke, passed across the existing
+engine matrix and Linux ASan/UBSan. Both x86 packages passed fresh-server tests and
+downloaded-artifact verification. This qualifies the benchmark addition; it predates the
+native-boundary suites described below.
+
+## Native boundary validation on October 15, 2026
+
+Windows x86 MSVC 19.51/libpq 17.6 with disposable TLS EDB PostgreSQL 17.11 passed the
+initial nine-suite CTest run in 46.05 seconds. The final native suites passed 13,852
+offline checks and 82 database-backed checks. GCC/MinGW Windows x64 also compiled the
+same wrappers and passed the 13,852 offline checks. The 16 package regressions and
+C++/CMake formatting checks passed. No runtime implementation or public API changed.
+
+A full repetition passed both final native suites but timed out in the existing
+`extensions_integration` (90 seconds) and `stress_integration` (180 seconds); the other
+seven suites passed. Those failures are retained as unresolved intermittent evidence,
+not replaced by the earlier successful run. Direct extension execution against the same
+disposable cluster subsequently passed all 606 checks in 9.38 seconds. Further repeated
+execution and CI qualification must distinguish a worker/shutdown defect from a local
+toolchain or runner issue. These timeouts prevent treating this work as RC qualification.
+
 ## Remaining release qualification
 
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
@@ -178,7 +203,10 @@ or constitute RC/Astra evidence. This development run did not publish a release 
 - Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, exhausted
   handles and extreme backpressure need more adversarial coverage. The combined lifecycle
   stress described below covers a bounded, reproducible subset of cancellation/expiry/shutdown.
-- AMX input fuzzing, prolonged soak testing and ThreadSanitizer remain pending. Stress tests
+- The intermittent local extension/stress timeouts recorded above need a reproducible
+  diagnosis; a subsequent successful execution alone does not resolve them.
+- Malformed AMX file/bytecode fuzzing, prolonged soak testing and ThreadSanitizer remain pending.
+  Native argument/address tests cover a bounded SDK memory model, not the AMX loader or interpreter. Stress tests
   record process peak memory and verify object release, but do not establish a strict RSS limit;
   libpq can allocate a large row before the component checks it. DNS/authentication/file providers can delay
   shutdown independently of socket deadlines.
@@ -198,6 +226,42 @@ or constitute RC/Astra evidence. This development run did not publish a release 
   No release was published or merged automatically.
 
 ## Reproducing validation
+
+### Pawn native boundary tests
+
+With `PG_BUILD_COMPONENT=ON` and `BUILD_TESTING=ON`, CTest builds `pg_native_tests` from the
+actual `src/natives.cpp` and `src/component.cpp`, linked against the pinned official SDK
+and the same engine. It does not add a replacement native implementation or a database
+dependency to the offline `natives_unit` test. Existing CI jobs run both new suites;
+`PG_SANITIZE=ON` also instruments the native and component code in this executable.
+
+`tests/pawn_memory.hpp` implements only native registration and checked address lookup.
+Its allocated heap and stack regions have an inaccessible gap; unsupported SDK methods
+fail the test. The unit suite independently reads names and arities from the public Pawn
+include and checks all 68 registered natives, wrong counts, null argument blocks and
+documented error sentinels. Seed `0x414d5801` generates 4,096 additional address cases.
+Explicit cases cover negative/unaligned/out-of-range addresses, a successful lookup with
+a null physical pointer, injected allocation failure, unterminated packed/unpacked strings,
+invalid UTF-8, array dimensions, NULL masks, unloaded/unknown VMs and complete output
+preflight without partial writes. The seed fixes input generation, not thread scheduling.
+
+`natives_integration` uses the runner's disposable TLS service. It executes packed and
+unpacked string snapshots after overwriting their Pawn buffers, checks preserved staging
+after a rejected rebind, and round-trips flat/nullable/empty arrays and binary NULs. Real
+results exercise byte-buffer/length overlap, insufficient capacity, invalid destination
+addresses, exact-capacity copies, SQL NULL, BIGINT narrowing rejection and cross-VM handles.
+No persistent application table is created. As with other integration suites, missing
+`OMP_PG_TEST_SERVICE` returns 77 and must not be reported as a successful integration run.
+
+```sh
+ctest --test-dir build -C Release -R '^natives_unit$' --output-on-failure
+# Run both native suites with the rest of CTest in a fresh TLS database:
+python3 tests/run_postgres.py --build build --config Release
+```
+
+These tests call the registered C++ wrappers through an SDK test double. They do not
+execute malformed AMX files, emulate all interpreter behavior, exercise asynchronous
+Pawn callbacks or replace the separate real open.mp loading/lifecycle regressions.
 
 ### Combined engine stress
 
