@@ -256,8 +256,8 @@ void transactions(const char *service) {
 
 	auto defaults = success(
 	    engine, query(engine, connection,
-	                  "SELECT set_config('default_transaction_isolation','repeatable read',false), "
-	                  "set_config('default_transaction_read_only','on',false)"));
+		              "SELECT set_config('default_transaction_isolation','repeatable read',false), "
+		              "set_config('default_transaction_read_only','on',false)"));
 	engine.close_job(owner, defaults->id);
 	tx = success(engine, engine.begin(owner, connection, 0, 0, false));
 	options = success(engine, query(engine, connection,

@@ -189,11 +189,11 @@ void integration(const char *profile) {
 	std::string numeric = "123456789012345678901234567890.12345678901234567890012345";
 	auto scalars =
 	    confirmed(engine, connection, "SELECT $1,$2,$3,$4,$5,$6,$7,$8",
-	              {pg::text("-32768", 21), pg::text(numeric, 1700),
-	               pg::text("1.2345678901234567", 701), pg::text("2024-02-29", 1082),
-	               pg::text("01:02:03.123456", 1083), pg::text("2026-10-12 15:40:30.123456", 1114),
-	               pg::text("2026-10-12T15:40:30.123456-05:00", 1184),
-	               pg::text("2 days 03:04:05.123456", 1186)});
+		          {pg::text("-32768", 21), pg::text(numeric, 1700),
+		           pg::text("1.2345678901234567", 701), pg::text("2024-02-29", 1082),
+		           pg::text("01:02:03.123456", 1083), pg::text("2026-10-12 15:40:30.123456", 1114),
+		           pg::text("2026-10-12T15:40:30.123456-05:00", 1184),
+		           pg::text("2 days 03:04:05.123456", 1186)});
 	auto &row = scalars->results[0].rows[0];
 	check(row[0] == "-32768" && row[1] == numeric && row[2] == "1.2345678901234567",
 	      "SMALLINT, exact NUMERIC and float8 preserve the intended precision");

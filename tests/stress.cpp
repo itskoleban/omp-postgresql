@@ -380,7 +380,7 @@ void lifecycle(const char *service, std::mt19937 &random, unsigned rounds,
 			check(std::all_of(job->items_status.begin(), job->items_status.end(),
 			                  [](auto status) {
 				                  return status == pg::ItemStatus::not_executed ||
-				                         status == pg::ItemStatus::cancelled;
+								         status == pg::ItemStatus::cancelled;
 			                  }),
 			      "Never-dispatched items cannot be confirmed or uncertain");
 		}

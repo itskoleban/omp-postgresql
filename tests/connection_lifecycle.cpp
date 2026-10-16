@@ -77,7 +77,7 @@ void exercise(const char *service, const char *bad_service, unsigned count) {
 			for (int lane = 0; lane < 8; ++lane) {
 				jobs.push_back(
 				    engine.job(owner, engine.query(owner, connection, "SELECT pg_backend_pid()",
-				                                   lane, 0, 0, false)));
+					                               lane, 0, 0, false)));
 			}
 			std::set<std::string> backends;
 			for (const auto &job : jobs) {
