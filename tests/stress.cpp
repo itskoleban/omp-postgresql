@@ -23,10 +23,16 @@ constexpr pg::Owner owner = 901;
 int checks = 0;
 std::string phase;
 
+[[noreturn]] void fail(const std::string &message) {
+	// Print before unwinding, including when Engine destruction cannot finish.
+	std::cerr << "FAIL " << phase << ": " << message << std::endl;
+	throw std::runtime_error(message);
+}
+
 void check(bool condition, const char *message) {
 	++checks;
 	if (!condition) {
-		throw std::runtime_error(phase + ": " + message);
+		fail(message);
 	}
 }
 
@@ -39,7 +45,7 @@ unsigned setting(const char *name, unsigned fallback, unsigned maximum) {
 	const auto end = value + std::char_traits<char>::length(value);
 	const auto parsed = std::from_chars(value, end, result);
 	if (parsed.ec != std::errc{} || parsed.ptr != end || result < 1 || result > maximum) {
-		throw std::runtime_error(std::string("Invalid ") + name);
+		fail(std::string("Invalid ") + name);
 	}
 	return result;
 }
@@ -48,13 +54,13 @@ std::uint64_t peak_kib() {
 #ifdef _WIN32
 	PROCESS_MEMORY_COUNTERS counters{};
 	if (!GetProcessMemoryInfo(GetCurrentProcess(), &counters, sizeof(counters))) {
-		throw std::runtime_error("GetProcessMemoryInfo failed");
+		fail("GetProcessMemoryInfo failed");
 	}
 	return counters.PeakWorkingSetSize / 1024;
 #else
 	rusage usage{};
 	if (getrusage(RUSAGE_SELF, &usage)) {
-		throw std::runtime_error("getrusage failed");
+		fail("getrusage failed");
 	}
 #ifdef __APPLE__
 	return static_cast<std::uint64_t>(usage.ru_maxrss) / 1024;
@@ -69,7 +75,7 @@ template <class F> void until(pg::Engine &engine, F condition) {
 	while (!condition()) {
 		engine.poll();
 		if (pg::Clock::now() >= deadline) {
-			throw std::runtime_error(phase + ": deadline");
+			fail("deadline");
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
@@ -118,6 +124,7 @@ template <class F> void rejects(F action, pg::Error expected) {
 
 void load(const char *service, std::mt19937 &random, unsigned rounds, const std::string &table) {
 	phase = "load";
+	std::cout << phase << " connecting" << std::endl;
 	pg::Limits limits;
 	limits.jobs = 80;
 	pg::Engine engine(limits);
@@ -133,6 +140,7 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, const std:
 	                 " SET n=n+1 WHERE id=$1::integer AND EXISTS(SELECT 1 FROM shared) RETURNING n";
 	for (unsigned round = 0; round < rounds; ++round) {
 		phase = "load round " + std::to_string(round);
+		std::cout << phase << std::endl;
 		struct Expected {
 			pg::Id id;
 			int first, count;
@@ -329,7 +337,7 @@ void lifecycle(const char *service, std::mt19937 &random, unsigned rounds,
 				settled = std::all_of(pending.begin(), pending.end(), completed) &&
 				          std::all_of(streams.begin(), streams.end(), completed);
 				if (pg::Clock::now() >= deadline) {
-					throw std::runtime_error(phase + ": teardown deadline");
+					fail("teardown deadline");
 				}
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}
