@@ -44,8 +44,8 @@ jobs:
                   cmake --build build --parallel 4
             - run: |
                   python3 tests/run_postgres.py --build build
-            - name: Verify package validation regressions
-              run: python3 -m unittest discover -s tests -p test_package.py -v
+            - name: Verify package and fault fixture regressions
+              run: python3 -m unittest discover -s tests -p 'test_*.py' -v
             - name: Compile all Pawn examples with warnings treated as errors
               run: |
                   cmake -S build/_deps/pawn-src/source/compiler -B build-pawn -G Ninja \

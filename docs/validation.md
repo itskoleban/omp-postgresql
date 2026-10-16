@@ -21,6 +21,8 @@ loopback-only PostgreSQL cluster with TLS and always stops it. Integration tests
 | `engine_benchmark_smoke` | Optional benchmark build: seven Engine workloads, partial 20-item groups, repeated exact returned-data/final-table validation; no timing thresholds.                                                                                           |
 | `natives_unit`           | Component builds: public Pawn/native name and arity parity, malformed argument counts, seeded invalid addresses, packed/unpacked strings, array limits/NULL masks, allocation failures and output preflight.                                   |
 | `natives_integration`    | Actual native wrappers with disposable PostgreSQL: snapshot ownership after memory reuse, nullable/empty arrays and BYTEA, rejected rebind preservation, output overlap/capacity/address checks and VM ownership.                              |
+| `connection_lifecycle_integration` | Repeated eight-worker startup, ready-pool destruction, startup disconnect and refused-connection retry interruption. |
+| `connection_stalls_integration` | Four-worker stalls at SSL negotiation, TLS handshake and startup response; deadline/retry exhaustion, disconnect, owner unload and destruction while an independent owner still executes. |
 | Real open.mp             | Native loading, three GMX reloads, unloading a filterscript with pending SQL, callback state restoration, typed batches, savepoint recovery, streaming and gated world initialization.                                                         |
 
 The TLS runner checks verify-full, incorrect host identity/password, and client certificates.
@@ -252,6 +254,56 @@ runtime, test assertions or existing test deadlines.
   No release was published or merged automatically.
 
 ## Reproducing validation
+
+### Stalled connection protocol tests
+
+`connection_stalls_integration` uses the actual Engine/libpq with three loopback-only
+fault peers created by `tests/run_postgres.py`. They withhold the SSLRequest response,
+accept SSL but withhold the server handshake after ClientHello, or receive a plaintext
+StartupMessage without sending authentication or ReadyForQuery. These are deliberate
+[startup protocol boundaries](https://www.postgresql.org/docs/17/protocol-flow.html);
+the peers never connect upstream, request credentials or execute SQL. The independent
+healthy database connection continues to use the disposable PostgreSQL verify-full profile.
+
+For each phase, four lanes exercise connection deadline expiry with exactly one retry,
+explicit disconnect, owner unload/reaping, and Engine destruction. Fixture markers prove
+receipt at the intended boundary before teardown begins; no startup sleep substitutes for
+that acknowledgement. The test rejects SQL on incomplete/failed connections and checks zero
+queued/dispatched commands. A second owner's real `SELECT 42` must complete while peers
+are stalled. No application callback is fabricated by the peer; VM callback filtering
+remains covered by the separate native/open.mp suites.
+
+Timeout cases use the Engine's 1-second attempt deadline despite a 60-second libpq
+`connect_timeout`. The other cases use a 60-second Engine deadline and require shutdown
+within a generous 10-second assertion bound; this is a liveness guard, not a latency
+benchmark. The enclosing CTest deadline is 90 seconds. Each full run observes 20
+handshakes/closures per phase (60 total), and the runner fails on fixture errors or missing
+coverage. Missing service/fixture environment returns 77 and is never counted as passing.
+The peers retain bounded buffers, at most 256 accepted clients per phase, and explicitly
+join their threads during cleanup. Their `stall-*.log` summaries are copied into the
+build's `Testing/Temporary` directory and uploaded with existing CI test artifacts.
+
+Five Python regressions independently cover fragmented input, boundary acknowledgement,
+withheld responses, partial peer shutdown, malformed startup and fixture thread cleanup:
+
+```sh
+python3 -m unittest discover -s tests -p test_stall_server.py -v
+python3 tests/run_postgres.py --build build --config Release
+```
+
+This adds bounded network-stall coverage. It does not establish a cause for the historical
+local extension/stress timeouts, qualify DNS/authentication provider blocking, or replace
+long network-partition/soak testing.
+
+Local validation on October 16, 2026 (Windows x86, MSVC 19.51, libpq 17.6 and disposable
+TLS EDB PostgreSQL 17.11): all eleven CTest suites passed without skips in 55.80 seconds.
+The new stall suite passed in 8.79 seconds; each peer recorded 20 accepted, acknowledged
+and closed connections. All 21 Python package/fixture regressions passed. An additional
+reproduction using the historical disposable cluster passed two extension/stress repetitions
+with each of Kitware and MinGW32 CTest (eight executions total); no hang or stack was
+captured. These results do not resolve the historical timeouts or measure comparative
+performance. Restricted local tooling also exposed sandbox process/temporary-file failures;
+the successful validation used the authorized runner outside that sandbox.
 
 ### Concurrent connection lifecycle
 

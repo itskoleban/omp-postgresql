@@ -18,6 +18,7 @@ import tempfile
 import threading
 import time
 from commit_proxy import CommitLossProxy
+from stall_server import StallServer
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--build", default="build")
@@ -228,6 +229,7 @@ def restart_monitor():
 
 startup_attempted = False
 proxy = None
+stall_servers = []
 monitor = None
 try:
     startup_attempted = True
@@ -250,6 +252,19 @@ try:
         env=env,
     )
     if not args.only_openmp:
+        env["OMP_PG_TEST_STALL_ROOT"] = str(root)
+        for mode in ("ssl", "tls", "startup"):
+            stalled = StallServer(mode, root / mode)
+            stall_servers.append(stalled)
+            # Plaintext startup is used only by a non-authenticating fault peer.
+            # Real database profiles above retain verify-full TLS.
+            sslmode = "disable" if mode == "startup" else "require"
+            with service.open("a", encoding="utf8") as f:
+                f.write(
+                    f"\n[stall_{mode}]\nhost=127.0.0.1\nport={stalled.port}\n"
+                    f"dbname=postgres\nuser=omp_test\nsslmode={sslmode}\n"
+                    "gssencmode=disable\nconnect_timeout=60\n"
+                )
         monitor = threading.Thread(target=restart_monitor, daemon=True)
         monitor.start()
         run(["ctest", "--test-dir", args.build, "-C", args.config, "--output-on-failure"], env=env)
@@ -257,6 +272,9 @@ try:
             raise RuntimeError("PostgreSQL restart fixture failed") from restart_errors[0]
         if not proxy.dropped.is_set():
             raise RuntimeError("COMMIT response loss was not exercised")
+        for stalled in stall_servers:
+            if stalled.errors or len(list(stalled.directory.glob("ready-*"))) != 20:
+                raise RuntimeError(f"Stalled {stalled.mode} handshakes were not fully exercised")
     elif not args.openmp_dir:
         raise ValueError("--only-openmp requires --openmp-dir")
     if args.benchmark:
@@ -328,6 +346,18 @@ finally:
         monitor.join(timeout=15)
     if proxy:
         proxy.close()
+    for stalled in stall_servers:
+        try:
+            stalled.close()
+            # Use the existing CI log artifact paths on every Python/toolchain variant.
+            log_directory = Path(args.build) / "Testing" / "Temporary"
+            log_directory.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(
+                root / f"stall-{stalled.mode}.log", log_directory / f"stall-{stalled.mode}.log"
+            )
+        except Exception as error:
+            stalled.errors.append(str(error))
+            print(f"Stall fixture cleanup/log collection failed: {error}", file=sys.stderr)
     # A failed startup wait can leave the postmaster alive. This PID file can only
     # belong to the disposable cluster initialized above, never an existing one.
     if startup_attempted and (data / "postmaster.pid").is_file():
@@ -337,3 +367,5 @@ finally:
             if not exception_in_flight:
                 raise
     print(f"Isolated test artifacts: {root}")
+    if not exception_in_flight and any(stalled.errors for stalled in stall_servers):
+        raise RuntimeError("Stall fixture failed; inspect stall-*.log in the fixture directory")
