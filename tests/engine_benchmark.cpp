@@ -22,6 +22,7 @@
 #endif
 
 namespace {
+
 constexpr pg::Owner owner = 902;
 constexpr int window = 32, group = 20;
 constexpr std::array modes{"individual",
@@ -307,6 +308,7 @@ void report(const char *mode, int repetition, int rows, const Sample &sample) {
 	          << percentile(sample.execution, .99) << ','
 	          << sample.after.cpu_us - sample.before.cpu_us << ',' << sample.after.peak_kib << '\n';
 }
+
 } // namespace
 
 int main(int argc, char **argv) {

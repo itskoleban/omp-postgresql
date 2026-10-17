@@ -7,6 +7,7 @@
 #include <thread>
 
 namespace {
+
 constexpr pg::Owner owner = 1001;
 unsigned checks = 0;
 std::string phase;
@@ -138,6 +139,7 @@ void exercise(const char *service, const char *bad_service, unsigned count) {
 		trace(prefix + "complete");
 	}
 }
+
 } // namespace
 
 int main() {
