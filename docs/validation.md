@@ -537,6 +537,15 @@ remain outstanding.
 
 ### Sanitizers and server integration
 
+The first ThreadSanitizer qualification on branch commit `4a95da0` passed all 13
+configured CTest cases without skips in 26.75 seconds, including native wrappers,
+streaming, lifecycle faults, stalled handshakes and named files. The Linux Clang 19
+[job 117340494249](https://github.com/itskoleban/omp-postgresql/actions/runs/39013331891/job/117340494249)
+log contained no TSan race/deadlock diagnostics; all 33 Python regressions and all
+six warning-free Pawn compilations passed too. This records that completed job;
+other jobs in that run and the longer local soak were still pending when recorded.
+It is not independent audit or RC evidence.
+
 `PG_THREAD_SANITIZE=ON` enables a separate Linux 64-bit GNU/Clang build. It cannot
 be combined with `PG_SANITIZE`; unsupported platforms fail at configuration time.
 The existing Linux CI matrix adds a Clang 19 ThreadSanitizer configuration, including

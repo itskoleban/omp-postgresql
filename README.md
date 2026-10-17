@@ -3,6 +3,8 @@
 A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
 Version **0.1.0 experimental**. Review the
 [validated platforms and known limitations](docs/validation.md) before deploying it.
+The [RC readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
+qualification work and publication gates.
 
 ## Implemented features
 
