@@ -44,4 +44,6 @@ No existing PostgreSQL cluster or production server is used by those tests.
 
 Read [API guarantees](api.md), [security](security.md), [validation limits](validation.md)
 and the [packaging procedure](packaging.md) before deploying. The first RC still requires
-stress qualification, an actual independent Astra audit and owner approval to publish.
+exact-candidate qualification, an actual independent Astra audit with verified fixes,
+and owner approval to publish. See [current readiness](rc-readiness.md) for completed
+stress/TSan evidence and remaining gates.

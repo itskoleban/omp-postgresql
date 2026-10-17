@@ -6,6 +6,10 @@ it and is never recycled. Do not share handles between scripts. All Pawn calls r
 they validate, copy, enqueue, or read memory. Callbacks run on the main thread when a tick
 processes completed work.
 
+Use the [per-native reference](native-reference.md) for all 69 exact signatures, defaults,
+argument limits, return/error sentinels, ownership rules and call examples. This guide
+explains how those operations fit together.
+
 Asynchronous callbacks must return without `sleep`. If a callback attempts to suspend, the
 component reports the error, discards that continuation, and restores the VM's previous state.
 An already suspended `main()` retains its continuation. Do not keep references to local
@@ -74,9 +78,12 @@ prepared execution also invalidates the cache. The current job fails without ret
 The next explicit execution prepares the SQL again. This neither replays a write automatically
 nor guarantees that the underlying SQL problem has been resolved.
 
-`pg_prepare_file` returns the same kind of logical statement, but reads the SQL file each time
-the batch executes. Reading and canonicalization run in the worker. Paths must be relative
-`.sql` paths under `scriptfiles/sql`. Files must be UTF-8; an initial BOM is accepted.
+`pg_prepare_file` returns the same kind of logical statement, but reads the SQL file in the
+worker when execution reaches it. A homogeneous job shares one read across its snapshots;
+a heterogeneous job reads each ordinary file operation separately. Unlike named inputs,
+ordinary file operations have no job-wide preflight. Reading and canonicalization run in
+the worker. Paths must be relative `.sql` paths under `scriptfiles/sql`. Files must be UTF-8;
+an initial BOM is accepted.
 File errors appear in the job. This is not a migration system.
 
 `pg_prepare_section(connection,filename,section,parameters=0,prepared=true)` selects one

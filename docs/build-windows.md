@@ -66,8 +66,9 @@ Build the Windows component for the server's ABI and verify actual loading befor
 The package consists of `components/omp-postgresql.dll`, the Pawn include, and documentation.
 Place `libpq.dll`, `libssl-3.dll`, `libcrypto-3.dll`, and any other dependencies of the chosen
 build where the server's Windows loader can find them. Inspect dependencies with dumpbin
-or objdump; do not substitute a DLL of another architecture. Include the required MSVC
-runtime and all redistributed libraries' notices. The project links libpq dynamically and
+or objdump; do not substitute a DLL of another architecture. Install the supported MSVC x86
+Redistributable separately; retain all redistributed libraries' notices. See the actual
+[package dependency policy](../DEPENDENCIES.md). The project links libpq dynamically and
 does not automatically package arbitrary DLLs from the development machine.
 
 ## Reproducible server test
@@ -97,4 +98,4 @@ python tests/run_postgres.py `
 `--openmp-dir` must be a disposable copy: the harness changes its network, gamemode, and
 script configuration. Never point it at a production server directory. A successful run
 includes four `PG SMOKE PASS` markers, `PG UNLOAD EXIT` without `PG UNLOAD CALLBACK`,
-`PG CALLBACK PASS`, `PG EXTENSION PASS`, `PG BOOTSTRAP PASS`, and clean shutdowns.
+`PG CALLBACK PASS`, `PG EXTENSION PASS`, `PG BOOTSTRAP PASS`, `PG SECTION PASS`, and clean shutdowns.

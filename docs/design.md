@@ -1,6 +1,8 @@
 # Architecture and implementation contract
 
-Reviewed on October 13, 2026. Version 0.1, experimental.
+Original architecture review: October 13, 2026. API/documentation contract rechecked against
+`master` at `3a5215d` on October 17, 2026; see the [native reference](native-reference.md).
+Version 0.1.0, experimental. These are internal reviews, not the independent Astra audit.
 
 ## References examined
 

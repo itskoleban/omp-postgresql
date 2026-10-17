@@ -114,7 +114,8 @@ saves and statement reuse; see the [section format and capture rules](docs/sql-s
 All six examples are compiled with warnings
 treated as errors in the Linux and Windows x86 server CI jobs.
 
-See the [complete API](docs/api.md), [architecture and reference analysis](docs/design.md),
+See the [API execution guide](docs/api.md), [69-native reference](docs/native-reference.md),
+[architecture and reference analysis](docs/design.md),
 [security and concurrency guide](docs/security.md), and [tests and limitations](docs/validation.md).
 Original project code is licensed under [MIT](LICENSE); dependencies retain their notices.
 

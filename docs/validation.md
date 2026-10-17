@@ -4,6 +4,47 @@ The component remains **0.1 experimental**. Passing the current suite is evidenc
 listed scenarios, not complete production qualification. Engine tests and real open.mp
 loading are recorded separately.
 
+## Latest integrated qualification: October 17, 2026
+
+Recovery verified local and remote `master` at
+`3a5215d03f6d00b70c4ffc8b10cab28f119a5c00`, with PRs #1--#11 merged and no open PRs.
+[Master CI 39020102014](https://github.com/itskoleban/omp-postgresql/actions/runs/39020102014)
+completed successfully in all seven jobs. The six Engine logs confirm Windows x86 15/15
+CTest cases and each other configuration 13/13, with no skipped cases accepted by the
+qualification gate. The optional TSan setup step is intentionally skipped in non-TSan jobs;
+that is not a skipped test. Clang 19 TSan and Linux ASan/UBSan produced no sanitizer
+diagnostics. System libpq/OpenSSL were not TSan-instrumented.
+
+Both x86 jobs assembled byte-identical repeat packages, checked dependencies/architecture,
+legal notices and hashes, recompiled all six extracted Pawn examples with warnings as
+errors, and passed every fresh open.mp 1.5.8.3079 scenario. The seventh job downloaded and
+verified both distributions. This is exact integrated-commit CI evidence, separate from
+earlier preview-merge packages and local runs. It is not an RC or an independent audit.
+
+[PR #10](https://github.com/itskoleban/omp-postgresql/pull/10), now integrated, also records
+the Windows x86 final-source seed-42 soak: all 15 CTest cases passed without skips in
+657.64 seconds. The sustained-load phase ran 4,398 waves / 2,040,672 SQL operations on
+four lanes in 600.165 seconds, followed by ten lifecycle fault rounds. Every wave checked
+weak-reference expiration, capacity reuse, FIFO and exact database counters. Peak working
+set was 8,848 KiB initially, 16,580 KiB during load and 17,836 KiB finally. These are
+historical finite-duration observations, not a new run, strict memory bound, comparative
+benchmark or hours-long qualification. See [readiness](rc-readiness.md) for remaining gates.
+
+The documentation review against this baseline adds a [69-native reference](native-reference.md)
+with exact public signatures, defaults, return/error distinctions, ownership, limits and
+call examples. It distinguishes worker terminal publication from tick dispatch, ordinary
+file reads from named-input preflight, and valid false/zero values from local failures.
+The complementary six-example map documents the complete lifecycle without duplicating
+their state machines into another gamemode. Source review and expression compilation do
+not establish runtime coverage of every possible native combination or a stable API.
+
+Local review checks matched all 69 complete declarations (return tags, defaults and reference
+arguments) and native arities, and all 15 documented configuration ceilings against source.
+Pawn 3.10.11 compiled the 69 call expressions in one harness and all six runnable examples
+with `-E`, without warnings. All 33 Python package/fault-fixture/CTest-gate regressions passed
+in 4.713 seconds using workspace temporary files. An initial sandbox run failed on temporary
+directory permissions; those environment errors were not counted as passing tests.
+
 ## Automated coverage
 
 Windows builds that supply `PG_LIBPQ_SOURCE_DIR` also run `libpq_windows_mutex_unit`
@@ -211,11 +252,13 @@ C++/CMake formatting checks passed. No runtime implementation or public API chan
 
 A full repetition passed both final native suites but timed out in the existing
 `extensions_integration` (90 seconds) and `stress_integration` (180 seconds); the other
-seven suites passed. Those failures are retained as unresolved intermittent evidence,
+seven suites passed. Those failures were retained as unresolved intermittent evidence,
 not replaced by the earlier successful run. Direct extension execution against the same
 disposable cluster subsequently passed all 606 checks in 9.38 seconds. Further repeated
 execution and CI qualification must distinguish a worker/shutdown defect from a local
-toolchain or runner issue. These timeouts prevent treating this work as RC qualification.
+toolchain or runner issue. Those runs were not RC qualification. The later Windows libpq
+investigation below diagnoses one reproduced startup deadlock; it does not independently
+attribute every historical timeout to that defect.
 
 ## Connection lifecycle investigation on October 16, 2026
 
@@ -233,9 +276,11 @@ covering 3,200 worker starts and 800 successful backend-identity queries. The co
 debugger-on-stall helper did not trigger, so no blocking-thread stack was obtained.
 Missing-service and invalid-round argument guards and all 16 package regressions also passed.
 
-These are correctness/stress results, not comparative performance measurements. No runtime
-fix is inferred from passing repetitions. The original extension/stress timeouts remain
-unresolved and block RC qualification. The new flushed phase/error diagnostics and eight-lane
+These were correctness/stress results, not comparative performance measurements. No runtime
+fix was inferred from passing repetitions. At that point, the original extension/stress timeouts
+remained unresolved and blocked RC qualification. The later Windows libpq investigation
+below diagnoses and fixes one reproduced startup deadlock; not every historical timeout
+was independently mapped to it. The flushed phase/error diagnostics and eight-lane
 regression improve the evidence available on a future failure without changing the API,
 runtime, test assertions or existing test deadlines.
 
@@ -257,7 +302,8 @@ runtime, test assertions or existing test deadlines.
   dependency regression; see the October 17 Windows libpq investigation below. Its fix
   requires the corrected DLL. Every historical extension/stress timeout has not been
   independently mapped to that defect, and other client providers require verification.
-- Malformed AMX file/bytecode fuzzing, prolonged soak testing and ThreadSanitizer remain pending.
+- Malformed AMX file/bytecode fuzzing and hours-long soak qualification remain unestablished.
+  ThreadSanitizer and the ten-minute sustained load are now qualified as recorded above.
   Native argument/address tests cover a bounded SDK memory model, not the AMX loader or interpreter. Stress tests
   record process peak memory and verify object release, but do not establish a strict RSS limit;
   libpq can allocate a large row before the component checks it. DNS/authentication/file providers can delay
@@ -271,8 +317,9 @@ runtime, test assertions or existing test deadlines.
   The sequential FIFO engine does not depend on them. Benchmarks now measure direct
   libpq transport and repeated Engine job/queue/worker latency, CPU and process peak memory.
   Comparative Pawn/tick latency remains pending; see [measurement definitions](performance.md).
-- The complete lifecycle is demonstrated by the smoke, extension and bootstrap examples
-  together; the value of a single combined example still needs review. Experimental x86
+- The complete lifecycle is demonstrated by the six complementary examples in the
+  [native reference map](native-reference.md#callbacks-and-example-selection); another
+  combined gamemode would duplicate their fixture/state machines. Experimental x86
   distribution is now validated; final RC artifacts must be rebuilt and qualified at the
   approved release commit after stress testing and an actual independent Astra audit.
   No release was published or merged automatically.
@@ -593,8 +640,8 @@ python3 tests/run_postgres.py --build build
 ```
 
 See [Windows server testing](build-windows.md) and [Linux server testing](build-linux.md)
-for the original five-example server commands; add `--section-gamemode sections.amx`
-and `--section-sql examples/sql/accounts.sql` for the sixth example. `--only-openmp` uses a fresh database to rerun
+for the complete six-example server commands, including `--section-gamemode sections.amx`
+and `--section-sql examples/sql/accounts.sql`. `--only-openmp` uses a fresh database to rerun
 bridge tests without claiming a new core-suite run. For the Windows x64 core, use
 `--postgres-bin` to select independent server tools without changing client DLL resolution.
 

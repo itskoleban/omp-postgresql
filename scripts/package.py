@@ -355,13 +355,13 @@ def create(args):
         )
         copy(args.libpq, stage / ("libpq.dll" if platform == "windows" else "lib/libpq.so.5"))
         copy(args.postgres_license, stage / "licenses/libpq/COPYRIGHT")
-        # Preserve the API document's local include link in the installation layout.
-        api = stage / "docs/api.md"
-        api.write_bytes(
-            api.read_bytes().replace(
-                b"../pawn/omp-postgresql.inc", b"../qawno/include/omp-postgresql.inc"
+        # API guides/reference pages share the installed include, not the source layout.
+        for document in (stage / "docs").glob("*.md"):
+            document.write_bytes(
+                document.read_bytes().replace(
+                    b"../pawn/omp-postgresql.inc", b"../qawno/include/omp-postgresql.inc"
+                )
             )
-        )
         dependencies = {}
         pending = [component, stage / ("libpq.dll" if platform == "windows" else "lib/libpq.so.5")]
         while pending:

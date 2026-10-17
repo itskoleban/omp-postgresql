@@ -1,7 +1,9 @@
 # Linux x86 builds, TLS-enabled libpq, and open.mp testing
 
 The component loaded and ran in open.mp 1.5.8.3079 **x86 dynssl** on Debian Bookworm with
-GCC 12.2, libpq 17.11, and OpenSSL 3 i386. The engine is also tested on x64 with ASan/UBSan.
+GCC 12.2, libpq 17.11, and OpenSSL 3 i386. Current Actions packages are qualified on
+Ubuntu 24.04; that is their runtime baseline. The engine is also tested on x64 with
+ASan/UBSan and a separate Clang 19 TSan configuration.
 The binaries for these two architectures are not interchangeable.
 
 ## Toolchain and 32-bit client
@@ -53,7 +55,7 @@ shared libraries.
 
 ## Server test
 
-Obtain the official x86 dynssl distribution and compile all five .pwn examples with
+Obtain the official x86 dynssl distribution and compile all six .pwn examples with
 Pawn 3.10.11, `-E` (warnings as errors), and 32-bit cells. Put initdb, pg_ctl, psql,
 openssl, Python, and CTest on PATH.
 The PostgreSQL server programs may be x64. Run as a normal user on a native Linux filesystem:
@@ -64,12 +66,13 @@ python3 tests/run_postgres.py --build build-linux32 \
     --component build-linux32/omp-postgresql.so \
     --gamemode build/smoke.amx --unload-script build/unload.amx \
     --callback-gamemode build/callbacks.amx \
-    --extension-gamemode build/extensions.amx --bootstrap-gamemode build/bootstrap.amx
+    --extension-gamemode build/extensions.amx --bootstrap-gamemode build/bootstrap.amx \
+    --section-gamemode build/sections.amx --section-sql examples/sql/accounts.sql
 ```
 
 The server directory must be disposable: the harness changes its configuration and gamemode.
 Expect four `PG SMOKE PASS` markers, `PG UNLOAD EXIT` without a later unload callback,
-`PG CALLBACK PASS`, `PG EXTENSION PASS`, `PG BOOTSTRAP PASS`, and exit code 0.
+`PG CALLBACK PASS`, `PG EXTENSION PASS`, `PG BOOTSTRAP PASS`, `PG SECTION PASS`, and exit code 0.
 Profile and certificate paths belong to the temporary
 instance, which is independent of existing databases.
 
