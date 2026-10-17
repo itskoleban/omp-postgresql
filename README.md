@@ -41,6 +41,9 @@ toolchain and 32-bit libpq. On Windows, use MSVC or MinGW with compatible libpq 
 and ABI. `PostgreSQL_ROOT` contains include/lib directories; validate the import library format
 before combining MSVC and MinGW libraries. `PG_BUILD_COMPONENT=OFF` builds only the engine
 and tests. `PG_SANITIZE=ON` enables ASan/UBSan on supported toolchains.
+Use a separate Linux x64 build with `PG_THREAD_SANITIZE=ON` for race detection.
+`PG_STRESS_SECONDS=600` extends the seeded integration load to at least ten minutes;
+see [qualification controls and limits](docs/validation.md#sanitizers-and-server-integration).
 
 On Windows, distribute `libpq.dll` and its dependencies, including TLS and runtime libraries,
 from the same provider and architecture. On Linux, install the corresponding runtime package.

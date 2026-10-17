@@ -10,6 +10,29 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 option(PG_BUILD_COMPONENT "Build the open.mp component" ON)
 option(PG_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
+option(PG_THREAD_SANITIZE "Enable ThreadSanitizer (Linux x64 qualification only)" OFF)
+set(PG_STRESS_SECONDS
+    "0"
+    CACHE STRING "Minimum sustained stress load duration (0..1800 seconds)"
+)
+if(NOT PG_STRESS_SECONDS MATCHES "^(0|[1-9][0-9]*)$" OR PG_STRESS_SECONDS GREATER 1800)
+    message(FATAL_ERROR "PG_STRESS_SECONDS must be a decimal integer in 0..1800")
+endif()
+if(PG_THREAD_SANITIZE)
+    if(PG_SANITIZE)
+        message(FATAL_ERROR "ThreadSanitizer and ASan/UBSan require separate build directories")
+    endif()
+    if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux"
+       OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8
+       OR NOT CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang)$"
+    )
+        message(FATAL_ERROR "PG_THREAD_SANITIZE requires a GNU/Clang Linux 64-bit toolchain")
+    endif()
+endif()
+set(PG_SANITIZER_LABEL "${PG_SANITIZE}")
+if(PG_THREAD_SANITIZE)
+    set(PG_SANITIZER_LABEL "THREAD")
+endif()
 option(PG_BUILD_BENCHMARK "Build standalone libpq and Engine benchmarks" OFF)
 set(PG_LIBPQ_SOURCE_DIR
     ""
@@ -41,6 +64,10 @@ endif()
 if(PG_SANITIZE AND NOT MSVC)
     target_compile_options(pg_core PUBLIC -fsanitize=address,undefined -fno-omit-frame-pointer)
     target_link_options(pg_core PUBLIC -fsanitize=address,undefined)
+endif()
+if(PG_THREAD_SANITIZE)
+    target_compile_options(pg_core PUBLIC -fsanitize=thread -fno-omit-frame-pointer -g -O1)
+    target_link_options(pg_core PUBLIC -fsanitize=thread)
 endif()
 if(PG_BUILD_COMPONENT)
     include(FetchContent)
@@ -86,7 +113,7 @@ if(PG_BUILD_COMPONENT)
         GENERATE
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/package-build-info-$<CONFIG>.json"
         CONTENT
-            "{\n\"version\": \"${PROJECT_VERSION}\",\n\"commit\": \"${PG_SOURCE_COMMIT}\",\n\"configuration\": \"$<CONFIG>\",\n\"system\": \"${CMAKE_SYSTEM_NAME}\",\n\"pointer_bytes\": ${CMAKE_SIZEOF_VOID_P},\n\"compiler\": \"${CMAKE_CXX_COMPILER_ID}\",\n\"compiler_version\": \"${CMAKE_CXX_COMPILER_VERSION}\",\n\"cxx_standard\": 20,\n\"libpq_version\": \"${PostgreSQL_VERSION_STRING}\",\n\"sanitize\": \"${PG_SANITIZE}\",\n\"sdk_commit\": \"473b732b2de159773b2e2908fd11aa99f07db284\",\n\"pawn_commit\": \"29f1a8c7fd2e01929807cd8c50353fbc93bbd651\"\n}\n"
+            "{\n\"version\": \"${PROJECT_VERSION}\",\n\"commit\": \"${PG_SOURCE_COMMIT}\",\n\"configuration\": \"$<CONFIG>\",\n\"system\": \"${CMAKE_SYSTEM_NAME}\",\n\"pointer_bytes\": ${CMAKE_SIZEOF_VOID_P},\n\"compiler\": \"${CMAKE_CXX_COMPILER_ID}\",\n\"compiler_version\": \"${CMAKE_CXX_COMPILER_VERSION}\",\n\"cxx_standard\": 20,\n\"libpq_version\": \"${PostgreSQL_VERSION_STRING}\",\n\"sanitize\": \"${PG_SANITIZER_LABEL}\",\n\"sdk_commit\": \"473b732b2de159773b2e2908fd11aa99f07db284\",\n\"pawn_commit\": \"29f1a8c7fd2e01929807cd8c50353fbc93bbd651\"\n}\n"
     )
     install(
         TARGETS omp-postgresql
@@ -219,8 +246,17 @@ if(BUILD_TESTING)
     set_tests_properties(
         connection_lifecycle_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS stress
     )
+    math(EXPR PG_STRESS_TIMEOUT "180 + ${PG_STRESS_SECONDS}")
     set_tests_properties(
-        stress_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 180 LABELS stress
+        stress_integration
+        PROPERTIES SKIP_RETURN_CODE
+                   77
+                   TIMEOUT
+                   ${PG_STRESS_TIMEOUT}
+                   LABELS
+                   stress
+                   ENVIRONMENT
+                   "OMP_PG_STRESS_SECONDS=${PG_STRESS_SECONDS}"
     )
     set_tests_properties(unit types_unit PROPERTIES TIMEOUT 30)
     set_tests_properties(
@@ -306,7 +342,7 @@ if(PG_BUILD_BENCHMARK)
                 PG_BENCH_TREE="${PG_BENCH_TREE}"
                 PG_BENCH_CONFIG="$<CONFIG>"
                 PG_BENCH_COMPILER="${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
-                PG_BENCH_SANITIZE="${PG_SANITIZE}"
+                PG_BENCH_SANITIZE="${PG_SANITIZER_LABEL}"
     )
     if(MSVC)
         target_compile_definitions(pg_engine_benchmark PRIVATE _CRT_SECURE_NO_WARNINGS)

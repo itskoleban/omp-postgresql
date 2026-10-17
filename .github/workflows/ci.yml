@@ -12,11 +12,16 @@ on:
                 description: Stress rounds (5 to 100 recommended; 180-second test timeout)
                 type: string
                 default: "10"
+            stress_seconds:
+                description: Minimum sustained load seconds per engine configuration (0 to 1800)
+                type: string
+                default: "0"
 permissions:
     contents: read
 env:
     OMP_PG_STRESS_SEED: ${{ inputs.stress_seed || '1592594996' }}
     OMP_PG_STRESS_ROUNDS: ${{ inputs.stress_rounds || '10' }}
+    PG_STRESS_SECONDS: ${{ inputs.stress_seconds || '0' }}
 concurrency:
     group: build-and-test-${{ github.head_ref || github.ref_name }}
     cancel-in-progress: true
@@ -26,10 +31,11 @@ jobs:
         env:
             ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
             UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+            TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
         strategy:
             fail-fast: false
             matrix:
-                sanitize: ["OFF", "ON"]
+                sanitize: ["OFF", "ON", "THREAD"]
         steps:
             - uses: actions/checkout@v4
             - name: PostgreSQL 17 development tools
@@ -38,8 +44,17 @@ jobs:
                   sudo apt-get update
                   sudo apt-get install -y libpq-dev postgresql-17 ninja-build
                   echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+            - name: ThreadSanitizer toolchain
+              if: matrix.sanitize == 'THREAD'
+              run: |
+                  sudo apt-get install -y clang-19
+                  echo CC=clang-19 >> "$GITHUB_ENV"
+                  echo CXX=clang++-19 >> "$GITHUB_ENV"
             - run: |
-                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_SANITIZE=${{ matrix.sanitize }} -DPG_BUILD_BENCHMARK=ON
+                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+                      -DPG_SANITIZE=${{ matrix.sanitize == 'ON' && 'ON' || 'OFF' }} \
+                      -DPG_THREAD_SANITIZE=${{ matrix.sanitize == 'THREAD' && 'ON' || 'OFF' }} \
+                      -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS" -DPG_BUILD_BENCHMARK=ON
             - run: |
                   cmake --build build --parallel 4
             - run: |
@@ -94,6 +109,7 @@ jobs:
             - name: Build the x86 component
               run: |
                   cmake -S . -B build-linux32 -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-m32 \
+                      -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS" \
                       -DCMAKE_C_FLAGS=-m32 -DPG_BUILD_BENCHMARK=ON "-DPostgreSQL_INCLUDE_DIR=$PWD/libpq32/include" \
                   	"-DPostgreSQL_LIBRARY=$PWD/libpq32/lib/libpq.so"
                   cmake --build build-linux32 --parallel 4
@@ -188,7 +204,7 @@ jobs:
                       mingw-w64-ucrt-x86_64-python git
             - shell: msys2 {0}
               run: |
-                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_BUILD_BENCHMARK=ON
+                  cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_BUILD_BENCHMARK=ON -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS"
                   cmake --build build --parallel 4
             - name: Obtain isolated PostgreSQL server tools
               shell: pwsh
@@ -267,6 +283,7 @@ jobs:
                       throw 'Patched libpq provenance verification failed'
                   }
                   cmake -S . -B build-msvc32 -A Win32 -DPG_BUILD_BENCHMARK=ON `
+                      -DPG_STRESS_SECONDS="$env:PG_STRESS_SECONDS" `
                       "-DPG_LIBPQ_SOURCE_DIR=$env:GITHUB_WORKSPACE/postgresql-17.11" `
                   	"-DPostgreSQL_INCLUDE_DIR=$env:GITHUB_WORKSPACE/libpq32/include" `
                   	"-DPostgreSQL_LIBRARY=$env:GITHUB_WORKSPACE/libpq32/lib/libpq.lib"

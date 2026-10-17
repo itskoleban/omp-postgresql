@@ -537,6 +537,44 @@ remain outstanding.
 
 ### Sanitizers and server integration
 
+`PG_THREAD_SANITIZE=ON` enables a separate Linux 64-bit GNU/Clang build. It cannot
+be combined with `PG_SANITIZE`; unsupported platforms fail at configuration time.
+The existing Linux CI matrix adds a Clang 19 ThreadSanitizer configuration, including
+the real native wrappers and every configured CTest case. Reports fail the job through
+`TSAN_OPTIONS=halt_on_error=1:second_deadlock_stack=1`, without suppressions. TSan
+build metadata is marked `THREAD` and package verification rejects such binaries.
+This is race detection for instrumented project code; system libpq/OpenSSL are not
+rebuilt with TSan and this does not qualify a 64-bit open.mp distribution. See the
+[Clang limitations](https://clang.llvm.org/docs/ThreadSanitizer.html#limitations).
+
+```sh
+CC=clang-19 CXX=clang++-19 cmake -S . -B build-tsan -G Ninja \
+    -DCMAKE_BUILD_TYPE=Debug -DPG_THREAD_SANITIZE=ON -DPG_BUILD_BENCHMARK=ON
+cmake --build build-tsan --parallel 4
+TSAN_OPTIONS=halt_on_error=1:second_deadlock_stack=1 \
+    python3 tests/run_postgres.py --build build-tsan
+```
+
+For sustained load, configure `-DPG_STRESS_SECONDS=600` (strict decimal, 0..1800;
+default 0). `stress_integration` runs at least that many seconds **and** at least
+`OMP_PG_STRESS_ROUNDS` load waves, on the same Engine and four sessions, before the
+existing bounded lifecycle fault rounds. Every 48-job wave checks FIFO/results,
+exact database counters and expiration of all weak job references after release.
+Limits of 48 retained jobs and four statement/batch handles expose leaked capacity
+on subsequent waves. Each wave logs elapsed time and process peak RSS/working set.
+This high-water metric includes allocator/dependency caches and is not a leak bound.
+The seed reproduces the submitted workload; a duration run's wave count also depends
+on host scheduling and speed. SQL operation count excludes setup/integrity queries.
+
+CMake sets the test's duration environment and timeout to `180 + PG_STRESS_SECONDS`
+seconds; per-operation deadlines are unchanged. Manual Actions input `stress_seconds`
+applies the same setting to all engine configurations, including both x86 builds.
+`stress_rounds` still controls the separate lifecycle phase (1..100); duration extends
+the load phase only. Logs/JUnit are retained on failure and skipped tests fail the
+qualification gate. A finite soak is evidence for its recorded duration and seed,
+not an hours-long qualification or a throughput comparison. Runtime/server errors
+must be investigated rather than counted as passing repetitions.
+
 Configure `PG_SANITIZE=ON` on a supported Linux toolchain and run as an unprivileged user:
 
 ```sh
