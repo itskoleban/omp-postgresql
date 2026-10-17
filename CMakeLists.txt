@@ -11,6 +11,10 @@ set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 option(PG_BUILD_COMPONENT "Build the open.mp component" ON)
 option(PG_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 option(PG_BUILD_BENCHMARK "Build standalone libpq and Engine benchmarks" OFF)
+set(PG_LIBPQ_SOURCE_DIR
+    ""
+    CACHE PATH "Windows libpq source for its mutex regression test"
+)
 set(PG_PAWN_INCLUDE_DIR
     "qawno/include"
     CACHE STRING "Pawn include installation directory"
@@ -122,6 +126,29 @@ if(PG_BUILD_COMPONENT)
 endif()
 include(CTest)
 if(BUILD_TESTING)
+    if(WIN32 AND PG_LIBPQ_SOURCE_DIR)
+        # Compile the dependency's actual C implementation; hooks only force scheduling.
+        add_executable(
+            pg_libpq_mutex_tests tests/libpq_mutex/test.c
+                                 ${PG_LIBPQ_SOURCE_DIR}/src/interfaces/libpq/pthread-win32.c
+        )
+        target_include_directories(
+            pg_libpq_mutex_tests PRIVATE tests/libpq_mutex ${PG_LIBPQ_SOURCE_DIR}/src/port
+        )
+        add_test(NAME libpq_windows_mutex_unit COMMAND pg_libpq_mutex_tests)
+        set_tests_properties(libpq_windows_mutex_unit PROPERTIES TIMEOUT 15)
+        find_package(Python3 REQUIRED COMPONENTS Interpreter)
+        add_test(
+            NAME libpq_process_startup_integration
+            COMMAND
+                ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/tests/repeat_connection_startup.py --binary
+                $<TARGET_FILE:pg_connection_tests>
+        )
+        set_tests_properties(
+            libpq_process_startup_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 120
+        )
+    endif()
     if(PG_BUILD_COMPONENT)
         # Exercise the actual native wrappers with the pinned SDK, including sanitizer builds.
         add_executable(pg_native_tests tests/native_tests.cpp src/component.cpp src/natives.cpp)
@@ -209,6 +236,11 @@ install(
 install(
     FILES LICENSE NOTICE.md
     DESTINATION share/omp-postgresql
+    COMPONENT omp-postgresql
+)
+install(
+    FILES scripts/patches/README.md scripts/patches/libpq-windows-mutex.patch
+    DESTINATION share/omp-postgresql/patches
     COMPONENT omp-postgresql
 )
 install(

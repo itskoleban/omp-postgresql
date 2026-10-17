@@ -18,7 +18,8 @@ directory into a disposable server installation for your first test.
 - Linux `lib/libpq.so.5` belongs in an operator-controlled directory. Export its absolute
   path in `LD_LIBRARY_PATH` before starting the server, for example
   `export LD_LIBRARY_PATH=/srv/openmp/lib:${LD_LIBRARY_PATH:-}`.
-- Retain `LICENSE`, `NOTICE.md`, `licenses/` and `share/omp-postgresql/licenses/`.
+- Retain `LICENSE`, `NOTICE.md`, `licenses/`, `share/omp-postgresql/licenses/` and
+  `share/omp-postgresql/patches/` with the dependency correction and its rationale.
 
 Install the remaining system dependencies described in [DEPENDENCIES.md](../DEPENDENCIES.md).
 The supported test server is **open.mp 1.5.8.3079 x86**, using the dynssl distribution on

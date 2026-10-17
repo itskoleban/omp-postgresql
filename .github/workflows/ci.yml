@@ -262,7 +262,12 @@ jobs:
                   	throw 'MSVC x86 lib.exe was not found'
                   }
                   ./scripts/create-msvc-import.ps1 -PostgreSQLRoot libpq32 -LibTool $libTool
+                  python scripts/package.py record-libpq --libpq libpq32/bin/libpq.dll --source postgresql-17.11
+                  if ($LASTEXITCODE -ne 0) {
+                      throw 'Patched libpq provenance verification failed'
+                  }
                   cmake -S . -B build-msvc32 -A Win32 -DPG_BUILD_BENCHMARK=ON `
+                      "-DPG_LIBPQ_SOURCE_DIR=$env:GITHUB_WORKSPACE/postgresql-17.11" `
                   	"-DPostgreSQL_INCLUDE_DIR=$env:GITHUB_WORKSPACE/libpq32/include" `
                   	"-DPostgreSQL_LIBRARY=$env:GITHUB_WORKSPACE/libpq32/lib/libpq.lib"
                   if ($LASTEXITCODE -ne 0) {

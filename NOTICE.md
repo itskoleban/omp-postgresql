@@ -14,3 +14,8 @@ Dependencies fetched during the build or installed by the operator:
 Local research clones, servers, and test artifacts are excluded by .gitignore.
 Original project code is distributed under MIT (LICENSE). Also retain the notices for any
 dependencies redistributed with the binaries.
+
+The Windows libpq source build includes a narrow downstream correction to PostgreSQL's
+mutex initialization. Modified PostgreSQL code retains the PostgreSQL License; packages
+include PostgreSQL's COPYRIGHT, the applied patch and its rationale under
+`share/omp-postgresql/patches/`. No reference-plugin source is involved.

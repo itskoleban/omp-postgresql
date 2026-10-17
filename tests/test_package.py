@@ -45,6 +45,8 @@ def payload():
             "licenses/libpq/COPYRIGHT",
             "share/omp-postgresql/LICENSE",
             "share/omp-postgresql/NOTICE.md",
+            "share/omp-postgresql/patches/README.md",
+            "share/omp-postgresql/patches/libpq-windows-mutex.patch",
         )
     }
     files.update(
@@ -69,6 +71,12 @@ def payload():
             "commit": commit,
             "version": "0.1.0",
             "system": "Windows",
+            "libpq_version": "17.11",
+        },
+        "libpq_build": {
+            "source_version": "17.11",
+            "dll_sha256": package.digest(pe()),
+            "mutex_patch_sha256": package.digest(b"notice"),
         },
         "dependencies": {
             "components/omp-postgresql.dll": {"imports": ["libpq.dll"]},
@@ -85,6 +93,26 @@ class PackageTests(unittest.TestCase):
 
     def test_valid_inventory(self):
         package.validate_payload(self.files, self.manifest)
+
+    def test_libpq_correction_provenance_is_required_and_bound_to_payload(self):
+        for field in ("dll_sha256", "mutex_patch_sha256", "source_version"):
+            with self.subTest(field=field):
+                manifest = json.loads(json.dumps(self.manifest))
+                manifest["libpq_build"][field] = "incorrect"
+                with self.assertRaisesRegex(ValueError, "correction provenance"):
+                    package.validate_payload(self.files, manifest)
+        del self.manifest["libpq_build"]
+        with self.assertRaisesRegex(ValueError, "correction provenance"):
+            package.validate_payload(self.files, self.manifest)
+
+    def test_missing_or_malformed_libpq_versions_are_rejected(self):
+        for value in (None, "", "17", "17.11-custom", 17):
+            with self.subTest(value=value):
+                manifest = json.loads(json.dumps(self.manifest))
+                manifest["libpq_build"]["source_version"] = value
+                manifest["build"]["libpq_version"] = value
+                with self.assertRaisesRegex(ValueError, "correction provenance"):
+                    package.validate_payload(self.files, manifest)
 
     def test_checkout_allows_downloads_but_rejects_modified_or_untracked_assets(self):
         with tempfile.TemporaryDirectory() as temp:

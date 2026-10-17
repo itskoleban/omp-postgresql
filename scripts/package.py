@@ -66,6 +66,28 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def record_libpq_build(libpq, source):
+    """Bind the Windows source correction to the exact built DLL, before packaging."""
+    patch = ROOT / "scripts/patches/libpq-windows-mutex.patch"
+    subprocess.run(
+        ["git", "apply", "--no-index", "--reverse", "--check", str(patch)],
+        cwd=source,
+        check=True,
+    )
+    header = (source / "src/include/pg_config.h").read_text(encoding="utf8")
+    version = re.search(r'^#define PG_VERSION "([0-9.]+)"$', header, re.MULTILINE)
+    if not version:
+        raise ValueError("Unknown PostgreSQL source version")
+    info = {
+        "source_version": version[1],
+        "dll_sha256": digest(libpq.read_bytes()),
+        "mutex_patch_sha256": digest(patch.read_bytes()),
+    }
+    libpq.with_name("libpq-build-info.json").write_text(
+        json.dumps(info, indent=4, sort_keys=True) + "\n", encoding="utf8", newline="\n"
+    )
+
+
 def binary_architecture(data, platform):
     if platform == "windows":
         if len(data) < 64 or data[:2] != b"MZ":
@@ -154,6 +176,8 @@ def validate_payload(files, manifest):
         "licenses/libpq/COPYRIGHT",
         "share/omp-postgresql/LICENSE",
         "share/omp-postgresql/NOTICE.md",
+        "share/omp-postgresql/patches/README.md",
+        "share/omp-postgresql/patches/libpq-windows-mutex.patch",
     }
     required.update(
         f"share/omp-postgresql/licenses/{name}/{license}" for name, license in LICENSES.items()
@@ -161,6 +185,18 @@ def validate_payload(files, manifest):
     required.add("libpq.dll" if platform == "windows" else "lib/libpq.so.5")
     if not required <= files.keys():
         raise ValueError(f"Missing package files: {sorted(required - files.keys())}")
+    if platform == "windows":
+        info = manifest.get("libpq_build", {})
+        if (
+            not isinstance(info, dict)
+            or not isinstance(info.get("source_version"), str)
+            or not re.fullmatch(r"\d+\.\d+(?:\.\d+)?", info["source_version"])
+            or info.get("dll_sha256") != digest(files["libpq.dll"])
+            or info.get("mutex_patch_sha256")
+            != digest(files["share/omp-postgresql/patches/libpq-windows-mutex.patch"])
+            or info.get("source_version") != build.get("libpq_version")
+        ):
+            raise ValueError("Windows libpq correction provenance does not match the payload")
     if set(manifest["files"]) != set(files):
         raise ValueError("Payload does not match the manifest inventory")
     for name, data in files.items():
@@ -270,7 +306,17 @@ def ensure_checkout(source):
     # CI downloads build inputs beside the checkout. They are never installed, but
     # untracked assets under the CMake install directories could contaminate a ZIP.
     if run(
-        ["git", "ls-files", "--others", "--exclude-standard", "--", "docs", "examples", "pawn"],
+        [
+            "git",
+            "ls-files",
+            "--others",
+            "--exclude-standard",
+            "--",
+            "docs",
+            "examples",
+            "pawn",
+            "scripts/patches",
+        ],
         cwd=source,
     ):
         raise ValueError("Package installation directories contain untracked assets")
@@ -365,6 +411,10 @@ def create(args):
             "dependencies": dependencies,
             "files": {name: digest(data) for name, data in files.items()},
         }
+        if platform == "windows":
+            manifest["libpq_build"] = json.loads(
+                args.libpq.with_name("libpq-build-info.json").read_text(encoding="utf8")
+            )
         validate_payload(files, manifest)
         files["manifest.json"] = json.dumps(manifest, indent=4, sort_keys=True).encode() + b"\n"
         archive = args.output / name
@@ -392,6 +442,9 @@ def create(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    record = commands.add_parser("record-libpq")
+    record.add_argument("--libpq", type=Path, required=True)
+    record.add_argument("--source", type=Path, required=True)
     assemble = commands.add_parser("create")
     assemble.add_argument("--platform", choices=("windows", "linux"), required=True)
     assemble.add_argument("--build", type=Path, required=True)
@@ -406,7 +459,9 @@ def main():
     check.add_argument("--archive", type=Path, required=True)
     check.add_argument("--destination", type=Path)
     args = parser.parse_args()
-    if args.command == "create":
+    if args.command == "record-libpq":
+        record_libpq_build(args.libpq.resolve(), args.source.resolve())
+    elif args.command == "create":
         create(args)
     else:
         manifest = verify(args.archive, args.destination)
