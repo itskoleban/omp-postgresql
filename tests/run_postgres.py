@@ -18,6 +18,7 @@ import tempfile
 import threading
 import time
 from commit_proxy import CommitLossProxy
+from ctest_qualification import qualify_ctest
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--build", default="build")
@@ -252,7 +253,7 @@ try:
     if not args.only_openmp:
         monitor = threading.Thread(target=restart_monitor, daemon=True)
         monitor.start()
-        run(["ctest", "--test-dir", args.build, "-C", args.config, "--output-on-failure"], env=env)
+        qualify_ctest(args.build, args.config, env, run)
         if restart_errors:
             raise RuntimeError("PostgreSQL restart fixture failed") from restart_errors[0]
         if not proxy.dropped.is_set():
