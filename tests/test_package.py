@@ -154,6 +154,7 @@ class PackageTests(unittest.TestCase):
             ("configuration", "Debug"),
             ("pointer_bytes", 8),
             ("sanitize", "ON"),
+            ("sanitize", "THREAD"),
             ("commit", "b" * 40),
             ("version", "0.2.0"),
         ):

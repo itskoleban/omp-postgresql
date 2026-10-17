@@ -20,7 +20,7 @@
 
 namespace {
 constexpr pg::Owner owner = 901;
-int checks = 0;
+std::uint64_t checks = 0;
 std::string phase;
 
 [[noreturn]] void fail(const std::string &message) {
@@ -36,7 +36,7 @@ void check(bool condition, const char *message) {
 	}
 }
 
-unsigned setting(const char *name, unsigned fallback, unsigned maximum) {
+unsigned setting(const char *name, unsigned fallback, unsigned maximum, unsigned minimum = 1) {
 	const auto value = std::getenv(name);
 	if (!value) {
 		return fallback;
@@ -44,7 +44,7 @@ unsigned setting(const char *name, unsigned fallback, unsigned maximum) {
 	unsigned result = 0;
 	const auto end = value + std::char_traits<char>::length(value);
 	const auto parsed = std::from_chars(value, end, result);
-	if (parsed.ec != std::errc{} || parsed.ptr != end || result < 1 || result > maximum) {
+	if (parsed.ec != std::errc{} || parsed.ptr != end || result < minimum || result > maximum) {
 		fail(std::string("Invalid ") + name);
 	}
 	return result;
@@ -122,35 +122,43 @@ template <class F> void rejects(F action, pg::Error expected) {
 	check(false, "Expected local rejection");
 }
 
-void load(const char *service, std::mt19937 &random, unsigned rounds, const std::string &table) {
+void load(const char *service, std::mt19937 &random, unsigned rounds, unsigned seconds,
+          const std::string &table) {
 	phase = "load";
 	std::cout << phase << " connecting" << std::endl;
 	pg::Limits limits;
-	limits.jobs = 80;
+	// Exactly one wave fits; leaked handles must prevent the next wave from being admitted.
+	limits.jobs = 48;
+	limits.statements = 4;
 	pg::Engine engine(limits);
 	auto connection = engine.connect(owner, service, 4);
 	ready(engine, connection);
-	execute(engine, connection, "CREATE TABLE " + table + "(id integer PRIMARY KEY, n integer)");
+	execute(engine, connection, "CREATE TABLE " + table + "(id integer PRIMARY KEY, n bigint)");
 	execute(engine, connection, "INSERT INTO " + table + " SELECT i,0 FROM generate_series(0,4) i");
-	std::array<int, 4> expected{};
+	std::array<std::int64_t, 4> expected{};
 	std::uint64_t operations = 0;
 	// Updating the shared row first gives every SQL operation the same lock order.
 	const auto sql = "WITH shared AS (UPDATE " + table +
 	                 " SET n=n+1 WHERE id=4 RETURNING n) UPDATE " + table +
 	                 " SET n=n+1 WHERE id=$1::integer AND EXISTS(SELECT 1 FROM shared) RETURNING n";
-	for (unsigned round = 0; round < rounds; ++round) {
+	const auto started = pg::Clock::now();
+	const auto deadline = started + std::chrono::seconds(seconds);
+	unsigned round = 0;
+	for (; round < rounds || pg::Clock::now() < deadline; ++round) {
 		phase = "load round " + std::to_string(round);
 		std::cout << phase << std::endl;
 		struct Expected {
 			pg::Id id;
-			int first, count;
+			std::int64_t first;
+			int count;
 		};
 		std::vector<Expected> pending;
+		std::vector<std::weak_ptr<pg::Job>> released;
 		// Mix individual queries, immutable snapshots and heterogeneous SQL in FIFO order.
 		for (int index = 0; index < 48; ++index) {
 			const int lane = static_cast<int>(random() % 4);
 			const int count = index % 3 == 0 ? 20 : index % 3 == 1 ? 4 : 1;
-			const int first = expected[lane] + 1;
+			const auto first = expected[lane] + 1;
 			pg::Id id;
 			if (count == 1) {
 				auto direct = sql;
@@ -187,6 +195,7 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, const std:
 		}
 		for (const auto &item : pending) {
 			auto job = success(engine, item.id);
+			released.push_back(job);
 			check(job->results.size() == static_cast<std::size_t>(item.count == 4 ? 8 : item.count),
 			      "Retained result count");
 			for (int index = 0; index < item.count; ++index) {
@@ -201,7 +210,13 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, const std:
 			}
 			engine.close_job(owner, item.id);
 		}
-		int total = 0;
+		until(engine, [&] {
+			return std::all_of(released.begin(), released.end(), [](const auto &job) {
+				return job.expired();
+			});
+		});
+		check(released.size() == 48, "Every wave releases all retained jobs and results");
+		std::int64_t total = 0;
 		for (int lane = 0; lane < 4; ++lane) {
 			total += expected[lane];
 			auto stats = engine.connection(owner, connection).lanes[lane]->snapshot();
@@ -219,9 +234,15 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, const std:
 		check(result->results[0].rows[4][0] == std::to_string(total),
 		      "Shared row has no lost updates");
 		engine.close_job(owner, result->id);
+		std::cout << "load_sample round=" << round << " elapsed_ms="
+		          << std::chrono::duration_cast<std::chrono::milliseconds>(pg::Clock::now() -
+		                                                                   started)
+		                 .count()
+		          << " peak_rss_kib=" << peak_kib() << std::endl;
 	}
 	execute(engine, connection, "DROP TABLE " + table);
-	std::cout << "load_sql_operations=" << operations << " lanes=4 peak_rss_kib=" << peak_kib()
+	std::cout << "load_sql_operations=" << operations << " load_rounds=" << round
+	          << " minimum_seconds=" << seconds << " lanes=4 peak_rss_kib=" << peak_kib()
 	          << std::endl;
 }
 
@@ -380,7 +401,7 @@ void lifecycle(const char *service, std::mt19937 &random, unsigned rounds,
 			check(std::all_of(job->items_status.begin(), job->items_status.end(),
 			                  [](auto status) {
 				                  return status == pg::ItemStatus::not_executed ||
-								         status == pg::ItemStatus::cancelled;
+				                         status == pg::ItemStatus::cancelled;
 			                  }),
 			      "Never-dispatched items cannot be confirmed or uncertain");
 		}
@@ -434,13 +455,14 @@ int main() {
 	try {
 		const auto seed = setting("OMP_PG_STRESS_SEED", 1592594996, 4294967295u);
 		const auto rounds = setting("OMP_PG_STRESS_ROUNDS", 10, 100);
+		const auto seconds = setting("OMP_PG_STRESS_SECONDS", 0, 1800, 0);
 		std::mt19937 random(seed);
 		const auto table =
 		    "omp_stress_" + std::to_string(pg::Clock::now().time_since_epoch().count());
 		std::cout << "seed=" << seed << " rounds=" << rounds << " libpq=" << PQlibVersion()
 		          << " pointer_bytes=" << sizeof(void *) << " peak_rss_start_kib=" << peak_kib()
 		          << std::endl;
-		load(service, random, rounds, table);
+		load(service, random, rounds, seconds, table);
 		lifecycle(service, random, rounds, table);
 		std::cout << checks << " stress checks passed peak_rss_final_kib=" << peak_kib()
 		          << std::endl;
