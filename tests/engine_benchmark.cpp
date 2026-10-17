@@ -7,6 +7,7 @@
 #include <charconv>
 #include <cmath>
 #include <cstdlib>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <numeric>
@@ -23,8 +24,32 @@
 namespace {
 constexpr pg::Owner owner = 902;
 constexpr int window = 32, group = 20;
-constexpr std::array modes{"individual",  "snapshots20", "unnest20", "heterogeneous20",
-                           "individual4", "buffered",    "streaming"};
+constexpr std::array modes{"individual",
+                           "snapshots20",
+                           "unnest20",
+                           "heterogeneous20",
+                           "individual4",
+                           "buffered",
+                           "streaming",
+                           "file",
+                           "section1",
+                           "section128",
+                           "section1024",
+                           "file_snapshots20",
+                           "section1024_snapshots20"};
+
+struct SqlDirectory {
+	std::filesystem::path path =
+	    std::filesystem::temp_directory_path() /
+	    ("omp-pg-bench-sql-" + std::to_string(pg::Clock::now().time_since_epoch().count()));
+	SqlDirectory() {
+		std::filesystem::create_directory(path);
+	}
+	~SqlDirectory() {
+		std::error_code ignored;
+		std::filesystem::remove_all(path, ignored);
+	}
+};
 
 void require(bool condition, const char *message) {
 	if (!condition) {
@@ -111,9 +136,9 @@ std::int64_t percentile(std::vector<std::int64_t> values, double fraction) {
 	return values[static_cast<std::size_t>(std::ceil(fraction * values.size())) - 1];
 }
 
-Sample measure(pg::Engine &engine, pg::Id connection, const std::string &table, int mode,
-               int rows) {
-	const bool reading = mode >= 5;
+Sample measure(pg::Engine &engine, pg::Id connection, const std::string &table, int mode, int rows,
+               const std::filesystem::path &sql_root) {
+	const bool reading = mode == 5 || mode == 6;
 	const auto update =
 	    "UPDATE " + table + " SET value=value+1 WHERE id=$1::int RETURNING id,value";
 	const auto other = "UPDATE " + table + " SET value=1+value WHERE id=$1::int RETURNING id,value";
@@ -121,8 +146,26 @@ Sample measure(pg::Engine &engine, pg::Id connection, const std::string &table, 
 	                  " a SET value=value+1 FROM unnest($1::int[]) u(id) WHERE a.id=u.id "
 	                  "RETURNING a.id,a.value";
 	const auto select = "SELECT id,value FROM " + table + " ORDER BY id";
+	const bool file = mode == 7 || mode == 11;
+	const bool section = mode >= 8 && !file;
+	if (file || section) {
+		std::ofstream source(sql_root / "update.sql", std::ios::binary | std::ios::trunc);
+		if (file) {
+			source << update;
+		} else {
+			source << "-- name: update\n" << update << '\n';
+			const int count = mode == 8 ? 1 : mode == 9 ? 128 : 1024;
+			for (int i = 1; i < count; ++i) {
+				source << "-- name: unused_" << i << "\nSELECT " << i << ";\n";
+			}
+		}
+		require(source.good(), "SQL benchmark fixture write failed");
+	}
 	const auto first_statement =
-	    engine.prepare(owner, connection, reading ? select : update, reading ? 0 : 1);
+	    section
+	        ? engine.prepare_section(owner, connection, "update.sql", "update", 1)
+	        : engine.prepare(owner, connection, file ? "update.sql" : (reading ? select : update),
+	                         reading ? 0 : 1, file);
 	const auto second_statement = engine.prepare(owner, connection, other, 1);
 	const auto bulk_statement = engine.prepare(owner, connection, bulk, 1);
 	struct Pending {
@@ -138,9 +181,10 @@ Sample measure(pg::Engine &engine, pg::Id connection, const std::string &table, 
 	int next = 1;
 	while (next <= rows || !pending.empty()) {
 		while (next <= rows && pending.size() < window) {
-			const int count = reading                  ? rows
-			                  : mode == 0 || mode == 4 ? 1
-			                                           : std::min(group, rows - next + 1);
+			const int count = reading ? rows
+			                  : mode == 0 || mode == 4 || (mode >= 7 && mode <= 10)
+			                      ? 1
+			                      : std::min(group, rows - next + 1);
 			const int commands = reading || mode == 2 ? 1 : count;
 			pg::Id id;
 			if (reading) {
@@ -168,7 +212,8 @@ Sample measure(pg::Engine &engine, pg::Id connection, const std::string &table, 
 					engine.statement(owner, statement)
 					    .bind(1, std::move(parameter), engine.limits());
 					engine.statement(owner, statement).add(engine.limits());
-					sample.sql_bytes += alternate ? other.size() : update.size();
+					sample.sql_bytes +=
+					    alternate ? other.size() : update.size() + (section ? 2 : 0);
 					if (batch) {
 						engine.add_batch(owner, batch, statement);
 					}
@@ -274,15 +319,16 @@ int main(int argc, char **argv) {
 			std::cerr << "Set OMP_PG_TEST_SERVICE to an explicitly disposable database service\n";
 			return 77;
 		}
-		pg::Engine engine;
+		SqlDirectory sql_directory;
+		pg::Engine engine({}, sql_directory.path);
 		const auto connection = engine.connect(owner, service, 4);
 		until(engine, [&] {
 			return engine.connection(owner, connection).ready() == 4;
 		});
 		const auto metadata =
 		    sql(engine, connection,
-			    "SELECT current_setting('server_version'),ssl::text,coalesce(version,'none') "
-			    "FROM pg_stat_ssl WHERE pid=pg_backend_pid()");
+		        "SELECT current_setting('server_version'),ssl::text,coalesce(version,'none') "
+		        "FROM pg_stat_ssl WHERE pid=pg_backend_pid()");
 		require(metadata.rows.size() == 1, "Missing server/TLS metadata");
 		std::cout << "# commit=" << PG_BENCH_COMMIT << " source_tree=" << PG_BENCH_TREE
 		          << " configuration=" << PG_BENCH_CONFIG << " compiler=" << PG_BENCH_COMPILER
@@ -312,13 +358,14 @@ int main(int argc, char **argv) {
 		    "INSERT INTO " + table + " SELECT i,0 FROM generate_series(1," + std::to_string(rows) +
 		        ") i");
 		std::mt19937 random(902);
-		std::array<int, modes.size()> order{0, 1, 2, 3, 4, 5, 6};
+		std::array<int, modes.size()> order{};
+		std::iota(order.begin(), order.end(), 0);
 		for (int repetition = 0; repetition <= repetitions; ++repetition) {
 			std::shuffle(order.begin(), order.end(), random);
 			for (int mode : order) {
 				sql(engine, connection,
-				    "UPDATE " + table + " SET value=" + (mode >= 5 ? "1" : "0"));
-				auto sample = measure(engine, connection, table, mode, rows);
+				    "UPDATE " + table + " SET value=" + (mode == 5 || mode == 6 ? "1" : "0"));
+				auto sample = measure(engine, connection, table, mode, rows, sql_directory.path);
 				if (repetition) {
 					report(modes[mode], repetition, rows, sample);
 				}

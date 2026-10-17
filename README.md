@@ -13,6 +13,7 @@ Version **0.1.0 experimental**. Review the
 - Transactions that reserve a lane, commit/rollback, and rollback after a required operation fails.
 - Cancellation, timeouts, and progressive reconnection without replaying uncertain writes.
 - Worker-based SQL file loading with path confinement and UTF-8 validation.
+- Strict named SQL sections through `pg_prepare_section`, with bounded worker-side capture.
 - Simple queries, heterogeneous batches, per-operation outcomes, and column OID metadata.
 - Exact numeric/temporal text transport, BYTEA cells, and typed arrays with NULL elements.
 - Explicit isolation/read-only options, savepoints, and asynchronous savepoint recovery.
@@ -102,7 +103,10 @@ callback continuations are unsupported.
 values, savepoint recovery, and a bounded streaming consumer. [bootstrap.pwn](examples/bootstrap.pwn)
 loads properties, vehicles, and clans on the session owning its temporary fixtures, validates
 the results, and keeps players gated until initialization succeeds. The callback and unload
-gamemodes cover VM lifecycle regressions. All five examples are compiled with warnings
+gamemodes cover VM lifecycle regressions. [sections.pwn](examples/sections.pwn) uses
+[accounts.sql](examples/sql/accounts.sql) for asynchronous account loading, individual/bulk
+saves and statement reuse; see the [section format and capture rules](docs/sql-sections.md).
+All six examples are compiled with warnings
 treated as errors in the Linux and Windows x86 server CI jobs.
 
 See the [complete API](docs/api.md), [architecture and reference analysis](docs/design.md),

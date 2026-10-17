@@ -94,6 +94,14 @@ and full-table exports within callbacks are unsupported.
 
 ## Shutdown and files
 
+Named SQL files are operator-controlled code. `pg_prepare_section` validates the entire
+file's lexical structure and fails closed on malformed/duplicate/empty sections; it never
+falls back to another query. It requires standard-conforming strings and applies both
+file-size and per-job capture limits. This is not SQL authorization or application validation:
+keep parameters, least-privilege roles and query deadlines. Atomic file replacement avoids
+mixed in-place edits; cross-file/worker snapshots and racing administrator symlink changes
+are outside the guarantee. See [the complete section contract](sql-sections.md).
+
 `pg_connection_close` and AMX unloading signal cancellation; ticks collect finished workers.
 Component shutdown stops all workers before destroying their queues. Socket polling in
 intervals of up to 10 ms detects the stop request. DNS resolution, authentication providers,

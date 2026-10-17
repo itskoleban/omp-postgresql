@@ -105,7 +105,7 @@ void unit() {
 			                1 + static_cast<int>(std::count(args.begin(), args.end(), ',')));
 		}
 	}
-	check(arities.size() == 68 && arities.size() == h.vm.natives.size(),
+	check(arities.size() == 69 && arities.size() == h.vm.natives.size(),
 	      "Pawn/native inventory differs");
 	for (auto &[name, count] : arities) {
 		auto native = h.vm.natives.at(name);
@@ -215,6 +215,26 @@ void integration(const char *profile) {
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
+	h.text("SELECT $1::text");
+	// The section wrapper captures only checked strings/arguments, never Pawn addresses.
+	h.text("missing.sql");
+	h.text("selected", stack);
+	auto section_statement = h.call("pg_prepare_section", {connection, 0, stack, 1, 1});
+	check(section_statement > 0, "Native section statement rejected");
+	h.vm.cells.fill(0);
+	const auto &captured = h.component.engine.statement(h.owner(), section_statement);
+	check(captured.sql == "missing.sql" && captured.section == "selected" &&
+	          captured.bindings.size() == 1,
+	      "Section wrapper retained Pawn memory");
+	h.text("bad name", stack);
+	h.reject("pg_prepare_section", {connection, 0, stack, 0, 1},
+	         "Invalid SQL section name (ASCII identifier, 1..64 bytes)");
+	h.text("selected", stack);
+	h.reject("pg_prepare_section", {connection, 0, -1, 0, 1}, "Invalid Pawn address");
+	h.text(std::string(65, 'a'), stack);
+	h.reject("pg_prepare_section", {connection, 0, stack, 0, 1},
+	         "Pawn string exceeds limit or is not byte encoded UTF-8");
+	check(h.call("pg_statement_close", {section_statement}) == 1, "Native section close rejected");
 	h.text("SELECT $1::text");
 	auto statement = h.call("pg_prepare", {connection, 0, 1, 1});
 	check(statement > 0, "Native preparation rejected");

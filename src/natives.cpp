@@ -105,6 +105,7 @@ std::size_t column_index(const Result &r, cell column) {
 	X(pg_query, 6) \
 	X(pg_prepare, 4) \
 	X(pg_prepare_file, 4) \
+	X(pg_prepare_section, 5) \
 	X(pg_bind_int, 3) \
 	X(pg_bind_int64, 3) \
 	X(pg_bind_float, 3) \
@@ -279,6 +280,9 @@ cell invoke(Native native, Script &script, const cell *p) {
 	case Native::pg_prepare_file:
 		return e.prepare(owner, p[1], string(vm, p[2], e.limits().sql_bytes), p[3],
 		                 native == Native::pg_prepare_file, p[4] != 0);
+	case Native::pg_prepare_section:
+		return e.prepare_section(owner, p[1], string(vm, p[2], 1024), string(vm, p[3], 64), p[4],
+		                         p[5] != 0);
 	case Native::pg_bind_int:
 		return bind(integer(p[3]));
 	case Native::pg_bind_int64:

@@ -18,8 +18,8 @@ set(PG_PAWN_INCLUDE_DIR
 find_package(PostgreSQL 17 REQUIRED)
 find_package(Threads REQUIRED)
 add_library(
-    pg_core STATIC src/config.cpp src/parameters.cpp src/statement.cpp src/session.cpp
-                   src/engine.cpp
+    pg_core STATIC src/config.cpp src/parameters.cpp src/statement.cpp src/sql_sections.cpp
+                   src/session.cpp src/engine.cpp
 )
 set_target_properties(pg_core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_include_directories(pg_core PUBLIC include)
@@ -152,11 +152,19 @@ if(BUILD_TESTING)
     add_executable(pg_stress_tests tests/stress.cpp)
     add_executable(pg_connection_tests tests/connection_lifecycle.cpp)
     add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
+    add_executable(pg_sql_section_tests tests/sql_sections.cpp)
     if(WIN32)
         target_link_libraries(pg_stress_tests PRIVATE psapi)
     endif()
-    foreach(test_target pg_tests pg_extension_tests pg_type_tests pg_stress_tests
-                        pg_connection_tests pg_connection_stall_tests
+    foreach(
+        test_target
+        pg_tests
+        pg_extension_tests
+        pg_type_tests
+        pg_stress_tests
+        pg_connection_tests
+        pg_connection_stall_tests
+        pg_sql_section_tests
     )
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -174,6 +182,10 @@ if(BUILD_TESTING)
     add_test(NAME stress_integration COMMAND pg_stress_tests)
     add_test(NAME connection_lifecycle_integration COMMAND pg_connection_tests)
     add_test(NAME connection_stalls_integration COMMAND pg_connection_stall_tests)
+    add_test(NAME sql_sections_unit COMMAND pg_sql_section_tests)
+    add_test(NAME sql_sections_integration COMMAND pg_sql_section_tests --integration)
+    set_tests_properties(sql_sections_unit PROPERTIES TIMEOUT 30)
+    set_tests_properties(sql_sections_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90)
     set_tests_properties(
         connection_stalls_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS stress
     )
@@ -218,6 +230,11 @@ install(
     FILES_MATCHING
     PATTERN "*.pwn"
     PATTERN "pg_service.conf"
+)
+install(
+    FILES examples/sql/accounts.sql
+    DESTINATION examples/sql
+    COMPONENT omp-postgresql
 )
 if(PG_BUILD_BENCHMARK)
     add_executable(pg_benchmark tests/benchmark.cpp)

@@ -79,6 +79,15 @@ the batch executes. Reading and canonicalization run in the worker. Paths must b
 `.sql` paths under `scriptfiles/sql`. Files must be UTF-8; an initial BOM is accepted.
 File errors appear in the job. This is not a migration system.
 
+`pg_prepare_section(connection,filename,section,parameters=0,prepared=true)` selects one
+named SQL statement from a file. Its 1..64-byte case-sensitive ASCII name is validated
+locally; reading, full-file lexical validation and extraction happen in the worker.
+It returns a statement handle or 0; owner, bind/add/execute, plan reuse and close rules
+match the other prepare functions. File/section errors are deferred job diagnostics.
+Each job captures its SQL once; later jobs reload it. Heterogeneous jobs capture named
+inputs before their first dispatch. See [named SQL sections](sql-sections.md) for the
+exact marker grammar, limits, errors, string setting, batching and runnable examples.
+
 `pg_query(connection,sql,lane,transaction,context,notify)` submits one zero-parameter SQL
 operation directly, without a public statement handle. Use binders for untrusted values.
 Neither this shortcut nor a prepared statement accepts multiple commands in one SQL string.
