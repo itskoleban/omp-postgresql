@@ -44,7 +44,7 @@ jobs:
                   cmake --build build --parallel 4
             - run: |
                   python3 tests/run_postgres.py --build build
-            - name: Verify package and fault fixture regressions
+            - name: Verify package, fault fixture, and CTest qualification regressions
               run: python3 -m unittest discover -s tests -p 'test_*.py' -v
             - name: Compile all Pawn examples with warnings treated as errors
               run: |
@@ -64,6 +64,7 @@ jobs:
                   name: linux-x64-test-logs-${{ matrix.sanitize }}
                   path: |
                       build/Testing/Temporary/*.log
+                      build/Testing/Temporary/qualification.xml
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
     linux-x86:
@@ -166,6 +167,7 @@ jobs:
                   name: linux-x86-test-logs
                   path: |
                       build-linux32/Testing/Temporary/*.log
+                      build-linux32/Testing/Temporary/qualification.xml
                       ${{ runner.temp }}/openmp/Server/pg-*-output.log
                       ${{ runner.temp }}/openmp-package/Server/pg-*-output.log
                       /tmp/omp-pg-integration-*/command-*.log
@@ -198,12 +200,17 @@ jobs:
             - shell: msys2 {0}
               run: |
                   python tests/run_postgres.py --build build --postgres-bin build-server/pgsql/bin
+            - name: Verify CTest qualification regressions
+              shell: msys2 {0}
+              run: python -m unittest discover -s tests -p test_ctest_qualification.py -v
             - name: Retain core test logs
               if: always()
               uses: actions/upload-artifact@v4
               with:
                   name: windows-x64-test-logs
-                  path: build/Testing/Temporary/*.log
+                  path: |
+                      build/Testing/Temporary/*.log
+                      build/Testing/Temporary/qualification.xml
     windows-x86:
         name: Windows x86 MSVC and open.mp
         runs-on: windows-latest
@@ -381,6 +388,7 @@ jobs:
                   name: windows-x86-test-logs
                   path: |
                       build-msvc32/Testing/Temporary/*.log
+                      build-msvc32/Testing/Temporary/qualification.xml
                       build-openmp/Server/pg-*-output.log
                       build-openmp-package/Server/pg-*-output.log
     verify-distribution-artifacts:
