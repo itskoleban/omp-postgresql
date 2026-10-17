@@ -22,7 +22,7 @@ State Connection::state() const {
 			                                   return l->stopped.load();
 		                                   })
 		           ? State::disconnected
-		           : State::closing;
+				   : State::closing;
 	}
 	bool reconnecting = false;
 	for (auto &lane : lanes) {
@@ -183,7 +183,7 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	j->accepted_at = Clock::now();
 	j->items_status.assign(j->kind == Kind::execute
 	                           ? (j->operations.empty() ? j->batch.size() : j->operations.size())
-	                           : 1,
+							   : 1,
 	                       ItemStatus::not_executed);
 	jobs_.emplace(j->id, j);
 	try {

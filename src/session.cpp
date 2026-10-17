@@ -214,7 +214,7 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 			    cancelled ? Error::cancelled : Error::timeout,
 			    sql_confirmed_
 			        ? "SQL completed; stream delivery interrupted and incomplete"
-			        : "Stream interrupted before definitive SQL response; outcome may be unknown");
+					: "Stream interrupted before definitive SQL response; outcome may be unknown");
 		}
 		out = std::move(next);
 		bytes = metadata_bytes;

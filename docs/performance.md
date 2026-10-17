@@ -60,17 +60,17 @@ and run `pg_engine_benchmark 1000 7`. It creates one uniquely named ordinary tab
 cross-session access and drops it on success. Failure may retain that table for inspection;
 the runner's entire database is disposable. Never use a production service.
 
-| Mode              | Work per measured repetition                                                                                        |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `individual`      | N parameterized UPDATE jobs, one SQL each, one lane.                                                                |
-| `snapshots20`     | Up to 20 immutable `add` snapshots per job, N SQL UPDATEs, one lane.                                                |
-| `unnest20`        | Up to 20 IDs in one integer array per job, ceil(N/20) SQL UPDATEs, one lane.                                        |
-| `heterogeneous20` | Up to 20 alternating SQL forms (`value=value+1` and `value=1+value`) per batch job, N equivalent UPDATEs, one lane. |
-| `individual4`     | Same jobs as `individual`, explicitly round-robin across four lanes.                                                |
-| `buffered`        | One ordered SELECT of N rows, retaining the full result.                                                            |
-| `streaming`       | Same SELECT, consuming/releasing blocks of up to 128 rows.                                                          |
-| `file` | Same individual UPDATE as `individual`, loaded by `pg_prepare_file` per job. |
-| `section1`, `section128`, `section1024` | Same individual UPDATE selected from files containing 1, 128 or 1,024 sections; the complete file is indexed per job. |
+| Mode                                          | Work per measured repetition                                                                                                   |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `individual`                                  | N parameterized UPDATE jobs, one SQL each, one lane.                                                                           |
+| `snapshots20`                                 | Up to 20 immutable `add` snapshots per job, N SQL UPDATEs, one lane.                                                           |
+| `unnest20`                                    | Up to 20 IDs in one integer array per job, ceil(N/20) SQL UPDATEs, one lane.                                                   |
+| `heterogeneous20`                             | Up to 20 alternating SQL forms (`value=value+1` and `value=1+value`) per batch job, N equivalent UPDATEs, one lane.            |
+| `individual4`                                 | Same jobs as `individual`, explicitly round-robin across four lanes.                                                           |
+| `buffered`                                    | One ordered SELECT of N rows, retaining the full result.                                                                       |
+| `streaming`                                   | Same SELECT, consuming/releasing blocks of up to 128 rows.                                                                     |
+| `file`                                        | Same individual UPDATE as `individual`, loaded by `pg_prepare_file` per job.                                                   |
+| `section1`, `section128`, `section1024`       | Same individual UPDATE selected from files containing 1, 128 or 1,024 sections; the complete file is indexed per job.          |
 | `file_snapshots20`, `section1024_snapshots20` | Same SQL execution/snapshot grouping as `snapshots20`, through a plain file or a 1,024-section file; one read/capture per job. |
 
 The six file/section modes extend the original seven modes. Fixture generation is excluded

@@ -327,8 +327,8 @@ int main(int argc, char **argv) {
 		});
 		const auto metadata =
 		    sql(engine, connection,
-		        "SELECT current_setting('server_version'),ssl::text,coalesce(version,'none') "
-		        "FROM pg_stat_ssl WHERE pid=pg_backend_pid()");
+			    "SELECT current_setting('server_version'),ssl::text,coalesce(version,'none') "
+			    "FROM pg_stat_ssl WHERE pid=pg_backend_pid()");
 		require(metadata.rows.size() == 1, "Missing server/TLS metadata");
 		std::cout << "# commit=" << PG_BENCH_COMMIT << " source_tree=" << PG_BENCH_TREE
 		          << " configuration=" << PG_BENCH_CONFIG << " compiler=" << PG_BENCH_COMPILER
