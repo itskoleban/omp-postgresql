@@ -1,6 +1,7 @@
 #if defined _omp_postgresql_included
 #endinput
 #endif
+
 #define _omp_postgresql_included
 
 #define PG_INVALID (0)
@@ -44,6 +45,7 @@ enum {
 	PG_CONNECTION_FAILED,
 	PG_CLOSING
 };
+
 enum {
 	PG_QUEUED,
 	PG_RUNNING,
@@ -52,6 +54,7 @@ enum {
 	PG_UNCERTAIN,
 	PG_CANCELLED
 };
+
 enum {
 	PG_ITEM_NOT_EXECUTED,
 	PG_ITEM_CONFIRMED,
@@ -59,11 +62,13 @@ enum {
 	PG_ITEM_UNCERTAIN,
 	PG_ITEM_CANCELLED
 };
+
 enum {
 	PG_READ_COMMITTED,
 	PG_REPEATABLE_READ,
 	PG_SERIALIZABLE
 };
+
 enum {
 	PG_STAT_COMPLETED,
 	PG_STAT_CONFIRMED,
@@ -76,6 +81,7 @@ enum {
 	PG_STAT_ROWS_RECEIVED,
 	PG_STAT_DURATION_US
 };
+
 enum {
 	PG_ERROR_NONE,
 	PG_ERROR_INVALID,
@@ -89,20 +95,25 @@ enum {
 	PG_ERROR_TRANSACTION,
 	PG_ERROR_INTERNAL
 };
+
 native pg_connect(const profile[], pool_size = 1);
 native bool:pg_connection_close(connection);
 native pg_connection_state(connection);
 native pg_connection_ready(connection);
 native bool:pg_connection_message(connection, lane, output[], size = sizeof output);
+
 native pg_lane_state(connection, lane);
 native pg_lane_pending(connection, lane);
 native pg_lane_active(connection, lane);
 native bool:pg_lane_stat(connection, lane, metric, output[], size = sizeof output);
+
 native pg_query(connection, const sql[], lane = 0, transaction = 0, context = 0, bool:notify = true);
+
 native pg_prepare(connection, const sql[], parameters = 0, bool:prepared = true);
 native pg_prepare_file(connection, const filename[], parameters = 0, bool:prepared = true);
 // Select one named statement; bounded file reading/validation occurs in the worker per job.
 native pg_prepare_section(connection, const filename[], const section[], parameters = 0, bool:prepared = true);
+
 native bool:pg_bind_int(statement, index, value);
 native bool:pg_bind_int64(statement, index, const decimal[]);
 native bool:pg_bind_float(statement, index, Float:value);
@@ -117,15 +128,20 @@ native bool:pg_bind_bytes(statement, index, const bytes[], count = sizeof bytes)
 // Flat textual slots and a 0/1 NULL mask; element_type is a scalar PG_* OID.
 native bool:pg_bind_array(statement, index, const values[], count, width, element_type, const nulls[]);
 native bool:pg_add(statement);
+
 native pg_execute(statement, lane = 0, transaction = 0, context = 0, bool:notify = true);
+
 native bool:pg_statement_close(statement);
+
 native pg_batch_create(connection);
 native bool:pg_batch_add(batch, statement);
 native pg_batch_execute(batch, lane = 0, transaction = 0, context = 0, bool:notify = true);
 native bool:pg_batch_close(batch);
+
 native pg_stream_execute(statement, chunk_rows = 128, lane = 0, transaction = 0, context = 0, bool:notify = true);
 native bool:pg_stream_next(job);
 native bool:pg_stream_release(job);
+
 native pg_begin(connection, lane = 0, context = 0, bool:notify = true);
 native pg_begin_ex(connection, isolation, bool:read_only, lane = 0, context = 0, bool:notify = true);
 native pg_savepoint(transaction, const name[], context = 0, bool:notify = true);
@@ -133,6 +149,7 @@ native pg_rollback_to(transaction, const name[], context = 0, bool:notify = true
 native pg_release_savepoint(transaction, const name[], context = 0, bool:notify = true);
 native pg_commit(transaction, context = 0, bool:notify = true);
 native pg_rollback(transaction, context = 0, bool:notify = true);
+
 native pg_job_status(job);
 native bool:pg_job_close(job);
 native bool:pg_cancel(job);
@@ -146,6 +163,7 @@ native bool:pg_job_duration(job, microseconds[], size = sizeof microseconds);
 native bool:pg_job_queue_time(job, microseconds[], size = sizeof microseconds);
 native bool:pg_job_latency(job, microseconds[], size = sizeof microseconds);
 native pg_job_connection(job);
+
 native pg_result_count(job);
 native pg_result_rows(job, result = 0);
 native pg_result_columns(job, result = 0);
@@ -161,6 +179,7 @@ native bool:pg_result_bool(job, result, row, column, &bool:value);
 native bool:pg_result_affected(job, result, output[], size = sizeof output);
 native bool:pg_result_sqlstate(job, result, output[], size = sizeof output);
 native bool:pg_result_message(job, result, output[], size = sizeof output);
+
 native bool:pg_last_error(output[], size = sizeof output);
 forward OnPgConnection(connection, connection_state);
 forward OnPgComplete(job, context);

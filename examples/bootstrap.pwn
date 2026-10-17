@@ -14,12 +14,14 @@ enum {
 	STEP_LOAD,
 	STEP_VALIDATE
 };
+
 enum E_PROPERTY {
 	PropertyID,
 	Float:PropertyX,
 	Float:PropertyY,
 	Float:PropertyZ
 };
+
 enum E_VEHICLE {
 	VehicleID,
 	VehicleModel,
@@ -28,6 +30,7 @@ enum E_VEHICLE {
 	Float:VehicleZ,
 	Float:VehicleAngle
 };
+
 enum E_CLAN {
 	ClanID,
 	ClanName[CLAN_NAME_SIZE]
