@@ -4,6 +4,7 @@
 #include <filesystem>
 
 namespace pg {
+
 struct Statement {
 	Owner owner;
 	Id connection;
@@ -20,4 +21,5 @@ struct Statement {
 
 std::string read_sql(const std::filesystem::path &root, const std::string &name, std::size_t max);
 void validate_sql(const std::string &sql);
+
 } // namespace pg

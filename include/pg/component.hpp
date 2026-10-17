@@ -7,6 +7,7 @@
 #include <unordered_map>
 
 namespace pg {
+
 struct Script {
 	IPawnScript *api;
 	Owner owner;
@@ -46,4 +47,5 @@ private:
 };
 
 void register_natives(IPawnScript &script);
+
 } // namespace pg
