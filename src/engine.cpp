@@ -1,4 +1,5 @@
 #include "pg/engine.hpp"
+#include "pg/sql_sections.hpp"
 #include "pg/stream.hpp"
 #include <algorithm>
 #include <limits>
@@ -21,7 +22,7 @@ State Connection::state() const {
 			                                   return l->stopped.load();
 		                                   })
 		           ? State::disconnected
-				   : State::closing;
+		           : State::closing;
 	}
 	bool reconnecting = false;
 	for (auto &lane : lanes) {
@@ -118,10 +119,20 @@ Id Engine::prepare(Owner owner, Id conn, std::string sql, int parameters, bool f
 	} else if (sql.empty() || sql.size() > 1024) {
 		throw Failure(Error::file, "Invalid SQL filename");
 	}
-	Statement s{owner, conn, std::move(sql), file, persistent, {}, {}, {}, 0};
+	Statement s{owner, conn, std::move(sql), file, persistent, {}, {}, {}, 0, {}};
 	s.bindings.resize(parameters);
 	auto handle = id();
 	statements_.emplace(handle, std::move(s));
+	return handle;
+}
+
+Id Engine::prepare_section(Owner owner, Id conn, std::string filename, std::string section,
+                           int parameters, bool persistent) {
+	if (!valid_section_name(section)) {
+		throw Failure(Error::invalid, "Invalid SQL section name (ASCII identifier, 1..64 bytes)");
+	}
+	auto handle = prepare(owner, conn, std::move(filename), parameters, true, persistent);
+	statements_.at(handle).section = std::move(section);
 	return handle;
 }
 
@@ -172,7 +183,7 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	j->accepted_at = Clock::now();
 	j->items_status.assign(j->kind == Kind::execute
 	                           ? (j->operations.empty() ? j->batch.size() : j->operations.size())
-							   : 1,
+	                           : 1,
 	                       ItemStatus::not_executed);
 	jobs_.emplace(j->id, j);
 	try {
@@ -229,6 +240,7 @@ Id Engine::execute_statement(Owner owner, Id handle, int lane, Id tx, int contex
 	j->stream = std::move(stream);
 	j->sql = s.sql;
 	j->file = s.file;
+	j->section = s.section;
 	j->prepared = s.prepared;
 	j->batch = std::move(s.batch);
 	Id handle_job;
@@ -290,7 +302,7 @@ void Engine::add_batch(Owner owner, Id handle, Id statement_handle) {
 		throw Failure(Error::limit, "Batch item limit exceeded");
 	}
 	std::size_t added_bytes = source.bytes;
-	const auto overhead = source.sql.size() + sizeof(Operation);
+	const auto overhead = source.sql.size() + source.section.size() + sizeof(Operation);
 	if (added_bytes > limits_.batch_bytes - destination.bytes ||
 	    overhead > (limits_.batch_bytes - destination.bytes - added_bytes) / source.batch.size()) {
 		throw Failure(Error::limit, "Batch memory limit exceeded");
@@ -300,7 +312,7 @@ void Engine::add_batch(Owner owner, Id handle, Id statement_handle) {
 	std::vector<Operation> appended;
 	appended.reserve(source.batch.size());
 	for (const auto &params : source.batch) {
-		appended.push_back({source.sql, source.file, source.prepared, params});
+		appended.push_back({source.sql, source.file, source.prepared, params, source.section});
 	}
 	destination.operations.reserve(destination.operations.size() + appended.size());
 	for (auto &operation : appended) {

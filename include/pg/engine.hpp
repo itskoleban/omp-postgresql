@@ -38,6 +38,8 @@ public:
 	void disconnect(Owner owner, Id id);
 	Id prepare(Owner owner, Id connection, std::string sql, int parameters, bool file = false,
 	           bool persistent = true);
+	Id prepare_section(Owner owner, Id connection, std::string filename, std::string section,
+	                   int parameters, bool persistent = true);
 	Statement &statement(Owner owner, Id id);
 	void close_statement(Owner owner, Id id);
 	Id execute(Owner owner, Id statement, int lane, Id transaction, int context, bool notify);

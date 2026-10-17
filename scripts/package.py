@@ -150,6 +150,7 @@ def validate_payload(files, manifest):
         "docs/security.md",
         "docs/validation.md",
         "docs/packaging.md",
+        "examples/sql/accounts.sql",
         "licenses/libpq/COPYRIGHT",
         "share/omp-postgresql/LICENSE",
         "share/omp-postgresql/NOTICE.md",

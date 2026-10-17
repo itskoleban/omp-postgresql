@@ -33,7 +33,7 @@ real CTest, including skipped/disabled cases where CTest itself returns success.
 | `types_integration`      | Exact numeric/temporal values, native boolean output versus text casts, scalar/array OIDs, nullable/empty arrays in prepared, direct and heterogeneous execution, BYTEA and server format errors.                                              |
 | `extensions_integration` | Heterogeneous snapshots/rejection/partial outcomes, lane metrics, BEGIN options/defaults, savepoint recovery, 10000-row streaming, zero-column tuples, provisional rows, slow consumers, delivery-only timeout, cancellation and owner unload. |
 | `stress_integration`     | Seeded four-lane shared-row contention, individual/homogeneous/heterogeneous executions, FIFO, retained-job saturation, reserved COMMIT capacity and repeated cancellation/expiry/disconnect/unload/destruction with blocked streams.          |
-| `engine_benchmark_smoke` | Optional benchmark build: seven Engine workloads, partial 20-item groups, repeated exact returned-data/final-table validation; no timing thresholds.                                                                                           |
+| `engine_benchmark_smoke` | Optional benchmark build: thirteen Engine workloads (including file/section variants), partial 20-item groups, repeated exact returned-data/final-table validation; no timing thresholds. |
 | `natives_unit`           | Component builds: public Pawn/native name and arity parity, malformed argument counts, seeded invalid addresses, packed/unpacked strings, array limits/NULL masks, allocation failures and output preflight.                                   |
 | `natives_integration`    | Actual native wrappers with disposable PostgreSQL: snapshot ownership after memory reuse, nullable/empty arrays and BYTEA, rejected rebind preservation, output overlap/capacity/address checks and VM ownership.                              |
 | `connection_lifecycle_integration` | Repeated eight-worker startup, ready-pool destruction, startup disconnect and refused-connection retry interruption. |
@@ -234,10 +234,10 @@ runtime, test assertions or existing test deadlines.
 
 ## Remaining release qualification
 
-- Named SQL sections (`pg_prepare_section`) are requested but not implemented or advertised
-  in the current 68-native API. Their bounded lexer, asynchronous file snapshots, adversarial
-  tests and compilable account example remain a separate work item after the current
-  lifecycle investigation. `pg_prepare_file` still selects a complete single-command file.
+- Named SQL sections extend the API to 69 natives. Their current implementation, tests,
+  file/capture limits and examples are described in [named SQL sections](sql-sections.md).
+  They still require qualification of the exact candidate commit before RC inclusion;
+  historical evidence below does not qualify newly added behavior.
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
   x86; component, client libraries and server architectures/ABIs must match.
 - Validation applies to these tested compiler/client/server combinations. Requalify changes
@@ -354,7 +354,7 @@ dependency to the offline `natives_unit` test. Existing CI jobs run both new sui
 `tests/pawn_memory.hpp` implements only native registration and checked address lookup.
 Its allocated heap and stack regions have an inaccessible gap; unsupported SDK methods
 fail the test. The unit suite independently reads names and arities from the public Pawn
-include and checks all 68 registered natives, wrong counts, null argument blocks and
+include and checks all 69 registered natives, wrong counts, null argument blocks and
 documented error sentinels. Seed `0x414d5801` generates 4,096 additional address cases.
 Explicit cases cover negative/unaligned/out-of-range addresses, a successful lookup with
 a null physical pointer, injected allocation failure, unterminated packed/unpacked strings,
@@ -431,6 +431,49 @@ for the same CTest suite across the existing matrix, without a second build matr
 The CTest stress timeout is 180 seconds, including customized runs; very long soaks
 should be executed directly under a separately managed disposable fixture.
 
+### Named SQL sections
+
+During local development on 2026-10-17, both new section suites and the expanded benchmark
+smoke passed in two complete Windows x86 MSVC/libpq 17.6/EDB PostgreSQL 17.11 TLS runs.
+Both **complete runs failed**: one timed out after 90 seconds in the existing connection
+lifecycle suite (round 0, ready create); the diagnostic run timed out after 180 seconds in
+the existing stress suite (load connecting). Each ran 12 of 13 suites successfully with
+no skips; neither is a qualified full pass. This reproduces the historical startup/teardown
+problem and remains an RC blocker. LLDB's missing Python 3.11 runtime was repaired locally;
+the resulting x64 debugger capture showed only WOW64 frames, insufficient for a root cause.
+Preserve these failures even if later targeted tests or CI pass; obtain an x86-aware native
+stack before calling the issue resolved. The task-local logs are retained under build/logs.
+
+After the final file-diagnostic/capture changes, the five affected CTest cases passed in
+10.29 seconds without skips in a targeted run. All six Pawn examples compiled with warnings
+as errors; a separate fresh PostgreSQL/open.mp 1.5.8.3079 run passed smoke/GMX, filterscript
+unload, callbacks, extensions, bootstrap and the new account-section scenario. These targeted
+passes do not qualify the failed complete suite. All 31 Python package/fixture/gate
+regressions and the workflow/format/whitespace checks passed. Cross-platform qualification
+must use the exact PR/candidate checkout, including its extracted packages.
+
+`sql_sections_unit` exercises the real lexer with first/middle/last selection, strict names
+and their 64-byte boundary, full-file duplicate/empty/malformed rejection, Unicode lookalikes,
+BOM/UTF-8/NUL, LF/CRLF, quoted/escaped/dollar strings, continuation escapes, quoted identifiers,
+nested comments, fake markers, parameters/casts/UNNEST/CTEs/JOIN/RETURNING, the 1,024-section
+boundary, path confinement and file sizes. Every prefix truncation and 4,096 fixed-seed byte
+mutations (`0x53454354`) exercise bounded parsing; syntactically invalid SQL may remain for
+PostgreSQL to reject. This finite adversarial corpus is not comprehensive fuzzing.
+
+`sql_sections_integration` uses the disposable TLS database and actual Engine/libpq code.
+It checks concurrent sections on four lanes with 20 snapshots each, statement close/reuse,
+worker-time reads, edits during a captured homogeneous/heterogeneous job, full-file rejection
+without dispatch, SQL syntax/permission SQLSTATE, array/UNNEST/RETURNING in a transaction,
+missing names/files, nonstandard strings, queued and dispatched cancellation, streaming,
+owner unload/resource release and capture budgets. Existing suites retain direct/file API,
+transaction/savepoint, memory and lifecycle coverage. The native inventory now covers 69
+wrappers; section-specific cases check Pawn pointer/string validation and copied selectors.
+
+The sixth real-server example, `sections.pwn`, uses `examples/sql/accounts.sql`. CI compiles
+all six examples, copies the trusted SQL fixture into the disposable server, then repeats
+the check using **both the AMX/include and SQL from the extracted package**. The SQL file is
+mandatory in package validation. This adds no build matrix or release permission.
+
 ### Sanitizers and server integration
 
 Configure `PG_SANITIZE=ON` on a supported Linux toolchain and run as an unprivileged user:
@@ -442,7 +485,8 @@ python3 tests/run_postgres.py --build build
 ```
 
 See [Windows server testing](build-windows.md) and [Linux server testing](build-linux.md)
-for the full five-example server commands. `--only-openmp` uses a fresh database to rerun
+for the original five-example server commands; add `--section-gamemode sections.amx`
+and `--section-sql examples/sql/accounts.sql` for the sixth example. `--only-openmp` uses a fresh database to rerun
 bridge tests without claiming a new core-suite run. For the Windows x64 core, use
 `--postgres-bin` to select independent server tools without changing client DLL resolution.
 

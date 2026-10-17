@@ -1,7 +1,9 @@
 #include "pg/statement.hpp"
 #include "pg/parameters.hpp"
+#include "pg/sql_sections.hpp"
 #include <algorithm>
 #include <cctype>
+#include <cerrno>
 #include <fstream>
 
 namespace pg {
@@ -92,7 +94,8 @@ void validate_sql(const std::string &sql) {
 	}
 }
 
-std::string read_sql(const std::filesystem::path &root, const std::string &name, std::size_t max) {
+std::string read_sql_contents(const std::filesystem::path &root, const std::string &name,
+                              std::size_t max) {
 	try {
 		auto relative = std::filesystem::path(std::u8string(name.begin(), name.end()));
 		if (relative.is_absolute() || relative.has_root_name() || relative.extension() != ".sql") {
@@ -109,8 +112,15 @@ std::string read_sql(const std::filesystem::path &root, const std::string &name,
 		if (!std::filesystem::is_regular_file(path)) {
 			throw Failure(Error::file, "SQL is not a regular file");
 		}
+		errno = 0;
 		std::ifstream f(path, std::ios::binary);
 		if (!f) {
+			if (errno == EACCES || errno == EPERM) {
+				throw Failure(Error::file, "SQL file permission denied");
+			}
+			if (errno == ENOENT) {
+				throw Failure(Error::file, "SQL file not found");
+			}
 			throw Failure(Error::file, "SQL file cannot be opened");
 		}
 		std::string sql(max + 1, '\0');
@@ -125,10 +135,23 @@ std::string read_sql(const std::filesystem::path &root, const std::string &name,
 		if (sql.starts_with("\xef\xbb\xbf")) {
 			sql.erase(0, 3);
 		}
-		validate_sql(sql);
 		return sql;
-	} catch (const std::filesystem::filesystem_error &) {
-		throw Failure(Error::file, "SQL file missing or inaccessible");
+	} catch (const std::filesystem::filesystem_error &error) {
+		if (error.code() == std::errc::permission_denied ||
+		    error.code() == std::errc::operation_not_permitted) {
+			throw Failure(Error::file, "SQL file permission denied");
+		}
+		if (error.code() == std::errc::no_such_file_or_directory ||
+		    error.code() == std::errc::not_a_directory) {
+			throw Failure(Error::file, "SQL file not found");
+		}
+		throw Failure(Error::file, "SQL file path cannot be resolved");
 	}
+}
+
+std::string read_sql(const std::filesystem::path &root, const std::string &name, std::size_t max) {
+	auto sql = read_sql_contents(root, name, max);
+	validate_sql(sql);
+	return sql;
 }
 } // namespace pg

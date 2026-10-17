@@ -41,6 +41,8 @@ parser.add_argument("--unload-script")
 parser.add_argument("--callback-gamemode")
 parser.add_argument("--extension-gamemode")
 parser.add_argument("--bootstrap-gamemode")
+parser.add_argument("--section-gamemode")
+parser.add_argument("--section-sql", help="accounts.sql from the source or extracted package")
 parser.add_argument(
     "--only-openmp",
     action="store_true",
@@ -318,6 +320,7 @@ try:
             (args.callback_gamemode, "CALLBACK"),
             (args.extension_gamemode, "EXTENSION"),
             (args.bootstrap_gamemode, "BOOTSTRAP"),
+            (args.section_gamemode, "SECTION"),
         ):
             if not gamemode:
                 continue
@@ -339,6 +342,10 @@ try:
             ]
             for dll in args.runtime:
                 command.extend(("--runtime", dll))
+            if marker == "SECTION":
+                if not args.section_sql:
+                    raise ValueError("--section-gamemode requires --section-sql")
+                command.extend(("--sql-file", args.section_sql))
             run(command, env=env)
 finally:
     exception_in_flight = sys.exc_info()[0] is not None

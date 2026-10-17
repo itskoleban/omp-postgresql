@@ -63,6 +63,7 @@ struct Operation {
 	std::string sql;
 	bool file = false, prepared = true;
 	Params params;
+	std::string section;
 };
 
 struct Batch {
@@ -84,6 +85,7 @@ struct Job {
 	std::string savepoint;
 	std::string sql;
 	bool file = false, prepared = true, notify = true;
+	std::string section;
 	bool delivered = false; // Main-thread bookkeeping only.
 	std::vector<Params> batch;
 	std::vector<Operation> operations;

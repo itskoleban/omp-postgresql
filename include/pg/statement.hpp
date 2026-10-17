@@ -13,6 +13,7 @@ struct Statement {
 	std::vector<std::uint32_t> types;
 	std::vector<Params> batch;
 	std::size_t bytes = 0;
+	std::string section;
 	void bind(int index, Param p, const Limits &limits);
 	void add(const Limits &limits);
 };

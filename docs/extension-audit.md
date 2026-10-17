@@ -101,3 +101,12 @@ Pipeline, named-plan caches, and automatic lane selection remain optional optimi
 Their evaluation must include error correlation, session resets, memory, and ordering,
 not only transport throughput. Existing sequential execution and explicit lanes remain
 usable without these optimizations.
+
+## Named SQL section extension
+
+`pg_prepare_section` follows the existing logical statement/worker path; it adds no connection
+or synchronous query API. Its lexer and job-local file/selection index are bounded by existing
+SQL/batch byte settings and a fixed 1,024-section cap. The bridge exposes 69 natives.
+Unit/adversarial, real-engine/database and extracted-package server checks are described in
+[validation](validation.md); see [the full contract](sql-sections.md). These implementation
+notes are not an independent GPT-6 Astra audit or a Release Candidate qualification.

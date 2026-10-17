@@ -101,6 +101,8 @@ native bool:pg_lane_stat(connection, lane, metric, output[], size = sizeof outpu
 native pg_query(connection, const sql[], lane = 0, transaction = 0, context = 0, bool:notify = true);
 native pg_prepare(connection, const sql[], parameters = 0, bool:prepared = true);
 native pg_prepare_file(connection, const filename[], parameters = 0, bool:prepared = true);
+// Select one named statement; bounded file reading/validation occurs in the worker per job.
+native pg_prepare_section(connection, const filename[], const section[], parameters = 0, bool:prepared = true);
 native bool:pg_bind_int(statement, index, value);
 native bool:pg_bind_int64(statement, index, const decimal[]);
 native bool:pg_bind_float(statement, index, Float:value);

@@ -18,6 +18,7 @@ p.add_argument("--server", required=True)
 p.add_argument("--component", required=True)
 p.add_argument("--gamemode", required=True)
 p.add_argument("--runtime", action="append", default=[])
+p.add_argument("--sql-file", help="Trusted disposable accounts.sql fixture")
 p.add_argument("--gmx-rounds", type=int, default=3)
 p.add_argument("--unload-script")
 p.add_argument("--success-marker", default="PG SMOKE PASS")
@@ -40,6 +41,10 @@ if args.unload_script:
     shutil.copy2(args.unload_script, root / "filterscripts" / "pg_unload.amx")
 for dll in args.runtime:
     shutil.copy2(dll, root / Path(dll).name)
+if args.sql_file:
+    sql_root = root / "scriptfiles" / "sql"
+    sql_root.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(args.sql_file, sql_root / "accounts.sql")
 exe = root / ("omp-server.exe" if os.name == "nt" else "omp-server")
 flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
 log_names = {
@@ -47,6 +52,7 @@ log_names = {
     "PG CALLBACK PASS": "pg-callback-output.log",
     "PG EXTENSION PASS": "pg-extension-output.log",
     "PG BOOTSTRAP PASS": "pg-bootstrap-output.log",
+    "PG SECTION PASS": "pg-section-output.log",
 }
 log_path = root / log_names.get(args.success_marker, "pg-custom-output.log")
 with log_path.open("wb") as log:

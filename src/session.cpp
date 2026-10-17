@@ -1,4 +1,5 @@
 #include "pg/session.hpp"
+#include "pg/sql_sections.hpp"
 #include "pg/statement.hpp"
 #include "pg/stream.hpp"
 #include <algorithm>
@@ -213,7 +214,7 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 			    cancelled ? Error::cancelled : Error::timeout,
 			    sql_confirmed_
 			        ? "SQL completed; stream delivery interrupted and incomplete"
-					: "Stream interrupted before definitive SQL response; outcome may be unknown");
+			        : "Stream interrupted before definitive SQL response; outcome may be unknown");
 		}
 		out = std::move(next);
 		bytes = metadata_bytes;
@@ -388,6 +389,54 @@ void Lane::execute(Job &job) {
 		if (transaction_failed_) {
 			throw Failure(Error::transaction, "Transaction requires rollback");
 		}
+		// Capture each named file once per job, before dispatching any of its operations.
+		// This local index is bounded and is destroyed with the worker's execution scope.
+		std::map<std::string, SqlSections> documents;
+		std::map<std::pair<std::string, std::string>, std::string> selected;
+		std::size_t captured_bytes = 0;
+		auto section_sql = [&](const std::string &filename,
+		                       const std::string &section) -> const std::string & {
+			if (job.cancel.load() || stop_.load()) {
+				throw Failure(Error::cancelled, "Cancelled before SQL section capture");
+			}
+			const auto setting = PQparameterStatus(conn_.get(), "standard_conforming_strings");
+			if (!setting || std::string_view(setting) != "on") {
+				throw Failure(Error::invalid,
+				              "SQL sections require standard_conforming_strings=on");
+			}
+			auto key = std::make_pair(filename, section);
+			if (auto found = selected.find(key); found != selected.end()) {
+				return found->second;
+			}
+			auto charge = [&](std::size_t size) {
+				if (size > limits_.batch_bytes - captured_bytes) {
+					throw Failure(Error::limit, "SQL section capture exceeds batch byte limit");
+				}
+				captured_bytes += size;
+			};
+			auto document = documents.find(filename);
+			if (document == documents.end()) {
+				auto text = read_sql_contents(sql_root_, filename, limits_.sql_bytes);
+				charge(text.size());
+				document = documents.emplace(filename, parse_sql_sections(std::move(text))).first;
+			}
+			auto sql = document->second.select(section);
+			charge(sql.size());
+			validate_sql(sql);
+			return selected.emplace(std::move(key), std::move(sql)).first->second;
+		};
+		if (!job.operations.empty()) {
+			for (std::size_t index = 0; index < job.operations.size(); ++index) {
+				const auto &operation = job.operations[index];
+				if (!operation.section.empty()) {
+					job.error_index = static_cast<int>(index);
+					section_sql(operation.sql, operation.section);
+				}
+			}
+		} else if (!job.section.empty()) {
+			job.error_index = 0;
+			section_sql(job.sql, job.section);
+		}
 		auto item = [&](std::size_t index, const std::string &sql, const Params &params,
 		                bool prepared) {
 			job.error_index = static_cast<int>(index);
@@ -420,15 +469,24 @@ void Lane::execute(Job &job) {
 				query_dispatched_ = false;
 				sql_confirmed_ = false;
 				const auto &operation = job.operations[index];
-				auto sql = operation.file ? read_sql(sql_root_, operation.sql, limits_.sql_bytes)
-				                          : operation.sql;
-				item(index, sql, operation.params, operation.prepared);
+				if (!operation.section.empty()) {
+					item(index, section_sql(operation.sql, operation.section), operation.params,
+					     operation.prepared);
+				} else {
+					auto sql = operation.file
+					               ? read_sql(sql_root_, operation.sql, limits_.sql_bytes)
+					               : operation.sql;
+					item(index, sql, operation.params, operation.prepared);
+				}
 			}
 		} else {
 			job.error_index = 0;
-			auto sql = job.file ? read_sql(sql_root_, job.sql, limits_.sql_bytes) : job.sql;
+			auto sql = job.section.empty()
+			               ? (job.file ? read_sql(sql_root_, job.sql, limits_.sql_bytes) : job.sql)
+			               : std::string{};
+			const auto &captured = job.section.empty() ? sql : section_sql(job.sql, job.section);
 			for (std::size_t index = 0; index < job.batch.size(); ++index) {
-				item(index, sql, job.batch[index], job.prepared);
+				item(index, captured, job.batch[index], job.prepared);
 			}
 		}
 		job.error_index = -1;

@@ -40,6 +40,7 @@ def payload():
             "docs/security.md",
             "docs/validation.md",
             "docs/packaging.md",
+            "examples/sql/accounts.sql",
             "qawno/include/omp-postgresql.inc",
             "licenses/libpq/COPYRIGHT",
             "share/omp-postgresql/LICENSE",

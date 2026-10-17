@@ -69,6 +69,20 @@ the runner's entire database is disposable. Never use a production service.
 | `individual4`     | Same jobs as `individual`, explicitly round-robin across four lanes.                                                |
 | `buffered`        | One ordered SELECT of N rows, retaining the full result.                                                            |
 | `streaming`       | Same SELECT, consuming/releasing blocks of up to 128 rows.                                                          |
+| `file` | Same individual UPDATE as `individual`, loaded by `pg_prepare_file` per job. |
+| `section1`, `section128`, `section1024` | Same individual UPDATE selected from files containing 1, 128 or 1,024 sections; the complete file is indexed per job. |
+| `file_snapshots20`, `section1024_snapshots20` | Same SQL execution/snapshot grouping as `snapshots20`, through a plain file or a 1,024-section file; one read/capture per job. |
+
+The six file/section modes extend the original seven modes. Fixture generation is excluded
+from timings; worker file opening/reading, indexing and capture are included in execution
+and completion latency. SQL files use a unique process-local temporary directory and are
+removed afterward. They are repeatedly read on a warm filesystem; this is not a cold-disk
+benchmark. Different files contain extra unused SQL but submit only the equivalent UPDATE.
+Compare `individual` with `file`/`section*`, and `snapshots20` with the two grouped file modes.
+The same CSV measures CPU, resident high-water memory, queues and repeated job percentiles.
+It does not separately instrument filesystem calls, allocations or lexer/lookup time, and
+does not measure concurrent file writers or multi-worker shared-file contention. Those
+remain separate profiling tasks; these measurements alone do not justify a global cache.
 
 All update modes return both ID and value and must increment every row exactly once.
 The benchmark checks result counts, affected rows, duplicate/missing IDs, every returned

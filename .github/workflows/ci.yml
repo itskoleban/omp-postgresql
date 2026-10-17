@@ -53,7 +53,7 @@ jobs:
                   cmake --build build-pawn --parallel 4
                   git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
                   git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
-                  for script in smoke unload callbacks extensions bootstrap; do
+                  for script in smoke unload callbacks extensions bootstrap sections; do
                       ./build-pawn/pawncc "examples/$script.pwn" -E -ipawn -ibuild-stdlib \
                           -ibuild/_deps/pawn-src/include "-obuild/$script.amx"
                   done
@@ -105,7 +105,7 @@ jobs:
                   cmake --build build-pawn32 --parallel 4
                   git clone https://github.com/openmultiplayer/omp-stdlib.git build-stdlib
                   git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
-                  for script in smoke unload callbacks extensions bootstrap; do
+                  for script in smoke unload callbacks extensions bootstrap sections; do
                       ./build-pawn32/pawncc "examples/$script.pwn" -E -ipawn -ibuild-stdlib \
                   		-ibuild-linux32/_deps/pawn-src/include "-obuild-linux32/$script.amx"
                   done
@@ -123,7 +123,8 @@ jobs:
                   python3 tests/run_postgres.py --build build-linux32 --config Release --openmp-dir "$OPENMP_DIR" \
                   	--component build-linux32/omp-postgresql.so --gamemode build-linux32/smoke.amx --unload-script \
                   	build-linux32/unload.amx --callback-gamemode build-linux32/callbacks.amx \
-                  	--extension-gamemode build-linux32/extensions.amx --bootstrap-gamemode build-linux32/bootstrap.amx --runtime \
+                      --extension-gamemode build-linux32/extensions.amx --bootstrap-gamemode build-linux32/bootstrap.amx \
+                      --section-gamemode build-linux32/sections.amx --section-sql examples/sql/accounts.sql --runtime \
                   	"$PWD/libpq32/lib/libpq.so.5"
             - name: Assemble and verify the Linux x86 package
               run: |
@@ -137,7 +138,7 @@ jobs:
                       --destination build-package-check
             - name: Compile examples from the extracted package
               run: |
-                  for script in smoke unload callbacks extensions bootstrap; do
+                  for script in smoke unload callbacks extensions bootstrap sections; do
                       ./build-pawn32/pawncc "build-package-check/omp-postgresql/examples/$script.pwn" -E \
                           -ibuild-package-check/omp-postgresql/qawno/include -ibuild-stdlib \
                           -ibuild-linux32/_deps/pawn-src/include "-obuild-linux32/packaged-$script.amx"
@@ -153,7 +154,9 @@ jobs:
                       --gamemode build-linux32/packaged-smoke.amx --unload-script build-linux32/packaged-unload.amx \
                       --callback-gamemode build-linux32/packaged-callbacks.amx \
                       --extension-gamemode build-linux32/packaged-extensions.amx \
-                      --bootstrap-gamemode build-linux32/packaged-bootstrap.amx
+                      --bootstrap-gamemode build-linux32/packaged-bootstrap.amx \
+                      --section-gamemode build-linux32/packaged-sections.amx \
+                      --section-sql build-package-check/omp-postgresql/examples/sql/accounts.sql
             - name: Upload the validated Linux x86 package and SHA-256
               uses: actions/upload-artifact@v4
               with:
@@ -290,7 +293,7 @@ jobs:
                   if ($LASTEXITCODE -ne 0) {
                   	throw 'open.mp standard library revision was not found'
                   }
-                  foreach ($script in 'smoke', 'unload', 'callbacks', 'extensions', 'bootstrap') {
+                  foreach ($script in 'smoke', 'unload', 'callbacks', 'extensions', 'bootstrap', 'sections') {
                     & ./build-pawn32/Release/pawncc.exe "examples/$script.pwn" '-E' '-ipawn' '-ibuild-stdlib' `
                     	'-ibuild-msvc32/_deps/pawn-src/include' "-obuild-msvc32/$script.amx"
                     if ($LASTEXITCODE -ne 0) {
@@ -321,7 +324,8 @@ jobs:
                   	build-server/pgsql/bin --openmp-dir build-openmp/Server --component `
                   	build-msvc32/Release/omp-postgresql.dll --gamemode build-msvc32/smoke.amx --unload-script `
                   	build-msvc32/unload.amx --callback-gamemode build-msvc32/callbacks.amx `
-                  	--extension-gamemode build-msvc32/extensions.amx --bootstrap-gamemode build-msvc32/bootstrap.amx --runtime `
+                      --extension-gamemode build-msvc32/extensions.amx --bootstrap-gamemode build-msvc32/bootstrap.amx `
+                      --section-gamemode build-msvc32/sections.amx --section-sql examples/sql/accounts.sql --runtime `
                   	libpq32/bin/libpq.dll --runtime libpq32/bin/libssl-3.dll --runtime libpq32/bin/libcrypto-3.dll
                   if ($LASTEXITCODE -ne 0) {
                   	throw 'MSVC x86 PostgreSQL/open.mp integration failed'
@@ -349,7 +353,7 @@ jobs:
             - name: Compile examples from the extracted package
               shell: pwsh
               run: |
-                  foreach ($script in @('smoke', 'unload', 'callbacks', 'extensions', 'bootstrap')) {
+                  foreach ($script in @('smoke', 'unload', 'callbacks', 'extensions', 'bootstrap', 'sections')) {
                       ./build-pawn32/Release/pawncc.exe "build-package-check/omp-postgresql/examples/$script.pwn" -E `
                           -ibuild-package-check/omp-postgresql/qawno/include -ibuild-stdlib `
                           -ibuild-msvc32/_deps/pawn-src/include "-obuild-msvc32/packaged-$script.amx"
@@ -373,7 +377,9 @@ jobs:
                       --gamemode build-msvc32/packaged-smoke.amx --unload-script build-msvc32/packaged-unload.amx `
                       --callback-gamemode build-msvc32/packaged-callbacks.amx `
                       --extension-gamemode build-msvc32/packaged-extensions.amx `
-                      --bootstrap-gamemode build-msvc32/packaged-bootstrap.amx @runtimeArgs
+                      --bootstrap-gamemode build-msvc32/packaged-bootstrap.amx `
+                      --section-gamemode build-msvc32/packaged-sections.amx `
+                      --section-sql build-package-check/omp-postgresql/examples/sql/accounts.sql @runtimeArgs
                   if ($LASTEXITCODE -ne 0) { throw 'Packaged open.mp integration failed' }
             - name: Upload the validated Windows x86 package and SHA-256
               uses: actions/upload-artifact@v4

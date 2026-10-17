@@ -90,8 +90,8 @@ void unit() {
 	std::vector<std::string> strings{"NULL", "a\"b", "a\\b", "", "x,y"};
 	check(pg::string_array(strings).value == "{\"NULL\",\"a\\\"b\",\"a\\\\b\",\"\",\"x,y\"}",
 	      "Array escaping");
-	pg::Statement s{
-	    owner, 1, "SELECT $1", false, true, std::vector<std::optional<pg::Param>>(1), {}, {}, 0};
+	pg::Statement s{owner, 1,  "SELECT $1", false, true, std::vector<std::optional<pg::Param>>(1),
+	                {},    {}, 0,           {}};
 	pg::Limits limits;
 	rejects([&] {
 		s.add(limits);
@@ -135,7 +135,8 @@ void unit() {
 	});
 	// Reject a new snapshot without consuming either existing data or its bindings.
 	pg::Statement bounded{
-	    owner, 1, "SELECT $1", false, true, std::vector<std::optional<pg::Param>>(1), {}, {}, 0};
+	    owner, 1,  "SELECT $1", false, true, std::vector<std::optional<pg::Param>>(1),
+	    {},    {}, 0,           {}};
 	pg::Limits byte_limits;
 	byte_limits.batch_bytes = sizeof(pg::Param) + 3;
 	bounded.bind(1, pg::text("abc"), byte_limits);

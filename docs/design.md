@@ -125,6 +125,14 @@ Only one SQL command is supported: the extended protocol rejects multiple comman
 The operator manages the directory, which must not be writable by players. The component
 does not protect against an administrator changing symbolic links concurrently.
 
+`pg_prepare_section` adds a section-name field to the same statement/job/operation path.
+Workers build a bounded lexical index of each named file, validate all structural sections,
+then capture selected SQL before dispatch. Homogeneous snapshots share one selection;
+heterogeneous named inputs are preflighted and share an index per relative filename string
+within that job. No file index survives worker execution and no global cache is introduced.
+PGconn ownership, FIFO, parameters, transactions, results and VM cleanup are unchanged.
+See [named SQL sections](sql-sections.md) for error, edit, memory and lexical contracts.
+
 Connections use libpq service profiles without passwords in Pawn. Configure TLS through
 `sslmode=verify-full` and `sslrootcert` in the profile. TLS is not imposed on Unix sockets.
 The component does not log SQL, parameters, or server messages, which may contain sensitive
