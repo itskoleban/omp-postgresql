@@ -127,6 +127,9 @@ combined lifecycle stress rounds with blocked streams, saturated job limits and
 transaction rollback verification. See [stress reproduction and memory limits](docs/validation.md#combined-engine-stress).
 An additional [connection lifecycle suite](docs/validation.md#concurrent-connection-lifecycle)
 repeatedly starts and destroys eight-worker pools, including startup and retry interruption.
+The [stalled connection suite](docs/validation.md#stalled-connection-protocol-tests) holds
+four peers at each of three startup protocol boundaries and verifies bounded retry,
+disconnect, owner unload and destruction while an independent TLS connection progresses.
 When the component is enabled, it also checks the actual native wrappers against the
 public Pawn declarations, invalid AMX addresses and immutable snapshots. See
 [native boundary validation](docs/validation.md#pawn-native-boundary-tests) for its scope.

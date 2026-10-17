@@ -151,11 +151,12 @@ if(BUILD_TESTING)
     add_executable(pg_type_tests tests/type_tests.cpp)
     add_executable(pg_stress_tests tests/stress.cpp)
     add_executable(pg_connection_tests tests/connection_lifecycle.cpp)
+    add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
     if(WIN32)
         target_link_libraries(pg_stress_tests PRIVATE psapi)
     endif()
     foreach(test_target pg_tests pg_extension_tests pg_type_tests pg_stress_tests
-                        pg_connection_tests
+                        pg_connection_tests pg_connection_stall_tests
     )
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -172,6 +173,10 @@ if(BUILD_TESTING)
     add_test(NAME extensions_integration COMMAND pg_extension_tests)
     add_test(NAME stress_integration COMMAND pg_stress_tests)
     add_test(NAME connection_lifecycle_integration COMMAND pg_connection_tests)
+    add_test(NAME connection_stalls_integration COMMAND pg_connection_stall_tests)
+    set_tests_properties(
+        connection_stalls_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS stress
+    )
     set_tests_properties(
         connection_lifecycle_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS stress
     )

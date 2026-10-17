@@ -44,7 +44,7 @@ jobs:
                   cmake --build build --parallel 4
             - run: |
                   python3 tests/run_postgres.py --build build
-            - name: Verify package and CTest qualification regressions
+            - name: Verify package, fault fixture, and CTest qualification regressions
               run: python3 -m unittest discover -s tests -p 'test_*.py' -v
             - name: Compile all Pawn examples with warnings treated as errors
               run: |
