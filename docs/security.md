@@ -50,23 +50,23 @@ Environment variables are read once when the component is created. Values must b
 integers; invalid settings prevent component loading. `RECONNECT_ATTEMPTS` also accepts zero
 to disable additional attempts. Limits are global unless stated otherwise.
 
-| Variable `OMP_PG_*` | Default | Maximum | Scope |
-| --- | ---: | ---: | --- |
-| MAX_CONNECTIONS | 8 | 64 | Logical connections, including those closing. |
-| MAX_LANES | 8 | 16 | Lanes per connection. |
-| MAX_STATEMENTS | 64 | 1024 | Live statement and heterogeneous batch handles combined. |
-| MAX_JOBS | 128 | 4096 | Pending jobs, retained results, and transaction finishing reservations. |
-| MAX_BATCH_COUNT | 1024 | 65536 | Operations per staged statement/batch. |
-| MAX_BATCH_BYTES | 1048576 | 67108864 | Captured parameters per statement/batch; heterogeneous SQL/operation copies also count. |
-| MAX_SQL_BYTES | 262144 | 4194304 | SQL text or file contents. |
-| MAX_PARAMETER_BYTES | 262144 | 4194304 | Each encoded bound value. |
-| MAX_RESULT_BYTES | 2097152 | 67108864 | Estimated accumulated data/object size per retained job, or per streaming block. |
-| MAX_RESULT_ROWS | 10000 | 1000000 | Rows per non-stream statement result. |
-| CONNECT_MS | 10000 | 120000 | Each connection attempt. |
-| QUERY_MS | 30000 | 3600000 | Each statement, including preparation. |
-| TRANSACTION_MS | 60000 | 3600000 | Total time from confirmed BEGIN. |
-| RECONNECT_ATTEMPTS | 3 | 10 | Additional attempts after the initial attempt; minimum 0. |
-| RECONNECT_BASE_MS | 100 | 60000 | Default backoff: 100, 200, then 400 ms. |
+| Variable `OMP_PG_*` | Default |  Maximum | Scope                                                                                   |
+| ------------------- | ------: | -------: | --------------------------------------------------------------------------------------- |
+| MAX_CONNECTIONS     |       8 |       64 | Logical connections, including those closing.                                           |
+| MAX_LANES           |       8 |       16 | Lanes per connection.                                                                   |
+| MAX_STATEMENTS      |      64 |     1024 | Live statement and heterogeneous batch handles combined.                                |
+| MAX_JOBS            |     128 |     4096 | Pending jobs, retained results, and transaction finishing reservations.                 |
+| MAX_BATCH_COUNT     |    1024 |    65536 | Operations per staged statement/batch.                                                  |
+| MAX_BATCH_BYTES     | 1048576 | 67108864 | Captured parameters per statement/batch; heterogeneous SQL/operation copies also count. |
+| MAX_SQL_BYTES       |  262144 |  4194304 | SQL text or file contents.                                                              |
+| MAX_PARAMETER_BYTES |  262144 |  4194304 | Each encoded bound value.                                                               |
+| MAX_RESULT_BYTES    | 2097152 | 67108864 | Estimated accumulated data/object size per retained job, or per streaming block.        |
+| MAX_RESULT_ROWS     |   10000 |  1000000 | Rows per non-stream statement result.                                                   |
+| CONNECT_MS          |   10000 |   120000 | Each connection attempt.                                                                |
+| QUERY_MS            |   30000 |  3600000 | Each statement, including preparation.                                                  |
+| TRANSACTION_MS      |   60000 |  3600000 | Total time from confirmed BEGIN.                                                        |
+| RECONNECT_ATTEMPTS  |       3 |       10 | Additional attempts after the initial attempt; minimum 0.                               |
+| RECONNECT_BASE_MS   |     100 |    60000 | Default backoff: 100, 200, then 400 ms.                                                 |
 
 All other minima are 1. Values and ceilings above match `src/config.cpp`; the fixed Pawn
 output/array/name limits are independent of these overrides. See the

@@ -37,6 +37,7 @@
 #define PG_UUID_ARRAY (2951)
 #define PG_JSONB (3802)
 #define PG_JSONB_ARRAY (3807)
+
 enum {
 	PG_DISCONNECTED,
 	PG_CONNECTING,
