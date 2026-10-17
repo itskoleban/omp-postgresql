@@ -7,6 +7,7 @@
 #include <thread>
 
 namespace {
+
 int checks = 0;
 constexpr pg::Owner owner = 1;
 constexpr std::array<std::pair<std::uint32_t, std::uint32_t>, 16> types{{
@@ -343,6 +344,7 @@ void integration(const char *profile) {
 	engine.close_job(owner, invalid_array->id);
 	engine.disconnect(owner, connection);
 }
+
 } // namespace
 
 int main(int argc, char **argv) {

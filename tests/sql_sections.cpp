@@ -10,6 +10,7 @@
 #include <tuple>
 
 namespace {
+
 unsigned checks = 0;
 constexpr pg::Owner owner = 41;
 
@@ -20,6 +21,7 @@ void check(bool condition, const char *message) {
 		throw std::runtime_error(message);
 	}
 }
+
 template <class F> void rejects(F f, pg::Error code, const char *message) {
 	try {
 		f();
@@ -243,6 +245,7 @@ void ready(pg::Engine &engine, pg::Id connection) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(2));
 	}
 }
+
 std::shared_ptr<pg::Job> wait(pg::Engine &engine, pg::Id id, bool success = true) {
 	auto job = engine.job(owner, id);
 	const auto deadline = pg::Clock::now() + std::chrono::seconds(15);
@@ -257,10 +260,12 @@ std::shared_ptr<pg::Job> wait(pg::Engine &engine, pg::Id id, bool success = true
 	}
 	return job;
 }
+
 pg::Id run(pg::Engine &engine, pg::Id statement, int lane = 0, pg::Id transaction = 0) {
 	engine.statement(owner, statement).add(engine.limits());
 	return engine.execute(owner, statement, lane, transaction, 0, false);
 }
+
 void dispatched(pg::Engine &engine, pg::Id connection, std::uint64_t previous) {
 	const auto deadline = pg::Clock::now() + std::chrono::seconds(15);
 	while (engine.connection(owner, connection).lanes[0]->snapshot().sql_commands == previous) {
@@ -605,6 +610,7 @@ void lifecycle_and_limits(const char *profile) {
 	engine.close_job(owner, job->id);
 	engine.close_statement(owner, statement);
 }
+
 } // namespace
 
 int main(int argc, char **argv) {

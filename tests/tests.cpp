@@ -7,6 +7,7 @@
 #include <thread>
 
 namespace {
+
 int checks = 0;
 
 void check(bool condition, const char *message) {
@@ -775,6 +776,7 @@ void integration(const char *profile) {
 		}
 	}
 }
+
 } // namespace
 
 int main(int argc, char **) {
