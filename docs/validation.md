@@ -10,6 +10,21 @@ Checks remain active in Release builds. `tests/run_postgres.py` creates an isola
 loopback-only PostgreSQL cluster with TLS and always stops it. Integration tests return
 77 when no service profile is supplied; a skipped test is not a successful integration run.
 
+The disposable runner enforces this distinction automatically: it inventories the configured
+CTest cases, removes any stale qualification report, runs all cases with `--no-tests=error`
+and `--output-junit`, then requires an exact inventory match with every case executed
+successfully. A zero CTest exit code alone is insufficient: disabled tests, return-code
+skips and output-based skips fail qualification. Missing, duplicate or unexpected cases,
+missing reports and malformed XML also fail. Optional component/benchmark cases are taken
+from the configured build, so no fixed test count substitutes for the actual inventory.
+This verifies execution of configured tests; it cannot detect an intended test omitted
+from CMake altogether or prove that a test's assertions are sufficient.
+
+CI retains `Testing/Temporary/qualification.xml` with the existing test logs, including
+failed runs when CTest produced a report. `--only-openmp` remains a separate server check
+and does not claim a new CTest run. Offline `test_ctest_qualification.py` regressions invoke
+real CTest, including skipped/disabled cases where CTest itself returns success.
+
 | Suite                    | Coverage                                                                                                                                                                                                                                       |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `unit`                   | Parameter validation, immutable snapshots, limits, SQL/file confinement and UTF-8.                                                                                                                                                             |
