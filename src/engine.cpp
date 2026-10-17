@@ -5,6 +5,7 @@
 #include <limits>
 
 namespace pg {
+
 int Connection::ready() const {
 	int n = 0;
 	for (auto &lane : lanes) {
@@ -519,4 +520,5 @@ Dispatch Engine::poll() {
 	});
 	return out;
 }
+
 } // namespace pg

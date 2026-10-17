@@ -8,7 +8,9 @@
 #include <string_view>
 
 namespace pg {
+
 namespace {
+
 // Validate each AMX address before dereferencing; never retain Pawn memory.
 cell *address(IPawnScript &s, cell base, std::size_t offset = 0) {
 	auto value = static_cast<std::int64_t>(base) + static_cast<std::int64_t>(offset) * sizeof(cell);
@@ -608,6 +610,7 @@ cell AMX_NATIVE_CALL call(AMX *amx, const cell *params) noexcept {
 	}
 	return 0;
 }
+
 } // namespace
 
 void register_natives(IPawnScript &script) {
@@ -618,4 +621,5 @@ void register_natives(IPawnScript &script) {
 	};
 	script.Register(entries, static_cast<int>(sizeof(entries) / sizeof(entries[0])));
 }
+
 } // namespace pg

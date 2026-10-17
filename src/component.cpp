@@ -1,6 +1,7 @@
 #include "pg/component.hpp"
 
 namespace pg {
+
 Component *Component::instance = nullptr;
 
 void Component::onLoad(ICore *core) {
@@ -139,6 +140,7 @@ Component::~Component() {
 	}
 	instance = nullptr;
 }
+
 } // namespace pg
 
 COMPONENT_ENTRY_POINT() {

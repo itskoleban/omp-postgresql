@@ -11,7 +11,9 @@
 #endif
 
 namespace pg {
+
 namespace {
+
 struct ResultDelete {
 	void operator()(PGresult *p) const {
 		PQclear(p);
@@ -40,6 +42,7 @@ bool valid_savepoint(const std::string &name) {
 	}
 	return true;
 }
+
 } // namespace
 
 Lane::Lane(std::string service, Limits limits, std::filesystem::path root,
@@ -767,4 +770,5 @@ void Lane::run() {
 	state.store(State::disconnected);
 	stopped.store(true);
 }
+
 } // namespace pg
