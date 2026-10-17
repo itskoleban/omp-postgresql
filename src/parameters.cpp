@@ -6,7 +6,9 @@
 #include <limits>
 
 namespace pg {
+
 namespace {
+
 // PostgreSQL's built-in scalar/array OID pairs, including the legacy binders.
 constexpr std::array<std::pair<std::uint32_t, std::uint32_t>, 16> array_types{{
     {16, 1000},
@@ -61,6 +63,7 @@ int hex_digit(char character) {
 	}
 	return -1;
 }
+
 } // namespace
 
 bool utf8(std::string_view s) {
@@ -248,4 +251,5 @@ Param typed_array(std::span<const std::optional<std::string>> values, std::uint3
 	output += '}';
 	return {type->second, std::move(output)};
 }
+
 } // namespace pg

@@ -19,6 +19,7 @@
 #endif
 
 namespace {
+
 constexpr pg::Owner owner = 901;
 std::uint64_t checks = 0;
 std::string phase;
@@ -444,6 +445,7 @@ void lifecycle(const char *service, std::mt19937 &random, unsigned rounds,
 	}
 	execute(observer, observer_connection, "DROP TABLE " + table);
 }
+
 } // namespace
 
 int main() {

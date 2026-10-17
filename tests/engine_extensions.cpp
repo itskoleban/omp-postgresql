@@ -6,6 +6,7 @@
 #include <thread>
 
 namespace {
+
 constexpr pg::Owner owner = 71;
 int checks = 0;
 
@@ -482,6 +483,7 @@ void stream_lifecycle(const char *service) {
 		engine.job(owner, unloaded->id);
 	});
 }
+
 } // namespace
 
 int main() {

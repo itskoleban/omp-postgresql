@@ -9,6 +9,7 @@
 #include <vector>
 
 namespace pg {
+
 using Id = std::int32_t;
 using Owner = std::uint64_t;
 using Clock = std::chrono::steady_clock;
@@ -115,4 +116,5 @@ struct Failure : std::exception {
 		return detail.c_str();
 	}
 };
+
 } // namespace pg

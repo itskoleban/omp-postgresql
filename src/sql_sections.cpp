@@ -2,22 +2,29 @@
 #include "pg/parameters.hpp"
 
 namespace pg {
+
 namespace {
+
 bool letter(unsigned char c) {
 	return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_';
 }
+
 bool digit(unsigned char c) {
 	return c >= '0' && c <= '9';
 }
+
 bool horizontal(char c) {
 	return c == ' ' || c == '\t';
 }
+
 bool space(char c) {
 	return horizontal(c) || c == '\r' || c == '\n' || c == '\f' || c == '\v';
 }
+
 bool identifier(unsigned char c) {
 	return letter(c) || digit(c) || c == '$' || c >= 128;
 }
+
 std::string_view trim(std::string_view s) {
 	while (!s.empty() && horizontal(s.front())) {
 		s.remove_prefix(1);
@@ -27,9 +34,11 @@ std::string_view trim(std::string_view s) {
 	}
 	return s;
 }
+
 bool declaration(std::string_view s) {
 	return s.starts_with("name") && (s.size() == 4 || s[4] == ':' || space(s[4]));
 }
+
 [[noreturn]] void malformed() {
 	throw Failure(Error::file, "Malformed SQL section declaration");
 }
@@ -56,6 +65,7 @@ std::size_t dollar_close(std::string_view sql, std::string_view delimiter, std::
 	}
 	throw Failure(Error::file, "Unterminated SQL dollar quote");
 }
+
 } // namespace
 
 bool valid_section_name(std::string_view name) {
@@ -249,4 +259,5 @@ SqlSections parse_sql_sections(std::string text) {
 	}
 	return document;
 }
+
 } // namespace pg

@@ -6,6 +6,7 @@
 #include <string_view>
 
 namespace pg {
+
 inline constexpr std::size_t sql_section_name_bytes = 64;
 inline constexpr std::size_t sql_section_count = 1024;
 
@@ -22,4 +23,5 @@ struct SqlSections {
 SqlSections parse_sql_sections(std::string text);
 std::string read_sql_contents(const std::filesystem::path &root, const std::string &name,
                               std::size_t max);
+
 } // namespace pg

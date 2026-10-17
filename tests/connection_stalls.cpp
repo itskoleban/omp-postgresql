@@ -6,6 +6,7 @@
 #include <thread>
 
 namespace {
+
 constexpr pg::Owner owner = 1002, healthy_owner = 1003;
 constexpr int lanes = 4;
 unsigned checks = 0;
@@ -155,6 +156,7 @@ void exercise(const char *healthy_service, const std::filesystem::path &root,
 		std::cout << phase << " complete" << std::endl;
 	}
 }
+
 } // namespace
 
 int main() {

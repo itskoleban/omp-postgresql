@@ -9,6 +9,7 @@
 #include <thread>
 
 namespace pg {
+
 struct CompletionQueue {
 	std::mutex mutex;
 	std::deque<Id> ids;
@@ -92,4 +93,5 @@ private:
 	void execute(Job &job);
 	void drop();
 };
+
 } // namespace pg

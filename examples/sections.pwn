@@ -14,6 +14,7 @@ enum {
 	STEP_VERIFY,
 	STEP_COMMIT
 };
+
 new Database;
 new Transaction;
 new LoadStatement;

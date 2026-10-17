@@ -11,6 +11,7 @@
 #include <thread>
 
 namespace {
+
 unsigned checks = 0;
 constexpr cell stack = 128 * sizeof(cell);
 constexpr cell tail = 255 * sizeof(cell);
@@ -347,6 +348,7 @@ void integration(const char *profile) {
 	check(h.vm.unexpected_calls == 0 && foreign.unexpected_calls == 0,
 	      "Unexpected SDK call in integration");
 }
+
 } // namespace
 
 int main(int argc, char **argv) {

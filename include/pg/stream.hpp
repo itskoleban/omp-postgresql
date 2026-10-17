@@ -5,6 +5,7 @@
 #include <mutex>
 
 namespace pg {
+
 // One pending block, one main-thread block, and one worker block bound retention.
 // libpq may still allocate a complete incoming row before our byte limit applies.
 class Stream {
@@ -62,4 +63,5 @@ private:
 	std::shared_ptr<const Result> current_; // Accessed only by the main thread.
 	std::atomic<bool> available_{false};
 };
+
 } // namespace pg

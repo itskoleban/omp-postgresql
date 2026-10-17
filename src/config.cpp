@@ -4,6 +4,7 @@
 #include <string_view>
 
 namespace pg {
+
 Limits environment_limits() {
 	Limits l;
 	auto read = [](const char *name, auto &field, int maximum, int minimum = 1) {
@@ -36,4 +37,5 @@ Limits environment_limits() {
 	read("OMP_PG_RECONNECT_BASE_MS", l.reconnect_base_ms, 60000);
 	return l;
 }
+
 } // namespace pg

@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 namespace pg {
+
 struct Connection {
 	Owner owner;
 	std::vector<std::unique_ptr<Lane>> lanes;
@@ -83,4 +84,5 @@ private:
 	Id execute_statement(Owner owner, Id statement, int lane, Id transaction, int context,
 	                     bool notify, std::shared_ptr<Stream> stream);
 };
+
 } // namespace pg
