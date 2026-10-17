@@ -13,6 +13,13 @@ MSYS2 i686 OpenSSL 3. It copies only required OpenSSL/MinGW runtime DLLs from th
 selected directory, checks PE machine type and includes their licenses. The component
 itself is built with MSVC; libpq's opaque C objects remain owned by libpq.
 
+The Windows source build applies a downstream mutex-initialization correction. Its patch
+and rationale are included under `share/omp-postgresql/patches/`; the package manifest
+binds the patch SHA-256 and source version to the actual libpq DLL SHA-256. This is a
+project-maintained correction, not an upstream-released patch. The race and remaining
+qualification limits are recorded in [validation](docs/validation.md). Externally supplied
+Windows libpq builds need equivalent verification; a newer version number alone is not proof.
+
 Install Microsoft's supported **Visual C++ v14 Redistributable (x86)** separately, including
 on 64-bit Windows. The Universal CRT and Windows system DLLs are operating-system
 dependencies and are not copied from the build machine. Inspect the manifest for the exact

@@ -6,6 +6,13 @@ loading are recorded separately.
 
 ## Automated coverage
 
+Windows builds that supply `PG_LIBPQ_SOURCE_DIR` also run `libpq_windows_mutex_unit`
+against the actual dependency C source with a forced stale-initializer schedule, and
+`libpq_process_startup_integration` repeats the existing eight-lane lifecycle test in
+20 fresh processes. Repeating rounds in one process does not repeatedly initialize
+libpq's process-global mutex. CI enables both tests for the Windows x86 source build;
+the qualification inventory automatically includes them.
+
 Checks remain active in Release builds. `tests/run_postgres.py` creates an isolated,
 loopback-only PostgreSQL cluster with TLS and always stops it. Integration tests return
 77 when no service profile is supplied; a skipped test is not a successful integration run.
@@ -246,8 +253,10 @@ runtime, test assertions or existing test deadlines.
 - Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, exhausted
   handles and extreme backpressure need more adversarial coverage. The combined lifecycle
   stress described below covers a bounded, reproducible subset of cancellation/expiry/shutdown.
-- The intermittent local extension/stress timeouts recorded above need a reproducible
-  diagnosis; a subsequent successful execution alone does not resolve them.
+- One startup/destruction deadlock has a native-stack diagnosis and deterministic
+  dependency regression; see the October 17 Windows libpq investigation below. Its fix
+  requires the corrected DLL. Every historical extension/stress timeout has not been
+  independently mapped to that defect, and other client providers require verification.
 - Malformed AMX file/bytecode fuzzing, prolonged soak testing and ThreadSanitizer remain pending.
   Native argument/address tests cover a bounded SDK memory model, not the AMX loader or interpreter. Stress tests
   record process peak memory and verify object release, but do not establish a strict RSS limit;
@@ -473,6 +482,58 @@ The sixth real-server example, `sections.pwn`, uses `examples/sql/accounts.sql`.
 all six examples, copies the trusted SQL fixture into the disposable server, then repeats
 the check using **both the AMX/include and SQL from the extracted package**. The SQL file is
 mandatory in package validation. This adds no build matrix or release permission.
+
+### Windows libpq startup deadlock investigation, October 17, 2026
+
+At integrated `master` `ea82bb7`, [CI 38990960268](https://github.com/itskoleban/omp-postgresql/actions/runs/38990960268)
+passed all six jobs without skipped steps. All five Engine jobs ran 13/13 tests, including
+Linux ASan/UBSan; both extracted x86 packages passed all six server scenarios. This
+preserves cross-platform evidence for the integrated SQL sections but did not explain
+the historical local startup/destruction timeouts.
+
+A focused Windows x86/MSVC/libpq 17.6 test launched the lifecycle executable in fresh
+processes. Process 57 reproduced the ready-pool deadline and subsequent destruction hang.
+An x86 DbgEng capture with project symbols showed all eight workers inside libpq waiting
+on the same critical section. DLL relocation, its COFF symbols and disassembly mapped
+that section to `ssl_config_mutex` and the waiting call to `pthread_mutex_lock`.
+The export-only debugger label `PQsetSSLKeyPassHook_OpenSSL+0x99` was a nearest-symbol
+label, not evidence that the component called the key-pass hook API.
+
+The original Windows mutex initializer can overwrite initialized state 1 with 2 when a
+late initializer resumes. An owner's concurrent unlock then returns EINVAL without
+releasing the critical section. This matches the independently reported
+[PostgreSQL defect](https://www.postgresql.org/message-id/CAAH-eSXFXSEtXpb4kUAGOKKdm3o3y-yWfjsJ7R7zUL6g-swuzw@mail.gmail.com);
+the [upstream correction](https://commitfest.postgresql.org/patch/7255/) remained pending
+review when checked. The real dependency C source was compiled with Windows scheduling
+hooks: the unpatched version deterministically failed the holder's unlock with exit 1;
+the checked-in correction passed that same schedule and 80,000 contended locks.
+
+After rebuilding the same local libpq 17.6 client with the correction, 100 fresh lifecycle
+processes passed (3,400 checks; 67.89 seconds). A full Windows x86 Release run against a
+disposable TLS PostgreSQL 17.11 server passed all 15 configured tests without skips in
+62.59 seconds, including the deterministic regression and 20 additional fresh processes.
+All 33 Python package/fixture/qualification regressions passed. Forward application and
+reverse verification also passed against the checksum-verified official PostgreSQL 17.11
+source used by CI. These are local correctness checks, not throughput benchmarks.
+
+The full local run also passed all six real open.mp 1.5.8.3079 scenarios. A Windows
+package from branch commit `f43fd53` was assembled twice with identical SHA-256
+`2d6c617197278a9c927fa32838427983f7ab5d738bbbf494110184b738a6bd5b`.
+The extracted package passed inventory/architecture/dependency/license/hash/provenance
+verification. All six packaged examples compiled again with warnings as errors; a freshly
+extracted official server passed smoke/GMX, pending filterscript unload, callbacks,
+extensions, bootstrap and sections using those AMX/include/SQL files and the packaged
+DLLs, with development PATH entries removed. Installed DLL hashes matched the payload.
+This local libpq 17.6 package is separate from CI's libpq 17.11 artifacts and is not an RC.
+
+The Windows source helper applies a narrow downstream compare-exchange correction,
+preserving the mutex struct and libpq ABI. No component scheduling or connection ownership
+is changed. Packages retain the patch/rationale and bind the DLL and patch hashes to the
+source version. This directly diagnoses one reproduced deadlock; it does not establish
+that every historical timeout shares its cause. Final cross-platform CI/candidate package
+qualification is required independently of these local checks. Other Windows
+libpq providers require equivalent verification. The Astra audit and remaining RC gates
+remain outstanding.
 
 ### Sanitizers and server integration
 
