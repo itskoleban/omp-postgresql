@@ -253,8 +253,10 @@ runtime, test assertions or existing test deadlines.
 - Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, exhausted
   handles and extreme backpressure need more adversarial coverage. The combined lifecycle
   stress described below covers a bounded, reproducible subset of cancellation/expiry/shutdown.
-- The intermittent local extension/stress timeouts recorded above need a reproducible
-  diagnosis; a subsequent successful execution alone does not resolve them.
+- One startup/destruction deadlock has a native-stack diagnosis and deterministic
+  dependency regression; see the October 17 Windows libpq investigation below. Its fix
+  requires the corrected DLL. Every historical extension/stress timeout has not been
+  independently mapped to that defect, and other client providers require verification.
 - Malformed AMX file/bytecode fuzzing, prolonged soak testing and ThreadSanitizer remain pending.
   Native argument/address tests cover a bounded SDK memory model, not the AMX loader or interpreter. Stress tests
   record process peak memory and verify object release, but do not establish a strict RSS limit;
@@ -514,12 +516,22 @@ All 33 Python package/fixture/qualification regressions passed. Forward applicat
 reverse verification also passed against the checksum-verified official PostgreSQL 17.11
 source used by CI. These are local correctness checks, not throughput benchmarks.
 
+The full local run also passed all six real open.mp 1.5.8.3079 scenarios. A Windows
+package from branch commit `f43fd53` was assembled twice with identical SHA-256
+`2d6c617197278a9c927fa32838427983f7ab5d738bbbf494110184b738a6bd5b`.
+The extracted package passed inventory/architecture/dependency/license/hash/provenance
+verification. All six packaged examples compiled again with warnings as errors; a freshly
+extracted official server passed smoke/GMX, pending filterscript unload, callbacks,
+extensions, bootstrap and sections using those AMX/include/SQL files and the packaged
+DLLs, with development PATH entries removed. Installed DLL hashes matched the payload.
+This local libpq 17.6 package is separate from CI's libpq 17.11 artifacts and is not an RC.
+
 The Windows source helper applies a narrow downstream compare-exchange correction,
 preserving the mutex struct and libpq ABI. No component scheduling or connection ownership
 is changed. Packages retain the patch/rationale and bind the DLL and patch hashes to the
 source version. This directly diagnoses one reproduced deadlock; it does not establish
-that every historical timeout shares its cause. Final fixed-DLL integration/package
-qualification is required independently of the deterministic regression. Other Windows
+that every historical timeout shares its cause. Final cross-platform CI/candidate package
+qualification is required independently of these local checks. Other Windows
 libpq providers require equivalent verification. The Astra audit and remaining RC gates
 remain outstanding.
 
