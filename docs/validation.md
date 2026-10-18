@@ -18,7 +18,10 @@ inner archive hashes/manifests and the exact installed native-reference/include 
 Their manifest commit is preview merge `dfbd7caac35ef21cdc1e896bb3f8c44383acd725`,
 distinct from source branch `962ee8a` and later owner integration.
 
-Two independently identified defects were reproduced before correction:
+The completed [independent GPT-6 Astra/ultra review](independent-audit.md) identifies the
+frozen source, actual methods, two High/P1 findings, correction review and remaining limits.
+Earlier interrupted attempts are not counted as completed audits. Two independently
+identified defects were reproduced before correction:
 
 - A deferred constraint rejected COMMIT with SQLSTATE `23505`; PostgreSQL was idle, but
   stale worker ownership rejected the next query/BEGIN despite a connected pool. New real
