@@ -94,6 +94,24 @@ class PackageTests(unittest.TestCase):
     def test_valid_inventory(self):
         package.validate_payload(self.files, self.manifest)
 
+    def test_candidate_identity_and_historical_experimental_identity(self):
+        self.manifest["version"] = self.manifest["build"]["version"] = "0.1.0-rc.1"
+        self.manifest["archive"] = package.archive_name(
+            "0.1.0-rc.1", self.manifest["commit"], "windows"
+        )
+        package.validate_payload(self.files, self.manifest)
+        self.assertIn("0.1.0-rc.1.aaaaaaaaaaaa-windows", self.manifest["archive"])
+        for version in (
+            "0.1.0-rc.0",
+            "0.1.0-rc.01",
+            "0.1.0-rc",
+            "0.1.0-stable",
+            "00.1.0",
+            "0.1.0;bad",
+        ):
+            with self.subTest(version=version), self.assertRaises(ValueError):
+                package.archive_name(version, self.manifest["commit"], "windows")
+
     def test_libpq_correction_provenance_is_required_and_bound_to_payload(self):
         for field in ("dll_sha256", "mutex_patch_sha256", "source_version"):
             with self.subTest(field=field):

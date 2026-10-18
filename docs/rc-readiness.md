@@ -1,34 +1,28 @@
 # Release Candidate readiness
 
-Status recovered on October 18, 2026 from local/remote `master` at
-`556dca6fc3797f1646dab71692d8f5d6d098c5af`, including the owner's integration of API review
-commit `962ee8a`. Corrections to independent audit findings are on
-[PR #13](https://github.com/itskoleban/omp-postgresql/pull/13), awaiting owner review.
-This checklist is not release approval. Recheck GitHub before changing status.
+Recovered October 18, 2026: remote/local master
+`c1f4d48380ca13a1c497d1a1eb23f81a49692f30`; owner merged [PR #13](https://github.com/itskoleban/omp-postgresql/pull/13)
+at 08:21 UTC. [Master CI 39113244875](https://github.com/itskoleban/omp-postgresql/actions/runs/39113244875)
+completed successfully, all seven jobs. This is the integrated baseline for candidate
+preparation, not evidence for a later candidate commit or release approval.
 
-| Gate                           | Verified state                                                                                                                                                                                                                                            | Remaining work                                                                                                                                                                                                                        |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Experimental x86 packaging     | Integrated. [Master CI 39045902836](https://github.com/itskoleban/omp-postgresql/actions/runs/39045902836) passed; prior API-review CI verified both extracted-package server installations and downloaded artifacts.                                     | Requalify both distributions with the audit corrections and exact final candidate identity.                                                                                                                                           |
-| Runtime and API                | Integrated: service pools, exclusive workers/FIFO, immutable snapshots, typed arrays, heterogeneous batches, transactions/savepoints, bounded streaming and 69 Pawn natives including named SQL sections.                                                 | Resolve any confirmed defects found by expanded qualification or independent audit.                                                                                                                                                   |
-| Windows libpq mutex correction | [PR #9](https://github.com/itskoleban/omp-postgresql/pull/9) integrated at the baseline above; deterministic dependency regression, fresh-process startup and package patch provenance.                                                                   | Other Windows libpq providers require equivalent evidence; a version number alone is insufficient.                                                                                                                                    |
-| Concurrency and sustained load | PR #10 integrated. Current master CI passes all configured tests including Clang 19 TSan and ASan/UBSan. [Validation](validation.md#latest-integrated-qualification-october-17-2026) records the exact ten-minute local load and release/capacity checks. | Instrumented dependencies, hours-long soaks and AMX loader fuzzing are not established. Native-boundary tests and finite memory samples have narrower scope.                                                                          |
-| Performance                    | Repeated Engine/transport measurements and correctness checks are documented in [performance](performance.md).                                                                                                                                            | Comparative Pawn callback/tick latency remains unmeasured. Finite stress memory samples are not memory bounds.                                                                                                                        |
-| Documentation and examples     | API reference and six-example lifecycle map integrated in `962ee8a`. Exact signatures/defaults, return/error distinctions, ownership and limits reviewed; six examples compiled with warnings as errors.                                                  | Keep exact-candidate behavior and documentation aligned; this does not promise a stable API or exhaustive branch coverage.                                                                                                            |
-| Independent audit              | Actual GPT-6 Astra, ultra, completed on frozen `962ee8a`; [report](independent-audit.md) records two High/P1 defects, independent correction review and unproven observations. Fix commit `4c65070` passes local 15/15 CTest and 33 Python cases.         | Final corrected-commit CI/package qualification and owner review; no critical finding established. Callback reset reachability, portable device-name behavior and broader coverage limits remain documented concerns.                 |
-| Candidate and publication      | Version remains 0.1.0 experimental; no RC qualification is claimed.                                                                                                                                                                                       | Prepare exact-commit RC packages, dependency/source/provenance/checksum inventory and release notes after the gates above; prepare a separate publication workflow. Owner approval is required for main merges, tags and publication. |
+| Gate | Verified state | Remaining work |
+| --- | --- | --- |
+| x86 packaging | Integrated Windows/Linux architecture, dependency, license, deterministic assembly and fresh extracted-package server gates. | Requalify exact RC source/packages. x64 Engine tests do not qualify x64 server packages. |
+| Runtime and API | Integrated pools, exclusive workers/FIFO, snapshots, typed arrays, batches, transactions/savepoints, bounded streaming, SQL sections and 69 documented Pawn natives. | Correct any new confirmed defects; preserve documented limits. |
+| Windows libpq | PR #9 mutex correction, deterministic regression, fresh-process startup repetitions and package patch provenance integrated. | Other providers need equivalent verification; version alone is insufficient. |
+| Stress and concurrency | Integrated TSan and ASan/UBSan; prior ten-minute/2,040,672-operation load and release/capacity checks documented in [validation](validation.md). | Hours-long partitions, fully instrumented dependencies and AMX loader fuzzing are not established. Finite RSS samples are not memory bounds. |
+| Documentation/examples | Complete 69-native reference and six examples integrated; exact signatures/ownership/limits reviewed and examples compiled with warnings as errors. | Keep final candidate identity and evidence current. |
+| Independent audit | Actual GPT-6 Astra ultra [audit](independent-audit.md) completed on frozen `962ee8a`; both High/P1 fixes integrated in `4c65070`, successful corrected-source CI and package evidence retained. | Bounded new release-tooling review also completed with both findings corrected; retain unproven observations and coverage limits. No confirmed critical/High finding remains open in the completed audit. |
+| Performance | Repeated Engine/transport measurements documented in [performance](performance.md). | Comparative Pawn callback/tick latency remains unmeasured; no performance superiority claim. |
+| Candidate identity | `0.1.0-rc.1` preparation uses a tracked CMake candidate number, exact-commit platform names, source ZIP, complete dependency manifests, notes and SHA-256 ledger. | Exact final-source qualification and owner review. Unsigned inventory is not a signed attestation. |
+| Publication | Separate manual [release workflow](releasing.md), default draft, existing-tag/confirmation/successful-main-CI checks and isolated write permission. | Owner must authorize integration, tag creation and public publication. No candidate tag or Release created by this automation. |
 
-For the independent review, freeze the source commit, CI run/checkout SHA, both package
-manifests and checksums, dependency patch/build records, test logs/JUnit, benchmark raw
-data and conditions, public include and [architecture](design.md). Supply the known
-limits above and the [validation history](validation.md), including failures and toolchain
-limitations. Do not substitute another model or describe a prepared prompt as an executed
-audit. Fix confirmed high/critical findings with reproductions and rerun affected suites.
+Implemented, tested, integrated and published are separate states. Prior branch/preview
+CI passes do not authorize integration or publication. The version label identifies
+candidate preparation; exact new changes require their own qualification. A Release
+Candidate remains a testing release without a production suitability guarantee.
 
-Candidate scope excludes COPY transfer, receiving LISTEN/NOTIFY, pipeline integration,
-automatic lane selection, ORM/query builders, application caches and global SQL caches.
-They do not block qualification of the documented sequential engine. Windows/Linux x64
-engine builds do not establish a compatible x64 open.mp component distribution.
-
-Implemented, tested, integrated and published are separate states. A successful branch
-or preview-merge CI run does not authorize merging or publishing that change. A Release
-Candidate would remain a testing release, without a guarantee of production suitability.
+Scope excludes COPY, LISTEN/NOTIFY reception, Engine pipeline integration, automatic lane
+selection, ORM/query builders, migration management, application caches and global SQL
+caches. These do not block qualification of the documented sequential Engine.

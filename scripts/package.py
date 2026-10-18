@@ -1,4 +1,4 @@
-"""Assemble and verify experimental x86 packages; never publish a release."""
+"""Assemble and verify x86 packages; never publish a release."""
 
 import argparse
 from datetime import datetime, timezone
@@ -64,6 +64,16 @@ def run(argv, **kwargs):
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def archive_name(version, commit, platform):
+    if not re.fullmatch(
+        r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-rc\.[1-9][0-9]*)?", version
+    ):
+        raise ValueError("Invalid project version")
+    # Continue verifying historical experimental artifacts without relabelling them.
+    identity = version if "-rc." in version else f"{version}-experimental"
+    return f"omp-postgresql-{identity}.{commit[:12]}-{platform}-x86.zip"
 
 
 def record_libpq_build(libpq, source):
@@ -154,9 +164,7 @@ def validate_payload(files, manifest):
         raise ValueError("Build metadata does not describe the package")
     if not re.fullmatch(r"[0-9a-f]{40}", manifest["commit"]):
         raise ValueError("Invalid source commit")
-    if not re.fullmatch(r"\d+\.\d+\.\d+", manifest["version"]):
-        raise ValueError("Invalid project version")
-    expected_name = f"omp-postgresql-{manifest['version']}-experimental.{manifest['commit'][:12]}-{platform}-x86.zip"
+    expected_name = archive_name(manifest["version"], manifest["commit"], platform)
     if manifest["archive"] != expected_name:
         raise ValueError("Archive name does not match version/commit/platform")
     component = f"components/omp-postgresql.{ 'dll' if platform == 'windows' else 'so'}"
@@ -398,7 +406,7 @@ def create(args):
             for path in stage.rglob("*")
             if path.is_file()
         }
-        name = f"omp-postgresql-{metadata['version']}-experimental.{commit[:12]}-{platform}-x86.zip"
+        name = archive_name(metadata["version"], commit, platform)
         manifest = {
             "archive": name,
             "version": metadata["version"],
@@ -435,7 +443,7 @@ def create(args):
             f"{digest(archive.read_bytes())}  {archive.name}\n", encoding="utf8"
         )
         verify(archive)
-        print(f"Verified experimental package: {archive}")
+        print(f"Verified package: {archive}")
 
 
 def main():

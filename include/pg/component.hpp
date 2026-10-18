@@ -26,7 +26,8 @@ public:
 	}
 
 	SemanticVersion componentVersion() const override {
-		return SemanticVersion(0, 1, 0, 0);
+		return SemanticVersion(PG_VERSION_MAJOR, PG_VERSION_MINOR, PG_VERSION_PATCH,
+		                       PG_VERSION_PRERELEASE);
 	}
 
 	void onLoad(ICore *core) override;

@@ -1,4 +1,4 @@
-# Experimental package procedure
+# Package procedure
 
 The existing CI x86 jobs build once, run the core and server tests, stage the CMake
 `omp-postgresql` installation component and assemble a deterministic ZIP. No x64 server
@@ -18,7 +18,8 @@ copied by a recursive repository sweep.
 Documentation include links are adjusted to the installed `qawno/include` location;
 all relative Markdown links are checked against the payload before packaging/extraction.
 
-The name is `omp-postgresql-0.1.0-experimental.COMMIT-PLATFORM-x86.zip`. It contains a
+The candidate name is `omp-postgresql-0.1.0-rc.1.COMMIT-PLATFORM-x86.zip`. Historical
+`0.1.0-experimental.COMMIT` packages remain verifiable and are never relabelled. Each contains a
 single `omp-postgresql/` directory, public include, component, docs, examples, legal
 notices, selected runtime files and `manifest.json`. The manifest records full commit,
 Release configuration, compiler, libpq header version, pinned SDK/Pawn revisions and
@@ -59,6 +60,8 @@ build, `--libpq /path/to/libpq.so.5` and the PostgreSQL `COPYRIGHT`; `readelf` a
 must be available. Both accept `--output DIRECTORY` and verification accepts
 `--archive NAME.zip --destination NEW_DIRECTORY`.
 
-Release publication is a later gate: no tag, merge, Release or write permission is added
-by this packaging change. Version 0.1.0 remains experimental until all qualification
-and independent-audit requirements are met.
+The final download job also assembles a source ZIP from Git's exact tracked tree,
+both distributions, release notes, complete dependency manifests and `SHA256SUMS`.
+It uploads these as `omp-postgresql-release-FULL_COMMIT`. This is unsigned content
+provenance; it does not create a tag or Release, grant publication permission, or
+turn a branch/preview build into an integrated candidate. See [release gates](releasing.md).

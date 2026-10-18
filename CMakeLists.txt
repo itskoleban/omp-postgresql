@@ -4,6 +4,8 @@ project(
     VERSION 0.1.0
     LANGUAGES C CXX
 )
+set(PG_RELEASE_CANDIDATE 1)
+set(PG_DISTRIBUTION_VERSION "${PROJECT_VERSION}-rc.${PG_RELEASE_CANDIDATE}")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -50,6 +52,12 @@ add_library(
 )
 set_target_properties(pg_core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_include_directories(pg_core PUBLIC include)
+target_compile_definitions(
+    pg_core
+    PUBLIC PG_VERSION_MAJOR=${PROJECT_VERSION_MAJOR} PG_VERSION_MINOR=${PROJECT_VERSION_MINOR}
+           PG_VERSION_PATCH=${PROJECT_VERSION_PATCH} PG_VERSION_PRERELEASE=${PG_RELEASE_CANDIDATE}
+           PG_VERSION_STRING="${PG_DISTRIBUTION_VERSION}"
+)
 target_link_libraries(pg_core PUBLIC PostgreSQL::PostgreSQL Threads::Threads)
 if(WIN32)
     target_compile_definitions(pg_core PUBLIC WIN32_LEAN_AND_MEAN NOMINMAX)
@@ -113,7 +121,7 @@ if(PG_BUILD_COMPONENT)
         GENERATE
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/package-build-info-$<CONFIG>.json"
         CONTENT
-            "{\n\"version\": \"${PROJECT_VERSION}\",\n\"commit\": \"${PG_SOURCE_COMMIT}\",\n\"configuration\": \"$<CONFIG>\",\n\"system\": \"${CMAKE_SYSTEM_NAME}\",\n\"pointer_bytes\": ${CMAKE_SIZEOF_VOID_P},\n\"compiler\": \"${CMAKE_CXX_COMPILER_ID}\",\n\"compiler_version\": \"${CMAKE_CXX_COMPILER_VERSION}\",\n\"cxx_standard\": 20,\n\"libpq_version\": \"${PostgreSQL_VERSION_STRING}\",\n\"sanitize\": \"${PG_SANITIZER_LABEL}\",\n\"sdk_commit\": \"473b732b2de159773b2e2908fd11aa99f07db284\",\n\"pawn_commit\": \"29f1a8c7fd2e01929807cd8c50353fbc93bbd651\"\n}\n"
+            "{\n\"version\": \"${PG_DISTRIBUTION_VERSION}\",\n\"commit\": \"${PG_SOURCE_COMMIT}\",\n\"configuration\": \"$<CONFIG>\",\n\"system\": \"${CMAKE_SYSTEM_NAME}\",\n\"pointer_bytes\": ${CMAKE_SIZEOF_VOID_P},\n\"compiler\": \"${CMAKE_CXX_COMPILER_ID}\",\n\"compiler_version\": \"${CMAKE_CXX_COMPILER_VERSION}\",\n\"cxx_standard\": 20,\n\"libpq_version\": \"${PostgreSQL_VERSION_STRING}\",\n\"sanitize\": \"${PG_SANITIZER_LABEL}\",\n\"sdk_commit\": \"473b732b2de159773b2e2908fd11aa99f07db284\",\n\"pawn_commit\": \"29f1a8c7fd2e01929807cd8c50353fbc93bbd651\"\n}\n"
     )
     install(
         TARGETS omp-postgresql
