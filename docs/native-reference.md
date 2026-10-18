@@ -4,6 +4,9 @@ This reference covers all 69 declarations in [the public include](../pawn/omp-po
 Read [the execution contract](api.md) first. Signatures below preserve Pawn tags, reference
 arguments and defaults. This is an internal source review, not an independent Astra audit.
 
+New applications should use [custom completion callbacks](callbacks.md). Each job-submitting
+native accepts its existing parameters followed by the same optional callback/format tail.
+
 ## Shared arguments, ownership and errors
 
 Every handle must belong to the calling VM generation. Connections, statements, batches and
@@ -164,7 +167,7 @@ buffer holds a full uint64 counter. Separate samples are not an atomic multi-cou
 ### pg_query
 
 ```pawn
-native pg_query(connection, const sql[], lane = 0, transaction = 0, context = 0, bool:notify = true);
+native pg_query(connection, const sql[], lane = 0, transaction = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Submit exactly one zero-parameter SQL operation, without a statement handle.
@@ -189,7 +192,7 @@ SQL syntax/types are validated by PostgreSQL at execution, not by this creation 
 ### pg_prepare_file
 
 ```pawn
-native pg_prepare_file(connection, const filename[], parameters = 0, bool:prepared = true);
+native pg_prepare_file(connection, const filename[], parameters = 0, bool:prepared = true, const section[] = "");
 ```
 
 **Contract:** Same statement lifecycle as prepare. Store a 1..1024-byte filename now; the worker
@@ -350,7 +353,7 @@ Failure preserves staging. Twenty adds followed by execute mean one job with twe
 ### pg_execute
 
 ```pawn
-native pg_execute(statement, lane = 0, transaction = 0, context = 0, bool:notify = true);
+native pg_execute(statement, lane = 0, transaction = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Submit all added snapshots FIFO on one lane, stopping at first error. On acceptance,
@@ -398,7 +401,7 @@ SQL/section copies and operation overhead count toward bytes. Rejection preserve
 ### pg_batch_execute
 
 ```pawn
-native pg_batch_execute(batch, lane = 0, transaction = 0, context = 0, bool:notify = true);
+native pg_batch_execute(batch, lane = 0, transaction = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Submit flattened operations as one FIFO job; stop on first failure. Consume accepted
@@ -422,7 +425,7 @@ native bool:pg_batch_close(batch);
 ### pg_stream_execute
 
 ```pawn
-native pg_stream_execute(statement, chunk_rows = 128, lane = 0, transaction = 0, context = 0, bool:notify = true);
+native pg_stream_execute(statement, chunk_rows = 128, lane = 0, transaction = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Submit exactly one added snapshot; chunk_rows is 1..1,024. Statement consumption and
@@ -464,7 +467,7 @@ close them after dispatch, and close BEGIN after its lane reservation is release
 ### pg_begin
 
 ```pawn
-native pg_begin(connection, lane = 0, context = 0, bool:notify = true);
+native pg_begin(connection, lane = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Immediately reserve a free lane, behind previously queued jobs, using session
@@ -476,7 +479,7 @@ releases the reservation at dispatch. Do not use or close an active BEGIN premat
 ### pg_begin_ex
 
 ```pawn
-native pg_begin_ex(connection, isolation, bool:read_only, lane = 0, context = 0, bool:notify = true);
+native pg_begin_ex(connection, isolation, bool:read_only, lane = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** BEGIN with explicit PG_READ_COMMITTED, PG_REPEATABLE_READ or PG_SERIALIZABLE
@@ -488,7 +491,7 @@ can still reject execution or later serialize/abort a transaction; no automatic 
 ### pg_savepoint
 
 ```pawn
-native pg_savepoint(transaction, const name[], context = 0, bool:notify = true);
+native pg_savepoint(transaction, const name[], context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Create a savepoint on the confirmed BEGIN lane. Name is ASCII
@@ -500,7 +503,7 @@ failed transaction; savepoint names follow PostgreSQL's transaction-local lifeti
 ### pg_rollback_to
 
 ```pawn
-native pg_rollback_to(transaction, const name[], context = 0, bool:notify = true);
+native pg_rollback_to(transaction, const name[], context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Roll back to a previously confirmed savepoint, retaining that savepoint. Same
@@ -512,7 +515,7 @@ rollback-to does not make subsequent COMMIT safe. The transaction reservation re
 ### pg_release_savepoint
 
 ```pawn
-native pg_release_savepoint(transaction, const name[], context = 0, bool:notify = true);
+native pg_release_savepoint(transaction, const name[], context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Release a savepoint, using the same name rules. This does not COMMIT or release
@@ -523,7 +526,7 @@ the lane and cannot recover a failed transaction.
 ### pg_commit
 
 ```pawn
-native pg_commit(transaction, context = 0, bool:notify = true);
+native pg_commit(transaction, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** Mark a confirmed BEGIN as ending immediately; reject further transaction submissions.
@@ -539,7 +542,7 @@ reusable after dispatch; another post-error session state is discarded before re
 ### pg_rollback
 
 ```pawn
-native pg_rollback(transaction, context = 0, bool:notify = true);
+native pg_rollback(transaction, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 ```
 
 **Contract:** End the confirmed transaction through a separate ROLLBACK job; same ending/reservation
@@ -924,3 +927,16 @@ tutorials plus an interactive account example with an explicit external hashing 
 Temporary tables in the unattended tests
 belong to one physical session; production tables belong in an operator-managed schema.
 Keep related temporary-table work on its lane; a pool does not share temporary tables.
+
+## Optional completion callbacks and unified file input
+
+All eleven job-submitting natives above accept the same optional callback/format/varargs
+tail. Custom callbacks are recommended for new code. Full format, validation, ownership,
+failure and old-AMX rules are in [custom callbacks](callbacks.md). The callback receives
+`job` followed by copied extras; `context` is not inserted. Empty callback preserves
+`OnPgComplete`; `notify=false` suppresses both row and completion callbacks.
+
+The `pg_prepare_file` section argument defaults to empty for whole-file behavior. Select
+a name with `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")`.
+The old four-argument AMX form and `pg_prepare_section` remain supported. Section/file
+reading, parsing and capture continue on the worker with their existing limits.

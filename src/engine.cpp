@@ -6,6 +6,21 @@
 
 namespace pg {
 
+namespace {
+std::shared_ptr<Job> make_job(Owner owner, Id connection, int lane, Id transaction, int context,
+                              bool notify, std::unique_ptr<CallbackDescriptor> callback) {
+	auto job = std::make_shared<Job>();
+	job->owner = owner;
+	job->connection = connection;
+	job->lane = lane;
+	job->transaction = transaction;
+	job->context = context;
+	job->notify = notify;
+	job->callback = notify ? std::move(callback) : nullptr;
+	return job;
+}
+} // namespace
+
 int Connection::ready() const {
 	int n = 0;
 	for (auto &lane : lanes) {
@@ -23,7 +38,7 @@ State Connection::state() const {
 			                                   return l->stopped.load();
 		                                   })
 		           ? State::disconnected
-				   : State::closing;
+		           : State::closing;
 	}
 	bool reconnecting = false;
 	for (auto &lane : lanes) {
@@ -120,10 +135,31 @@ Id Engine::prepare(Owner owner, Id conn, std::string sql, int parameters, bool f
 	} else if (sql.empty() || sql.size() > 1024) {
 		throw Failure(Error::file, "Invalid SQL filename");
 	}
-	Statement s{owner, conn, std::move(sql), file, persistent, {}, {}, {}, 0, {}};
+	Statement s{owner,
+	            conn,
+	            std::move(sql),
+	            file ? SqlSourceKind::file : SqlSourceKind::inline_sql,
+	            persistent,
+	            {},
+	            {},
+	            {},
+	            0,
+	            {}};
 	s.bindings.resize(parameters);
 	auto handle = id();
 	statements_.emplace(handle, std::move(s));
+	return handle;
+}
+
+Id Engine::prepare_file(Owner owner, Id conn, std::string filename, int parameters, bool persistent,
+                        std::string section) {
+	if (!section.empty() && !valid_section_name(section)) {
+		throw Failure(Error::invalid, "Invalid SQL section name (ASCII identifier, 1..64 bytes)");
+	}
+	auto handle = prepare(owner, conn, std::move(filename), parameters, true, persistent);
+	auto &statement = statements_.at(handle);
+	statement.source = section.empty() ? SqlSourceKind::file : SqlSourceKind::section;
+	statement.section = std::move(section);
 	return handle;
 }
 
@@ -132,9 +168,8 @@ Id Engine::prepare_section(Owner owner, Id conn, std::string filename, std::stri
 	if (!valid_section_name(section)) {
 		throw Failure(Error::invalid, "Invalid SQL section name (ASCII identifier, 1..64 bytes)");
 	}
-	auto handle = prepare(owner, conn, std::move(filename), parameters, true, persistent);
-	statements_.at(handle).section = std::move(section);
-	return handle;
+	return prepare_file(owner, conn, std::move(filename), parameters, persistent,
+	                    std::move(section));
 }
 
 Statement &Engine::statement(Owner owner, Id handle) {
@@ -184,7 +219,7 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	j->accepted_at = Clock::now();
 	j->items_status.assign(j->kind == Kind::execute
 	                           ? (j->operations.empty() ? j->batch.size() : j->operations.size())
-							   : 1,
+	                           : 1,
 	                       ItemStatus::not_executed);
 	jobs_.emplace(j->id, j);
 	try {
@@ -208,12 +243,13 @@ int Engine::transaction_lane(Owner owner, Id connection, Id tx, int lane) {
 	return lane;
 }
 
-Id Engine::execute(Owner owner, Id handle, int lane, Id tx, int context, bool notify) {
-	return execute_statement(owner, handle, lane, tx, context, notify, {});
+Id Engine::execute(Owner owner, Id handle, int lane, Id tx, int context, bool notify,
+                   std::unique_ptr<CallbackDescriptor> callback) {
+	return execute_statement(owner, handle, lane, tx, context, notify, {}, std::move(callback));
 }
 
 Id Engine::execute_stream(Owner owner, Id handle, int chunk_rows, int lane, Id tx, int context,
-                          bool notify) {
+                          bool notify, std::unique_ptr<CallbackDescriptor> callback) {
 	if (chunk_rows < 1 || chunk_rows > 1024) {
 		throw Failure(Error::invalid, "Stream block size must be 1..1024 rows");
 	}
@@ -221,26 +257,22 @@ Id Engine::execute_stream(Owner owner, Id handle, int chunk_rows, int lane, Id t
 		throw Failure(Error::invalid, "Streaming requires exactly one added execution");
 	}
 	return execute_statement(owner, handle, lane, tx, context, notify,
-	                         std::make_shared<Stream>(static_cast<std::size_t>(chunk_rows)));
+	                         std::make_shared<Stream>(static_cast<std::size_t>(chunk_rows)),
+	                         std::move(callback));
 }
 
 Id Engine::execute_statement(Owner owner, Id handle, int lane, Id tx, int context, bool notify,
-                             std::shared_ptr<Stream> stream) {
+                             std::shared_ptr<Stream> stream,
+                             std::unique_ptr<CallbackDescriptor> callback) {
 	auto &s = statement(owner, handle);
 	if (s.batch.empty()) {
 		throw Failure(Error::invalid, "Cannot execute empty batch; call pg_add first");
 	}
 	lane = transaction_lane(owner, s.connection, tx, lane);
-	auto j = std::make_shared<Job>();
-	j->owner = owner;
-	j->connection = s.connection;
-	j->lane = lane;
-	j->transaction = tx;
-	j->context = context;
-	j->notify = notify;
+	auto j = make_job(owner, s.connection, lane, tx, context, notify, std::move(callback));
 	j->stream = std::move(stream);
 	j->sql = s.sql;
-	j->file = s.file;
+	j->source = s.source;
 	j->section = s.section;
 	j->prepared = s.prepared;
 	j->batch = std::move(s.batch);
@@ -257,18 +289,14 @@ Id Engine::execute_statement(Owner owner, Id handle, int lane, Id tx, int contex
 	return handle_job;
 }
 
-Id Engine::query(Owner owner, Id conn, std::string sql, int lane, Id tx, int context, bool notify) {
+Id Engine::query(Owner owner, Id conn, std::string sql, int lane, Id tx, int context, bool notify,
+                 std::unique_ptr<CallbackDescriptor> callback) {
 	if (sql.size() > limits_.sql_bytes) {
 		throw Failure(Error::limit, "SQL exceeds size limit");
 	}
 	validate_sql(sql);
-	auto j = std::make_shared<Job>();
-	j->owner = owner;
-	j->connection = conn;
-	j->lane = transaction_lane(owner, conn, tx, lane);
-	j->transaction = tx;
-	j->context = context;
-	j->notify = notify;
+	auto j = make_job(owner, conn, transaction_lane(owner, conn, tx, lane), tx, context, notify,
+	                  std::move(callback));
 	j->sql = std::move(sql);
 	j->prepared = false;
 	j->batch.emplace_back();
@@ -313,7 +341,7 @@ void Engine::add_batch(Owner owner, Id handle, Id statement_handle) {
 	std::vector<Operation> appended;
 	appended.reserve(source.batch.size());
 	for (const auto &params : source.batch) {
-		appended.push_back({source.sql, source.file, source.prepared, params, source.section});
+		appended.push_back({source.sql, source.source, source.prepared, params, source.section});
 	}
 	destination.operations.reserve(destination.operations.size() + appended.size());
 	for (auto &operation : appended) {
@@ -324,18 +352,15 @@ void Engine::add_batch(Owner owner, Id handle, Id statement_handle) {
 	source.bytes = 0;
 }
 
-Id Engine::execute_batch(Owner owner, Id handle, int lane, Id tx, int context, bool notify) {
+Id Engine::execute_batch(Owner owner, Id handle, int lane, Id tx, int context, bool notify,
+                         std::unique_ptr<CallbackDescriptor> callback) {
 	auto &source = batch(owner, handle);
 	if (source.operations.empty()) {
 		throw Failure(Error::invalid, "Cannot execute an empty batch");
 	}
-	auto j = std::make_shared<Job>();
-	j->owner = owner;
-	j->connection = source.connection;
-	j->lane = transaction_lane(owner, source.connection, tx, lane);
-	j->transaction = tx;
-	j->context = context;
-	j->notify = notify;
+	auto j =
+	    make_job(owner, source.connection, transaction_lane(owner, source.connection, tx, lane), tx,
+	             context, notify, std::move(callback));
 	j->operations = std::move(source.operations);
 	Id handle_job;
 	try {
@@ -354,17 +379,12 @@ void Engine::close_batch(Owner owner, Id handle) {
 }
 
 Id Engine::begin(Owner owner, Id conn, int lane, int context, bool notify, Isolation isolation,
-                 bool read_only) {
+                 bool read_only, std::unique_ptr<CallbackDescriptor> callback) {
 	if (isolation < Isolation::server_default || isolation > Isolation::serializable) {
 		throw Failure(Error::invalid, "Invalid transaction isolation level");
 	}
-	auto j = std::make_shared<Job>();
-	j->owner = owner;
-	j->connection = conn;
-	j->lane = lane;
+	auto j = make_job(owner, conn, lane, 0, context, notify, std::move(callback));
 	j->kind = Kind::begin;
-	j->context = context;
-	j->notify = notify;
 	j->isolation = isolation;
 	j->read_only = read_only;
 	auto handle = submit(j);
@@ -372,7 +392,8 @@ Id Engine::begin(Owner owner, Id conn, int lane, int context, bool notify, Isola
 	return handle;
 }
 
-Id Engine::savepoint(Owner owner, Id tx, std::string name, Kind action, int context, bool notify) {
+Id Engine::savepoint(Owner owner, Id tx, std::string name, Kind action, int context, bool notify,
+                     std::unique_ptr<CallbackDescriptor> callback) {
 	constexpr auto letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 	if (name.empty() || name.size() > 63 ||
 	    std::string_view(letters).find(name[0]) == std::string_view::npos ||
@@ -383,31 +404,21 @@ Id Engine::savepoint(Owner owner, Id tx, std::string name, Kind action, int cont
 		throw Failure(Error::invalid, "Invalid savepoint name or action");
 	}
 	auto b = job(owner, tx);
-	auto j = std::make_shared<Job>();
-	j->owner = owner;
-	j->connection = b->connection;
-	j->lane = transaction_lane(owner, b->connection, tx, b->lane);
-	j->transaction = tx;
+	auto j = make_job(owner, b->connection, transaction_lane(owner, b->connection, tx, b->lane), tx,
+	                  context, notify, std::move(callback));
 	j->kind = action;
 	j->savepoint = std::move(name);
-	j->context = context;
-	j->notify = notify;
 	return submit(std::move(j));
 }
 
-Id Engine::finish(Owner owner, Id tx, bool commit, int context, bool notify) {
+Id Engine::finish(Owner owner, Id tx, bool commit, int context, bool notify,
+                  std::unique_ptr<CallbackDescriptor> callback) {
 	auto b = job(owner, tx);
 	if (b->kind != Kind::begin || b->status.load() != Status::confirmed || ending_.contains(tx)) {
 		throw Failure(Error::transaction, "Transaction cannot be finished");
 	}
-	auto j = std::make_shared<Job>();
-	j->owner = owner;
-	j->connection = b->connection;
-	j->lane = b->lane;
-	j->transaction = tx;
+	auto j = make_job(owner, b->connection, b->lane, tx, context, notify, std::move(callback));
 	j->kind = commit ? Kind::commit : Kind::rollback;
-	j->context = context;
-	j->notify = notify;
 	// Allocate the ending marker before accepting a network operation. If queueing
 	// fails, restore the reservation; the accepted path cannot fail afterward.
 	ending_.emplace(tx, true);
@@ -457,6 +468,7 @@ void Engine::unload(Owner owner) {
 		if (j->owner == owner) {
 			j->cancel.store(true);
 			j->notify = false;
+			j->callback.reset();
 		}
 	}
 }

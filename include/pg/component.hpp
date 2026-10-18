@@ -4,6 +4,7 @@
 #include "engine.hpp"
 #include <Server/Components/Pawn/pawn.hpp>
 #include <sdk.hpp>
+#include <span>
 #include <unordered_map>
 
 namespace pg {
@@ -45,6 +46,8 @@ private:
 	IPawnComponent *pawn_ = nullptr;
 	Owner generation_ = 0;
 	void callback(Owner owner, const char *name, cell first, cell second);
+	void callback(Owner owner, const char *name, cell first,
+	              std::span<const CallbackArgument> arguments, bool custom);
 };
 
 void register_natives(IPawnScript &script);

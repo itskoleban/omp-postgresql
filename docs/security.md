@@ -130,3 +130,14 @@ read size. Do not place the root in player-writable storage. An administrator ch
 between canonicalization and opening can cause a TOCTOU race; this is not a security boundary
 between hostile OS users. The extended protocol rejects multiple SQL commands; a regular
 expression is not used to parse SQL.
+
+## Custom callback data
+
+Additional callback arguments are validated and copied into the job before enqueue; no Pawn
+addresses survive native return. The public must belong to the submitting generation. It is
+looked up again on tick, with no cross-VM fallback. Strings, names, argument count and aggregate
+payload have fixed [bounds](callbacks.md#formats-and-bounds), in addition to MAX_JOBS.
+Only the main thread reads/frees callback metadata. Unload suppresses delivery and releases
+the payload immediately. Dispatch failure preserves explicit job ownership and a local error;
+applications retain accepted job IDs for recovery. No callback payload is logged automatically.
+Custom callbacks do not establish player identity, roll back SQL, or justify replaying writes.

@@ -96,3 +96,11 @@ Before adapting this tutorial for a real server, test disconnect during lookup/h
 INSERT, immediate slot reuse, duplicate registration, wrong password, provider timeout,
 readiness loss/recovery, missing schema, permission denial and lost INSERT response. These
 interactive/provider tests are not covered by the unattended SQL tutorials.
+
+## Custom SQL completion routing
+
+The account tutorial now submits `OnAccountComplete(job, playerid, token)` directly with
+format `"ii"`. It validates player bounds/connection, the exact PendingJob, and session token
+before applying results; no player-array scan is needed at completion. Readiness-loss,
+disconnect, password-provider and uncertain-write behavior remain as documented above.
+Legacy completion examples remain available in the [catalogue](examples.md).

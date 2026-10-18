@@ -172,6 +172,80 @@ enum class Native {
 #undef ENUM
 };
 
+constexpr bool asynchronous(Native native) {
+	switch (native) {
+	case Native::pg_query:
+	case Native::pg_execute:
+	case Native::pg_batch_execute:
+	case Native::pg_stream_execute:
+	case Native::pg_begin:
+	case Native::pg_begin_ex:
+	case Native::pg_savepoint:
+	case Native::pg_rollback_to:
+	case Native::pg_release_savepoint:
+	case Native::pg_commit:
+	case Native::pg_rollback:
+		return true;
+	default:
+		return false;
+	}
+}
+
+std::unique_ptr<CallbackDescriptor> callback(IPawnScript &vm, const cell *p, int fixed,
+                                             bool notify) {
+	if (p[0] == fixed * sizeof(cell)) {
+		return {}; // Old compiled AMX: no optional tail exists.
+	}
+	auto name = string(vm, p[fixed + 1], CallbackDescriptor::max_name);
+	auto format = string(vm, p[fixed + 2], CallbackDescriptor::max_arguments);
+	auto count = static_cast<std::size_t>(p[0] / sizeof(cell) - fixed - 2);
+	if (count != format.size() || (name.empty() && !format.empty())) {
+		throw Failure(Error::invalid, "Callback format/argument count mismatch");
+	}
+	if (name.empty()) {
+		return {};
+	}
+	constexpr auto first = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+	if (std::string_view(first).find(name[0]) == std::string_view::npos ||
+	    name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789") !=
+	        std::string::npos) {
+		throw Failure(Error::invalid, "Invalid callback public name");
+	}
+	auto out = std::make_unique<CallbackDescriptor>();
+	out->function = std::move(name);
+	out->arguments.reserve(count);
+	std::size_t bytes = out->function.size() + 1;
+	for (std::size_t i = 0; i < count; ++i) {
+		auto base = p[fixed + 3 + i];
+		if (format[i] == 's') {
+			auto value = string(vm, base, CallbackDescriptor::max_string);
+			if (!utf8(value)) {
+				throw Failure(Error::invalid, "Invalid callback string UTF-8");
+			}
+			bytes += value.size() + 1;
+			out->arguments.emplace_back(std::move(value));
+		} else if (format[i] == 'i' || format[i] == 'f' || format[i] == 'b') {
+			// Pawn variadic scalar arguments are addresses, including literal temporaries.
+			auto value = *address(vm, base);
+			if (format[i] == 'b' && value != 0 && value != 1) {
+				throw Failure(Error::invalid, "Callback boolean must be 0 or 1");
+			}
+			bytes += sizeof(cell);
+			out->arguments.emplace_back(value); // Float bits are preserved exactly.
+		} else {
+			throw Failure(Error::invalid, "Callback format supports only i, f, b, s");
+		}
+		if (bytes > CallbackDescriptor::max_payload) {
+			throw Failure(Error::limit, "Callback payload exceeds 4096 bytes");
+		}
+	}
+	int index;
+	if (notify && vm.FindPublic(out->function.c_str(), &index)) {
+		throw Failure(Error::invalid, "Callback public not found in owning VM");
+	}
+	return out;
+}
+
 enum class LaneMetric {
 	completed,
 	confirmed,
@@ -277,11 +351,13 @@ cell invoke(Native native, Script &script, const cell *p) {
 	}
 	case Native::pg_query:
 		return e.query(owner, p[1], string(vm, p[2], e.limits().sql_bytes), p[3], p[4], p[5],
-		               p[6] != 0);
+		               p[6] != 0, callback(vm, p, 6, p[6] != 0));
 	case Native::pg_prepare:
+		return e.prepare(owner, p[1], string(vm, p[2], e.limits().sql_bytes), p[3], false,
+		                 p[4] != 0);
 	case Native::pg_prepare_file:
-		return e.prepare(owner, p[1], string(vm, p[2], e.limits().sql_bytes), p[3],
-		                 native == Native::pg_prepare_file, p[4] != 0);
+		return e.prepare_file(owner, p[1], string(vm, p[2], e.limits().sql_bytes), p[3], p[4] != 0,
+		                      p[0] == 4 * sizeof(cell) ? std::string{} : string(vm, p[5], 64));
 	case Native::pg_prepare_section:
 		return e.prepare_section(owner, p[1], string(vm, p[2], 1024), string(vm, p[3], 64), p[4],
 		                         p[5] != 0);
@@ -371,7 +447,7 @@ cell invoke(Native native, Script &script, const cell *p) {
 		e.statement(owner, p[1]).add(e.limits());
 		return 1;
 	case Native::pg_execute:
-		return e.execute(owner, p[1], p[2], p[3], p[4], p[5] != 0);
+		return e.execute(owner, p[1], p[2], p[3], p[4], p[5] != 0, callback(vm, p, 5, p[5] != 0));
 	case Native::pg_statement_close:
 		e.close_statement(owner, p[1]);
 		return 1;
@@ -381,12 +457,14 @@ cell invoke(Native native, Script &script, const cell *p) {
 		e.add_batch(owner, p[1], p[2]);
 		return 1;
 	case Native::pg_batch_execute:
-		return e.execute_batch(owner, p[1], p[2], p[3], p[4], p[5] != 0);
+		return e.execute_batch(owner, p[1], p[2], p[3], p[4], p[5] != 0,
+		                       callback(vm, p, 5, p[5] != 0));
 	case Native::pg_batch_close:
 		e.close_batch(owner, p[1]);
 		return 1;
 	case Native::pg_stream_execute:
-		return e.execute_stream(owner, p[1], p[2], p[3], p[4], p[5], p[6] != 0);
+		return e.execute_stream(owner, p[1], p[2], p[3], p[4], p[5], p[6] != 0,
+		                        callback(vm, p, 6, p[6] != 0));
 	case Native::pg_stream_next: {
 		auto job = get(p[1]);
 		if (!job->stream) {
@@ -406,25 +484,29 @@ cell invoke(Native native, Script &script, const cell *p) {
 		return 1;
 	}
 	case Native::pg_begin:
-		return e.begin(owner, p[1], p[2], p[3], p[4] != 0);
+		return e.begin(owner, p[1], p[2], p[3], p[4] != 0, Isolation::server_default, false,
+		               callback(vm, p, 4, p[4] != 0));
 	case Native::pg_begin_ex:
 		if (p[2] < 0 || p[2] > 2) {
 			throw Failure(
 			    Error::invalid,
 			    "Explicit isolation must be READ COMMITTED, REPEATABLE READ, or SERIALIZABLE");
 		}
-		return e.begin(owner, p[1], p[4], p[5], p[6] != 0, static_cast<Isolation>(p[2]), p[3] != 0);
+		return e.begin(owner, p[1], p[4], p[5], p[6] != 0, static_cast<Isolation>(p[2]), p[3] != 0,
+		               callback(vm, p, 6, p[6] != 0));
 	case Native::pg_savepoint:
 	case Native::pg_rollback_to:
 	case Native::pg_release_savepoint: {
 		auto kind = native == Native::pg_savepoint     ? Kind::savepoint
 		            : native == Native::pg_rollback_to ? Kind::rollback_to
 		                                               : Kind::release_savepoint;
-		return e.savepoint(owner, p[1], string(vm, p[2], 63), kind, p[3], p[4] != 0);
+		return e.savepoint(owner, p[1], string(vm, p[2], 63), kind, p[3], p[4] != 0,
+		                   callback(vm, p, 4, p[4] != 0));
 	}
 	case Native::pg_commit:
 	case Native::pg_rollback:
-		return e.finish(owner, p[1], native == Native::pg_commit, p[2], p[3] != 0);
+		return e.finish(owner, p[1], native == Native::pg_commit, p[2], p[3] != 0,
+		                callback(vm, p, 3, p[3] != 0));
 	case Native::pg_job_status:
 		return static_cast<cell>(get(p[1])->status.load());
 	case Native::pg_job_close:
@@ -591,7 +673,16 @@ cell AMX_NATIVE_CALL call(AMX *amx, const cell *params) noexcept {
 	}
 	auto &script = it->second;
 	try {
-		if (!params || params[0] != count * sizeof(cell)) {
+		bool valid = params && params[0] == count * sizeof(cell);
+		if constexpr (asynchronous(native)) {
+			valid = valid ||
+			        (params && params[0] >= (count + 2) * sizeof(cell) &&
+			         params[0] <= (count + 2 + CallbackDescriptor::max_arguments) * sizeof(cell) &&
+			         params[0] % sizeof(cell) == 0);
+		} else if constexpr (native == Native::pg_prepare_file) {
+			valid = valid || (params && params[0] == 5 * sizeof(cell));
+		}
+		if (!valid) {
 			throw Failure(Error::invalid, "Native argument count mismatch");
 		}
 		if constexpr (native != Native::pg_last_error) {

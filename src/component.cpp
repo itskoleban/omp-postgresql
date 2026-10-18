@@ -1,4 +1,5 @@
 #include "pg/component.hpp"
+#include <array>
 
 namespace pg {
 
@@ -40,6 +41,12 @@ void Component::onAmxUnload(IPawnScript &s) {
 }
 
 void Component::callback(Owner owner, const char *name, cell a, cell b) {
+	const std::array<CallbackArgument, 1> arguments{b};
+	callback(owner, name, a, arguments, false);
+}
+
+void Component::callback(Owner owner, const char *name, cell a,
+                         std::span<const CallbackArgument> arguments, bool custom) {
 	IPawnScript *script = nullptr;
 	for (auto &[amx, entry] : scripts) {
 		if (entry.owner == owner) {
@@ -52,6 +59,9 @@ void Component::callback(Owner owner, const char *name, cell a, cell b) {
 	}
 	int index;
 	if (script->FindPublic(name, &index)) {
+		if (custom) {
+			scripts.at(script->GetAMX()).error = "Completion callback public no longer exists";
+		}
 		return;
 	}
 	AMX *amx = script->GetAMX();
@@ -75,12 +85,30 @@ void Component::callback(Owner owner, const char *name, cell a, cell b) {
 		amx->pri = pri;
 		amx->alt = alt;
 	};
-	if (script->Push(b) || script->Push(a)) {
+	int err = 0;
+	for (auto it = arguments.rbegin(); it != arguments.rend(); ++it) {
+		if (const auto *text = std::get_if<std::string>(&*it)) {
+			cell location;
+			cell *physical;
+			err = script->PushString(&location, &physical, StringView(text->data(), text->size()),
+			                         false, false);
+		} else {
+			err = script->Push(std::get<std::int32_t>(*it));
+		}
+		if (err) {
+			break;
+		}
+	}
+	if (err || (err = script->Push(a))) {
 		restore();
+		if (custom) {
+			scripts.at(amx).error = "Completion callback argument push failed";
+		}
+		script->PrintError(err);
 		return;
 	}
 	cell result;
-	int err = script->Exec(&result, index);
+	err = script->Exec(&result, index);
 	if (std::none_of(scripts.begin(), scripts.end(), [=](auto &item) {
 		    return item.second.owner == owner;
 	    })) {
@@ -90,6 +118,9 @@ void Component::callback(Owner owner, const char *name, cell a, cell b) {
 	// call frame even if Exec returned AMX_ERR_SLEEP or failed during a partial push.
 	restore();
 	if (err) {
+		if (custom) {
+			scripts.at(amx).error = "Completion callback execution failed; continuation discarded";
+		}
 		script->PrintError(err);
 	}
 }
@@ -115,7 +146,14 @@ void Component::onTick(Microseconds, TimePoint) {
 		} catch (const Failure &) {
 			continue;
 		}
-		callback(j->owner, "OnPgComplete", j->id, j->context);
+		// Move before invoking Pawn: close/reentry cannot destroy the active arguments.
+		// Delivery consumes metadata even when the public or VM is no longer available.
+		auto custom = std::move(j->callback);
+		if (custom) {
+			callback(j->owner, custom->function.c_str(), j->id, custom->arguments, true);
+		} else {
+			callback(j->owner, "OnPgComplete", j->id, j->context);
+		}
 	}
 }
 

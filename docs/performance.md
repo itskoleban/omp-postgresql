@@ -168,3 +168,38 @@ one process run on a shared workstation. Variation, grouping, SQL preparation ch
 poll scheduling and read/write differences prevent treating the table as a general
 ranking or production sizing evidence. No pipeline or lane-selection change follows
 from this sample.
+
+## Custom callback costs
+
+Legacy completion dispatch still performs one owning-VM/public lookup and two scalar pushes.
+A custom descriptor adds a bounded allocation and one vector allocation when arguments exist;
+each non-SSO string can add an allocation. The native copies at most 4096 logical payload
+bytes, validates addresses and optionally resolves the public before accepting work. Dispatch
+does another public lookup and pushes the job plus 0..16 extras. Strings temporarily expand
+to Pawn cells. Descriptor storage is released at dispatch rather than job closure.
+
+No callback lookup cache is introduced. File preparation adds no extra file read or parse:
+both public interfaces feed the existing worker capture. The source-kind enum removes
+implicit branching states and is not a claimed speedup. Existing Engine benchmark timings
+above predate this change; they are not measurements of custom callback dispatch. Callback
+copy/dispatch benchmark scope and results are recorded in [the audit](api-modernization.md).
+
+The [raw Windows x86 callback CSV](https://github.com/itskoleban/omp-postgresql/blob/74a298ca364dc7750ea0d79bc07618e9629a3d45/tests/benchmarks/windows-x86-callbacks.csv) records
+seven measured repetitions after warmup, rotating mode order. It binds the source with
+canonical-LF SHA-256 values. With 64 jobs per repetition on two lanes, median nanoseconds
+for submission/dispatch were:
+
+| Current implementation path | Submission, 64 jobs (ns) | Dispatch, 64 jobs (ns) |
+| --- | ---: | ---: |
+| Legacy global, old native arity | 156500 | 71400 |
+| Custom, no extras | 143900 | 81200 |
+| Custom, two integer extras | 216200 | 81300 |
+| Custom, 96-byte string | 465900 | 114300 |
+
+Submission includes validation, copying and enqueue with concurrent workers; dispatch
+includes Engine polling and SDK-test-double allocation/recording. The double replaces the
+Pawn interpreter. These are current-path comparisons on one shared workstation, not a
+before/after benchmark, real Pawn latency or production throughput evidence. Variation
+prevents interpreting the no-extra submission difference as a speed improvement. No timing
+threshold is used. Installed packages omit test sources; use the repository raw-data link
+in the [API audit](api-modernization.md) when reading an installed guide.

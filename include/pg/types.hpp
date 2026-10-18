@@ -6,6 +6,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <variant>
 #include <vector>
 
 namespace pg {
@@ -60,9 +61,21 @@ struct Result {
 	std::string sqlstate, message;
 };
 
+// Callback data is owned by the main thread; workers never inspect it.
+using CallbackArgument = std::variant<std::int32_t, std::string>;
+struct CallbackDescriptor {
+	static constexpr std::size_t max_arguments = 16, max_name = 31;
+	static constexpr std::size_t max_string = 1024, max_payload = 4096;
+	std::string function;
+	std::vector<CallbackArgument> arguments;
+};
+
+enum class SqlSourceKind { inline_sql, file, section };
+
 struct Operation {
 	std::string sql;
-	bool file = false, prepared = true;
+	SqlSourceKind source = SqlSourceKind::inline_sql;
+	bool prepared = true;
 	Params params;
 	std::string section;
 };
@@ -85,7 +98,9 @@ struct Job {
 	bool read_only = false;
 	std::string savepoint;
 	std::string sql;
-	bool file = false, prepared = true, notify = true;
+	SqlSourceKind source = SqlSourceKind::inline_sql;
+	bool prepared = true, notify = true;
+	std::unique_ptr<CallbackDescriptor> callback; // Main thread only; freed after delivery/unload.
 	std::string section;
 	bool delivered = false; // Main-thread bookkeeping only.
 	std::vector<Params> batch;

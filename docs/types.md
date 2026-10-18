@@ -121,3 +121,10 @@ batch execution, individual NULL elements, scalar/array result OIDs, typed
 whole-array NULLs, numeric precision, date/time normalization, invalid server formats,
 and BYTEA round trips. The open.mp extension gamemode also exercises the Pawn binary and
 array interfaces; see [validation](validation.md) for the actual runs and limitations.
+
+## Callback argument cells
+
+The callback format is independent of PostgreSQL OIDs: `i` copies an int32 cell, `f` copies
+the Float bit pattern, `b` accepts only 0/1, and `s` owns a UTF-8 string. No SQL encoding or
+numeric conversion occurs. Callback strings arrive unpacked and exist for that callback
+invocation. Arrays/references are unsupported. See [callback limits](callbacks.md#formats-and-bounds).

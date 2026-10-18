@@ -1,0 +1,43 @@
+# Windows x86 Release; MSVC19.51; patched libpq17.6; loopback TLS PostgreSQL17.11
+# Source baseline: 7a69a5bde95a5461e2a3e7c129907eabde674f28; branch codex/api-custom-callbacks
+# SDK test double, NOT Pawn interpreter. Shared workstation; no timing thresholds.
+# 64 jobs, two lanes, eight rotated repetitions including one unreported warmup.
+# sha256 src/component.cpp 02bcad31bf1de49bfec2d2a366e9e58a757b916b389b1800b4ee40306e4d18e6
+# sha256 src/engine.cpp 953ee13b23ac5c17520755081f8531663eaea51e21aa15cbb621c11faf43a6fd
+# sha256 src/natives.cpp 002fd85dfba81b7fd0572c126ec9623d977fd467dd167f3f8d92779ea87f8e51
+# sha256 src/session.cpp 16160d3159e09bb401a7ca3611b8216724094f6c0f0598935d31fc20f6c4ec9c
+# sha256 include/pg/types.hpp d1fa3eaa74126865d89df223a1bc703fcd30fe2b7654de9b04a3abca4390b6cf
+# sha256 include/pg/component.hpp 9d2851d91b966461271bbba006768a4a9403a07251f5c4ab9489fb7b60338a05
+# sha256 include/pg/engine.hpp a64d657f41e82bb3ea7b23c0762fb9b95912d98c6de5ec64f20293b4e711e75e
+# sha256 tests/callback_cases.hpp cc005bfa031639593813faa781ba9de49ca46a5f3bb0a219f7107b1d7cce9236
+# sha256 tests/pawn_memory.hpp befee0b8b6ebe24865ab2aa96c0676bb8141330094a71b1e59c880536bfaccc1
+# sha256 tests/native_tests.cpp eca219d73ef2ff990d06c9a52f3b3ee2d60ee53770f55b7838e479a9789c9547
+mode,repetition,jobs,submission_ns,dispatch_ns
+custom0,1,64,155500,240900
+custom_ii,1,64,244200,81300
+custom_s96,1,64,308700,106500
+global_old_arity,1,64,117400,67300
+custom_ii,2,64,343500,76300
+custom_s96,2,64,444600,97500
+global_old_arity,2,64,156500,88300
+custom0,2,64,143900,152100
+custom_s96,3,64,791500,142800
+global_old_arity,3,64,159000,85200
+custom0,3,64,129000,134700
+custom_ii,3,64,1015400,80700
+global_old_arity,4,64,159700,54800
+custom0,4,64,147500,66700
+custom_ii,4,64,198400,84000
+custom_s96,4,64,631800,114300
+custom0,5,64,125900,81200
+custom_ii,5,64,137500,81600
+custom_s96,5,64,348400,98600
+global_old_arity,5,64,152100,81400
+custom_ii,6,64,216200,93300
+custom_s96,6,64,515900,128100
+global_old_arity,6,64,193900,70200
+custom0,6,64,202200,78500
+custom_s96,7,64,465900,144000
+global_old_arity,7,64,155900,71400
+custom0,7,64,99300,75700
+custom_ii,7,64,206600,77900

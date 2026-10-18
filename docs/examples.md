@@ -52,3 +52,18 @@ Temporary tables are private to one physical PostgreSQL session. Keep their quer
 the creating lane; reconnect destroys them. Real accounts/world data require a persistent,
 operator-managed schema accessible to all relevant lanes. The authentication example uses
 such a table but deliberately omits production schema management.
+
+## Custom callbacks and migration
+
+- [Custom gameplay requests](../examples/custom.pwn): interactive account/clan loads and
+  account/property saves, concurrent requests, copied player/session/request arguments and
+  explicit failure/uncertainty handling. Operator schema and RCON-admin prerequisites:
+  [callback guide](callbacks.md#complete-gameplay-example). Interactive behavior needs operator validation.
+- [Accounts](../examples/accounts.pwn) now uses custom completion handlers with exact job/token
+  checks. Its external password provider remains optional and authentication still fails closed.
+- [Callbacks](../examples/callbacks.pwn) now tests custom scalar/string/no-argument handlers,
+  failures, VM frame restoration and all eleven asynchronous natives, including stream completion.
+- [Sections](../examples/sections.pwn) uses the unified file API and retains a compatibility call.
+  Basic, saving, transfer and extension examples continue demonstrating `OnPgComplete`.
+
+Use the [callback contract](callbacks.md) and [API audit](api-modernization.md) for migration.

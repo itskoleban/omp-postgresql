@@ -106,8 +106,14 @@ void unit() {
 	while (std::getline(source, line)) {
 		if (std::regex_search(line, match, declaration)) {
 			auto args = match[2].str();
-			arities.emplace(match[1].str(),
-			                1 + static_cast<int>(std::count(args.begin(), args.end(), ',')));
+			auto count = 1 + static_cast<int>(std::count(args.begin(), args.end(), ','));
+			if (args.find("const callback[]") != std::string::npos) {
+				count -= 4; // two strings, variadic slot, and the tag-list comma.
+			}
+			if (match[1].str() == "pg_prepare_file") {
+				--count;
+			}
+			arities.emplace(match[1].str(), count);
 		}
 	}
 	check(arities.size() == 69 && arities.size() == h.vm.natives.size(),
@@ -121,6 +127,9 @@ void unit() {
 		                   : 0;
 		for (cell bytes :
 		     {-1, 0, 1, count * 4 - 4, count * 4 + 4, std::numeric_limits<cell>::max()}) {
+			if (name == "pg_prepare_file" && bytes == 20) {
+				continue; // The supported five-argument tail has a real payload.
+			}
 			h.error().clear();
 			auto before = h.vm.cells;
 			cell params[] = {bytes}; // Deliberately no argument payload: reject before reading it.
@@ -240,6 +249,27 @@ void integration(const char *profile) {
 	h.reject("pg_prepare_section", {connection, 0, stack, 0, 1},
 	         "Pawn string exceeds limit or is not byte encoded UTF-8");
 	check(h.call("pg_statement_close", {section_statement}) == 1, "Native section close rejected");
+	h.text("missing.sql");
+	h.text("selected", stack);
+	for (bool section : {false, true}) {
+		if (!section) {
+			h.text("", stack);
+		} else {
+			h.text("selected", stack);
+		}
+		auto unified = h.call("pg_prepare_file", {connection, 0, 1, 1, stack});
+		check(unified > 0, "Unified file native rejected");
+		const auto &s = h.component.engine.statement(h.owner(), unified);
+		check(s.source == (section ? pg::SqlSourceKind::section : pg::SqlSourceKind::file) &&
+		          s.section == (section ? "selected" : ""),
+		      "Unified file source differs");
+		h.call("pg_statement_close", {unified});
+	}
+	auto old_file = h.call("pg_prepare_file", {connection, 0, 0, 1});
+	check(old_file > 0 &&
+	          h.component.engine.statement(h.owner(), old_file).source == pg::SqlSourceKind::file,
+	      "Old compiled file arity changed");
+	h.call("pg_statement_close", {old_file});
 	h.text("SELECT $1::text");
 	auto statement = h.call("pg_prepare", {connection, 0, 1, 1});
 	check(statement > 0, "Native preparation rejected");
@@ -353,6 +383,8 @@ void integration(const char *profile) {
 	      "Unexpected SDK call in integration");
 }
 
+#include "callback_cases.hpp"
+
 } // namespace
 
 int main(int argc, char **argv) {
@@ -364,8 +396,11 @@ int main(int argc, char **argv) {
 				return 77;
 			}
 			integration(profile);
+			callback_integration(profile);
+			callback_benchmark(profile);
 		} else {
 			unit();
+			callback_unit();
 		}
 		std::cout << "Native validation passed: " << checks << " checks; address seed=0x414d5801\n";
 		return 0;
