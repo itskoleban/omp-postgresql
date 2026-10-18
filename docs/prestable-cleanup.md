@@ -53,7 +53,7 @@ an unclear/obsolete contract; no additional removal is justified here.
 | `pg_lane_stat` | A | Distinct physical-lane state, queue or cumulative metric; retain. |
 | `pg_query` | B | Direct one-shot SQL avoids staging; shares job submission, not preparation semantics. |
 | `pg_prepare` | A | Inline logical statement creation; distinct from worker-side file loading. |
-| `pg_prepare_file` | C | Whole-file and section preparation now share the recommended optional-section interface. |
+| `pg_prepare_file` | A | Unified whole-file and exact named-section preparation; retained worker capture semantics. |
 | `pg_bind_int` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
 | `pg_bind_int64` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
 | `pg_bind_float` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
@@ -134,5 +134,51 @@ to integrated 2add8df), MSVC 19.51, patched libpq 17.6, disposable TLS PostgreSQ
 not a rebuild of merge identity. Current-source and final CI results are recorded below
 when executed. Earlier audits/benchmarks remain revision-specific.
 
-Pending final-source qualification and independent review; no RC publication recommendation
-is implied by implementation or unit tests.
+Local implemented-source qualification at `67cdaccf5a42350523303fff5548e386c07b006e`:
+
+- Windows 11 10.0.26300 x64, Intel Core i5-13420H (8 cores/12 logical processors),
+  MSVC 19.51.36248 Release x86, patched libpq 17.6, TLS PostgreSQL 17.11, seed 42.
+- All **17/17 CTest** executed successfully, no skips, 65.99 seconds. Includes the
+  real lost-COMMIT/stall/auth/TLS/lifecycle tests, migrated SQL section suite and logger
+  integration/benchmark. Source hashes match this exact Git revision; the cached CMake
+  package metadata still names baseline 2add8df, so this local binary is not used as a
+  distributable artifact. Clean CI packages must carry their own exact source identity.
+- All **47 Python regressions** passed, 12.631 seconds; all **12 Pawn examples** compile
+  with warnings as errors (3.10.11). Documentation checker reports 68 natives/3 callbacks.
+- Official **open.mp 1.5.8.3079 Windows x86** passed nine unattended gamemode modes,
+  pending filterscript unload and four smoke GMX passes. Actual new WARN records appeared
+  through the main-thread server sink. The disposable cluster stopped; no publication.
+- Logging unit tests measured a 20,584-byte Diagnostics object (256 x 80-byte records plus
+  state); no heap allocation in normal emit, fixed drain stack and bounded output. This
+  is a storage measurement, not a measured bound on total process RSS.
+- [Raw logging/callback samples](https://github.com/itskoleban/omp-postgresql/blob/8beceb53ab25b4c37092ebf184a29ebe08f2fb56/tests/benchmarks/windows-x86-logging.csv) record
+  112 measurements with exact source hashes; [performance interpretation](performance.md#pre-stable-diagnostics-measurements).
+
+The first new integration run passed 16/17: its sentinel SQL string crossed the test
+double's valid heap boundary and the native correctly rejected it. Commit 67cdacc moves
+the fixture strings into disjoint valid memory; the full rerun above passes. No source
+coverage was deleted to pass. A first local launcher attempt lost child output; it is not
+counted as qualification. Superseded/cancelled CI runs are not successful evidence.
+
+## Independent review and corrections
+
+A separate read-only reviewer audited d06b15f against baseline 2add8df, then re-reviewed
+d1dc54e. Confirmed P2 contradictory migration guidance in callbacks/design/extension-audit
+and P3 overflow emitting WARN at ERROR were corrected in d1dc54e. All-enabled-level
+overflow regressions and package-guide checks were added. Sink-failure counts now produce
+a bounded recovery summary even without overflow. No remaining concrete memory/lifetime,
+logger race, callback or transaction defect was identified within that review's scope.
+This is a new independent agent pass, not a new Astra audit or a bug-free certification.
+Reviewer package tests hit sandbox Temp permissions; its two targeted tests passed and the
+parent's complete 47-test run passed outside that sandbox. No reviewer DB/build run is claimed.
+
+## Remaining release gates
+
+Final branch CI/packages/sanitizers must be inspected with actual artifacts on the exact
+preview source. A successful PR preview does not qualify a future integrated master commit.
+Owner review and explicit authorization precede merge/tag/RC publication. Interactive
+player/provider flows, fully instrumented dependencies, hours-long fault/soak, real Pawn
+interpreter/tick comparative latency, CPU/RSS profiles and slow real output-device performance
+remain unqualified. Synthetic bounded sinks establish progress/storage behavior, not an
+upper bound on the time taken by an arbitrary server output sink. No production/stable
+readiness claim follows from this finite qualification.
