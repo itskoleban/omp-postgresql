@@ -398,10 +398,10 @@ void diagnostics_integration(const char *profile) {
 		static_cast<std::vector<std::string> *>(p)->emplace_back(line);
 	};
 	h.text("Done");
-	h.text("s", 128);
-	h.text("SELECT 'secret_sql_4321'", 192);
+	h.text("s", 192);
+	h.text("SELECT 'secret_sql_4321'", 64);
 	h.text("secret_callback_4321", stack);
-	auto id = h.call("pg_query", {connection, 192, 0, 0, 0, 1, 0, 128, stack});
+	auto id = h.call("pg_query", {connection, 64, 0, 0, 0, 1, 0, 192, stack});
 	check(id > 0, "Diagnostics query rejected");
 	auto job = engine.job(h.owner(), id);
 	while (!pg::terminal(job->status.load())) {
