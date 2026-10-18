@@ -184,7 +184,7 @@ implicit branching states and is not a claimed speedup. Existing Engine benchmar
 above predate this change; they are not measurements of custom callback dispatch. Callback
 copy/dispatch benchmark scope and results are recorded in [the audit](api-modernization.md).
 
-The [raw Windows x86 callback CSV](https://github.com/itskoleban/omp-postgresql/blob/codex/api-custom-callbacks/tests/benchmarks/windows-x86-callbacks.csv) records
+The [raw Windows x86 callback CSV](https://github.com/itskoleban/omp-postgresql/blob/74a298ca364dc7750ea0d79bc07618e9629a3d45/tests/benchmarks/windows-x86-callbacks.csv) records
 seven measured repetitions after warmup, rotating mode order. It binds the source with
 canonical-LF SHA-256 values. With 64 jobs per repetition on two lanes, median nanoseconds
 for submission/dispatch were:

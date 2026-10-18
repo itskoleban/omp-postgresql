@@ -171,13 +171,12 @@ disposable PostgreSQL runner. No throughput threshold or claimed superiority fol
 Actual Pawn callback and server-tick percentiles remain unmeasured. Existing SQL file and
 Engine benchmarks still run as correctness checks; no additional read/cache is introduced.
 
-Raw data: [Windows callback CSV](https://github.com/itskoleban/omp-postgresql/blob/codex/api-custom-callbacks/tests/benchmarks/windows-x86-callbacks.csv).
+Raw data: [Windows callback CSV](https://github.com/itskoleban/omp-postgresql/blob/74a298ca364dc7750ea0d79bc07618e9629a3d45/tests/benchmarks/windows-x86-callbacks.csv).
 
 ## State and remaining review
 
 Implementation, local qualification, CI qualification, integration and publication are
-separate states. Feature branch: codex/api-custom-callbacks. This report is updated with
-final CI/PR evidence before handoff. The historical independent audit predates this code;
+separate states. Feature branch: codex/api-custom-callbacks. The associated pull request records final CI and package evidence. The historical independent audit predates this code;
 this change has an internal review, not a new independent model/security certification.
 Remaining limits include interactive player/provider coverage, finite concurrency/soak
 evidence, fully instrumented dependencies and actual Pawn dispatch/tick measurements.
