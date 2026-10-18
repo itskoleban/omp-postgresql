@@ -1,6 +1,6 @@
 # Validation results and known limitations
 
-The component remains **0.1 experimental**. Passing the current suite is evidence for the
+The component is **0.1.0-rc.1 under qualification**. Passing the current suite is evidence for the
 listed scenarios, not complete production qualification. Engine tests and real open.mp
 loading are recorded separately.
 

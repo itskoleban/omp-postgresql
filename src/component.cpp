@@ -8,7 +8,7 @@ void Component::onLoad(ICore *core) {
 	instance = this;
 	core_ = core;
 	core_->getEventDispatcher().addEventHandler(this);
-	core_->printLn("omp-postgresql 0.1.0 (experimental)");
+	core_->printLn("omp-postgresql " PG_VERSION_STRING " (candidate build)");
 }
 
 void Component::onInit(IComponentList *list) {

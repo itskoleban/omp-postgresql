@@ -58,7 +58,7 @@ Installation includes license notices in `share/omp-postgresql`. `PG_PAWN_INCLUD
 can override the default include destination, `qawno/include`.
 The CI workflow generates Windows/Linux x86 ZIPs and SHA-256 only after testing a fresh
 server with the extracted package. See [package installation](docs/installation.md) and
-[reproducible archive assembly](docs/packaging.md). These are experimental artifacts;
+[reproducible archive assembly](docs/packaging.md). These are qualification artifacts;
 no Release Candidate has been approved or published. The [release procedure](docs/releasing.md)
 describes exact-source inventories and the separate owner-triggered publication workflow.
 
