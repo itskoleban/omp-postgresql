@@ -1,0 +1,142 @@
+# Source commit: 67cdaccf5a42350523303fff5548e386c07b006e
+# MSVC 19.51 Release x86; libpq 17.6 patched; TLS PostgreSQL 17.11; shared Windows workstation.
+# SDK test double plus real PostgreSQL; counting sink, not Pawn interpreter or open.mp tick/I/O performance.
+# Seven measured repetitions after warmup; 64 jobs per sample, two lanes; logging dispatch includes one bounded drain.
+# Modes rotated per repetition, levels sequential OFF/WARN/DEBUG/TRACE; no speedup or hard RSS/latency claim.
+# sha256 CMakeLists.txt 50bbff99b8da52ed4bed0ce77876fca7a16a229b672cc78df6bb8387c59dc8d4
+# sha256 pawn/omp-postgresql.inc fea58aeaf46732dc3bbdaaa4cb6e5f56aa0286c8c86e1699b475c6bb1437fd80
+# sha256 tests/native_tests.cpp 42bd88ff7c4b700b24698ae132ae23e09bd768e6b8edfa1619dfd96ecfbfe133
+# sha256 tests/callback_cases.hpp a87629af3c6ac47aab5d4866db20538026e72953676c1b3b6c4ca4a102bb6bc6
+# sha256 tests/pawn_memory.hpp befee0b8b6ebe24865ab2aa96c0676bb8141330094a71b1e59c880536bfaccc1
+# sha256 include/pg/component.hpp 542a5ab3366d4772d367605902102c8f328ead39c9415e9e48eb77363e1615ae
+# sha256 include/pg/config.hpp ed3eaf1de580591d0226d2c833de6934cf56ed72b383a973f3bf17eac9488a9c
+# sha256 include/pg/diagnostics.hpp 2c925013d2f82b3d7c3e0315ab4da05dee9cbeada36a1fc122b37188c6a9532a
+# sha256 include/pg/engine.hpp 41dc327448431fca76ce7ab06a6a81763ff1bdf2a0127d5bb5cfee2a635c0077
+# sha256 include/pg/parameters.hpp 99dc1e43d5cf772d9b3186543b55b2d7cf531198cca15bc5b09ad7a82876b4f0
+# sha256 include/pg/session.hpp eba31f21732ad02c9e0e825f921e0a9fce10aa90f534be9ed272707e406250a5
+# sha256 include/pg/sql_sections.hpp 0dc9aadafe20a28660e986ef8820e1295574b8448939c2db4c891819e04362f7
+# sha256 include/pg/statement.hpp ec9818fae84e29c596cde408d50254ad882b3ab2b3f3e92c17b28e0db7061b1e
+# sha256 include/pg/stream.hpp 398fbe8abb671c47c39cba0753f0ae0189177e9472fbf63a43c8aea016a45cf2
+# sha256 include/pg/types.hpp ea11d99740dd4c7c7c24995c29bdf254adb64bae7a25f8aa276e7de2619a1449
+# sha256 src/component.cpp ac07caca49d3202f71d134b24d932f4b553f1cc2fab0f8dad010c2bab9cbf19b
+# sha256 src/config.cpp 5a79c67982878376b389099d0cda64e437c329bd272f803fc2776ed733785730
+# sha256 src/diagnostics.cpp e618e4836b647b134303ce9c45df898c966efb57ba92dcf8689addd3a53ff075
+# sha256 src/engine.cpp c810cf96c1e4ede1f15974a18f6f6c9b69319617493773cdcf3720809926d4cb
+# sha256 src/natives.cpp 0e049e1956a96dd6e38fc8a7ce3b5b870713934c106db8eab21c33674d622aa9
+# sha256 src/parameters.cpp 77ad941db253bc24fdde709d81420da5bdad93ddf8173539e342bef5db458e00
+# sha256 src/session.cpp 1950f43eb4f21fb7a3312d3ee90047cb5d2a73b180a561e30939565f05f24908
+# sha256 src/sql_sections.cpp 71e8b5077c405201fb5c3720d920aee8fbf66e00fe3485a53898aaa99e7c4aef
+# sha256 src/statement.cpp f403f464fae89def3e2c4d50f119feed4708ff1c75715139020544e120467f78
+logging_benchmark,level,mode,repetition,jobs,submission_ns,dispatch_with_drain_ns,dropped,output_bytes
+logging_benchmark,0,custom0,1,64,171900,82400,0,0
+logging_benchmark,0,custom_ii,1,64,256200,100400,0,0
+logging_benchmark,0,custom_s96,1,64,1669300,96900,0,0
+logging_benchmark,0,global_old_arity,1,64,548100,59900,0,0
+logging_benchmark,0,custom_ii,2,64,226400,74900,0,0
+logging_benchmark,0,custom_s96,2,64,336600,94100,0,0
+logging_benchmark,0,global_old_arity,2,64,774900,60300,0,0
+logging_benchmark,0,custom0,2,64,622800,71400,0,0
+logging_benchmark,0,custom_s96,3,64,763600,144300,0,0
+logging_benchmark,0,global_old_arity,3,64,569800,68200,0,0
+logging_benchmark,0,custom0,3,64,186300,73200,0,0
+logging_benchmark,0,custom_ii,3,64,524700,82400,0,0
+logging_benchmark,0,global_old_arity,4,64,354500,150600,0,0
+logging_benchmark,0,custom0,4,64,165600,71900,0,0
+logging_benchmark,0,custom_ii,4,64,196200,75400,0,0
+logging_benchmark,0,custom_s96,4,64,351900,128800,0,0
+logging_benchmark,0,custom0,5,64,156800,73100,0,0
+logging_benchmark,0,custom_ii,5,64,174700,70400,0,0
+logging_benchmark,0,custom_s96,5,64,831500,92900,0,0
+logging_benchmark,0,global_old_arity,5,64,330500,70900,0,0
+logging_benchmark,0,custom_ii,6,64,204500,75500,0,0
+logging_benchmark,0,custom_s96,6,64,318400,133100,0,0
+logging_benchmark,0,global_old_arity,6,64,112200,64200,0,0
+logging_benchmark,0,custom0,6,64,255100,70700,0,0
+logging_benchmark,0,custom_s96,7,64,433900,95200,0,0
+logging_benchmark,0,global_old_arity,7,64,142700,68000,0,0
+logging_benchmark,0,custom0,7,64,100100,65400,0,0
+logging_benchmark,0,custom_ii,7,64,233900,77500,0,0
+logging_benchmark,2,custom0,1,64,182300,72000,0,0
+logging_benchmark,2,custom_ii,1,64,379800,79000,0,0
+logging_benchmark,2,custom_s96,1,64,612000,160800,0,0
+logging_benchmark,2,global_old_arity,1,64,173800,66000,0,0
+logging_benchmark,2,custom_ii,2,64,209700,82300,0,0
+logging_benchmark,2,custom_s96,2,64,486800,160600,0,0
+logging_benchmark,2,global_old_arity,2,64,152700,66000,0,0
+logging_benchmark,2,custom0,2,64,247500,82400,0,0
+logging_benchmark,2,custom_s96,3,64,438500,109800,0,0
+logging_benchmark,2,global_old_arity,3,64,83100,119700,0,0
+logging_benchmark,2,custom0,3,64,216700,103100,0,0
+logging_benchmark,2,custom_ii,3,64,111300,166200,0,0
+logging_benchmark,2,global_old_arity,4,64,183500,73100,0,0
+logging_benchmark,2,custom0,4,64,130000,66600,0,0
+logging_benchmark,2,custom_ii,4,64,247600,72700,0,0
+logging_benchmark,2,custom_s96,4,64,553400,108000,0,0
+logging_benchmark,2,custom0,5,64,184500,102100,0,0
+logging_benchmark,2,custom_ii,5,64,324000,91800,0,0
+logging_benchmark,2,custom_s96,5,64,280900,393600,0,0
+logging_benchmark,2,global_old_arity,5,64,124200,85200,0,0
+logging_benchmark,2,custom_ii,6,64,216800,89700,0,0
+logging_benchmark,2,custom_s96,6,64,181100,117700,0,0
+logging_benchmark,2,global_old_arity,6,64,106700,78600,0,0
+logging_benchmark,2,custom0,6,64,168000,75900,0,0
+logging_benchmark,2,custom_s96,7,64,364000,112200,0,0
+logging_benchmark,2,global_old_arity,7,64,213500,72900,0,0
+logging_benchmark,2,custom0,7,64,154400,71600,0,0
+logging_benchmark,2,custom_ii,7,64,161400,84800,0,0
+logging_benchmark,4,custom0,1,64,125100,364000,128,9753
+logging_benchmark,4,custom_ii,1,64,125500,245600,128,9752
+logging_benchmark,4,custom_s96,1,64,352900,308300,128,9753
+logging_benchmark,4,global_old_arity,1,64,83800,254900,128,9754
+logging_benchmark,4,custom_ii,2,64,100800,184400,128,9754
+logging_benchmark,4,custom_s96,2,64,181900,297200,128,9752
+logging_benchmark,4,global_old_arity,2,64,82900,376600,128,9753
+logging_benchmark,4,custom0,2,64,158200,145600,128,9752
+logging_benchmark,4,custom_s96,3,64,308000,298800,128,9752
+logging_benchmark,4,global_old_arity,3,64,95600,353900,128,9754
+logging_benchmark,4,custom0,3,64,146200,239800,128,9752
+logging_benchmark,4,custom_ii,3,64,154000,263800,128,9776
+logging_benchmark,4,global_old_arity,4,64,386200,318400,128,9815
+logging_benchmark,4,custom0,4,64,217100,366200,128,9816
+logging_benchmark,4,custom_ii,4,64,348700,276700,128,9817
+logging_benchmark,4,custom_s96,4,64,410900,480300,128,9815
+logging_benchmark,4,custom0,5,64,209200,411300,128,9817
+logging_benchmark,4,custom_ii,5,64,230400,402400,128,9815
+logging_benchmark,4,custom_s96,5,64,446500,300500,128,9815
+logging_benchmark,4,global_old_arity,5,64,99800,261900,128,9816
+logging_benchmark,4,custom_ii,6,64,182300,277800,128,9815
+logging_benchmark,4,custom_s96,6,64,638100,375300,128,9815
+logging_benchmark,4,global_old_arity,6,64,80700,255100,128,9817
+logging_benchmark,4,custom0,6,64,250700,475600,128,9815
+logging_benchmark,4,custom_s96,7,64,444200,370400,128,9816
+logging_benchmark,4,global_old_arity,7,64,141800,251300,128,9815
+logging_benchmark,4,custom0,7,64,167600,251400,128,9817
+logging_benchmark,4,custom_ii,7,64,143200,279500,128,9815
+logging_benchmark,5,custom0,1,64,217900,521900,129,9752
+logging_benchmark,5,custom_ii,1,64,183200,374900,129,9753
+logging_benchmark,5,custom_s96,1,64,493800,352900,129,9754
+logging_benchmark,5,global_old_arity,1,64,116200,226500,129,9753
+logging_benchmark,5,custom_ii,2,64,252300,244100,129,9752
+logging_benchmark,5,custom_s96,2,64,541300,270200,129,9752
+logging_benchmark,5,global_old_arity,2,64,83200,313200,129,9752
+logging_benchmark,5,custom0,2,64,219100,260700,129,9753
+logging_benchmark,5,custom_s96,3,64,497800,327000,129,9752
+logging_benchmark,5,global_old_arity,3,64,117500,250800,129,9753
+logging_benchmark,5,custom0,3,64,198500,181300,129,9754
+logging_benchmark,5,custom_ii,3,64,140000,181200,129,9775
+logging_benchmark,5,global_old_arity,4,64,192500,256200,129,9815
+logging_benchmark,5,custom0,4,64,229400,268500,129,9816
+logging_benchmark,5,custom_ii,4,64,254200,302500,129,9816
+logging_benchmark,5,custom_s96,4,64,179600,293900,129,9816
+logging_benchmark,5,custom0,5,64,98900,216800,129,9815
+logging_benchmark,5,custom_ii,5,64,206500,223300,129,9814
+logging_benchmark,5,custom_s96,5,64,241800,276000,129,9815
+logging_benchmark,5,global_old_arity,5,64,196900,376700,129,9815
+logging_benchmark,5,custom_ii,6,64,268700,288900,129,9815
+logging_benchmark,5,custom_s96,6,64,724300,262700,129,9817
+logging_benchmark,5,global_old_arity,6,64,272000,258100,129,9816
+logging_benchmark,5,custom0,6,64,129000,266200,129,9816
+logging_benchmark,5,custom_s96,7,64,474000,302500,129,9815
+logging_benchmark,5,global_old_arity,7,64,121100,251800,129,9815
+logging_benchmark,5,custom0,7,64,179800,213900,129,9815
+logging_benchmark,5,custom_ii,7,64,206000,246200,129,9817
