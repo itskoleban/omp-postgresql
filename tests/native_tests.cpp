@@ -92,6 +92,10 @@ public:
 
 void unit() {
 	Harness h;
+	const auto version = h.component.componentVersion();
+	check(version.major == PG_VERSION_MAJOR && version.minor == PG_VERSION_MINOR &&
+	          version.patch == PG_VERSION_PATCH && version.prerel == PG_VERSION_PRERELEASE,
+	      "Component version differs from CMake candidate identity");
 	// Derive names and arities independently from the public Pawn declarations.
 	std::ifstream source(PG_PAWN_API_PATH);
 	check(source.good(), "Cannot read public Pawn API");

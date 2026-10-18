@@ -1,6 +1,6 @@
 # Runtime dependencies
 
-The experimental x86 Actions packages link libpq dynamically. They are not standalone
+The x86 Actions packages link libpq dynamically. They are not standalone
 server distributions. `manifest.json` records the actual binary imports, architecture,
 compiler, libpq headers, source commit and every payload checksum. Only x86 open.mp
 1.5.8.3079 is currently qualified; x64 engine test builds are not distributed components.
@@ -50,4 +50,5 @@ providers' terms. See [NOTICE.md](NOTICE.md).
 Update and requalify libpq/OpenSSL regularly. The runner's build tools and MSYS2 packages
 can change: deterministic archive assembly from identical inputs does **not** establish
 bit-for-bit reproducible compilation across toolchain updates. A future RC must freeze
-and review its final dependency inventory and independent audit.
+and review its final dependency inventory. The completed [independent audit](docs/independent-audit.md)
+and [candidate release inventory](docs/releasing.md) describe their exact scope and provenance limits.

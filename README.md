@@ -1,7 +1,7 @@
 # omp-postgresql
 
 A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
-Version **0.1.0 experimental**. Review the
+Version **0.1.0-rc.1 under qualification**; no candidate publication is approved. Review the
 [validated platforms and known limitations](docs/validation.md) before deploying it.
 The [RC readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
 qualification work and publication gates.
@@ -59,7 +59,8 @@ can override the default include destination, `qawno/include`.
 The CI workflow generates Windows/Linux x86 ZIPs and SHA-256 only after testing a fresh
 server with the extracted package. See [package installation](docs/installation.md) and
 [reproducible archive assembly](docs/packaging.md). These are experimental artifacts;
-no Release Candidate has been approved or published.
+no Release Candidate has been approved or published. The [release procedure](docs/releasing.md)
+describes exact-source inventories and the separate owner-triggered publication workflow.
 
 ## Installation and connections
 

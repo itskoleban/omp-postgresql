@@ -439,3 +439,14 @@ jobs:
                       python3 scripts/package.py verify --archive "${archives[0]}" \
                           --destination "build-verified-download/$platform"
                   done
+            - name: Prepare exact-source candidate inventory
+              run: |
+                  python3 scripts/release.py prepare --packages build-dist-download --output build-release
+                  cd build-release
+                  sha256sum --strict --check SHA256SUMS
+            - name: Upload candidate sources, notes, dependency inventory and checksums
+              uses: actions/upload-artifact@v4
+              with:
+                  name: omp-postgresql-release-${{ github.sha }}
+                  path: build-release/*
+                  if-no-files-found: error

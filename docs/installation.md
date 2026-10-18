@@ -1,9 +1,9 @@
-# Installing an experimental Actions package
+# Installing an Actions package
 
 Download the artifact for your operating system from a successful
 [`build-and-test` run](https://github.com/itskoleban/omp-postgresql/actions/workflows/ci.yml).
-It contains a platform-specific ZIP and its `.sha256` file. These are experimental build
-artifacts, not an approved Release Candidate. The workflow has read-only repository
+It contains a platform-specific ZIP and its `.sha256` file. These are build/qualification
+artifacts; an RC version label alone does not establish release approval. The workflow has read-only repository
 permissions and does not publish releases or create tags.
 
 Verify SHA-256 before extraction (`sha256sum --check NAME.zip.sha256` on Linux, or

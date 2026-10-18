@@ -1,0 +1,109 @@
+name: release-candidate
+on:
+    workflow_dispatch:
+        inputs:
+            ci_run:
+                description: Successful build-and-test run ID on master for the exact tagged commit
+                type: string
+                required: true
+            tag:
+                description: Existing owner-approved RC tag (for example v0.1.0-rc.1)
+                type: string
+                required: true
+            confirmation:
+                description: Repeat the exact tag to authorize the selected release action
+                type: string
+                required: true
+            action:
+                description: Create a draft, or explicitly publish a public prerelease
+                type: choice
+                options: [draft, publish]
+                default: draft
+permissions:
+    contents: read
+concurrency:
+    group: release-candidate
+    cancel-in-progress: false
+jobs:
+    prepare:
+        if: github.ref == 'refs/heads/master'
+        runs-on: ubuntu-24.04
+        permissions:
+            contents: read
+            actions: read
+        outputs:
+            commit: ${{ steps.identity.outputs.commit }}
+        env:
+            GH_TOKEN: ${{ github.token }}
+            GH_REPO: ${{ github.repository }}
+            CI_RUN: ${{ inputs.ci_run }}
+            RELEASE_TAG: ${{ inputs.tag }}
+            CONFIRMATION: ${{ inputs.confirmation }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+            - name: Validate owner confirmation, existing tag and exact successful main CI
+              id: identity
+              run: |
+                  [[ "$CI_RUN" =~ ^[1-9][0-9]*$ ]]
+                  gh api "repos/$GH_REPO/actions/runs/$CI_RUN" > build-run.json
+                  gh api "repos/$GH_REPO/actions/runs/$CI_RUN/jobs?per_page=100" > build-jobs.json
+                  python3 scripts/release.py check-publication --run build-run.json --jobs build-jobs.json \
+                      --repository "$GH_REPO" --tag "$RELEASE_TAG" --confirmation "$CONFIRMATION"
+                  echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            - name: Download only both tested distributions from that CI run
+              env:
+                  SOURCE_COMMIT: ${{ steps.identity.outputs.commit }}
+              run: |
+                  mkdir build-release-input
+                  for platform in windows linux; do
+                      gh run download "$CI_RUN" --name "omp-postgresql-$platform-x86-$SOURCE_COMMIT" \
+                          --dir build-release-input
+                  done
+            - name: Verify packages and assemble sources, notes and dependency inventory
+              run: |
+                  python3 scripts/release.py prepare --packages build-release-input --output build-release
+                  cd build-release
+                  sha256sum --strict --check SHA256SUMS
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: approved-release-input
+                  path: build-release/*
+                  if-no-files-found: error
+    release:
+        needs: prepare
+        runs-on: ubuntu-24.04
+        permissions:
+            contents: write
+        env:
+            GH_TOKEN: ${{ github.token }}
+            GH_REPO: ${{ github.repository }}
+            RELEASE_TAG: ${{ inputs.tag }}
+            RELEASE_ACTION: ${{ inputs.action }}
+            SOURCE_COMMIT: ${{ needs.prepare.outputs.commit }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  ref: ${{ needs.prepare.outputs.commit }}
+                  persist-credentials: false
+            - uses: actions/download-artifact@v4
+              with:
+                  name: approved-release-input
+                  path: build-release
+            - name: Create a draft prerelease with all verified assets
+              run: |
+                  python3 scripts/release.py check-remote-tag --repository "$GH_REPO" \
+                      --tag "$RELEASE_TAG" --commit "$SOURCE_COMMIT"
+                  cd build-release
+                  sha256sum --strict --check SHA256SUMS
+                  gh release create "$RELEASE_TAG" ./* --verify-tag --target "$SOURCE_COMMIT" \
+                      --draft --prerelease --latest=false --title "omp-postgresql $RELEASE_TAG" \
+                      --notes-file RELEASE-NOTES.md
+            - name: Publish only when explicitly selected by the owner
+              if: inputs.action == 'publish'
+              run: |
+                  python3 scripts/release.py check-remote-tag --repository "$GH_REPO" \
+                      --tag "$RELEASE_TAG" --commit "$SOURCE_COMMIT"
+                  gh release edit "$RELEASE_TAG" --draft=false --prerelease --latest=false

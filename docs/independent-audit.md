@@ -123,3 +123,36 @@ The independently reviewed correction is saved as commit
 behavioral regressions and contract updates. The report above reviews frozen `962ee8a`
 and the correction diff; it does not retroactively declare that original source corrected.
 Final CI/package evidence must identify its own exact checkout/manifest commit.
+
+## Bounded RC tooling review, October 18, 2026
+
+A second, actual independent GPT-6 Astra **ultra** review examined the RC preparation
+changes against integrated baseline `c1f4d48380ca13a1c497d1a1eb23f81a49692f30`.
+It reviewed the new source/package/CI/tag binding, version metadata, release bundle,
+manual publication workflow, permissions, tests and documentation. This was a bounded
+review of the new tooling, not a repeated runtime audit or public-release authorization.
+The implementation task records the final committed identity and CI separately.
+
+- **R1, High/P1, corrected:** `release.yml` initially relied on `gh release create
+  --verify-tag --target` after an earlier tag check. For an existing tag the API ignores
+  target_commitish; an authorized operator moving the tag between jobs could attach
+  commit A's packages to commit B's tag. The write job now remotely resolves lightweight
+  and annotated tags immediately before draft creation and again before publication.
+  `release.py check-remote-tag` rejects changed/deleted tags, unsupported objects and
+  excessive nesting. Regressions mock these API conditions. This is not an established
+  unauthorized attack; tag protection/owner coordination still governs the non-atomic
+  privileged-mutation window described in [releasing](releasing.md).
+- **R2, Medium/P2, corrected:** generated standalone `RELEASE-NOTES.md` retained five
+  relative documentation links whose targets were absent beside that generated file
+  and in the GitHub release body. An actual preparation probe confirmed all five missing
+  targets. Preparation now rewrites those links to GitHub blob URLs pinned to the exact
+  source commit; installed documentation remains relative. Regressions check all five
+  destinations and preserve source-document content.
+
+Astra independently reviewed both corrections and reported **no new blocking finding**.
+Its actual correction run passed all eight release test methods in **16.446 seconds**,
+including disposable real Git/source/tag fixtures, package verifier gates, repeatable
+bundles and both regressions. Evidence remains in the automation workspace under
+`build-rc/astra-review/correction-release-tests.log`; initial sandbox temporary-directory
+ACL failures were environmental and are not passing test evidence. No release workflow
+was invoked and no project tag, release, merge or repository protection was changed.
