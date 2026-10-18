@@ -81,11 +81,13 @@ One Engine owns an immutable-level logger and a fixed 256-record ring. Producers
 or capacity drops. The main thread takes at most 63 records plus one coalesced drop report
 per tick. Formatting uses a 512-byte stack buffer; the sink runs after releasing locks.
 Overflow can lose lifecycle events; logs are diagnostic hints, not an audit trail.
+Overflow summaries are ERROR at the ERROR-only setting and WARN at other enabled levels.
 Logging stops at engine destruction; workers join before logger destruction. Undrained
 shutdown records are discarded, with no blocking final flush. Reset/unload can leave
 bounded old-generation records pending; numeric generations prevent identity confusion.
 
 Sink exceptions are swallowed and counted without changing SQL or public diagnostics.
+The next drain reports changed sink-failure counts, even when no ring overflow occurred.
 Recursive drains do nothing. A slow sink can delay the main thread for up to 64 calls
 per tick; its wall time cannot be bounded by the component, but workers continue and the
 buffer remains fixed. Use WARN or OFF in production; DEBUG/TRACE are temporary diagnostic

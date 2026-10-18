@@ -1,4 +1,5 @@
 #include "pg/config.hpp"
+#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 #include <thread>
@@ -22,8 +23,31 @@ void flush(pg::Diagnostics &d, Output &out) {
 	}
 }
 void unit() {
+	struct Setting {
+		std::optional<std::string> original;
+		Setting() {
+			if (const char *raw = std::getenv("OMP_PG_LOG_LEVEL")) {
+				original = raw;
+			}
+		}
+		static void set(const char *value) {
+#ifdef _WIN32
+			check(_putenv_s("OMP_PG_LOG_LEVEL", value ? value : "") == 0);
+#else
+			check(value ? setenv("OMP_PG_LOG_LEVEL", value, 1) == 0
+			            : unsetenv("OMP_PG_LOG_LEVEL") == 0);
+#endif
+		}
+		~Setting() {
+			set(original ? original->c_str() : nullptr);
+		}
+	} setting;
+	Setting::set(nullptr);
+	check(pg::environment_log_level() == pg::LogLevel::warn);
 	constexpr std::string_view names[]{"OFF", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"};
 	for (int level = 0; level < 6; ++level) {
+		Setting::set(names[level].data());
+		check(pg::environment_log_level() == static_cast<pg::LogLevel>(level));
 		check(pg::parse_log_level(names[level]) == static_cast<pg::LogLevel>(level));
 		pg::Diagnostics d(static_cast<pg::LogLevel>(level));
 		std::size_t expected = 0;
@@ -51,6 +75,27 @@ void unit() {
 			}
 		}
 		check(failed);
+	}
+	Setting::set("private-invalid-setting\nINFO");
+	bool rejected_environment = false;
+	try {
+		pg::environment_log_level();
+	} catch (const pg::Failure &e) {
+		rejected_environment = std::string(e.what()).find("private-invalid") == std::string::npos;
+	}
+	check(rejected_environment);
+	Setting::set(nullptr);
+	for (auto level : {pg::LogLevel::error, pg::LogLevel::warn, pg::LogLevel::info,
+	                   pg::LogLevel::debug, pg::LogLevel::trace}) {
+		pg::Diagnostics overflow(level);
+		for (std::size_t i = 0; i < pg::Diagnostics::capacity + 1; ++i) {
+			overflow.emit({pg::LogEvent::worker_failed});
+		}
+		Output output;
+		overflow.drain(Output::sink, &output);
+		check(overflow.dropped() == 1 && output.lines.size() == pg::Diagnostics::drain_budget);
+		check(output.lines[0].starts_with(level == pg::LogLevel::error ? "[omp-pg][ERROR]"
+		                                                               : "[omp-pg][WARN]"));
 	}
 	pg::Job secret;
 	secret.id = 17;

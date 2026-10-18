@@ -40,6 +40,8 @@ def payload():
             "docs/security.md",
             "docs/validation.md",
             "docs/packaging.md",
+            "docs/debugging.md",
+            "docs/prestable-cleanup.md",
             "examples/sql/accounts.sql",
             "qawno/include/omp-postgresql.inc",
             "licenses/libpq/COPYRIGHT",
@@ -93,6 +95,14 @@ class PackageTests(unittest.TestCase):
 
     def test_valid_inventory(self):
         package.validate_payload(self.files, self.manifest)
+
+    def test_diagnostics_and_migration_guides_are_required(self):
+        for name in ("docs/debugging.md", "docs/prestable-cleanup.md"):
+            with self.subTest(name=name):
+                files = dict(self.files)
+                files.pop(name)
+                with self.assertRaisesRegex(ValueError, "Missing package files"):
+                    package.validate_payload(files, self.manifest)
 
     def test_candidate_identity_and_historical_experimental_identity(self):
         self.manifest["version"] = self.manifest["build"]["version"] = "0.1.0-rc.1"

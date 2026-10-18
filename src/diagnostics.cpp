@@ -133,11 +133,15 @@ void Diagnostics::drain(Sink sink, void *context) noexcept {
 	};
 	char text[512];
 	auto lost = pending_drops_.exchange(0, std::memory_order_relaxed);
-	if (lost) {
+	auto failed = sink_failures();
+	if (lost || failed != reported_sink_failures_) {
+		reported_sink_failures_ = failed;
+		// ERROR-only output must not gain a WARN line when its ring overflows.
+		const char *severity = level_ == LogLevel::error ? "ERROR" : "WARN";
 		output(text, std::snprintf(text, sizeof text,
-		                           "[omp-pg][WARN] log_dropped count=%llu sink_failures=%llu",
-		                           static_cast<unsigned long long>(lost),
-		                           static_cast<unsigned long long>(sink_failures())));
+		                           "[omp-pg][%s] log_dropped count=%llu sink_failures=%llu",
+		                           severity, static_cast<unsigned long long>(lost),
+		                           static_cast<unsigned long long>(failed)));
 	}
 	for (std::size_t i = 0; i < count; ++i) {
 		const auto &r = batch[i];

@@ -81,6 +81,7 @@ private:
 	std::mutex mutex_;
 	std::size_t head_ = 0, size_ = 0;
 	std::atomic<std::uint64_t> dropped_{0}, pending_drops_{0}, sink_failures_{0};
+	std::uint64_t reported_sink_failures_ = 0; // Protected by the drain guard.
 	std::atomic_flag draining_ = ATOMIC_FLAG_INIT;
 	void drop() noexcept;
 };
