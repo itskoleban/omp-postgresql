@@ -209,7 +209,7 @@ native pg_prepare_section(connection, const filename[], const section[], paramet
 ```
 
 **Contract:** Prepare one named section through the same bind/add/execute path. Filename rules
-match prepare*file; `section` is case-sensitive ASCII `[A-Za-z*][A-Za-z0-9_]\*`, 1..64 bytes.
+match `pg_prepare_file`; `section` is case-sensitive ASCII `[A-Za-z_][A-Za-z0-9_]*`, 1..64 bytes.
 Worker validates the whole file, up to 1,024 sections, and captures named inputs before any
 operation in that job. One index per filename string per job; later jobs reload. Requires
 `standard_conforming_strings=on`. See [section grammar/errors/capture limits](sql-sections.md).
@@ -306,7 +306,7 @@ native bool:pg_bind_string_array(statement, index, const values[], count, width)
 ```
 
 **Contract:** TEXT[] from flat string slots at `values[i * width]`; count 0..16,384, width >=1,
-count\*width <=262,144 cells. Each slot needs termination within width. No per-element NULLs.
+`count * width <= 262144` cells. Each slot needs termination within width. No per-element NULLs.
 **Return/errors:** Binder rules; quoting/escaping and encoded parameter bytes also count.
 **Example:** `pg_bind_string_array(statement, 1, values, 3, 24);`
 
@@ -764,7 +764,7 @@ native pg_result_column_type(job, result, column);
 ```
 
 **Contract:** PostgreSQL column OID in a Pawn cell, not the binder's declared input type.
-SQL expressions/casts can change it; user-defined OIDs need not be one of the PG\_\* constants.
+SQL expressions/casts can change it; user-defined OIDs need not be one of the `PG_*` constants.
 **Return/errors:** OID, or 0 with local error for invalid/unavailable metadata/column/result.
 **Example:** `pg_result_column_type(job, 0, 0);`
 
