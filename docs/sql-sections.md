@@ -16,6 +16,10 @@ if (load && pg_bind_string(load, 1, "alice") && pg_add(load)) {
 if (load) pg_statement_close(load);
 ```
 
+This short fragment discards any unsent snapshots when it closes the statement. A caller
+planning a later enqueue attempt must retain that statement until submission succeeds or
+the application explicitly abandons it. Accepted jobs keep their own captured inputs.
+
 ## File format
 
 Store UTF-8 files below `scriptfiles/sql`; a leading UTF-8 BOM is accepted. Paths follow

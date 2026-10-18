@@ -6,6 +6,11 @@ at 08:21 UTC. [Master CI 39113244875](https://github.com/itskoleban/omp-postgres
 completed successfully, all seven jobs. This is the integrated baseline for candidate
 preparation, not evidence for a later candidate commit or release approval.
 
+The [documentation expansion audit](documentation-audit.md) records a later source review
+at `77527fd` and the new eleven-example learning path. Its validation is tracked separately
+from the historical integrated gates below. This documentation task does not authorize
+candidate publication or change runtime/API behavior.
+
 | Gate                   | Verified state                                                                                                                                                                                  | Remaining work                                                                                                                                                                                            |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | x86 packaging          | Integrated Windows/Linux architecture, dependency, license, deterministic assembly and fresh extracted-package server gates.                                                                    | Requalify exact RC source/packages. x64 Engine tests do not qualify x64 server packages.                                                                                                                  |

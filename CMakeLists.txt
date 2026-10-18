@@ -308,8 +308,13 @@ install(
     PATTERN "pg_service.conf"
 )
 install(
-    FILES examples/sql/accounts.sql
+    FILES examples/sql/accounts.sql examples/sql/tutorial-select.sql examples/sql/tutorial-auth.sql
     DESTINATION examples/sql
+    COMPONENT omp-postgresql
+)
+install(
+    FILES examples/postgresql.sql examples/pg_hba.conf
+    DESTINATION examples
     COMPONENT omp-postgresql
 )
 if(PG_BUILD_BENCHMARK)

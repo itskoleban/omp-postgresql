@@ -10,6 +10,9 @@ Use the [per-native reference](native-reference.md) for all 69 exact signatures,
 argument limits, return/error sentinels, ownership rules and call examples. This guide
 explains how those operations fit together.
 
+For a first working query, begin with [getting started](getting-started.md). The
+[example catalogue](examples.md) links practical flows and their external prerequisites.
+
 Asynchronous callbacks must return without `sleep`. If a callback attempts to suspend, the
 component reports the error, discards that continuation, and restores the VM's previous state.
 An already suspended `main()` retains its continuation. Do not keep references to local

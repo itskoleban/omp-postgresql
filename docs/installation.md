@@ -43,7 +43,8 @@ reloads, filterscript unload, callbacks, typed batches, savepoints, streaming an
 No existing PostgreSQL cluster or production server is used by those tests.
 
 Read [API guarantees](api.md), [security](security.md), [validation limits](validation.md)
-and the [packaging procedure](packaging.md) before deploying. The first RC still requires
-exact-candidate qualification, an actual independent Astra audit with verified fixes,
-and owner approval to publish. See [current readiness](rc-readiness.md) for completed
-stress/TSan evidence and remaining gates.
+and the [packaging procedure](packaging.md) before deploying. The independent Astra audit
+and confirmed corrections are recorded in [the audit report](independent-audit.md).
+Publication still requires exact-candidate qualification and owner approval. See
+[current readiness](rc-readiness.md) for the evidence and remaining gates, and
+[getting started](getting-started.md) for service configuration and your first CRUD example.

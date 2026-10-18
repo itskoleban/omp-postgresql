@@ -73,10 +73,13 @@ does not automatically package arbitrary DLLs from the development machine.
 
 ## Reproducible server test
 
-Download a disposable open.mp distribution and compile all six examples with `-E`
+Download a disposable open.mp distribution and compile all examples with `-E`
 (warnings as errors) and 32-bit Pawn cells. The runner starts disposable PostgreSQL
 with TLS, runs CTest, and launches open.mp on loopback only. It repeats GMX three times,
 unloads a filterscript with a query in flight, and verifies callback state restoration:
+
+Use `scripts/compile_examples.py` from the [example catalogue](examples.md), with
+`--output build`. Interactive account/provider behavior requires separate qualification.
 
 ```powershell
 python tests/run_postgres.py `
@@ -92,7 +95,8 @@ python tests/run_postgres.py `
     --section-gamemode build/sections.amx --section-sql examples/sql/accounts.sql `
     --runtime C:/deps/pg32/bin/libpq.dll `
     --runtime C:/deps/openssl32/libssl-3.dll `
-    --runtime C:/deps/openssl32/libcrypto-3.dll
+    --runtime C:/deps/openssl32/libcrypto-3.dll `
+    --tutorial-dir build --tutorial-sql-dir examples/sql
 ```
 
 `--openmp-dir` must be a disposable copy: the harness changes its network, gamemode, and

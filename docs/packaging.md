@@ -46,6 +46,11 @@ commit/name consistency **before** extraction into a previously nonexistent dire
 The x86 jobs compile all examples using the extracted include, unpack a fresh official
 open.mp server, clear development DLL/loader search paths, and rerun all server scenarios
 using the extracted component and runtime. Only successfully tested ZIPs are uploaded.
+Documentation checks also compare all native/callback declarations with the extracted
+include, resolve relative Markdown targets/headings, and verify the example/SQL catalogue.
+The example compiler discovers all eleven `.pwn` files. The four new unattended tutorials
+run alongside the original six scenarios. The interactive account mode compiles with
+authentication disabled unless its external provider is installed and explicitly enabled.
 Logs are retained even when a test fails; a failed package is not a release artifact.
 A final job downloads both uploaded artifacts and repeats checksum, inventory, architecture
 and extraction verification. It reuses the x86 build/test jobs without adding another build matrix.

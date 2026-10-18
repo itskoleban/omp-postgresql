@@ -890,6 +890,20 @@ forward OnPgComplete(job, context);
 forward OnPgRows(job, context);
 ```
 
+| Callback | Arguments and availability | Required lifecycle |
+| --- | --- | --- |
+| `OnPgConnection` | Owner's logical connection and an observed `PG_*` connection state. Changes between ticks can coalesce; the final DISCONNECTED handle is valid through this callback. | Submit only when the whole pool is CONNECTED. Close a failed pool explicitly if creating a replacement. |
+| `OnPgComplete` | Retained job handle and its copied context cell, after terminal publication and completion dispatch. `notify=false` suppresses it. | Inspect status/results before closing. Keep a successful BEGIN while its lane is reserved. A missing callback does not automatically release its job. |
+| `OnPgRows` | Stream job handle and copied context, when a pending block is available; it can repeat without another SQL dispatch. `notify=false` suppresses it too. | Select blocks with `pg_stream_next`, read result 0, release promptly, and inspect the final job separately. Do not close a running stream. |
+
+These callback return values are not interpreted as SQL acceptance, retry or cancellation.
+Callbacks are optional: polling must still consume streams and release dispatched jobs.
+Missing callback functions do not turn retained jobs into automatically freed resources.
+Within a tick, dispatch visits connection changes, available stream blocks, then completed
+jobs. A row callback can precede an earlier job's completion callback on that tick; FIFO
+describes worker execution/publication, not a total ordering between callback categories.
+Submit dependent work from its required confirmation rather than relying on callback phases.
+
 Callbacks execute on ticks in the owning VM only, never on workers. Connection transitions
 between ticks can coalesce. OnPgComplete is dispatched once for a retained notify=true job;
 another callback can close it first and suppress delivery. OnPgRows can repeat while a block
@@ -905,8 +919,8 @@ generation tokens in context before touching player state.
 | Account load, individual/bulk save, named-file reuse and transaction cleanup                           | [sections.pwn](../examples/sections.pwn) and [accounts.sql](../examples/sql/accounts.sql) |
 | Callback failure/suspension recovery and pending-query filterscript unload                             | [callbacks.pwn](../examples/callbacks.pwn) and [unload.pwn](../examples/unload.pwn)       |
 
-These complementary examples already cover the requested lifecycle. A seventh combined
-gamemode would duplicate fixture/state machines and make each contract harder to isolate;
-the guide uses this map rather than adding another example. Temporary tables in these tests
+The [learning path](examples.md) adds focused CRUD, scalar values, saving and transfer
+tutorials plus an interactive account example with an explicit external hashing prerequisite.
+Temporary tables in the unattended tests
 belong to one physical session; production tables belong in an operator-managed schema.
 Keep related temporary-table work on its lane; a pool does not share temporary tables.

@@ -6,6 +6,13 @@ Version **0.1.0-rc.1 under qualification**; no candidate publication is approved
 The [RC readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
 qualification work and publication gates.
 
+Start with [your first query](docs/getting-started.md), follow the
+[example learning path](docs/examples.md), and use [troubleshooting](docs/troubleshooting.md)
+when a submission or callback behaves unexpectedly. Practical guides cover
+[accounts and player sessions](docs/accounts.md), [saving](docs/saving.md), and
+[safe transactions](docs/transactions.md). The [native reference](docs/native-reference.md)
+provides the exact signatures after those introductions.
+
 ## Implemented features
 
 - Connections through libpq service profiles, a pool of FIFO lanes, and a worker that owns each session.
@@ -112,8 +119,11 @@ the results, and keeps players gated until initialization succeeds. The callback
 gamemodes cover VM lifecycle regressions. [sections.pwn](examples/sections.pwn) uses
 [accounts.sql](examples/sql/accounts.sql) for asynchronous account loading, individual/bulk
 saves and statement reuse; see the [section format and capture rules](docs/sql-sections.md).
-All six examples are compiled with warnings
-treated as errors in the Linux and Windows x86 server CI jobs.
+All eleven examples are compiled with warnings treated as errors in CI, including from
+the extracted x86 packages. Basic CRUD, scalar values, saving strategies and a guarded bank
+transfer complement the original six unattended server scenarios. The interactive
+[account tutorial](docs/accounts.md) has an optional external hashing provider and is
+explicitly separate from unattended runtime qualification.
 
 See the [API execution guide](docs/api.md), [69-native reference](docs/native-reference.md),
 [architecture and reference analysis](docs/design.md),
