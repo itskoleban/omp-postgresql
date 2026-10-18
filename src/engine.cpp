@@ -56,8 +56,8 @@ State Connection::state() const {
 	return reconnecting ? State::reconnecting : State::connecting;
 }
 
-Engine::Engine(Limits limits, std::filesystem::path root)
-    : limits_(limits), root_(std::move(root)) {
+Engine::Engine(Limits limits, std::filesystem::path root, LogLevel log_level)
+    : limits_(limits), root_(std::move(root)), diagnostics_(log_level) {
 	if (!limits.jobs || !limits.connections || !limits.lanes || limits.connect_ms <= 0 ||
 	    limits.query_ms <= 0 || limits.transaction_ms <= 0 || limits.reconnect_attempts < 0 ||
 	    limits.reconnect_attempts > 10 || limits.reconnect_base_ms < 1 ||
@@ -94,13 +94,15 @@ Id Engine::connect(Owner owner, std::string profile, int size) {
 		throw Failure(Error::invalid, "Expected libpq service profile name");
 	}
 	auto c = std::make_unique<Connection>();
+	auto handle = id();
 	c->owner = owner;
 	c->reservations.resize(size);
 	for (int n = 0; n < size; ++n) {
-		c->lanes.push_back(std::make_unique<Lane>(profile, limits_, root_, completed_));
+		c->lanes.push_back(std::make_unique<Lane>(profile, limits_, root_, completed_,
+		                                          &diagnostics_, owner, handle, n));
 	}
-	auto handle = id();
 	connections_.emplace(handle, std::move(c));
+	diagnostics_.emit({LogEvent::connection_created, owner, handle});
 	return handle;
 }
 
@@ -115,6 +117,7 @@ Connection &Engine::connection(Owner owner, Id handle) {
 void Engine::disconnect(Owner owner, Id handle) {
 	auto &c = connection(owner, handle);
 	c.closing = true;
+	diagnostics_.emit({LogEvent::connection_closing, owner, handle});
 	for (auto &l : c.lanes) {
 		l->close();
 	}
@@ -163,15 +166,6 @@ Id Engine::prepare_file(Owner owner, Id conn, std::string filename, int paramete
 	return handle;
 }
 
-Id Engine::prepare_section(Owner owner, Id conn, std::string filename, std::string section,
-                           int parameters, bool persistent) {
-	if (!valid_section_name(section)) {
-		throw Failure(Error::invalid, "Invalid SQL section name (ASCII identifier, 1..64 bytes)");
-	}
-	return prepare_file(owner, conn, std::move(filename), parameters, persistent,
-	                    std::move(section));
-}
-
 Statement &Engine::statement(Owner owner, Id handle) {
 	auto it = statements_.find(handle);
 	if (it == statements_.end() || it->second.owner != owner) {
@@ -205,6 +199,9 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	// Other jobs cannot consume that capacity, even when all retained jobs are BEGINs.
 	auto new_slots = j->kind == Kind::begin ? 2u : 1u;
 	if (jobs_.size() + finishing_slots + new_slots > limits_.jobs) {
+		auto record = job_record(LogEvent::admission_rejected, *j);
+		record.error = Error::limit;
+		diagnostics_.emit(record);
 		throw Failure(Error::limit, "Job/result limit (including transaction finish reservations)");
 	}
 	auto reserved = c.reservations[j->lane];
@@ -449,9 +446,11 @@ void Engine::close_job(Owner owner, Id handle) {
 		throw Failure(Error::transaction, "Release transaction after COMMIT/ROLLBACK completes");
 	}
 	jobs_.erase(handle);
+	diagnostics_.emit(job_record(LogEvent::job_released, *j));
 }
 
 void Engine::unload(Owner owner) {
+	diagnostics_.emit({LogEvent::owner_unloaded, owner});
 	unloaded_.push_back(owner);
 	for (auto &[id, c] : connections_) {
 		if (c->owner == owner) {
@@ -489,6 +488,18 @@ Dispatch Engine::poll() {
 		j->delivery_us =
 		    std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - j->accepted_at)
 		        .count();
+		auto record = job_record(
+		    j->notify ? LogEvent::completion_polled : LogEvent::notification_suppressed, *j);
+		record.status = j->status.load();
+		record.error = j->error;
+		record.queue_us = j->queue_us;
+		record.execution_us = j->duration_us;
+		if (diagnostics_.enabled(event_level(record.event))) {
+			record.completion_wait_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			                                Clock::now() - j->completed_at)
+			                                .count();
+			diagnostics_.emit(record);
+		}
 		auto c = connections_.find(j->connection);
 		if (c != connections_.end() &&
 		    ((j->kind == Kind::begin && j->status.load() != Status::confirmed) ||

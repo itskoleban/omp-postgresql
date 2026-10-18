@@ -67,3 +67,10 @@ such a table but deliberately omits production schema management.
   Basic, saving, transfer and extension examples continue demonstrating `OnPgComplete`.
 
 Use the [callback contract](callbacks.md) and [API audit](api-modernization.md) for migration.
+
+## Pre-stable cleanup
+
+Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
+The removed `pg_prepare_section` requires source migration and AMX recompilation; other
+leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+and [internal diagnostics](debugging.md).

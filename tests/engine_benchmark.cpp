@@ -164,7 +164,7 @@ Sample measure(pg::Engine &engine, pg::Id connection, const std::string &table, 
 	}
 	const auto first_statement =
 	    section
-	        ? engine.prepare_section(owner, connection, "update.sql", "update", 1)
+	        ? engine.prepare_file(owner, connection, "update.sql", 1, true, "update")
 	        : engine.prepare(owner, connection, file ? "update.sql" : (reading ? select : update),
 	                         reading ? 0 : 1, file);
 	const auto second_statement = engine.prepare(owner, connection, other, 1);
@@ -329,8 +329,8 @@ int main(int argc, char **argv) {
 		});
 		const auto metadata =
 		    sql(engine, connection,
-			    "SELECT current_setting('server_version'),ssl::text,coalesce(version,'none') "
-			    "FROM pg_stat_ssl WHERE pid=pg_backend_pid()");
+		        "SELECT current_setting('server_version'),ssl::text,coalesce(version,'none') "
+		        "FROM pg_stat_ssl WHERE pid=pg_backend_pid()");
 		require(metadata.rows.size() == 1, "Missing server/TLS metadata");
 		std::cout << "# commit=" << PG_BENCH_COMMIT << " source_tree=" << PG_BENCH_TREE
 		          << " configuration=" << PG_BENCH_CONFIG << " compiler=" << PG_BENCH_COMPILER

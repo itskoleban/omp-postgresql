@@ -163,3 +163,10 @@ metadata. The central tick dispatcher consumes it, resolves the owning generatio
 pushes copied values and restores the existing complete VM frame. No post-submit registry,
 new dispatch queue, global public cache or new native variants are introduced. Full behavior
 and lifecycle limits are in [custom callbacks](callbacks.md).
+
+## Pre-stable cleanup
+
+Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
+The removed `pg_prepare_section` requires source migration and AMX recompilation; other
+leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+and [internal diagnostics](debugging.md).

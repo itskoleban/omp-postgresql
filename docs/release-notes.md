@@ -8,12 +8,14 @@ separate authorized action and an exact successful CI run on the integrated comm
 
 - C++20 open.mp component with libpq service profiles, exclusive session workers,
   explicit FIFO lanes, immutable parameter snapshots and configurable resource limits.
-- 69 Pawn natives for parameterized statements, typed arrays, UNNEST, homogeneous
+- 68 Pawn natives for parameterized statements, typed arrays, UNNEST, homogeneous
   executions, heterogeneous batches, transactions/savepoints and bounded streaming.
 - Worker-side SQL files and strict named sections, with confined paths, UTF-8 validation,
   complete-file lexical validation and coherent per-job captures.
 - Unified `pg_prepare_file(..., section)` keeps whole-file behavior and the old compiled
-  call; `pg_prepare_section` remains compatible through the same worker/creation path.
+  `pg_prepare_file` call. `pg_prepare_section` is intentionally removed before 1.0;
+  migrate to the final section argument and recompile AMX files requiring that native.
+  Old binaries requiring it cannot load against the new component. See [migration](prestable-cleanup.md).
 - Optional custom completion handlers on all eleven job-submitting natives, with owned
   bounded integer, Float, boolean and string arguments. Existing `OnPgComplete` remains
   supported; streams retain `OnPgRows` and can customize final completion. See the
@@ -66,3 +68,10 @@ COPY, LISTEN/NOTIFY reception, Engine pipeline mode, automatic lane selection, g
 SQL caches, ORM, query builders and migration management are outside this candidate.
 Keep PostgreSQL credentials outside Pawn/source control and review SQL permissions,
 TLS identity verification and uncertain-result handling before use.
+
+## Pre-stable cleanup and diagnostics
+
+Bounded internal logs use `OMP_PG_LOG_LEVEL` (default WARN; OFF disables them), no new
+Pawn natives or external dependency. See [operator guide](debugging.md) and
+[qualification status](prestable-cleanup.md). Callback, transaction and section semantics
+remain supported; prior audit evidence does not certify the new code.

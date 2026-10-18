@@ -1,5 +1,8 @@
 # Release Candidate readiness
 
+Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
+Earlier revision-specific records below remain historical.
+
 Recovered October 18, 2026: remote/local master
 `c1f4d48380ca13a1c497d1a1eb23f81a49692f30`; owner merged [PR #13](https://github.com/itskoleban/omp-postgresql/pull/13)
 at 08:21 UTC. [Master CI 39113244875](https://github.com/itskoleban/omp-postgresql/actions/runs/39113244875)

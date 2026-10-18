@@ -25,7 +25,7 @@ Prefer [custom completion callbacks](docs/callbacks.md) for new application code
 - Transactions that reserve a lane, commit/rollback, and rollback after a required operation fails.
 - Cancellation, timeouts, and progressive reconnection without replaying uncertain writes.
 - Worker-based SQL file loading with path confinement and UTF-8 validation.
-- Unified `pg_prepare_file(..., section)` and compatible `pg_prepare_section`, with bounded worker capture.
+- Unified `pg_prepare_file(..., section)` for whole files and exact named sections, with bounded worker capture.
 - Custom completion handlers with owned integer, Float, boolean and string arguments.
 - Simple queries, heterogeneous batches, per-operation outcomes, and column OID metadata.
 - Exact numeric/temporal text transport, BYTEA cells, and typed arrays with NULL elements.
@@ -129,7 +129,7 @@ transfer complement the original six unattended server scenarios. The interactiv
 [account tutorial](docs/accounts.md) has an optional external hashing provider and is
 explicitly separate from unattended runtime qualification.
 
-See the [API execution guide](docs/api.md), [69-native reference](docs/native-reference.md),
+See the [API execution guide](docs/api.md), [68-native reference](docs/native-reference.md),
 [architecture and reference analysis](docs/design.md),
 [security and concurrency guide](docs/security.md), and [tests and limitations](docs/validation.md).
 Original project code is licensed under [MIT](LICENSE); dependencies retain their notices.
@@ -195,6 +195,10 @@ New code can submit `pg_execute(statement, 0, 0, 0, true, "OnAccountLoaded", "ii
 The public receives `(job, playerid, session)` with copied arguments. Existing
 `OnPgComplete(job, context)` programs and compiled AMX calls remain supported.
 Use `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")` for named SQL;
-`pg_prepare_section` remains a compatibility entry point. Read the
+`pg_prepare_section` was removed before 1.0; migrate and recompile affected AMX files.
+See [cleanup and migration](docs/prestable-cleanup.md). Read the
 [callback contract](docs/callbacks.md) and [bounded API audit](docs/api-modernization.md)
 before migrating; include and component versions must match.
+
+Internal diagnostics: [logging setup, levels and bounds](docs/debugging.md). Default WARN;
+`OMP_PG_LOG_LEVEL=OFF` disables additional logs. Restart after changing it.

@@ -1,6 +1,6 @@
 # Native reference 0.1.0-rc.1
 
-This reference covers all 69 declarations in [the public include](../pawn/omp-postgresql.inc).
+This reference covers all 68 declarations in [the public include](../pawn/omp-postgresql.inc).
 Read [the execution contract](api.md) first. Signatures below preserve Pawn tags, reference
 arguments and defaults. This is an internal source review, not an independent Astra audit.
 
@@ -204,30 +204,6 @@ unlike named sections, these operations have no job-wide file preflight/index.
 missing/oversized/invalid files fail the accepted job. Changes before worker capture are visible;
 later executions reload. Deploy files atomically from trusted storage.
 **Example:** `pg_prepare_file(connection, "load_account.sql", 1);`
-
-### pg_prepare_section
-
-```pawn
-native pg_prepare_section(connection, const filename[], const section[], parameters = 0, bool:prepared = true);
-```
-
-**Contract:** Prepare one named section through the same bind/add/execute path. Filename rules
-match `pg_prepare_file`; `section` is case-sensitive ASCII `[A-Za-z_][A-Za-z0-9_]*`, 1..64 bytes.
-Worker validates the whole file, up to 1,024 sections, and captures named inputs before any
-operation in that job. One index per filename string per job; later jobs reload. Requires
-`standard_conforming_strings=on`. See [section grammar/errors/capture limits](sql-sections.md).
-**Return/errors:** Statement handle or 0 for local argument/capacity errors. Missing, duplicate,
-empty/malformed sections and file errors fail the job; no alternate section executes.
-**Example:** `pg_prepare_section(connection, "accounts.sql", "load_account", 1);`
-
-## Binding and immutable snapshots
-
-Every binder replaces only the selected temporary binding, using index 1..the declared
-parameter count. Data is copied before return; Pawn buffers may then be reused. A rejected
-bind preserves its previous value. Bindings alone never execute. Encoded values must fit
-MAX_PARAMETER_BYTES. All functions below return true on success, false with a local error
-on invalid handles/indices, encoding, type, dimensions or limits. PostgreSQL performs final
-input-format/constraint validation during execution. See [types](types.md) for every OID.
 
 ### pg_bind_int
 
@@ -938,5 +914,7 @@ failure and old-AMX rules are in [custom callbacks](callbacks.md). The callback 
 
 The `pg_prepare_file` section argument defaults to empty for whole-file behavior. Select
 a name with `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")`.
-The old four-argument AMX form and `pg_prepare_section` remain supported. Section/file
+The old four-argument `pg_prepare_file` AMX form remains supported. `pg_prepare_section`
+was intentionally removed before 1.0: migrate calls and recompile AMX files (old binaries
+requiring the removed native cannot load). See [migration](prestable-cleanup.md). Section/file
 reading, parsing and capture continue on the worker with their existing limits.

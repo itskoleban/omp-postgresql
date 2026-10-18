@@ -28,7 +28,7 @@ public:
 	pg::Component component;
 	PawnMemory vm;
 
-	Harness() {
+	explicit Harness(pg::LogLevel level = pg::environment_log_level()) : component(level) {
 		pg::Component::instance = &component;
 		component.onAmxLoad(vm);
 	}
@@ -116,8 +116,9 @@ void unit() {
 			arities.emplace(match[1].str(), count);
 		}
 	}
-	check(arities.size() == 69 && arities.size() == h.vm.natives.size(),
+	check(arities.size() == 68 && arities.size() == h.vm.natives.size(),
 	      "Pawn/native inventory differs");
+	check(!h.vm.natives.contains("pg_prepare_section"), "Removed native remains registered");
 	for (auto &[name, count] : arities) {
 		auto native = h.vm.natives.at(name);
 		auto failure = name == "pg_job_status" || name == "pg_connection_state" ||
@@ -230,23 +231,23 @@ void integration(const char *profile) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 	h.text("SELECT $1::text");
-	// The section wrapper captures only checked strings/arguments, never Pawn addresses.
+	// The unified native captures only checked strings/arguments, never Pawn addresses.
 	h.text("missing.sql");
 	h.text("selected", stack);
-	auto section_statement = h.call("pg_prepare_section", {connection, 0, stack, 1, 1});
+	auto section_statement = h.call("pg_prepare_file", {connection, 0, 1, 1, stack});
 	check(section_statement > 0, "Native section statement rejected");
 	h.vm.cells.fill(0);
 	const auto &captured = h.component.engine.statement(h.owner(), section_statement);
 	check(captured.sql == "missing.sql" && captured.section == "selected" &&
 	          captured.bindings.size() == 1,
-	      "Section wrapper retained Pawn memory");
+	      "Unified native retained Pawn memory");
 	h.text("bad name", stack);
-	h.reject("pg_prepare_section", {connection, 0, stack, 0, 1},
+	h.reject("pg_prepare_file", {connection, 0, 0, 1, stack},
 	         "Invalid SQL section name (ASCII identifier, 1..64 bytes)");
 	h.text("selected", stack);
-	h.reject("pg_prepare_section", {connection, 0, -1, 0, 1}, "Invalid Pawn address");
+	h.reject("pg_prepare_file", {connection, 0, 0, 1, -1}, "Invalid Pawn address");
 	h.text(std::string(65, 'a'), stack);
-	h.reject("pg_prepare_section", {connection, 0, stack, 0, 1},
+	h.reject("pg_prepare_file", {connection, 0, 0, 1, stack},
 	         "Pawn string exceeds limit or is not byte encoded UTF-8");
 	check(h.call("pg_statement_close", {section_statement}) == 1, "Native section close rejected");
 	h.text("missing.sql");
@@ -389,15 +390,21 @@ void integration(const char *profile) {
 
 int main(int argc, char **argv) {
 	try {
-		if (argc == 2 && std::string(argv[1]) == "--integration") {
+		if (argc == 2 && (std::string(argv[1]) == "--integration" ||
+		                  std::string(argv[1]) == "--logging-benchmark")) {
 			auto profile = std::getenv("OMP_PG_TEST_SERVICE");
 			if (!profile) {
 				std::cout << "Set OMP_PG_TEST_SERVICE for native integration\n";
 				return 77;
 			}
-			integration(profile);
-			callback_integration(profile);
-			callback_benchmark(profile);
+			if (std::string(argv[1]) == "--logging-benchmark") {
+				diagnostics_integration(profile);
+				logging_benchmark(profile);
+			} else {
+				integration(profile);
+				callback_integration(profile);
+				callback_benchmark(profile);
+			}
 		} else {
 			unit();
 			callback_unit();

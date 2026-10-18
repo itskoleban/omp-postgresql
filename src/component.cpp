@@ -47,6 +47,16 @@ void Component::callback(Owner owner, const char *name, cell a, cell b) {
 
 void Component::callback(Owner owner, const char *name, cell a,
                          std::span<const CallbackArgument> arguments, bool custom) {
+	auto log = [&](LogEvent event, std::uint64_t value = 0) {
+		LogRecord record{event, owner};
+		if (!custom && std::string_view(name) == "OnPgConnection") {
+			record.connection = a;
+		} else {
+			record.job = a;
+		}
+		record.value = value;
+		engine.diagnostics().emit(record);
+	};
 	IPawnScript *script = nullptr;
 	for (auto &[amx, entry] : scripts) {
 		if (entry.owner == owner) {
@@ -55,10 +65,12 @@ void Component::callback(Owner owner, const char *name, cell a,
 		}
 	}
 	if (!script) {
+		engine.diagnostics().emit({LogEvent::owner_missing, owner});
 		return;
 	}
 	int index;
 	if (script->FindPublic(name, &index)) {
+		log(LogEvent::callback_missing, custom ? 1 : 0);
 		if (custom) {
 			scripts.at(script->GetAMX()).error = "Completion callback public no longer exists";
 		}
@@ -100,6 +112,7 @@ void Component::callback(Owner owner, const char *name, cell a,
 		}
 	}
 	if (err || (err = script->Push(a))) {
+		log(LogEvent::callback_failed, static_cast<unsigned>(err));
 		restore();
 		if (custom) {
 			scripts.at(amx).error = "Completion callback argument push failed";
@@ -118,6 +131,7 @@ void Component::callback(Owner owner, const char *name, cell a,
 	// call frame even if Exec returned AMX_ERR_SLEEP or failed during a partial push.
 	restore();
 	if (err) {
+		log(LogEvent::callback_failed, static_cast<unsigned>(err));
 		if (custom) {
 			scripts.at(amx).error = "Completion callback execution failed; continuation discarded";
 		}
@@ -137,6 +151,7 @@ void Component::onTick(Microseconds, TimePoint) {
 			continue;
 		}
 		callback(j->owner, "OnPgRows", j->id, j->context);
+		engine.diagnostics().emit(job_record(LogEvent::stream_rows, *j));
 	}
 	for (auto &j : dispatch.jobs) {
 		// An earlier callback can explicitly release another completed job.
@@ -149,11 +164,29 @@ void Component::onTick(Microseconds, TimePoint) {
 		// Move before invoking Pawn: close/reentry cannot destroy the active arguments.
 		// Delivery consumes metadata even when the public or VM is no longer available.
 		auto custom = std::move(j->callback);
+		auto record = job_record(LogEvent::callback_begin, *j);
+		record.status = j->status.load();
+		if (engine.diagnostics().enabled(LogLevel::debug)) {
+			record.completion_wait_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			                                Clock::now() - j->completed_at)
+			                                .count();
+			engine.diagnostics().emit(record);
+		}
 		if (custom) {
 			callback(j->owner, custom->function.c_str(), j->id, custom->arguments, true);
 		} else {
 			callback(j->owner, "OnPgComplete", j->id, j->context);
 		}
+		record.event = LogEvent::callback_end;
+		engine.diagnostics().emit(record);
+	}
+	if (core_) {
+		engine.diagnostics().drain(
+		    [](void *context, std::string_view line) {
+			    static_cast<ICore *>(context)->printLn("%.*s", static_cast<int>(line.size()),
+			                                           line.data());
+		    },
+		    core_);
 	}
 }
 

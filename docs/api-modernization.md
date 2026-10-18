@@ -1,4 +1,7 @@
-# Pre-RC API modernization audit
+# Historical PR #16 API modernization audit
+
+This document records PR #16 at its original revision. Its 69-native compatibility
+decision is historical and superseded by [the pre-stable cleanup](prestable-cleanup.md).
 
 ## Inspected baseline and scope
 

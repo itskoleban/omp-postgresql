@@ -170,3 +170,10 @@ four-cell call and the new five-cell call. Empty section means whole-file behavi
 nonempty section selects exactly that identifier. `pg_prepare_section` remains operational
 through the same creation path. Grammar, capture timing and error categories are unchanged;
 see [SQL sections](sql-sections.md).
+
+## Pre-stable cleanup
+
+Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
+The removed `pg_prepare_section` requires source migration and AMX recompilation; other
+leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+and [internal diagnostics](debugging.md).

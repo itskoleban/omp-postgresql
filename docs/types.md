@@ -128,3 +128,10 @@ The callback format is independent of PostgreSQL OIDs: `i` copies an int32 cell,
 the Float bit pattern, `b` accepts only 0/1, and `s` owns a UTF-8 string. No SQL encoding or
 numeric conversion occurs. Callback strings arrive unpacked and exist for that callback
 invocation. Arrays/references are unsupported. See [callback limits](callbacks.md#formats-and-bounds).
+
+## Pre-stable cleanup
+
+Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
+The removed `pg_prepare_section` requires source migration and AMX recompilation; other
+leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+and [internal diagnostics](debugging.md).

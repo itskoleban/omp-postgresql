@@ -18,7 +18,9 @@ struct Script {
 class Component final : public IComponent, public PawnEventHandler, public CoreEventHandler {
 public:
 	static Component *instance;
-	Engine engine{environment_limits()};
+	explicit Component(LogLevel level = environment_log_level())
+	    : engine(environment_limits(), "scriptfiles/sql", level) {}
+	Engine engine;
 	std::unordered_map<AMX *, Script> scripts;
 	PROVIDE_UID(UID(0xcfd9534e1ba74280));
 
