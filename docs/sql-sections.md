@@ -1,6 +1,6 @@
 # Named SQL sections
 
-`pg_prepare_section(connection, const filename[], const section[], parameters=0, bool:prepared=true)`
+`pg_prepare_file(connection, const filename[], parameters=0, bool:prepared=true, const section[]="")`
 creates an owner-bound logical statement and returns its handle, or `PG_INVALID` on local
 rejection (`pg_last_error` explains the rejection). Parameter count, binding, immutable
 `pg_add` snapshots, handle limits and `pg_statement_close` match `pg_prepare`.
@@ -8,7 +8,7 @@ Closing a statement does not invalidate accepted jobs. File errors are asynchron
 errors; receiving a statement/job handle is not a database confirmation.
 
 ```pawn
-new load = pg_prepare_section(Database, "accounts.sql", "load_account", 1);
+new load = pg_prepare_file(Database, "accounts.sql", 1, true, "load_account");
 if (load && pg_bind_string(load, 1, "alice") && pg_add(load)) {
     new job = pg_execute(load); // Inspect in OnPgComplete, then pg_job_close(job).
     if (!job) { /* Read pg_last_error; snapshots remain available for explicit retry. */ }
@@ -126,7 +126,7 @@ and outstanding RC gates, and [performance](performance.md) for measurement limi
 
 Prefer `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")` for a section.
 Its final section defaults to `""`, preserving whole-file execution. The old four-argument
-compiled call remains valid; `pg_prepare_section` remains an equivalent compatibility
-entry point for nonempty names. A requested section never falls back to whole-file SQL.
+compiled `pg_prepare_file` call remains valid. `pg_prepare_section` has been removed;
+migrate to the unified form and recompile affected AMX files (see [migration](prestable-cleanup.md)). A requested section never falls back to whole-file SQL.
 The grammar, file capture, errors, UTF-8/path limits and worker behavior described above
-apply unchanged. The [section example](../examples/sections.pwn) exercises both interfaces.
+apply unchanged. The [section example](../examples/sections.pwn) exercises whole-file and named selection through the unified interface.

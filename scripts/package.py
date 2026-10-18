@@ -180,6 +180,8 @@ def validate_payload(files, manifest):
         "docs/security.md",
         "docs/validation.md",
         "docs/packaging.md",
+        "docs/debugging.md",
+        "docs/prestable-cleanup.md",
         "examples/sql/accounts.sql",
         "licenses/libpq/COPYRIGHT",
         "share/omp-postgresql/LICENSE",

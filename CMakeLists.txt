@@ -47,8 +47,14 @@ set(PG_PAWN_INCLUDE_DIR
 find_package(PostgreSQL 17 REQUIRED)
 find_package(Threads REQUIRED)
 add_library(
-    pg_core STATIC src/config.cpp src/parameters.cpp src/statement.cpp src/sql_sections.cpp
-                   src/session.cpp src/engine.cpp
+    pg_core STATIC
+    src/config.cpp
+    src/diagnostics.cpp
+    src/parameters.cpp
+    src/statement.cpp
+    src/sql_sections.cpp
+    src/session.cpp
+    src/engine.cpp
 )
 set_target_properties(pg_core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_include_directories(pg_core PUBLIC include)
@@ -205,10 +211,15 @@ if(BUILD_TESTING)
         endif()
         add_test(NAME natives_unit COMMAND pg_native_tests)
         add_test(NAME natives_integration COMMAND pg_native_tests --integration)
+        add_test(NAME logging_integration COMMAND pg_native_tests --logging-benchmark)
         set_tests_properties(natives_unit PROPERTIES TIMEOUT 30)
         set_tests_properties(natives_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90)
+        set_tests_properties(
+            logging_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS benchmark
+        )
     endif()
     add_executable(pg_tests tests/tests.cpp)
+    add_executable(pg_diagnostics_tests tests/diagnostics.cpp)
     add_executable(pg_extension_tests tests/engine_extensions.cpp)
     add_executable(pg_type_tests tests/type_tests.cpp)
     add_executable(pg_stress_tests tests/stress.cpp)
@@ -227,6 +238,7 @@ if(BUILD_TESTING)
         pg_connection_tests
         pg_connection_stall_tests
         pg_sql_section_tests
+        pg_diagnostics_tests
     )
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -237,6 +249,8 @@ if(BUILD_TESTING)
         endif()
     endforeach()
     add_test(NAME unit COMMAND pg_tests)
+    add_test(NAME diagnostics_unit COMMAND pg_diagnostics_tests)
+    set_tests_properties(diagnostics_unit PROPERTIES TIMEOUT 30)
     add_test(NAME integration COMMAND pg_tests --integration)
     add_test(NAME types_unit COMMAND pg_type_tests)
     add_test(NAME types_integration COMMAND pg_type_tests --integration)

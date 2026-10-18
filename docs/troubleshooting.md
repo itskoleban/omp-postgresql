@@ -53,3 +53,10 @@ new one under an explicit application policy. Existing statements belong to thei
 connection, so recreate them for the new handle. Session-local tables, transactions and
 physical preparations do not survive reconnect; accepted writes are never replayed by the
 component. Collect old jobs and reconcile their outcomes independently of the new pool.
+
+## Pre-stable cleanup
+
+Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
+The removed `pg_prepare_section` requires source migration and AMX recompilation; other
+leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+and [internal diagnostics](debugging.md).

@@ -203,3 +203,41 @@ before/after benchmark, real Pawn latency or production throughput evidence. Var
 prevents interpreting the no-extra submission difference as a speed improvement. No timing
 threshold is used. Installed packages omit test sources; use the repository raw-data link
 in the [API audit](api-modernization.md) when reading an installed guide.
+
+
+## Pre-stable diagnostics measurements
+
+Exact compiled source: `67cdaccf5a42350523303fff5548e386c07b006e`, Windows 11 10.0.26300,
+Intel Core i5-13420H (8 cores/12 threads), MSVC 19.51.36248 Release x86, patched libpq 17.6,
+disposable TLS PostgreSQL 17.11. [Raw CSV](https://github.com/itskoleban/omp-postgresql/blob/8beceb53ab25b4c37092ebf184a29ebe08f2fb56/tests/benchmarks/windows-x86-logging.csv)
+contains all 112 samples and canonical SHA-256 identities. Reproduce with
+`logging_integration` through `tests/run_postgres.py`; baseline callback modes also remain
+in `natives_integration`. No global file/public/result cache was introduced.
+
+Each sample submits 64 jobs on two lanes. Seven measured repetitions follow one warmup;
+callback modes rotate within each repetition. Levels run sequentially OFF/WARN/DEBUG/TRACE
+on a shared workstation. This uses the **Pawn SDK test double**, real PostgreSQL and a
+counting sink. Dispatch includes poll, test-double public/push/Exec bookkeeping and one
+bounded log drain, with no console/disk I/O. It is not actual Pawn/open.mp tick performance,
+nor an isolated before/after experiment. Fixed level ordering and system noise prevent
+causal submission-speed claims; lower observed values are not claimed as speedups.
+
+Median microseconds per 64 jobs, **submission / dispatch including bounded drain**:
+
+| Callback | OFF | WARN | DEBUG | TRACE |
+| --- | ---: | ---: | ---: | ---: |
+| Legacy global | 354.5 / 68.0 | 152.7 / 73.1 | 95.6 / 261.9 | 121.1 / 256.2 |
+| Custom, no extras | 171.9 / 71.9 | 182.3 / 75.9 | 167.6 / 364.0 | 198.5 / 260.7 |
+| Custom, two integers | 226.4 / 75.5 | 216.8 / 84.8 | 154.0 / 276.7 | 206.5 / 246.2 |
+| Custom, 96-byte string | 433.9 / 96.9 | 438.5 / 117.7 | 410.9 / 308.3 | 493.8 / 293.9 |
+
+These burst samples report zero drops at OFF/WARN, 128 per sample at DEBUG and 129 at
+TRACE. They intentionally retain 64 completions until one tick; more records are generated
+than the ring/tick budget can retain. TRACE accounting includes release records following
+the timed dispatch. This verifies bounded loss, not complete event delivery. Formatting
+has a visible dispatch cost at verbose levels; use WARN/OFF for normal operation.
+The CSV permits nearest-rank percentiles across seven batch samples (p95 is their maximum),
+but supplies no per-job/tick percentile or allocation/RSS/CPU profile. The logger object
+measured 20,584 bytes on this x86 build, with 80-byte records; disabled mode retains that
+fixed storage. Concurrent-flood, sink-failure/reentry and repeated lifetime tests establish
+finite behavior, not the absence of bugs or a hard bound on overall process memory.

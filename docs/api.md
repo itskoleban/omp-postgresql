@@ -6,7 +6,7 @@ it and is never recycled. Do not share handles between scripts. All Pawn calls r
 they validate, copy, enqueue, or read memory. Callbacks run on the main thread when a tick
 processes completed work.
 
-Use the [per-native reference](native-reference.md) for all 69 exact signatures, defaults,
+Use the [per-native reference](native-reference.md) for all 68 exact signatures, defaults,
 argument limits, return/error sentinels, ownership rules and call examples. This guide
 explains how those operations fit together.
 
@@ -89,7 +89,7 @@ the worker. Paths must be relative `.sql` paths under `scriptfiles/sql`. Files m
 an initial BOM is accepted.
 File errors appear in the job. This is not a migration system.
 
-`pg_prepare_section(connection,filename,section,parameters=0,prepared=true)` selects one
+`pg_prepare_file(connection,filename,parameters=0,prepared=true,section="")` selects one
 named SQL statement from a file. Its 1..64-byte case-sensitive ASCII name is validated
 locally; reading, full-file lexical validation and extraction happen in the worker.
 It returns a statement handle or 0; owner, bind/add/execute, plan reuse and close rules
@@ -320,5 +320,6 @@ callbacks preserve `OnPgComplete`; `notify=false` suppresses completion and row 
 See [custom callbacks](callbacks.md) for exact limits, errors, VM ownership and migration.
 
 `pg_prepare_file(connection, filename, parameters=0, prepared=true, section="")` is the
-recommended file interface for both whole-file and selected SQL. The compatibility native
-`pg_prepare_section` uses the same path; its semantics remain supported.
+recommended file interface for both whole-file and selected SQL. The removed
+`pg_prepare_section` must migrate to this interface; recompile affected AMX files.
+See [migration](prestable-cleanup.md) and [operator diagnostics](debugging.md).

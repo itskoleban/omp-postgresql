@@ -1,5 +1,6 @@
 #pragma once
 
+#include "diagnostics.hpp"
 #include "types.hpp"
 #include <condition_variable>
 #include <deque>
@@ -38,7 +39,8 @@ struct LaneStats {
 class Lane {
 public:
 	Lane(std::string service, Limits limits, std::filesystem::path sql_root,
-	     CompletionQueue &completed);
+	     CompletionQueue &completed, Diagnostics *diagnostics = nullptr, Owner owner = 0,
+	     Id connection = 0, int lane = -1);
 	~Lane();
 	Lane(const Lane &) = delete;
 	Lane &operator=(const Lane &) = delete;
@@ -63,6 +65,10 @@ private:
 	Limits limits_;
 	std::filesystem::path sql_root_;
 	CompletionQueue &completed_;
+	Diagnostics *diagnostics_;
+	Owner owner_;
+	Id connection_;
+	int lane_;
 	Conn conn_;
 	std::string prepared_sql_;
 	std::vector<Oid> prepared_types_;
@@ -83,6 +89,7 @@ private:
 	std::atomic<std::uint64_t> sql_commands_{0}, rows_received_{0}, duration_us_{0};
 	std::thread thread_;
 	void record_completion(const Job &job, Status status);
+	void log(LogEvent event, std::uint64_t value = 0) noexcept;
 	void run();
 	bool connect();
 	bool wait_socket(bool writing, Clock::time_point deadline, const Job *job);

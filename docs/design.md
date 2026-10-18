@@ -128,7 +128,7 @@ Only one SQL command is supported: the extended protocol rejects multiple comman
 The operator manages the directory, which must not be writable by players. The component
 does not protect against an administrator changing symbolic links concurrently.
 
-`pg_prepare_section` adds a section-name field to the same statement/job/operation path.
+`pg_prepare_file(..., section)` uses a section-name field in the statement/job/operation path.
 Workers build a bounded lexical index of each named file, validate all structural sections,
 then capture selected SQL before dispatch. Homogeneous snapshots share one selection;
 heterogeneous named inputs are preflighted and share an index per relative filename string
@@ -151,10 +151,10 @@ and lost-confirmation tests before it is enabled.
 
 ## Pre-RC API consolidation
 
-The [API modernization audit](api-modernization.md) classifies all 69 natives and records
-rejected mergers. `SqlSourceKind` replaces the ambiguous file boolean in Statement,
+The [current cleanup audit](prestable-cleanup.md) classifies all 68 natives and records
+retained responsibilities; [PR #16's audit](api-modernization.md) is historical. `SqlSourceKind` replaces the ambiguous file boolean in Statement,
 Operation and Job; inline/file/section selection is explicit through snapshot transfer.
-Both file-preparation natives use one checked creation path and the existing lexical parser.
+Unified file preparation uses one checked creation path and the existing lexical parser.
 
 Each job optionally owns one CallbackDescriptor with a public name and bounded scalar/string
 arguments. A shared native parser validates/copies Pawn varargs before enqueue. One internal
@@ -163,3 +163,10 @@ metadata. The central tick dispatcher consumes it, resolves the owning generatio
 pushes copied values and restores the existing complete VM frame. No post-submit registry,
 new dispatch queue, global public cache or new native variants are introduced. Full behavior
 and lifecycle limits are in [custom callbacks](callbacks.md).
+
+## Pre-stable cleanup
+
+Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
+The removed `pg_prepare_section` requires source migration and AMX recompilation; other
+leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+and [internal diagnostics](debugging.md).

@@ -107,7 +107,6 @@ std::size_t column_index(const Result &r, cell column) {
 	X(pg_query, 6) \
 	X(pg_prepare, 4) \
 	X(pg_prepare_file, 4) \
-	X(pg_prepare_section, 5) \
 	X(pg_bind_int, 3) \
 	X(pg_bind_int64, 3) \
 	X(pg_bind_float, 3) \
@@ -358,9 +357,6 @@ cell invoke(Native native, Script &script, const cell *p) {
 	case Native::pg_prepare_file:
 		return e.prepare_file(owner, p[1], string(vm, p[2], e.limits().sql_bytes), p[3], p[4] != 0,
 		                      p[0] == 4 * sizeof(cell) ? std::string{} : string(vm, p[5], 64));
-	case Native::pg_prepare_section:
-		return e.prepare_section(owner, p[1], string(vm, p[2], 1024), string(vm, p[3], 64), p[4],
-		                         p[5] != 0);
 	case Native::pg_bind_int:
 		return bind(integer(p[3]));
 	case Native::pg_bind_int64:
@@ -690,6 +686,11 @@ cell AMX_NATIVE_CALL call(AMX *amx, const cell *params) noexcept {
 		}
 		return invoke(native, script, params);
 	} catch (const Failure &f) {
+		if constexpr (asynchronous(native)) {
+			LogRecord record{LogEvent::admission_rejected, script.owner};
+			record.error = f.code;
+			Component::instance->engine.diagnostics().emit(record);
+		}
 		record_error(script, f.detail);
 	} catch (...) {
 		record_error(script, "Native allocation or internal error");

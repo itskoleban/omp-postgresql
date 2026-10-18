@@ -109,6 +109,8 @@ struct Job {
 	int error_index = -1;
 	std::shared_ptr<Stream> stream;
 	Clock::time_point accepted_at;
+	Clock::time_point
+	    completed_at; // Worker publication boundary; read only after terminal acquire.
 	std::int64_t queue_us = 0;
 	std::int64_t delivery_us = 0; // Main thread, set at completion dispatch.
 	std::atomic<Status> status{Status::queued};

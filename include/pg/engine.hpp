@@ -32,7 +32,8 @@ struct Dispatch {
 // All public methods must be called from the owning (open.mp main) thread.
 class Engine {
 public:
-	explicit Engine(Limits limits = {}, std::filesystem::path root = "scriptfiles/sql");
+	explicit Engine(Limits limits = {}, std::filesystem::path root = "scriptfiles/sql",
+	                LogLevel log_level = LogLevel::off);
 	~Engine();
 	Id connect(Owner owner, std::string profile, int pool_size);
 	Connection &connection(Owner owner, Id id);
@@ -41,8 +42,6 @@ public:
 	           bool persistent = true);
 	Id prepare_file(Owner owner, Id connection, std::string filename, int parameters,
 	                bool persistent = true, std::string section = {});
-	Id prepare_section(Owner owner, Id connection, std::string filename, std::string section,
-	                   int parameters, bool persistent = true);
 	Statement &statement(Owner owner, Id id);
 	void close_statement(Owner owner, Id id);
 	Id execute(Owner owner, Id statement, int lane, Id transaction, int context, bool notify,
@@ -67,6 +66,9 @@ public:
 	void close_job(Owner owner, Id id);
 	void unload(Owner owner);
 	Dispatch poll();
+	Diagnostics &diagnostics() noexcept {
+		return diagnostics_;
+	}
 
 	const Limits &limits() const {
 		return limits_;
@@ -76,6 +78,7 @@ private:
 	Limits limits_;
 	std::filesystem::path root_;
 	Id next_ = 1;
+	Diagnostics diagnostics_;   // Outlives lanes, including during join/destruction.
 	CompletionQueue completed_; // outlives lanes
 	std::unordered_map<Id, std::unique_ptr<Connection>> connections_;
 	std::unordered_map<Id, Statement> statements_;

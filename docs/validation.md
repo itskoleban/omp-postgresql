@@ -1,5 +1,8 @@
 # Validation results and known limitations
 
+Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
+Earlier revision-specific records below remain historical.
+
 The component is **0.1.0-rc.1 under qualification**. Passing the current suite is evidence for the
 listed scenarios, not complete production qualification. Engine tests and real open.mp
 loading are recorded separately.

@@ -5,6 +5,11 @@
 
 namespace pg {
 
+LogLevel environment_log_level() {
+	const char *raw = std::getenv("OMP_PG_LOG_LEVEL");
+	return raw ? parse_log_level(raw) : LogLevel::warn;
+}
+
 Limits environment_limits() {
 	Limits l;
 	auto read = [](const char *name, auto &field, int maximum, int minimum = 1) {

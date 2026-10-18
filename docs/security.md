@@ -109,7 +109,7 @@ and full-table exports within callbacks are unsupported.
 
 ## Shutdown and files
 
-Named SQL files are operator-controlled code. `pg_prepare_section` validates the entire
+Named SQL files are operator-controlled code. `pg_prepare_file(..., section)` validates the entire
 file's lexical structure and fails closed on malformed/duplicate/empty sections; it never
 falls back to another query. It requires standard-conforming strings and applies both
 file-size and per-job capture limits. This is not SQL authorization or application validation:
@@ -141,3 +141,10 @@ Only the main thread reads/frees callback metadata. Unload suppresses delivery a
 the payload immediately. Dispatch failure preserves explicit job ownership and a local error;
 applications retain accepted job IDs for recovery. No callback payload is logged automatically.
 Custom callbacks do not establish player identity, roll back SQL, or justify replaying writes.
+
+## Internal logging confidentiality
+
+[Diagnostics](debugging.md) accept only fixed event enums and numeric metadata. No level
+accepts SQL, parameters, row values, callback payloads/names, service profiles, file paths
+or PostgreSQL diagnostic messages. Failures retain the original public inspection APIs.
+Fixed storage, nonblocking producer handoff and bounded main-thread output limit floods.

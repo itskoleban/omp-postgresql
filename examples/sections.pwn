@@ -77,8 +77,8 @@ public OnPgComplete(job, context) {
 				Fail("load result differs");
 				return 1;
 			}
-			// Retained compatibility entry point shares the same creation/worker path.
-			new statement = pg_prepare_section(Database, "accounts.sql", "save_account", 3);
+			// Select another named statement through the same unified file interface.
+			new statement = pg_prepare_file(Database, "accounts.sql", 3, true, "save_account");
 			if (!statement || !pg_bind_int(statement, 1, 77) || !pg_bind_int(statement, 2, 9) ||
 				!pg_bind_int(statement, 3, id) || !pg_add(statement) ||
 				!pg_execute(statement, 0, Transaction, STEP_SAVE)) Fail("individual save rejected");

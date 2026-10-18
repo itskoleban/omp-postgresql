@@ -287,10 +287,9 @@ void integration(const char *profile) {
 	         {"first", pg::integer(42), "42"},
 	         {"middle", pg::text("snapshot"), "snapshot"},
 	         {"last", pg::text("{\"x\":1}", 3802), "{\"x\": 1}"}}) {
-		for (bool unified : {false, true}) {
+		for (bool persistent : {false, true}) {
 			auto statement =
-			    unified ? engine.prepare_file(owner, connection, "sections.sql", 1, true, name)
-			            : engine.prepare_section(owner, connection, "sections.sql", name, 1);
+			    engine.prepare_file(owner, connection, "sections.sql", 1, persistent, name);
 			engine.statement(owner, statement).bind(1, parameter, limits);
 			auto id = run(engine, statement);
 			engine.close_statement(owner, statement);
@@ -304,7 +303,8 @@ void integration(const char *profile) {
 	     {"-- name: duplicate\nSELECT 9;\n-- name: duplicate\nSELECT 8;",
 	      "-- name: bad name\nSELECT 8;", "-- name: empty", "-- name: truncated\nSELECT '"}) {
 		files.write("-- name: selected\nSELECT 123;\n" + std::string(tail));
-		auto statement = engine.prepare_section(owner, connection, "sections.sql", "selected", 0);
+		auto statement =
+		    engine.prepare_file(owner, connection, "sections.sql", 0, true, "selected");
 		auto before = engine.connection(owner, connection).lanes[0]->snapshot().sql_commands;
 		auto job = wait(engine, run(engine, statement), false);
 		check(job->error == pg::Error::file && job->results.empty() && job->completed == 0 &&
@@ -318,7 +318,7 @@ void integration(const char *profile) {
 	{
 		auto batch = engine.create_batch(owner, connection);
 		auto first = engine.prepare(owner, connection, "SELECT 99", 0);
-		auto missing = engine.prepare_section(owner, connection, "sections.sql", "missing", 0);
+		auto missing = engine.prepare_file(owner, connection, "sections.sql", 0, true, "missing");
 		for (auto s : {first, missing}) {
 			engine.statement(owner, s).add(limits);
 			engine.add_batch(owner, batch, s);
@@ -338,8 +338,8 @@ void integration(const char *profile) {
 	files.write("-- name: selected\nSELECT $1::integer;\n-- name: other\nSELECT -$1::integer;");
 	std::vector<pg::Id> jobs;
 	for (int lane = 0; lane < 4; ++lane) {
-		auto statement = engine.prepare_section(owner, connection, "sections.sql",
-		                                        lane % 2 ? "other" : "selected", 1);
+		auto statement = engine.prepare_file(owner, connection, "sections.sql", 1, true,
+		                                     lane % 2 ? "other" : "selected");
 		for (int n = 0; n < 20; ++n) {
 			engine.statement(owner, statement).bind(1, pg::integer(lane * 100 + n), limits);
 			engine.statement(owner, statement).add(limits);
@@ -359,7 +359,7 @@ void integration(const char *profile) {
 	}
 	// Read occurs at worker execution, then every execution in this job uses that snapshot.
 	files.write("-- name: selected\nSELECT pg_sleep(0.15), $1::integer, 10;");
-	auto statement = engine.prepare_section(owner, connection, "sections.sql", "selected", 1);
+	auto statement = engine.prepare_file(owner, connection, "sections.sql", 1, true, "selected");
 	for (int n = 0; n < 3; ++n) {
 		engine.statement(owner, statement).bind(1, pg::integer(n), limits);
 		engine.statement(owner, statement).add(limits);
@@ -383,7 +383,7 @@ void integration(const char *profile) {
 	files.write("-- name: first\nSELECT pg_sleep(0.15), 11;\n-- name: last\nSELECT 22;");
 	auto batch = engine.create_batch(owner, connection);
 	for (const auto *name : {"first", "last", "last"}) {
-		auto s = engine.prepare_section(owner, connection, "sections.sql", name, 0);
+		auto s = engine.prepare_file(owner, connection, "sections.sql", 0, true, name);
 		engine.statement(owner, s).add(limits);
 		engine.add_batch(owner, batch, s);
 		engine.close_statement(owner, s);
@@ -409,7 +409,7 @@ void integration(const char *profile) {
 	for (const auto &sql :
 	     {"-- name: selected\nSELEC 1;", "-- name: selected\nSELECT 1; SELECT 2;"}) {
 		files.write(sql);
-		auto s = engine.prepare_section(owner, connection, "sections.sql", "selected", 0);
+		auto s = engine.prepare_file(owner, connection, "sections.sql", 0, true, "selected");
 		auto failure = wait(engine, run(engine, s), false);
 		check(failure->status == pg::Status::failed &&
 		          (failure->error == pg::Error::sql || failure->error == pg::Error::file),
@@ -427,7 +427,7 @@ void integration(const char *profile) {
 		engine.close_job(owner, job->id);
 	}
 	files.write("-- name: selected\nSELECT * FROM section_private;");
-	statement = engine.prepare_section(owner, connection, "sections.sql", "selected", 0);
+	statement = engine.prepare_file(owner, connection, "sections.sql", 0, true, "selected");
 	auto denied = wait(engine, run(engine, statement), false);
 	check(denied->error == pg::Error::sql && denied->results.at(0).sqlstate == "42501",
 	      "Permission failure lost SQLSTATE");
@@ -448,12 +448,12 @@ void integration(const char *profile) {
 	auto tx = engine.begin(owner, connection, 0, 0, false);
 	wait(engine, tx);
 	for (const auto *name : {"create_accounts", "insert_accounts"}) {
-		auto s = engine.prepare_section(owner, connection, "sections.sql", name, 0, false);
+		auto s = engine.prepare_file(owner, connection, "sections.sql", 0, false, name);
 		auto job = wait(engine, run(engine, s, 0, tx));
 		engine.close_job(owner, job->id);
 		engine.close_statement(owner, s);
 	}
-	statement = engine.prepare_section(owner, connection, "sections.sql", "save_accounts", 2);
+	statement = engine.prepare_file(owner, connection, "sections.sql", 2, true, "save_accounts");
 	const std::int32_t ids[]{1, 2}, amounts[]{100, 200};
 	engine.statement(owner, statement).bind(1, pg::int_array(ids), limits);
 	engine.statement(owner, statement).bind(2, pg::int_array(amounts), limits);
@@ -468,7 +468,7 @@ void integration(const char *profile) {
 	engine.close_job(owner, saved->id);
 	files.write(
 	    "-- name: fail\nSELECT 1/0;\n-- name: check_rows\nSELECT count(*) FROM section_accounts;");
-	statement = engine.prepare_section(owner, connection, "sections.sql", "fail", 0);
+	statement = engine.prepare_file(owner, connection, "sections.sql", 0, true, "fail");
 	auto failed = wait(engine, run(engine, statement, 0, tx), false);
 	check(failed->error == pg::Error::sql && failed->results[0].sqlstate == "22012",
 	      "Named transaction failure lost SQLSTATE");
@@ -477,7 +477,7 @@ void integration(const char *profile) {
 	auto recovered =
 	    wait(engine, engine.savepoint(owner, tx, "section_save", pg::Kind::rollback_to, 0, false));
 	engine.close_job(owner, recovered->id);
-	statement = engine.prepare_section(owner, connection, "sections.sql", "check_rows", 0);
+	statement = engine.prepare_file(owner, connection, "sections.sql", 0, true, "check_rows");
 	auto counted = wait(engine, run(engine, statement, 0, tx));
 	check(counted->results[0].rows[0][0] == "2",
 	      "Named section did not recover after savepoint rollback");
@@ -493,7 +493,7 @@ void integration(const char *profile) {
 	     std::vector<std::tuple<std::string, std::string, const char *>>{
 	         {"missing.sql", "selected", "SQL file not found"},
 	         {"sections.sql", "missing", "SQL section not found"}}) {
-		auto s = engine.prepare_section(owner, connection, filename, section, 0);
+		auto s = engine.prepare_file(owner, connection, filename, 0, true, section);
 		auto failure = wait(engine, run(engine, s), false);
 		check(failure->error == pg::Error::file && failure->message == message &&
 		          failure->completed == 0,
@@ -506,7 +506,7 @@ void integration(const char *profile) {
 		auto job = wait(engine, engine.query(owner, connection, sql, 0, 0, 0, false));
 		engine.close_job(owner, job->id);
 		if (sql.ends_with("off")) {
-			auto s = engine.prepare_section(owner, connection, "sections.sql", "selected", 0);
+			auto s = engine.prepare_file(owner, connection, "sections.sql", 0, true, "selected");
 			auto rejected = wait(engine, run(engine, s), false);
 			check(rejected->error == pg::Error::invalid && rejected->completed == 0,
 			      "Nonstandard strings were accepted");
@@ -519,7 +519,7 @@ void integration(const char *profile) {
 	before = engine.connection(owner, connection).lanes[0]->snapshot().sql_commands;
 	auto blocker = engine.query(owner, connection, "SELECT pg_sleep(0.15)", 0, 0, 0, false);
 	dispatched(engine, connection, before);
-	statement = engine.prepare_section(owner, connection, "sections.sql", "selected", 0);
+	statement = engine.prepare_file(owner, connection, "sections.sql", 0, true, "selected");
 	id = run(engine, statement);
 	files.write("-- name: selected\nSELECT 20;");
 	wait(engine, blocker);
@@ -538,8 +538,34 @@ void integration(const char *profile) {
 	engine.close_job(owner, id);
 	engine.close_statement(owner, statement);
 	// Streaming remains bounded and uses the same captured selection.
+	// Reuse the same handle/path after delete/recreate and rename replacement. Identical
+	// length and restored mtime defeat filename/size/mtime-only caches.
+	files.write("-- name: selected\nSELECT 111;");
+	statement = engine.prepare_file(owner, connection, "sections.sql", 0, true, "selected");
+	auto original = wait(engine, run(engine, statement));
+	auto stamp = std::filesystem::last_write_time(files.root / "sections.sql");
+	engine.close_job(owner, original->id);
+	std::filesystem::remove(files.root / "sections.sql");
+	auto deleted = wait(engine, run(engine, statement), false);
+	check(deleted->error == pg::Error::file && deleted->results.empty(),
+	      "Deleted source was cached");
+	engine.close_job(owner, deleted->id);
+	files.write("-- name: selected\nSELECT 222;");
+	std::filesystem::last_write_time(files.root / "sections.sql", stamp);
+	auto recreated = wait(engine, run(engine, statement));
+	check(recreated->results[0].rows[0][0] == "222" && original->results[0].rows[0][0] == "111",
+	      "Recreated same path/size/mtime source was stale or changed retained results");
+	engine.close_job(owner, recreated->id);
+	files.write("-- name: selected\nSELECT 333;", "replacement.sql");
+	std::filesystem::remove(files.root / "sections.sql");
+	std::filesystem::rename(files.root / "replacement.sql", files.root / "sections.sql");
+	std::filesystem::last_write_time(files.root / "sections.sql", stamp);
+	auto replaced = wait(engine, run(engine, statement));
+	check(replaced->results[0].rows[0][0] == "333", "Replaced same path source was stale");
+	engine.close_job(owner, replaced->id);
+	engine.close_statement(owner, statement);
 	files.write("-- name: selected\nSELECT generate_series(1,25);");
-	statement = engine.prepare_section(owner, connection, "sections.sql", "selected", 0);
+	statement = engine.prepare_file(owner, connection, "sections.sql", 0, true, "selected");
 	engine.statement(owner, statement).add(limits);
 	id = engine.execute_stream(owner, statement, 4, 0, 0, 0, false);
 	engine.close_statement(owner, statement);
@@ -567,7 +593,7 @@ void lifecycle_and_limits(const char *profile) {
 		pg::Engine engine({}, files.root);
 		auto connection = engine.connect(owner, profile, 1);
 		ready(engine, connection);
-		auto s = engine.prepare_section(owner, connection, "sections.sql", "selected", 0);
+		auto s = engine.prepare_file(owner, connection, "sections.sql", 0, true, "selected");
 		auto before = engine.connection(owner, connection).lanes[0]->snapshot().sql_commands;
 		auto id = run(engine, s);
 		auto job = engine.job(owner, id);
@@ -606,7 +632,7 @@ void lifecycle_and_limits(const char *profile) {
 	pg::Engine engine(limits, files.root);
 	auto connection = engine.connect(owner, profile, 1);
 	ready(engine, connection);
-	auto statement = engine.prepare_section(owner, connection, "sections.sql", "last", 0);
+	auto statement = engine.prepare_file(owner, connection, "sections.sql", 0, true, "last");
 	auto job = wait(engine, run(engine, statement), false);
 	check(job->error == pg::Error::limit &&
 	          job->message == "SQL section capture exceeds batch byte limit" && job->completed == 0,

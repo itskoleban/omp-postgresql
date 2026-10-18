@@ -70,3 +70,10 @@ both distributions, release notes, complete dependency manifests and `SHA256SUMS
 It uploads these as `omp-postgresql-release-FULL_COMMIT`. This is unsigned content
 provenance; it does not create a tag or Release, grant publication permission, or
 turn a branch/preview build into an integrated candidate. See [release gates](releasing.md).
+
+## Pre-stable cleanup
+
+Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
+The removed `pg_prepare_section` requires source migration and AMX recompilation; other
+leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+and [internal diagnostics](debugging.md).

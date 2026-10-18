@@ -279,8 +279,13 @@ void callback_integration(const char *profile) {
 	h.component.onAmxUnload(other);
 }
 
-void callback_benchmark(const char *profile) {
-	Harness h;
+void callback_benchmark(const char *profile, pg::LogLevel level = pg::LogLevel::warn,
+                        bool logging = false) {
+	Harness h(level);
+	std::uint64_t log_bytes = 0;
+	auto sink = [](void *p, std::string_view line) {
+		*static_cast<std::uint64_t *>(p) += line.size();
+	};
 	h.vm.callbacks = true;
 	h.vm.publics = {{"Done", 1}, {"OnPgComplete", 2}};
 	auto c = h.component.engine.connect(h.owner(), profile, 2);
@@ -293,6 +298,11 @@ void callback_benchmark(const char *profile) {
 	std::cout << "callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns\n";
 	for (int repetition = 0; repetition < 8; ++repetition) {
 		for (int pass = 0; pass < 4; ++pass) {
+			for (int i = 0; logging && i < 6; ++i) {
+				h.component.engine.diagnostics().drain(sink, &log_bytes);
+			}
+			auto drops_before = h.component.engine.diagnostics().dropped();
+			auto bytes_before = log_bytes;
 			int mode = (pass + repetition) % 4; // Rotate ordering; first repetition warms up.
 			h.text("Done");
 			h.text(mode == 2 ? "ii" : mode == 3 ? "s" : "", 128);
@@ -327,6 +337,9 @@ void callback_benchmark(const char *profile) {
 			}
 			auto dispatch = pg::Clock::now();
 			h.component.onTick(Microseconds{}, TimePoint{});
+			if (logging) {
+				h.component.engine.diagnostics().drain(sink, &log_bytes);
+			}
 			auto end = pg::Clock::now();
 			check(h.vm.calls.size() == ids.size(), "Callback benchmark lost completions");
 			for (auto id : ids) {
@@ -341,8 +354,100 @@ void callback_benchmark(const char *profile) {
 				    << ','
 				    << std::chrono::duration_cast<std::chrono::nanoseconds>(end - dispatch).count()
 				    << '\n';
+				if (logging) {
+					std::cout << "logging_benchmark," << static_cast<int>(level) << ','
+					          << names[mode] << ',' << repetition << ",64,"
+					          << std::chrono::duration_cast<std::chrono::nanoseconds>(submitted -
+					                                                                  start)
+					                 .count()
+					          << ','
+					          << std::chrono::duration_cast<std::chrono::nanoseconds>(end -
+					                                                                  dispatch)
+					                 .count()
+					          << ',' << h.component.engine.diagnostics().dropped() - drops_before
+					          << ',' << log_bytes - bytes_before << '\n';
+				}
 			}
 		}
 	}
+	h.component.onAmxUnload(h.vm);
+}
+
+void logging_benchmark(const char *profile) {
+	std::cout << "logging_benchmark,level,mode,repetition,jobs,submission_ns,dispatch_with_drain_"
+	             "ns,dropped,output_bytes\n";
+	for (auto level :
+	     {pg::LogLevel::off, pg::LogLevel::warn, pg::LogLevel::debug, pg::LogLevel::trace}) {
+		callback_benchmark(profile, level, true);
+	}
+}
+
+void diagnostics_integration(const char *profile) {
+	Harness h(pg::LogLevel::trace);
+	h.vm.callbacks = true;
+	h.vm.publics = {{"Done", 1}};
+	auto &engine = h.component.engine;
+	auto connection = engine.connect(h.owner(), profile, 2);
+	auto deadline = pg::Clock::now() + std::chrono::seconds(15);
+	while (engine.connection(h.owner(), connection).state() != pg::State::connected) {
+		check(pg::Clock::now() < deadline, "Diagnostics connection timeout");
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+	std::vector<std::string> lines;
+	auto sink = [](void *p, std::string_view line) {
+		static_cast<std::vector<std::string> *>(p)->emplace_back(line);
+	};
+	h.text("Done");
+	h.text("s", 192);
+	h.text("SELECT 'secret_sql_4321'", 64);
+	h.text("secret_callback_4321", stack);
+	auto id = h.call("pg_query", {connection, 64, 0, 0, 0, 1, 0, 192, stack});
+	check(id > 0, "Diagnostics query rejected");
+	auto job = engine.job(h.owner(), id);
+	while (!pg::terminal(job->status.load())) {
+		check(pg::Clock::now() < deadline, "Diagnostics query timeout");
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+	check(job->completed_at >= job->accepted_at && job->queue_us >= 0 && job->duration_us >= 0,
+	      "Invalid completion timing");
+	h.component.onTick(Microseconds{}, TimePoint{});
+	check(h.vm.calls.size() == 1 && job->results[0].rows[0][0] == "secret_sql_4321",
+	      "Logger changed SQL/callback results");
+	for (int i = 0; i < 6; ++i) {
+		engine.diagnostics().drain(sink, &lines);
+	}
+	std::string joined;
+	for (auto &line : lines) {
+		joined += line + '\n';
+	}
+	check(joined.find("secret_") == std::string::npos && joined.find("Done") == std::string::npos &&
+	          joined.find("job_accepted") != std::string::npos &&
+	          joined.find("job_running") != std::string::npos &&
+	          joined.find("job_terminal") != std::string::npos &&
+	          joined.find("completion_polled") != std::string::npos &&
+	          joined.find("callback_begin") != std::string::npos &&
+	          joined.find("callback_end") != std::string::npos,
+	      "Lifecycle diagnostics missing or private text leaked");
+	check(joined.find("job_accepted") < joined.find("job_running"),
+	      "Acceptance logged after worker handoff");
+	engine.close_job(h.owner(), id);
+	// Output failures must leave the original SQL error inspectable and the lane usable.
+	auto failed = engine.query(h.owner(), connection, "SELECT 1/0", 0, 0, 0, false);
+	auto j = engine.job(h.owner(), failed);
+	while (!pg::terminal(j->status.load())) {
+		check(pg::Clock::now() < deadline, "Diagnostics failure timeout");
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+	engine.poll();
+	auto message = j->message;
+	engine.diagnostics().drain(
+	    [](void *, std::string_view) {
+		    throw std::runtime_error("broken sink");
+	    },
+	    nullptr);
+	check(j->error == pg::Error::sql && j->message == message &&
+	          j->results[0].sqlstate == "22012" && engine.diagnostics().sink_failures() > 0,
+	      "Sink masked SQL diagnostics");
+	engine.close_job(h.owner(), failed);
 	h.component.onAmxUnload(h.vm);
 }

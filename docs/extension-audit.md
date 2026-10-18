@@ -3,7 +3,7 @@
 This internal implementation review continues the existing 0.1 implementation. It does not replace the worker,
 transaction, ownership, or callback architecture. The baseline was checked against commit
 `ce4e70d` and the working tree, including the PostgreSQL fixture corrections. That baseline
-and the 42-native count below are historical. The current API has 69 natives; see the
+and the 42-native count below are historical. The current API has 68 natives; see the
 [native reference](native-reference.md) and [current readiness](rc-readiness.md). No section
 of this document records an independent GPT-6 Astra audit.
 
@@ -107,7 +107,8 @@ usable without these optimizations.
 
 ## Named SQL section extension
 
-`pg_prepare_section` follows the existing logical statement/worker path; it adds no connection
+Historical section implementation (before the [wrapper removal](prestable-cleanup.md)):
+`pg_prepare_section` followed the existing logical statement/worker path; it added no connection
 or synchronous query API. Its lexer and job-local file/selection index are bounded by existing
 SQL/batch byte settings and a fixed 1,024-section cap. The bridge exposes 69 natives.
 Unit/adversarial, real-engine/database and extracted-package server checks are described in

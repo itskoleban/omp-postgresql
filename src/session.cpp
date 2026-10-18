@@ -46,9 +46,11 @@ bool valid_savepoint(const std::string &name) {
 } // namespace
 
 Lane::Lane(std::string service, Limits limits, std::filesystem::path root,
-           CompletionQueue &completed)
+           CompletionQueue &completed, Diagnostics *diagnostics, Owner owner, Id connection,
+           int lane)
     : service_(std::move(service)), limits_(limits), sql_root_(std::move(root)),
-      completed_(completed), thread_([this] {
+      completed_(completed), diagnostics_(diagnostics), owner_(owner), connection_(connection),
+      lane_(lane), thread_([this] {
 	      run();
       }) {}
 
@@ -85,7 +87,25 @@ LaneStats Lane::snapshot() const {
 	        duration_us_.load(std::memory_order_relaxed)};
 }
 
+void Lane::log(LogEvent event, std::uint64_t value) noexcept {
+	if (!diagnostics_) {
+		return;
+	}
+	LogRecord record{event, owner_, connection_};
+	record.lane = lane_;
+	record.value = value;
+	diagnostics_->emit(record);
+}
+
 void Lane::record_completion(const Job &job, Status status) {
+	if (diagnostics_) {
+		auto record = job_record(LogEvent::job_terminal, job);
+		record.status = status;
+		record.error = job.error;
+		record.queue_us = job.queue_us;
+		record.execution_us = job.duration_us;
+		diagnostics_->emit(record);
+	}
 	completed_jobs_.fetch_add(1, std::memory_order_relaxed);
 	duration_us_.fetch_add(static_cast<std::uint64_t>(job.duration_us), std::memory_order_relaxed);
 	switch (status) {
@@ -109,6 +129,9 @@ void Lane::record_completion(const Job &job, Status status) {
 void Lane::enqueue(std::shared_ptr<Job> job) {
 	std::lock_guard lock(mutex_);
 	queue_.push_back(std::move(job));
+	if (diagnostics_) {
+		diagnostics_->emit(job_record(LogEvent::job_accepted, *queue_.back()));
+	}
 	queued_jobs_.fetch_add(1, std::memory_order_relaxed);
 	cv_.notify_one();
 }
@@ -148,6 +171,7 @@ bool Lane::wait_socket(bool writing, Clock::time_point deadline, const Job *job)
 }
 
 bool Lane::connect() {
+	log(LogEvent::lane_connecting);
 	drop();
 	connection_attempts_.fetch_add(1, std::memory_order_relaxed);
 	const char *keys[] = {"service", "client_encoding", "application_name", nullptr};
@@ -176,6 +200,7 @@ bool Lane::connect() {
 				reconnects_.fetch_add(1, std::memory_order_relaxed);
 			}
 			connected_once_ = true;
+			log(LogEvent::lane_ready);
 			return true;
 		}
 		if (status == PGRES_POLLING_FAILED) {
@@ -598,6 +623,7 @@ void Lane::run() {
 	auto recover = [&] {
 		for (int attempt = 0; attempt <= limits_.reconnect_attempts && !stop_.load(); ++attempt) {
 			if (attempt) {
+				log(LogEvent::lane_retry, static_cast<std::uint64_t>(attempt));
 				std::unique_lock lock(mutex_);
 				cv_.wait_for(lock,
 				             std::chrono::milliseconds(limits_.reconnect_base_ms *
@@ -612,6 +638,7 @@ void Lane::run() {
 		}
 		if (!stop_.load()) {
 			state.store(State::failed);
+			log(LogEvent::lane_failed);
 		}
 		return false;
 	};
@@ -629,6 +656,7 @@ void Lane::run() {
 						break;
 					}
 					if (transaction_ && Clock::now() >= transaction_deadline_) {
+						log(LogEvent::transaction_expired);
 						drop();
 						connected = false;
 					}
@@ -661,6 +689,7 @@ void Lane::run() {
 				std::fill(job->items_status.begin(), job->items_status.end(),
 				          ItemStatus::cancelled);
 				record_completion(*job, Status::cancelled);
+				job->completed_at = start;
 				job->status.store(Status::cancelled);
 				completed_.push(job->id);
 				continue;
@@ -669,6 +698,12 @@ void Lane::run() {
 			sql_confirmed_ = false;
 			running_jobs_.store(1, std::memory_order_relaxed);
 			job->status.store(Status::running);
+			if (diagnostics_) {
+				auto record = job_record(LogEvent::job_running, *job);
+				record.status = Status::running;
+				record.queue_us = job->queue_us;
+				diagnostics_->emit(record);
+			}
 			Status status = Status::confirmed;
 			try {
 				execute(*job);
@@ -729,8 +764,10 @@ void Lane::run() {
 			job->batch.clear();
 			job->operations.clear();
 			job->sql.clear();
+			job->completed_at = Clock::now();
 			job->duration_us =
-			    std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - start).count();
+			    std::chrono::duration_cast<std::chrono::microseconds>(job->completed_at - start)
+			        .count();
 			running_jobs_.store(0, std::memory_order_relaxed);
 			record_completion(*job, status);
 			if (!connected && !stop_.load()) {
@@ -750,8 +787,9 @@ void Lane::run() {
 				for (auto &pending : failed) {
 					pending->error = Error::connection;
 					pending->message = "Not dispatched: session interrupted";
+					pending->completed_at = Clock::now();
 					pending->queue_us = std::chrono::duration_cast<std::chrono::microseconds>(
-					                        Clock::now() - pending->accepted_at)
+					                        pending->completed_at - pending->accepted_at)
 					                        .count();
 					record_completion(*pending, Status::failed);
 					pending->status.store(Status::failed);
@@ -762,6 +800,7 @@ void Lane::run() {
 		}
 	} catch (...) {
 		state.store(State::failed);
+		log(LogEvent::worker_failed);
 	}
 	drop();
 	std::deque<std::shared_ptr<Job>> abandoned;
@@ -774,14 +813,16 @@ void Lane::run() {
 		job->error = Error::cancelled;
 		job->message = "Worker stopped before dispatch";
 		std::fill(job->items_status.begin(), job->items_status.end(), ItemStatus::cancelled);
-		job->queue_us =
-		    std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - job->accepted_at)
-		        .count();
+		job->completed_at = Clock::now();
+		job->queue_us = std::chrono::duration_cast<std::chrono::microseconds>(job->completed_at -
+		                                                                      job->accepted_at)
+		                    .count();
 		record_completion(*job, Status::cancelled);
 		job->status.store(Status::cancelled);
 		completed_.push(job->id);
 	}
 	state.store(State::disconnected);
+	log(LogEvent::lane_stopped);
 	stopped.store(true);
 }
 
