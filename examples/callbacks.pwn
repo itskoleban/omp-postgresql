@@ -205,7 +205,7 @@ public OnCustomCopied(job, first, second, Float:number, bool:flag, const text[])
 	    !flag || strcmp(text, "copied argument") || !CheckResult(job)) {
 		Fail("custom copied arguments changed");
 	}
-	if (!pg_job_close(job) || !pg_query(Database, "SELECT 1::integer", 0, 0, 0, true, "OnCustomEmpty")) {
+	if (!pg_job_close(job) || !pg_query(Database, "SELECT 1::integer", .callback = "OnCustomEmpty")) {
 		Fail("custom empty callback submission failed");
 	}
 	return 1;

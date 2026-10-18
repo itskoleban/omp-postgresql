@@ -64,7 +64,7 @@ public OnPgComplete(job, context) {
 			SubmitSql("INSERT INTO accounts VALUES(1,'alice',0,0),(2,'bob',0,0)", STEP_INSERT);
 		}
 		case STEP_INSERT: {
-			LoadStatement = pg_prepare_file(Database, "accounts.sql", 1, true, "load_account");
+			LoadStatement = pg_prepare_file(Database, "accounts.sql", 1, .section = "load_account");
 			if (!LoadStatement || !pg_bind_string(LoadStatement, 1, "alice") || !pg_add(LoadStatement)) {
 				Fail("load snapshot rejected");
 			} else if (!pg_execute(LoadStatement, 0, Transaction, STEP_LOAD)) {

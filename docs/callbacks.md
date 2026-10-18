@@ -37,9 +37,12 @@ const callback[] = "", const format[] = "", {Float,_}:...
 ```
 
 All preceding parameter names, order and defaults remain intact. See the
-[native reference](native-reference.md) for complete declarations. Named callback arguments
-can be supplied with the compiler's named-argument syntax; explicit positional defaults
-also work. With no extra arguments, supply only the callback name.
+[native reference](native-reference.md) for complete declarations. With no extra arguments,
+use a positional callback name or a named argument, for example
+`pg_execute(statement, .callback = "OnFinished")`. Pawn rejects positional arguments after
+named arguments, so calls with variadic extras must supply the preceding parameters
+positionally, as in the account example above. Named file selection also works:
+`pg_prepare_file(connection, "accounts.sql", 1, .section = "load_account")`.
 
 | Submission | Completion |
 | --- | --- |

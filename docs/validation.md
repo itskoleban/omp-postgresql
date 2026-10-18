@@ -736,6 +736,10 @@ passed the same unattended smoke/GMX/unload, callback, extension, bootstrap, sec
 four tutorial modes against the new component in another fresh server/database. This
 includes the old four-cell file call, original completion signatures and transaction/stream
 submissions. It is pinned-compiler compatibility evidence, not every historical AMX compiler.
+Compiler probes also verified named callback/file-section arguments without variadic extras
+and positional callbacks with extras. Mixing named arguments followed by positional extras
+is rejected with Pawn error 044; the callback and section gamemodes retain positive named
+forms so source/extracted-example compilation and runtime gates exercise them.
 Interactive accounts/custom gameplay and the external password provider are compile-only
 in this run; player input/disconnect/slot reuse need operator validation.
 
