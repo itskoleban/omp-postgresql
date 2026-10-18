@@ -550,6 +550,17 @@ void Lane::execute(Job &job) {
 		bool failed = !r.message.empty();
 		job.results.push_back(std::move(r));
 		if (failed) {
+			if (job.kind == Kind::commit || job.kind == Kind::rollback) {
+				// A rejected COMMIT (for example a deferred constraint) can end the
+				// server transaction. Reconcile worker ownership before poll releases
+				// the logical reservation; preserve the original SQL failure, never retry.
+				if (PQtransactionStatus(conn_.get()) == PQTRANS_IDLE) {
+					transaction_ = 0;
+					transaction_failed_ = false;
+				} else {
+					drop();
+				}
+			}
 			throw Failure(Error::sql, "Transaction command failed");
 		}
 		if (job.kind == Kind::begin) {

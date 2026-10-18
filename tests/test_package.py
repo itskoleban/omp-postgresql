@@ -145,6 +145,25 @@ class PackageTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 package.ensure_checkout(root)
             untracked.unlink()
+            # An operator's ignored local documents must never enter the CMake install.
+            ignored_assets = (
+                "docs/credentials.md",
+                "examples/private.pwn",
+                "pawn/private.inc",
+                "scripts/patches/private.patch",
+            )
+            (root / ".git/info/exclude").write_text("\n".join(ignored_assets) + "\n")
+            for name in ignored_assets:
+                with self.subTest(ignored_asset=name):
+                    asset = root / name
+                    asset.parent.mkdir(parents=True, exist_ok=True)
+                    asset.write_text(
+                        "private test sentinel, not a real credential", encoding="utf8"
+                    )
+                    with self.assertRaisesRegex(ValueError, "untracked assets"):
+                        package.ensure_checkout(root)
+                    asset.unlink()
+            package.ensure_checkout(root)
             tracked.write_text("changed documentation", encoding="utf8")
             with self.assertRaises(ValueError):
                 package.ensure_checkout(root)

@@ -135,8 +135,10 @@ The existing CI matrix enables these executables and runs `engine_benchmark_smok
 The non-multiple of 20 checks the partial final group. It is a correctness check with no
 timing thresholds; its Debug/sanitizer timings are not release benchmarks. Logs retain
 the CSV. Set `--benchmark` explicitly for larger measurements; no extra CI matrix is added.
-Comparative Pawn/tick measurements and prolonged soak/ThreadSanitizer coverage remain
-separate qualification work. Pipeline remains confined to the standalone transport probe.
+Comparative Pawn/tick measurements remain separate qualification work. Finite ten-minute
+load and ThreadSanitizer qualification are recorded in [validation](validation.md);
+instrumented dependencies and hours-long soaks remain unestablished. Pipeline remains
+confined to the standalone transport probe.
 
 ### Recorded Engine sample, October 15, 2026
 

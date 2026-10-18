@@ -5,15 +5,17 @@ The existing CI x86 jobs build once, run the core and server tests, stage the CM
 packages are advertised. `workflow_dispatch` also permits a manual build after the workflow
 is integrated into the default branch. Repository permissions remain `contents: read`.
 
-`scripts/package.py create` requires a clean tracked checkout without untracked installation
-assets, a Release build whose
+`scripts/package.py create` requires a clean tracked checkout without any untracked installation
+assets, including files ignored by Git. Ignored private documents or examples in `docs/`,
+`examples/`, `pawn/` or `scripts/patches/` are rejected before CMake staging; build inputs
+outside those installation directories remain allowed. It also requires a Release build whose
 generated metadata matches HEAD, the expected x86 binary and explicit libpq/license
 paths. It inspects every included PE/ELF runtime, rejects unexpected dependency imports,
 and includes only required non-system Windows DLLs. Linux distributes libpq alone;
 system loader dependencies and symbol-version requirements are inventoried. Staging
 starts in a new temporary directory; developer files, logs and credentials are never
 copied by a recursive repository sweep.
-The API document's include link is adjusted to the installed `qawno/include` location;
+Documentation include links are adjusted to the installed `qawno/include` location;
 all relative Markdown links are checked against the payload before packaging/extraction.
 
 The name is `omp-postgresql-0.1.0-experimental.COMMIT-PLATFORM-x86.zip`. It contains a

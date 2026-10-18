@@ -249,6 +249,14 @@ The total transaction deadline closes the session and rolls back unconfirmed wor
 the transaction handle releases the logical reservation. A lost connection during COMMIT
 may leave its result UNCERTAIN.
 
+PostgreSQL can reject COMMIT itself, for example with a deferred unique/foreign-key constraint,
+even after every preceding statement was confirmed. That finish job is FAILED/PG_ERROR_SQL
+with the original SQLSTATE; its writes are not committed. If PostgreSQL reports the session
+idle, the worker clears its transaction ownership and the lane is reusable after finish
+dispatch, without replay or an unnecessary reconnect. A rejected finish that leaves another
+session state discards the physical connection before recovery. This differs from a lost
+COMMIT response, whose effects can remain UNCERTAIN.
+
 `pg_begin` inherits the session's default isolation and read-only settings.
 `pg_begin_ex(connection,isolation,read_only,lane,context,notify)` explicitly selects
 PG_READ_COMMITTED, PG_REPEATABLE_READ, or PG_SERIALIZABLE and READ ONLY/READ WRITE.

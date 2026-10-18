@@ -304,13 +304,12 @@ def ensure_checkout(source):
     if run(["git", "status", "--porcelain", "--untracked-files=no"], cwd=source):
         raise ValueError("Package requires a clean tracked checkout")
     # CI downloads build inputs beside the checkout. They are never installed, but
-    # untracked assets under the CMake install directories could contaminate a ZIP.
+    # every untracked asset in an install directory must be rejected, even if ignored.
     if run(
         [
             "git",
             "ls-files",
             "--others",
-            "--exclude-standard",
             "--",
             "docs",
             "examples",

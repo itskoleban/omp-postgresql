@@ -552,6 +552,49 @@ void integration(const char *profile) {
 	e.close_job(owner, bad->id);
 	e.close_job(owner, cm->id);
 	e.close_job(owner, t);
+	// Deferred constraints can reject COMMIT itself after every statement succeeded.
+	// PostgreSQL has already ended the transaction; the same session must be reusable.
+	auto deferred_parent =
+	    success(e, query(e, c, "CREATE TEMP TABLE pg_deferred_parent(id integer PRIMARY KEY)"));
+	e.close_job(owner, deferred_parent->id);
+	auto deferred_table = success(
+	    e,
+	    query(e, c,
+	          "CREATE TEMP TABLE pg_deferred_commit("
+	          "id integer UNIQUE DEFERRABLE INITIALLY DEFERRED,"
+	          "parent integer REFERENCES pg_deferred_parent(id) DEFERRABLE INITIALLY DEFERRED)"));
+	e.close_job(owner, deferred_table->id);
+	auto original_backend = success(e, query(e, c, "SELECT pg_backend_pid()"));
+	auto backend_pid = original_backend->results[0].rows[0][0];
+	e.close_job(owner, original_backend->id);
+	for (const auto &[sql, sqlstate] :
+	     {std::pair{"INSERT INTO pg_deferred_commit VALUES(1,NULL),(1,NULL)", "23505"},
+	      std::pair{"INSERT INTO pg_deferred_commit VALUES(2,999)", "23503"}}) {
+		auto deferred_tx = e.begin(owner, c, 0, 0, false);
+		success(e, deferred_tx);
+		auto accepted = success(e, query(e, c, sql, deferred_tx));
+		e.close_job(owner, accepted->id);
+		auto rejected_commit = wait(e, e.finish(owner, deferred_tx, true, 0, false));
+		check(rejected_commit->status.load() == pg::Status::failed &&
+		          rejected_commit->error == pg::Error::sql && rejected_commit->completed == 0 &&
+		          rejected_commit->error_index == 0 && rejected_commit->results.size() == 1 &&
+		          rejected_commit->results[0].sqlstate == sqlstate &&
+		          rejected_commit->items_status[0] == pg::ItemStatus::failed,
+		      "Deferred COMMIT failure preserves its confirmed SQL rejection");
+		e.close_job(owner, rejected_commit->id);
+		e.close_job(owner, deferred_tx);
+		auto after_commit = success(
+		    e, query(e, c, "SELECT pg_backend_pid(),(SELECT count(*) FROM pg_deferred_commit)"));
+		check(after_commit->results[0].rows[0][0] == backend_pid &&
+		          after_commit->results[0].rows[0][1] == "0",
+		      "Rejected COMMIT rolls back rows and immediately reuses the original session");
+		e.close_job(owner, after_commit->id);
+		auto next_tx = e.begin(owner, c, 0, 0, false);
+		success(e, next_tx);
+		auto next_commit = success(e, e.finish(owner, next_tx, true, 0, false));
+		e.close_job(owner, next_commit->id);
+		e.close_job(owner, next_tx);
+	}
 	auto types = e.prepare(
 	    owner, c,
 	    "SELECT $1::bigint,$2::text,$3::text[],$4::bool,$5::float4,$6::uuid,$7::jsonb,$8::bytea",

@@ -531,6 +531,9 @@ After a required failure, execute ROLLBACK and report FAILED/PG_ERROR_TRANSACTIO
 of the finish job releases the reservation. Lost COMMIT response can mean UNCERTAIN.
 **Return/errors:** Finish job or 0 for invalid/unconfirmed/already ending transaction or submission
 failure. Local rejection restores the ending marker. Confirmed SQL durability follows server policy.
+Deferred constraints can reject COMMIT after earlier successful statements: the finish job
+is FAILED/PG_ERROR_SQL with its SQLSTATE, without replay. An idle server session is immediately
+reusable after dispatch; another post-error session state is discarded before recovery.
 **Example:** `pg_commit(transaction, 9);`
 
 ### pg_rollback

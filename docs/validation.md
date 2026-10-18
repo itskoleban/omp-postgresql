@@ -4,6 +4,40 @@ The component remains **0.1 experimental**. Passing the current suite is evidenc
 listed scenarios, not complete production qualification. Engine tests and real open.mp
 loading are recorded separately.
 
+## Independent review corrections: October 18, 2026
+
+The owner integrated API review commit `962ee8a` and then formatting-only `master`
+`556dca6fc3797f1646dab71692d8f5d6d098c5af`. Its
+[CI 39045902836](https://github.com/itskoleban/omp-postgresql/actions/runs/39045902836)
+succeeded. The prior API-review [CI 39041936114](https://github.com/itskoleban/omp-postgresql/actions/runs/39041936114)
+passed all seven jobs: Windows x86 15/15 CTest, every other Engine configuration 13/13,
+including Clang 19 TSan and ASan/UBSan without diagnostics. Both extracted x86 packages
+passed all six fresh-server scenarios and the final downloaded-distribution gate.
+Both actual artifacts were independently downloaded and checked against API SHA-256,
+inner archive hashes/manifests and the exact installed native-reference/include link.
+Their manifest commit is preview merge `dfbd7caac35ef21cdc1e896bb3f8c44383acd725`,
+distinct from source branch `962ee8a` and later owner integration.
+
+Two independently identified defects were reproduced before correction:
+
+- A deferred constraint rejected COMMIT with SQLSTATE `23505`; PostgreSQL was idle, but
+  stale worker ownership rejected the next query/BEGIN despite a connected pool. New real
+  PostgreSQL regressions failed the original suite (14/15 passed, 71.06 seconds). The fix
+  reconciles failed COMMIT/ROLLBACK state before publication, preserves the SQL rejection
+  and never replays. Tests cover deferred UNIQUE `23505` and foreign-key `23503`, original
+  error/item metadata, zero committed rows, same backend and immediate new transactions.
+- Git-ignored untracked installation assets bypassed the packaging checkout gate. Four
+  fake private sentinel cases failed before correction, across docs/examples/Pawn/patches.
+  The gate now includes ignored assets; outside-install build downloads remain allowed.
+
+After correction, the local Windows x86 working tree (MSVC 19.51, patched libpq 17.6,
+disposable TLS PostgreSQL 17.11, stress seed 42) passed all 15 CTest cases without skips
+in 82.46 seconds, including COMMIT response loss, restart and three stalled protocols.
+All 33 Python regressions passed in 10.217 seconds; the 18 package cases also passed
+separately in 4.410 seconds. These are local correction results, separate from the prior
+CI/package identities above. Final exact-commit cross-platform packages require their
+own qualification. No new comparative performance or production claim follows.
+
 ## Latest integrated qualification: October 17, 2026
 
 Recovery verified local and remote `master` at
