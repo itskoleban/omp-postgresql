@@ -287,13 +287,17 @@ void integration(const char *profile) {
 	         {"first", pg::integer(42), "42"},
 	         {"middle", pg::text("snapshot"), "snapshot"},
 	         {"last", pg::text("{\"x\":1}", 3802), "{\"x\": 1}"}}) {
-		auto statement = engine.prepare_section(owner, connection, "sections.sql", name, 1);
-		engine.statement(owner, statement).bind(1, std::move(parameter), limits);
-		auto id = run(engine, statement);
-		engine.close_statement(owner, statement);
-		auto job = wait(engine, id);
-		check(job->results.at(0).rows.at(0).at(0) == expected, "Selected result differs");
-		engine.close_job(owner, id);
+		for (bool unified : {false, true}) {
+			auto statement =
+			    unified ? engine.prepare_file(owner, connection, "sections.sql", 1, true, name)
+			            : engine.prepare_section(owner, connection, "sections.sql", name, 1);
+			engine.statement(owner, statement).bind(1, parameter, limits);
+			auto id = run(engine, statement);
+			engine.close_statement(owner, statement);
+			auto job = wait(engine, id);
+			check(job->results.at(0).rows.at(0).at(0) == expected, "Selected result differs");
+			engine.close_job(owner, id);
+		}
 	}
 	// Unselected structural defects reject the entire file before any SQL dispatch.
 	for (const auto &tail :

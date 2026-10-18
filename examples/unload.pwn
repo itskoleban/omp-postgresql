@@ -3,6 +3,7 @@
 #include <omp-postgresql>
 
 new Database;
+forward OnUnloadCustom(job, const text[]);
 
 main() {}
 
@@ -19,7 +20,8 @@ public OnFilterScriptExit() {
 public OnPgConnection(connection, connection_state) {
 	if (connection == Database && connection_state == PG_CONNECTED) {
 		new statement = pg_prepare(Database, "SELECT pg_sleep(3)");
-		if (!statement || !pg_add(statement) || !pg_execute(statement)) {
+		if (!statement || !pg_add(statement) || !pg_execute(statement, 0, 0, 0, true,
+			"OnUnloadCustom", "s", "owned until unload")) {
 			print("PG UNLOAD FAILED");
 			return 1;
 		}
@@ -30,7 +32,15 @@ public OnPgConnection(connection, connection_state) {
 }
 
 public OnPgComplete(job, context) {
-#pragma unused job, context
+#pragma unused context
+	pg_job_close(job);
+	print("PG UNLOAD CALLBACK");
+	return 1;
+}
+
+public OnUnloadCustom(job, const text[]) {
+#pragma unused text
+	pg_job_close(job);
 	print("PG UNLOAD CALLBACK");
 	return 1;
 }

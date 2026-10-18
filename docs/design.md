@@ -148,3 +148,18 @@ PGRES_PIPELINE_ABORTED. The initial engine uses sequential prepared execution an
 through UNNEST. Pipeline integration is not advertised as implemented. A future optimization
 requires Sync per independent execution, result correlation, bounded transport windows,
 and lost-confirmation tests before it is enabled.
+
+## Pre-RC API consolidation
+
+The [API modernization audit](api-modernization.md) classifies all 69 natives and records
+rejected mergers. `SqlSourceKind` replaces the ambiguous file boolean in Statement,
+Operation and Job; inline/file/section selection is explicit through snapshot transfer.
+Both file-preparation natives use one checked creation path and the existing lexical parser.
+
+Each job optionally owns one CallbackDescriptor with a public name and bounded scalar/string
+arguments. A shared native parser validates/copies Pawn varargs before enqueue. One internal
+job factory installs common ownership/notification metadata. Workers never inspect that
+metadata. The central tick dispatcher consumes it, resolves the owning generation's public,
+pushes copied values and restores the existing complete VM frame. No post-submit registry,
+new dispatch queue, global public cache or new native variants are introduced. Full behavior
+and lifecycle limits are in [custom callbacks](callbacks.md).

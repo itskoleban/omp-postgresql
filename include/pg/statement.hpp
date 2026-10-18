@@ -9,7 +9,8 @@ struct Statement {
 	Owner owner;
 	Id connection;
 	std::string sql;
-	bool file, prepared;
+	SqlSourceKind source;
+	bool prepared;
 	std::vector<std::optional<Param>> bindings;
 	std::vector<std::uint32_t> types;
 	std::vector<Params> batch;

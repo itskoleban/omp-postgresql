@@ -121,3 +121,12 @@ to the server's `scriptfiles/sql/accounts.sql` and use a disposable service prof
 existing x86 CI compiles it again from the extracted package and runs it in a fresh server,
 requiring `PG SECTION PASS`. Consult [validation](validation.md) for actual run evidence
 and outstanding RC gates, and [performance](performance.md) for measurement limits.
+
+## Unified file-preparation entry point
+
+Prefer `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")` for a section.
+Its final section defaults to `""`, preserving whole-file execution. The old four-argument
+compiled call remains valid; `pg_prepare_section` remains an equivalent compatibility
+entry point for nonempty names. A requested section never falls back to whole-file SQL.
+The grammar, file capture, errors, UTF-8/path limits and worker behavior described above
+apply unchanged. The [section example](../examples/sections.pwn) exercises both interfaces.

@@ -310,3 +310,15 @@ without all streamed rows. Selected block metadata/affected counts may be provis
 `notify=false` suppresses both row and completion callbacks; poll on ticks and use the same
 consumer lifecycle. Cancel abandoned streams; owner unload/connection close also stops them.
 See [extensions.pwn](../examples/extensions.pwn) for a bounded consumer and savepoint recovery.
+
+## Recommended custom completion handlers
+
+Job-submitting natives now append optional `callback`, `format` and variadic copied
+arguments after `notify`. Prefer these for new application code. A custom callback gets
+the job followed by its explicitly supplied arguments; no context is inserted. Omitted
+callbacks preserve `OnPgComplete`; `notify=false` suppresses completion and row handlers.
+See [custom callbacks](callbacks.md) for exact limits, errors, VM ownership and migration.
+
+`pg_prepare_file(connection, filename, parameters=0, prepared=true, section="")` is the
+recommended file interface for both whole-file and selected SQL. The compatibility native
+`pg_prepare_section` uses the same path; its semantics remain supported.

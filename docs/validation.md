@@ -704,3 +704,42 @@ bridge tests without claiming a new core-suite run. For the Windows x64 core, us
 Deploy current libpq/OpenSSL maintenance releases. A recorded client version is test evidence,
 not a recommendation to retain an older patch. Experimental packages redistribute only
 the selected runtimes described in [DEPENDENCIES.md](../DEPENDENCIES.md).
+
+## Custom callback and unified file qualification, October 18, 2026
+
+Baseline inspected: `7a69a5bde95a5461e2a3e7c129907eabde674f28`; dedicated branch
+`codex/api-custom-callbacks`. Baseline Windows x86 CTest: 15/15, no skips, 64.30 seconds.
+After implementation: all 15 cases passed without skips in 66.81 seconds, using MSVC
+19.51, patched libpq 17.6, disposable TLS PostgreSQL 17.11 and stress seed 42. This is
+local feature-source evidence, separate from the baseline and later CI preview commits.
+All 46 Python methods passed in 13.571 seconds. All twelve Pawn examples compiled with
+3.10.11 and warnings as errors; exact 69-native/three-callback declarations, documentation
+links and fixture/example inventory passed the checked-in validator.
+
+New registered-native tests cover optional/legacy arities, formats/addresses/counts/payload
+limits, copied scalars/Float/bool/strings, no-extra handlers, rejection preserving staging,
+notify=false, missing public before/after submission, partial push/error/sleep restoration,
+close within callback, concurrent jobs, two owning VMs and unload/reload suppression.
+Real PostgreSQL paths verify SQL failure, queued cancellation and lost COMMIT response
+reaching custom completion. Separate synthetic terminal statuses test dispatcher routing;
+they are not additional database fault-injection evidence.
+
+A fresh official open.mp 1.5.8.3079 Windows x86 server passed smoke/GMX, pending filterscript
+unload with an owned custom string, callback, extension, bootstrap, section and four
+unattended tutorial modes. The callback gamemode invokes all eleven asynchronous natives
+with custom completion, verifies copied arguments and no-extra handlers, SQL failure,
+transaction/savepoint/stream lifecycle and deliberate runtime-error/sleep restoration.
+The section gamemode uses both the unified file API and compatibility entry point.
+For binary compatibility, all eleven examples from exact baseline `7a69a5b` were exported
+and compiled with that baseline's unmodified include. Those old-arity AMX programs then
+passed the same unattended smoke/GMX/unload, callback, extension, bootstrap, section and
+four tutorial modes against the new component in another fresh server/database. This
+includes the old four-cell file call, original completion signatures and transaction/stream
+submissions. It is pinned-compiler compatibility evidence, not every historical AMX compiler.
+Interactive accounts/custom gameplay and the external password provider are compile-only
+in this run; player input/disconnect/slot reuse need operator validation.
+
+The [API audit](api-modernization.md) records architecture, compatibility and qualification
+state. Callback benchmark data is described in [performance](performance.md). Prior
+independent audit/soak evidence does not constitute an independent audit of this new code.
+Exact integrated-source qualification and owner review remain required before publication.

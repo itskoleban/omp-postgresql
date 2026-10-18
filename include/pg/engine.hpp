@@ -39,24 +39,30 @@ public:
 	void disconnect(Owner owner, Id id);
 	Id prepare(Owner owner, Id connection, std::string sql, int parameters, bool file = false,
 	           bool persistent = true);
+	Id prepare_file(Owner owner, Id connection, std::string filename, int parameters,
+	                bool persistent = true, std::string section = {});
 	Id prepare_section(Owner owner, Id connection, std::string filename, std::string section,
 	                   int parameters, bool persistent = true);
 	Statement &statement(Owner owner, Id id);
 	void close_statement(Owner owner, Id id);
-	Id execute(Owner owner, Id statement, int lane, Id transaction, int context, bool notify);
+	Id execute(Owner owner, Id statement, int lane, Id transaction, int context, bool notify,
+	           std::unique_ptr<CallbackDescriptor> callback = {});
 	Id execute_stream(Owner owner, Id statement, int chunk_rows, int lane, Id transaction,
-	                  int context, bool notify);
+	                  int context, bool notify, std::unique_ptr<CallbackDescriptor> callback = {});
 	Id query(Owner owner, Id connection, std::string sql, int lane, Id transaction, int context,
-	         bool notify);
+	         bool notify, std::unique_ptr<CallbackDescriptor> callback = {});
 	Id create_batch(Owner owner, Id connection);
 	void add_batch(Owner owner, Id batch, Id statement);
-	Id execute_batch(Owner owner, Id batch, int lane, Id transaction, int context, bool notify);
+	Id execute_batch(Owner owner, Id batch, int lane, Id transaction, int context, bool notify,
+	                 std::unique_ptr<CallbackDescriptor> callback = {});
 	void close_batch(Owner owner, Id batch);
 	Id begin(Owner owner, Id connection, int lane, int context, bool notify,
-	         Isolation isolation = Isolation::server_default, bool read_only = false);
+	         Isolation isolation = Isolation::server_default, bool read_only = false,
+	         std::unique_ptr<CallbackDescriptor> callback = {});
 	Id savepoint(Owner owner, Id transaction, std::string name, Kind action, int context,
-	             bool notify);
-	Id finish(Owner owner, Id transaction, bool commit, int context, bool notify);
+	             bool notify, std::unique_ptr<CallbackDescriptor> callback = {});
+	Id finish(Owner owner, Id transaction, bool commit, int context, bool notify,
+	          std::unique_ptr<CallbackDescriptor> callback = {});
 	std::shared_ptr<Job> job(Owner owner, Id id);
 	void close_job(Owner owner, Id id);
 	void unload(Owner owner);
@@ -82,7 +88,8 @@ private:
 	Batch &batch(Owner owner, Id id);
 	int transaction_lane(Owner owner, Id connection, Id transaction, int lane);
 	Id execute_statement(Owner owner, Id statement, int lane, Id transaction, int context,
-	                     bool notify, std::shared_ptr<Stream> stream);
+	                     bool notify, std::shared_ptr<Stream> stream,
+	                     std::unique_ptr<CallbackDescriptor> callback);
 };
 
 } // namespace pg

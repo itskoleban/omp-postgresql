@@ -217,7 +217,7 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 			    cancelled ? Error::cancelled : Error::timeout,
 			    sql_confirmed_
 			        ? "SQL completed; stream delivery interrupted and incomplete"
-					: "Stream interrupted before definitive SQL response; outcome may be unknown");
+			        : "Stream interrupted before definitive SQL response; outcome may be unknown");
 		}
 		out = std::move(next);
 		bytes = metadata_bytes;
@@ -431,12 +431,12 @@ void Lane::execute(Job &job) {
 		if (!job.operations.empty()) {
 			for (std::size_t index = 0; index < job.operations.size(); ++index) {
 				const auto &operation = job.operations[index];
-				if (!operation.section.empty()) {
+				if (operation.source == SqlSourceKind::section) {
 					job.error_index = static_cast<int>(index);
 					section_sql(operation.sql, operation.section);
 				}
 			}
-		} else if (!job.section.empty()) {
+		} else if (job.source == SqlSourceKind::section) {
 			job.error_index = 0;
 			section_sql(job.sql, job.section);
 		}
@@ -472,11 +472,11 @@ void Lane::execute(Job &job) {
 				query_dispatched_ = false;
 				sql_confirmed_ = false;
 				const auto &operation = job.operations[index];
-				if (!operation.section.empty()) {
+				if (operation.source == SqlSourceKind::section) {
 					item(index, section_sql(operation.sql, operation.section), operation.params,
 					     operation.prepared);
 				} else {
-					auto sql = operation.file
+					auto sql = operation.source == SqlSourceKind::file
 					               ? read_sql(sql_root_, operation.sql, limits_.sql_bytes)
 					               : operation.sql;
 					item(index, sql, operation.params, operation.prepared);
@@ -484,10 +484,13 @@ void Lane::execute(Job &job) {
 			}
 		} else {
 			job.error_index = 0;
-			auto sql = job.section.empty()
-			               ? (job.file ? read_sql(sql_root_, job.sql, limits_.sql_bytes) : job.sql)
+			auto sql = job.source != SqlSourceKind::section
+			               ? (job.source == SqlSourceKind::file
+			                      ? read_sql(sql_root_, job.sql, limits_.sql_bytes)
+			                      : job.sql)
 			               : std::string{};
-			const auto &captured = job.section.empty() ? sql : section_sql(job.sql, job.section);
+			const auto &captured =
+			    job.source != SqlSourceKind::section ? sql : section_sql(job.sql, job.section);
 			for (std::size_t index = 0; index < job.batch.size(); ++index) {
 				item(index, captured, job.batch[index], job.prepared);
 			}

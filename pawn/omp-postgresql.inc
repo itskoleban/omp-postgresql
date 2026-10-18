@@ -108,10 +108,11 @@ native pg_lane_pending(connection, lane);
 native pg_lane_active(connection, lane);
 native bool:pg_lane_stat(connection, lane, metric, output[], size = sizeof output);
 
-native pg_query(connection, const sql[], lane = 0, transaction = 0, context = 0, bool:notify = true);
+native pg_query(connection, const sql[], lane = 0, transaction = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 
 native pg_prepare(connection, const sql[], parameters = 0, bool:prepared = true);
-native pg_prepare_file(connection, const filename[], parameters = 0, bool:prepared = true);
+native pg_prepare_file(connection, const filename[], parameters = 0, bool:prepared = true, const section[] = "");
+// Compatibility entry point. Prefer pg_prepare_file(..., section).
 // Select one named statement; bounded file reading/validation occurs in the worker per job.
 native pg_prepare_section(connection, const filename[], const section[], parameters = 0, bool:prepared = true);
 
@@ -130,26 +131,26 @@ native bool:pg_bind_bytes(statement, index, const bytes[], count = sizeof bytes)
 native bool:pg_bind_array(statement, index, const values[], count, width, element_type, const nulls[]);
 native bool:pg_add(statement);
 
-native pg_execute(statement, lane = 0, transaction = 0, context = 0, bool:notify = true);
+native pg_execute(statement, lane = 0, transaction = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 
 native bool:pg_statement_close(statement);
 
 native pg_batch_create(connection);
 native bool:pg_batch_add(batch, statement);
-native pg_batch_execute(batch, lane = 0, transaction = 0, context = 0, bool:notify = true);
+native pg_batch_execute(batch, lane = 0, transaction = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 native bool:pg_batch_close(batch);
 
-native pg_stream_execute(statement, chunk_rows = 128, lane = 0, transaction = 0, context = 0, bool:notify = true);
+native pg_stream_execute(statement, chunk_rows = 128, lane = 0, transaction = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 native bool:pg_stream_next(job);
 native bool:pg_stream_release(job);
 
-native pg_begin(connection, lane = 0, context = 0, bool:notify = true);
-native pg_begin_ex(connection, isolation, bool:read_only, lane = 0, context = 0, bool:notify = true);
-native pg_savepoint(transaction, const name[], context = 0, bool:notify = true);
-native pg_rollback_to(transaction, const name[], context = 0, bool:notify = true);
-native pg_release_savepoint(transaction, const name[], context = 0, bool:notify = true);
-native pg_commit(transaction, context = 0, bool:notify = true);
-native pg_rollback(transaction, context = 0, bool:notify = true);
+native pg_begin(connection, lane = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
+native pg_begin_ex(connection, isolation, bool:read_only, lane = 0, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
+native pg_savepoint(transaction, const name[], context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
+native pg_rollback_to(transaction, const name[], context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
+native pg_release_savepoint(transaction, const name[], context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
+native pg_commit(transaction, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
+native pg_rollback(transaction, context = 0, bool:notify = true, const callback[] = "", const format[] = "", {Float,_}:...);
 
 native pg_job_status(job);
 native bool:pg_job_close(job);

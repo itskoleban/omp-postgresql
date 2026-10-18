@@ -2,6 +2,7 @@
 
 #include "pg/component.hpp"
 #include <array>
+#include <functional>
 #include <map>
 #include <stdexcept>
 
@@ -13,6 +14,14 @@ public:
 	mutable std::array<cell, 256> cells{};
 	std::map<std::string, AMX_NATIVE> natives;
 	mutable unsigned unexpected_calls = 0;
+	bool callbacks = false;
+	std::map<std::string, int> publics;
+	std::vector<pg::CallbackArgument> pushed;
+	std::vector<std::pair<std::string, std::vector<pg::CallbackArgument>>> calls;
+	std::vector<int> errors;
+	std::function<void()> on_exec;
+	int exec_error = 0, push_error_after = -1;
+	std::array<cell, 1030> long_cells{};
 	enum class Fault { none, null, allocation };
 	Fault fault = Fault::none;
 
@@ -26,6 +35,11 @@ public:
 			throw std::bad_alloc();
 		}
 		if (fault == Fault::null) {
+			return AMX_ERR_NONE;
+		}
+		if (callbacks && offset >= 4096 && offset % sizeof(cell) == 0 &&
+		    static_cast<std::size_t>(offset - 4096) / sizeof(cell) < long_cells.size()) {
+			*output = const_cast<cell *>(&long_cells[(offset - 4096) / sizeof(cell)]);
 			return AMX_ERR_NONE;
 		}
 		// Model allocated heap and active stack, separated by an inaccessible gap.
@@ -62,12 +76,43 @@ public:
 		unexpected();
 	}
 	int Exec(cell *retval, int index) override {
+		if (callbacks) {
+			for (auto &[name, id] : publics) {
+				if (id == index) {
+					calls.emplace_back(
+					    name, std::vector<pg::CallbackArgument>(pushed.rbegin(), pushed.rend()));
+					break;
+				}
+			}
+			pushed.clear();
+			if (on_exec) {
+				on_exec();
+			}
+			amx.stk = 17;
+			amx.hea = 23;
+			amx.cip = 29;
+			amx.frm = 31;
+			amx.paramcount = 37;
+			amx.reset_stk = 41;
+			amx.reset_hea = 43;
+			amx.pri = 47;
+			amx.alt = 53;
+			return exec_error;
+		}
 		unexpected();
 	}
 	int FindNative(char const *name, int *index) const override {
 		unexpected();
 	}
 	int FindPublic(char const *funcname, int *index) const override {
+		if (callbacks) {
+			auto it = publics.find(funcname);
+			if (it == publics.end()) {
+				return AMX_ERR_NOTFOUND;
+			}
+			*index = it->second;
+			return AMX_ERR_NONE;
+		}
 		unexpected();
 	}
 	int FindPubVar(char const *varname, cell *amx_addr) const override {
@@ -135,6 +180,18 @@ public:
 		unexpected();
 	}
 	int Push(cell value) override {
+		if (callbacks) {
+			if (push_error_after == 0) {
+				return AMX_ERR_STACKERR;
+			}
+			if (push_error_after > 0) {
+				--push_error_after;
+			}
+			pushed.emplace_back(value);
+			amx.stk -= sizeof(cell);
+			++amx.paramcount;
+			return AMX_ERR_NONE;
+		}
 		unexpected();
 	}
 	int PushArray(cell *amx_addr, cell **phys_addr, const cell array[], int numcells) override {
@@ -142,6 +199,19 @@ public:
 	}
 	int PushString(cell *amx_addr, cell **phys_addr, StringView string, bool pack,
 	               bool use_wchar) override {
+		if (callbacks) {
+			if (push_error_after == 0) {
+				return AMX_ERR_STACKERR;
+			}
+			if (push_error_after > 0) {
+				--push_error_after;
+			}
+			pushed.emplace_back(std::string(string.data(), string.size()));
+			amx.hea += static_cast<cell>((string.size() + 1) * sizeof(cell));
+			amx.stk -= sizeof(cell);
+			++amx.paramcount;
+			return AMX_ERR_NONE;
+		}
 		unexpected();
 	}
 	int RaiseError(int error) override {
@@ -182,42 +252,75 @@ public:
 		unexpected();
 	}
 	cell GetCIP() const override {
+		if (callbacks) {
+			return amx.cip;
+		}
 		unexpected();
 	}
 	cell GetHEA() const override {
+		if (callbacks) {
+			return amx.hea;
+		}
 		unexpected();
 	}
 	cell GetSTP() const override {
 		unexpected();
 	}
 	cell GetSTK() const override {
+		if (callbacks) {
+			return amx.stk;
+		}
 		unexpected();
 	}
 	cell GetHLW() const override {
 		unexpected();
 	}
 	cell GetFRM() const override {
+		if (callbacks) {
+			return amx.frm;
+		}
 		unexpected();
 	}
 	void SetCIP(cell v) override {
+		if (callbacks) {
+			amx.cip = v;
+			return;
+		}
 		unexpected();
 	}
 	void SetHEA(cell v) override {
+		if (callbacks) {
+			amx.hea = v;
+			return;
+		}
 		unexpected();
 	}
 	void SetSTP(cell v) override {
 		unexpected();
 	}
 	void SetSTK(cell v) override {
+		if (callbacks) {
+			amx.stk = v;
+			pushed.clear();
+			return;
+		}
 		unexpected();
 	}
 	void SetHLW(cell v) override {
 		unexpected();
 	}
 	void SetFRM(cell v) override {
+		if (callbacks) {
+			amx.frm = v;
+			return;
+		}
 		unexpected();
 	}
 	void PrintError(int err) override {
+		if (callbacks) {
+			errors.push_back(err);
+			return;
+		}
 		unexpected();
 	}
 	int GetID() const override {

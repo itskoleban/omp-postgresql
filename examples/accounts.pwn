@@ -28,6 +28,7 @@ forward bool:Current(playerid, token, expected);
 forward bool:HashPassword(playerid, token, const password[]);
 forward bool:VerifyPassword(playerid, token, const password[], const hash[]);
 forward AuthDeadline(playerid, token);
+forward OnAccountComplete(job, playerid, token);
 
 main() {}
 
@@ -123,7 +124,7 @@ stock Lookup(playerid) {
 		LocalFailure("lookup staging rejected");
 		AuthUnavailable(playerid);
 	} else {
-		PendingJob[playerid] = pg_execute(statement, 0, 0, Token[playerid]);
+		PendingJob[playerid] = pg_execute(statement, 0, 0, 0, true, "OnAccountComplete", "ii", playerid, Token[playerid]);
 		if (!PendingJob[playerid]) {
 			LocalFailure("lookup submission rejected");
 			AuthUnavailable(playerid);
@@ -133,21 +134,14 @@ stock Lookup(playerid) {
 	if (statement) pg_statement_close(statement);
 }
 
-public OnPgComplete(job, context) {
-	new playerid = INVALID_PLAYER_ID;
-	for (new i = 0; i < MAX_PLAYERS; i++) {
-		if (PendingJob[i] == job && IsPlayerConnected(i)) {
-			playerid = i;
-			break;
-		}
-	}
-	if (playerid == INVALID_PLAYER_ID) {
+public OnAccountComplete(job, playerid, token) {
+	if (playerid < 0 || playerid >= MAX_PLAYERS || !IsPlayerConnected(playerid) || PendingJob[playerid] != job) {
 		// Still release a completed request after its player left or the slot was reused.
 		pg_job_close(job);
 		return 1;
 	}
 	PendingJob[playerid] = 0;
-	if (Token[playerid] != context) {
+	if (Token[playerid] != token) {
 		if (Ready && AccountState[playerid] == OFFLINE) Lookup(playerid);
 		pg_job_close(job);
 		return 1;
@@ -198,7 +192,7 @@ public OnAccountHashed(playerid, token) {
 		AuthUnavailable(playerid);
 	}
 	else {
-		PendingJob[playerid] = pg_execute(statement, 0, 0, token);
+		PendingJob[playerid] = pg_execute(statement, 0, 0, 0, true, "OnAccountComplete", "ii", playerid, token);
 		if (!PendingJob[playerid]) {
 			LocalFailure("registration submission rejected");
 			AuthUnavailable(playerid);

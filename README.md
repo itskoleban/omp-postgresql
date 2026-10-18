@@ -13,6 +13,9 @@ when a submission or callback behaves unexpectedly. Practical guides cover
 [safe transactions](docs/transactions.md). The [native reference](docs/native-reference.md)
 provides the exact signatures after those introductions.
 
+Prefer [custom completion callbacks](docs/callbacks.md) for new application code;
+`OnPgComplete(job, context)` remains supported for existing programs.
+
 ## Implemented features
 
 - Connections through libpq service profiles, a pool of FIFO lanes, and a worker that owns each session.
@@ -22,7 +25,8 @@ provides the exact signatures after those introductions.
 - Transactions that reserve a lane, commit/rollback, and rollback after a required operation fails.
 - Cancellation, timeouts, and progressive reconnection without replaying uncertain writes.
 - Worker-based SQL file loading with path confinement and UTF-8 validation.
-- Strict named SQL sections through `pg_prepare_section`, with bounded worker-side capture.
+- Unified `pg_prepare_file(..., section)` and compatible `pg_prepare_section`, with bounded worker capture.
+- Custom completion handlers with owned integer, Float, boolean and string arguments.
 - Simple queries, heterogeneous batches, per-operation outcomes, and column OID metadata.
 - Exact numeric/temporal text transport, BYTEA cells, and typed arrays with NULL elements.
 - Explicit isolation/read-only options, savepoints, and asynchronous savepoint recovery.
@@ -184,3 +188,13 @@ read the checked-in Python and CMake settings:
 python -m black --check tests
 python -m cmakelang.format --check CMakeLists.txt
 ```
+
+## Custom completion handlers
+
+New code can submit `pg_execute(statement, 0, 0, 0, true, "OnAccountLoaded", "ii", playerid, session)`.
+The public receives `(job, playerid, session)` with copied arguments. Existing
+`OnPgComplete(job, context)` programs and compiled AMX calls remain supported.
+Use `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")` for named SQL;
+`pg_prepare_section` remains a compatibility entry point. Read the
+[callback contract](docs/callbacks.md) and [bounded API audit](docs/api-modernization.md)
+before migrating; include and component versions must match.
