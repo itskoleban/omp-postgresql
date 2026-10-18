@@ -33,96 +33,96 @@ A = essential distinct functionality; B = useful convenience; C = genuine consol
 D = public distinction with internal reuse; E = potentially confusing interface requiring
 an explicit contract. These are primary categories, not a recommendation to remove D/E.
 
-| Native | Category | Decision and rationale |
-| --- | --- | --- |
-| `pg_connect` | A | Unique connection lifecycle/state responsibility; retain. |
-| `pg_connection_close` | A | Unique connection lifecycle/state responsibility; retain. |
-| `pg_connection_state` | A | Unique connection lifecycle/state responsibility; retain. |
-| `pg_connection_ready` | A | Unique connection lifecycle/state responsibility; retain. |
-| `pg_connection_message` | A | Unique connection lifecycle/state responsibility; retain. |
-| `pg_lane_state` | A | Distinct physical-lane state, queue or cumulative metric; retain. |
-| `pg_lane_pending` | A | Distinct physical-lane state, queue or cumulative metric; retain. |
-| `pg_lane_active` | A | Distinct physical-lane state, queue or cumulative metric; retain. |
-| `pg_lane_stat` | A | Distinct physical-lane state, queue or cumulative metric; retain. |
-| `pg_query` | B | Direct one-shot SQL avoids staging; shares job submission, not preparation semantics. |
-| `pg_prepare` | A | Inline logical statement creation; distinct from worker-side file loading. |
-| `pg_prepare_file` | C | Whole-file and section preparation now share the recommended optional-section interface. |
-| `pg_prepare_section` | C | Compatibility entry point for existing source/AMX; shares checked file creation. |
-| `pg_bind_int` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_int64` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_float` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_bool` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_null` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_string` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_int_array` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_string_array` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_bytes` | B | Specialized encoding/type safety improves common calls; retain alongside generic binders. |
-| `pg_bind_array` | A | Generic typed/nullable array encoding; dimensions and OID differ from specialized binders. |
-| `pg_add` | A | Immutable parameter snapshot transfer; distinct from enqueue. |
-| `pg_execute` | A | Homogeneous staged execution; retain batch/stream distinctions. |
-| `pg_statement_close` | A | Explicit lifetime/ownership release. |
-| `pg_batch_create` | A | Heterogeneous flattening/ownership/submit contract; no opaque execution mode. |
-| `pg_batch_add` | A | Heterogeneous flattening/ownership/submit contract; no opaque execution mode. |
-| `pg_batch_execute` | A | Heterogeneous flattening/ownership/submit contract; no opaque execution mode. |
-| `pg_batch_close` | A | Explicit lifetime/ownership release. |
-| `pg_stream_execute` | A | Stream producer/block selection/release/backpressure are separate responsibilities. |
-| `pg_stream_next` | A | Stream producer/block selection/release/backpressure are separate responsibilities. |
-| `pg_stream_release` | A | Stream producer/block selection/release/backpressure are separate responsibilities. |
-| `pg_begin` | B | Useful server-default isolation convenience; does not force explicit READ COMMITTED. |
-| `pg_begin_ex` | A | Explicit isolation/read-only control; semantically distinct from inherited defaults. |
-| `pg_savepoint` | D | Distinct transaction command name; common validated construction/submission. |
-| `pg_rollback_to` | D | Distinct transaction command name; common validated construction/submission. |
-| `pg_release_savepoint` | D | Distinct transaction command name; common validated construction/submission. |
-| `pg_commit` | D | Distinct transaction command name; common validated construction/submission. |
-| `pg_rollback` | D | Distinct transaction command name; common validated construction/submission. |
-| `pg_job_status` | A | Terminal publication/cancellation have distinct meanings and sentinels. |
-| `pg_job_close` | A | Explicit lifetime/ownership release. |
-| `pg_cancel` | A | Terminal publication/cancellation have distinct meanings and sentinels. |
-| `pg_job_completed` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_size` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_item_status` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_error_index` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_error` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_message` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_duration` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_queue_time` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_latency` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_job_connection` | D | Distinct job metadata; share owner lookup/terminal validation where appropriate. |
-| `pg_result_count` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_rows` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_columns` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_column` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_column_name` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_column_type` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_is_null` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_string` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_bytes` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_int` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_float` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_bool` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_affected` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_sqlstate` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_result_message` | D | Distinct result dimensions/types/conversions; shared lookup/output/address validation. |
-| `pg_last_error` | E | Local diagnostic is cleared by other natives; keep distinct from asynchronous job errors. |
+| Native                  | Category | Decision and rationale                                                                     |
+| ----------------------- | -------- | ------------------------------------------------------------------------------------------ |
+| `pg_connect`            | A        | Unique connection lifecycle/state responsibility; retain.                                  |
+| `pg_connection_close`   | A        | Unique connection lifecycle/state responsibility; retain.                                  |
+| `pg_connection_state`   | A        | Unique connection lifecycle/state responsibility; retain.                                  |
+| `pg_connection_ready`   | A        | Unique connection lifecycle/state responsibility; retain.                                  |
+| `pg_connection_message` | A        | Unique connection lifecycle/state responsibility; retain.                                  |
+| `pg_lane_state`         | A        | Distinct physical-lane state, queue or cumulative metric; retain.                          |
+| `pg_lane_pending`       | A        | Distinct physical-lane state, queue or cumulative metric; retain.                          |
+| `pg_lane_active`        | A        | Distinct physical-lane state, queue or cumulative metric; retain.                          |
+| `pg_lane_stat`          | A        | Distinct physical-lane state, queue or cumulative metric; retain.                          |
+| `pg_query`              | B        | Direct one-shot SQL avoids staging; shares job submission, not preparation semantics.      |
+| `pg_prepare`            | A        | Inline logical statement creation; distinct from worker-side file loading.                 |
+| `pg_prepare_file`       | C        | Whole-file and section preparation now share the recommended optional-section interface.   |
+| `pg_prepare_section`    | C        | Compatibility entry point for existing source/AMX; shares checked file creation.           |
+| `pg_bind_int`           | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_int64`         | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_float`         | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_bool`          | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_null`          | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_string`        | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_int_array`     | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_string_array`  | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_bytes`         | B        | Specialized encoding/type safety improves common calls; retain alongside generic binders.  |
+| `pg_bind_array`         | A        | Generic typed/nullable array encoding; dimensions and OID differ from specialized binders. |
+| `pg_add`                | A        | Immutable parameter snapshot transfer; distinct from enqueue.                              |
+| `pg_execute`            | A        | Homogeneous staged execution; retain batch/stream distinctions.                            |
+| `pg_statement_close`    | A        | Explicit lifetime/ownership release.                                                       |
+| `pg_batch_create`       | A        | Heterogeneous flattening/ownership/submit contract; no opaque execution mode.              |
+| `pg_batch_add`          | A        | Heterogeneous flattening/ownership/submit contract; no opaque execution mode.              |
+| `pg_batch_execute`      | A        | Heterogeneous flattening/ownership/submit contract; no opaque execution mode.              |
+| `pg_batch_close`        | A        | Explicit lifetime/ownership release.                                                       |
+| `pg_stream_execute`     | A        | Stream producer/block selection/release/backpressure are separate responsibilities.        |
+| `pg_stream_next`        | A        | Stream producer/block selection/release/backpressure are separate responsibilities.        |
+| `pg_stream_release`     | A        | Stream producer/block selection/release/backpressure are separate responsibilities.        |
+| `pg_begin`              | B        | Useful server-default isolation convenience; does not force explicit READ COMMITTED.       |
+| `pg_begin_ex`           | A        | Explicit isolation/read-only control; semantically distinct from inherited defaults.       |
+| `pg_savepoint`          | D        | Distinct transaction command name; common validated construction/submission.               |
+| `pg_rollback_to`        | D        | Distinct transaction command name; common validated construction/submission.               |
+| `pg_release_savepoint`  | D        | Distinct transaction command name; common validated construction/submission.               |
+| `pg_commit`             | D        | Distinct transaction command name; common validated construction/submission.               |
+| `pg_rollback`           | D        | Distinct transaction command name; common validated construction/submission.               |
+| `pg_job_status`         | A        | Terminal publication/cancellation have distinct meanings and sentinels.                    |
+| `pg_job_close`          | A        | Explicit lifetime/ownership release.                                                       |
+| `pg_cancel`             | A        | Terminal publication/cancellation have distinct meanings and sentinels.                    |
+| `pg_job_completed`      | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_size`           | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_item_status`    | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_error_index`    | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_error`          | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_message`        | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_duration`       | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_queue_time`     | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_latency`        | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_job_connection`     | D        | Distinct job metadata; share owner lookup/terminal validation where appropriate.           |
+| `pg_result_count`       | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_rows`        | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_columns`     | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_column`      | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_column_name` | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_column_type` | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_is_null`     | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_string`      | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_bytes`       | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_int`         | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_float`       | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_bool`        | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_affected`    | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_sqlstate`    | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_result_message`     | D        | Distinct result dimensions/types/conversions; shared lookup/output/address validation.     |
+| `pg_last_error`         | E        | Local diagnostic is cleared by other natives; keep distinct from asynchronous job errors.  |
 
 ## Design alternatives and decisions
 
-| Proposal | Assessment | Decision |
-| --- | --- | --- |
-| Append optional section to pg_prepare_file | One extra string preserves leading positions. Include-only change would break fixed arity validation. | Accept exactly old 4 or new 5 cells; old empty/whole-file semantics preserved; section wrapper shares implementation. |
-| Replace both file natives | Would break old AMX native lookup and clearer migration. | Retain pg_prepare_section indefinitely as compatibility entry point. |
-| Append callback/format/varargs to existing submissions | Uniform, atomic pre-submit copy; long signatures but no new handles or duplicated native inventory. Pawn 3.10.11 verified fixed strings/defaults and by-reference variadic scalar ABI. | Accept exact legacy count or complete bounded tail; reject partial/misaligned tails before reading arguments. |
-| Add callback-enabled variant of every async native | Clear separate ABI but duplicates eleven public entry points and examples; no safety advantage once old arities are explicitly accepted. | Rejected. |
-| Shared persistent callback descriptor handles | Adds registry, owner limits, mutation/close/reuse rules and another handle lifetime for simple callbacks. | Rejected; one optional owned descriptor travels with each accepted job. |
-| Register callback after submission | Potential completion/configuration ordering hazard and orphaned request on registration failure. | Rejected; descriptor installed before enqueue. |
-| Custom stream row and final handlers together | Requires two descriptor lifetimes and new row payload/backpressure/ABI surface. | Bounded scope: custom final callback; retain OnPgRows(job,context). |
-| Callback arrays/references | Need lengths, copy direction, aggregate VM heap accounting and new callback declaration semantics. | Deferred; i/f/b/s cover player/session/request data safely. Unknown formats reject. |
-| Merge begin/begin_ex | Would erase inherited session isolation versus explicit options unless more sentinels/modes are exposed. | Retain both; shared job factory handles notification metadata. |
-| Merge commit/rollback or savepoint actions | Distinct transaction intent matters for recovery and review. | Retain names; reuse construction/dispatch internally. |
-| Merge execute/batch/stream | Different staging transfer, results and producer/consumer lifetimes. | Retain distinct functions. |
-| Merge specialized/generic array binders | Specialized int/string layouts offer safety and smaller signatures; generic supports OIDs and NULL masks. | Retain all; existing encoding helpers remain shared. |
-| Merge rows/affected or job_message/last_error | Result rows versus changed rows, and async versus local errors, are different observations. | Rejected. |
-| Replace the SQL lexer or add a global file/public cache | Existing lexical/file-capture guarantees already qualified; cache invalidation adds lifecycle risk. | Reuse lexer and per-job capture without persistent caches. |
+| Proposal                                                | Assessment                                                                                                                                                                             | Decision                                                                                                              |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Append optional section to pg_prepare_file              | One extra string preserves leading positions. Include-only change would break fixed arity validation.                                                                                  | Accept exactly old 4 or new 5 cells; old empty/whole-file semantics preserved; section wrapper shares implementation. |
+| Replace both file natives                               | Would break old AMX native lookup and clearer migration.                                                                                                                               | Retain pg_prepare_section indefinitely as compatibility entry point.                                                  |
+| Append callback/format/varargs to existing submissions  | Uniform, atomic pre-submit copy; long signatures but no new handles or duplicated native inventory. Pawn 3.10.11 verified fixed strings/defaults and by-reference variadic scalar ABI. | Accept exact legacy count or complete bounded tail; reject partial/misaligned tails before reading arguments.         |
+| Add callback-enabled variant of every async native      | Clear separate ABI but duplicates eleven public entry points and examples; no safety advantage once old arities are explicitly accepted.                                               | Rejected.                                                                                                             |
+| Shared persistent callback descriptor handles           | Adds registry, owner limits, mutation/close/reuse rules and another handle lifetime for simple callbacks.                                                                              | Rejected; one optional owned descriptor travels with each accepted job.                                               |
+| Register callback after submission                      | Potential completion/configuration ordering hazard and orphaned request on registration failure.                                                                                       | Rejected; descriptor installed before enqueue.                                                                        |
+| Custom stream row and final handlers together           | Requires two descriptor lifetimes and new row payload/backpressure/ABI surface.                                                                                                        | Bounded scope: custom final callback; retain OnPgRows(job,context).                                                   |
+| Callback arrays/references                              | Need lengths, copy direction, aggregate VM heap accounting and new callback declaration semantics.                                                                                     | Deferred; i/f/b/s cover player/session/request data safely. Unknown formats reject.                                   |
+| Merge begin/begin_ex                                    | Would erase inherited session isolation versus explicit options unless more sentinels/modes are exposed.                                                                               | Retain both; shared job factory handles notification metadata.                                                        |
+| Merge commit/rollback or savepoint actions              | Distinct transaction intent matters for recovery and review.                                                                                                                           | Retain names; reuse construction/dispatch internally.                                                                 |
+| Merge execute/batch/stream                              | Different staging transfer, results and producer/consumer lifetimes.                                                                                                                   | Retain distinct functions.                                                                                            |
+| Merge specialized/generic array binders                 | Specialized int/string layouts offer safety and smaller signatures; generic supports OIDs and NULL masks.                                                                              | Retain all; existing encoding helpers remain shared.                                                                  |
+| Merge rows/affected or job_message/last_error           | Result rows versus changed rows, and async versus local errors, are different observations.                                                                                            | Rejected.                                                                                                             |
+| Replace the SQL lexer or add a global file/public cache | Existing lexical/file-capture guarantees already qualified; cache invalidation adds lifecycle risk.                                                                                    | Reuse lexer and per-job capture without persistent caches.                                                            |
 
 The source-kind enum replaces a boolean across Statement/Operation/Job, making dispatch
 explicit without changing SQL strings, parser or capture ordering. One job factory installs

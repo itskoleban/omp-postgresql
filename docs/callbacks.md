@@ -44,11 +44,11 @@ named arguments, so calls with variadic extras must supply the preceding paramet
 positionally, as in the account example above. Named file selection also works:
 `pg_prepare_file(connection, "accounts.sql", 1, .section = "load_account")`.
 
-| Submission | Completion |
-| --- | --- |
-| Nonempty callback, `notify=true` | `Callback(job, copied_argument_1, ...)`, exactly once. |
-| Empty callback, `notify=true` | Existing `OnPgComplete(job, context)`. |
-| `notify=false` | Neither completion nor row callback; poll and release explicitly. |
+| Submission                       | Completion                                                        |
+| -------------------------------- | ----------------------------------------------------------------- |
+| Nonempty callback, `notify=true` | `Callback(job, copied_argument_1, ...)`, exactly once.            |
+| Empty callback, `notify=true`    | Existing `OnPgComplete(job, context)`.                            |
+| `notify=false`                   | Neither completion nor row callback; poll and release explicitly. |
 
 The job handle is always the first argument. A custom callback **does not** receive
 `context` implicitly. Include it explicitly in `format` and the additional arguments if
@@ -57,12 +57,12 @@ Return values from callbacks do not determine SQL success or trigger retry.
 
 ## Formats and bounds
 
-| Format | Argument and copy semantics |
-| --- | --- |
-| `i` | Signed 32-bit Pawn cell, copied by value. |
-| `f` | Pawn Float cell, all bits preserved; callback declares `Float:`. |
-| `b` | Boolean cell, validated as 0 or 1; callback declares `bool:`. |
-| `s` | UTF-8 string, packed or unpacked input; owned copy, unpacked callback argument. |
+| Format | Argument and copy semantics                                                     |
+| ------ | ------------------------------------------------------------------------------- |
+| `i`    | Signed 32-bit Pawn cell, copied by value.                                       |
+| `f`    | Pawn Float cell, all bits preserved; callback declares `Float:`.                |
+| `b`    | Boolean cell, validated as 0 or 1; callback declares `bool:`.                   |
+| `s`    | UTF-8 string, packed or unpacked input; owned copy, unpacked callback argument. |
 
 The format contains exactly one character per additional argument. It excludes the job
 handle. Scalar Pawn varargs are passed by reference by the compiler; the native validates

@@ -21,14 +21,14 @@ $env:OMP_PG_LOG_LEVEL = 'INFO'
 $env:OMP_PG_LOG_LEVEL = 'OFF'
 ```
 
-| Level | Additional events (includes all less verbose levels) |
-| --- | --- |
-| OFF | No additional diagnostic records, locks, formatting or output. |
-| ERROR | Exhausted lane startup/recovery, worker failure, uncertain outcomes and internal job failures. |
+| Level          | Additional events (includes all less verbose levels)                                                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OFF            | No additional diagnostic records, locks, formatting or output.                                                                                                      |
+| ERROR          | Exhausted lane startup/recovery, worker failure, uncertain outcomes and internal job failures.                                                                      |
 | WARN (default) | Other failed/cancelled jobs, retry ordinals, admission rejection, custom callback missing, callback push/execution failure, missing owner and expired transactions. |
-| INFO | Logical connection create/close, lane connecting/ready/stopped, VM generation unload. |
-| DEBUG | Accepted, running, terminal jobs, completion polled, final callback attempt begin/end, absent optional legacy publics. |
-| TRACE | Suppressed notifications, explicit job release and row-block callback attempts. |
+| INFO           | Logical connection create/close, lane connecting/ready/stopped, VM generation unload.                                                                               |
+| DEBUG          | Accepted, running, terminal jobs, completion polled, final callback attempt begin/end, absent optional legacy publics.                                              |
+| TRACE          | Suppressed notifications, explicit job release and row-block callback attempts.                                                                                     |
 
 Events carry internal numeric owner-generation, connection, lane, job, transaction, kind,
 source, status and error IDs where applicable. `kind`, `source`, `status` and `error` use

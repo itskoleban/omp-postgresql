@@ -869,11 +869,11 @@ forward OnPgComplete(job, context);
 forward OnPgRows(job, context);
 ```
 
-| Callback | Arguments and availability | Required lifecycle |
-| --- | --- | --- |
-| `OnPgConnection` | Owner's logical connection and an observed `PG_*` connection state. Changes between ticks can coalesce; the final DISCONNECTED handle is valid through this callback. | Submit only when the whole pool is CONNECTED. Close a failed pool explicitly if creating a replacement. |
-| `OnPgComplete` | Retained job handle and its copied context cell, after terminal publication and completion dispatch. `notify=false` suppresses it. | Inspect status/results before closing. Keep a successful BEGIN while its lane is reserved. A missing callback does not automatically release its job. |
-| `OnPgRows` | Stream job handle and copied context, when a pending block is available; it can repeat without another SQL dispatch. `notify=false` suppresses it too. | Select blocks with `pg_stream_next`, read result 0, release promptly, and inspect the final job separately. Do not close a running stream. |
+| Callback         | Arguments and availability                                                                                                                                            | Required lifecycle                                                                                                                                    |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `OnPgConnection` | Owner's logical connection and an observed `PG_*` connection state. Changes between ticks can coalesce; the final DISCONNECTED handle is valid through this callback. | Submit only when the whole pool is CONNECTED. Close a failed pool explicitly if creating a replacement.                                               |
+| `OnPgComplete`   | Retained job handle and its copied context cell, after terminal publication and completion dispatch. `notify=false` suppresses it.                                    | Inspect status/results before closing. Keep a successful BEGIN while its lane is reserved. A missing callback does not automatically release its job. |
+| `OnPgRows`       | Stream job handle and copied context, when a pending block is available; it can repeat without another SQL dispatch. `notify=false` suppresses it too.                | Select blocks with `pg_stream_next`, read result 0, release promptly, and inspect the final job separately. Do not close a running stream.            |
 
 These callback return values are not interpreted as SQL acceptance, retry or cancellation.
 Callbacks are optional: polling must still consume streams and release dispatched jobs.

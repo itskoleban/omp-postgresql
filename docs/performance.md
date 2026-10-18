@@ -189,12 +189,12 @@ seven measured repetitions after warmup, rotating mode order. It binds the sourc
 canonical-LF SHA-256 values. With 64 jobs per repetition on two lanes, median nanoseconds
 for submission/dispatch were:
 
-| Current implementation path | Submission, 64 jobs (ns) | Dispatch, 64 jobs (ns) |
-| --- | ---: | ---: |
-| Legacy global, old native arity | 156500 | 71400 |
-| Custom, no extras | 143900 | 81200 |
-| Custom, two integer extras | 216200 | 81300 |
-| Custom, 96-byte string | 465900 | 114300 |
+| Current implementation path     | Submission, 64 jobs (ns) | Dispatch, 64 jobs (ns) |
+| ------------------------------- | -----------------------: | ---------------------: |
+| Legacy global, old native arity |                   156500 |                  71400 |
+| Custom, no extras               |                   143900 |                  81200 |
+| Custom, two integer extras      |                   216200 |                  81300 |
+| Custom, 96-byte string          |                   465900 |                 114300 |
 
 Submission includes validation, copying and enqueue with concurrent workers; dispatch
 includes Engine polling and SDK-test-double allocation/recording. The double replaces the
@@ -203,7 +203,6 @@ before/after benchmark, real Pawn latency or production throughput evidence. Var
 prevents interpreting the no-extra submission difference as a speed improvement. No timing
 threshold is used. Installed packages omit test sources; use the repository raw-data link
 in the [API audit](api-modernization.md) when reading an installed guide.
-
 
 ## Pre-stable diagnostics measurements
 
@@ -224,11 +223,11 @@ causal submission-speed claims; lower observed values are not claimed as speedup
 
 Median microseconds per 64 jobs, **submission / dispatch including bounded drain**:
 
-| Callback | OFF | WARN | DEBUG | TRACE |
-| --- | ---: | ---: | ---: | ---: |
-| Legacy global | 354.5 / 68.0 | 152.7 / 73.1 | 95.6 / 261.9 | 121.1 / 256.2 |
-| Custom, no extras | 171.9 / 71.9 | 182.3 / 75.9 | 167.6 / 364.0 | 198.5 / 260.7 |
-| Custom, two integers | 226.4 / 75.5 | 216.8 / 84.8 | 154.0 / 276.7 | 206.5 / 246.2 |
+| Callback               |          OFF |          WARN |         DEBUG |         TRACE |
+| ---------------------- | -----------: | ------------: | ------------: | ------------: |
+| Legacy global          | 354.5 / 68.0 |  152.7 / 73.1 |  95.6 / 261.9 | 121.1 / 256.2 |
+| Custom, no extras      | 171.9 / 71.9 |  182.3 / 75.9 | 167.6 / 364.0 | 198.5 / 260.7 |
+| Custom, two integers   | 226.4 / 75.5 |  216.8 / 84.8 | 154.0 / 276.7 | 206.5 / 246.2 |
 | Custom, 96-byte string | 433.9 / 96.9 | 438.5 / 117.7 | 410.9 / 308.3 | 493.8 / 293.9 |
 
 These burst samples report zero drops at OFF/WARN, 128 per sample at DEBUG and 129 at

@@ -10,12 +10,12 @@ verification and stops the timer. Choose a measured, much slower cadence for a r
 
 ## Choose the unit of work
 
-| Strategy | Submission | SQL executions | Appropriate use |
-| --- | --- | --- | --- |
-| Individual | One bind/add/execute per account | One per job | Immediate independent save with its own context/result. |
-| Repeated snapshots | Bind/add in a loop, execute once | One per snapshot, FIFO on one lane | A bounded group using the same statement; each gets its own result. |
-| Set-based UNNEST | Build related arrays, bind/add once | One SQL statement updating many rows | Bulk statistics, with explicit input/affected-row validation. |
-| Heterogeneous batch | Transfer staged statements with `pg_batch_add` | One per flattened operation | Different SQL/parameter sets in a chosen order. |
+| Strategy            | Submission                                     | SQL executions                       | Appropriate use                                                     |
+| ------------------- | ---------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------- |
+| Individual          | One bind/add/execute per account               | One per job                          | Immediate independent save with its own context/result.             |
+| Repeated snapshots  | Bind/add in a loop, execute once               | One per snapshot, FIFO on one lane   | A bounded group using the same statement; each gets its own result. |
+| Set-based UNNEST    | Build related arrays, bind/add once            | One SQL statement updating many rows | Bulk statistics, with explicit input/affected-row validation.       |
+| Heterogeneous batch | Transfer staged statements with `pg_batch_add` | One per flattened operation          | Different SQL/parameter sets in a chosen order.                     |
 
 Twenty calls to `pg_add` create twenty immutable parameter snapshots, not twenty jobs or
 one UPDATE of twenty rows. Every successful add clears temporary bindings; bind all
