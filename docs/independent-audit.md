@@ -134,7 +134,7 @@ review of the new tooling, not a repeated runtime audit or public-release author
 The implementation task records the final committed identity and CI separately.
 
 - **R1, High/P1, corrected:** `release.yml` initially relied on `gh release create
-  --verify-tag --target` after an earlier tag check. For an existing tag the API ignores
+--verify-tag --target` after an earlier tag check. For an existing tag the API ignores
   target_commitish; an authorized operator moving the tag between jobs could attach
   commit A's packages to commit B's tag. The write job now remotely resolves lightweight
   and annotated tags immediately before draft creation and again before publication.
