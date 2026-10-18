@@ -44,6 +44,13 @@ parser.add_argument("--bootstrap-gamemode")
 parser.add_argument("--section-gamemode")
 parser.add_argument("--section-sql", help="accounts.sql from the source or extracted package")
 parser.add_argument(
+    "--tutorial-dir", help="Directory containing basic/values/saving/transfer AMX files"
+)
+parser.add_argument(
+    "--tutorial-prefix", default="", help="Optional packaged- prefix on tutorial AMX names"
+)
+parser.add_argument("--tutorial-sql-dir", help="Directory containing tutorial-select.sql")
+parser.add_argument(
     "--only-openmp",
     action="store_true",
     help="Use fresh PostgreSQL fixture and run only server smoke",
@@ -347,6 +354,46 @@ try:
                     raise ValueError("--section-gamemode requires --section-sql")
                 command.extend(("--sql-file", args.section_sql))
             run(command, env=env)
+        if args.tutorial_dir:
+            if not args.tutorial_sql_dir:
+                raise ValueError("--tutorial-dir requires --tutorial-sql-dir")
+            # Validate the operator-applied schema only in this newly created cluster.
+            # This does not exercise interactive players or the external hashing provider.
+            run(
+                [
+                    "psql",
+                    "service=omp_test",
+                    "-v",
+                    "ON_ERROR_STOP=1",
+                    "-f",
+                    str(Path(args.tutorial_sql_dir) / "tutorial-auth.sql"),
+                ],
+                env=env,
+            )
+            for tutorial in ("basic", "values", "saving", "transfer"):
+                command = [
+                    sys.executable,
+                    str(Path(__file__).with_name("run_openmp.py")),
+                    "--server",
+                    args.openmp_dir,
+                    "--component",
+                    args.component,
+                    "--gamemode",
+                    str(Path(args.tutorial_dir) / f"{args.tutorial_prefix}{tutorial}.amx"),
+                    "--gmx-rounds",
+                    "0",
+                    "--success-marker",
+                    f"PG {tutorial.upper()} PASS",
+                    "--failure-marker",
+                    f"PG {tutorial.upper()} FAILED",
+                ]
+                for dll in args.runtime:
+                    command.extend(("--runtime", dll))
+                if tutorial == "saving":
+                    command.extend(
+                        ("--sql-file", str(Path(args.tutorial_sql_dir) / "tutorial-select.sql"))
+                    )
+                run(command, env=env)
 finally:
     exception_in_flight = sys.exc_info()[0] is not None
     stop_monitor.set()

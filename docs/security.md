@@ -11,6 +11,11 @@ The component does not authenticate players or hash passwords. Use a separate cr
 library for gamemode authentication, preferably with Argon2id. Stored hashes are ordinary
 bound SQL data.
 
+The [interactive account tutorial](accounts.md) keeps that boundary explicit: its default
+password adapter denies authentication, and its optional bcrypt provider is external.
+Validate both player generation and request identity before applying asynchronous data;
+component VM ownership cannot distinguish successive players sharing one `playerid`.
+
 Parameters remain separate from SQL, with explicit OIDs and NULL values. No binder concatenates
 player values into SQL; arrays use parameter encoding rather than interpolated SQL syntax.
 There are no escaping functions. Text cannot contain NUL; hexadecimal BYTEA input preserves
@@ -35,6 +40,10 @@ global ordering across lanes or logical connections. Keep each entity on one lan
 optimistic concurrency (`WHERE version=$n`) or PostgreSQL locks. Pool size does not change
 during a connection's lifetime. Transactions retain a physical session and cannot migrate
 after reconnection.
+
+Tick dispatch visits connection changes, stream blocks and job completions in that order.
+FIFO does not imply a total order across those callback categories; chain dependent work
+from the required confirmation. A stream's provisional rows are not its final SQL outcome.
 
 Queries are never retried automatically, including SELECT. Only the transport reconnects,
 using progressive backoff. Affected pending jobs fail without dispatch; the running job may

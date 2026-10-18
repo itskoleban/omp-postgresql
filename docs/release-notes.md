@@ -14,7 +14,9 @@ separate authorized action and an exact successful CI run on the integrated comm
   complete-file lexical validation and coherent per-job captures.
 - Explicit job/item results, ownership by VM generation, cancellation, timeouts and
   reconnect without replaying writes with uncertain outcomes.
-- Six compiled/runnable examples and a complete [native reference](native-reference.md).
+- Eleven compiled examples, a progressive [learning path](examples.md) and a complete
+  [native reference](native-reference.md). Ten scenarios run unattended; the interactive
+  account tutorial requires separate password-provider/player qualification.
 
 ## Corrections and qualification
 

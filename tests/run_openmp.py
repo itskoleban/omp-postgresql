@@ -18,7 +18,9 @@ p.add_argument("--server", required=True)
 p.add_argument("--component", required=True)
 p.add_argument("--gamemode", required=True)
 p.add_argument("--runtime", action="append", default=[])
-p.add_argument("--sql-file", help="Trusted disposable accounts.sql fixture")
+p.add_argument(
+    "--sql-file", action="append", default=[], help="Trusted SQL fixture, copied by basename"
+)
 p.add_argument("--gmx-rounds", type=int, default=3)
 p.add_argument("--unload-script")
 p.add_argument("--success-marker", default="PG SMOKE PASS")
@@ -44,7 +46,11 @@ for dll in args.runtime:
 if args.sql_file:
     sql_root = root / "scriptfiles" / "sql"
     sql_root.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(args.sql_file, sql_root / "accounts.sql")
+    for filename in args.sql_file:
+        source = Path(filename)
+        if source.suffix != ".sql" or not source.is_file():
+            raise ValueError("SQL fixtures must be existing .sql files")
+        shutil.copy2(source, sql_root / source.name)
 exe = root / ("omp-server.exe" if os.name == "nt" else "omp-server")
 flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
 log_names = {
@@ -53,6 +59,10 @@ log_names = {
     "PG EXTENSION PASS": "pg-extension-output.log",
     "PG BOOTSTRAP PASS": "pg-bootstrap-output.log",
     "PG SECTION PASS": "pg-section-output.log",
+    "PG BASIC PASS": "pg-basic-output.log",
+    "PG VALUES PASS": "pg-values-output.log",
+    "PG SAVING PASS": "pg-saving-output.log",
+    "PG TRANSFER PASS": "pg-transfer-output.log",
 }
 log_path = root / log_names.get(args.success_marker, "pg-custom-output.log")
 with log_path.open("wb") as log:

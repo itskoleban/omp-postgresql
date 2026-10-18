@@ -216,7 +216,14 @@ def validate_payload(files, manifest):
             and platform == "windows"
             or re.fullmatch(r"docs/[a-z0-9-]+\.md", name)
             or re.fullmatch(r"examples/[a-z0-9-]+\.pwn", name)
-            or name == "examples/pg_service.conf"
+            or name
+            in {
+                "examples/pg_service.conf",
+                "examples/pg_hba.conf",
+                "examples/postgresql.sql",
+                "examples/sql/tutorial-select.sql",
+                "examples/sql/tutorial-auth.sql",
+            }
             or name in {"licenses/openssl/LICENSE", "licenses/libwinpthread/COPYING"}
         )
         if not allowed:

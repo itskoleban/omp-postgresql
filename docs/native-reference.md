@@ -209,7 +209,7 @@ native pg_prepare_section(connection, const filename[], const section[], paramet
 ```
 
 **Contract:** Prepare one named section through the same bind/add/execute path. Filename rules
-match prepare*file; `section` is case-sensitive ASCII `[A-Za-z*][A-Za-z0-9_]\*`, 1..64 bytes.
+match `pg_prepare_file`; `section` is case-sensitive ASCII `[A-Za-z_][A-Za-z0-9_]*`, 1..64 bytes.
 Worker validates the whole file, up to 1,024 sections, and captures named inputs before any
 operation in that job. One index per filename string per job; later jobs reload. Requires
 `standard_conforming_strings=on`. See [section grammar/errors/capture limits](sql-sections.md).
@@ -306,7 +306,7 @@ native bool:pg_bind_string_array(statement, index, const values[], count, width)
 ```
 
 **Contract:** TEXT[] from flat string slots at `values[i * width]`; count 0..16,384, width >=1,
-count\*width <=262,144 cells. Each slot needs termination within width. No per-element NULLs.
+`count * width <= 262144` cells. Each slot needs termination within width. No per-element NULLs.
 **Return/errors:** Binder rules; quoting/escaping and encoded parameter bytes also count.
 **Example:** `pg_bind_string_array(statement, 1, values, 3, 24);`
 
@@ -764,7 +764,7 @@ native pg_result_column_type(job, result, column);
 ```
 
 **Contract:** PostgreSQL column OID in a Pawn cell, not the binder's declared input type.
-SQL expressions/casts can change it; user-defined OIDs need not be one of the PG\_\* constants.
+SQL expressions/casts can change it; user-defined OIDs need not be one of the `PG_*` constants.
 **Return/errors:** OID, or 0 with local error for invalid/unavailable metadata/column/result.
 **Example:** `pg_result_column_type(job, 0, 0);`
 
@@ -890,6 +890,20 @@ forward OnPgComplete(job, context);
 forward OnPgRows(job, context);
 ```
 
+| Callback | Arguments and availability | Required lifecycle |
+| --- | --- | --- |
+| `OnPgConnection` | Owner's logical connection and an observed `PG_*` connection state. Changes between ticks can coalesce; the final DISCONNECTED handle is valid through this callback. | Submit only when the whole pool is CONNECTED. Close a failed pool explicitly if creating a replacement. |
+| `OnPgComplete` | Retained job handle and its copied context cell, after terminal publication and completion dispatch. `notify=false` suppresses it. | Inspect status/results before closing. Keep a successful BEGIN while its lane is reserved. A missing callback does not automatically release its job. |
+| `OnPgRows` | Stream job handle and copied context, when a pending block is available; it can repeat without another SQL dispatch. `notify=false` suppresses it too. | Select blocks with `pg_stream_next`, read result 0, release promptly, and inspect the final job separately. Do not close a running stream. |
+
+These callback return values are not interpreted as SQL acceptance, retry or cancellation.
+Callbacks are optional: polling must still consume streams and release dispatched jobs.
+Missing callback functions do not turn retained jobs into automatically freed resources.
+Within a tick, dispatch visits connection changes, available stream blocks, then completed
+jobs. A row callback can precede an earlier job's completion callback on that tick; FIFO
+describes worker execution/publication, not a total ordering between callback categories.
+Submit dependent work from its required confirmation rather than relying on callback phases.
+
 Callbacks execute on ticks in the owning VM only, never on workers. Connection transitions
 between ticks can coalesce. OnPgComplete is dispatched once for a retained notify=true job;
 another callback can close it first and suppress delivery. OnPgRows can repeat while a block
@@ -905,8 +919,8 @@ generation tokens in context before touching player state.
 | Account load, individual/bulk save, named-file reuse and transaction cleanup                           | [sections.pwn](../examples/sections.pwn) and [accounts.sql](../examples/sql/accounts.sql) |
 | Callback failure/suspension recovery and pending-query filterscript unload                             | [callbacks.pwn](../examples/callbacks.pwn) and [unload.pwn](../examples/unload.pwn)       |
 
-These complementary examples already cover the requested lifecycle. A seventh combined
-gamemode would duplicate fixture/state machines and make each contract harder to isolate;
-the guide uses this map rather than adding another example. Temporary tables in these tests
+The [learning path](examples.md) adds focused CRUD, scalar values, saving and transfer
+tutorials plus an interactive account example with an explicit external hashing prerequisite.
+Temporary tables in the unattended tests
 belong to one physical session; production tables belong in an operator-managed schema.
 Keep related temporary-table work on its lane; a pool does not share temporary tables.

@@ -6,6 +6,10 @@ and parameter values are always separate. The server validates formats and appli
 constraints during execution; successful binding alone does not prove a value is valid SQL
 input for its declared type.
 
+Run [values.pwn](../examples/values.pwn) for scalar binding and NULL/false/exact BIGINT
+reads, then [extensions.pwn](../examples/extensions.pwn) for nullable arrays and BYTEA.
+The [example catalogue](examples.md) lists fixture and cleanup requirements.
+
 ## Scalar values
 
 | PostgreSQL type       | Pawn binder                           | Representation and validation                                                                                           |

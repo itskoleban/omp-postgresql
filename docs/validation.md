@@ -4,6 +4,25 @@ The component is **0.1.0-rc.1 under qualification**. Passing the current suite i
 listed scenarios, not complete production qualification. Engine tests and real open.mp
 loading are recorded separately.
 
+## Documentation and tutorial expansion: October 18, 2026
+
+The [documentation audit](documentation-audit.md) identifies baseline `77527fd` and the
+scope of the new learning path. Local Windows x86 MSVC 19.51 / patched libpq 17.6 /
+disposable TLS PostgreSQL 17.11, seed 42: **15/15 CTest passed without skips in 68.54 s**.
+The original server scenarios and new basic/values/saving/transfer tutorials all passed in
+official open.mp 1.5.8.3079. All eleven examples compiled with Pawn 3.10.11 `-E`;
+the optional account-provider build also compiled with the pinned external include.
+The 46 Python methods passed, including documentation contract/link/compilation-discovery
+regressions and existing package/release safety checks. The final PR records exact branch
+and packaged/CI follow-up evidence separately; this local result is not a Linux run.
+
+Interactive account login, the provider binary, real-player disconnect/slot-reuse races,
+provider timeout and multi-script dispatch are **not runtime-qualified** by compilation or
+these unattended scenarios. The default account build denies authentication. Its schema
+fixture can be validated independently with psql in the disposable runner. Existing
+historical evidence below remains attached to its original revisions; it is not rewritten
+as validation of the expanded examples.
+
 ## Independent review corrections: October 18, 2026
 
 The owner integrated API review commit `962ee8a` and then formatting-only `master`
