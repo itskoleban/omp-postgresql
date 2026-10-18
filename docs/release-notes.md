@@ -12,11 +12,17 @@ separate authorized action and an exact successful CI run on the integrated comm
   executions, heterogeneous batches, transactions/savepoints and bounded streaming.
 - Worker-side SQL files and strict named sections, with confined paths, UTF-8 validation,
   complete-file lexical validation and coherent per-job captures.
+- Unified `pg_prepare_file(..., section)` keeps whole-file behavior and the old compiled
+  call; `pg_prepare_section` remains compatible through the same worker/creation path.
+- Optional custom completion handlers on all eleven job-submitting natives, with owned
+  bounded integer, Float, boolean and string arguments. Existing `OnPgComplete` remains
+  supported; streams retain `OnPgRows` and can customize final completion. See the
+  [callback contract and migration rules](callbacks.md).
 - Explicit job/item results, ownership by VM generation, cancellation, timeouts and
   reconnect without replaying writes with uncertain outcomes.
-- Eleven compiled examples, a progressive [learning path](examples.md) and a complete
+- Twelve compiled examples, a progressive [learning path](examples.md) and a complete
   [native reference](native-reference.md). Ten scenarios run unattended; the interactive
-  account tutorial requires separate password-provider/player qualification.
+  account and custom gameplay tutorials require separate player/provider qualification.
 
 ## Corrections and qualification
 
@@ -26,6 +32,8 @@ COMMIT and reject ignored, untracked installation assets before package staging.
 Windows packages also include the reviewed downstream libpq mutex correction and its
 source patch/build record. No confirmed critical or High finding remains open in that
 audit; its unproven observations and coverage limits remain explicit.
+That independent audit predates the callback modernization; its internal review and
+current test evidence are recorded in the [API audit](api-modernization.md).
 
 The CI matrix requires Engine/native/database tests, Clang 19 TSan, ASan/UBSan, Pawn
 compilation with warnings as errors, repeated identical package assembly, dependency

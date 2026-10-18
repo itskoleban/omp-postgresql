@@ -48,7 +48,7 @@ open.mp server, clear development DLL/loader search paths, and rerun all server 
 using the extracted component and runtime. Only successfully tested ZIPs are uploaded.
 Documentation checks also compare all native/callback declarations with the extracted
 include, resolve relative Markdown targets/headings, and verify the example/SQL catalogue.
-The example compiler discovers all eleven `.pwn` files. The four new unattended tutorials
+The example compiler discovers all twelve `.pwn` files. The four unattended tutorials
 run alongside the original six scenarios. The interactive account mode compiles with
 authentication disabled unless its external provider is installed and explicitly enabled.
 Logs are retained even when a test fails; a failed package is not a release artifact.

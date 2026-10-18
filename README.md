@@ -123,7 +123,7 @@ the results, and keeps players gated until initialization succeeds. The callback
 gamemodes cover VM lifecycle regressions. [sections.pwn](examples/sections.pwn) uses
 [accounts.sql](examples/sql/accounts.sql) for asynchronous account loading, individual/bulk
 saves and statement reuse; see the [section format and capture rules](docs/sql-sections.md).
-All eleven examples are compiled with warnings treated as errors in CI, including from
+All twelve examples are compiled with warnings treated as errors in CI, including from
 the extracted x86 packages. Basic CRUD, scalar values, saving strategies and a guarded bank
 transfer complement the original six unattended server scenarios. The interactive
 [account tutorial](docs/accounts.md) has an optional external hashing provider and is
