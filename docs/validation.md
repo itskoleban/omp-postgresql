@@ -819,3 +819,10 @@ filesystem call can delay shutdown join; no hard wall-time shutdown bound. This 
 operational limitation requires owner review before deployment/RC. Finite passes do not
 establish absence of bugs or production readiness. Final distribution/source identities must
 come from the exact final CI preview, not cached local CMake package metadata.
+
+The7512396 CI ThreadSanitizer job failed the file fixture's single-event delivery assertion,
+without a sanitizer diagnostic: a try-lock handoff may legitimately drop an event during
+writer configuration. The corrected fixture retries only after a counted loss, preserves
+exact normal-event/console/drop accounting and still times out on undelivered accepted
+writes. Independent fixture review and the updated Windows diagnostics passed; TSan must
+be rerun on the corrected revision. Runtime C++ is unchanged by this test-only correction.

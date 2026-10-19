@@ -41,6 +41,42 @@ void eventually(F predicate, std::source_location where = std::source_location::
 	}
 }
 
+// A try-lock handoff may drop even a single event while the writer changes control state.
+// Retry only after an observed loss, never just because an accepted write is delayed.
+template <class F>
+std::size_t written(pg::Diagnostics &logger, Output &out, F observed,
+                    pg::LogRecord record = {pg::LogEvent::worker_failed},
+                    std::source_location where = std::source_location::current()) {
+	auto drops = logger.dropped();
+	std::size_t attempts = 1;
+	logger.emit(record);
+	flush(logger, out);
+	eventually(
+	    [&] {
+		    if (observed()) {
+			    return true;
+		    }
+		    if (logger.dropped() != drops) {
+			    drops = logger.dropped();
+			    ++attempts;
+			    logger.emit(record);
+			    flush(logger, out);
+		    }
+		    return false;
+	    },
+	    where);
+	return attempts;
+}
+
+std::size_t events(std::string_view text) {
+	std::size_t count = 0, start = 0;
+	while ((start = text.find("worker_failed", start)) != text.npos) {
+		++count;
+		start += 13;
+	}
+	return count;
+}
+
 void files() {
 	struct Fixture {
 		std::filesystem::path base =
@@ -87,17 +123,20 @@ void files() {
 			logger.configure(static_cast<pg::LogLevel>(level), destination,
 			                 destination == pg::LogDestination::console ? "" : "./logs/" + name);
 			output.lines.clear();
-			logger.emit({pg::LogEvent::worker_failed});
-			flush(logger, output);
-			check(output.lines.size() ==
-			      (level && destination != pg::LogDestination::file ? 1 : 0));
 			if (level && destination != pg::LogDestination::console) {
-				eventually([&] {
-					return contents(base / "logs" / name).find("worker_failed") !=
-					       std::string::npos;
+				auto attempts = written(logger, output, [&] {
+					return events(contents(base / "logs" / name)) == 1;
 				});
-				check(logger.sink_failures() == 0 && logger.dropped() == 0);
+				check(logger.sink_failures() == 0 && logger.dropped() == attempts - 1);
+				auto ordinary =
+				    std::count_if(output.lines.begin(), output.lines.end(), [](const auto &line) {
+					    return line.find("worker_failed") != line.npos;
+				    });
+				check(ordinary == (destination == pg::LogDestination::both ? attempts : 0));
 			} else {
+				logger.emit({pg::LogEvent::worker_failed});
+				flush(logger, output);
+				check(output.lines.size() == (level ? 1 : 0));
 				check(!std::filesystem::exists(base / "logs" / name));
 			}
 		}
@@ -112,11 +151,12 @@ void files() {
 		secret.callback->arguments.emplace_back("secret_callback");
 		pg::Diagnostics logger(pg::LogLevel::trace, base);
 		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/privacy.log");
-		logger.emit(pg::job_record(pg::LogEvent::worker_failed, secret));
-		flush(logger, output);
-		eventually([&] {
-			return contents(base / "logs/privacy.log").find("worker_failed") != std::string::npos;
-		});
+		written(
+		    logger, output,
+		    [&] {
+			    return events(contents(base / "logs/privacy.log")) == 1;
+		    },
+		    pg::job_record(pg::LogEvent::worker_failed, secret));
 		auto text = contents(base / "logs/privacy.log");
 		check(text.find("secret_") == text.npos && text.find("FORGED") == text.npos &&
 		      text.find("SELECT") == text.npos);
@@ -124,17 +164,16 @@ void files() {
 	for (int restart = 0; restart < 2; ++restart) {
 		pg::Diagnostics logger(pg::LogLevel::warn, base);
 		logger.configure(pg::LogLevel::debug, pg::LogDestination::file);
-		auto previous = contents(default_path).size();
-		logger.emit({pg::LogEvent::worker_failed});
+		auto previous = contents(default_path);
 		output.lines.clear();
-		flush(logger, output);
-		eventually([&] {
-			return contents(default_path).size() > previous;
+		written(logger, output, [&] {
+			return events(contents(default_path)) > events(previous);
 		});
+		check(contents(default_path).starts_with(previous));
 		check(output.lines.empty());
 	}
 	auto appended = contents(default_path);
-	check(std::count(appended.begin(), appended.end(), '\n') == 2);
+	check(events(appended) == 2);
 	check(appended.find("Z [omp-pg][ERROR]") != std::string::npos);
 	{
 		pg::Diagnostics logger(pg::LogLevel::trace, base);
@@ -160,9 +199,7 @@ void files() {
 		initial.close();
 		pg::Diagnostics logger(pg::LogLevel::trace, base);
 		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/rotate.log");
-		logger.emit({pg::LogEvent::worker_failed});
-		flush(logger, output);
-		eventually([&] {
+		written(logger, output, [&] {
 			// Don't open a Windows reader without FILE_SHARE_DELETE while rotation is pending.
 			return std::filesystem::exists(base / "logs/rotate.log.1") &&
 			       contents(base / "logs/rotate.log").find("worker_failed") != std::string::npos;
@@ -195,10 +232,8 @@ void files() {
 		}
 		check(logger.dropped() == 1); // Synthetic reports must never cause more drops.
 		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/recovered.log");
-		logger.emit({pg::LogEvent::worker_failed});
-		flush(logger, output);
-		eventually([&] {
-			return contents(base / "logs/recovered.log").find("worker_failed") != std::string::npos;
+		written(logger, output, [&] {
+			return events(contents(base / "logs/recovered.log")) == 1;
 		});
 	}
 	{
@@ -253,18 +288,14 @@ void files() {
 	{
 		pg::Diagnostics logger(pg::LogLevel::trace, base);
 		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/grown.log");
-		logger.emit({pg::LogEvent::worker_failed});
-		flush(logger, output);
-		eventually([&] {
-			return contents(base / "logs/grown.log").find("worker_failed") != std::string::npos;
+		written(logger, output, [&] {
+			return events(contents(base / "logs/grown.log")) == 1;
 		});
 		std::ofstream grow(base / "logs/grown.log", std::ios::binary | std::ios::app);
 		grow << std::string(pg::LogFileWriter::file_limit, 'x');
 		grow.close();
 		auto size = std::filesystem::file_size(base / "logs/grown.log");
-		logger.emit({pg::LogEvent::worker_failed});
-		flush(logger, output);
-		eventually([&] {
+		written(logger, output, [&] {
 			return logger.sink_failures() == 1;
 		});
 		check(std::filesystem::file_size(base / "logs/grown.log") == size);
@@ -280,15 +311,11 @@ void files() {
 	{
 		pg::Diagnostics logger(pg::LogLevel::trace, base);
 		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/deleted.log");
-		logger.emit({pg::LogEvent::worker_failed});
-		flush(logger, output);
-		eventually([&] {
-			return contents(base / "logs/deleted.log").find("worker_failed") != std::string::npos;
+		written(logger, output, [&] {
+			return events(contents(base / "logs/deleted.log")) == 1;
 		});
 		std::filesystem::remove(base / "logs/deleted.log");
-		logger.emit({pg::LogEvent::worker_failed});
-		flush(logger, output);
-		eventually([&] {
+		written(logger, output, [&] {
 			return logger.sink_failures() == 1;
 		});
 		check(!std::filesystem::exists(base / "logs/deleted.log"));
@@ -317,7 +344,10 @@ void files() {
 			}
 		} release{gate};
 		writer.configure("injected.log");
-		writer.enqueue({pg::LogEvent::worker_failed});
+		eventually([&] {
+			return writer.enqueue({pg::LogEvent::worker_failed});
+		});
+		const auto initial_drops = writer.dropped();
 		eventually([&] {
 			return gate.entered.load();
 		});
@@ -330,14 +360,21 @@ void files() {
 		eventually([&] {
 			return writer.failures() == 1;
 		});
-		check(writer.dropped() == 1001);
+		check(writer.dropped() == initial_drops + 1001);
 	}
 	{
 		pg::LogFileWriter writer(base, [](void *) -> bool {
 			throw std::runtime_error("injected failure");
 		});
 		writer.configure("thread-failure.log");
-		writer.enqueue({pg::LogEvent::worker_failed});
+		std::uint64_t initial_drops = 0;
+		eventually([&] {
+			if (writer.enqueue({pg::LogEvent::worker_failed})) {
+				return true;
+			}
+			++initial_drops;
+			return false;
+		});
 		eventually([&] {
 			return writer.failures() == 1;
 		});
@@ -349,7 +386,7 @@ void files() {
 			}
 			return false;
 		});
-		check(writer.dropped() == 1);
+		check(writer.dropped() == initial_drops + 1);
 		writer.configure("");
 	}
 	{
