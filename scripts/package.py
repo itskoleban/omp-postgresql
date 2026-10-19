@@ -181,6 +181,8 @@ def validate_payload(files, manifest):
         "docs/validation.md",
         "docs/packaging.md",
         "docs/debugging.md",
+        "docs/log-output-design.md",
+        "examples/logging.pwn",
         "docs/prestable-cleanup.md",
         "examples/sql/accounts.sql",
         "licenses/libpq/COPYRIGHT",

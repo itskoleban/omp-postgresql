@@ -60,3 +60,18 @@ Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for n
 The removed `pg_prepare_section` requires source migration and AMX recompilation; other
 leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
 and [internal diagnostics](debugging.md).
+
+## Log destination or section failures
+
+`pg_log_config` false: read `pg_last_error`; the previous setting remains active. True with
+a later `sink_failures` console summary: check server `logs` permissions, link/reparse status,
+regular-file type, file size and available disk space. No supplied path or OS text is echoed.
+Correct the destination and call the native again; writer-thread exceptions require restart.
+Windows log readers must permit delete sharing for rotation. Do not externally rotate or
+append to the component-owned files. See [logging](debugging.md).
+
+For a file/section job failure, read `pg_job_error`, `pg_job_message`, `pg_job_error_index`,
+then release the completed job. Follow original byte-column locations, declaration names
+and duplicate first-line hints; missing names have no invented line. `--name:x` is valid;
+`-- name : x` is malformed. Local invalid arguments remain `pg_last_error`; actual server
+errors remain `pg_result_sqlstate` / `pg_result_message`. See [sections](sql-sections.md).

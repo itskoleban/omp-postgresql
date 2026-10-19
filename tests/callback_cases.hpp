@@ -280,8 +280,14 @@ void callback_integration(const char *profile) {
 }
 
 void callback_benchmark(const char *profile, pg::LogLevel level = pg::LogLevel::warn,
-                        bool logging = false) {
+                        bool logging = false,
+                        pg::LogDestination destination = pg::LogDestination::console) {
 	Harness h(level);
+	if (logging) {
+		h.component.engine.diagnostics().configure(
+		    level, destination,
+		    destination == pg::LogDestination::console ? "" : "logs/benchmark.log");
+	}
 	std::uint64_t log_bytes = 0;
 	auto sink = [](void *p, std::string_view line) {
 		*static_cast<std::uint64_t *>(p) += line.size();
@@ -356,7 +362,8 @@ void callback_benchmark(const char *profile, pg::LogLevel level = pg::LogLevel::
 				    << '\n';
 				if (logging) {
 					std::cout << "logging_benchmark," << static_cast<int>(level) << ','
-					          << names[mode] << ',' << repetition << ",64,"
+					          << static_cast<int>(destination) << ',' << names[mode] << ','
+					          << repetition << ",64,"
 					          << std::chrono::duration_cast<std::chrono::nanoseconds>(submitted -
 					                                                                  start)
 					                 .count()
@@ -374,11 +381,15 @@ void callback_benchmark(const char *profile, pg::LogLevel level = pg::LogLevel::
 }
 
 void logging_benchmark(const char *profile) {
-	std::cout << "logging_benchmark,level,mode,repetition,jobs,submission_ns,dispatch_with_drain_"
+	std::cout << "logging_benchmark,level,destination,mode,repetition,jobs,submission_ns,dispatch_"
+	             "with_drain_"
 	             "ns,dropped,output_bytes\n";
 	for (auto level :
 	     {pg::LogLevel::off, pg::LogLevel::warn, pg::LogLevel::debug, pg::LogLevel::trace}) {
-		callback_benchmark(profile, level, true);
+		for (auto destination :
+		     {pg::LogDestination::console, pg::LogDestination::file, pg::LogDestination::both}) {
+			callback_benchmark(profile, level, true, destination);
+		}
 	}
 }
 
@@ -432,6 +443,15 @@ void diagnostics_integration(const char *profile) {
 	      "Acceptance logged after worker handoff");
 	engine.close_job(h.owner(), id);
 	// Output failures must leave the original SQL error inspectable and the lane usable.
+	const auto broken =
+	    "sink-failure-" + std::to_string(pg::Clock::now().time_since_epoch().count()) + ".log";
+	std::filesystem::create_directories("logs");
+	std::filesystem::create_directory(std::filesystem::path("logs") / broken);
+	engine.diagnostics().configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/" + broken);
+	while (engine.diagnostics().sink_failures() == 0) {
+		check(pg::Clock::now() < deadline, "File failure reporting timeout");
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
 	auto failed = engine.query(h.owner(), connection, "SELECT 1/0", 0, 0, 0, false);
 	auto j = engine.job(h.owner(), failed);
 	while (!pg::terminal(j->status.load())) {
@@ -449,5 +469,7 @@ void diagnostics_integration(const char *profile) {
 	          j->results[0].sqlstate == "22012" && engine.diagnostics().sink_failures() > 0,
 	      "Sink masked SQL diagnostics");
 	engine.close_job(h.owner(), failed);
+	engine.diagnostics().configure(pg::LogLevel::trace, pg::LogDestination::console);
+	std::filesystem::remove(std::filesystem::path("logs") / broken);
 	h.component.onAmxUnload(h.vm);
 }

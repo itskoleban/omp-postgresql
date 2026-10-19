@@ -48,3 +48,12 @@ and confirmed corrections are recorded in [the audit report](independent-audit.m
 Publication still requires exact-candidate qualification and owner approval. See
 [current readiness](rc-readiness.md) for the evidence and remaining gates, and
 [getting started](getting-started.md) for service configuration and your first CRUD example.
+
+## Optional diagnostic file output
+
+Default remains WARN to the open.mp console; configure startup `OMP_PG_LOG_LEVEL` before
+launch. A later valid `pg_log_config` can select console/default file/custom file/both/OFF.
+The server working directory must allow the writer to create `logs` (or pre-create it with
+restricted ACLs). Use only `[./]logs/<basename>.log`; never share these files with another
+writer or deploy private data as `.log.1`. The archive intentionally excludes runtime logs.
+See [operator details](debugging.md) and the [compile-checked example](../examples/logging.pwn).

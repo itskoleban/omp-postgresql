@@ -38,3 +38,11 @@ Candidate remains a testing release without a production suitability guarantee.
 Scope excludes COPY, LISTEN/NOTIFY reception, Engine pipeline integration, automatic lane
 selection, ORM/query builders, migration management, application caches and global SQL
 caches. These do not block qualification of the documented sequential Engine.
+
+## New logging/source-diagnostic branch
+
+The `codex/configurable-diagnostics` feature branch changes C++ lifetime/file handling and
+the public inventory to 69 natives. All older evidence above retains its original source
+identity; it does not qualify this branch. No merge/tag/RC publication is authorized by this
+work. Exact branch qualification and remaining limits are recorded in [validation](validation.md).
+OS calls on stalled storage can delay safe writer join; no hard shutdown bound is claimed.

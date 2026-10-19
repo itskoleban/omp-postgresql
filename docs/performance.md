@@ -240,3 +240,15 @@ but supplies no per-job/tick percentile or allocation/RSS/CPU profile. The logge
 measured 20,584 bytes on this x86 build, with 80-byte records; disabled mode retains that
 fixed storage. Concurrent-flood, sink-failure/reentry and repeated lifetime tests establish
 finite behavior, not the absence of bugs or a hard bound on overall process memory.
+
+## Configurable-output measurements
+
+The current `logging_integration` extends the existing SDK-double/real-PostgreSQL callback
+workload across OFF/WARN/DEBUG/TRACE and console/file/both. Console is a counting sink;
+file destinations use the actual filesystem and an asynchronous writer. Submission and
+dispatch-with-drain times do not include file durability or complete writer drainage.
+Drop counters are sampled while asynchronous work may remain; per-burst deltas are not
+per-record delivery guarantees. No actual Pawn/tick latency, fsync, slow-device percentile
+or CPU/RSS comparison is implied by these samples. Historical tables above keep their
+old source identities and cannot qualify the new writer. New exact-source results belong
+in the feature validation record.

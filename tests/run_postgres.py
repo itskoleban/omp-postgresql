@@ -42,6 +42,7 @@ parser.add_argument("--callback-gamemode")
 parser.add_argument("--extension-gamemode")
 parser.add_argument("--bootstrap-gamemode")
 parser.add_argument("--section-gamemode")
+parser.add_argument("--logging-gamemode")
 parser.add_argument("--section-sql", help="accounts.sql from the source or extracted package")
 parser.add_argument(
     "--tutorial-dir", help="Directory containing basic/values/saving/transfer AMX files"
@@ -328,6 +329,7 @@ try:
             (args.extension_gamemode, "EXTENSION"),
             (args.bootstrap_gamemode, "BOOTSTRAP"),
             (args.section_gamemode, "SECTION"),
+            (args.logging_gamemode, "LOGGING"),
         ):
             if not gamemode:
                 continue
@@ -349,7 +351,7 @@ try:
             ]
             for dll in args.runtime:
                 command.extend(("--runtime", dll))
-            if marker == "SECTION":
+            if marker in ("SECTION", "LOGGING"):
                 if not args.section_sql:
                     raise ValueError("--section-gamemode requires --section-sql")
                 command.extend(("--sql-file", args.section_sql))

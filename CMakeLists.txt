@@ -50,6 +50,7 @@ add_library(
     pg_core STATIC
     src/config.cpp
     src/diagnostics.cpp
+    src/log_file.cpp
     src/parameters.cpp
     src/statement.cpp
     src/sql_sections.cpp

@@ -41,6 +41,8 @@ def payload():
             "docs/validation.md",
             "docs/packaging.md",
             "docs/debugging.md",
+            "docs/log-output-design.md",
+            "examples/logging.pwn",
             "docs/prestable-cleanup.md",
             "examples/sql/accounts.sql",
             "qawno/include/omp-postgresql.inc",
@@ -97,7 +99,12 @@ class PackageTests(unittest.TestCase):
         package.validate_payload(self.files, self.manifest)
 
     def test_diagnostics_and_migration_guides_are_required(self):
-        for name in ("docs/debugging.md", "docs/prestable-cleanup.md"):
+        for name in (
+            "docs/debugging.md",
+            "docs/log-output-design.md",
+            "examples/logging.pwn",
+            "docs/prestable-cleanup.md",
+        ):
             with self.subTest(name=name):
                 files = dict(self.files)
                 files.pop(name)

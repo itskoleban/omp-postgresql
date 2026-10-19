@@ -129,7 +129,7 @@ transfer complement the original six unattended server scenarios. The interactiv
 [account tutorial](docs/accounts.md) has an optional external hashing provider and is
 explicitly separate from unattended runtime qualification.
 
-See the [API execution guide](docs/api.md), [68-native reference](docs/native-reference.md),
+See the [API execution guide](docs/api.md), [69-native reference](docs/native-reference.md),
 [architecture and reference analysis](docs/design.md),
 [security and concurrency guide](docs/security.md), and [tests and limitations](docs/validation.md).
 Original project code is licensed under [MIT](LICENSE); dependencies retain their notices.
@@ -201,4 +201,5 @@ See [cleanup and migration](docs/prestable-cleanup.md). Read the
 before migrating; include and component versions must match.
 
 Internal diagnostics: [logging setup, levels and bounds](docs/debugging.md). Default WARN;
-`OMP_PG_LOG_LEVEL=OFF` disables additional logs. Restart after changing it.
+`OMP_PG_LOG_LEVEL=OFF` disables startup logs. Optional `pg_log_config` selects console,
+file or both at runtime; see the guide for bounded delivery and permitted paths.

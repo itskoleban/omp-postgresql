@@ -59,6 +59,7 @@ log_names = {
     "PG EXTENSION PASS": "pg-extension-output.log",
     "PG BOOTSTRAP PASS": "pg-bootstrap-output.log",
     "PG SECTION PASS": "pg-section-output.log",
+    "PG LOGGING PASS": "pg-logging-output.log",
     "PG BASIC PASS": "pg-basic-output.log",
     "PG VALUES PASS": "pg-values-output.log",
     "PG SAVING PASS": "pg-saving-output.log",
@@ -127,3 +128,14 @@ if not passed:
     raise SystemExit("open.mp smoke did not pass")
 if proc.returncode != 0:
     raise SystemExit(f"open.mp did not shut down cleanly (exit {proc.returncode})")
+if args.success_marker == "PG LOGGING PASS":
+    destination = root / "logs" / "postgresql.log"
+    output = destination.read_text(encoding="utf8")
+    if "Z [omp-pg][" not in output or "job_terminal" not in output:
+        raise SystemExit("Component-owned log did not contain timestamped numeric events")
+    if any(
+        secret in output
+        for secret in ("load_acount", "accounts.sql", "ReportParser", "SELECT", "password")
+    ):
+        raise SystemExit("Component-owned log leaked private source/callback content")
+    print("Component-owned timestamped log/privacy check passed")
