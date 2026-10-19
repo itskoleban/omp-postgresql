@@ -1,6 +1,10 @@
 # Release Candidate readiness
 
 Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
+The [integrated master verification](prestable-cleanup.md#integrated-master-verification-october-19-2026-utc)
+qualifies `6b4e732` with 68 natives and three forwards, including downloaded x86 packages.
+Interactive/provider, extended-soak and real Pawn/tick performance limits remain explicit;
+owner authorization is still required before RC publication.
 Earlier revision-specific records below remain historical.
 
 Recovered October 18, 2026: remote/local master

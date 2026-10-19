@@ -63,7 +63,7 @@ such a table but deliberately omits production schema management.
   checks. Its external password provider remains optional and authentication still fails closed.
 - [Callbacks](../examples/callbacks.pwn) now tests custom scalar/string/no-argument handlers,
   failures, VM frame restoration and all eleven asynchronous natives, including stream completion.
-- [Sections](../examples/sections.pwn) uses the unified file API and retains a compatibility call.
+- [Sections](../examples/sections.pwn) selects named sections through `pg_prepare_file`.
   Basic, saving, transfer and extension examples continue demonstrating `OnPgComplete`.
 
 Use the [callback contract](callbacks.md) and [API audit](api-modernization.md) for migration.

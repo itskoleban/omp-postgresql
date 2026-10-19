@@ -174,11 +174,71 @@ parent's complete 47-test run passed outside that sandbox. No reviewer DB/build 
 
 ## Remaining release gates
 
-Final branch CI/packages/sanitizers must be inspected with actual artifacts on the exact
-preview source. A successful PR preview does not qualify a future integrated master commit.
-Owner review and explicit authorization precede merge/tag/RC publication. Interactive
+The integrated-source verification below supersedes the earlier pending CI/package gate
+for its exact commit. Any later candidate requires qualification of its own source and
+packages. Explicit owner authorization is still required for tag/RC publication. Interactive
 player/provider flows, fully instrumented dependencies, hours-long fault/soak, real Pawn
 interpreter/tick comparative latency, CPU/RSS profiles and slow real output-device performance
 remain unqualified. Synthetic bounded sinks establish progress/storage behavior, not an
 upper bound on the time taken by an arbitrary server output sink. No production/stable
 readiness claim follows from this finite qualification.
+
+## Integrated master verification: October 19, 2026 UTC
+
+The owner merged [PR #17](https://github.com/itskoleban/omp-postgresql/pull/17) at
+2026-10-18 21:30:36 UTC into `38c3ea8ae27479633a30e1addb00eb2253dc8ae1`.
+The inspected default branch is now `6b4e732aa59ffc1106b738286205c2fbd957e373`, after
+a documentation-formatting commit. Runtime sources, headers, tests, Pawn examples,
+build/CI and packaging code match feature HEAD `f2a40e4094b9635a73fb55eda4356dcc5a72d123`.
+The working tree was clean at inspection. No feature was reimplemented or removed again.
+
+[Integrated master CI 39168713826](https://github.com/itskoleban/omp-postgresql/actions/runs/39168713826)
+completed all seven jobs successfully on **6b4e732**, rather than a PR preview:
+
+| Configuration | Executed CTest cases | Result |
+| --- | --- | --- |
+| Windows x86 MSVC/open.mp | 17 | All passed, zero skips/failures |
+| Linux x86/open.mp | 15 | All passed, zero skips/failures |
+| Linux x64, sanitizers OFF | 15 | All passed, zero skips/failures |
+| Linux x64, ASan/UBSan | 15 | All passed, zero skips/failures |
+| Linux x64, ThreadSanitizer | 15 | All passed, zero skips/failures |
+| Windows x64 | 15 | All passed, zero skips/failures |
+
+Actual downloaded JUnit and job logs were inspected. The six core suites total 92 executed
+cases; additional configured Engine-only suites passed separately. Sanitizer logs contain
+no reported diagnostics; dependencies are not fully instrumented. Both official open.mp
+1.5.8.3079 x86 platforms compiled all 12 examples with warnings as errors from source and
+from extracted packages, then ran the unattended server scenarios, pending-VM unload and
+reload checks. Windows package metadata records MSVC 19.51.36260.0; Linux records GCC
+13.3.0; both use Release x86 and libpq 17.11. These are CI environments, not local runs.
+
+Three payload artifacts, six test-log artifacts and seven job logs were downloaded.
+All artifact SHA-256 digests, package manifests, original bundled package bytes, all seven
+ledger assets, 11 generated source links and the 132-entry source ZIP were checked against
+the exact Git tree. Both package manifests and source ZIP comment identify **6b4e732**.
+
+| Inner archive | SHA-256 |
+| --- | --- |
+| Linux x86 | `f2b8046bc6d6ce1dd7696b64aa881dc60b97ba6b97fb27086a4e5105c05b4d90` |
+| Windows x86 | `ad737c17f724bda8658b5d366cc4ac53978a0bb225aebf3c9bc3d409da9d3fea` |
+| Source ZIP | `d525255bfb4836d90082b7751030dc7a2987e21b2f077133194b03731fe6bc4a` |
+
+A fresh local Windows Python run before these documentation edits, on clean 6b4e732,
+passed all **47 tests**, 15.194 seconds;
+the documentation checker confirmed **68 natives/three forwards**. An initial sandboxed
+run had five local-socket permission errors; those are not passes. The complete rerun
+with local-socket access passed. No new local C++ build or performance measurement is claimed.
+The earlier measured logging/callback costs retain their original source and platform identity.
+
+A new independent read-only agent reviewed integrated logger lifetime/concurrency/privacy,
+callback ownership/frame restoration, VM generations and per-job SQL capture. It found
+no confirmed material code defect in that scope and two minor documentation errors:
+the section tutorial was described as retaining a compatibility call and exercising
+whole-file selection. Both descriptions are corrected in the follow-up documentation
+change; those corrections are not present in the qualified 6b4e732 archives above.
+The reviewer ran no runtime tests. This is not a new Astra audit or proof of bug absence.
+
+Implementation is now owner-integrated and its exact master packages are verified.
+The follow-up documentation branch requires its own CI; its results must not be attributed
+to 6b4e732. No tag or Release was created by this verification. The pre-existing October 15
+experimental release remains separate from RC preparation and publication authorization.

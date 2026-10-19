@@ -129,4 +129,5 @@ Its final section defaults to `""`, preserving whole-file execution. The old fou
 compiled `pg_prepare_file` call remains valid. `pg_prepare_section` has been removed;
 migrate to the unified form and recompile affected AMX files (see [migration](prestable-cleanup.md)). A requested section never falls back to whole-file SQL.
 The grammar, file capture, errors, UTF-8/path limits and worker behavior described above
-apply unchanged. The [section example](../examples/sections.pwn) exercises whole-file and named selection through the unified interface.
+apply unchanged. The [section example](../examples/sections.pwn) exercises named selection
+through the unified interface. Whole-file selection is covered by the C++ and native tests.
