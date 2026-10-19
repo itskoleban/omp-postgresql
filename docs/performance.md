@@ -247,8 +247,37 @@ The current `logging_integration` extends the existing SDK-double/real-PostgreSQ
 workload across OFF/WARN/DEBUG/TRACE and console/file/both. Console is a counting sink;
 file destinations use the actual filesystem and an asynchronous writer. Submission and
 dispatch-with-drain times do not include file durability or complete writer drainage.
-Drop counters are sampled while asynchronous work may remain; per-burst deltas are not
+`output_bytes` counts only console-sink bytes (zero for file-only). The workload does not
+assert sink health or complete writer drainage, so the CSV alone does not certify all file
+delivery. Drop counters are sampled while asynchronous work may remain; per-burst deltas are not
 per-record delivery guarantees. No actual Pawn/tick latency, fsync, slow-device percentile
 or CPU/RSS comparison is implied by these samples. Historical tables above keep their
 old source identities and cannot qualify the new writer. New exact-source results belong
 in the feature validation record.
+
+### Windows x86 feature workload (daef1fd)
+
+Measured on Windows 11 10.0.26300, Intel Core i5-13420H, MSVC 19.51 Release x86,
+project-patched libpq 17.6, disposable TLS PostgreSQL 17.11. Source
+`daef1fd79c8efe0de75d1b385e37ea6df09019d7`; [336 raw samples and source hashes](https://github.com/itskoleban/omp-postgresql/blob/bdab465907cc44c9b20d62802d2358c2fcd504e2/tests/benchmarks/windows-x86-log-outputs.csv).
+Four callback forms, seven measured repetitions following warmup; each sample submits
+64 jobs across two lanes. Table shows custom0 median submission/dispatch-with-drain **microseconds**:
+
+| Level | Console counting sink | Actual async file | Both |
+| --- | ---: | ---: | ---: |
+| OFF | 254.7 / 92.6 | 172.6 / 114.2 | 189.5 / 133.6 |
+| WARN | 183.1 / 134.4 | 184.4 / 145.4 | 195.7 / 77.5 |
+| DEBUG | 267.0 / 317.9 | 403.6 / 159.3 | 239.7 / 306.7 |
+| TRACE | 224.7 / 284.0 | 248.5 / 152.3 | 499.2 / 400.4 |
+
+OFF/WARN sampled zero drops. Custom0 DEBUG drop deltas were 128 console, 128..129
+file/both; TRACE 129 console, 129..161 file, 129..130 both. Finite rings intentionally lose
+records under this burst. Async counter deltas can include completion of preceding writes.
+
+Across seven custom0 dispatch samples, sample p95 equals the maximum: console/file/both
+OFF 238.3/270.9/173.1 us, WARN 183.1/220.8/139.1 us, DEBUG 377.6/295.0/3515.1 us,
+TRACE 5581.5/511.6/1938.0 us. These are batch/sample tails, **not individual job latency**.
+Shared CPU, fixed level/destination ordering, asynchronous overlap and small samples prevent
+causal speedup claims. No real-console, Pawn interpreter, fsync/persistence, CPU/RSS or
+slow-device tail bound was measured. The subsequent4971884 Windows ABI-initialization fix
+has separate CI; this table keeps its actual measured source identity.
