@@ -1,5 +1,10 @@
 # Performance and reproducible benchmarks
 
+The [real Pawn and filesystem-fault qualification](logging-qualification.md)
+defines the follow-up interpreter workload, timer scheduling measurements,
+process resource samples and their limits. It does not replace historical
+SDK-double measurements or claim isolated component-tick execution cost.
+
 Execution moves the pending batch into the job and restores it if enqueueing is rejected;
 it does not duplicate the entire batch on each execute call. Each session retains one
 unnamed prepared statement. Reusing SQL and OIDs avoids repeated Parse operations without

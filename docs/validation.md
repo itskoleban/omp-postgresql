@@ -1,5 +1,9 @@
 # Validation results and known limitations
 
+New follow-up: [actual logging filesystem faults and real Pawn measurements](logging-qualification.md).
+Exact executed results belong to that follow-up's source/CI record; configuring
+the new tests alone does not qualify them or authorize an RC publication.
+
 Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
 The [integrated master verification](prestable-cleanup.md#integrated-master-verification-october-19-2026-utc)
 records successful exact-source CI and downloaded-package checks for `6b4e732`.

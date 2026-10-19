@@ -43,6 +43,8 @@ parser.add_argument("--extension-gamemode")
 parser.add_argument("--bootstrap-gamemode")
 parser.add_argument("--section-gamemode")
 parser.add_argument("--logging-gamemode")
+parser.add_argument("--logging-performance-gamemode", help="Compiled tests/logging_performance.pwn")
+parser.add_argument("--logging-performance-csv", help="Raw real-Pawn measurement CSV output")
 parser.add_argument("--section-sql", help="accounts.sql from the source or extracted package")
 parser.add_argument(
     "--tutorial-dir", help="Directory containing basic/values/saving/transfer AMX files"
@@ -57,6 +59,12 @@ parser.add_argument(
     help="Use fresh PostgreSQL fixture and run only server smoke",
 )
 args = parser.parse_args()
+if bool(args.logging_performance_gamemode) != bool(args.logging_performance_csv):
+    parser.error(
+        "--logging-performance-gamemode and --logging-performance-csv must be supplied together"
+    )
+if args.logging_performance_gamemode and not args.openmp_dir:
+    parser.error("--logging-performance-gamemode requires --openmp-dir")
 if not 1 <= args.benchmark_rows <= 10000 or not 1 <= args.benchmark_repetitions <= 100:
     parser.error("Benchmark rows must be 1..10000 and repetitions 1..100")
 flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
@@ -355,6 +363,28 @@ try:
                 if not args.section_sql:
                     raise ValueError("--section-gamemode requires --section-sql")
                 command.extend(("--sql-file", args.section_sql))
+            run(command, env=env)
+        if args.logging_performance_gamemode:
+            command = [
+                sys.executable,
+                str(Path(__file__).with_name("run_openmp.py")),
+                "--server",
+                args.openmp_dir,
+                "--component",
+                args.component,
+                "--gamemode",
+                args.logging_performance_gamemode,
+                "--gmx-rounds",
+                "0",
+                "--success-marker",
+                "PG PERFORMANCE PASS",
+                "--failure-marker",
+                "PG PERFORMANCE FAILED",
+                "--performance-csv",
+                args.logging_performance_csv,
+            ]
+            for dll in args.runtime:
+                command.extend(("--runtime", dll))
             run(command, env=env)
         if args.tutorial_dir:
             if not args.tutorial_sql_dir:

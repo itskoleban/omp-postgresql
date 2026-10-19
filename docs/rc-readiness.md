@@ -1,5 +1,10 @@
 # Release Candidate readiness
 
+The [logging qualification follow-up](logging-qualification.md) adds actual Linux
+filesystem-failure and real Pawn/server scheduling measurements. See its exact
+run evidence before treating either as completed; the stalled-storage shutdown
+limit and separate publication authorization remain unchanged.
+
 Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
 The [integrated master verification](prestable-cleanup.md#integrated-master-verification-october-19-2026-utc)
 qualifies `6b4e732` with 68 natives and three forwards, including downloaded x86 packages.

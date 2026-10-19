@@ -88,3 +88,11 @@ Grammar, capture/preflight, callback and job/result APIs remain unchanged. Serve
 mapping is explicitly deferred; original SQLSTATE/messages remain available. This entry
 describes new branch work, not features of the older experimental release or prior audit.
 See [design](log-output-design.md), [logging](debugging.md), [sections](sql-sections.md).
+
+## Qualification follow-up: filesystem failures and real Pawn
+
+Adds actual Linux EACCES, positive short-write and isolated tmpfs ENOSPC checks,
+including retained SQL errors/results through the same Engine's failed sink.
+Adds a bounded official-server Pawn workload and raw timing/resource capture for
+console/file/both. No runtime API changes or publication authorization follow.
+See [reproduction, measurement definitions and limits](logging-qualification.md).
