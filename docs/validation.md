@@ -1,6 +1,8 @@
 # Validation results and known limitations
 
 Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
+The [integrated master verification](prestable-cleanup.md#integrated-master-verification-october-19-2026-utc)
+records successful exact-source CI and downloaded-package checks for `6b4e732`.
 Earlier revision-specific records below remain historical.
 
 The component is **0.1.0-rc.1 under qualification**. Passing the current suite is evidence for the
