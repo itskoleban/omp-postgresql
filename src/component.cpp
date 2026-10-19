@@ -184,7 +184,7 @@ void Component::onTick(Microseconds, TimePoint) {
 		engine.diagnostics().drain(
 		    [](void *context, std::string_view line) {
 			    static_cast<ICore *>(context)->printLn("%.*s", static_cast<int>(line.size()),
-			                                           line.data());
+				                                       line.data());
 		    },
 		    core_);
 	}

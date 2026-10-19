@@ -326,19 +326,19 @@ variable number of probes. Batch elapsed includes the 100 ms post-callback windo
 and is not used as SQL latency.
 
 | Level | Destination | Batch submission median ms | Callback p95 ms | Timer lateness p95 ms |
-| --- | --- | ---: | ---: | ---: |
-| OFF | Console | 1 | 55 | 30 |
-| OFF | File | 0 | 33 | 17 |
-| OFF | Both | 1 | 40 | 18 |
-| WARN | Console | 1 | 110 | 18 |
-| WARN | File | 1 | 41 | 34 |
-| WARN | Both | 1 | 19 | 19 |
-| DEBUG | Console | 1 | 41 | 60 |
-| DEBUG | File | 1 | 94 | 16 |
-| DEBUG | Both | 1 | 109 | 59 |
-| TRACE | Console | 19 | 58 | 45 |
-| TRACE | File | 1 | 71 | 39 |
-| TRACE | Both | 0 | 85 | 75 |
+| ----- | ----------- | -------------------------: | --------------: | --------------------: |
+| OFF   | Console     |                          1 |              55 |                    30 |
+| OFF   | File        |                          0 |              33 |                    17 |
+| OFF   | Both        |                          1 |              40 |                    18 |
+| WARN  | Console     |                          1 |             110 |                    18 |
+| WARN  | File        |                          1 |              41 |                    34 |
+| WARN  | Both        |                          1 |              19 |                    19 |
+| DEBUG | Console     |                          1 |              41 |                    60 |
+| DEBUG | File        |                          1 |              94 |                    16 |
+| DEBUG | Both        |                          1 |             109 |                    59 |
+| TRACE | Console     |                         19 |              58 |                    45 |
+| TRACE | File        |                          1 |              71 |                    39 |
+| TRACE | Both        |                          0 |              85 |                    75 |
 
 There were 342 resource samples over 27.1642 observed seconds: 3.140625 process CPU
 seconds and 68,194,304 bytes maximum **sampled** RSS. Actual sample timestamps are
