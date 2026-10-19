@@ -195,14 +195,14 @@ The working tree was clean at inspection. No feature was reimplemented or remove
 [Integrated master CI 39168713826](https://github.com/itskoleban/omp-postgresql/actions/runs/39168713826)
 completed all seven jobs successfully on **6b4e732**, rather than a PR preview:
 
-| Configuration | Executed CTest cases | Result |
-| --- | --- | --- |
-| Windows x86 MSVC/open.mp | 17 | All passed, zero skips/failures |
-| Linux x86/open.mp | 15 | All passed, zero skips/failures |
-| Linux x64, sanitizers OFF | 15 | All passed, zero skips/failures |
-| Linux x64, ASan/UBSan | 15 | All passed, zero skips/failures |
-| Linux x64, ThreadSanitizer | 15 | All passed, zero skips/failures |
-| Windows x64 | 15 | All passed, zero skips/failures |
+| Configuration              | Executed CTest cases | Result                          |
+| -------------------------- | -------------------- | ------------------------------- |
+| Windows x86 MSVC/open.mp   | 17                   | All passed, zero skips/failures |
+| Linux x86/open.mp          | 15                   | All passed, zero skips/failures |
+| Linux x64, sanitizers OFF  | 15                   | All passed, zero skips/failures |
+| Linux x64, ASan/UBSan      | 15                   | All passed, zero skips/failures |
+| Linux x64, ThreadSanitizer | 15                   | All passed, zero skips/failures |
+| Windows x64                | 15                   | All passed, zero skips/failures |
 
 Actual downloaded JUnit and job logs were inspected. The six core suites total 92 executed
 cases; additional configured Engine-only suites passed separately. Sanitizer logs contain
@@ -217,11 +217,11 @@ All artifact SHA-256 digests, package manifests, original bundled package bytes,
 ledger assets, 11 generated source links and the 132-entry source ZIP were checked against
 the exact Git tree. Both package manifests and source ZIP comment identify **6b4e732**.
 
-| Inner archive | SHA-256 |
-| --- | --- |
-| Linux x86 | `f2b8046bc6d6ce1dd7696b64aa881dc60b97ba6b97fb27086a4e5105c05b4d90` |
-| Windows x86 | `ad737c17f724bda8658b5d366cc4ac53978a0bb225aebf3c9bc3d409da9d3fea` |
-| Source ZIP | `d525255bfb4836d90082b7751030dc7a2987e21b2f077133194b03731fe6bc4a` |
+| Inner archive | SHA-256                                                            |
+| ------------- | ------------------------------------------------------------------ |
+| Linux x86     | `f2b8046bc6d6ce1dd7696b64aa881dc60b97ba6b97fb27086a4e5105c05b4d90` |
+| Windows x86   | `ad737c17f724bda8658b5d366cc4ac53978a0bb225aebf3c9bc3d409da9d3fea` |
+| Source ZIP    | `d525255bfb4836d90082b7751030dc7a2987e21b2f077133194b03731fe6bc4a` |
 
 A fresh local Windows Python run before these documentation edits, on clean 6b4e732,
 passed all **47 tests**, 15.194 seconds;
