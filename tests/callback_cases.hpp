@@ -301,6 +301,8 @@ void callback_benchmark(const char *profile, pg::LogLevel level = pg::LogLevel::
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 	constexpr std::array names{"global_old_arity", "custom0", "custom_ii", "custom_s96"};
+	std::cout << "# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps "
+	             "are excluded. Multiple calls may be needed after terminal status.\n";
 	std::cout << "callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns\n";
 	for (int repetition = 0; repetition < 8; ++repetition) {
 		for (int pass = 0; pass < 4; ++pass) {
@@ -341,25 +343,48 @@ void callback_benchmark(const char *profile, pg::LogLevel level = pg::LogLevel::
 					std::this_thread::sleep_for(std::chrono::milliseconds(1));
 				}
 			}
-			auto dispatch = pg::Clock::now();
-			h.component.onTick(Microseconds{}, TimePoint{});
-			if (logging) {
-				h.component.engine.diagnostics().drain(sink, &log_bytes);
+			// The worker stores terminal status before publishing the completion ID.
+			// A tick in that interval legitimately sees only part of this batch.
+			std::chrono::nanoseconds dispatch_time{};
+			for (;;) {
+				auto dispatch = pg::Clock::now();
+				h.component.onTick(Microseconds{}, TimePoint{});
+				if (logging) {
+					h.component.engine.diagnostics().drain(sink, &log_bytes);
+				}
+				dispatch_time += std::chrono::duration_cast<std::chrono::nanoseconds>(
+				    pg::Clock::now() - dispatch);
+				if (std::all_of(ids.begin(), ids.end(), [&](auto id) {
+					    return h.component.engine.job(h.owner(), id)->delivered;
+				    })) {
+					break;
+				}
+				check(pg::Clock::now() < until, "Callback benchmark delivery timeout");
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}
-			auto end = pg::Clock::now();
 			check(h.vm.calls.size() == ids.size(), "Callback benchmark lost completions");
+			std::vector<cell> callback_ids;
+			callback_ids.reserve(ids.size());
+			for (const auto &[name, arguments] : h.vm.calls) {
+				check(name == (mode == 0 ? "OnPgComplete" : "Done") && !arguments.empty(),
+				      "Callback benchmark delivered the wrong public or arguments");
+				auto id = std::get_if<cell>(&arguments.front());
+				check(id != nullptr, "Callback benchmark job ID was not a cell");
+				callback_ids.push_back(*id);
+			}
+			std::sort(callback_ids.begin(), callback_ids.end());
+			auto expected_ids = ids;
+			std::sort(expected_ids.begin(), expected_ids.end());
+			check(callback_ids == expected_ids, "Callback benchmark duplicated or misrouted a job");
 			for (auto id : ids) {
 				h.component.engine.close_job(h.owner(), id);
 			}
 			h.vm.calls.clear();
 			if (repetition) {
-				std::cout
-				    << "callback_benchmark," << names[mode] << ',' << repetition << ",64,"
-				    << std::chrono::duration_cast<std::chrono::nanoseconds>(submitted - start)
-				           .count()
-				    << ','
-				    << std::chrono::duration_cast<std::chrono::nanoseconds>(end - dispatch).count()
-				    << '\n';
+				std::cout << "callback_benchmark," << names[mode] << ',' << repetition << ",64,"
+				          << std::chrono::duration_cast<std::chrono::nanoseconds>(submitted - start)
+				                 .count()
+				          << ',' << dispatch_time.count() << '\n';
 				if (logging) {
 					std::cout << "logging_benchmark," << static_cast<int>(level) << ','
 					          << static_cast<int>(destination) << ',' << names[mode] << ','
@@ -367,12 +392,9 @@ void callback_benchmark(const char *profile, pg::LogLevel level = pg::LogLevel::
 					          << std::chrono::duration_cast<std::chrono::nanoseconds>(submitted -
 					                                                                  start)
 					                 .count()
-					          << ','
-					          << std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-					                                                                  dispatch)
-					                 .count()
-					          << ',' << h.component.engine.diagnostics().dropped() - drops_before
-					          << ',' << log_bytes - bytes_before << '\n';
+					          << ',' << dispatch_time.count() << ','
+					          << h.component.engine.diagnostics().dropped() - drops_before << ','
+					          << log_bytes - bytes_before << '\n';
 				}
 			}
 		}
@@ -393,7 +415,41 @@ void logging_benchmark(const char *profile) {
 	}
 }
 
+void completion_publication_integration(const char *profile) {
+	pg::CompletionQueue completed;
+	pg::Lane lane(profile, pg::Limits{}, {}, completed);
+	// Declare after Lane: any failure unlocks before its destructor joins the worker.
+	std::unique_lock publication_lock(completed.mutex);
+	auto job = std::make_shared<pg::Job>();
+	job->id = 701;
+	job->accepted_at = pg::Clock::now();
+	job->cancel.store(true);
+	lane.enqueue(job);
+	auto deadline = pg::Clock::now() + std::chrono::seconds(15);
+	while (!pg::terminal(job->status.load())) {
+		check(pg::Clock::now() < deadline, "Completion publication fixture timeout");
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+	check(job->status.load() == pg::Status::cancelled && job->error == pg::Error::cancelled,
+	      "Completion publication fixture did not cancel before SQL dispatch");
+	check(completed.ids.empty(), "Terminal status unexpectedly guaranteed queue publication");
+	publication_lock.unlock();
+	std::deque<pg::Id> published;
+	while (published.empty()) {
+		published = completed.drain();
+		check(pg::Clock::now() < deadline, "Completion ID publication timeout");
+		if (published.empty()) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
+	}
+	check(published.size() == 1 && published.front() == job->id,
+	      "Completion publication fixture lost or duplicated its ID");
+	check(completed.drain().empty() && lane.snapshot().sql_commands == 0,
+	      "Completion publication fixture executed SQL or published twice");
+}
+
 void diagnostics_integration(const char *profile) {
+	completion_publication_integration(profile);
 	Harness h(pg::LogLevel::trace);
 	h.vm.callbacks = true;
 	h.vm.publics = {{"Done", 1}};
@@ -421,7 +477,13 @@ void diagnostics_integration(const char *profile) {
 	}
 	check(job->completed_at >= job->accepted_at && job->queue_us >= 0 && job->duration_us >= 0,
 	      "Invalid completion timing");
-	h.component.onTick(Microseconds{}, TimePoint{});
+	while (!job->delivered) {
+		h.component.onTick(Microseconds{}, TimePoint{});
+		check(pg::Clock::now() < deadline, "Diagnostics callback delivery timeout");
+		if (!job->delivered) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
+	}
 	check(h.vm.calls.size() == 1 && job->results[0].rows[0][0] == "secret_sql_4321",
 	      "Logger changed SQL/callback results");
 	for (int i = 0; i < 6; ++i) {
@@ -454,11 +516,13 @@ void diagnostics_integration(const char *profile) {
 	}
 	auto failed = engine.query(h.owner(), connection, "SELECT 1/0", 0, 0, 0, false);
 	auto j = engine.job(h.owner(), failed);
-	while (!pg::terminal(j->status.load())) {
+	while (!pg::terminal(j->status.load()) || !j->delivered) {
+		engine.poll();
 		check(pg::Clock::now() < deadline, "Diagnostics failure timeout");
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		if (!j->delivered) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
 	}
-	engine.poll();
 	auto message = j->message;
 	engine.diagnostics().drain(
 	    [](void *, std::string_view) {

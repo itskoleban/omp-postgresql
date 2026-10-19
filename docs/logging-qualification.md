@@ -37,6 +37,37 @@ and x86 Linux jobs configure the faults. These are kernel/filesystem failures
 in memory-backed tmpfs and a resource-limit short write, not physical drive
 failure, Windows volume exhaustion or a device hang.
 
+## SDK benchmark completion publication
+
+A worker stores a terminal `Job::status` before publishing its ID to
+`CompletionQueue`. Observing that status makes the worker's results readable;
+it does not guarantee that one immediately following tick can deliver the callback.
+The SDK benchmark previously assumed both operations had finished, so a valid
+scheduling interval could fail its callback-count assertion during qualification.
+This correction changes the test fixture, not the runtime queue or logger.
+
+`tests/callback_cases.hpp` now ticks until every expected job is marked delivered,
+within the existing batch deadline. It still requires exactly 64 callbacks and
+validates the callback public, integer job ID and complete ID multiset, rejecting
+missing, duplicated or misrouted deliveries. The diagnostics integration paths
+also wait for delivery before closing jobs, including jobs with notifications
+disabled.
+
+A deterministic regression holds a caller-owned completion queue's mutex while
+an actual `Lane` processes a precancelled job. The job must reach terminal
+cancellation while the locked queue remains empty. After unlocking, the queue
+must publish that exact ID without executing SQL. The lock is declared after the
+lane so failure unwinding unlocks it before the lane destructor joins its worker.
+
+For new fixture runs, synthetic `dispatch_ns` and `dispatch_with_drain_ns` sum
+elapsed time inside the actual `onTick` calls and optional diagnostic drains.
+Publication-wait sleeps, delivery checks and ID validation are excluded. One
+sample can contain multiple calls; it is not necessarily the duration of one
+tick. CSV column names and layout remain unchanged. These SDK-double measurements
+are separate from real Pawn callback latency and timer scheduling below.
+Historical CSVs and tables retain their original source identities and single-tick
+measurement scope; they are not relabeled or recomputed using this correction.
+
 ## Real Pawn/open.mp workload
 
 Compile `tests/logging_performance.pwn` using the pinned Pawn compiler, `-E`,

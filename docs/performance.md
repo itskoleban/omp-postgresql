@@ -260,6 +260,17 @@ or CPU/RSS comparison is implied by these samples. Historical tables above keep 
 old source identities and cannot qualify the new writer. New exact-source results belong
 in the feature validation record.
 
+The current SDK fixture waits for completion delivery within a bounded deadline:
+terminal status can precede publication to the completion queue. It validates
+exact callback counts, publics and job IDs. New `dispatch_ns` and
+`dispatch_with_drain_ns` values sum elapsed time inside all required `onTick`
+calls and optional diagnostic drains, excluding publication-wait sleeps and
+validation. A sample may span multiple calls rather than one tick. The
+[deterministic publication regression and metric scope](logging-qualification.md#sdk-benchmark-completion-publication)
+describe this fixture correction. Historical CSVs and tables below retain their
+original source SHAs and measurement definitions; the recorded real Pawn workload
+is unaffected. No runtime behavior or public API changes accompany this correction.
+
 ### Windows x86 feature workload (daef1fd)
 
 Measured on Windows 11 10.0.26300, Intel Core i5-13420H, MSVC 19.51 Release x86,
