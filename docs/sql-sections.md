@@ -104,7 +104,7 @@ Sections do not add atomicity; use a transaction. No interrupted/uncertain write
 Invalid Pawn addresses/arguments and invalid requested names are local rejections.
 Missing/inaccessible files, unsafe paths, file-size/encoding/read failures, malformed markers,
 duplicate/missing/empty sections and unterminated lexical constructs produce `PG_ERROR_FILE`
-with distinct fixed job messages. Section-count/capture-budget exhaustion produces
+with bounded owner-readable source diagnostics. Section-count/capture-budget exhaustion produces
 `PG_ERROR_LIMIT`. A nonstandard string setting produces `PG_ERROR_INVALID`.
 PostgreSQL syntax/permission errors remain `PG_ERROR_SQL` with per-result SQLSTATE;
 connection failures, cancellation and UNCERTAIN results keep their existing contracts.
@@ -131,3 +131,37 @@ migrate to the unified form and recompile affected AMX files (see [migration](pr
 The grammar, file capture, errors, UTF-8/path limits and worker behavior described above
 apply unchanged. The [section example](../examples/sections.pwn) exercises named selection
 through the unified interface. Whole-file selection is covered by the C++ and native tests.
+
+## Original source locations
+
+Parser diagnostics name the sanitized relative file, offending valid section, and original
+1-based file line/byte column when known. CRLF is one newline; LF and CR work; tabs count
+one byte; the initial UTF-8 BOM consumes no displayed column. Multibyte UTF-8 consumes its
+encoded byte width. Positions point at the declaration, extra token/semicolon, or opening
+quote/comment, never at a fabricated execution line. Missing file/section, invalid UTF-8/NUL
+and no-section errors carry no line. Invalid/overlong declaration names are not echoed.
+Filename labels are bounded to 160 bytes plus an ellipsis, unsafe bytes become `?`, and
+absolute/unsafe paths are replaced by `<sql-file>`. These labels go only to the owning VM.
+
+Messages verified by the lexer tests (each from its own fixture):
+
+```text
+accounts.sql:3:1: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:2:4: Malformed SQL section declaration; expected '-- name: identifier' (also '--name:identifier')
+accounts.sql:1:1: Empty SQL section 'empty'; add one SQL statement after the declaration
+accounts.sql:4:11: SQL section must contain exactly one statement in section 'other'; remove the extra statement or semicolon
+accounts.sql:2:8: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql: SQL section 'Save' not found; check the case-sensitive declaration name
+```
+
+Read parser/file/capture failures with `pg_job_error`, `pg_job_message` and
+`pg_job_error_index`, then close the completed job. Invalid **requested** section arguments
+remain local `pg_last_error` failures before a job exists. Whole-file mode bypasses the
+named-section lexer. `--name:save_account` stays valid; `-- name : save_account` stays malformed.
+
+PostgreSQL-originated statement positions are **not mapped** in this feature. The current
+prepared/direct/stream receive paths retain SQLSTATE and server messages but do not retain
+per-result submitted-text character mappings. PostgreSQL positions count characters, while
+our parser columns count bytes; internal-query positions are a different source. No guessed
+file location is attached. Use `pg_result_sqlstate` / `pg_result_message` for the original
+server diagnostic. Automatic logs never copy these messages or parser filenames/sections.
