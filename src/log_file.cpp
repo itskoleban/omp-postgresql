@@ -131,20 +131,23 @@ public:
 	bool open_file() {
 #ifdef _WIN32
 		// Open relative to the pinned directory instead of re-resolving a mutable path.
-		const auto create = reinterpret_cast<decltype(&NtCreateFile)>(
-		    GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtCreateFile"));
+		const auto procedure = GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtCreateFile");
+		decltype(&NtCreateFile) create = nullptr;
+		static_assert(sizeof create == sizeof procedure);
+		std::memcpy(&create, &procedure, sizeof create);
 		if (!create) {
 			return false;
 		}
 		auto name = path_.filename().wstring();
-		UNICODE_STRING unicode{static_cast<USHORT>(name.size() * sizeof(wchar_t)),
-		                       static_cast<USHORT>(name.size() * sizeof(wchar_t)), name.data()};
-		OBJECT_ATTRIBUTES attributes{sizeof(OBJECT_ATTRIBUTES),
-		                             directory_,
-		                             &unicode,
-		                             0x40,
-		                             nullptr,
-		                             nullptr}; // OBJ_CASE_INSENSITIVE
+		UNICODE_STRING unicode{};
+		unicode.Length = unicode.MaximumLength = static_cast<USHORT>(name.size() * sizeof(wchar_t));
+		unicode.Buffer = name.data();
+		// MinGW exposes extra ABI padding fields: initialize members by name on both SDKs.
+		OBJECT_ATTRIBUTES attributes{};
+		attributes.Length = sizeof attributes;
+		attributes.RootDirectory = directory_;
+		attributes.ObjectName = &unicode;
+		attributes.Attributes = 0x40; // OBJ_CASE_INSENSITIVE
 		IO_STATUS_BLOCK status{};
 		HANDLE handle = nullptr;
 		// FILE_OPEN_IF; NON_DIRECTORY, OPEN_REPARSE_POINT, SYNCHRONOUS_IO_NONALERT.
