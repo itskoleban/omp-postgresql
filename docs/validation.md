@@ -830,3 +830,9 @@ be rerun on the corrected revision. Runtime C++ is unchanged by this test-only c
 Final contract review also corrected the new example's asynchronous connection-failure
 branch: it directs secure inspection of `pg_connection_message`, instead of reading an
 unrelated local `pg_last_error`. No raw connection diagnostics are printed automatically.
+
+Final Windows rotation review replaced close-then-path-rename with a still-open source
+handle and directory-relative native rename. This prevents a reparse substitution during
+rotation and requires live Windows readers to share DELETE access. Fresh targeted Windows
+rotation/append/privacy/fault tests passed before publication of the fix; final source CI
+must requalify it. Privileged reparse race stress itself remains unqualified.

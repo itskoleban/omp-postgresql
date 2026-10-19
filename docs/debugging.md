@@ -108,9 +108,12 @@ already accepted native return false. No destination paths appear in automatic d
 The writer creates `logs` if absent, appends to existing regular files, and rejects links,
 reparse points, devices, directories and multiple hard links. POSIX files are created mode
 0600; existing files must belong to the effective user. Windows uses inherited server ACLs
-and denies concurrent write/delete sharing while open. Protect the server directory and all
-its ancestors against untrusted OS mutation; do not use network filesystems. External file
-deletion/replacement disables the POSIX sink; Windows prevents these operations while open.
+and denies concurrent write/delete sharing while open. Live Windows readers must request
+`FILE_SHARE_DELETE` because the writer retains DELETE access for handle-relative rotation;
+readers that omit it can fail to open the active file.
+Protect the server directory and all its ancestors against untrusted OS mutation; do not use
+network filesystems. External file deletion/replacement disables the POSIX sink; Windows
+prevents these operations while open.
 Externally oversized files (over 1 MiB) are rejected without truncation. External writers
 are unsupported; POSIX detects growth before each write, with no atomic size promise when
 an administrator races the writer.

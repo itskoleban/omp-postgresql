@@ -69,3 +69,12 @@ Server position mapping is deferred for this delivery: prepared/cache/stream/res
 currently discard statement-position fields, and character offsets require an explicitly
 retained mapping for each submitted result. Preserve SQLSTATE and original result message;
 never guess a file location from generic PostgreSQL errors. Parser locations ship first.
+
+## Windows rotation refinement after source review
+
+Rotate with `NtSetInformationFile` FileRenameInformation, holding DELETE access to the
+still-open source and rooting the relative archive name at the pinned directory. Do not
+close then re-resolve a Win32 path. This removes a directory-reparse substitution window.
+Live readers must share DELETE access. Native rename layout offsets/length and the 128-WCHAR
+buffer are asserted/bounded on x86/x64; the SDK's incomplete class enum is passed through
+its 32-bit integer ABI representation. No per-event open was added.

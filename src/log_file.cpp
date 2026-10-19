@@ -1,8 +1,10 @@
 #include "pg/log_file.hpp"
 #include <algorithm>
+#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <type_traits>
 #ifdef _WIN32
 #include <windows.h>
 #include <winternl.h>
@@ -151,8 +153,8 @@ public:
 		IO_STATUS_BLOCK status{};
 		HANDLE handle = nullptr;
 		// FILE_OPEN_IF; NON_DIRECTORY, OPEN_REPARSE_POINT, SYNCHRONOUS_IO_NONALERT.
-		if (create(&handle, FILE_APPEND_DATA | FILE_READ_ATTRIBUTES | SYNCHRONIZE, &attributes,
-		           &status, nullptr, FILE_ATTRIBUTE_NORMAL, FILE_SHARE_READ, 3,
+		if (create(&handle, FILE_APPEND_DATA | FILE_READ_ATTRIBUTES | DELETE | SYNCHRONIZE,
+		           &attributes, &status, nullptr, FILE_ATTRIBUTE_NORMAL, FILE_SHARE_READ, 3,
 		           0x40 | 0x00200000 | 0x20, nullptr, 0) < 0) {
 			return false;
 		}
@@ -196,14 +198,48 @@ public:
 #endif
 		if (bytes_ > LogFileWriter::file_limit - text.size()) {
 #ifdef _WIN32
-			CloseHandle(file_);
-			file_ = INVALID_HANDLE_VALUE;
-			auto archive = path_;
-			archive += ".1";
-			// Replacing the directory entry never follows an archive reparse point.
-			if (!MoveFileExW(path_.c_str(), archive.c_str(), MOVEFILE_REPLACE_EXISTING)) {
+			// Rename the still-open source into the pinned directory. Resolving an absolute
+			// path after close would allow directory reparse replacement during rotation.
+			// The user-mode SDK enum may expose only class4. Pass its integer ABI
+			// representation without constructing an out-of-range C++ enum value.
+			using InformationClass = std::underlying_type_t<FILE_INFORMATION_CLASS>;
+			static_assert(sizeof(InformationClass) == 4);
+			using SetInformation =
+			    NTSTATUS(NTAPI *)(HANDLE, PIO_STATUS_BLOCK, PVOID, ULONG, InformationClass);
+			const auto procedure =
+			    GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtSetInformationFile");
+			SetInformation set = nullptr;
+			static_assert(sizeof set == sizeof procedure);
+			std::memcpy(&set, &procedure, sizeof set);
+			if (!set) {
 				return false;
 			}
+			struct Rename {
+				BOOLEAN replace;
+				HANDLE root;
+				ULONG length;
+				WCHAR name[128];
+			} rename{};
+			static_assert(offsetof(Rename, root) == sizeof(HANDLE));
+			static_assert(offsetof(Rename, length) == 2 * sizeof(HANDLE));
+			static_assert(offsetof(Rename, name) == 2 * sizeof(HANDLE) + sizeof(ULONG));
+			auto archive = path_.filename().wstring() + L".1";
+			if (archive.size() >= std::size(rename.name)) {
+				return false;
+			}
+			rename.replace = TRUE;
+			rename.root = directory_;
+			rename.length = static_cast<ULONG>(archive.size() * sizeof(WCHAR));
+			std::copy(archive.begin(), archive.end(), rename.name);
+			IO_STATUS_BLOCK status{};
+			// FileRenameInformation = 10; bounded native structure with relative target.
+			if (set(file_, &status, &rename,
+			        static_cast<ULONG>(offsetof(Rename, name)) + rename.length,
+			        static_cast<InformationClass>(10)) < 0) {
+				return false;
+			}
+			CloseHandle(file_);
+			file_ = INVALID_HANDLE_VALUE;
 #else
 			::close(file_);
 			file_ = -1;

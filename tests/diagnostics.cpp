@@ -7,6 +7,9 @@
 #include <source_location>
 #include <stdexcept>
 #include <thread>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 namespace {
 void check(bool value, std::source_location where = std::source_location::current()) {
@@ -29,8 +32,33 @@ void flush(pg::Diagnostics &d, Output &out) {
 }
 
 std::string contents(const std::filesystem::path &path) {
+#ifdef _WIN32
+	// The writer retains DELETE access for atomic handle-relative rotation.
+	// Live readers must share that access; std::ifstream's Windows sharing does not.
+	HANDLE file = CreateFileW(path.c_str(), GENERIC_READ,
+	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr,
+	                          OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (file == INVALID_HANDLE_VALUE) {
+		return {};
+	}
+	LARGE_INTEGER size{};
+	std::string text;
+	if (GetFileSizeEx(file, &size) && size.QuadPart >= 0 &&
+	    size.QuadPart <= static_cast<LONGLONG>(2 * pg::LogFileWriter::file_limit + 1)) {
+		text.resize(static_cast<std::size_t>(size.QuadPart));
+		DWORD read = 0;
+		if (ReadFile(file, text.data(), static_cast<DWORD>(text.size()), &read, nullptr)) {
+			text.resize(read);
+		} else {
+			text.clear();
+		}
+	}
+	CloseHandle(file);
+	return text;
+#else
 	std::ifstream file(path, std::ios::binary);
 	return {std::istreambuf_iterator<char>(file), {}};
+#endif
 }
 template <class F>
 void eventually(F predicate, std::source_location where = std::source_location::current()) {

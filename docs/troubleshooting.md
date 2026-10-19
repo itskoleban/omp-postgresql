@@ -67,8 +67,8 @@ and [internal diagnostics](debugging.md).
 a later `sink_failures` console summary: check server `logs` permissions, link/reparse status,
 regular-file type, file size and available disk space. No supplied path or OS text is echoed.
 Correct the destination and call the native again; writer-thread exceptions require restart.
-Windows log readers must permit delete sharing for rotation. Do not externally rotate or
-append to the component-owned files. See [logging](debugging.md).
+Windows live log readers must permit delete sharing for active-file access and rotation.
+Do not externally rotate or append to the component-owned files. See [logging](debugging.md).
 
 For a file/section job failure, read `pg_job_error`, `pg_job_message`, `pg_job_error_index`,
 then release the completed job. Follow original byte-column locations, declaration names
