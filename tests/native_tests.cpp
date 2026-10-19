@@ -173,6 +173,7 @@ void unit() {
 	check(h.component.engine.diagnostics().level() == pg::LogLevel::info &&
 	          h.vm.natives.at("pg_log_config")(&h.vm.amx, settings) == 0,
 	      "Stale unloaded VM changed another owner's setting");
+	h.vm.natives.clear(); // A reloaded AMX has a fresh native registration table.
 	h.component.onAmxLoad(h.vm);
 	h.component.onAmxUnload(other);
 	h.component.reset();
