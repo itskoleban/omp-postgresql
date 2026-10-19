@@ -32,7 +32,7 @@ public OnPgConnection(connection, connection_state) {
 		}
 		if (statement) pg_statement_close(statement);
 	} else if (connection_state == PG_CONNECTION_FAILED) {
-		ReportLocal("connection startup");
+		print("PG LOGGING FAILED: connection startup; inspect pg_connection_message securely");
 	}
 	return 1;
 }

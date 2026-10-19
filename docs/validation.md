@@ -826,3 +826,7 @@ writer configuration. The corrected fixture retries only after a counted loss, p
 exact normal-event/console/drop accounting and still times out on undelivered accepted
 writes. Independent fixture review and the updated Windows diagnostics passed; TSan must
 be rerun on the corrected revision. Runtime C++ is unchanged by this test-only correction.
+
+Final contract review also corrected the new example's asynchronous connection-failure
+branch: it directs secure inspection of `pg_connection_message`, instead of reading an
+unrelated local `pg_last_error`. No raw connection diagnostics are printed automatically.
