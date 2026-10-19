@@ -173,6 +173,7 @@ if args.performance_csv:
         args.component,
         args.gamemode,
         samples,
+        args.runtime,
     )
     print(f"Captured {count} real Pawn measurement rows: {Path(args.performance_csv).resolve()}")
 if args.success_marker == "PG LOGGING PASS":

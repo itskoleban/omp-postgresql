@@ -87,6 +87,8 @@ class PerformanceTests(unittest.TestCase):
             component.write_bytes(b"test component identity")
             gamemode = root / "gamemode"
             gamemode.write_bytes(b"test compiled fixture identity")
+            runtime = root / "client.dll"
+            runtime.write_bytes(b"test runtime identity")
             summary = "[omp-pg][WARN] log_dropped count=7 sink_failures=0\n"
             for level in (2, 4, 5):
                 for destination in (1, 2):
@@ -101,7 +103,13 @@ class PerformanceTests(unittest.TestCase):
                 samples.sample()
                 output = root / "measurement.csv"
                 capture(
-                    output, complete_output() + "\n" + summary, root, component, gamemode, samples
+                    output,
+                    complete_output() + "\n" + summary,
+                    root,
+                    component,
+                    gamemode,
+                    samples,
+                    [runtime],
                 )
                 with output.with_suffix(".drops.csv").open(encoding="utf8") as source:
                     drops = list(csv.reader(source))
@@ -110,6 +118,8 @@ class PerformanceTests(unittest.TestCase):
                 self.assertEqual(metadata["component_tick_execution_cost"], "unmeasured")
                 self.assertIn("does not prove zero", metadata["drops"])
                 self.assertEqual(len(metadata["sha256"]["component"]), 64)
+                self.assertEqual(list(metadata["runtime_sha256"]), ["client.dll"])
+                self.assertEqual(len(metadata["runtime_sha256"]["client.dll"]), 64)
             finally:
                 samples.close()
 

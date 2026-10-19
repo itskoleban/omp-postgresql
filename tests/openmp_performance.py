@@ -208,7 +208,7 @@ def sha256(path):
     return digest.hexdigest()
 
 
-def capture(output, content, server, component, gamemode, samples):
+def capture(output, content, server, component, gamemode, samples, runtime_paths=()):
     """Validate complete samples, then save raw CSV plus bounded provenance/counters."""
     rows = parse_rows(content)
     output = Path(output).resolve()
@@ -310,6 +310,10 @@ def capture(output, content, server, component, gamemode, samples):
                     "pawn/omp-postgresql.inc",
                 )
             },
+        },
+        "runtime_sha256": {
+            name: sha256(Path(server) / name)
+            for name in sorted({Path(path).name for path in runtime_paths})
         },
         "workload": "Two lanes; 64 pg_query jobs/batch: 56 SELECT 1, eight division-by-zero errors; 12 level/destination cases; round 0 warmup, rounds 1..7 measured",
         "timing": "Pawn GetTickCount integer milliseconds; callback entry minus pg_query entry; batch elapsed includes 100 ms observation after callbacks; one-shot timer lateness from its scheduled due time; output deferred until all callbacks completed",
