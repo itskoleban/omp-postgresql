@@ -6,17 +6,26 @@
 
 #define PG_INVALID (0)
 
-enum {
-	PG_LOG_OFF, PG_LOG_ERROR, PG_LOG_WARN, PG_LOG_INFO, PG_LOG_DEBUG, PG_LOG_TRACE
+enum a {
+	PG_LOG_OFF,
+	PG_LOG_ERROR,
+	PG_LOG_WARN,
+	PG_LOG_INFO,
+	PG_LOG_DEBUG,
+	PG_LOG_TRACE
 };
-enum {
-	PG_LOG_CONSOLE, PG_LOG_FILE, PG_LOG_BOTH
+
+enum b {
+	PG_LOG_CONSOLE,
+	PG_LOG_FILE,
+	PG_LOG_BOTH
 };
 
 // Component-global; accepted configuration, not disk persistence. Last valid call wins.
 // File paths: empty = logs/omp-postgresql.log; custom [./]logs/<basename>.log.
 // Console requires empty path. Async sink failures: bounded numeric console fallback.
 native bool:pg_log_config(level, destination = PG_LOG_CONSOLE, const path[] = "");
+
 #define PG_BOOL (16)
 #define PG_BYTEA (17)
 #define PG_INT64 (20)
