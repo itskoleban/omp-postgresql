@@ -334,7 +334,8 @@ void files() {
 			    while (!g.release.load()) {
 				    std::this_thread::yield();
 			    }
-			    return false; // Models short/failed writes, not actual disk exhaustion.
+			    return false; // Pre-write failure only; actual short writes/disk exhaustion remain
+			                  // unqualified.
 		    },
 		    &gate);
 		struct Release {

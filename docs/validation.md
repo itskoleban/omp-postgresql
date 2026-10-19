@@ -788,8 +788,8 @@ Contracts and implementation limits: [design](log-output-design.md), [operator g
   failed open and explicit recovery, OFF, concurrent reconfiguration, synthetic delayed/error
   completion and thread exception. POSIX-only cases exercise symlink root/file, permission
   denial, deletion and external growth when executed in CI. Windows prevents write/delete
-  sharing while the active file is open. Test gates simulate failure/short writes; they do
-  **not** establish actual disk-full or stalled-kernel behavior.
+  sharing while the active file is open. Test gates inject delayed/pre-write failures through the common disable/count handling;
+  actual short writes, disk-full and stalled-kernel behavior remain unqualified.
 - Parser unit4283 checks; exact fixtures cover duplicate second/first locations, malformed and
   invalid names, empty/unselected sections, extra statements, quotes/dollar/comments, UTF-8
   byte columns, BOM/CRLF/CR,120003-line duplicates, budgets/limits and mutable files across jobs.
