@@ -263,12 +263,12 @@ project-patched libpq 17.6, disposable TLS PostgreSQL 17.11. Source
 Four callback forms, seven measured repetitions following warmup; each sample submits
 64 jobs across two lanes. Table shows custom0 median submission/dispatch-with-drain **microseconds**:
 
-| Level | Console counting sink | Actual async file | Both |
-| --- | ---: | ---: | ---: |
-| OFF | 254.7 / 92.6 | 172.6 / 114.2 | 189.5 / 133.6 |
-| WARN | 183.1 / 134.4 | 184.4 / 145.4 | 195.7 / 77.5 |
-| DEBUG | 267.0 / 317.9 | 403.6 / 159.3 | 239.7 / 306.7 |
-| TRACE | 224.7 / 284.0 | 248.5 / 152.3 | 499.2 / 400.4 |
+| Level | Console counting sink | Actual async file |          Both |
+| ----- | --------------------: | ----------------: | ------------: |
+| OFF   |          254.7 / 92.6 |     172.6 / 114.2 | 189.5 / 133.6 |
+| WARN  |         183.1 / 134.4 |     184.4 / 145.4 |  195.7 / 77.5 |
+| DEBUG |         267.0 / 317.9 |     403.6 / 159.3 | 239.7 / 306.7 |
+| TRACE |         224.7 / 284.0 |     248.5 / 152.3 | 499.2 / 400.4 |
 
 OFF/WARN sampled zero drops. Custom0 DEBUG drop deltas were 128 console, 128..129
 file/both; TRACE 129 console, 129..161 file, 129..130 both. Finite rings intentionally lose
