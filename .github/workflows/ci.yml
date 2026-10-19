@@ -351,8 +351,8 @@ jobs:
                   python scripts/compile_examples.py --compiler build-pawn32/Release/pawncc.exe --include pawn `
                       --include build-stdlib --include build-msvc32/_deps/pawn-src/include --output build-msvc32
                   if ($LASTEXITCODE -ne 0) { throw 'Pawn32 compilation failed' }
-                  & build-pawn32/Release/pawncc.exe tests/logging_performance.pwn -E -ipawn -ibuild-stdlib `
-                      -ibuild-msvc32/_deps/pawn-src/include -obuild-msvc32/logging-performance.amx
+                  & build-pawn32/Release/pawncc.exe tests/logging_performance.pwn '-E' '-ipawn' '-ibuild-stdlib' `
+                      '-ibuild-msvc32/_deps/pawn-src/include' '-obuild-msvc32/logging-performance.amx'
                   if ($LASTEXITCODE -ne 0) { throw 'Pawn performance fixture compilation failed' }
             - name: Obtain the fixed PostgreSQL server and open.mp distributions
               shell: pwsh
