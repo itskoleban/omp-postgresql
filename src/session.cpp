@@ -430,7 +430,8 @@ void Lane::execute(Job &job) {
 			const auto setting = PQparameterStatus(conn_.get(), "standard_conforming_strings");
 			if (!setting || std::string_view(setting) != "on") {
 				throw Failure(Error::invalid,
-				              "SQL sections require standard_conforming_strings=on");
+				              sql_file_label(filename) + ": section '" + section +
+				                  "': SQL sections require standard_conforming_strings=on");
 			}
 			auto key = std::make_pair(filename, section);
 			if (auto found = selected.find(key); found != selected.end()) {
@@ -438,7 +439,10 @@ void Lane::execute(Job &job) {
 			}
 			auto charge = [&](std::size_t size) {
 				if (size > limits_.batch_bytes - captured_bytes) {
-					throw Failure(Error::limit, "SQL section capture exceeds batch byte limit");
+					throw Failure(
+					    Error::limit,
+					    sql_file_label(filename) + ": section '" + section +
+					        "': SQL section capture exceeds batch byte limit; split the batch");
 				}
 				captured_bytes += size;
 			};
@@ -446,11 +450,18 @@ void Lane::execute(Job &job) {
 			if (document == documents.end()) {
 				auto text = read_sql_contents(sql_root_, filename, limits_.sql_bytes);
 				charge(text.size());
-				document = documents.emplace(filename, parse_sql_sections(std::move(text))).first;
+				document =
+				    documents.emplace(filename, parse_sql_sections(std::move(text), filename))
+				        .first;
 			}
 			auto sql = document->second.select(section);
 			charge(sql.size());
-			validate_sql(sql);
+			try {
+				validate_sql(sql);
+			} catch (const Failure &failure) {
+				throw Failure(failure.code, sql_file_label(filename) + ": section '" + section +
+				                                "': " + failure.detail);
+			}
 			return selected.emplace(std::move(key), std::move(sql)).first->second;
 		};
 		if (!job.operations.empty()) {

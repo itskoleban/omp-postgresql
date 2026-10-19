@@ -116,7 +116,7 @@ void unit() {
 			arities.emplace(match[1].str(), count);
 		}
 	}
-	check(arities.size() == 68 && arities.size() == h.vm.natives.size(),
+	check(arities.size() == 69 && arities.size() == h.vm.natives.size(),
 	      "Pawn/native inventory differs");
 	check(!h.vm.natives.contains("pg_prepare_section"), "Removed native remains registered");
 	for (auto &[name, count] : arities) {
@@ -145,9 +145,43 @@ void unit() {
 		std::vector<cell> params(count + 1, 0);
 		params[0] = count * sizeof(cell);
 		h.error().clear();
+		if (name == "pg_log_config") {
+			check(native(&h.vm.amx, params.data()) == 1 && h.error().empty(),
+			      "OFF console configuration rejected");
+			continue;
+		}
 		check(native(&h.vm.amx, params.data()) == failure, "Invalid input returned wrong sentinel");
 		check(!h.error().empty(), "Invalid zero handles/arguments were not rejected");
 	}
+
+	h.text("");
+	check(h.call("pg_log_config", {5, 0, 0}) == 1 &&
+	          h.component.engine.diagnostics().level() == pg::LogLevel::trace,
+	      "Runtime level did not supersede startup configuration");
+	h.reject("pg_log_config", {6, 0, 0}, "Invalid log level");
+	h.reject("pg_log_config", {2, 3, 0}, "Invalid log destination or nonempty console path");
+	h.reject("pg_log_config", {2, 0, -1}, "Invalid Pawn address");
+	check(h.component.engine.diagnostics().level() == pg::LogLevel::trace,
+	      "Rejected configuration changed active level");
+	PawnMemory other;
+	h.component.onAmxLoad(other);
+	other.cells[0] = 0;
+	cell settings[]{3 * sizeof(cell), 3, 0, 0};
+	check(other.natives.at("pg_log_config")(&other.amx, settings) == 1,
+	      "Second VM configuration rejected");
+	h.component.onAmxUnload(h.vm);
+	check(h.component.engine.diagnostics().level() == pg::LogLevel::info &&
+	          h.vm.natives.at("pg_log_config")(&h.vm.amx, settings) == 0,
+	      "Stale unloaded VM changed another owner's setting");
+	h.vm.natives.clear(); // A reloaded AMX has a fresh native registration table.
+	h.component.onAmxLoad(h.vm);
+	h.component.onAmxUnload(other);
+	h.component.reset();
+	check(h.component.engine.diagnostics().level() == pg::LogLevel::info,
+	      "Reset/reload restored a stale configuration");
+	h.text("./logs/private.log");
+	h.reject("pg_log_config", {2, 0, 0}, "Invalid log destination or nonempty console path");
+	h.text("");
 
 	for (cell base : {-4, -1, 1, 3, 64 * 4, 127 * 4, 256 * 4, std::numeric_limits<cell>::max()}) {
 		h.reject("pg_bind_int64", {0, 1, base}, "Invalid Pawn address");

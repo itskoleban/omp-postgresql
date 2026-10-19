@@ -95,6 +95,7 @@ std::size_t column_index(const Result &r, cell column) {
 
 // clang-format off
 #define PG_NATIVES(X) \
+	X(pg_log_config, 3) \
 	X(pg_connect, 2) \
 	X(pg_connection_close, 1) \
 	X(pg_connection_state, 1) \
@@ -287,6 +288,10 @@ cell invoke(Native native, Script &script, const cell *p) {
 		return 1;
 	};
 	switch (native) {
+	case Native::pg_log_config:
+		e.diagnostics().configure(static_cast<LogLevel>(p[1]), static_cast<LogDestination>(p[2]),
+		                          string(vm, p[3], 128));
+		return 1;
 	case Native::pg_connect:
 		return e.connect(owner, string(vm, p[1], 128), p[2]);
 	case Native::pg_connection_close:

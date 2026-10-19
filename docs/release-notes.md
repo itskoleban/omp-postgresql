@@ -75,3 +75,16 @@ Bounded internal logs use `OMP_PG_LOG_LEVEL` (default WARN; OFF disables them), 
 Pawn natives or external dependency. See [operator guide](debugging.md) and
 [qualification status](prestable-cleanup.md). Callback, transaction and section semantics
 remain supported; prior audit evidence does not certify the new code.
+
+## Unreleased feature branch: configurable outputs and source diagnostics
+
+Adds one native `pg_log_config` (69 total, three forwards), independent levels/destinations,
+optional bounded asynchronous file output and 1 MiB/one-archive rotation. Default remains
+WARN/console and startup environment support remains. No existing native signature changes.
+
+Named-file errors now identify sanitized relative files, offending sections and original
+byte columns/lines where known, with first duplicate lines and bounded corrective hints.
+Grammar, capture/preflight, callback and job/result APIs remain unchanged. Server-position
+mapping is explicitly deferred; original SQLSTATE/messages remain available. This entry
+describes new branch work, not features of the older experimental release or prior audit.
+See [design](log-output-design.md), [logging](debugging.md), [sections](sql-sections.md).

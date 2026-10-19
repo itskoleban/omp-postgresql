@@ -39,10 +39,6 @@ bool declaration(std::string_view s) {
 	return s.starts_with("name") && (s.size() == 4 || s[4] == ':' || space(s[4]));
 }
 
-[[noreturn]] void malformed() {
-	throw Failure(Error::file, "Malformed SQL section declaration");
-}
-
 // Linear search even for adversarial, very long dollar tags with repeated prefixes.
 std::size_t dollar_close(std::string_view sql, std::string_view delimiter, std::size_t start) {
 	std::vector<std::size_t> prefix(delimiter.size());
@@ -63,9 +59,49 @@ std::size_t dollar_close(std::string_view sql, std::string_view delimiter, std::
 			return i + 1 - delimiter.size();
 		}
 	}
-	throw Failure(Error::file, "Unterminated SQL dollar quote");
+	return std::string_view::npos;
 }
 
+} // namespace
+
+std::string sql_file_label(std::string_view filename) {
+	if (filename.empty() || filename.size() > 240 || filename.front() == '/' ||
+	    filename.front() == '\\' || filename.find(':') != filename.npos ||
+	    filename.find("..") != filename.npos) {
+		return "<sql-file>";
+	}
+	std::string out;
+	for (const unsigned char c : filename) {
+		if (out.size() == 160) {
+			out += "...";
+			break;
+		}
+		out += letter(c) || digit(c) || c == '/' || c == '.' || c == '-' ? char(c) : '?';
+	}
+	return out;
+}
+
+namespace {
+// Only called on failure (at most twice): no line index or repeated prefix scans on success.
+std::pair<std::size_t, std::size_t> position(std::string_view text, std::size_t offset) {
+	std::size_t line = 1, column = 1;
+	for (std::size_t i = text.starts_with("\xef\xbb\xbf") ? 3 : 0;
+	     i < std::min(offset, text.size()); ++i) {
+		if (text[i] == '\r') {
+			++line;
+			column = 1;
+			if (i + 1 < offset && text[i + 1] == '\n') {
+				++i;
+			}
+		} else if (text[i] == '\n') {
+			++line;
+			column = 1;
+		} else {
+			++column;
+		}
+	}
+	return {line, column};
+}
 } // namespace
 
 bool valid_section_name(std::string_view name) {
@@ -83,33 +119,51 @@ bool valid_section_name(std::string_view name) {
 std::string SqlSections::select(std::string_view name) const {
 	auto found = sections.find(name);
 	if (found == sections.end()) {
-		throw Failure(Error::file, "SQL section not found");
+		throw Failure(Error::file,
+		              filename + ": SQL section " +
+		                  (valid_section_name(name) ? "'" + std::string(name) + "' " : "") +
+		                  "not found; check the case-sensitive declaration name");
 	}
 	return text.substr(found->second.first, found->second.second);
 }
 
-SqlSections parse_sql_sections(std::string text) {
-	if (text.starts_with("\xef\xbb\xbf")) {
-		text.erase(0, 3);
-	}
+SqlSections parse_sql_sections(std::string text, std::string_view filename) {
+	const auto label = sql_file_label(filename);
 	if (!utf8(text)) {
-		throw Failure(Error::file, "SQL sections require UTF-8 without NUL");
+		throw Failure(Error::file,
+		              label + ": SQL sections require UTF-8 without NUL; save as UTF-8");
 	}
-	SqlSections document{std::move(text), {}};
+	SqlSections document{std::move(text), {}, label};
 	const std::string_view sql = document.text;
 	std::string current;
-	std::size_t start = 0;
+	std::size_t start = 0, current_declaration = 0;
+	std::map<std::string, std::size_t, std::less<>> declarations;
+	auto fail = [&](std::size_t offset, std::string message, Error code = Error::file) -> void {
+		auto [line, column] = position(sql, offset);
+		throw Failure(code, label + ":" + std::to_string(line) + ":" + std::to_string(column) +
+		                        ": " + message);
+	};
+	auto section_context = [&] {
+		return current.empty() ? std::string{} : " in section '" + current + "'";
+	};
+	auto malformed = [&](std::size_t offset, bool invalid_name = false) {
+		fail(offset, invalid_name ? "Malformed SQL section declaration: empty or invalid name; "
+		                            "expected ASCII [A-Za-z_][A-Za-z0-9_]* (1..64 bytes)"
+		                          : "Malformed SQL section declaration; expected '-- name: "
+		                            "identifier' (also '--name:identifier')");
+	};
 	bool code = false, ended = false, line_start = true;
 	bool continuation = false, continuation_escape = false, newline = false;
 	auto finish = [&](std::size_t end) {
 		if (!current.empty()) {
 			if (!code) {
-				throw Failure(Error::file, "Empty SQL section");
+				fail(current_declaration, "Empty SQL section '" + current +
+				                              "'; add one SQL statement after the declaration");
 			}
 			document.sections.at(current) = {start, end - start};
 		}
 	};
-	for (std::size_t i = 0; i < sql.size();) {
+	for (std::size_t i = sql.starts_with("\xef\xbb\xbf") ? 3 : 0; i < sql.size();) {
 		const auto c = sql[i];
 		if (c == '\n' || c == '\r') {
 			line_start = true;
@@ -131,7 +185,7 @@ SqlSections parse_sql_sections(std::string text) {
 			     {"\xe2\x80\x94", "\xe2\x80\x93", "\xe2\x88\x92", "\xef\xbc\x8d\xef\xbc\x8d"}) {
 				if (sql.substr(i).starts_with(dash) &&
 				    declaration(trim(sql.substr(i + dash.size())))) {
-					malformed();
+					malformed(i);
 				}
 			}
 		}
@@ -143,20 +197,26 @@ SqlSections parse_sql_sections(std::string text) {
 			auto comment = trim(sql.substr(i + 2, end - i - 2));
 			if (line_start && declaration(comment)) {
 				if (!comment.starts_with("name:")) {
-					malformed();
+					malformed(i);
 				}
 				auto name = trim(comment.substr(5));
 				if (!valid_section_name(name)) {
-					malformed();
+					malformed(i, true);
 				}
 				finish(i);
 				if (document.sections.contains(name)) {
-					throw Failure(Error::file, "Duplicate SQL section");
+					fail(i, "Duplicate SQL section '" + std::string(name) +
+					            "'; first declared at line " +
+					            std::to_string(
+					                position(sql, declarations.at(std::string(name))).first));
 				}
 				if (document.sections.size() == sql_section_count) {
-					throw Failure(Error::limit, "SQL section count limit exceeded");
+					fail(i, "SQL section count limit exceeded (1024); split the file",
+					     Error::limit);
 				}
 				current = name;
+				current_declaration = i;
+				declarations.emplace(current, i);
 				document.sections.emplace(current, std::pair<std::size_t, std::size_t>{});
 				start = end;
 				code = ended = continuation = newline = false;
@@ -167,6 +227,7 @@ SqlSections parse_sql_sections(std::string text) {
 		}
 		line_start = false;
 		if (sql.substr(i).starts_with("/*")) {
+			const auto opening = i;
 			std::size_t depth = 1;
 			i += 2;
 			while (i < sql.size() && depth) {
@@ -182,15 +243,17 @@ SqlSections parse_sql_sections(std::string text) {
 				}
 			}
 			if (depth) {
-				throw Failure(Error::file, "Unterminated SQL block comment");
+				fail(opening,
+				     "Unterminated SQL block comment" + section_context() + "; close with '*/'");
 			}
 			continue;
 		}
 		if (current.empty()) {
-			throw Failure(Error::file, "SQL content before first section");
+			fail(i, "SQL content before first section; add '-- name: identifier' before SQL");
 		}
 		if (ended || (c == ';' && !code)) {
-			throw Failure(Error::file, "SQL section must contain exactly one statement");
+			fail(i, "SQL section must contain exactly one statement" + section_context() +
+			            "; remove the extra statement or semicolon");
 		}
 		if (c == ';') {
 			ended = true;
@@ -201,6 +264,7 @@ SqlSections parse_sql_sections(std::string text) {
 		const bool explicit_escape =
 		    (c == 'E' || c == 'e') && i + 1 < sql.size() && sql[i + 1] == '\'';
 		if (c == '\'' || c == '"' || explicit_escape) {
+			const auto opening = i + (explicit_escape ? 1 : 0);
 			const bool escape =
 			    explicit_escape || (c == '\'' && continuation && newline && continuation_escape);
 			const char quote = explicit_escape ? '\'' : c;
@@ -219,7 +283,9 @@ SqlSections parse_sql_sections(std::string text) {
 				}
 			}
 			if (!closed) {
-				throw Failure(Error::file, "Unterminated SQL quoted value");
+				fail(opening, std::string("Unterminated SQL quoted ") +
+				                  (quote == '\'' ? "string" : "identifier") + section_context() +
+				                  "; close the opening quote");
 			}
 			continuation = quote == '\'';
 			continuation_escape = escape;
@@ -240,6 +306,10 @@ SqlSections parse_sql_sections(std::string text) {
 			if (end < sql.size() && sql[end] == '$') {
 				auto delimiter = sql.substr(i, end - i + 1);
 				auto close = dollar_close(sql, delimiter, end + 1);
+				if (close == std::string_view::npos) {
+					fail(i, "Unterminated SQL dollar quote" + section_context() +
+					            "; close with the matching dollar delimiter");
+				}
 				i = close + delimiter.size();
 				continue;
 			}
@@ -255,7 +325,8 @@ SqlSections parse_sql_sections(std::string text) {
 	}
 	finish(sql.size());
 	if (document.sections.empty()) {
-		throw Failure(Error::file, "SQL file contains no sections");
+		throw Failure(Error::file, label + ": SQL file contains no sections; add '-- name: "
+		                                   "identifier' or use whole-file mode");
 	}
 	return document;
 }

@@ -6,7 +6,7 @@ it and is never recycled. Do not share handles between scripts. All Pawn calls r
 they validate, copy, enqueue, or read memory. Callbacks run on the main thread when a tick
 processes completed work.
 
-Use the [per-native reference](native-reference.md) for all 68 exact signatures, defaults,
+Use the [per-native reference](native-reference.md) for all 69 exact signatures, defaults,
 argument limits, return/error sentinels, ownership rules and call examples. This guide
 explains how those operations fit together.
 
@@ -323,3 +323,12 @@ See [custom callbacks](callbacks.md) for exact limits, errors, VM ownership and 
 recommended file interface for both whole-file and selected SQL. The removed
 `pg_prepare_section` must migrate to this interface; recompile affected AMX files.
 See [migration](prestable-cleanup.md) and [operator diagnostics](debugging.md).
+
+## Optional component logging configuration
+
+`pg_log_config(level, destination=PG_LOG_CONSOLE, const path[]="")` returns acceptance.
+Use `PG_LOG_OFF/ERROR/WARN/INFO/DEBUG/TRACE` independently of `PG_LOG_CONSOLE/FILE/BOTH`.
+Default startup remains WARN/console through `OMP_PG_LOG_LEVEL`; the last valid native call
+wins globally and persists across script unload. Invalid calls leave it unchanged.
+See [logging](debugging.md) for path confinement and asynchronous failure reporting, and
+[source diagnostics](sql-sections.md#original-source-locations) for owner-readable parser errors.

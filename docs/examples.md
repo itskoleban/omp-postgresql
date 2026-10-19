@@ -74,3 +74,11 @@ Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for n
 The removed `pg_prepare_section` requires source migration and AMX recompilation; other
 leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
 and [internal diagnostics](debugging.md).
+
+## Logging and source diagnostics
+
+[logging.pwn](../examples/logging.pwn) selects both outputs, prepares a named section,
+uses an owned custom callback string, prints a missing-section failure and explicitly
+closes the completed job. It deliberately requests `load_acount` from
+[accounts.sql](../examples/sql/accounts.sql); correcting it requires binding the real section
+parameters. Source and extracted-package x86 runs require `PG LOGGING PASS`.

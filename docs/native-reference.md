@@ -1,6 +1,6 @@
 # Native reference 0.1.0-rc.1
 
-This reference covers all 68 declarations in [the public include](../pawn/omp-postgresql.inc).
+This reference covers all 69 declarations in [the public include](../pawn/omp-postgresql.inc).
 Read [the execution contract](api.md) first. Signatures below preserve Pawn tags, reference
 arguments and defaults. This is an internal source review, not an independent Astra audit.
 
@@ -918,3 +918,19 @@ The old four-argument `pg_prepare_file` AMX form remains supported. `pg_prepare_
 was intentionally removed before 1.0: migrate calls and recompile AMX files (old binaries
 requiring the removed native cannot load). See [migration](prestable-cleanup.md). Section/file
 reading, parsing and capture continue on the worker with their existing limits.
+
+## Global internal logging
+
+```pawn
+native bool:pg_log_config(level, destination = PG_LOG_CONSOLE, const path[] = "");
+```
+
+**Contract:** Component-global, last valid main-thread call wins; returns true on acceptance,
+not opening or persistence. Invalid settings preserve active settings and set `pg_last_error`.
+Startup `OMP_PG_LOG_LEVEL` defaults WARN/console; a successful call overrides it. Unload never
+restores a previous AMX configuration. Console requires empty path. File/both use the default
+`logs/omp-postgresql.log` or a permitted `[./]logs/<basename>.log`. OFF suppresses formatting
+and output. See [logging guide](debugging.md) for exact path grammar, 256+256 record bounds,
+rotation/retention, async failures and shutdown limits.
+
+**Example:** `pg_log_config(PG_LOG_DEBUG, PG_LOG_BOTH, "./logs/postgresql.log");`

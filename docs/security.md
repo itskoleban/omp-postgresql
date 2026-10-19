@@ -148,3 +148,14 @@ Custom callbacks do not establish player identity, roll back SQL, or justify rep
 accepts SQL, parameters, row values, callback payloads/names, service profiles, file paths
 or PostgreSQL diagnostic messages. Failures retain the original public inspection APIs.
 Fixed storage, nonblocking producer handoff and bounded main-thread output limit floods.
+
+## File diagnostic output boundary
+
+The optional global `pg_log_config` trusts scripts as component administrators. It writes
+only the same fixed numeric metadata as console output, never SQL, parameters, filenames,
+section names, callback payloads or PostgreSQL text. Paths are a flat ASCII `.log` name below
+`logs`; links/reparse points/devices and multiple hard links are rejected. POSIX uses pinned
+directory descriptors and no-follow opens; Windows uses a directory-relative no-reparse
+open. Server directory ancestors must be trusted. Protect log read access and inherited
+Windows ACLs; retention deletes the oldest `.log.1`. See [logging](debugging.md) for the
+precise accepted paths, failure reporting and stalled-device shutdown limitation.

@@ -138,7 +138,7 @@ jobs:
                   	--component build-linux32/omp-postgresql.so --gamemode build-linux32/smoke.amx --unload-script \
                   	build-linux32/unload.amx --callback-gamemode build-linux32/callbacks.amx \
                       --extension-gamemode build-linux32/extensions.amx --bootstrap-gamemode build-linux32/bootstrap.amx \
-                      --section-gamemode build-linux32/sections.amx --section-sql examples/sql/accounts.sql --runtime \
+                      --section-gamemode build-linux32/sections.amx --logging-gamemode build-linux32/logging.amx --section-sql examples/sql/accounts.sql --runtime \
                       "$PWD/libpq32/lib/libpq.so.5" --tutorial-dir build-linux32 --tutorial-sql-dir examples/sql
             - name: Assemble and verify the Linux x86 package
               run: |
@@ -169,7 +169,7 @@ jobs:
                       --callback-gamemode build-linux32/packaged-callbacks.amx \
                       --extension-gamemode build-linux32/packaged-extensions.amx \
                       --bootstrap-gamemode build-linux32/packaged-bootstrap.amx \
-                      --section-gamemode build-linux32/packaged-sections.amx \
+                      --section-gamemode build-linux32/packaged-sections.amx --logging-gamemode build-linux32/packaged-logging.amx \
                       --section-sql build-package-check/omp-postgresql/examples/sql/accounts.sql \
                       --tutorial-dir build-linux32 --tutorial-prefix packaged- \
                       --tutorial-sql-dir build-package-check/omp-postgresql/examples/sql
@@ -345,7 +345,7 @@ jobs:
                   	build-msvc32/Release/omp-postgresql.dll --gamemode build-msvc32/smoke.amx --unload-script `
                   	build-msvc32/unload.amx --callback-gamemode build-msvc32/callbacks.amx `
                       --extension-gamemode build-msvc32/extensions.amx --bootstrap-gamemode build-msvc32/bootstrap.amx `
-                      --section-gamemode build-msvc32/sections.amx --section-sql examples/sql/accounts.sql --runtime `
+                      --section-gamemode build-msvc32/sections.amx --logging-gamemode build-msvc32/logging.amx --section-sql examples/sql/accounts.sql --runtime `
                       libpq32/bin/libpq.dll --runtime libpq32/bin/libssl-3.dll --runtime libpq32/bin/libcrypto-3.dll `
                       --tutorial-dir build-msvc32 --tutorial-sql-dir examples/sql
                   if ($LASTEXITCODE -ne 0) {
@@ -400,7 +400,7 @@ jobs:
                       --callback-gamemode build-msvc32/packaged-callbacks.amx `
                       --extension-gamemode build-msvc32/packaged-extensions.amx `
                       --bootstrap-gamemode build-msvc32/packaged-bootstrap.amx `
-                      --section-gamemode build-msvc32/packaged-sections.amx `
+                      --section-gamemode build-msvc32/packaged-sections.amx --logging-gamemode build-msvc32/packaged-logging.amx `
                       --section-sql build-package-check/omp-postgresql/examples/sql/accounts.sql @runtimeArgs `
                       --tutorial-dir build-msvc32 --tutorial-prefix packaged- `
                       --tutorial-sql-dir build-package-check/omp-postgresql/examples/sql

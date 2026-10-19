@@ -94,9 +94,12 @@ void validate_sql(const std::string &sql) {
 	}
 }
 
-std::string read_sql_contents(const std::filesystem::path &root, const std::string &name,
-                              std::size_t max) {
+static std::string read_sql_contents_raw(const std::filesystem::path &root, const std::string &name,
+                                         std::size_t max) {
 	try {
+		if (!utf8(name)) {
+			throw Failure(Error::file, "SQL filename requires UTF-8 without NUL");
+		}
 		auto relative = std::filesystem::path(std::u8string(name.begin(), name.end()));
 		if (relative.is_absolute() || relative.has_root_name() || relative.extension() != ".sql") {
 			throw Failure(Error::file, "Expected relative .sql path");
@@ -132,9 +135,6 @@ std::string read_sql_contents(const std::filesystem::path &root, const std::stri
 		if (sql.size() > max) {
 			throw Failure(Error::file, "SQL file exceeds size limit");
 		}
-		if (sql.starts_with("\xef\xbb\xbf")) {
-			sql.erase(0, 3);
-		}
 		return sql;
 	} catch (const std::filesystem::filesystem_error &error) {
 		if (error.code() == std::errc::permission_denied ||
@@ -149,9 +149,25 @@ std::string read_sql_contents(const std::filesystem::path &root, const std::stri
 	}
 }
 
+std::string read_sql_contents(const std::filesystem::path &root, const std::string &name,
+                              std::size_t max) {
+	try {
+		return read_sql_contents_raw(root, name, max);
+	} catch (const Failure &failure) {
+		throw Failure(failure.code, sql_file_label(name) + ": " + failure.detail);
+	}
+}
+
 std::string read_sql(const std::filesystem::path &root, const std::string &name, std::size_t max) {
 	auto sql = read_sql_contents(root, name, max);
-	validate_sql(sql);
+	if (sql.starts_with("\xef\xbb\xbf")) {
+		sql.erase(0, 3);
+	}
+	try {
+		validate_sql(sql);
+	} catch (const Failure &failure) {
+		throw Failure(failure.code, sql_file_label(name) + ": " + failure.detail);
+	}
 	return sql;
 }
 } // namespace pg

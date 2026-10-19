@@ -752,3 +752,87 @@ The [API audit](api-modernization.md) records architecture, compatibility and qu
 state. Callback benchmark data is described in [performance](performance.md). Prior
 independent audit/soak evidence does not constitute an independent audit of this new code.
 Exact integrated-source qualification and owner review remain required before publication.
+
+## Configurable log outputs and precise SQL source errors (feature branch)
+
+Initial repository state: clean `master`1379ceded4a45f5e31df3f424de8d918319207ba,
+no open PRs. Actual master CI[39182451549](https://github.com/itskoleban/omp-postgresql/actions/runs/39182451549)
+subsequently completed all seven jobs successfully. Prior experimental prerelease remains
+unchanged; its evidence does not qualify this feature.
+
+Implementation is on `codex/configurable-diagnostics`, [PR19](https://github.com/itskoleban/omp-postgresql/pull/19),
+not merged/published. API inventory is69 natives/three forwards, with exactly one new native.
+Contracts and implementation limits: [design](log-output-design.md), [operator guide](debugging.md),
+[source diagnostics](sql-sections.md#original-source-locations), [performance](performance.md#windows-x86-feature-workload-daef1fd).
+
+### Local evidence
+
+- Exact baseline1379ced core-only source archive, Windows x86 MSVC build:11/11 CTest,
+  zero skips,57.53s, disposable TLS PostgreSQL17.11 and project-corrected libpq DLLs.
+  Initial attempt using different DLLs failed integration connection readiness(10/11);
+  that failure is not a pass. No baseline AMX/open.mp rebuild is claimed.
+- Baseline Python47/47 passed13.826s after rerunning five sandbox socket failures outside
+  the restriction. New branch47/47 passed23.607s; an earlier package-only run hit sandbox
+  temporary-directory permissions and is not a pass. New package tests require logging
+  design/example inventory; no coverage was removed.
+- Feature source daef1fd79c8efe0de75d1b385e37ea6df09019d7:Windows11 10.0.26300,
+  Intel i5-13420H, MSVC19.51 Release x86, patched libpq17.6, PostgreSQL17.11 TLS:
+  **17/17 CTest, zero skips/failures,82.95s**. Includes real-server/lifecycle/COMMIT-loss,
+  stalled handshakes, batch/preflight, callbacks, file failure preservation and source tests.
+- Pawn3.10.11, official pinned includes:all13 examples compiled with `-E`. Actual official
+  open.mp1.5.8.3079 x86:smoke(unload and three GMX reloads), callbacks, extensions,
+  bootstrap, sections, logging, basic, values, saving and transfer passed. Logging additionally
+  verified a component-owned timestamped file and absence of SQL/file/section/callback secrets.
+- Writer unit coverage:all six levels/three destinations, default/custom path, append/restart,
+  bounded rotation/oversize rejection, invalid paths/NUL/encoding/reserved names/hard links,
+  failed open and explicit recovery, OFF, concurrent reconfiguration, synthetic delayed/error
+  completion and thread exception. POSIX-only cases exercise symlink root/file, permission
+  denial, deletion and external growth when executed in CI. Windows prevents write/delete
+  sharing while the active file is open. Test gates inject delayed/pre-write failures through the common disable/count handling;
+  actual short writes, disk-full and stalled-kernel behavior remain unqualified.
+- Parser unit4283 checks; exact fixtures cover duplicate second/first locations, malformed and
+  invalid names, empty/unselected sections, extra statements, quotes/dollar/comments, UTF-8
+  byte columns, BOM/CRLF/CR,120003-line duplicates, budgets/limits and mutable files across jobs.
+  Original SQLSTATE/result error retention, preflight item index and zero dispatch remain tested.
+- 336 SDK-double/actual-PostgreSQL samples across twelve level/destination pairs were retained
+  separately from historical data. Console is a counting sink; actual files are asynchronous.
+  See the source-hashed CSV and measurement limitations in performance.md.
+
+Independent source reviewer found and confirmed fixes for idle synthetic-drop recursion,
+POSIX cached-size accounting, and the transient synthetic-summary counting window. At daef1fd
+no remaining reproducible source findings; reviewer independently passed diagnostics/native
+outside sandbox with matching executable hashes(native13927 checks), and parser4283 checks.
+Earlier sandbox executions of those same hashes returned stale behavior; outside-sandbox
+reproduction and complete parent qualification passed. No independent Linux/runtime race test
+is claimed. A later MinGW x64 CI build failure exposed explicit ABI padding in Windows native
+structures;4971884 initializes named members and removes the function-pointer cast warning.
+Final exact-branch CI/package results are maintained on PR19 rather than treating cancelled
+or superseded runs as qualification. No merge, tag or release was performed.
+
+### Remaining limits
+
+Server-originated SQL positions are explicitly deferred; retain original SQLSTATE/messages.
+No actual ENOSPC, privileged Windows reparse mutation race, network filesystem, indefinitely
+stalled device/kernel, fully instrumented libpq/OpenSSL, hours-long logger soak, real Pawn/tick
+comparative latency or CPU/RSS-by-destination profile was qualified. A writer blocked in an OS
+filesystem call can delay shutdown join; no hard wall-time shutdown bound. This residual
+operational limitation requires owner review before deployment/RC. Finite passes do not
+establish absence of bugs or production readiness. Final distribution/source identities must
+come from the exact final CI preview, not cached local CMake package metadata.
+
+The7512396 CI ThreadSanitizer job failed the file fixture's single-event delivery assertion,
+without a sanitizer diagnostic: a try-lock handoff may legitimately drop an event during
+writer configuration. The corrected fixture retries only after a counted loss, preserves
+exact normal-event/console/drop accounting and still times out on undelivered accepted
+writes. Independent fixture review and the updated Windows diagnostics passed; TSan must
+be rerun on the corrected revision. Runtime C++ is unchanged by this test-only correction.
+
+Final contract review also corrected the new example's asynchronous connection-failure
+branch: it directs secure inspection of `pg_connection_message`, instead of reading an
+unrelated local `pg_last_error`. No raw connection diagnostics are printed automatically.
+
+Final Windows rotation review replaced close-then-path-rename with a still-open source
+handle and directory-relative native rename. This prevents a reparse substitution during
+rotation and requires live Windows readers to share DELETE access. Fresh targeted Windows
+rotation/append/privacy/fault tests passed before publication of the fix; final source CI
+must requalify it. Privileged reparse race stress itself remains unqualified.

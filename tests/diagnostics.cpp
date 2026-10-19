@@ -1,13 +1,21 @@
 #include "pg/config.hpp"
+#include "pg/log_file.hpp"
+#include <algorithm>
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
+#include <source_location>
 #include <stdexcept>
 #include <thread>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 namespace {
-void check(bool value) {
+void check(bool value, std::source_location where = std::source_location::current()) {
 	if (!value) {
-		throw std::runtime_error("Diagnostics contract failed");
+		throw std::runtime_error("Diagnostics contract failed at line " +
+		                         std::to_string(where.line()));
 	}
 }
 struct Output {
@@ -21,6 +29,421 @@ void flush(pg::Diagnostics &d, Output &out) {
 	for (int i = 0; i < 6; ++i) {
 		d.drain(Output::sink, &out);
 	}
+}
+
+std::string contents(const std::filesystem::path &path) {
+#ifdef _WIN32
+	// The writer retains DELETE access for atomic handle-relative rotation.
+	// Live readers must share that access; std::ifstream's Windows sharing does not.
+	HANDLE file = CreateFileW(path.c_str(), GENERIC_READ,
+	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr,
+	                          OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (file == INVALID_HANDLE_VALUE) {
+		return {};
+	}
+	LARGE_INTEGER size{};
+	std::string text;
+	if (GetFileSizeEx(file, &size) && size.QuadPart >= 0 &&
+	    size.QuadPart <= static_cast<LONGLONG>(2 * pg::LogFileWriter::file_limit + 1)) {
+		text.resize(static_cast<std::size_t>(size.QuadPart));
+		DWORD read = 0;
+		if (ReadFile(file, text.data(), static_cast<DWORD>(text.size()), &read, nullptr)) {
+			text.resize(read);
+		} else {
+			text.clear();
+		}
+	}
+	CloseHandle(file);
+	return text;
+#else
+	std::ifstream file(path, std::ios::binary);
+	return {std::istreambuf_iterator<char>(file), {}};
+#endif
+}
+template <class F>
+void eventually(F predicate, std::source_location where = std::source_location::current()) {
+	const auto until = pg::Clock::now() + std::chrono::seconds(5);
+	while (!predicate()) {
+		check(pg::Clock::now() < until, where);
+		std::this_thread::sleep_for(std::chrono::milliseconds(2));
+	}
+}
+
+// A try-lock handoff may drop even a single event while the writer changes control state.
+// Retry only after an observed loss, never just because an accepted write is delayed.
+template <class F>
+std::size_t written(pg::Diagnostics &logger, Output &out, F observed,
+                    pg::LogRecord record = {pg::LogEvent::worker_failed},
+                    std::source_location where = std::source_location::current()) {
+	auto drops = logger.dropped();
+	std::size_t attempts = 1;
+	logger.emit(record);
+	flush(logger, out);
+	eventually(
+	    [&] {
+		    if (observed()) {
+			    return true;
+		    }
+		    if (logger.dropped() != drops) {
+			    drops = logger.dropped();
+			    ++attempts;
+			    logger.emit(record);
+			    flush(logger, out);
+		    }
+		    return false;
+	    },
+	    where);
+	return attempts;
+}
+
+std::size_t events(std::string_view text) {
+	std::size_t count = 0, start = 0;
+	while ((start = text.find("worker_failed", start)) != text.npos) {
+		++count;
+		start += 13;
+	}
+	return count;
+}
+
+void files() {
+	struct Fixture {
+		std::filesystem::path base =
+		    std::filesystem::temp_directory_path() /
+		    ("omp-pg-logs-" + std::to_string(pg::Clock::now().time_since_epoch().count()));
+		Fixture() {
+			std::filesystem::create_directory(base);
+		}
+		~Fixture() {
+			std::error_code ec;
+			std::filesystem::remove_all(base, ec);
+		}
+	} fixture;
+	const auto base = fixture.base;
+	for (const auto &bad : {"/logs/a.log", "C:/logs/a.log", "//host/logs/a.log", "../logs/a.log",
+	                        "logs/../a.log", "logs/a.txt", "logs/sub/a.log", "logs\\a.log",
+	                        "logs/.hidden.log", "logs/a..b.log", "logs/CON.log", "logs/Lpt1.log",
+	                        "logs/a\n.log", "logs/\xc3\xb1.log", "logs/a.log ", "././logs/a.log"}) {
+		bool rejected = false;
+		try {
+			pg::log_path(pg::LogDestination::file, bad);
+		} catch (const pg::Failure &e) {
+			rejected = e.code == pg::Error::invalid;
+		}
+		check(rejected);
+	}
+	for (const auto &bad :
+	     {std::string("logs/a\0.log", 11), "logs/" + std::string(97, 'a') + ".log"}) {
+		bool rejected = false;
+		try {
+			pg::log_path(pg::LogDestination::both, bad);
+		} catch (const pg::Failure &) {
+			rejected = true;
+		}
+		check(rejected);
+	}
+	Output output;
+	for (int level = 0; level < 6; ++level) {
+		for (const auto destination :
+		     {pg::LogDestination::console, pg::LogDestination::file, pg::LogDestination::both}) {
+			const auto name =
+			    "level" + std::to_string(level) + "-" + std::to_string(int(destination)) + ".log";
+			pg::Diagnostics logger(pg::LogLevel::warn, base);
+			logger.configure(static_cast<pg::LogLevel>(level), destination,
+			                 destination == pg::LogDestination::console ? "" : "./logs/" + name);
+			output.lines.clear();
+			if (level && destination != pg::LogDestination::console) {
+				auto attempts = written(logger, output, [&] {
+					return events(contents(base / "logs" / name)) == 1;
+				});
+				check(logger.sink_failures() == 0 && logger.dropped() == attempts - 1);
+				auto ordinary =
+				    std::count_if(output.lines.begin(), output.lines.end(), [](const auto &line) {
+					    return line.find("worker_failed") != line.npos;
+				    });
+				check(ordinary == (destination == pg::LogDestination::both ? attempts : 0));
+			} else {
+				logger.emit({pg::LogEvent::worker_failed});
+				flush(logger, output);
+				check(output.lines.size() == (level ? 1 : 0));
+				check(!std::filesystem::exists(base / "logs" / name));
+			}
+		}
+	}
+	const auto default_path = base / "logs/omp-postgresql.log";
+	{
+		pg::Job secret;
+		secret.sql = "SELECT 'secret_password'";
+		secret.section = "secret_filename";
+		secret.message = "secret_server\nFORGED";
+		secret.callback = std::make_unique<pg::CallbackDescriptor>();
+		secret.callback->arguments.emplace_back("secret_callback");
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/privacy.log");
+		written(
+		    logger, output,
+		    [&] {
+			    return events(contents(base / "logs/privacy.log")) == 1;
+		    },
+		    pg::job_record(pg::LogEvent::worker_failed, secret));
+		auto text = contents(base / "logs/privacy.log");
+		check(text.find("secret_") == text.npos && text.find("FORGED") == text.npos &&
+		      text.find("SELECT") == text.npos);
+	}
+	for (int restart = 0; restart < 2; ++restart) {
+		pg::Diagnostics logger(pg::LogLevel::warn, base);
+		logger.configure(pg::LogLevel::debug, pg::LogDestination::file);
+		auto previous = contents(default_path);
+		output.lines.clear();
+		written(logger, output, [&] {
+			return events(contents(default_path)) > events(previous);
+		});
+		check(contents(default_path).starts_with(previous));
+		check(output.lines.empty());
+	}
+	auto appended = contents(default_path);
+	check(events(appended) == 2);
+	check(appended.find("Z [omp-pg][ERROR]") != std::string::npos);
+	{
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.emit({pg::LogEvent::job_running});
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/new.log");
+		check(logger.dropped() == 1); // Queued old records never cross destination boundaries.
+		try {
+			logger.configure(pg::LogLevel::off, pg::LogDestination::file, "../private.log");
+			check(false);
+		} catch (const pg::Failure &) {
+			check(logger.level() == pg::LogLevel::trace);
+		}
+		logger.configure(pg::LogLevel::off, pg::LogDestination::console);
+		logger.emit({pg::LogEvent::worker_failed});
+		output.lines.clear();
+		flush(logger, output);
+		check(output.lines.empty());
+	}
+	{
+		// Exactly bounded rotation; keep old bytes in one deterministic archive.
+		std::ofstream initial(base / "logs/rotate.log", std::ios::binary);
+		initial << std::string(pg::LogFileWriter::file_limit - 1, 'a');
+		initial.close();
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/rotate.log");
+		written(logger, output, [&] {
+			// Don't open a Windows reader without FILE_SHARE_DELETE while rotation is pending.
+			return std::filesystem::exists(base / "logs/rotate.log.1") &&
+			       contents(base / "logs/rotate.log").find("worker_failed") != std::string::npos;
+		});
+		check(std::filesystem::file_size(base / "logs/rotate.log.1") ==
+		      pg::LogFileWriter::file_limit - 1);
+		check(std::filesystem::file_size(base / "logs/rotate.log") < pg::LogFileWriter::file_limit);
+		logger.configure(pg::LogLevel::off, pg::LogDestination::console);
+	}
+	{
+		std::filesystem::create_directory(base / "logs/broken.log");
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/broken.log");
+		eventually([&] {
+			return logger.sink_failures() == 1;
+		});
+		logger.emit({pg::LogEvent::worker_failed});
+		output.lines.clear();
+		flush(logger, output);
+		check(output.lines.size() == 1 &&
+		      output.lines[0].find("sink_failures=1") != std::string::npos);
+		flush(logger, output);
+		check(output.lines.size() == 1); // Rate-limited fallback.
+		eventually([&] {
+			return logger.dropped() == 1;
+		});
+		for (int idle = 0; idle < 10; ++idle) {
+			flush(logger, output);
+			std::this_thread::sleep_for(std::chrono::milliseconds(2));
+		}
+		check(logger.dropped() == 1); // Synthetic reports must never cause more drops.
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/recovered.log");
+		written(logger, output, [&] {
+			return events(contents(base / "logs/recovered.log")) == 1;
+		});
+	}
+	{
+		// Hard links cannot turn permitted logging into appending to another file.
+		std::ofstream(base / "secret") << "private-secret";
+		std::filesystem::create_hard_link(base / "secret", base / "logs/link.log");
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/link.log");
+		eventually([&] {
+			return logger.sink_failures() == 1;
+		});
+		logger.emit({pg::LogEvent::worker_failed});
+		flush(logger, output);
+		check(contents(base / "secret") == "private-secret");
+	}
+	{
+		std::ofstream initial(base / "logs/oversized.log", std::ios::binary);
+		initial << std::string(pg::LogFileWriter::file_limit + 1, 'a');
+		initial.close();
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/oversized.log");
+		eventually([&] {
+			return logger.sink_failures() == 1;
+		});
+		check(std::filesystem::file_size(base / "logs/oversized.log") ==
+		          pg::LogFileWriter::file_limit + 1 &&
+		      !std::filesystem::exists(base / "logs/oversized.log.1"));
+	}
+#ifndef _WIN32
+	{
+		std::filesystem::create_directory(base / "linked-root");
+		std::filesystem::create_directory(base / "outside");
+		std::filesystem::create_directory_symlink(base / "outside", base / "linked-root/logs");
+		pg::Diagnostics logger(pg::LogLevel::trace, base / "linked-root");
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file);
+		eventually([&] {
+			return logger.sink_failures() == 1;
+		});
+		check(!std::filesystem::exists(base / "outside/omp-postgresql.log"));
+	}
+	{
+		const auto denied = base / "logs/denied.log";
+		std::ofstream(denied) << "keep";
+		std::filesystem::permissions(denied, std::filesystem::perms::owner_read);
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/denied.log");
+		eventually([&] {
+			return logger.sink_failures() == 1;
+		});
+		check(contents(denied) == "keep");
+	}
+	{
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/grown.log");
+		written(logger, output, [&] {
+			return events(contents(base / "logs/grown.log")) == 1;
+		});
+		std::ofstream grow(base / "logs/grown.log", std::ios::binary | std::ios::app);
+		grow << std::string(pg::LogFileWriter::file_limit, 'x');
+		grow.close();
+		auto size = std::filesystem::file_size(base / "logs/grown.log");
+		written(logger, output, [&] {
+			return logger.sink_failures() == 1;
+		});
+		check(std::filesystem::file_size(base / "logs/grown.log") == size);
+	}
+	{
+		std::filesystem::create_symlink(base / "secret", base / "logs/symlink.log");
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/symlink.log");
+		eventually([&] {
+			return logger.sink_failures() == 1;
+		});
+	}
+	{
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/deleted.log");
+		written(logger, output, [&] {
+			return events(contents(base / "logs/deleted.log")) == 1;
+		});
+		std::filesystem::remove(base / "logs/deleted.log");
+		written(logger, output, [&] {
+			return logger.sink_failures() == 1;
+		});
+		check(!std::filesystem::exists(base / "logs/deleted.log"));
+	}
+#endif
+	{
+		// Synthetic delayed/error completion, with actual secure file opening.
+		struct Gate {
+			std::atomic<bool> entered{false}, release{false};
+		} gate;
+		pg::LogFileWriter writer(
+		    base,
+		    [](void *context) {
+			    auto &g = *static_cast<Gate *>(context);
+			    g.entered.store(true);
+			    while (!g.release.load()) {
+				    std::this_thread::yield();
+			    }
+			    return false; // Pre-write failure only; actual short writes/disk exhaustion remain
+			                  // unqualified.
+		    },
+		    &gate);
+		struct Release {
+			Gate &gate;
+			~Release() {
+				gate.release.store(true);
+			}
+		} release{gate};
+		writer.configure("injected.log");
+		eventually([&] {
+			return writer.enqueue({pg::LogEvent::worker_failed});
+		});
+		const auto initial_drops = writer.dropped();
+		eventually([&] {
+			return gate.entered.load();
+		});
+		for (int i = 0; i < 1000; ++i) {
+			writer.enqueue({pg::LogEvent::worker_failed});
+		}
+		check(writer.dropped() >= 1000 - pg::Diagnostics::capacity);
+		writer.configure("reconfigured.log"); // Must not wait behind delayed I/O.
+		gate.release.store(true);
+		eventually([&] {
+			return writer.failures() == 1;
+		});
+		check(writer.dropped() == initial_drops + 1001);
+	}
+	{
+		pg::LogFileWriter writer(base, [](void *) -> bool {
+			throw std::runtime_error("injected failure");
+		});
+		writer.configure("thread-failure.log");
+		std::uint64_t initial_drops = 0;
+		eventually([&] {
+			if (writer.enqueue({pg::LogEvent::worker_failed})) {
+				return true;
+			}
+			++initial_drops;
+			return false;
+		});
+		eventually([&] {
+			return writer.failures() == 1;
+		});
+		eventually([&] {
+			try {
+				writer.configure("thread-failure.log");
+			} catch (const pg::Failure &e) {
+				return e.code == pg::Error::internal;
+			}
+			return false;
+		});
+		check(writer.dropped() == initial_drops + 1);
+		writer.configure("");
+	}
+	{
+		pg::Diagnostics logger(pg::LogLevel::trace, base);
+		std::vector<std::thread> producers;
+		for (int lane = 0; lane < 4; ++lane) {
+			producers.emplace_back([&] {
+				for (int i = 0; i < 20000; ++i) {
+					logger.emit({pg::LogEvent::worker_failed});
+				}
+			});
+		}
+		for (int i = 0; i < 40; ++i) {
+			auto destination = static_cast<pg::LogDestination>(i % 3);
+			logger.configure(static_cast<pg::LogLevel>(i % 6), destination,
+			                 destination == pg::LogDestination::console ? ""
+			                                                            : "logs/transitions.log");
+			flush(logger, output);
+		}
+		for (auto &producer : producers) {
+			producer.join();
+		}
+		logger.configure(pg::LogLevel::off, pg::LogDestination::console);
+	}
+	std::cout
+	    << "File output "
+	       "levels/destinations/paths/append/rotation/failure/recovery/links/injection/concurrency "
+	       "passed\n";
 }
 void unit() {
 	struct Setting {
@@ -203,6 +626,7 @@ void unit() {
 int main() {
 	try {
 		unit();
+		files();
 		return 0;
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << '\n';

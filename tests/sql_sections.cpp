@@ -26,7 +26,8 @@ template <class F> void rejects(F f, pg::Error code, const char *message) {
 	try {
 		f();
 	} catch (const pg::Failure &failure) {
-		check(failure.code == code && failure.detail == message, "Wrong rejection diagnostic");
+		check(failure.code == code && failure.detail.find(message) != std::string::npos,
+		      "Wrong rejection diagnostic");
 		return;
 	}
 	check(false, "Expected rejection");
@@ -51,6 +52,74 @@ struct Files {
 };
 
 void unit() {
+	// Exact original-file metadata, including declarations in an unselected section.
+	const std::vector<std::pair<std::string, std::string>> located{
+	    {"-- name: save\nSELECT 1;\n-- name: save\nSELECT 2;",
+	     "accounts.sql:3:1: Duplicate SQL section 'save'; first declared at line 1"},
+	    {"\xef\xbb\xbf--name:save\r\nSELECT 1;\r\n  -- name: save\r\nSELECT 2;",
+	     "accounts.sql:3:3: Duplicate SQL section 'save'; first declared at line 1"},
+	    {"\r\n\t  -- name : bad\nSELECT 1;",
+	     "accounts.sql:2:4: Malformed SQL section declaration; expected '-- name: identifier' "
+	     "(also '--name:identifier')"},
+	    {"-- name: empty\n-- comment\n/* nested /* comment */ */",
+	     "accounts.sql:1:1: Empty SQL section 'empty'; add one SQL statement after the "
+	     "declaration"},
+	    {"-- name: ok\nSELECT 1;\n-- name: other\nSELECT 1; SELECT 2;",
+	     "accounts.sql:4:11: SQL section must contain exactly one statement in section 'other'; "
+	     "remove the extra statement or semicolon"},
+	    {"-- name: x\nSELECT '\xc3\xa9'; SELECT 2;",
+	     "accounts.sql:2:14: SQL section must contain exactly one statement in section 'x'; remove "
+	     "the extra statement or semicolon"},
+	    {"-- name: x\rSELECT '", "accounts.sql:2:8: Unterminated SQL quoted string in section 'x'; "
+	                             "close the opening quote"},
+	    {"-- name: x\nSELECT E'\\", "accounts.sql:2:9: Unterminated SQL quoted string in section "
+	                                "'x'; close the opening quote"},
+	    {"-- name: x\nSELECT \"", "accounts.sql:2:8: Unterminated SQL quoted identifier in section "
+	                              "'x'; close the opening quote"},
+	    {"-- name: x\nSELECT $tag$;", "accounts.sql:2:8: Unterminated SQL dollar quote in section "
+	                                  "'x'; close with the matching dollar delimiter"},
+	    {"-- name: x\nSELECT 1; /* /* */",
+	     "accounts.sql:2:11: Unterminated SQL block comment in section 'x'; close with '*/'"},
+	    {"\xef\xbb\xbf  SELECT 1;", "accounts.sql:1:3: SQL content before first section; add '-- "
+	                                "name: identifier' before SQL"}};
+	for (const auto &[source, expected] : located) {
+		try {
+			pg::parse_sql_sections(source, "accounts.sql");
+			check(false, "Located error accepted");
+		} catch (const pg::Failure &failure) {
+			if (failure.detail != expected) {
+				std::cerr << failure.detail << '\n';
+			}
+			check(failure.code == pg::Error::file && failure.detail == expected,
+			      "Wrong original position");
+			std::cout << failure.detail << '\n';
+		}
+	}
+	const auto valid = pg::parse_sql_sections("--name:save\nSELECT 1;", "accounts.sql");
+	rejects(
+	    [&] {
+		    valid.select("Save");
+	    },
+	    pg::Error::file,
+	    "accounts.sql: SQL section 'Save' not found; check the case-sensitive declaration name");
+	for (const auto name : {"", "1bad", "bad name"}) {
+		rejects(
+		    [&] {
+			    pg::parse_sql_sections("-- name: " + std::string(name), "accounts.sql");
+		    },
+		    pg::Error::file,
+		    "accounts.sql:1:1: Malformed SQL section declaration: empty or invalid name");
+	}
+	rejects(
+	    [] {
+		    pg::parse_sql_sections(std::string(120000, '\n') + "-- name: x\nSELECT 1;\n-- name: x",
+		                           "large.sql");
+	    },
+	    pg::Error::file,
+	    "large.sql:120003:1: Duplicate SQL section 'x'; first declared at line 120001");
+	check(pg::sql_file_label("/private/password.sql") == "<sql-file>" &&
+	          pg::sql_file_label("a\nFORGED.sql").find('\n') == std::string::npos,
+	      "Unsafe filename leaked into owner diagnostics");
 	for (const auto &valid : {"a", "_", "LOAD_1", "load_1"}) {
 		check(pg::valid_section_name(valid), "Valid section name rejected");
 	}
@@ -75,7 +144,7 @@ void unit() {
 	    [&] {
 		    document.select("middle");
 	    },
-	    pg::Error::file, "SQL section not found");
+	    pg::Error::file, "SQL section 'middle' not found");
 	auto moved = std::move(document);
 	check(moved.select("last") == "\r\nSELECT $2::jsonb", "Moving document invalidated spans");
 	for (const std::string body :
@@ -142,7 +211,7 @@ void unit() {
 		    [&] {
 			    pg::parse_sql_sections("-- name: x\n" + std::string(body));
 		    },
-		    pg::Error::file, "Unterminated SQL quoted value");
+		    pg::Error::file, "Unterminated SQL quoted");
 	}
 	rejects(
 	    [] {
@@ -492,11 +561,11 @@ void integration(const char *profile) {
 	for (auto [filename, section, message] :
 	     std::vector<std::tuple<std::string, std::string, const char *>>{
 	         {"missing.sql", "selected", "SQL file not found"},
-	         {"sections.sql", "missing", "SQL section not found"}}) {
+	         {"sections.sql", "missing", "SQL section 'missing' not found"}}) {
 		auto s = engine.prepare_file(owner, connection, filename, 0, true, section);
 		auto failure = wait(engine, run(engine, s), false);
-		check(failure->error == pg::Error::file && failure->message == message &&
-		          failure->completed == 0,
+		check(failure->error == pg::Error::file && failure->message.starts_with(filename + ": ") &&
+		          failure->message.find(message) != std::string::npos && failure->completed == 0,
 		      "Deferred section diagnostic differs");
 		engine.close_job(owner, failure->id);
 		engine.close_statement(owner, s);
@@ -635,7 +704,9 @@ void lifecycle_and_limits(const char *profile) {
 	auto statement = engine.prepare_file(owner, connection, "sections.sql", 0, true, "last");
 	auto job = wait(engine, run(engine, statement), false);
 	check(job->error == pg::Error::limit &&
-	          job->message == "SQL section capture exceeds batch byte limit" && job->completed == 0,
+	          job->message == "sections.sql: section 'last': SQL section capture exceeds batch "
+	                          "byte limit; split the batch" &&
+	          job->completed == 0,
 	      "Named file capture exceeded memory budget");
 	engine.close_job(owner, job->id);
 	engine.close_statement(owner, statement);
