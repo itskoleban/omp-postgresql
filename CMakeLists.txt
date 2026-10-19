@@ -40,6 +40,10 @@ set(PG_LIBPQ_SOURCE_DIR
     ""
     CACHE PATH "Windows libpq source for its mutex regression test"
 )
+set(PG_LOG_ENOSPC_BASE
+    ""
+    CACHE PATH "Isolated tiny Linux tmpfs for actual logger ENOSPC qualification"
+)
 set(PG_PAWN_INCLUDE_DIR
     "qawno/include"
     CACHE STRING "Pawn include installation directory"
@@ -252,6 +256,18 @@ if(BUILD_TESTING)
     add_test(NAME unit COMMAND pg_tests)
     add_test(NAME diagnostics_unit COMMAND pg_diagnostics_tests)
     set_tests_properties(diagnostics_unit PROPERTIES TIMEOUT 30)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        add_test(NAME diagnostics_short_write COMMAND pg_diagnostics_tests --short-write)
+        add_test(NAME diagnostics_permission COMMAND pg_diagnostics_tests --permission)
+        set_tests_properties(diagnostics_short_write diagnostics_permission PROPERTIES TIMEOUT 15)
+        set_tests_properties(diagnostics_permission PROPERTIES SKIP_RETURN_CODE 77)
+        if(PG_LOG_ENOSPC_BASE)
+            add_test(NAME diagnostics_enospc COMMAND pg_diagnostics_tests --enospc
+                                                     "${PG_LOG_ENOSPC_BASE}"
+            )
+            set_tests_properties(diagnostics_enospc PROPERTIES TIMEOUT 45)
+        endif()
+    endif()
     add_test(NAME integration COMMAND pg_tests --integration)
     add_test(NAME types_unit COMMAND pg_type_tests)
     add_test(NAME types_integration COMMAND pg_type_tests --integration)

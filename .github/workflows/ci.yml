@@ -50,11 +50,17 @@ jobs:
                   sudo apt-get install -y clang-19
                   echo CC=clang-19 >> "$GITHUB_ENV"
                   echo CXX=clang++-19 >> "$GITHUB_ENV"
+            - name: Create a tiny isolated filesystem for real ENOSPC qualification
+              run: |
+                  logfs=$(mktemp -d "$RUNNER_TEMP/omp-pg-logfs.XXXXXX")
+                  sudo mount -t tmpfs -o "size=1m,mode=0700,uid=$(id -u),gid=$(id -g),nosuid,nodev,noexec" tmpfs "$logfs"
+                  echo "PG_LOG_ENOSPC_BASE=$logfs" >> "$GITHUB_ENV"
             - run: |
                   cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
                       -DPG_SANITIZE=${{ matrix.sanitize == 'ON' && 'ON' || 'OFF' }} \
                       -DPG_THREAD_SANITIZE=${{ matrix.sanitize == 'THREAD' && 'ON' || 'OFF' }} \
-                      -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS" -DPG_BUILD_BENCHMARK=ON
+                      -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS" -DPG_BUILD_BENCHMARK=ON \
+                      -DPG_LOG_ENOSPC_BASE="$PG_LOG_ENOSPC_BASE"
             - run: |
                   cmake --build build --parallel 4
             - run: |
@@ -81,6 +87,12 @@ jobs:
                       build/Testing/Temporary/qualification.xml
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
+            - name: Unmount the isolated log filesystem
+              if: always() && env.PG_LOG_ENOSPC_BASE != ''
+              run: |
+                  [[ "$PG_LOG_ENOSPC_BASE" == "$RUNNER_TEMP"/omp-pg-logfs.* ]]
+                  sudo umount -- "$PG_LOG_ENOSPC_BASE"
+                  rmdir -- "$PG_LOG_ENOSPC_BASE"
     linux-x86:
         name: Linux x86 and open.mp
         runs-on: ubuntu-24.04
@@ -107,8 +119,12 @@ jobs:
                   echo "LD_LIBRARY_PATH=$PWD/libpq32/lib" >> "$GITHUB_ENV"
             - name: Build the x86 component
               run: |
+                  logfs=$(mktemp -d "$RUNNER_TEMP/omp-pg-logfs.XXXXXX")
+                  sudo mount -t tmpfs -o "size=1m,mode=0700,uid=$(id -u),gid=$(id -g),nosuid,nodev,noexec" tmpfs "$logfs"
+                  echo "PG_LOG_ENOSPC_BASE=$logfs" >> "$GITHUB_ENV"
                   cmake -S . -B build-linux32 -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-m32 \
                       -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS" \
+                      -DPG_LOG_ENOSPC_BASE="$logfs" \
                       -DCMAKE_C_FLAGS=-m32 -DPG_BUILD_BENCHMARK=ON "-DPostgreSQL_INCLUDE_DIR=$PWD/libpq32/include" \
                   	"-DPostgreSQL_LIBRARY=$PWD/libpq32/lib/libpq.so"
                   cmake --build build-linux32 --parallel 4
@@ -123,6 +139,8 @@ jobs:
                   python3 scripts/check_docs.py
                   python3 scripts/compile_examples.py --compiler build-pawn32/pawncc --include pawn \
                       --include build-stdlib --include build-linux32/_deps/pawn-src/include --output build-linux32
+                  build-pawn32/pawncc tests/logging_performance.pwn -E -ipawn -ibuild-stdlib \
+                      -ibuild-linux32/_deps/pawn-src/include -obuild-linux32/logging-performance.amx
             - name: Obtain the fixed open.mp distribution with dynamic OpenSSL
               run: |
                   curl --fail --location --retry 3 \
@@ -139,7 +157,9 @@ jobs:
                   	build-linux32/unload.amx --callback-gamemode build-linux32/callbacks.amx \
                       --extension-gamemode build-linux32/extensions.amx --bootstrap-gamemode build-linux32/bootstrap.amx \
                       --section-gamemode build-linux32/sections.amx --logging-gamemode build-linux32/logging.amx --section-sql examples/sql/accounts.sql --runtime \
-                      "$PWD/libpq32/lib/libpq.so.5" --tutorial-dir build-linux32 --tutorial-sql-dir examples/sql
+                      "$PWD/libpq32/lib/libpq.so.5" --tutorial-dir build-linux32 --tutorial-sql-dir examples/sql \
+                      --logging-performance-gamemode build-linux32/logging-performance.amx \
+                      --logging-performance-csv build-linux32/Testing/Temporary/openmp-source-performance.csv
             - name: Assemble and verify the Linux x86 package
               run: |
                   python3 scripts/package.py create --platform linux --build build-linux32 \
@@ -172,7 +192,9 @@ jobs:
                       --section-gamemode build-linux32/packaged-sections.amx --logging-gamemode build-linux32/packaged-logging.amx \
                       --section-sql build-package-check/omp-postgresql/examples/sql/accounts.sql \
                       --tutorial-dir build-linux32 --tutorial-prefix packaged- \
-                      --tutorial-sql-dir build-package-check/omp-postgresql/examples/sql
+                      --tutorial-sql-dir build-package-check/omp-postgresql/examples/sql \
+                      --logging-performance-gamemode build-linux32/logging-performance.amx \
+                      --logging-performance-csv build-linux32/Testing/Temporary/openmp-package-performance.csv
             - name: Upload the validated Linux x86 package and SHA-256
               uses: actions/upload-artifact@v4
               with:
@@ -187,10 +209,19 @@ jobs:
                   path: |
                       build-linux32/Testing/Temporary/*.log
                       build-linux32/Testing/Temporary/qualification.xml
+                      build-linux32/Testing/Temporary/openmp-*-performance.*
                       ${{ runner.temp }}/openmp/Server/pg-*-output.log
                       ${{ runner.temp }}/openmp-package/Server/pg-*-output.log
+                      ${{ runner.temp }}/openmp/Server/logs/pg-perf-*.log*
+                      ${{ runner.temp }}/openmp-package/Server/logs/pg-perf-*.log*
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
+            - name: Unmount the isolated log filesystem
+              if: always() && env.PG_LOG_ENOSPC_BASE != ''
+              run: |
+                  [[ "$PG_LOG_ENOSPC_BASE" == "$RUNNER_TEMP"/omp-pg-logfs.* ]]
+                  sudo umount -- "$PG_LOG_ENOSPC_BASE"
+                  rmdir -- "$PG_LOG_ENOSPC_BASE"
     windows:
         runs-on: windows-latest
         steps:
@@ -320,6 +351,9 @@ jobs:
                   python scripts/compile_examples.py --compiler build-pawn32/Release/pawncc.exe --include pawn `
                       --include build-stdlib --include build-msvc32/_deps/pawn-src/include --output build-msvc32
                   if ($LASTEXITCODE -ne 0) { throw 'Pawn32 compilation failed' }
+                  & build-pawn32/Release/pawncc.exe tests/logging_performance.pwn '-E' '-ipawn' '-ibuild-stdlib' `
+                      '-ibuild-msvc32/_deps/pawn-src/include' '-obuild-msvc32/logging-performance.amx'
+                  if ($LASTEXITCODE -ne 0) { throw 'Pawn performance fixture compilation failed' }
             - name: Obtain the fixed PostgreSQL server and open.mp distributions
               shell: pwsh
               run: |
@@ -347,7 +381,9 @@ jobs:
                       --extension-gamemode build-msvc32/extensions.amx --bootstrap-gamemode build-msvc32/bootstrap.amx `
                       --section-gamemode build-msvc32/sections.amx --logging-gamemode build-msvc32/logging.amx --section-sql examples/sql/accounts.sql --runtime `
                       libpq32/bin/libpq.dll --runtime libpq32/bin/libssl-3.dll --runtime libpq32/bin/libcrypto-3.dll `
-                      --tutorial-dir build-msvc32 --tutorial-sql-dir examples/sql
+                      --tutorial-dir build-msvc32 --tutorial-sql-dir examples/sql `
+                      --logging-performance-gamemode build-msvc32/logging-performance.amx `
+                      --logging-performance-csv build-msvc32/Testing/Temporary/openmp-source-performance.csv
                   if ($LASTEXITCODE -ne 0) {
                   	throw 'MSVC x86 PostgreSQL/open.mp integration failed'
                   }
@@ -403,7 +439,9 @@ jobs:
                       --section-gamemode build-msvc32/packaged-sections.amx --logging-gamemode build-msvc32/packaged-logging.amx `
                       --section-sql build-package-check/omp-postgresql/examples/sql/accounts.sql @runtimeArgs `
                       --tutorial-dir build-msvc32 --tutorial-prefix packaged- `
-                      --tutorial-sql-dir build-package-check/omp-postgresql/examples/sql
+                      --tutorial-sql-dir build-package-check/omp-postgresql/examples/sql `
+                      --logging-performance-gamemode build-msvc32/logging-performance.amx `
+                      --logging-performance-csv build-msvc32/Testing/Temporary/openmp-package-performance.csv
                   if ($LASTEXITCODE -ne 0) { throw 'Packaged open.mp integration failed' }
             - name: Upload the validated Windows x86 package and SHA-256
               uses: actions/upload-artifact@v4
@@ -419,8 +457,11 @@ jobs:
                   path: |
                       build-msvc32/Testing/Temporary/*.log
                       build-msvc32/Testing/Temporary/qualification.xml
+                      build-msvc32/Testing/Temporary/openmp-*-performance.*
                       build-openmp/Server/pg-*-output.log
                       build-openmp-package/Server/pg-*-output.log
+                      build-openmp/Server/logs/pg-perf-*.log*
+                      build-openmp-package/Server/logs/pg-perf-*.log*
     verify-distribution-artifacts:
         name: Verify downloaded x86 distributions
         needs: [linux-x86, windows-x86]

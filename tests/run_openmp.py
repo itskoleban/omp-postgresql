@@ -6,12 +6,14 @@ smoke.amx, component and explicitly supplied runtime DLLs. PostgreSQL profile
 """
 
 import argparse
+import codecs
 import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
 import time
+from openmp_performance import ObservedContext, ProcessSamples, capture
 
 p = argparse.ArgumentParser()
 p.add_argument("--server", required=True)
@@ -25,8 +27,19 @@ p.add_argument("--gmx-rounds", type=int, default=3)
 p.add_argument("--unload-script")
 p.add_argument("--success-marker", default="PG SMOKE PASS")
 p.add_argument("--failure-marker", default="PG SMOKE FAILED")
+p.add_argument(
+    "--performance-csv", help="Capture logging_performance.pwn raw measurements and provenance"
+)
 args = p.parse_args()
+if args.performance_csv and (
+    args.gmx_rounds or args.unload_script or args.success_marker != "PG PERFORMANCE PASS"
+):
+    p.error(
+        "--performance-csv requires --gmx-rounds 0 --success-marker 'PG PERFORMANCE PASS' and no unload script"
+    )
 root = Path(args.server).resolve()
+if args.performance_csv and any((root / "logs").glob("pg-perf-*.log*")):
+    p.error("Performance fixture requires a fresh disposable server without pg-perf-*.log files")
 config_path = root / "config.json"
 config = json.loads(config_path.read_text(encoding="utf8"))
 config.update(announce=False, enable_query=False, name="omp-postgresql isolated test")
@@ -64,6 +77,7 @@ log_names = {
     "PG VALUES PASS": "pg-values-output.log",
     "PG SAVING PASS": "pg-saving-output.log",
     "PG TRANSFER PASS": "pg-transfer-output.log",
+    "PG PERFORMANCE PASS": "pg-performance-output.log",
 }
 log_path = root / log_names.get(args.success_marker, "pg-custom-output.log")
 with log_path.open("wb") as log:
@@ -76,6 +90,7 @@ with log_path.open("wb") as log:
         creationflags=flags,
     )
     passed = False
+    samples = ProcessSamples(proc.pid) if args.performance_csv else None
 
     def command(text):
         # The Windows open.mp console reads UTF-16 wchar_t from redirected stdin.
@@ -86,13 +101,33 @@ with log_path.open("wb") as log:
         deadline = time.monotonic() + 75
         rounds = 0
         unloading = False
+        content = ""
+        observed_bytes = 0
+        observer_context = ObservedContext()
+        decoder = codecs.getincrementaldecoder("utf8")(errors="replace")
+        marker_tail = ""
         while time.monotonic() < deadline:
-            content = log_path.read_text(encoding="utf8", errors="replace")
-            if args.unload_script and "PG UNLOAD PENDING" in content and not unloading:
+            if samples:
+                # Incremental reads keep the measurement observer from repeatedly
+                # rescanning multi-megabyte diagnostic output at 50 Hz.
+                with log_path.open("rb") as observer:
+                    observer.seek(observed_bytes)
+                    update = observer.read(16 * 1024 * 1024 - observed_bytes)
+                observed_bytes += len(update)
+                if observed_bytes >= 16 * 1024 * 1024:
+                    raise RuntimeError("Performance console capture exceeded 16 MiB")
+                decoded = decoder.decode(update)
+                inspection = marker_tail + decoded
+                marker_tail = inspection[-128:]
+                samples.sample(observer_context.feed(decoded))
+            else:
+                content = log_path.read_text(encoding="utf8", errors="replace")
+                inspection = content
+            if args.unload_script and "PG UNLOAD PENDING" in inspection and not unloading:
                 command("unloadfs pg_unload")
                 unloading = True
-            passes = content.count(args.success_marker)
-            unloaded = not args.unload_script or "PG UNLOAD EXIT" in content
+            passes = inspection.count(args.success_marker)
+            unloaded = not args.unload_script or "PG UNLOAD EXIT" in inspection
             # Wait for the unload acknowledgement before sending GMX. The Linux
             # console can otherwise coalesce adjacent stdin commands, and the
             # pending query must be unloaded before a mode reload is tested.
@@ -108,13 +143,13 @@ with log_path.open("wb") as log:
                 )
                 break
             if (
-                args.failure_marker in content
-                or "PG SMOKE LOCAL FAILURE" in content
-                or "PG SMOKE CONNECTION FAILED" in content
+                args.failure_marker in inspection
+                or "PG SMOKE LOCAL FAILURE" in inspection
+                or "PG SMOKE CONNECTION FAILED" in inspection
                 or proc.poll() is not None
             ):
                 break
-            time.sleep(0.1)
+            time.sleep(0.02 if samples else 0.1)
     finally:
         if proc.poll() is None:
             try:
@@ -123,11 +158,24 @@ with log_path.open("wb") as log:
             except subprocess.TimeoutExpired:
                 proc.terminate()
                 proc.wait(timeout=5)
+        if samples:
+            samples.close()
 print(log_path.read_text(encoding="utf8", errors="replace"))
 if not passed:
     raise SystemExit("open.mp smoke did not pass")
 if proc.returncode != 0:
     raise SystemExit(f"open.mp did not shut down cleanly (exit {proc.returncode})")
+if args.performance_csv:
+    count = capture(
+        args.performance_csv,
+        log_path.read_text(encoding="utf8", errors="strict"),
+        root,
+        args.component,
+        args.gamemode,
+        samples,
+        args.runtime,
+    )
+    print(f"Captured {count} real Pawn measurement rows: {Path(args.performance_csv).resolve()}")
 if args.success_marker == "PG LOGGING PASS":
     destination = root / "logs" / "postgresql.log"
     output = destination.read_text(encoding="utf8")

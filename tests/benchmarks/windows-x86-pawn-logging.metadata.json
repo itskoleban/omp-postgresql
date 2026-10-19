@@ -1,0 +1,67 @@
+{
+  "captured_utc": "2026-10-19T09:05:58.911749+00:00",
+  "source_commit": "4444319749b256472b8b5198fb1068b40f8d1a0b",
+  "source_dirty": false,
+  "source_status": [],
+  "source_status_truncated": false,
+  "platform": "Windows-11-10.0.26300-SP0",
+  "machine": "AMD64",
+  "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+  "logical_cpus": 12,
+  "python": "3.13.14",
+  "sha256": {
+    "component": "93c027aecbaa1662c5281e857ed4eae45ceb49af5d99c6920c9413c09a52826e",
+    "gamemode_amx": "3dd02f303fc5cd6e2cfeacdd7f0d6241ad739248751cf39db8a75f24352d22a6",
+    "server": "690363cc8d4708685eb2bfcfdc117abfc1293c5606fe5f8a4bbb3d53591c2829",
+    "tests/logging_performance.pwn": "92233d29b74b0893461b322deb74d21c9678efc03ae2f2576721abf91b2e2453",
+    "tests/run_openmp.py": "8488ea116a83771f196a98c1144558f22858bc085ddda74d0b9bf36fa84fe598",
+    "tests/openmp_performance.py": "669d56c14c35426b8c65663ecb746e740216e13e5cfe14f6ae024b95d8508140",
+    "pawn/omp-postgresql.inc": "751a1a89f24fede05b2b254609ec6ffaf74566ceade5aa714cbe763cf174f451"
+  },
+  "runtime_sha256": {
+    "libcrypto-3.dll": "b206bf8553f7b2e4583d65aec4fced04dac2f7f2250351268e00fb538bcd70dc",
+    "libpq.dll": "f948edac984e63617c4db99d87ebe47442acfc8791f7981926c0bda98bbc4ca6",
+    "libssl-3.dll": "996a66143505f6831cf7f2c486095bb78e0c8e425a1cb5c48dfc0ffe2a4dfe64",
+    "libwinpthread-1.dll": "89513721609b0b2c3ec84760388866487d1cac35c0efb70a158622bfc8697179"
+  },
+  "workload": "Two lanes; 64 pg_query jobs/batch: 56 SELECT 1, eight division-by-zero errors; 12 level/destination cases; round 0 warmup, rounds 1..7 measured",
+  "timing": "Pawn GetTickCount integer milliseconds; callback entry minus pg_query entry; batch elapsed includes 100 ms observation after callbacks; one-shot timer lateness from its scheduled due time; output deferred until all callbacks completed",
+  "resources": "Whole open.mp process CPU seconds/RSS sampled by observer; context labels reflect last redirected-output marker, may lag actual phase; intervals crossing labels must be discarded; workload_or_observation includes SQL and timers, reporting_or_idle includes output; no component-only CPU attribution",
+  "resource_unavailable_reason": null,
+  "resource_samples": 342,
+  "component_tick_execution_cost": "unmeasured",
+  "drops": "Observed summaries only, per sink; BOTH duplicates exist; append/rotation retention may be incomplete; no summary does not prove zero loss",
+  "file_inventory": [
+    {
+      "name": "pg-perf-2-1.log",
+      "bytes": 11450,
+      "sha256": "388a35588d79fc70d8203d548208f4978a00464227ca9be4f430600483da118b"
+    },
+    {
+      "name": "pg-perf-2-2.log",
+      "bytes": 11450,
+      "sha256": "6f142976c1161626e6cc4ca058962d4cf4412601f71c7248969e0925d3cff70c"
+    },
+    {
+      "name": "pg-perf-4-1.log",
+      "bytes": 489735,
+      "sha256": "acd1838f35d19a4025257d7c0546474c1ef265d7d075c578df471089049f042e"
+    },
+    {
+      "name": "pg-perf-4-2.log",
+      "bytes": 490988,
+      "sha256": "ea7f36bd203dbc1c00889d5f3bdd36a932ddddbb1bf5c5c9a4c57091d9f9773a"
+    },
+    {
+      "name": "pg-perf-5-1.log",
+      "bytes": 516928,
+      "sha256": "1611aad6161b8bcf372af8c980208f977cf9e9913d6da9ddc4db734b42c75678"
+    },
+    {
+      "name": "pg-perf-5-2.log",
+      "bytes": 453814,
+      "sha256": "263f15d4828b486495b73e6860a59867d4fcc1b2451ff1311c80644debe3d8b9"
+    }
+  ],
+  "transport": "As configured by game service profile; run_postgres.py supplies loopback verify-full TLS"
+}

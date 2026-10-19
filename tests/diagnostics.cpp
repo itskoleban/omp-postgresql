@@ -1,4 +1,5 @@
 #include "pg/config.hpp"
+#include "pg/engine.hpp"
 #include "pg/log_file.hpp"
 #include <algorithm>
 #include <cstdlib>
@@ -9,6 +10,17 @@
 #include <thread>
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include <cerrno>
+#include <csignal>
+#include <fcntl.h>
+#include <sys/resource.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#ifdef __linux__
+#include <linux/magic.h>
+#include <sys/statfs.h>
+#endif
 #endif
 
 namespace {
@@ -104,6 +116,296 @@ std::size_t events(std::string_view text) {
 	}
 	return count;
 }
+
+#ifndef _WIN32
+// These OS fault cases run as separate CTest processes: resource limits and signal
+// disposition must never affect another test or a real database/server process.
+struct OsFixture {
+	std::filesystem::path base;
+	explicit OsFixture(const std::filesystem::path &parent = std::filesystem::temp_directory_path())
+	    : base(parent / ("omp-pg-os-logs-" + std::to_string(getpid()) + "-" +
+	                     std::to_string(pg::Clock::now().time_since_epoch().count()))) {
+		check(std::filesystem::create_directory(base));
+		std::filesystem::permissions(base, std::filesystem::perms::owner_all);
+		check(std::filesystem::create_directory(base / "logs"));
+	}
+	~OsFixture() {
+		std::error_code ec;
+		std::filesystem::remove_all(base, ec);
+	}
+};
+
+// Exactly one accepted event, accounting for legitimate numeric try-lock drops.
+std::size_t enqueue_one(pg::LogFileWriter &writer) {
+	std::size_t attempts = 0;
+	eventually([&] {
+		++attempts;
+		return writer.enqueue({pg::LogEvent::worker_failed});
+	});
+	return attempts;
+}
+
+void disabled_after_failure(pg::LogFileWriter &writer, std::uint64_t dropped) {
+	eventually([&] {
+		return writer.failures() == 1 && writer.unavailable() && writer.dropped() == dropped;
+	});
+	// A failed destination stays disabled; later events are accounted without an
+	// automatic reopen/retry or an unbounded failure-report loop.
+	const auto attempts = enqueue_one(writer);
+	eventually([&] {
+		return writer.dropped() == dropped + attempts;
+	});
+	check(writer.failures() == 1 && writer.unavailable());
+}
+
+void recovered_file(pg::LogFileWriter &writer, const std::filesystem::path &path) {
+	auto drops = writer.dropped();
+	writer.configure(path.filename().string());
+	writer.enqueue({pg::LogEvent::worker_failed});
+	eventually([&] {
+		if (events(contents(path)) == 1) {
+			return true;
+		}
+		if (writer.dropped() != drops) {
+			drops = writer.dropped();
+			writer.enqueue({pg::LogEvent::worker_failed});
+		}
+		return false;
+	});
+	check(!writer.unavailable() && writer.failures() == 1);
+}
+
+int permission_failure() {
+	if (geteuid() == 0) {
+		std::cout << "SKIP actual EACCES requires an unprivileged effective uid\n";
+		return 77;
+	}
+	OsFixture fixture;
+	const auto path = fixture.base / "logs/denied.log";
+	std::ofstream(path) << "keep";
+	check(chmod(path.c_str(), 0400) == 0);
+	// Establish the actual effective OS error, rather than assuming chmod denies
+	// the running identity (root and some capabilities can bypass permissions).
+	errno = 0;
+	const int denied = ::open(path.c_str(), O_WRONLY | O_APPEND | O_CLOEXEC);
+	const int error = errno;
+	if (denied >= 0) {
+		::close(denied);
+	}
+	check(denied < 0 && error == EACCES);
+	pg::LogFileWriter writer(fixture.base);
+	writer.configure("denied.log");
+	eventually([&] {
+		return writer.failures() == 1;
+	});
+	const auto attempts = enqueue_one(writer);
+	disabled_after_failure(writer, attempts);
+	check(contents(path) == "keep");
+	check(chmod(path.c_str(), 0600) == 0);
+	recovered_file(writer, path);
+	check(contents(path).starts_with("keep"));
+	std::cout
+	    << "Actual EACCES: disabled once, drops accounted, explicit recovery preserves append\n";
+	return 0;
+}
+
+int short_write() {
+	struct Limits {
+		rlimit original{};
+		struct sigaction previous{};
+		bool changed = false;
+		Limits() {
+			check(getrlimit(RLIMIT_FSIZE, &original) == 0);
+			struct sigaction ignored{};
+			ignored.sa_handler = SIG_IGN;
+			check(sigemptyset(&ignored.sa_mask) == 0);
+			check(sigaction(SIGXFSZ, &ignored, &previous) == 0);
+		}
+		void restore() {
+			if (changed) {
+				check(setrlimit(RLIMIT_FSIZE, &original) == 0);
+				changed = false;
+			}
+		}
+		~Limits() {
+			if (changed) {
+				setrlimit(RLIMIT_FSIZE, &original);
+			}
+			sigaction(SIGXFSZ, &previous, nullptr);
+		}
+	} limits;
+	check(limits.original.rlim_max == RLIM_INFINITY || limits.original.rlim_max >= 1);
+	OsFixture fixture;
+	const auto path = fixture.base / "logs/partial.log";
+	rlimit one_byte = limits.original;
+	one_byte.rlim_cur = 1;
+	check(setrlimit(RLIMIT_FSIZE, &one_byte) == 0);
+	limits.changed = true;
+	pg::LogFileWriter writer(fixture.base);
+	writer.configure("partial.log");
+	const auto attempts = enqueue_one(writer);
+	disabled_after_failure(writer, attempts);
+	// The logger requested a complete record (>1 byte). The kernel wrote one
+	// byte, proving a real positive short write rather than a pre-write failure.
+	check(std::filesystem::file_size(path) == 1 && contents(path).size() == 1);
+	limits.restore();
+	recovered_file(writer, path);
+	check(contents(path).size() > 1);
+	std::cout << "Actual RLIMIT_FSIZE short write: one byte, disabled once, accounted, recovered\n";
+	return 0;
+}
+
+#ifdef __linux__
+int disk_full(const std::filesystem::path &parent) {
+	// The caller provisions a small, isolated tmpfs. Never fill a host disk or a
+	// shared large /dev/shm, even when a mistaken path is supplied by CI.
+	struct stat directory{}, ancestor{};
+	check(std::filesystem::symlink_status(parent).type() == std::filesystem::file_type::directory &&
+	      stat(parent.c_str(), &directory) == 0 && stat((parent / "..").c_str(), &ancestor) == 0 &&
+	      directory.st_uid == geteuid() && directory.st_dev != ancestor.st_dev &&
+	      std::filesystem::is_empty(parent));
+	struct statfs fs{};
+	check(statfs(parent.c_str(), &fs) == 0 && fs.f_type == TMPFS_MAGIC && fs.f_bsize > 0);
+	constexpr std::uint64_t maximum = 16 * 1024 * 1024;
+	check(fs.f_blocks > 0 && static_cast<std::uint64_t>(fs.f_blocks) <=
+	                             maximum / static_cast<std::uint64_t>(fs.f_bsize));
+	const char *profile = std::getenv("OMP_PG_TEST_SERVICE");
+	check(profile && *profile); // Configured integration qualification must use run_postgres.py.
+	OsFixture fixture(std::filesystem::absolute(parent));
+	struct WorkingDirectory {
+		std::filesystem::path previous = std::filesystem::current_path();
+		explicit WorkingDirectory(const std::filesystem::path &path) {
+			std::filesystem::current_path(path);
+		}
+		~WorkingDirectory() {
+			std::error_code ec;
+			std::filesystem::current_path(previous, ec);
+		}
+	} cwd(fixture.base);
+	// Keep cwd stable until the Engine and both writer/SQL workers have stopped.
+	// Diagnostics uses its actual component-relative base, without a test-only sink.
+	pg::Engine engine({}, ".", pg::LogLevel::off);
+	constexpr pg::Owner owner = 71;
+	const auto connection = engine.connect(owner, profile, 1);
+	const auto deadline = pg::Clock::now() + std::chrono::seconds(25);
+	Output output;
+	auto tick = [&] {
+		check(pg::Clock::now() < deadline);
+		engine.poll();
+		flush(engine.diagnostics(), output);
+	};
+	while (engine.connection(owner, connection).state() != pg::State::connected) {
+		tick();
+		check(engine.connection(owner, connection).state() != pg::State::failed);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+	auto query = [&](const char *sql) {
+		const auto id = engine.query(owner, connection, sql, 0, 0, 0, false);
+		auto job = engine.job(owner, id);
+		while (!pg::terminal(job->status.load()) || !job->delivered) {
+			tick();
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
+		tick();
+		return job;
+	};
+	auto baseline = query("SELECT 1/0");
+	check(baseline->status == pg::Status::failed && baseline->error == pg::Error::sql &&
+	      baseline->results.size() == 1 && baseline->results[0].sqlstate == "22012");
+	const auto original_message = baseline->message;
+	const auto original_result = baseline->results[0];
+	const auto original_index = baseline->error_index;
+	const auto original_items = baseline->items_status;
+	const auto original_completed = baseline->completed;
+	engine.close_job(owner, baseline->id);
+	engine.diagnostics().configure(pg::LogLevel::trace, pg::LogDestination::file,
+	                               "logs/engine-full.log");
+	const auto engine_path = fixture.base / "logs/engine-full.log";
+	eventually([&] {
+		return std::filesystem::exists(engine_path);
+	});
+	check(engine.diagnostics().sink_failures() == 0 &&
+	      std::filesystem::file_size(engine_path) == 0);
+	const auto path = fixture.base / "logs/full.log";
+	pg::LogFileWriter writer(fixture.base);
+	writer.configure("full.log");
+	eventually([&] {
+		return std::filesystem::exists(path);
+	});
+	check(writer.failures() == 0 && std::filesystem::file_size(path) == 0);
+	const auto filler_path = fixture.base / "filler";
+	struct Descriptor {
+		int value;
+		~Descriptor() {
+			if (value >= 0) {
+				::close(value);
+			}
+		}
+	} filler{::open(filler_path.c_str(), O_CREAT | O_EXCL | O_WRONLY | O_CLOEXEC, 0600)};
+	check(filler.value >= 0);
+	std::array<char, 4096> block{};
+	std::uint64_t filled = 0;
+	int error = 0;
+	for (;;) {
+		errno = 0;
+		const auto count = ::write(filler.value, block.data(), block.size());
+		if (count < 0) {
+			error = errno;
+			break;
+		}
+		check(count > 0);
+		filled += static_cast<std::uint64_t>(count);
+		check(filled <= maximum);
+	}
+	check(error == ENOSPC && filled > 0);
+	const auto attempts = enqueue_one(writer);
+	disabled_after_failure(writer, attempts);
+	check(std::filesystem::file_size(path) == 0);
+	// Actual SQL jobs emit into this Engine's own failed disk sink. Preserve the
+	// exact pre-fault SQL diagnostic and retained result instead of merely running
+	// SQL beside an unrelated standalone writer.
+	auto failed = query("SELECT 1/0");
+	eventually([&] {
+		flush(engine.diagnostics(), output);
+		return engine.diagnostics().sink_failures() == 1;
+	});
+	check(failed->status == pg::Status::failed && failed->error == pg::Error::sql &&
+	      failed->message == original_message && failed->error_index == original_index &&
+	      failed->completed == original_completed && failed->items_status == original_items &&
+	      failed->results.size() == 1 && failed->results[0].sqlstate == original_result.sqlstate &&
+	      failed->results[0].message == original_result.message &&
+	      failed->results[0].columns == original_result.columns &&
+	      failed->results[0].column_types == original_result.column_types &&
+	      failed->results[0].affected == original_result.affected &&
+	      failed->results[0].rows == original_result.rows &&
+	      std::filesystem::file_size(engine_path) == 0);
+	engine.close_job(owner, failed->id);
+	auto succeeded = query("SELECT 1");
+	check(succeeded->status == pg::Status::confirmed && succeeded->error == pg::Error::none &&
+	      succeeded->results.size() == 1 && succeeded->results[0].rows.size() == 1 &&
+	      succeeded->results[0].rows[0].size() == 1 && succeeded->results[0].rows[0][0] == "1" &&
+	      engine.diagnostics().sink_failures() == 1 &&
+	      std::filesystem::file_size(engine_path) == 0);
+	engine.close_job(owner, succeeded->id);
+	// Permit only the documented numeric failure summary in the console fallback.
+	check(output.lines.size() == 1 && output.lines[0].find("sink_failures=1") != std::string::npos);
+	check(::close(filler.value) == 0);
+	filler.value = -1;
+	check(std::filesystem::remove(filler_path));
+	recovered_file(writer, path);
+	engine.diagnostics().configure(pg::LogLevel::trace, pg::LogDestination::file,
+	                               "logs/engine-full.log");
+	written(engine.diagnostics(), output, [&] {
+		return events(contents(engine_path)) == 1;
+	});
+	check(engine.diagnostics().sink_failures() == 1);
+	std::cout << "Actual tiny-tmpfs ENOSPC: filled_bytes=" << filled
+	          << "; disabled once, drops accounted, explicit recovery; same-Engine SQL error/"
+	             "SQLSTATE/index/results and subsequent query preserved\n";
+	return 0;
+}
+#endif
+#endif
 
 void files() {
 	struct Fixture {
@@ -303,17 +605,6 @@ void files() {
 		check(!std::filesystem::exists(base / "outside/omp-postgresql.log"));
 	}
 	{
-		const auto denied = base / "logs/denied.log";
-		std::ofstream(denied) << "keep";
-		std::filesystem::permissions(denied, std::filesystem::perms::owner_read);
-		pg::Diagnostics logger(pg::LogLevel::trace, base);
-		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/denied.log");
-		eventually([&] {
-			return logger.sink_failures() == 1;
-		});
-		check(contents(denied) == "keep");
-	}
-	{
 		pg::Diagnostics logger(pg::LogLevel::trace, base);
 		logger.configure(pg::LogLevel::trace, pg::LogDestination::file, "logs/grown.log");
 		written(logger, output, [&] {
@@ -362,8 +653,7 @@ void files() {
 			    while (!g.release.load()) {
 				    std::this_thread::yield();
 			    }
-			    return false; // Pre-write failure only; actual short writes/disk exhaustion remain
-			                  // unqualified.
+			    return false; // Synthetic pre-write failure; OS failures have separate tests.
 		    },
 		    &gate);
 		struct Release {
@@ -623,8 +913,24 @@ void unit() {
 	          << sizeof(pg::Diagnostics) << " record_bytes=" << sizeof(pg::LogRecord) << '\n';
 }
 } // namespace
-int main() {
+int main(int argc, char **argv) {
 	try {
+		if (argc != 1) {
+#ifndef _WIN32
+			if (argc == 2 && std::string_view(argv[1]) == "--permission") {
+				return permission_failure();
+			}
+			if (argc == 2 && std::string_view(argv[1]) == "--short-write") {
+				return short_write();
+			}
+#ifdef __linux__
+			if (argc == 3 && std::string_view(argv[1]) == "--enospc") {
+				return disk_full(argv[2]);
+			}
+#endif
+#endif
+			throw std::runtime_error("Unsupported diagnostics test arguments");
+		}
 		unit();
 		files();
 		return 0;
