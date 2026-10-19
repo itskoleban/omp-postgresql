@@ -6,7 +6,8 @@
 
 #define PG_INVALID (0)
 
-enum a {
+// Untagged severity constants preserve existing Pawn expressions and arguments.
+enum {
 	PG_LOG_OFF,
 	PG_LOG_ERROR,
 	PG_LOG_WARN,
@@ -15,7 +16,8 @@ enum a {
 	PG_LOG_TRACE
 };
 
-enum b {
+// Untagged destination constants are independent of severity.
+enum {
 	PG_LOG_CONSOLE,
 	PG_LOG_FILE,
 	PG_LOG_BOTH
