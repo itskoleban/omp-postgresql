@@ -4,6 +4,16 @@ New follow-up: [actual logging filesystem faults and real Pawn measurements](log
 Exact executed results belong to that follow-up's source/CI record; configuring
 the new tests alone does not qualify them or authorize an RC publication.
 
+Local follow-up at clean measurement source `4444319`: official Windows x86
+server/Pawn workload passed 96 batches and 6,144 validated/closed jobs, with raw
+data and full identities recorded in [performance](performance.md#real-pawnserver-scheduling-measurements-october-19-2026).
+The 54 Python regressions passed; seven targeted capture tests were also run
+independently without skips. Rebuilt affected Windows native/logger/parser tests
+passed 3/3. Earlier sandbox process/temporary-permission and wrong-runtime-path
+attempts are not passes. Linux OS-fault and final extracted-package results must
+be checked against the exact final [PR20 CI](https://github.com/itskoleban/omp-postgresql/pull/20),
+not inferred from local Windows coverage. No runtime/API change or RC publication.
+
 Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
 The [integrated master verification](prestable-cleanup.md#integrated-master-verification-october-19-2026-utc)
 records successful exact-source CI and downloaded-package checks for `6b4e732`.

@@ -286,3 +286,65 @@ Shared CPU, fixed level/destination ordering, asynchronous overlap and small sam
 causal speedup claims. No real-console, Pawn interpreter, fsync/persistence, CPU/RSS or
 slow-device tail bound was measured. The subsequent4971884 Windows ABI-initialization fix
 has separate CI; this table keeps its actual measured source identity.
+
+## Real Pawn/server scheduling measurements (October 19, 2026)
+
+This is a real official open.mp 1.5.8.3079 **Windows x86** server, Pawn 3.10.11,
+MSVC 19.51.36248.0 Release component, patched libpq 17.6 and disposable PostgreSQL 17.11
+with verify-full loopback TLS. Host: Windows 11 build 26300, Intel Core i5-13420H,
+8 cores/12 logical CPUs. Measurement source is clean
+`4444319749b256472b8b5198fb1068b40f8d1a0b`; runtime C++ is unchanged from master
+`b19b4e325c68f6baaea06865c0972304262d6ea5`, whose local component build metadata
+is retained. Actual component, AMX, server, measurement sources and four copied
+runtime DLL hashes are in the metadata. No local test/build workload ran alongside
+this final sample. It is still one shared workstation run.
+
+[Raw measurements](https://github.com/itskoleban/omp-postgresql/blob/bb160d0ad12b54a196a4b24d5a0af2e415a93baf/tests/benchmarks/windows-x86-pawn-logging.csv),
+[metadata](https://github.com/itskoleban/omp-postgresql/blob/bb160d0ad12b54a196a4b24d5a0af2e415a93baf/tests/benchmarks/windows-x86-pawn-logging.metadata.json),
+[process samples](https://github.com/itskoleban/omp-postgresql/blob/bb160d0ad12b54a196a4b24d5a0af2e415a93baf/tests/benchmarks/windows-x86-pawn-logging.resources.csv)
+and [observed drop reports](https://github.com/itskoleban/omp-postgresql/blob/bb160d0ad12b54a196a4b24d5a0af2e415a93baf/tests/benchmarks/windows-x86-pawn-logging.drops.csv)
+retain all samples; committed copies normalize CRLF to LF only. The original
+capture remains in the run evidence. The [method](logging-qualification.md) defines
+the mixed workload, cyclic case order and limitations.
+
+All 96 batches completed: 6,144 jobs validated/closed and 578 timer samples, with
+one warmup per case. Excluding round 0 gives 448 jobs per configuration. Timing is
+integer **milliseconds**; callback p95 is nearest rank over those 448 correlated
+jobs, batch submission median uses seven batches, and timer p95 uses the actual
+variable number of probes. Batch elapsed includes the 100 ms post-callback window
+and is not used as SQL latency.
+
+| Level | Destination | Batch submission median ms | Callback p95 ms | Timer lateness p95 ms |
+| --- | --- | ---: | ---: | ---: |
+| OFF | Console | 1 | 55 | 30 |
+| OFF | File | 0 | 33 | 17 |
+| OFF | Both | 1 | 40 | 18 |
+| WARN | Console | 1 | 110 | 18 |
+| WARN | File | 1 | 41 | 34 |
+| WARN | Both | 1 | 19 | 19 |
+| DEBUG | Console | 1 | 41 | 60 |
+| DEBUG | File | 1 | 94 | 16 |
+| DEBUG | Both | 1 | 109 | 59 |
+| TRACE | Console | 19 | 58 | 45 |
+| TRACE | File | 1 | 71 | 39 |
+| TRACE | Both | 0 | 85 | 75 |
+
+There were 342 resource samples over 27.1642 observed seconds: 3.140625 process CPU
+seconds and 68,194,304 bytes maximum **sampled** RSS. Actual sample timestamps are
+retained; the requested 20 ms observer sleep did not imply a 50 Hz measurement rate.
+These process-wide values include startup, printing, idle and all server threads.
+Per-row configuration/phase labels may lag redirected output. They do not isolate
+component CPU or establish destination-specific memory bounds.
+
+Observed report deltas were console 2759, DEBUG file 292, DEBUG both 339, TRACE
+file 722 and TRACE both 936. BOTH reports can duplicate console reports and these
+numbers must not be summed into a global loss count. Reporting/retention can omit
+events and there is no complete writer-drain guarantee. All six active file modes
+contained terminal records; all observed cumulative sink-failure counts were zero.
+
+Zeros in submission samples reflect millisecond resolution. Differences such as
+TRACE console's 19 ms batch median are observations, not stable causal overhead
+ratios. This finite mixed workload measures actual callback latency and timer
+scheduling lateness, **not component-tick execution duration**, durable logging,
+production throughput or a latency bound. Physical disk faults, stalled devices,
+fully instrumented dependencies and hours-long logging soak remain unqualified.
