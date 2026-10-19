@@ -43,6 +43,7 @@ private:
 	std::atomic<bool> unavailable_{false};
 	std::thread thread_;
 	void run() noexcept;
+	void discard_queued() noexcept; // mutex_ held; summaries aren't lost producer events.
 };
 
 // No filesystem accesses. Empty is console or the default file, depending on destination.

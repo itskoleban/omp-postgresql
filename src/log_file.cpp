@@ -240,11 +240,21 @@ LogFileWriter::~LogFileWriter() {
 	{
 		std::lock_guard lock(mutex_);
 		stop_ = true;
-		dropped_.fetch_add(size_);
-		size_ = 0;
+		discard_queued();
 	}
 	wake_.notify_one();
 	thread_.join(); // Never detach component code across DLL unload.
+}
+
+void LogFileWriter::discard_queued() noexcept {
+	std::uint64_t lost = 0;
+	for (std::size_t i = 0; i < size_; ++i) {
+		if (records_[(head_ + i) % records_.size()].event != LogEvent::log_summary) {
+			++lost;
+		}
+	}
+	dropped_.fetch_add(lost);
+	head_ = size_ = 0;
 }
 
 void LogFileWriter::configure(std::string_view path) {
@@ -256,8 +266,7 @@ void LogFileWriter::configure(std::string_view path) {
 		if (dead_ && !path.empty()) {
 			throw Failure(Error::internal, "Log writer stopped; restart component");
 		}
-		dropped_.fetch_add(size_);
-		head_ = size_ = 0;
+		discard_queued();
 		path_.fill(0);
 		std::copy(path.begin(), path.end(), path_.begin());
 		++generation_;
@@ -270,13 +279,17 @@ bool LogFileWriter::enqueue(LogRecord record) noexcept {
 	try {
 		std::unique_lock lock(mutex_, std::try_to_lock);
 		if (!lock.owns_lock() || size_ == records_.size()) {
-			dropped_.fetch_add(1);
+			if (record.event != LogEvent::log_summary) {
+				dropped_.fetch_add(1);
+			}
 			return false;
 		}
 		records_[(head_ + size_) % records_.size()] = record;
 		++size_;
 	} catch (...) {
-		dropped_.fetch_add(1);
+		if (record.event != LogEvent::log_summary) {
+			dropped_.fetch_add(1);
+		}
 		return false;
 	}
 	wake_.notify_one();
@@ -316,7 +329,7 @@ void LogFileWriter::run() noexcept {
 					head_ = (head_ + 1) % records_.size();
 					--size_;
 					have_record = true;
-					in_flight = true;
+					in_flight = record.event != LogEvent::log_summary;
 				}
 			}
 			if (changed) {
@@ -334,7 +347,9 @@ void LogFileWriter::run() noexcept {
 				continue;
 			}
 			if (!ready) {
-				dropped_.fetch_add(1);
+				if (in_flight) {
+					dropped_.fetch_add(1);
+				}
 				in_flight = false;
 				continue;
 			}
@@ -353,7 +368,9 @@ void LogFileWriter::run() noexcept {
 			if (length <= 0 || (gate_ && !gate_(gate_context_)) ||
 			    !file.write(
 			        std::string_view(line, std::min<std::size_t>(length, sizeof line - 1)))) {
-				dropped_.fetch_add(1);
+				if (in_flight) {
+					dropped_.fetch_add(1);
+				}
 				failed();
 				ready = false;
 				file.close();
@@ -370,8 +387,7 @@ void LogFileWriter::run() noexcept {
 		std::unique_lock lock(mutex_);
 		dead_ = true;
 		for (;;) {
-			dropped_.fetch_add(size_);
-			size_ = 0;
+			discard_queued();
 			if (stop_) {
 				return;
 			}
