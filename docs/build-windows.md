@@ -93,6 +93,7 @@ python tests/run_postgres.py `
     --extension-gamemode build/extensions.amx `
     --bootstrap-gamemode build/bootstrap.amx `
     --section-gamemode build/sections.amx --section-sql examples/sql/accounts.sql `
+    --logging-gamemode build/logging.amx `
     --runtime C:/deps/pg32/bin/libpq.dll `
     --runtime C:/deps/openssl32/libssl-3.dll `
     --runtime C:/deps/openssl32/libcrypto-3.dll `
@@ -102,4 +103,6 @@ python tests/run_postgres.py `
 `--openmp-dir` must be a disposable copy: the harness changes its network, gamemode, and
 script configuration. Never point it at a production server directory. A successful run
 includes four `PG SMOKE PASS` markers, `PG UNLOAD EXIT` without `PG UNLOAD CALLBACK`,
-`PG CALLBACK PASS`, `PG EXTENSION PASS`, `PG BOOTSTRAP PASS`, `PG SECTION PASS`, and clean shutdowns.
+`PG CALLBACK PASS`, `PG EXTENSION PASS`, `PG BOOTSTRAP PASS`, `PG SECTION PASS`,
+`PG LOGGING PASS`, `PG BASIC PASS`, `PG VALUES PASS`, `PG SAVING PASS`, `PG TRANSFER PASS`,
+and clean shutdowns.

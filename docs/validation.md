@@ -1,8 +1,63 @@
 # Validation results and known limitations
 
-New follow-up: [actual logging filesystem faults and real Pawn measurements](logging-qualification.md).
-Exact executed results belong to that follow-up's source/CI record; configuring
-the new tests alone does not qualify them or authorize an RC publication.
+The candidate is **v0.1.0-rc.1**. Passing a finite suite verifies its listed scenarios;
+it does not certify production suitability or authorize publication. Current evidence
+is separated below from the historical qualification records that follow.
+
+## Verified master baseline: October 20, 2026 UTC
+
+Verified source: **`71cdf6f19f00534fd9748286673554e68cebe195`**, tree
+`45c5fc022be9adac86afae861bc6b758452fa9ec`. This remains the unchanged `master`
+baseline for the final documentation review. Owner-integrated PRs
+[#19](https://github.com/itskoleban/omp-postgresql/pull/19) and
+[#20](https://github.com/itskoleban/omp-postgresql/pull/20) include configurable logging,
+parser source locations and the filesystem/Pawn qualification follow-up. The later
+`fbdbaf1..71cdf6f` changes are formatting only; no runtime/API/test semantics invalidate
+the prior conclusions.
+
+[Exact-master CI 39281081599](https://github.com/itskoleban/omp-postgresql/actions/runs/39281081599)
+completed all seven jobs successfully. Six original JUnit suites contain **104 executed
+cases, zero failures/errors/skips**: Linux x86 18; Linux x64 OFF/ASan-UBSan/Clang 19 TSan
+18 each; Windows x64 15; Windows x86 17. Conditional skipped workflow setup steps are
+not skipped CTest cases. Both x86 source and fresh extracted-package runs compiled
+**13 examples** with warnings as errors and passed official open.mp 1.5.8.3079 checks,
+including callbacks, sections, logging/privacy, unload/reload and the unattended tutorials.
+
+All four Linux configurations executed actual EACCES, one-byte RLIMIT_FSIZE short-write
+and isolated tmpfs ENOSPC cases. The ENOSPC test additionally preserves the same Engine's
+SQL error/message/SQLSTATE/index/results and successful subsequent query while the sink
+fails; the permission and short-write fixtures do not themselves run SQL.
+ASan/UBSan/TSan logs report no diagnostic signatures; system dependencies are not fully
+instrumented. See [fault methods and real Pawn definitions](logging-qualification.md).
+
+Four source/package real Pawn captures each validated and closed **6,144 jobs in 96
+batches**, including 5,376 measured jobs. Linux source/package each contain 7,200 timing
+rows and 980 resource samples; Windows source 7,198/900, package 7,196/891. Callback/timer
+scheduling and whole-server CPU/RSS are measured, but isolated component tick execution
+cost and comparisons with other components are not. Counted drops occurred; observed
+sink failures were zero. BOTH sink reports must not be summed as distinct global events.
+
+The completed audit checked nine original artifact hashes/sizes, seven logs, the exact
+145-entry/130-file Git source archive and both distribution manifests (Linux 67 files,
+Windows 70). The final documentation review rechecked the original ZIP hashes, source
+bytes, JUnit cases and capture sidecars against the preserved
+[continuity ledger](https://github.com/itskoleban/omp-postgresql/blob/255f56847dcc76353cb6388f1990b616569bc038/audit/rc-continuity.md)
+and [qualification JSON](https://github.com/itskoleban/omp-postgresql/blob/255f56847dcc76353cb6388f1990b616569bc038/audit/qualification-71cdf6f.json),
+and freshly verified the original CI jobs/artifact metadata. No new local runtime,
+benchmark or sanitizer workload was needed for that evidence review. The Linux source
+unstripped binary was not retained for independent hash recomputation; Windows package
+capture Git identity was unavailable and is externally bound by source/runtime/package
+hashes. These limits remain explicit; GitHub artifact retention is finite.
+
+The audit branch remains at `255f568`; its successful
+[audit-only CI 39350033514](https://github.com/itskoleban/omp-postgresql/actions/runs/39350033514)
+is separate from master qualification. Historical tables/CSVs below keep their source
+identities and values. These baseline results do not qualify the later documentation
+branch or final merge: packaged documentation changes require successful CI on the
+exact final `master` commit before owner-authorized tagging/publication. See
+[readiness and remaining coverage](rc-readiness.md).
+
+## Historical logging and cleanup context
 
 Local follow-up at clean measurement source `4444319`: official Windows x86
 server/Pawn workload passed 96 batches and 6,144 validated/closed jobs, with raw
@@ -14,14 +69,13 @@ attempts are not passes. Linux OS-fault and final extracted-package results must
 be checked against the exact final [PR20 CI](https://github.com/itskoleban/omp-postgresql/pull/20),
 not inferred from local Windows coverage. No runtime/API change or RC publication.
 
-Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
+Earlier pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
 The [integrated master verification](prestable-cleanup.md#integrated-master-verification-october-19-2026-utc)
 records successful exact-source CI and downloaded-package checks for `6b4e732`.
 Earlier revision-specific records below remain historical.
 
-The component is **0.1.0-rc.1 under qualification**. Passing the current suite is evidence for the
-listed scenarios, not complete production qualification. Engine tests and real open.mp
-loading are recorded separately.
+Engine tests and real open.mp loading are recorded separately. Later qualification above
+supersedes historical pending gates without relabeling their original results.
 
 ## Documentation and tutorial expansion: October 18, 2026
 
@@ -79,7 +133,7 @@ separately in 4.410 seconds. These are local correction results, separate from t
 CI/package identities above. Final exact-commit cross-platform packages require their
 own qualification. No new comparative performance or production claim follows.
 
-## Latest integrated qualification: October 17, 2026
+## Historical integrated qualification: October 17, 2026
 
 Recovery verified local and remote `master` at
 `3a5215d03f6d00b70c4ffc8b10cab28f119a5c00`, with PRs #1--#11 merged and no open PRs.
@@ -361,10 +415,10 @@ runtime, test assertions or existing test deadlines.
 
 ## Remaining release qualification
 
-- Named SQL sections extend the API to 69 natives. Their current implementation, tests,
-  file/capture limits and examples are described in [named SQL sections](sql-sections.md).
-  They still require qualification of the exact candidate commit before RC inclusion;
-  historical evidence below does not qualify newly added behavior.
+- Named SQL sections and configurable diagnostics are integrated in the current 69-native
+  API. Their implementation, file/capture limits and examples are described in
+  [named SQL sections](sql-sections.md) and [logging](debugging.md). The verified baseline
+  above covers them; the final merged candidate still requires its own exact-source CI.
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
   x86; component, client libraries and server architectures/ABIs must match.
 - Validation applies to these tested compiler/client/server combinations. Requalify changes
@@ -391,13 +445,14 @@ runtime, test assertions or existing test deadlines.
 - Pipeline, automatic lane selection and named-plan caches remain optional optimizations.
   The sequential FIFO engine does not depend on them. Benchmarks now measure direct
   libpq transport and repeated Engine job/queue/worker latency, CPU and process peak memory.
-  Comparative Pawn/tick latency remains pending; see [measurement definitions](performance.md).
-- The complete lifecycle is demonstrated by the six complementary examples in the
-  [native reference map](native-reference.md#callbacks-and-example-selection); another
-  combined gamemode would duplicate their fixture/state machines. Experimental x86
-  distribution is now validated; final RC artifacts must be rebuilt and qualified at the
-  approved release commit after stress testing and an actual independent Astra audit.
-  No release was published or merged automatically.
+  Real Pawn callback/timer scheduling and whole-server CPU/RSS are also measured;
+  isolated component tick cost and comparisons with other components remain unqualified.
+  See [measurement definitions](performance.md).
+- The original six lifecycle examples remain part of the current thirteen-example
+  [inventory](examples.md), with eleven unattended examples. The bounded independent
+  Astra audit and its corrections are completed at their recorded revisions; they do not
+  certify all later code. Final RC artifacts require successful exact-master qualification
+  and owner review. No new tag or release was created by this documentation review.
 
 ## Reproducing validation
 
@@ -715,8 +770,9 @@ python3 tests/run_postgres.py --build build
 ```
 
 See [Windows server testing](build-windows.md) and [Linux server testing](build-linux.md)
-for the complete six-example server commands, including `--section-gamemode sections.amx`
-and `--section-sql examples/sql/accounts.sql`. `--only-openmp` uses a fresh database to rerun
+for the current unattended-example commands, including `--section-gamemode sections.amx`,
+`--section-sql examples/sql/accounts.sql` and `--logging-gamemode logging.amx`.
+`--only-openmp` uses a fresh database to rerun
 bridge tests without claiming a new core-suite run. For the Windows x64 core, use
 `--postgres-bin` to select independent server tools without changing client DLL resolution.
 
@@ -767,15 +823,22 @@ state. Callback benchmark data is described in [performance](performance.md). Pr
 independent audit/soak evidence does not constitute an independent audit of this new code.
 Exact integrated-source qualification and owner review remain required before publication.
 
-## Configurable log outputs and precise SQL source errors (feature branch)
+## Configurable log outputs and precise SQL source errors (historical PR #19)
+
+The following is the original feature-branch record, including its then-pending gates,
+failed attempts and deferred measurements. PR #19 and the PR #20 follow-up are now
+owner-integrated; the [verified master baseline](#verified-master-baseline-october-20-2026-utc)
+above records executed Linux faults and real Pawn measurements. Its remaining coverage
+limits still apply. Preserve the local measurements and commit identities below.
 
 Initial repository state: clean `master`1379ceded4a45f5e31df3f424de8d918319207ba,
 no open PRs. Actual master CI[39182451549](https://github.com/itskoleban/omp-postgresql/actions/runs/39182451549)
 subsequently completed all seven jobs successfully. Prior experimental prerelease remains
 unchanged; its evidence does not qualify this feature.
 
-Implementation is on `codex/configurable-diagnostics`, [PR19](https://github.com/itskoleban/omp-postgresql/pull/19),
-not merged/published. API inventory is69 natives/three forwards, with exactly one new native.
+At this historical checkpoint implementation was on `codex/configurable-diagnostics`,
+[PR19](https://github.com/itskoleban/omp-postgresql/pull/19), not yet merged or published.
+The API inventory was 69 natives/three forwards, with exactly one new native.
 Contracts and implementation limits: [design](log-output-design.md), [operator guide](debugging.md),
 [source diagnostics](sql-sections.md#original-source-locations), [performance](performance.md#windows-x86-feature-workload-daef1fd).
 

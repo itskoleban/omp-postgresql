@@ -3,7 +3,7 @@
 This internal implementation review continues the existing 0.1 implementation. It does not replace the worker,
 transaction, ownership, or callback architecture. The baseline was checked against commit
 `ce4e70d` and the working tree, including the PostgreSQL fixture corrections. That baseline
-and the 42-native count below are historical. The current API has 68 natives; see the
+and the 42-native count below are historical. The current API has 69 natives; see the
 [native reference](native-reference.md) and [current readiness](rc-readiness.md). No section
 of this document records an independent GPT-6 Astra audit.
 

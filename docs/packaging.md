@@ -48,9 +48,12 @@ open.mp server, clear development DLL/loader search paths, and rerun all server 
 using the extracted component and runtime. Only successfully tested ZIPs are uploaded.
 Documentation checks also compare all native/callback declarations with the extracted
 include, resolve relative Markdown targets/headings, and verify the example/SQL catalogue.
-The example compiler discovers all twelve `.pwn` files. The four unattended tutorials
-run alongside the original six scenarios. The interactive account mode compiles with
-authentication disabled unless its external provider is installed and explicitly enabled.
+The example compiler discovers all thirteen `.pwn` files. The four unattended tutorials
+and logging example run alongside the original six scenarios: eleven public examples.
+The separate real Pawn measurement fixture is not installed as a public example.
+Interactive account/custom gameplay behavior requires separate player/provider validation;
+the account mode compiles with authentication disabled unless its external provider is
+installed and explicitly enabled.
 Logs are retained even when a test fails; a failed package is not a release artifact.
 A final job downloads both uploaded artifacts and repeats checksum, inventory, architecture
 and extraction verification. It reuses the x86 build/test jobs without adding another build matrix.

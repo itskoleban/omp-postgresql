@@ -3,7 +3,8 @@
 Download the artifact for your operating system from a successful
 [`build-and-test` run](https://github.com/itskoleban/omp-postgresql/actions/workflows/ci.yml).
 It contains a platform-specific ZIP and its `.sha256` file. These are build/qualification
-artifacts; an RC version label alone does not establish release approval. The workflow has read-only repository
+artifacts for **v0.1.0-rc.1** preparation; an RC version label alone does not establish
+release approval or stable-release status. The workflow has read-only repository
 permissions and does not publish releases or create tags.
 
 Verify SHA-256 before extraction (`sha256sum --check NAME.zip.sha256` on Linux, or
@@ -39,7 +40,9 @@ pawncc examples/smoke.pwn -E -iqawno/include -i/path/to/omp-stdlib -obuild/smoke
 
 Run on an isolated database/server and wait for `PG SMOKE PASS`; failures are not installation
 success. CI repeats this check from the ZIP in a fresh official server, then exercises
-reloads, filterscript unload, callbacks, typed batches, savepoints, streaming and bootstrap.
+reloads, filterscript unload, callbacks, typed batches, savepoints, streaming, bootstrap,
+SQL sections and logging. All thirteen public examples compile; eleven run unattended.
+Interactive account/custom gameplay behavior needs separate player/provider validation.
 No existing PostgreSQL cluster or production server is used by those tests.
 
 Read [API guarantees](api.md), [security](security.md), [validation limits](validation.md)

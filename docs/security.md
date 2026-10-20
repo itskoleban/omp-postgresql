@@ -55,9 +55,11 @@ application-level reconciliation.
 
 ## Backpressure and configuration
 
-Environment variables are read once when the component is created. Values must be positive
-integers; invalid settings prevent component loading. `RECONNECT_ATTEMPTS` also accepts zero
-to disable additional attempts. Limits are global unless stated otherwise.
+The numeric limit variables below are read once when the component is created. Values must
+be positive integers; invalid settings prevent component loading. `RECONNECT_ATTEMPTS` also
+accepts zero to disable additional attempts. Limits are global unless stated otherwise.
+The separate `OMP_PG_LOG_LEVEL` setting accepts named levels and supplies startup diagnostics;
+`pg_log_config` can override that policy at runtime. See [logging configuration](debugging.md).
 
 | Variable `OMP_PG_*` | Default |  Maximum | Scope                                                                                   |
 | ------------------- | ------: | -------: | --------------------------------------------------------------------------------------- |

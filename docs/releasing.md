@@ -44,7 +44,8 @@ the publication workflow on the owner's behalf without that authorization.
 
 After reviewing/merging the candidate, wait for a successful `build-and-test` push or
 manual run on **master at the exact final commit**. Review all seven jobs, their no-skips
-CTest qualification, ten packaged server scenarios on each platform, dependency
+CTest qualification, thirteen compiled public examples and eleven unattended public-example
+scenarios on each platform, the separate real Pawn measurement fixture, dependency
 inventories, remaining limits and the completed independent audit. The owner then
 creates the corresponding tag on that exact tested commit.
 

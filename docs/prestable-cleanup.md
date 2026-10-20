@@ -1,5 +1,11 @@
 # Pre-stable API cleanup and diagnostics
 
+This is the historical cleanup and qualification record through `6b4e732` and its
+documentation follow-up. Its **69 -> 68** inventory and measurements retain that scope.
+Later integrated `pg_log_config` brings the current inventory to **69 natives and three
+callbacks**. See the [current reference](native-reference.md) and
+[latest verified master](validation.md#verified-master-baseline-october-20-2026-utc).
+
 ## Baseline and intentional compatibility break
 
 Inspected default-branch HEAD 2add8df604f71ee9336f7483ee9bb8922f921e48 on October 18, 2026,
@@ -34,7 +40,7 @@ OnPgComplete, OnPgConnection, OnPgRows, notify=false and explicit job ownership 
 | Further compatibility/helper deletions                     | Deferred                | No additional deletion justified by actual usage analysis.                 |
 | Raw diagnostics, callback arrays/custom rows/caches        | Deferred                | Outside bounded scope; privacy and lifecycle cost not justified.           |
 
-## Complete current API classification
+## Complete API classification at the cleanup revision
 
 A = essential distinct; B = useful convenience; C = genuine duplicate responsibility
 now consolidated; D = distinct public semantics with shared internal code. E requires

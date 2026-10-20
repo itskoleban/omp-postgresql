@@ -1,53 +1,65 @@
 # Release Candidate readiness
 
-The [logging qualification follow-up](logging-qualification.md) adds actual Linux
-filesystem-failure and real Pawn/server scheduling measurements. See its exact
-run evidence before treating either as completed; the stalled-storage shutdown
-limit and separate publication authorization remain unchanged.
+The intended candidate is **v0.1.0-rc.1**. Documentation and release preparation are
+ready for owner review within the limits below. Publication remains unauthorized;
+an RC is a testing release, not stable-release or production certification.
 
-Current pre-stable cleanup: [scope, migration and exact qualification evidence](prestable-cleanup.md).
-The [integrated master verification](prestable-cleanup.md#integrated-master-verification-october-19-2026-utc)
-qualifies `6b4e732` with 68 natives and three forwards, including downloaded x86 packages.
-Interactive/provider, extended-soak and real Pawn/tick performance limits remain explicit;
-owner authorization is still required before RC publication.
-Earlier revision-specific records below remain historical.
+## Verified baseline and current gates
 
-Recovered October 18, 2026: remote/local master
-`c1f4d48380ca13a1c497d1a1eb23f81a49692f30`; owner merged [PR #13](https://github.com/itskoleban/omp-postgresql/pull/13)
-at 08:21 UTC. [Master CI 39113244875](https://github.com/itskoleban/omp-postgresql/actions/runs/39113244875)
-completed successfully, all seven jobs. This is the integrated baseline for candidate
-preparation, not evidence for a later candidate commit or release approval.
+Last verified `master`: **`71cdf6f19f00534fd9748286673554e68cebe195`**, with all seven
+jobs successful in [CI 39281081599](https://github.com/itskoleban/omp-postgresql/actions/runs/39281081599).
+The [source-specific evidence](validation.md#verified-master-baseline-october-20-2026-utc)
+records original artifacts and 104 executed CTest cases without failures/errors/skips.
+PRs #19/#20 are integrated: configurable logging, parser source locations, actual Linux
+filesystem-fault checks and real Pawn/server measurements are completed within that scope.
+The final documentation merge still needs its own exact-commit CI and package review.
 
-The [documentation expansion audit](documentation-audit.md) records a later source review
-at `77527fd` and the new eleven-example learning path. Its validation is tracked separately
-from the historical integrated gates below. This documentation task does not authorize
-candidate publication or change runtime/API behavior.
+| Gate | Verified state | Remaining work |
+| --- | --- | --- |
+| Runtime and API | 69 natives, three callbacks; pools, exclusive workers/FIFO, snapshots, typed arrays, batches, transactions/savepoints, bounded streaming, SQL sections and configurable diagnostics. | Preserve documented limits; report new confirmed defects separately. |
+| Documentation/examples | Exact include/reference signatures and 13 public Pawn examples; 11 unattended examples plus two interactive tutorials. | Review this documentation PR; accounts/custom gameplay and external providers need operator validation. |
+| x86 packaging | Both Windows/Linux source and fresh extracted-package official-server gates passed at the baseline; manifests, hashes and source ZIP verified. | Qualify final merged source/packages. x64 Engine tests do not qualify x64 server components. |
+| Windows libpq | Integrated mutex correction, deterministic regression, fresh-process repetitions and patch provenance. | Other providers need equivalent verification; version alone is insufficient. |
+| Stress and concurrency | ASan/UBSan and Clang 19 TSan; historical ten-minute/2,040,672-operation load retains its recorded source. | Hours-long partitions/logging soaks, fully instrumented dependencies and AMX loader fuzzing remain unqualified. Finite RSS samples are not memory bounds. |
+| Logging faults | Actual Linux EACCES, one-byte short write and tmpfs ENOSPC; ENOSPC preserves same-Engine SQL errors/results and recovery. | Physical devices, Windows kernel ENOSPC, privileged reparse races and network filesystems remain unqualified. Stalled OS calls can delay writer join without a hard deadline. |
+| Performance | Engine/transport measurements and actual Pawn callback/timer scheduling plus process CPU/RSS are recorded with source identities. | Isolated component tick execution cost, causal per-destination overhead and comparison with other components are not established. |
+| Independent audit | Bounded Astra audit at `962ee8a`, corrections and later source-specific reviews completed; no confirmed critical/High finding remains open in that audit. | Preserve its historical scope; it does not certify later code or all possible defects. |
+| Candidate identity | CMake/package identity `0.1.0-rc.1`, intended tag `v0.1.0-rc.1`, exact-source notes, manifests and SHA-256 ledger. | Review the final source/distribution inventory. Hashes are not signed attestations. |
+| Publication | Separate manual [release workflow](releasing.md), default draft and exact-master CI/existing-tag/confirmation checks. | Owner reviews and merges; final master CI must pass; owner separately authorizes tag creation and publication. |
 
-| Gate                   | Verified state                                                                                                                                                                                  | Remaining work                                                                                                                                                                                            |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| x86 packaging          | Integrated Windows/Linux architecture, dependency, license, deterministic assembly and fresh extracted-package server gates.                                                                    | Requalify exact RC source/packages. x64 Engine tests do not qualify x64 server packages.                                                                                                                  |
-| Runtime and API        | Integrated pools, exclusive workers/FIFO, snapshots, typed arrays, batches, transactions/savepoints, bounded streaming, SQL sections and 69 documented Pawn natives.                            | Correct any new confirmed defects; preserve documented limits.                                                                                                                                            |
-| Windows libpq          | PR #9 mutex correction, deterministic regression, fresh-process startup repetitions and package patch provenance integrated.                                                                    | Other providers need equivalent verification; version alone is insufficient.                                                                                                                              |
-| Stress and concurrency | Integrated TSan and ASan/UBSan; prior ten-minute/2,040,672-operation load and release/capacity checks documented in [validation](validation.md).                                                | Hours-long partitions, fully instrumented dependencies and AMX loader fuzzing are not established. Finite RSS samples are not memory bounds.                                                              |
-| Documentation/examples | Complete 69-native reference and six examples integrated; exact signatures/ownership/limits reviewed and examples compiled with warnings as errors.                                             | Keep final candidate identity and evidence current.                                                                                                                                                       |
-| Independent audit      | Actual GPT-6 Astra ultra [audit](independent-audit.md) completed on frozen `962ee8a`; both High/P1 fixes integrated in `4c65070`, successful corrected-source CI and package evidence retained. | Bounded new release-tooling review also completed with both findings corrected; retain unproven observations and coverage limits. No confirmed critical/High finding remains open in the completed audit. |
-| Performance            | Repeated Engine/transport measurements documented in [performance](performance.md).                                                                                                             | Comparative Pawn callback/tick latency remains unmeasured; no performance superiority claim.                                                                                                              |
-| Candidate identity     | `0.1.0-rc.1` preparation uses a tracked CMake candidate number, exact-commit platform names, source ZIP, complete dependency manifests, notes and SHA-256 ledger.                               | Exact final-source qualification and owner review. Unsigned inventory is not a signed attestation.                                                                                                        |
-| Publication            | Separate manual [release workflow](releasing.md), default draft, existing-tag/confirmation/successful-main-CI checks and isolated write permission.                                             | Owner must authorize integration, tag creation and public publication. No candidate tag or Release created by this automation.                                                                            |
+Implemented, verified, integrated and published are separate states. A successful PR
+preview or branch run is not exact-commit `master` evidence. No merge, tag or release is
+authorized by this documentation review. See [release notes](release-notes.md) and
+[installation prerequisites](installation.md).
 
-Implemented, tested, integrated and published are separate states. Prior branch/preview
-CI passes do not authorize integration or publication. The version label identifies
-candidate preparation; exact new changes require their own qualification. A Release
-Candidate remains a testing release without a production suitability guarantee.
+## Historical qualification context
 
-Scope excludes COPY, LISTEN/NOTIFY reception, Engine pipeline integration, automatic lane
-selection, ORM/query builders, migration management, application caches and global SQL
-caches. These do not block qualification of the documented sequential Engine.
+The [pre-stable cleanup](prestable-cleanup.md) qualified `6b4e732` with **68 natives and
+three forwards** before `pg_log_config` was added. That count and its results are retained
+as historical evidence, not the current public inventory.
 
-## New logging/source-diagnostic branch
+Recovered October 18, 2026: owner-integrated master
+`c1f4d48380ca13a1c497d1a1eb23f81a49692f30` after [PR #13](https://github.com/itskoleban/omp-postgresql/pull/13)
+had all seven jobs pass in [CI 39113244875](https://github.com/itskoleban/omp-postgresql/actions/runs/39113244875).
+Its documentation gate covered six examples. The later [documentation audit](documentation-audit.md)
+at baseline `77527fd` introduced the eleven-example learning path. Later callback/logging
+work brought the public inventory to thirteen. None of these historical counts or
+measurements is rewritten as evidence for another source.
 
-The `codex/configurable-diagnostics` feature branch changes C++ lifetime/file handling and
-the public inventory to 69 natives. All older evidence above retains its original source
-identity; it does not qualify this branch. No merge/tag/RC publication is authorized by this
-work. Exact branch qualification and remaining limits are recorded in [validation](validation.md).
-OS calls on stalled storage can delay safe writer join; no hard shutdown bound is claimed.
+The preserved `codex/rc-audit-resumable` branch contains the completed internal audit at
+`255f568`; it is separate from qualified master and is not a branch to merge for publication.
+Its original records are linked from [validation](validation.md#verified-master-baseline-october-20-2026-utc).
+
+## Owner actions before publication
+
+1. Review and integrate the focused documentation PR into `master`.
+2. Require all seven existing `build-and-test` jobs to pass on that exact final master
+   commit; review no-skips CTest results, both fresh x86 package gates, source identity,
+   manifests, checksums and the release inventory. Earlier runs cannot satisfy this gate.
+3. Accept the stated limits and separately authorize/create **v0.1.0-rc.1** on that tested
+   commit. Do not tag the audit branch or a PR preview merge.
+4. Follow [the manual release procedure](releasing.md) with the exact CI run and tag.
+   Review a draft prerelease and authorize public publication separately; do not mark it stable.
+
+**GO for documentation and release preparation for owner review. NO-GO for publication
+until the owner completes the integration, exact-master qualification and authorization gates.**

@@ -151,8 +151,9 @@ and lost-confirmation tests before it is enabled.
 
 ## Pre-RC API consolidation
 
-The [current cleanup audit](prestable-cleanup.md) classifies all 68 natives and records
-retained responsibilities; [PR #16's audit](api-modernization.md) is historical. `SqlSourceKind` replaces the ambiguous file boolean in Statement,
+The [cleanup audit](prestable-cleanup.md) records the historical 68-native consolidation
+before `pg_log_config` restored the inventory to 69; see the [current reference](native-reference.md).
+[PR #16's audit](api-modernization.md) is also historical. `SqlSourceKind` replaces the ambiguous file boolean in Statement,
 Operation and Job; inline/file/section selection is explicit through snapshot transfer.
 Unified file preparation uses one checked creation path and the existing lexical parser.
 

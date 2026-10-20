@@ -1,9 +1,10 @@
 # Examples and learning path
 
-All examples use the public include. The table distinguishes unattended database/server
-checks from interactive flows requiring an external provider. Each `.pwn` is independently
-compiled with warnings as errors; compile success alone is not runtime qualification.
-Exact evidence for this documentation revision is in [the audit record](documentation-audit.md).
+All thirteen examples use the public include. The table distinguishes unattended
+database/server checks from interactive flows requiring an external provider or player setup.
+Each `.pwn` is independently compiled with warnings as errors; compile success alone is
+not runtime qualification. The [documentation audit](documentation-audit.md) retains its
+historical revision; see [current readiness](rc-readiness.md) for later integrated evidence.
 
 | Order / purpose                                                                        | Source and fixtures                                                                              | Prerequisites and expected result                                                                                                                                                                        |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -36,8 +37,10 @@ python scripts/check_docs.py
 ```
 
 CI repeats compilation using the extracted package's `qawno/include`. It runs the original
-six server scenarios plus basic/values/saving/transfer against a disposable TLS PostgreSQL
-instance. Interactive players, password-provider behavior and adversarial account races
+six server scenarios plus basic/values/saving/transfer and logging: eleven unattended
+public examples against a disposable TLS PostgreSQL instance. The separate
+[real Pawn measurement fixture](logging-qualification.md) is under `tests/` and is not a
+fourteenth public example. Interactive players, password-provider behavior and adversarial account races
 require separate qualification; see [validation](validation.md).
 
 ## Cleanup and adapting fixtures
