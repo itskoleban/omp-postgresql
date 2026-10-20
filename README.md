@@ -1,7 +1,7 @@
 # omp-postgresql
 
 A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
-Version **0.1.0-rc.1 under qualification**; no candidate publication is approved. Review the
+Candidate **v0.1.0-rc.1 is prepared for owner review**; publication is not approved. Review the
 [validated platforms and known limitations](docs/validation.md) before deploying it.
 The [RC readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
 qualification work and publication gates.
@@ -31,6 +31,8 @@ Prefer [custom completion callbacks](docs/callbacks.md) for new application code
 - Exact numeric/temporal text transport, BYTEA cells, and typed arrays with NULL elements.
 - Explicit isolation/read-only options, savepoints, and asynchronous savepoint recovery.
 - Bounded streaming blocks, slow-consumer backpressure, and session/job statistics.
+- Configurable bounded diagnostics through `pg_log_config`, with console/file/both outputs,
+  asynchronous file rotation, and SQL-file parser locations in original lines/byte columns.
 
 There is no ORM, query builder, password hashing, application cache, or synchronous Pawn query API.
 Pipeline mode is evaluated by a standalone benchmark; the initial execution engine does not use it.
@@ -123,11 +125,13 @@ the results, and keeps players gated until initialization succeeds. The callback
 gamemodes cover VM lifecycle regressions. [sections.pwn](examples/sections.pwn) uses
 [accounts.sql](examples/sql/accounts.sql) for asynchronous account loading, individual/bulk
 saves and statement reuse; see the [section format and capture rules](docs/sql-sections.md).
-All twelve examples are compiled with warnings treated as errors in CI, including from
+All thirteen examples are compiled with warnings treated as errors in CI, including from
 the extracted x86 packages. Basic CRUD, scalar values, saving strategies and a guarded bank
 transfer complement the original six unattended server scenarios. The interactive
 [account tutorial](docs/accounts.md) has an optional external hashing provider and is
-explicitly separate from unattended runtime qualification.
+explicitly separate from unattended runtime qualification. Together with
+[logging.pwn](examples/logging.pwn), eleven public examples run unattended; accounts and
+custom gameplay remain compile-checked interactive tutorials.
 
 See the [API execution guide](docs/api.md), [69-native reference](docs/native-reference.md),
 [architecture and reference analysis](docs/design.md),
@@ -173,6 +177,12 @@ and final database contents, then reports repeated job/queue/worker p50/p95/p99,
 process peak memory. The existing CI matrix runs a small correctness smoke with no timing
 thresholds. Neither probe measures Pawn or open.mp ticks. See [measurement definitions and
 reproduction](docs/performance.md); local samples are not performance guarantees.
+
+A separate [real Pawn workload](docs/logging-qualification.md) has measured callback
+latency, timer scheduling lateness and whole-server CPU/RSS on both x86 CI platforms.
+These measurements do not isolate component tick execution cost or establish superiority
+over other database components. The [latest verified master evidence](docs/validation.md#verified-master-baseline-october-20-2026-utc)
+identifies `71cdf6f`; the final documentation merge still requires its own exact-commit CI.
 
 ## Maintenance conventions
 

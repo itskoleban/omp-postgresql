@@ -89,8 +89,8 @@ the worker. Paths must be relative `.sql` paths under `scriptfiles/sql`. Files m
 an initial BOM is accepted.
 File errors appear in the job. This is not a migration system.
 
-`pg_prepare_file(connection,filename,parameters=0,prepared=true,section="")` selects one
-named SQL statement from a file. Its 1..64-byte case-sensitive ASCII name is validated
+With a nonempty `section`, `pg_prepare_file(connection,filename,parameters=0,prepared=true,section="")`
+selects one named SQL statement from a file. Its 1..64-byte case-sensitive ASCII name is validated
 locally; reading, full-file lexical validation and extraction happen in the worker.
 It returns a statement handle or 0; owner, bind/add/execute, plan reuse and close rules
 match the other prepare functions. File/section errors are deferred job diagnostics.
@@ -172,7 +172,9 @@ transaction; a batch itself does not provide atomicity.
 
 ## Jobs and results
 
-`OnPgComplete(job,context)` runs once for each job with notify=true while the VM remains loaded.
+For a job with `notify=true` and an empty custom callback name, `OnPgComplete(job,context)`
+is dispatched once while the VM remains loaded and the public exists. A supplied custom
+callback replaces `OnPgComplete`; see [custom completion handlers](callbacks.md).
 Closing another completed job before its callback runs suppresses that notification.
 Context is a copied cell, not a pointer. For players, use a session token and validate it in
 the callback; a player ID may have been reused. Unloading the AMX cancels and collects its

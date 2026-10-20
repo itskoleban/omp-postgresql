@@ -140,8 +140,11 @@ The existing CI matrix enables these executables and runs `engine_benchmark_smok
 The non-multiple of 20 checks the partial final group. It is a correctness check with no
 timing thresholds; its Debug/sanitizer timings are not release benchmarks. Logs retain
 the CSV. Set `--benchmark` explicitly for larger measurements; no extra CI matrix is added.
-Comparative Pawn/tick measurements remain separate qualification work. Finite ten-minute
-load and ThreadSanitizer qualification are recorded in [validation](validation.md);
+Real Pawn callback latency and timer scheduling measurements are recorded
+[below](#real-pawnserver-scheduling-measurements-october-19-2026) and in
+[qualification](logging-qualification.md); comparisons against other components and isolated
+component-tick execution costs remain unmeasured. Finite ten-minute load and
+ThreadSanitizer qualification are recorded in [validation](validation.md);
 instrumented dependencies and hours-long soaks remain unestablished. Pipeline remains
 confined to the standalone transport probe.
 
@@ -183,8 +186,8 @@ bytes, validates addresses and optionally resolves the public before accepting w
 does another public lookup and pushes the job plus 0..16 extras. Strings temporarily expand
 to Pawn cells. Descriptor storage is released at dispatch rather than job closure.
 
-No callback lookup cache is introduced. File preparation adds no extra file read or parse:
-both public interfaces feed the existing worker capture. The source-kind enum removes
+No callback lookup cache is introduced. Unified file preparation adds no extra file read
+or parse: whole-file and named-section selection feed the existing worker capture. The source-kind enum removes
 implicit branching states and is not a claimed speedup. Existing Engine benchmark timings
 above predate this change; they are not measurements of custom callback dispatch. Callback
 copy/dispatch benchmark scope and results are recorded in [the audit](api-modernization.md).
@@ -257,8 +260,8 @@ assert sink health or complete writer drainage, so the CSV alone does not certif
 delivery. Drop counters are sampled while asynchronous work may remain; per-burst deltas are not
 per-record delivery guarantees. No actual Pawn/tick latency, fsync, slow-device percentile
 or CPU/RSS comparison is implied by these samples. Historical tables above keep their
-old source identities and cannot qualify the new writer. New exact-source results belong
-in the feature validation record.
+old source identities and cannot qualify the later writer. Exact-source results for the
+integrated implementation are recorded in [validation](validation.md).
 
 The current SDK fixture waits for completion delivery within a bounded deadline:
 terminal status can precede publication to the completion queue. It validates

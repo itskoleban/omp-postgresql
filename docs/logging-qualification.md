@@ -5,6 +5,12 @@ It adds test fixtures and measurement capture, without changing the 69-native AP
 or runtime logger. Historical results retain their original source identities.
 Configured, executed, merged and published remain separate states.
 
+PRs [#19](https://github.com/itskoleban/omp-postgresql/pull/19) and
+[#20](https://github.com/itskoleban/omp-postgresql/pull/20) are owner-integrated.
+The [verified master baseline](validation.md#verified-master-baseline-october-20-2026-utc)
+records successful execution of these faults and real Pawn captures at `71cdf6f`.
+This is bounded qualification for RC review, not publication or production approval.
+
 ## Actual Linux filesystem failures
 
 `pg_diagnostics_tests` runs these OS faults in separate CTest processes:

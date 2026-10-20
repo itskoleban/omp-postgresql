@@ -1,7 +1,14 @@
-# Logging control design (feature branch)
+# Logging control design
 
-Baseline inspected: master `1379ceded4a45f5e31df3f424de8d918319207ba`, clean checkout,
-no open PR, current master CI still running at inspection. Previous cleanup stays intact.
+This design records the configurable diagnostics implemented in owner-merged
+[PR #19](https://github.com/itskoleban/omp-postgresql/pull/19), with additional qualification
+in [PR #20](https://github.com/itskoleban/omp-postgresql/pull/20). Both are included in
+`v0.1.0-rc.1` preparation; integration does not imply publication or production approval.
+See [current readiness](rc-readiness.md) and [qualification](logging-qualification.md).
+
+Historical baseline inspected: master `1379ceded4a45f5e31df3f424de8d918319207ba`, clean
+checkout, no open PR, master CI still running at that inspection. The contract and design
+rationale below retain their original scope.
 
 ## Contract selected before implementation
 
