@@ -117,11 +117,11 @@ stock SaveBulk(connection) {
 
 For these inputs and existing rows, the successful outcomes differ as follows:
 
-| Strategy | `pg_add` calls | `pg_execute` submissions / jobs | SQL executions / results | Expected affected rows | Atomicity outside an explicit transaction |
-| --- | --- | --- | --- | --- | --- |
-| `SaveOne(connection, 1, 100)` | 1 | 1 | 1 | 1 | One statement. |
-| `SaveThree(SaveStatement)` | 3 | 1 | 3 | 1 per result, 3 total | Each statement commits separately; earlier saves can survive a later failure. |
-| `SaveBulk(connection)` | 1 | 1 | 1 | 3 in one result | All changes made by this statement commit or fail together. |
+| Strategy                      | `pg_add` calls | `pg_execute` submissions / jobs | SQL executions / results | Expected affected rows | Atomicity outside an explicit transaction                                     |
+| ----------------------------- | -------------- | ------------------------------- | ------------------------ | ---------------------- | ----------------------------------------------------------------------------- |
+| `SaveOne(connection, 1, 100)` | 1              | 1                               | 1                        | 1                      | One statement.                                                                |
+| `SaveThree(SaveStatement)`    | 3              | 1                               | 3                        | 1 per result, 3 total  | Each statement commits separately; earlier saves can survive a later failure. |
+| `SaveBulk(connection)`        | 1              | 1                               | 1                        | 3 in one result        | All changes made by this statement commit or fail together.                   |
 
 Statement atomicity does not require every supplied ID to exist. A confirmed bulk UPDATE
 can affect fewer than `count` rows; checking afterward detects that mismatch but cannot
