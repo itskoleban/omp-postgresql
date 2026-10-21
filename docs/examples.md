@@ -6,6 +6,14 @@ Each `.pwn` is independently compiled with warnings as errors; compile success a
 not runtime qualification. The [documentation audit](documentation-audit.md) retains its
 historical revision; see [current readiness](rc-readiness.md) for later integrated evidence.
 
+For short fragments to read before a complete gamemode, start with
+[connection and first query](getting-started.md#follow-one-asynchronous-operation), then
+[parameterized insert/delete](api.md#insert-and-delete-one-record),
+[individual/snapshot/UNNEST saves](saving.md), [guarded callbacks](callbacks.md),
+[transaction sequencing](transactions.md), [SQL sections](sql-sections.md) and
+[logging/errors](debugging.md). Their stated prerequisites matter: fragments are not
+additional runnable examples, and the thirteen-file inventory below is unchanged.
+
 | Order / purpose                                                                        | Source and fixtures                                                                              | Prerequisites and expected result                                                                                                                                                                        |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1. Connect, CRUD, context, RETURNING, result columns, affected rows, SQLSTATE          | [basic.pwn](../examples/basic.pwn)                                                               | `game` service, one lane; creates session-local table; `PG BASIC PASS`.                                                                                                                                  |

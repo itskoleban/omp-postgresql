@@ -68,8 +68,11 @@ build, `--libpq /path/to/libpq.so.5` and the PostgreSQL `COPYRIGHT`; `readelf` a
 must be available. Both accept `--output DIRECTORY` and verification accepts
 `--archive NAME.zip --destination NEW_DIRECTORY`.
 
-The final download job also assembles a source ZIP from Git's exact tracked tree,
+The final download job also assembles a source ZIP from Git's tracked source export,
 both distributions, release notes, complete dependency manifests and `SHA256SUMS`.
+Source export honors `.gitattributes`: `/audit/ export-ignore` keeps the preserved internal
+audit records in Git without adding them to source ZIPs. Binary installation does not
+stage `audit/`, and the package payload allowlist remains unchanged.
 It uploads these as `omp-postgresql-release-FULL_COMMIT`. This is unsigned content
 provenance; it does not create a tag or Release, grant publication permission, or
 turn a branch/preview build into an integrated candidate. See [release gates](releasing.md).

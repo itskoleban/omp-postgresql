@@ -2,6 +2,14 @@
 
 Date: 2026-10-18 (America/Bogota). Reviewer: **GPT-6 Astra**, reasoning effort **ultra**, the highest available requested setting. This is the completed independent audit report, not a prepared review prompt. Earlier Astra attempts were interrupted before delivering a report; their surviving source probes and logs are identified below and are not represented as completed audits.
 
+Maintenance note, October 21, 2026: this report retains its original audit scope and
+conclusions. Later qualification continuity is preserved in the repository's
+[ledger](https://github.com/itskoleban/omp-postgresql/blob/master/audit/rc-continuity.md)
+and [qualification JSON](https://github.com/itskoleban/omp-postgresql/blob/master/audit/qualification-71cdf6f.json),
+copied unchanged from `255f56847dcc76353cb6388f1990b616569bc038`. The subsequent
+[published RC evidence](validation.md#published-release-candidate-october-21-2026-utc)
+is separate; neither preservation nor publication re-audits later code.
+
 ## Identity, scope and conclusion
 
 The frozen audited source is **`962ee8ac16ae8cb85b9c879fb27b5209e6898990`**. Source inspection used `git show <SHA>:<path>` even while the parent task implemented fixes in the shared checkout. This report does not conflate that source with the later integrated/format-only `master` commit `556dca6fc3797f1646dab71692d8f5d6d098c5af`, or with CI's preview merge `dfbd7caac35ef21cdc1e896bb3f8c44383acd725`.

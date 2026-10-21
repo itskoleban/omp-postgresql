@@ -20,8 +20,8 @@ python3 scripts/release.py prepare --packages build-dist-download --output build
 Preparation requires both platform ZIPs and their checksum files, a clean source
 checkout, matching full commits/candidate versions, successful package verification
 and matching release notes. It refuses to overwrite an existing output directory.
-It adds the exact tracked source tree via `git archive`, excludes untracked/ignored
-local files, and produces:
+It adds the tracked source export via `git archive`, honors `.gitattributes` export exclusions
+(including internal `/audit/` records), excludes untracked/ignored local files, and produces:
 
 - Both original platform ZIPs and SHA-256 sidecars, without rebuilding or relabelling.
 - A source ZIP identified by version and source commit, including build scripts,

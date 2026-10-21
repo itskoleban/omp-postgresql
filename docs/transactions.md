@@ -28,6 +28,121 @@ debit. A nonnegative CHECK constraint protects stored balances; a bigint interme
 guards int32 addition. Real transfers also need authorization, positive amount validation,
 different account IDs, currency/precision rules and consistent lock order across all writers.
 
+## Commit a group only after its writes confirm
+
+The following fragments form one callback chain, not a standalone gamemode. `Database`
+is ready; the caller has prepared a statement on that same connection with one or more bounded UPDATE snapshots
+as in [saving](saving.md), each expected to affect exactly one account. Calling
+`StartAtomicSave(statement)` transfers ownership of that statement to this chain. Do not
+submit it elsewhere. Run one chain at a time on this connection, and keep its identity
+until completion/cleanup; the callbacks do not look up a possibly replaced `Database`.
+
+```pawn
+new LastTransactionError[512]; // Private diagnostic buffer, never sent to players.
+new RetiredTransaction;       // Rejected finish awaiting connection shutdown.
+forward OnSaveBegin(transaction, statement);
+forward OnSaveWrites(job, transaction);
+forward OnSaveFinish(job, transaction, bool:commit);
+
+stock StartAtomicSave(statement) {
+    new transaction = pg_begin(Database, 0, 0, true, "OnSaveBegin", "i", statement);
+    if (!transaction) {
+        pg_last_error(LastTransactionError);
+        pg_statement_close(statement); // No SQL was accepted.
+    }
+    return transaction;
+}
+```
+
+Only the confirmed BEGIN callback submits the captured writes. A locally rejected execute
+has not sent them, so close the statement and explicitly roll back the open transaction.
+
+```pawn
+public OnSaveBegin(transaction, statement) {
+    if (pg_job_status(transaction) != PG_CONFIRMED) {
+        printf("BEGIN not confirmed: status=%d error=%d",
+            pg_job_status(transaction), pg_job_error(transaction));
+        pg_statement_close(statement);
+        pg_job_close(transaction); // Failed BEGIN releases its reservation at dispatch.
+        return 1;
+    }
+    new job = pg_execute(statement, 0, transaction, 0, true, "OnSaveWrites", "i", transaction);
+    if (!job) pg_last_error(LastTransactionError);
+    pg_statement_close(statement); // Accepted jobs own the snapshots.
+    if (!job) FinishAtomicSave(transaction, false);
+    return 1; // Keep the BEGIN job until the finish callback.
+}
+```
+
+Even confirmed SQL may update zero rows. Validate every result before choosing COMMIT;
+any failed/cancelled/uncertain write or unexpected count chooses ROLLBACK instead.
+
+```pawn
+public OnSaveWrites(job, transaction) {
+    new count[24], expected = pg_job_size(job);
+    new bool:commit = pg_job_status(job) == PG_CONFIRMED && expected > 0 &&
+        pg_job_completed(job) == expected && pg_result_count(job) == expected;
+    for (new result = 0; commit && result < expected; result++) {
+        if (!pg_result_affected(job, result, count) || strcmp(count, "1")) commit = false;
+    }
+    if (!commit) printf("Writes rejected: status=%d error=%d", pg_job_status(job), pg_job_error(job));
+    pg_job_close(job);
+    FinishAtomicSave(transaction, commit);
+    return 1;
+}
+```
+
+The finish call only submits work. Report a committed save **only** in its confirmed
+completion callback; a confirmed ROLLBACK means the save was discarded.
+
+```pawn
+stock FinishAtomicSave(transaction, bool:commit) {
+    new finish;
+    if (commit) finish = pg_commit(transaction, 0, true, "OnSaveFinish", "ib", transaction, true);
+    else finish = pg_rollback(transaction, 0, true, "OnSaveFinish", "ib", transaction, false);
+    if (!finish) {
+        pg_last_error(LastTransactionError);
+        RetiredTransaction = transaction; // Retain ownership: no finish callback will arrive.
+        pg_connection_close(pg_job_connection(transaction));
+    }
+}
+
+public OnSaveFinish(job, transaction, bool:commit) {
+    new status = pg_job_status(job);
+    if (status == PG_CONFIRMED) {
+        if (commit) print("Save committed.");
+        else print("Save rolled back.");
+    } else {
+        printf("Finish not confirmed: status=%d error=%d", status, pg_job_error(job));
+        // Preserve an application operation ID and reconcile an uncertain COMMIT; no replay.
+    }
+    pg_job_close(job);
+    pg_job_close(transaction); // Finish dispatch has released the reservation.
+    return 1;
+}
+```
+
+For the rejected-finish branch, start a normal repeating application timer **before** calling
+`StartAtomicSave` (for example, `SetTimer("OnTransactionCleanup", 1000, true)`), and keep
+it until cleanup finishes. Its public can be this fragment:
+
+```pawn
+forward OnTransactionCleanup();
+public OnTransactionCleanup() {
+    if (RetiredTransaction && pg_job_close(RetiredTransaction)) RetiredTransaction = 0;
+    return 1; // One attempt per timer tick; never spin or sleep waiting for shutdown.
+}
+```
+
+Closure can initially fail while the BEGIN still reserves the lane. The component keeps a
+closed connection through its final `PG_DISCONNECTED` callback and reaps it on a later tick;
+then the retained, already dispatched BEGIN can be released. Stop new work on that connection
+after finish rejection. Do not replace/overwrite `RetiredTransaction` with another operation.
+This example deliberately abandons the connection when a finish cannot be enqueued; it does
+not claim a confirmed rollback or replay any work. Capture job messages/SQLSTATE in a private
+diagnostic record before closure when needed; see [debugging](debugging.md). A real transfer
+also needs the row locking, business validation and operation ledger described above.
+
 ## Errors, savepoints and rejected COMMIT
 
 A confirmed UPDATE inside a transaction is provisional. COMMIT can still fail, for example

@@ -1,30 +1,80 @@
 # Custom asynchronous callbacks
 
-For new applications, specify a public callback when submitting a job:
+For new applications, specify a public callback when submitting a job. These related
+fragments assume `<open.mp>` and `<omp-postgresql>`, the
+[`tutorial_inline_accounts` schema](api.md), and application globals `Database`,
+`bool:Ready`, `Token[MAX_PLAYERS]` and `PendingJob[MAX_PLAYERS]`.
+`accountid` is the authenticated player's authorized int32 database ID; this lookup is
+not authentication. Call `LoadAccountScore` from the application's load path:
+
+```pawn
+stock LoadAccountScore(playerid, accountid) {
+    if (playerid < 0 || playerid >= MAX_PLAYERS || !IsPlayerConnected(playerid) ||
+        !Ready || !Token[playerid] || PendingJob[playerid]) return 0;
+    new statement = pg_prepare(Database,
+        "SELECT score FROM tutorial_inline_accounts WHERE id=$1", 1);
+    new job;
+    if (statement && pg_bind_int(statement, 1, accountid) && pg_add(statement)) {
+        job = pg_execute(statement, 0, 0, 0, true,
+            "OnAccountLoaded", "ii", playerid, Token[playerid]);
+    }
+    if (!job) {
+        new detail[256];
+        pg_last_error(detail); // Capture before statement_close; route only to protected diagnostics.
+        print("Account load rejected locally.");
+    }
+    if (statement) pg_statement_close(statement); // Accepted work owns its parameter copy.
+    PendingJob[playerid] = job;
+    return job;
+}
+```
+
+Validate the exact pending job before clearing its slot. A late callback must not clear
+or apply the next player's request:
 
 ```pawn
 forward OnAccountLoaded(job, playerid, session);
 public OnAccountLoaded(job, playerid, session) {
     if (playerid < 0 || playerid >= MAX_PLAYERS || !IsPlayerConnected(playerid) ||
-        Token[playerid] != session) {
+        PendingJob[playerid] != job) {
         pg_job_close(job);
         return 1;
     }
-    if (pg_job_status(job) == PG_CONFIRMED) {
-        // Validate result count, row count, NULLs and every getter before applying data.
+    PendingJob[playerid] = 0;
+    if (!Ready || !session || Token[playerid] != session ||
+        pg_job_connection(job) != Database || pg_connection_state(Database) != PG_CONNECTED) {
+        pg_job_close(job);
+        return 1;
+    }
+    new score, status = pg_job_status(job);
+    if (status != PG_CONFIRMED) {
+        printf("Account load ended with status %d, error %d.", status, pg_job_error(job));
+    } else if (pg_result_count(job) == 1 && pg_result_rows(job) == 1 &&
+        pg_result_columns(job) == 1 && pg_result_int(job, 0, 0, 0, score)) {
+        SetPlayerScore(playerid, score);
     } else {
-        // FAILED, CANCELLED and UNCERTAIN arrive here too. Never replay an uncertain write.
+        SendClientMessage(playerid, -1, "Account missing or score invalid; load was not applied.");
     }
     pg_job_close(job);
     return 1;
 }
-// After binding and pg_add; check the returned handle for local rejection.
-new job = pg_execute(statement, 0, 0, 0, true, "OnAccountLoaded", "ii", playerid, Token[playerid]);
 ```
 
-This fragment assumes a session-token array. The complete
-[account example](../examples/accounts.pwn) also tracks the exact pending job, invalidates
-sessions on disconnect/readiness loss and keeps its external authentication boundary.
+The integer getter rejects NULL, overflow and invalid integer text without changing `score`.
+Zero rows is a missing account, not a successful load of score zero. All terminal statuses
+reach the callback; `PG_UNCERTAIN` is not permission to replay a write. Copy any required
+[job diagnostics](debugging.md) before closing the handle.
+
+These fragments require the lifecycle used by the complete
+[account example](../examples/accounts.pwn): allocate a fresh nonzero session token for a
+new load session, never reuse/wrap it while an old callback can exist, invalidate it on
+disconnect and every observed loss of database readiness, and set `Ready` only for the
+current connection's `PG_CONNECTED` event. Invalidate tokens and set `Ready=false` before
+replacing or closing `Database`. Reset a reused player's pending slot, while leaving old
+accepted jobs to close in their own callbacks. A reconnect on the same handle must not
+restore old tokens or authentication. The handle check also rejects results from a replaced
+connection. See the complete example for token allocation and external authentication;
+those application lifecycle hooks are deliberately not duplicated here.
 
 ## One optional tail on every job-submitting native
 

@@ -70,6 +70,85 @@ step is intentional; an earlier error is a failed run. No persistent tables are 
 4. `OnPgComplete(job, context)` reads terminal status, checks result shape and converts data.
 5. `pg_job_close(job)` releases that job and its results. Connection shutdown is separate.
 
+These fragments belong to the same script, with `<open.mp>` and `<omp-postgresql>`
+included. Merge the callbacks into your existing gamemode; they are not four standalone
+programs. The `game` service profile is configured as above. A nonzero connection handle
+means the request was accepted locally, not that authentication or TLS has succeeded:
+
+```pawn
+new Database;
+new bool:FirstQuerySubmitted;
+
+public OnGameModeInit() {
+    Database = pg_connect("game");
+    if (!Database) {
+        new detail[256];
+        pg_last_error(detail); // Copy before another native clears it; inspect securely.
+        print("Database connection request rejected.");
+    }
+    return 1;
+}
+```
+
+Submit only after `OnPgConnection` reports the entire pool ready. This example sends one
+trusted literal query, once; reconnecting does not automatically repeat it:
+
+```pawn
+public OnPgConnection(connection, connection_state) {
+    if (connection != Database) return 1;
+    if (connection_state == PG_CONNECTED && !FirstQuerySubmitted) {
+        FirstQuerySubmitted = true;
+        if (!pg_query(Database, "SELECT 42::integer AS answer")) {
+            new detail[256];
+            pg_last_error(detail);
+            print("First query rejected locally; inspect detail securely.");
+        }
+    } else if (connection_state == PG_CONNECTION_FAILED) {
+        print("Connection failed; inspect pg_connection_message securely.");
+        pg_connection_close(Database);
+        Database = PG_INVALID;
+    }
+    return 1;
+}
+```
+
+The completion callback owns the result until it closes the job. Check both final status
+and result shape before using a value; a getter returning false must not become a zero score
+or other application value:
+
+```pawn
+public OnPgComplete(job, context) {
+    #pragma unused context
+    if (pg_job_connection(job) == Database) {
+        new answer, status = pg_job_status(job);
+        if (status != PG_CONFIRMED) {
+            printf("First query ended with status %d, error %d.", status, pg_job_error(job));
+        } else if (pg_result_count(job) == 1 && pg_result_rows(job) == 1 &&
+            pg_result_columns(job) == 1 && pg_result_int(job, 0, 0, 0, answer)) {
+            printf("Database answer: %d", answer); // Expected: 42.
+        } else print("First query returned an unexpected result.");
+    }
+    pg_job_close(job); // Also release completions from a connection already replaced/closed.
+    return 1;
+}
+```
+
+`PG_FAILED`, `PG_CANCELLED` and `PG_UNCERTAIN` all reach completion. Inspect detailed job
+diagnostics before closure when needed; see [debugging](debugging.md). Closing the connection
+starts shutdown and rejects further submissions; it is not a way to wait for a final save:
+
+```pawn
+public OnGameModeExit() {
+    if (Database) pg_connection_close(Database);
+    Database = PG_INVALID;
+    return 1;
+}
+```
+
+For a controlled shutdown, stop new work and allow its callbacks to drain before unloading
+the script. Owner unload cancels/collects remaining work; it does not prove that writes
+committed. See [saving](saving.md) for bounded shutdown and uncertain-write handling.
+
 Callbacks run in the owning script on the main thread. Return promptly without `sleep`.
 Use `context` to identify the step/request. Never wait in a Pawn loop for a worker to finish.
 For an untrusted username, do not format it into SQL: prepare `WHERE username=$1`, bind it,

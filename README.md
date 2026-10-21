@@ -1,7 +1,8 @@
 # omp-postgresql
 
 A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
-Candidate **v0.1.0-rc.1 is prepared for owner review**; publication is not approved. Review the
+[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1) is a
+published testing Pre-release, not a stable or production-certified release. Review the
 [validated platforms and known limitations](docs/validation.md) before deploying it.
 The [RC readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
 qualification work and publication gates.
@@ -62,7 +63,7 @@ see [qualification controls and limits](docs/validation.md#sanitizers-and-server
 
 On Windows, distribute `libpq.dll` and its dependencies, including TLS and runtime libraries,
 from the same provider and architecture. On Linux, install the corresponding runtime package.
-Experimental x86 Actions packages include selected runtime dependencies and their licenses;
+x86 distributions include selected runtime dependencies and their licenses;
 see [DEPENDENCIES.md](DEPENDENCIES.md) for the remaining system dependencies.
 The SDK and Pawn retain their licenses; neither reference plugin is linked or copied.
 See the [Windows x86 build and runtime guide](docs/build-windows.md) and the
@@ -72,7 +73,7 @@ can override the default include destination, `qawno/include`.
 The CI workflow generates Windows/Linux x86 ZIPs and SHA-256 only after testing a fresh
 server with the extracted package. See [package installation](docs/installation.md) and
 [reproducible archive assembly](docs/packaging.md). These are qualification artifacts;
-no Release Candidate has been approved or published. The [release procedure](docs/releasing.md)
+the published RC retains its exact tagged source and assets. The [release procedure](docs/releasing.md)
 describes exact-source inventories and the separate owner-triggered publication workflow.
 
 ## Installation and connections
@@ -181,8 +182,8 @@ reproduction](docs/performance.md); local samples are not performance guarantees
 A separate [real Pawn workload](docs/logging-qualification.md) has measured callback
 latency, timer scheduling lateness and whole-server CPU/RSS on both x86 CI platforms.
 These measurements do not isolate component tick execution cost or establish superiority
-over other database components. The [latest verified master evidence](docs/validation.md#verified-master-baseline-october-20-2026-utc)
-identifies `71cdf6f`; the final documentation merge still requires its own exact-commit CI.
+over other database components. The [published RC evidence](docs/validation.md#published-release-candidate-october-21-2026-utc)
+identifies `db2bfb9`; historical measurements retain their original source identities.
 
 ## Maintenance conventions
 
