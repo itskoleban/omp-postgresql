@@ -1,0 +1,247 @@
+{
+  "schema": 1,
+  "verified_at_utc": "2026-10-20T00:47:42.713543+00:00",
+  "repository": "itskoleban/omp-postgresql",
+  "qualified_branch": "master",
+  "qualified_source": "71cdf6f19f00534fd9748286673554e68cebe195",
+  "source_tree": "45c5fc022be9adac86afae861bc6b758452fa9ec",
+  "ci_run": 39281081599,
+  "ci_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/39281081599",
+  "audit_branch": "codex/rc-audit-resumable",
+  "audit_checkpoint_is_not_qualified_master": true,
+  "outer_artifacts": [
+    {
+      "id": 12201845525,
+      "name": "omp-postgresql-linux-x86-71cdf6f19f00534fd9748286673554e68cebe195",
+      "digest": "sha256:28bda58d37d2123d229cc9788398b7c502b1af5ae913d8c3f77e1b8953b3e9a4",
+      "size_in_bytes": 612329
+    },
+    {
+      "id": 12201775716,
+      "name": "windows-x86-test-logs",
+      "digest": "sha256:c021058ee8fd3363658ea9b1920d5cca852c62da8e16d3bb3b4f1d6d495144c8",
+      "size_in_bytes": 490553
+    },
+    {
+      "id": 12201626002,
+      "name": "omp-postgresql-windows-x86-71cdf6f19f00534fd9748286673554e68cebe195",
+      "digest": "sha256:d283ec7f50dc56b2b71f3c1ae4a8246f57d0f8a6a00411e8e0f15d0f8ce3f838",
+      "size_in_bytes": 3123119
+    },
+    {
+      "id": 12201385607,
+      "name": "linux-x64-test-logs-OFF",
+      "digest": "sha256:3fe4edbea4a5fd6b160ecba2195d93a63797a42c1f31ec778d312fb8e4f4a660",
+      "size_in_bytes": 19864
+    },
+    {
+      "id": 12201250614,
+      "name": "linux-x64-test-logs-ON",
+      "digest": "sha256:0493cbf2852c5f558b0b1ea5b918d216366b0f29c930776a1812b29f39a683a8",
+      "size_in_bytes": 20364
+    },
+    {
+      "id": 12200957710,
+      "name": "omp-postgresql-release-71cdf6f19f00534fd9748286673554e68cebe195",
+      "digest": "sha256:0c6948f630a4a78df6d231f202f0f0a5748b5b71820540af692bc028cd0150a5",
+      "size_in_bytes": 4139463
+    },
+    {
+      "id": 12200951852,
+      "name": "windows-x64-test-logs",
+      "digest": "sha256:d8b368dcb1e3ee52c8280d2090c607599ff4bf4758837207c0151f2be6bd63ed",
+      "size_in_bytes": 12987
+    },
+    {
+      "id": 12200747251,
+      "name": "linux-x86-test-logs",
+      "digest": "sha256:870c7373af30ff53f677451ba1d465bf0914e02210288aa99564d7a077cc7f5a",
+      "size_in_bytes": 654958
+    },
+    {
+      "id": 12199424829,
+      "name": "linux-x64-test-logs-THREAD",
+      "digest": "sha256:36b168b691d540bc6779d0557b07aa102df06a595ec96311563f468bc5c11772",
+      "size_in_bytes": 21005
+    }
+  ],
+  "source_archive": {
+    "entries": 145,
+    "matches_exact_git_tree": true,
+    "sha256": "550878f1a8f094051fbd176d32ba2dbd9947a2513f2c6d9cf76079bab700e4a5"
+  },
+  "distributions": {
+    "linux": {
+      "sha256": "387f11ef4abd6f3d3b8137d90c671e12038c7f1c9e23b1f6bd8223ab913caf25",
+      "manifest_files": 67,
+      "source_payload_files_matched": 50
+    },
+    "windows": {
+      "sha256": "de352559edb769cefc2934b01cfa1ce34ea7994796a12a91cf4539512adfbc4d",
+      "manifest_files": 70,
+      "source_payload_files_matched": 50
+    }
+  },
+  "release_ledger_assets": 7,
+  "exact_commit_note_links": 15,
+  "jobs": {
+    "Linux x86 and open.mp": {
+      "conclusion": "success",
+      "ctest": 18,
+      "id": 118155225165,
+      "source_and_extracted_examples": 13
+    },
+    "Verify downloaded x86 distributions": {
+      "conclusion": "success",
+      "id": 118158672701
+    },
+    "Windows x86 MSVC and open.mp": {
+      "conclusion": "success",
+      "ctest": 17,
+      "id": 118155225260,
+      "source_and_extracted_examples": 13
+    },
+    "linux (OFF)": {
+      "conclusion": "success",
+      "ctest": 18,
+      "id": 118155225385
+    },
+    "linux (ON)": {
+      "conclusion": "success",
+      "ctest": 18,
+      "id": 118155225357
+    },
+    "linux (THREAD)": {
+      "conclusion": "success",
+      "ctest": 18,
+      "id": 118155225964
+    },
+    "windows": {
+      "conclusion": "success",
+      "ctest": 15,
+      "id": 118155225379
+    }
+  },
+  "junit": [
+    {
+      "artifact": "linux-x64-test-logs-OFF",
+      "executed": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reported_seconds": 23.0
+    },
+    {
+      "artifact": "linux-x64-test-logs-ON",
+      "executed": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reported_seconds": 27.0
+    },
+    {
+      "artifact": "linux-x64-test-logs-THREAD",
+      "executed": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reported_seconds": 30.0
+    },
+    {
+      "artifact": "linux-x86-test-logs",
+      "executed": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reported_seconds": 22.0
+    },
+    {
+      "artifact": "windows-x64-test-logs",
+      "executed": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reported_seconds": 55.0
+    },
+    {
+      "artifact": "windows-x86-test-logs",
+      "executed": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reported_seconds": 79.0
+    }
+  ],
+  "real_pawn": {
+    "linux": {
+      "package": {
+        "raw_rows": 7200,
+        "resource_rows": 980,
+        "observed_drop_rows_verified": 90,
+        "raw_sha256": "45e8708ee950145f464d224d7e229b50b2695c0525788a1761129e6bd44de109",
+        "metadata_sha256": "141a25fba446d1302b4a6c9d3059ecef437f20cf9bf7ba46fe6004bbc0ef4c64",
+        "resource_sha256": "f1f887d85f6fcae5770d4e71629e05f58cdcf36213aec75f3f06735577245257",
+        "drops_sha256": "b58637d8231fdfe38de49f6194f7a2a2d41b726a11b047d1cd11945da4675ceb",
+        "console_rows_verified": true,
+        "sink_hashes_verified": true,
+        "component_hash_verified_against_package": true
+      },
+      "source": {
+        "raw_rows": 7200,
+        "resource_rows": 980,
+        "observed_drop_rows_verified": 78,
+        "raw_sha256": "9a22c39e462c410ad0d700c5caa0431f268e7bd76d9e248223f3eaab3104d9de",
+        "metadata_sha256": "e1e0863c730da6b9ad46a89094a6c04d374fb518364a9e1c9a01e0a0dad33ce0",
+        "resource_sha256": "f4aad9faa73e1a6aa0d879e2577887b99d1af80f114d2af93f3ce6bf413c2447",
+        "drops_sha256": "1dbb0f899a74e8eab4a1e96491fd9277cdf5ea08000c3979860ae80ec7b1edea",
+        "console_rows_verified": true,
+        "sink_hashes_verified": true,
+        "component_hash_verified_against_package": false
+      }
+    },
+    "windows": {
+      "package": {
+        "raw_rows": 7196,
+        "resource_rows": 891,
+        "observed_drop_rows_verified": 142,
+        "raw_sha256": "5ce47c27f1a16f3781b117d6b89a2e7ea7d11372ce6b9e5c5a52c8767e953d65",
+        "metadata_sha256": "5b8cdce492d267a3caaaa3a771c0a1eb40f18a51b18f864edefe47668f0b994f",
+        "resource_sha256": "d4fe83023e1944e35f6fac644c06e5c7826b9f8171995b8ccfc6cbf02cbc4287",
+        "drops_sha256": "eb583aa8114d764ae7c206f025dd2a3367386b01a22bd877686e1b9c84608d26",
+        "console_rows_verified": true,
+        "sink_hashes_verified": true,
+        "component_hash_verified_against_package": true
+      },
+      "source": {
+        "raw_rows": 7198,
+        "resource_rows": 900,
+        "observed_drop_rows_verified": 144,
+        "raw_sha256": "73b1e00c2f48b5bf5b80704b60fefc9bbc775ad51790f91f0a68966fda63e388",
+        "metadata_sha256": "2dd1b28e584c6f96351c8fb6fd04cb33e74cae2c1fcf6a6dd608c4cccf66af7b",
+        "resource_sha256": "6d61b587b00cc414157515995a4b546d73deaf42f0a8ac748fe35bca48285363",
+        "drops_sha256": "fb67d54fb44701b2489d10422748ea92040f085b462fc769467eb89bf34830e8",
+        "console_rows_verified": true,
+        "sink_hashes_verified": true,
+        "component_hash_verified_against_package": true
+      }
+    }
+  },
+  "verification_limits": [
+    "No new local runtime, sanitizer or benchmark execution; existing exact-source CI outputs were downloaded and checked.",
+    "System libpq/OpenSSL are not fully sanitizer-instrumented.",
+    "Linux source unstripped component is not retained; its recorded hash cannot be independently recomputed from the stripped package.",
+    "Windows extracted-package Git identity unavailable in restricted PATH; external source, runtime and package hashes bind the capture.",
+    "Whole-process CPU/RSS and callback/timer scheduling are not isolated component tick execution cost.",
+    "Counted event drops occur; BOTH duplicates are not summed as distinct global events.",
+    "No stalled-storage hard shutdown bound, durability/fsync claim, production approval or release authorization."
+  ],
+  "independent_original_artifact_review": {
+    "result": "PASS",
+    "source_entries": 145,
+    "source_files": 130,
+    "source_modes_verified": true,
+    "junit_case_status_run_verified": 104,
+    "per_package_additional_root_legal_patch_payloads": 8,
+    "findings": []
+  }
+}

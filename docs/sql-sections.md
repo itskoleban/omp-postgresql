@@ -7,18 +7,53 @@ rejection (`pg_last_error` explains the rejection). Parameter count, binding, im
 Closing a statement does not invalidate accepted jobs. File errors are asynchronous job
 errors; receiving a statement/job handle is not a database confirmation.
 
+These fragments assume a ready `Database` connection, an `accounts` table with
+`id integer PRIMARY KEY`, `username text UNIQUE`, and integer `money`/`score` columns,
+and the illustrated file deployed as
+`scriptfiles/sql/accounts.sql`. Call `LoadSectionAccount`
+with a username; it binds the value even when it comes from a player. This administrative
+lookup does not apply data to a player slot; use the [session guards](callbacks.md) for that.
+
 ```pawn
-new load = pg_prepare_file(Database, "accounts.sql", 1, true, "load_account");
-if (load && pg_bind_string(load, 1, "alice") && pg_add(load)) {
-    new job = pg_execute(load); // Inspect in OnPgComplete, then pg_job_close(job).
-    if (!job) { /* Read pg_last_error; snapshots remain available for explicit retry. */ }
+new LastSectionError[512]; // Private operator diagnostic buffer, never sent to players.
+stock LoadSectionAccount(const username[]) {
+    new statement = pg_prepare_file(Database, "accounts.sql", 1, .section = "load_account");
+    new job;
+    if (statement && pg_bind_string(statement, 1, username) && pg_add(statement)) {
+        job = pg_execute(statement, .callback = "OnSectionAccount");
+    }
+    if (!job) {
+        pg_last_error(LastSectionError); // Capture before statement_close clears the error.
+        print("Section lookup rejected; inspect LastSectionError privately.");
+    }
+    if (statement) pg_statement_close(statement);
+    return job;
 }
-if (load) pg_statement_close(load);
 ```
 
-This short fragment discards any unsent snapshots when it closes the statement. A caller
-planning a later enqueue attempt must retain that statement until submission succeeds or
-the application explicitly abandons it. Accepted jobs keep their own captured inputs.
+```pawn
+forward OnSectionAccount(job);
+public OnSectionAccount(job) {
+    new id;
+    if (pg_job_status(job) == PG_CONFIRMED && pg_result_count(job) == 1 &&
+        pg_result_rows(job) == 1 && pg_result_columns(job) == 4 &&
+        !pg_result_is_null(job, 0, 0, 0) && pg_result_int(job, 0, 0, 0, id)) {
+        printf("Account ID: %d", id);
+    } else {
+        // Zero rows means no match; a failed job may be a file/parser or SQL error.
+        printf("Lookup not usable: status=%d error=%d", pg_job_status(job), pg_job_error(job));
+    }
+    pg_job_close(job);
+    return 1;
+}
+```
+
+The lookup assumes `username` is unique. See [diagnostics](debugging.md) to inspect a
+failed job's message/SQLSTATE before closing it. Closing the statement deliberately discards
+unsent snapshots after local rejection; accepted jobs retain their own captured inputs.
+If planning a later enqueue attempt, retain the statement instead until submission succeeds
+or the application explicitly abandons it. Omitting `.section` selects the whole file:
+use that form only for a file containing one SQL statement, not the two-section file below.
 
 ## File format
 
@@ -120,7 +155,7 @@ Compile it with the same official includes/compiler as the other examples. Copy 
 to the server's `scriptfiles/sql/accounts.sql` and use a disposable service profile. The
 existing x86 CI compiles it again from the extracted package and runs it in a fresh server,
 requiring `PG SECTION PASS`. Consult [validation](validation.md) for actual run evidence
-and outstanding RC gates, and [performance](performance.md) for measurement limits.
+and source-specific checks, and [performance](performance.md) for measurement limits.
 
 ## Unified file-preparation entry point
 

@@ -1,13 +1,30 @@
 # Validation results and known limitations
 
-The candidate is **v0.1.0-rc.1**. Passing a finite suite verifies its listed scenarios;
-it does not certify production suitability or authorize publication. Current evidence
+The published testing candidate is **v0.1.0-rc.1**. Passing a finite suite verifies its listed
+scenarios; it does not certify production suitability. Current evidence
 is separated below from the historical qualification records that follow.
+
+## Published Release Candidate: October 21, 2026 UTC
+
+[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
+was published as a Pre-release from **`db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`**.
+All seven jobs passed in [exact-master CI 39515353213](https://github.com/itskoleban/omp-postgresql/actions/runs/39515353213).
+The owner-authorized [release workflow 39584133358](https://github.com/itskoleban/omp-postgresql/actions/runs/39584133358)
+created a draft using those original Windows/Linux x86 distributions. Its eight assets
+were independently downloaded and checked before publication and again through public
+downloads afterward: SHA-256 ledger/sidecars, payload and build/dependency/license
+manifests, PE32/ELF32 x86 architecture, exact source archive and release notes all matched.
+The source ZIP matched all 130 tracked files at that release commit. The historical
+experimental release was unchanged; the RC was not marked latest/stable.
+
+Repository documentation and audit preservation after that tag do not change the published
+assets or extend their qualification. Future changes require their own CI. The earlier
+audit results below remain tied to their original sources, dates and test counts.
 
 ## Verified master baseline: October 20, 2026 UTC
 
 Verified source: **`71cdf6f19f00534fd9748286673554e68cebe195`**, tree
-`45c5fc022be9adac86afae861bc6b758452fa9ec`. This remains the unchanged `master`
+`45c5fc022be9adac86afae861bc6b758452fa9ec`. This was the `master`
 baseline for the final documentation review. Owner-integrated PRs
 [#19](https://github.com/itskoleban/omp-postgresql/pull/19) and
 [#20](https://github.com/itskoleban/omp-postgresql/pull/20) include configurable logging,
@@ -41,20 +58,26 @@ The completed audit checked nine original artifact hashes/sizes, seven logs, the
 145-entry/130-file Git source archive and both distribution manifests (Linux 67 files,
 Windows 70). The final documentation review rechecked the original ZIP hashes, source
 bytes, JUnit cases and capture sidecars against the preserved
-[continuity ledger](https://github.com/itskoleban/omp-postgresql/blob/255f56847dcc76353cb6388f1990b616569bc038/audit/rc-continuity.md)
-and [qualification JSON](https://github.com/itskoleban/omp-postgresql/blob/255f56847dcc76353cb6388f1990b616569bc038/audit/qualification-71cdf6f.json),
+[continuity ledger](https://github.com/itskoleban/omp-postgresql/blob/master/audit/rc-continuity.md)
+and [qualification JSON](https://github.com/itskoleban/omp-postgresql/blob/master/audit/qualification-71cdf6f.json),
 and freshly verified the original CI jobs/artifact metadata. No new local runtime,
 benchmark or sanitizer workload was needed for that evidence review. The Linux source
 unstripped binary was not retained for independent hash recomputation; Windows package
 capture Git identity was unavailable and is externally bound by source/runtime/package
 hashes. These limits remain explicit; GitHub artifact retention is finite.
 
-The audit branch remains at `255f568`; its successful
+Those records are exact copies from audit checkpoint
+**`255f56847dcc76353cb6388f1990b616569bc038`**, originally on
+`codex/rc-audit-resumable`. Their historical statements, including publication status at
+the time, remain unchanged. They are tracked under `audit/` for repository access and
+excluded from Git source archives by `/audit/ export-ignore`; binary staging also omits
+them. Absolute GitHub links keep installed documentation independent of internal files.
+The temporary branch may be retired only after these copies and links are verified in
+`master`; it is not a branch to merge wholesale. The checkpoint's successful
 [audit-only CI 39350033514](https://github.com/itskoleban/omp-postgresql/actions/runs/39350033514)
 is separate from master qualification. Historical tables/CSVs below keep their source
-identities and values. These baseline results do not qualify the later documentation
-branch or final merge: packaged documentation changes require successful CI on the
-exact final `master` commit before owner-authorized tagging/publication. See
+identities and values. These baseline results do not qualify later documentation changes;
+the published candidate's separate exact-source evidence is recorded above. See
 [readiness and remaining coverage](rc-readiness.md).
 
 ## Historical logging and cleanup context

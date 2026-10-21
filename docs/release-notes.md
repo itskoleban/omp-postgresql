@@ -1,9 +1,11 @@
 # omp-postgresql 0.1.0-rc.1
 
-Preparation for **v0.1.0-rc.1**, a testing Release Candidate, not a stable or
-production-certified release. The older experimental release retains its own source
-identity. Publication requires separate owner authorization and successful CI on the
-exact final integrated commit; this document does not authorize a tag or publication.
+[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
+was published on October 21, 2026 as a testing Pre-release, not a stable or
+production-certified release. Its source is `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`;
+all seven jobs passed in [CI 39515353213](https://github.com/itskoleban/omp-postgresql/actions/runs/39515353213).
+The older experimental release retains its own source identity. These repository notes
+may evolve after publication; the RC's tag, uploaded notes and assets remain unchanged.
 
 ## Included behavior
 
@@ -67,9 +69,10 @@ whole-process CPU/RSS and per-sink drop reports. Counted event losses occurred; 
 observed sink failures in those captures does not establish lossless delivery.
 See [methods and limits](logging-qualification.md) and [historical measurements](performance.md).
 
-These results qualify that source only. The documentation merge changes the packaged
-inputs, so final `master` and its source/distribution artifacts require their own
-successful exact-commit CI before any release tag. PR/branch CI remains separate.
+These results qualify that source only. The final documentation merge and its packages
+passed their own exact-master CI before tagging, followed by the verified
+[release workflow and public asset checks](validation.md#published-release-candidate-october-21-2026-utc).
+PR/branch CI and changes made after publication remain separate evidence.
 
 ## Platforms and dependencies
 

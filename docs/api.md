@@ -151,6 +151,92 @@ component does not infer SQL-specific length rules. With duplicate IDs in UPDATE
 PostgreSQL may select one of several source rows. Deduplicate first or define the behavior
 explicitly in SQL.
 
+### Insert and delete one record
+
+These fragments use `<open.mp>` and `<omp-postgresql>`, a ready `Database` connection,
+and the `ReportLocalPgError` / `InspectPgFailure` application helpers shown in
+[diagnostics](debugging.md#inspect-local-and-job-errors). They are functions to integrate
+into a gamemode, not a complete program. As the schema owner, create this illustrative
+table in a disposable database and grant the runtime role the required table/sequence
+permissions; it is separate from the authentication tutorial's schema:
+
+```sql
+CREATE TABLE tutorial_inline_accounts (
+    id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username text NOT NULL UNIQUE,
+    score integer NOT NULL DEFAULT 0
+);
+```
+
+Bind a username and score as values, including when the username contains quotes:
+
+```pawn
+stock InsertAccount(const username[], score) {
+    new statement = pg_prepare(Database,
+        "INSERT INTO tutorial_inline_accounts(username, score) VALUES($1, $2) RETURNING id", 2);
+    new job;
+    if (statement && pg_bind_string(statement, 1, username) &&
+        pg_bind_int(statement, 2, score) && pg_add(statement)) {
+        job = pg_execute(statement, .callback = "OnAccountChanged");
+    }
+    if (!job) ReportLocalPgError(); // Copy before close clears the local diagnostic.
+    if (statement) pg_statement_close(statement);
+    return job; // Positive means accepted, not inserted yet.
+}
+```
+
+Delete by a stable database ID after application authorization. Do not use a player-slot
+number as an account ID. This uses the same completion handler because both statements
+return the affected account's `id`:
+
+```pawn
+stock DeleteAccount(accountid) {
+    new statement = pg_prepare(Database,
+        "DELETE FROM tutorial_inline_accounts WHERE id=$1 RETURNING id", 1);
+    new job;
+    if (statement && pg_bind_int(statement, 1, accountid) && pg_add(statement)) {
+        job = pg_execute(statement, .callback = "OnAccountChanged");
+    }
+    if (!job) ReportLocalPgError();
+    if (statement) pg_statement_close(statement);
+    return job;
+}
+```
+
+Each call owns a one-shot statement. Closing it after rejection discards unsent bindings
+and snapshots; closing it after acceptance leaves the job's copies intact. A failed bind
+never submits a partial operation. The callback checks both affected rows and returned data:
+
+```pawn
+forward OnAccountChanged(job);
+public OnAccountChanged(job) {
+    if (pg_job_status(job) == PG_CONFIRMED) {
+        new affected[24], accountid;
+        if (pg_result_count(job) == 1 && pg_result_affected(job, 0, affected) &&
+            !strcmp(affected, "1") && pg_result_rows(job) == 1 &&
+            pg_result_columns(job) == 1 && !pg_result_is_null(job, 0, 0, 0) &&
+            pg_result_int(job, 0, 0, 0, accountid)) {
+            printf("Confirmed database change for account %d", accountid);
+        } else {
+            print("SQL confirmed, but the expected single account was not returned.");
+        }
+    } else {
+        InspectPgFailure(job); // Includes FAILED, CANCELLED and UNCERTAIN; no replay.
+    }
+    pg_job_close(job);
+    return 1;
+}
+```
+
+A DELETE matching no account is successful SQL with count `"0"`; it is not proof that the
+requested account existed. `RETURNING` supplies data through ordinary result readers,
+as specified by PostgreSQL's [INSERT](https://www.postgresql.org/docs/17/sql-insert.html)
+and [DELETE](https://www.postgresql.org/docs/17/sql-delete.html) commands. These callbacks
+report database facts only. Before applying a result to a player, use the
+[session-guarded SELECT](callbacks.md); for UPDATE and statement reuse see
+[individual and bulk saves](saving.md). Submit dependent work from the prior callback,
+not immediately after receiving its job handle.
+
 ## Heterogeneous batches
 
 `pg_batch_create(connection)` creates an empty batch handle. `pg_batch_add(batch,statement)`

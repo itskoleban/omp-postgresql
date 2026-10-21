@@ -80,13 +80,28 @@ numeric records and privacy policy as the console.
 
 ## Optional runtime output control
 
+Inside initialization, choose one policy and check local rejection. These alternatives
+use `ReportLocalPgError`, defined below. For routine console diagnostics:
+
 ```pawn
-pg_log_config(PG_LOG_WARN, PG_LOG_CONSOLE);
-pg_log_config(PG_LOG_DEBUG, PG_LOG_FILE); // logs/omp-postgresql.log
-pg_log_config(PG_LOG_INFO, PG_LOG_FILE, "./logs/postgresql.log");
-pg_log_config(PG_LOG_DEBUG, PG_LOG_BOTH, "./logs/postgresql.log");
-pg_log_config(PG_LOG_OFF, PG_LOG_CONSOLE);
+if (!pg_log_config(PG_LOG_WARN, PG_LOG_CONSOLE)) ReportLocalPgError();
 ```
+
+To select the default `logs/omp-postgresql.log` file:
+
+```pawn
+if (!pg_log_config(PG_LOG_WARN, PG_LOG_FILE)) ReportLocalPgError();
+```
+
+Or select both console and an allowed custom file:
+
+```pawn
+if (!pg_log_config(PG_LOG_DEBUG, PG_LOG_BOTH, "./logs/postgresql.log")) {
+    ReportLocalPgError();
+}
+```
+
+Each call replaces the global policy; copy the alternative your server needs.
 
 `native bool:pg_log_config(level, destination = PG_LOG_CONSOLE, const path[] = "");`
 Level and destination are independent. Constants `PG_LOG_OFF/ERROR/WARN/INFO/DEBUG/TRACE`
@@ -125,6 +140,56 @@ for exclusively component-managed files. Rotation deliberately replaces the olde
 never use these filenames for other data. No per-event open, synchronous flush or fsync.
 An OS partial write can leave an incomplete final line. This is an operational log, not a
 lossless or durable audit trail.
+
+## Inspect local and job errors
+
+The following are application helpers, not additional natives. Include `<open.mp>` and
+`<omp-postgresql>`. They keep only the most recently inspected diagnostic in private script
+buffers and print fixed text/numeric metadata. Add your own access-controlled inspection
+or redaction before exposing these strings; they can contain SQL or database values.
+Clear the buffers after inspection. The 512-cell sizes are illustrative, not a maximum
+diagnostic length: a failed copy leaves the corresponding buffer empty here.
+
+Call this helper immediately after a native returns a local failure, before closing a
+statement or calling any other PostgreSQL native:
+
+```pawn
+new PgLocalDetail[512];
+
+stock ReportLocalPgError() {
+    if (!pg_last_error(PgLocalDetail)) PgLocalDetail[0] = '\0';
+    print("PostgreSQL call rejected; inspect private PgLocalDetail.");
+}
+```
+
+For accepted jobs, inspect the terminal failure inside their completion callback instead.
+There may be no PostgreSQL result at all, so validate the failing index before reading
+SQLSTATE or server text:
+
+```pawn
+new PgJobDetail[512], PgSqlDetail[512];
+
+stock InspectPgFailure(job) {
+    new status = pg_job_status(job), category = pg_job_error(job);
+    new item = pg_job_error_index(job), sqlstate[6];
+    printf("PostgreSQL job %d: status=%d error=%d item=%d", job, status, category, item);
+    if (!pg_job_message(job, PgJobDetail)) PgJobDetail[0] = '\0';
+    PgSqlDetail[0] = '\0';
+    if (item >= 0 && item < pg_result_count(job)) {
+        if (pg_result_sqlstate(job, item, sqlstate) && sqlstate[0]) {
+            printf("SQLSTATE: %s", sqlstate);
+        }
+        if (!pg_result_message(job, item, PgSqlDetail)) PgSqlDetail[0] = '\0';
+    }
+}
+```
+
+`InspectPgFailure` borrows the terminal job; the callback still calls `pg_job_close`
+after inspecting it, as in the [insert/delete example](api.md#insert-and-delete-one-record).
+It never retries a write. `PG_UNCERTAIN` requires application reconciliation, not an
+assumption that nothing changed. A parser/file/transport error can lack SQLSTATE; the
+job category/message still explains the failure. Logging configuration and sink failures
+do not replace or change these SQL diagnostics.
 
 ## Queues, reconfiguration and failures
 

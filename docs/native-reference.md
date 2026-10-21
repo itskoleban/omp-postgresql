@@ -901,6 +901,9 @@ generation tokens in context before touching player state.
 
 The [learning path](examples.md) adds focused CRUD, scalar values, saving and transfer
 tutorials plus an interactive account example with an explicit external hashing prerequisite.
+For inline fragments, see [insert/delete](api.md#insert-and-delete-one-record),
+[saving strategies](saving.md), [guarded result callbacks](callbacks.md), and
+[local/job diagnostics](debugging.md#inspect-local-and-job-errors).
 Temporary tables in the unattended tests
 belong to one physical session; production tables belong in an operator-managed schema.
 Keep related temporary-table work on its lane; a pool does not share temporary tables.
