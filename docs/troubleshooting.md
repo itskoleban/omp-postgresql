@@ -34,7 +34,9 @@ actual available result inventory establishes that mapping.
 
 `PG_CONFIRMED` is a successful SQL response, not durable transaction success before COMMIT.
 `PG_FAILED` says the job failed, but earlier batch items may have committed. `PG_CANCELLED`
-means this job did not send SQL. `PG_UNCERTAIN` means the worker cannot establish the complete
+means cancellation was observed before the current operation sent SQL; earlier batch items
+may already have confirmed or committed. Inspect item statuses and completed counts.
+`PG_UNCERTAIN` means the worker cannot establish the complete
 outcome; stop automated replay and reconcile. Streaming delivery can fail after its SQL item
 was confirmed, so inspect item status as well as job status.
 

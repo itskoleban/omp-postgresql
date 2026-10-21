@@ -33,6 +33,9 @@ parser.add_argument("--benchmark", action="store_true")
 parser.add_argument("--benchmark-rows", type=int, default=1000)
 parser.add_argument("--benchmark-repetitions", type=int, default=7)
 parser.add_argument("--config", default="Release", help="CTest build configuration")
+parser.add_argument(
+    "--doc-sql", action="store_true", help="Check documented SQL in this disposable cluster"
+)
 parser.add_argument("--openmp-dir", help="Disposable extracted open.mp server for end-to-end smoke")
 parser.add_argument("--component")
 parser.add_argument("--gamemode")
@@ -270,6 +273,23 @@ try:
         ],
         env=env,
     )
+    if args.doc_sql:
+        psql = (
+            Path(args.postgres_bin).resolve() / ("psql.exe" if os.name == "nt" else "psql")
+            if args.postgres_bin
+            else "psql"
+        )
+        run(
+            [
+                sys.executable,
+                str(Path(__file__).with_name("check_doc_sql.py")),
+                "--service",
+                "omp_test",
+                "--psql",
+                str(psql),
+            ],
+            env=env,
+        )
     if not args.only_openmp:
         env["OMP_PG_TEST_STALL_ROOT"] = str(root)
         for mode in ("ssl", "tls", "startup"):

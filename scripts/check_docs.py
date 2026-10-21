@@ -5,12 +5,14 @@ from pathlib import Path, PurePosixPath
 import re
 from urllib.parse import unquote, urlsplit
 
+import check_doc_examples
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def prose(text):
-    # Fenced examples can contain SQL/Pawn strings that look like Markdown links.
-    return re.sub(r"^```[^\n]*\n.*?^```\s*$", "", text, flags=re.MULTILINE | re.DOTALL)
+    # Share fence rules with compilation; examples can contain apparent Markdown links.
+    return check_doc_examples.prose(text)
 
 
 def anchors(text):
@@ -29,8 +31,7 @@ def validate_links(files):
     for name, text in files.items():
         if not name.endswith(".md"):
             continue
-        if len(re.findall(r"^```", text, re.MULTILINE)) % 2:
-            errors.append(f"{name}: unclosed fenced code block")
+        errors += check_doc_examples.scan_fences(text, name)[1]
         for target in re.findall(r"\]\(([^)\s]+)\)", prose(text)):
             url = urlsplit(target)
             if url.scheme or url.netloc:
@@ -96,6 +97,10 @@ def check(root):
     if not include:
         errors.append("Missing public include")
     errors += validate_api(include, files.get("docs/native-reference.md", ""))
+    try:
+        check_doc_examples.load(root)
+    except ValueError as error:
+        errors.append(str(error))
     catalog = files.get("docs/examples.md", "")
     for name in files:
         if (

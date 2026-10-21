@@ -13,6 +13,8 @@ when a submission or callback behaves unexpectedly. Practical guides cover
 [accounts and player sessions](docs/accounts.md), [saving](docs/saving.md), and
 [safe transactions](docs/transactions.md). The [native reference](docs/native-reference.md)
 provides the exact signatures after those introductions.
+Use the [operation quick reference](docs/quick-reference.md) to choose between a query,
+prepared snapshots, a heterogeneous batch, streaming and a transaction.
 
 Prefer [custom completion callbacks](docs/callbacks.md) for new application code;
 `OnPgComplete(job, context)` remains supported for existing programs.
@@ -89,6 +91,7 @@ authentication mechanism managed by libpq. Keep passwords out of the gamemode.
 The following fragment belongs inside `OnGameModeInit`. See
 [smoke.pwn](examples/smoke.pwn) for a complete gamemode and callback implementation.
 
+<!-- pawn-example: intro.connection -->
 ```pawn
 new database = pg_connect("game", 2);
 // Wait for OnPgConnection(database, PG_CONNECTED) before submitting queries.

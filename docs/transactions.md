@@ -37,6 +37,7 @@ as in [saving](saving.md), each expected to affect exactly one account. Calling
 submit it elsewhere. Run one chain at a time on this connection, and keep its identity
 until completion/cleanup; the callbacks do not look up a possibly replaced `Database`.
 
+<!-- pawn-example: transaction.start -->
 ```pawn
 new LastTransactionError[512]; // Private diagnostic buffer, never sent to players.
 new RetiredTransaction;       // Rejected finish awaiting connection shutdown.
@@ -57,6 +58,7 @@ stock StartAtomicSave(statement) {
 Only the confirmed BEGIN callback submits the captured writes. A locally rejected execute
 has not sent them, so close the statement and explicitly roll back the open transaction.
 
+<!-- pawn-example: transaction.begin -->
 ```pawn
 public OnSaveBegin(transaction, statement) {
     if (pg_job_status(transaction) != PG_CONFIRMED) {
@@ -77,6 +79,7 @@ public OnSaveBegin(transaction, statement) {
 Even confirmed SQL may update zero rows. Validate every result before choosing COMMIT;
 any failed/cancelled/uncertain write or unexpected count chooses ROLLBACK instead.
 
+<!-- pawn-example: transaction.writes -->
 ```pawn
 public OnSaveWrites(job, transaction) {
     new count[24], expected = pg_job_size(job);
@@ -95,6 +98,7 @@ public OnSaveWrites(job, transaction) {
 The finish call only submits work. Report a committed save **only** in its confirmed
 completion callback; a confirmed ROLLBACK means the save was discarded.
 
+<!-- pawn-example: transaction.finish -->
 ```pawn
 stock FinishAtomicSave(transaction, bool:commit) {
     new finish;
@@ -126,6 +130,7 @@ For the rejected-finish branch, start a normal repeating application timer **bef
 `StartAtomicSave` (for example, `SetTimer("OnTransactionCleanup", 1000, true)`), and keep
 it until cleanup finishes. Its public can be this fragment:
 
+<!-- pawn-example: transaction.cleanup -->
 ```pawn
 forward OnTransactionCleanup();
 public OnTransactionCleanup() {

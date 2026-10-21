@@ -75,6 +75,7 @@ included. Merge the callbacks into your existing gamemode; they are not four sta
 programs. The `game` service profile is configured as above. A nonzero connection handle
 means the request was accepted locally, not that authentication or TLS has succeeded:
 
+<!-- pawn-example: start.connect -->
 ```pawn
 new Database;
 new bool:FirstQuerySubmitted;
@@ -93,6 +94,7 @@ public OnGameModeInit() {
 Submit only after `OnPgConnection` reports the entire pool ready. This example sends one
 trusted literal query, once; reconnecting does not automatically repeat it:
 
+<!-- pawn-example: start.ready -->
 ```pawn
 public OnPgConnection(connection, connection_state) {
     if (connection != Database) return 1;
@@ -116,6 +118,7 @@ The completion callback owns the result until it closes the job. Check both fina
 and result shape before using a value; a getter returning false must not become a zero score
 or other application value:
 
+<!-- pawn-example: start.result -->
 ```pawn
 public OnPgComplete(job, context) {
     #pragma unused context
@@ -137,6 +140,7 @@ public OnPgComplete(job, context) {
 diagnostics before closure when needed; see [debugging](debugging.md). Closing the connection
 starts shutdown and rejects further submissions; it is not a way to wait for a final save:
 
+<!-- pawn-example: start.close -->
 ```pawn
 public OnGameModeExit() {
     if (Database) pg_connection_close(Database);
@@ -159,6 +163,8 @@ text binding, integers, floats, booleans, BIGINT, JSONB and NULL without a table
 
 Read the [example catalogue](examples.md) in order, then the [execution guide](api.md) and
 [complete native/callback reference](native-reference.md). The
+[operation quick reference](quick-reference.md) explains which submission and cleanup
+functions to choose. The
 [account tutorial](accounts.md) explains stale player sessions and external password hashing;
 [saving](saving.md) compares repeated snapshots with one UNNEST statement;
 [transactions](transactions.md) covers transfers, rejected COMMIT and reconciliation.
