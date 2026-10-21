@@ -46,7 +46,7 @@ The SDK and Pawn headers are fetched at pinned commits. Install libpq in the sys
 search path or set LD_LIBRARY_PATH for the server process:
 
 ```sh
-export LD_LIBRARY_PATH=/path/to/pg-linux32/lib:${LD_LIBRARY_PATH:-}
+export LD_LIBRARY_PATH="/path/to/pg-linux32/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 ```
 
 Retain libpq/OpenSSL notices when redistributing their files. Component installation includes

@@ -14,6 +14,7 @@ and the illustrated file deployed as
 with a username; it binds the value even when it comes from a player. This administrative
 lookup does not apply data to a player slot; use the [session guards](callbacks.md) for that.
 
+<!-- pawn-example: section.submit -->
 ```pawn
 new LastSectionError[512]; // Private operator diagnostic buffer, never sent to players.
 stock LoadSectionAccount(const username[]) {
@@ -31,6 +32,7 @@ stock LoadSectionAccount(const username[]) {
 }
 ```
 
+<!-- pawn-example: section.result -->
 ```pawn
 forward OnSectionAccount(job);
 public OnSectionAccount(job) {
@@ -61,6 +63,7 @@ Store UTF-8 files below `scriptfiles/sql`; a leading UTF-8 BOM is accepted. Path
 the same relative `.sql`, canonical confinement and size checks as `pg_prepare_file`.
 Declarations occupy their own physical line:
 
+<!-- sql-example: section.file -->
 ```sql
 -- name: load_account
 SELECT id, username, money, score FROM accounts WHERE username = $1;

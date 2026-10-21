@@ -46,9 +46,9 @@ FIFO does not imply a total order across those callback categories; chain depend
 from the required confirmation. A stream's provisional rows are not its final SQL outcome.
 
 Queries are never retried automatically, including SELECT. Only the transport reconnects,
-using progressive backoff. Affected pending jobs fail without dispatch; the running job may
+using progressive backoff. Affected pending jobs fail without SQL dispatch; the running job may
 have earlier confirmed statements. The remaining batch is not replayed. A timeout or observed
-cancellation during execution closes the session, but PostgreSQL may have confirmed the
+cancellation before the current SQL response is confirmed closes the session, but PostgreSQL may have confirmed the
 operation before the interruption. Reconcile with idempotency and a subsequent query.
 Cancellation does not mean PQcancel succeeded or prove a rollback. Uncertain commits require
 application-level reconciliation.

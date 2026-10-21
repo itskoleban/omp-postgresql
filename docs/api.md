@@ -160,6 +160,7 @@ into a gamemode, not a complete program. As the schema owner, create this illust
 table in a disposable database and grant the runtime role the required table/sequence
 permissions; it is separate from the authentication tutorial's schema:
 
+<!-- sql-example: crud.schema -->
 ```sql
 CREATE TABLE tutorial_inline_accounts (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -170,6 +171,7 @@ CREATE TABLE tutorial_inline_accounts (
 
 Bind a username and score as values, including when the username contains quotes:
 
+<!-- pawn-example: crud.insert -->
 ```pawn
 stock InsertAccount(const username[], score) {
     new statement = pg_prepare(Database,
@@ -189,6 +191,7 @@ Delete by a stable database ID after application authorization. Do not use a pla
 number as an account ID. This uses the same completion handler because both statements
 return the affected account's `id`:
 
+<!-- pawn-example: crud.delete -->
 ```pawn
 stock DeleteAccount(accountid) {
     new statement = pg_prepare(Database,
@@ -207,6 +210,7 @@ Each call owns a one-shot statement. Closing it after rejection discards unsent 
 and snapshots; closing it after acceptance leaves the job's copies intact. A failed bind
 never submits a partial operation. The callback checks both affected rows and returned data:
 
+<!-- pawn-example: crud.result -->
 ```pawn
 forward OnAccountChanged(job);
 public OnAccountChanged(job) {
@@ -267,7 +271,9 @@ the callback; a player ID may have been reused. Unloading the AMX cancels and co
 resources without callbacks. Workers never retain references to Pawn memory.
 
 States are QUEUED (accepted), RUNNING, CONFIRMED (successful response), FAILED (known failure),
-UNCERTAIN (sent without a definitive response, or interrupted result), and CANCELLED (not sent).
+UNCERTAIN (sent without a definitive response, or interrupted result), and CANCELLED
+(cancellation observed before the current operation sent SQL). A batch can become CANCELLED
+between statements after earlier items confirmed; that status does not undo their effects.
 Within a transaction, CONFIRMED means the statement succeeded, **not that it is durable**;
 wait for COMMIT confirmation. COMMIT durability also depends on PostgreSQL configuration,
 including `synchronous_commit`, replication, and storage. Reconcile uncertain writes using
@@ -307,8 +313,10 @@ an idempotency key or version check; never replay them blindly.
 `pg_cancel(job)` returns true when marking a pending or running job. It returns false without
 an error if the job is already terminal; an invalid handle returns false with a local error.
 If the worker observes cancellation before starting, the job becomes `PG_CANCELLED` without
-sending SQL. Cancellation observed after starting may produce `PG_UNCERTAIN`; earlier
-statements in the same batch may already be confirmed. A job may still become `PG_CONFIRMED`
+sending SQL. Cancellation between statements can also produce `PG_CANCELLED`, with earlier
+items still confirmed. Cancellation during an unconfirmed SQL dispatch may produce
+`PG_UNCERTAIN`. Inspect item statuses and completed counts rather than inferring that the
+whole job did nothing. A job may still become `PG_CONFIRMED`
 if it finishes before observing the request. If the worker cancels a required transaction
 operation, a subsequent COMMIT cannot report success; roll back or finish the transaction.
 

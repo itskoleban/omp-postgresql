@@ -4,6 +4,8 @@ import argparse
 from pathlib import Path
 import subprocess
 
+import check_doc_examples
+
 
 def compile_examples(compiler, root, includes, output, prefix=""):
     scripts = sorted((root / "examples").glob("*.pwn"))
@@ -31,5 +33,12 @@ if __name__ == "__main__":
     parser.add_argument("--include", type=Path, action="append", required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--prefix", default="")
+    parser.add_argument(
+        "--docs", action="store_true", help="Also compile classified Markdown Pawn examples"
+    )
     args = parser.parse_args()
     compile_examples(args.compiler, args.root, args.include, args.output, args.prefix)
+    if args.docs:
+        check_doc_examples.compile_examples(
+            args.compiler, args.root, args.include, args.output / (args.prefix + "doc-snippets")
+        )

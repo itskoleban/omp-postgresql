@@ -5,6 +5,9 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+import sys
+
+sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
 
 
 def module(name):

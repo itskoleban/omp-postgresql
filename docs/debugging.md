@@ -83,18 +83,21 @@ numeric records and privacy policy as the console.
 Inside initialization, choose one policy and check local rejection. These alternatives
 use `ReportLocalPgError`, defined below. For routine console diagnostics:
 
+<!-- pawn-example: log.console -->
 ```pawn
 if (!pg_log_config(PG_LOG_WARN, PG_LOG_CONSOLE)) ReportLocalPgError();
 ```
 
 To select the default `logs/omp-postgresql.log` file:
 
+<!-- pawn-example: log.file -->
 ```pawn
 if (!pg_log_config(PG_LOG_WARN, PG_LOG_FILE)) ReportLocalPgError();
 ```
 
 Or select both console and an allowed custom file:
 
+<!-- pawn-example: log.both -->
 ```pawn
 if (!pg_log_config(PG_LOG_DEBUG, PG_LOG_BOTH, "./logs/postgresql.log")) {
     ReportLocalPgError();
@@ -153,6 +156,7 @@ diagnostic length: a failed copy leaves the corresponding buffer empty here.
 Call this helper immediately after a native returns a local failure, before closing a
 statement or calling any other PostgreSQL native:
 
+<!-- pawn-example: error.local -->
 ```pawn
 new PgLocalDetail[512];
 
@@ -163,9 +167,10 @@ stock ReportLocalPgError() {
 ```
 
 For accepted jobs, inspect the terminal failure inside their completion callback instead.
-There may be no PostgreSQL result at all, so validate the failing index before reading
-SQLSTATE or server text:
+There may be no PostgreSQL result at all. The error index identifies an operation, not a
+guaranteed result entry; enumerate the available results for SQLSTATE and server text:
 
+<!-- pawn-example: error.job -->
 ```pawn
 new PgJobDetail[512], PgSqlDetail[512];
 
@@ -175,11 +180,11 @@ stock InspectPgFailure(job) {
     printf("PostgreSQL job %d: status=%d error=%d item=%d", job, status, category, item);
     if (!pg_job_message(job, PgJobDetail)) PgJobDetail[0] = '\0';
     PgSqlDetail[0] = '\0';
-    if (item >= 0 && item < pg_result_count(job)) {
-        if (pg_result_sqlstate(job, item, sqlstate) && sqlstate[0]) {
+    for (new result = 0; result < pg_result_count(job); result++) {
+        if (pg_result_sqlstate(job, result, sqlstate) && sqlstate[0]) {
             printf("SQLSTATE: %s", sqlstate);
+            if (!pg_result_message(job, result, PgSqlDetail)) PgSqlDetail[0] = '\0';
         }
-        if (!pg_result_message(job, item, PgSqlDetail)) PgSqlDetail[0] = '\0';
     }
 }
 ```

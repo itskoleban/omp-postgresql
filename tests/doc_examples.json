@@ -1,0 +1,103 @@
+[
+    {
+        "name": "introduction",
+        "lines": [
+            "main() {}",
+            "public OnGameModeInit() {",
+            "{{intro.connection}}",
+            "printf(\"Connection request handle: %d\", database);",
+            "return 1;",
+            "}"
+        ]
+    },
+    {
+        "name": "first-query",
+        "lines": [
+            "main() {}",
+            "{{start.connect}}",
+            "{{start.ready}}",
+            "{{start.result}}",
+            "{{start.close}}"
+        ]
+    },
+    {
+        "name": "guarded-read",
+        "lines": [
+            "new Database;",
+            "new bool:Ready;",
+            "new Token[MAX_PLAYERS];",
+            "new PendingJob[MAX_PLAYERS];",
+            "main() { LoadAccountScore(0, 1); }",
+            "{{account.submit}}",
+            "{{account.result}}"
+        ]
+    },
+    {
+        "name": "crud-and-diagnostics",
+        "lines": [
+            "new Database;",
+            "{{crud.insert}}",
+            "{{crud.delete}}",
+            "{{crud.result}}",
+            "{{error.local}}",
+            "{{error.job}}",
+            "stock ConsolePolicy() {",
+            "{{log.console}}",
+            "}",
+            "stock FilePolicy() {",
+            "{{log.file}}",
+            "}",
+            "stock BothPolicy() {",
+            "{{log.both}}",
+            "}",
+            "main() { InsertAccount(\"quoted'name\", 10); DeleteAccount(1); ConsolePolicy(); FilePolicy(); BothPolicy(); }"
+        ]
+    },
+    {
+        "name": "saving",
+        "lines": [
+            "new SaveStatement;",
+            "{{save.one}}",
+            "stock InitSave(connection) {",
+            "{{save.prepare}}",
+            "return 1;",
+            "}",
+            "{{save.snapshots}}",
+            "{{save.bulk}}",
+            "{{save.result}}",
+            "{{save.reject}}",
+            "main() { InitSave(1); SaveOne(1, 1, 100); SaveThree(SaveStatement); SaveBulk(1); }"
+        ]
+    },
+    {
+        "name": "transactions",
+        "lines": [
+            "new Database;",
+            "main() { StartAtomicSave(1); }",
+            "{{transaction.start}}",
+            "{{transaction.begin}}",
+            "{{transaction.writes}}",
+            "{{transaction.finish}}",
+            "{{transaction.cleanup}}"
+        ]
+    },
+    {
+        "name": "sections",
+        "lines": [
+            "new Database;",
+            "main() { LoadSectionAccount(\"alice\"); }",
+            "{{section.submit}}",
+            "{{section.result}}"
+        ]
+    },
+    {
+        "name": "typed-array",
+        "lines": [
+            "stock bool:BindArray(statement) {",
+            "{{types.array}}",
+            "return true;",
+            "}",
+            "main() { BindArray(1); }"
+        ]
+    }
+]

@@ -93,3 +93,53 @@ uses an owned custom callback string, prints a missing-section failure and expli
 closes the completed job. It deliberately requests `load_acount` from
 [accounts.sql](../examples/sql/accounts.sql); correcting it requires binding the real section
 parameters. Source and extracted-package x86 runs require `PG LOGGING PASS`.
+
+## Maintaining documentation examples
+
+Use the [operation selector](quick-reference.md) for a compact map of the API. Public
+Markdown Pawn fences are also validation inputs, distinct from the thirteen runnable
+gamemodes above. Do not turn a fragment into a complete program just to compile it.
+
+Place `<!-- pawn-example: unique.id -->` immediately before each runnable `pawn` fence.
+Add that ID once to a wrapper in `tests/doc_examples.json`; `{{unique.id}}` inserts the
+fence verbatim. Wrappers supply only surrounding declarations, a function body for an
+inline fragment, and compile-only calls that keep stock functions checked. Generated
+`.pwn`/`.amx` files belong in an ignored build directory, never the public example inventory.
+
+Native/forward declaration fences are recognized automatically and compared with the
+actual public include. Other intentionally incomplete syntax needs
+`<!-- pawn-fragment: explanation of why this is not compilable -->`; the checker reports
+every such exception. New/unclassified fences, duplicate IDs, stale wrapper references
+and snippets omitted from wrappers fail validation. Backtick and tilde fences are supported.
+Keep tutorial fences outside list/quote containers; unsupported nested Pawn fences fail
+discovery rather than silently escaping compilation.
+
+From a source checkout, use the same pinned Pawn compiler and official includes as CI:
+
+```sh
+python scripts/check_docs.py
+python scripts/compile_examples.py --compiler /path/to/pawncc --include pawn \
+    --include /path/to/omp-stdlib --output build-doc-check --docs
+python -m unittest discover -s tests -p 'test_doc*.py' -v
+```
+
+`--docs` adds Markdown compilation to the existing example runner; it works against extracted
+package documentation/includes too, using the checkout's wrapper manifest. Failures name the
+original Markdown file/line. Literal notified custom handlers are made compiler-visible to
+check their names and signatures; literal format/argument counts are checked as well.
+Dynamic callback routing, public lookup at runtime, VM/player lifetimes, readiness,
+uncertainty and cleanup still require implementation review and runtime tests.
+
+Selected SQL fixtures use `<!-- sql-example: unique.id -->`. The existing disposable TLS
+PostgreSQL runner executes the schema, CRUD, save/UNNEST and section-query checks when passed
+`--doc-sql`; no database is needed for the Python documentation unit tests. For example:
+
+```sh
+python tests/run_postgres.py --build build --doc-sql
+```
+
+This command creates and stops a fresh cluster, alongside its normal CTest qualification.
+The SQL checks run in a unique schema in one rolled-back transaction; they do not load an
+existing application database. Operator setup sketches and historical SQL are not all
+automatically executed. SQL success does not validate Pawn binding, callback scheduling,
+interactive authentication, full gameplay behavior or production suitability.

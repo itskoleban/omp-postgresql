@@ -4,6 +4,32 @@ The published testing candidate is **v0.1.0-rc.1**. Passing a finite suite verif
 scenarios; it does not certify production suitability. Current evidence
 is separated below from the historical qualification records that follow.
 
+| Evidence | Where to start | Scope |
+| --- | --- | --- |
+| Published RC.1 | [Publication record](#published-release-candidate-october-21-2026-utc) | Exact tagged source `db2bfb9`; immutable release assets. |
+| Development documentation | [Current checks](#development-documentation-checks) | Current checkout/PR; compilation and disposable SQL checks have explicit limits. |
+| Historical qualification | [October 20 baseline](#verified-master-baseline-october-20-2026-utc) and later dated sections | Original source identities, counts and measurements remain historical. |
+| Unqualified scenarios | [Remaining coverage](#remaining-release-qualification) | Work not established by the finite suites or measurements. |
+
+## Development documentation checks
+
+Audit preservation and inline guides were integrated through
+[PR #22](https://github.com/itskoleban/omp-postgresql/pull/22); the temporary audit branch
+is retired. Its merged source `da5ced7` passed
+[master CI 39631310024](https://github.com/itskoleban/omp-postgresql/actions/runs/39631310024),
+and formatting baseline `162a061` passed
+[master CI 39634333824](https://github.com/itskoleban/omp-postgresql/actions/runs/39634333824).
+These results qualify those source/package inputs, not every later documentation change.
+
+The [documentation-example checks](examples.md#maintaining-documentation-examples) classify
+every public Markdown Pawn fence, compile runnable fragments and reference declarations
+against the public include, and report original Markdown locations. Wrappers supply only
+the stated surrounding context; they do not turn illustrative fragments into runnable
+gamemodes. The disposable PostgreSQL runner checks selected documented SQL separately.
+Compilation does not establish player-session behavior, provider compatibility, callback
+timing or runtime resource bounds. Current PR/local results belong to that PR's exact
+source; final integrated `master` CI remains a separate result.
+
 ## Published Release Candidate: October 21, 2026 UTC
 
 [v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
@@ -72,8 +98,8 @@ Those records are exact copies from audit checkpoint
 the time, remain unchanged. They are tracked under `audit/` for repository access and
 excluded from Git source archives by `/audit/ export-ignore`; binary staging also omits
 them. Absolute GitHub links keep installed documentation independent of internal files.
-The temporary branch may be retired only after these copies and links are verified in
-`master`; it is not a branch to merge wholesale. The checkpoint's successful
+The copies and links are now integrated in `master`, and the temporary branch is retired;
+the original branch was not merged wholesale. The checkpoint's successful
 [audit-only CI 39350033514](https://github.com/itskoleban/omp-postgresql/actions/runs/39350033514)
 is separate from master qualification. Historical tables/CSVs below keep their source
 identities and values. These baseline results do not qualify later documentation changes;
@@ -441,7 +467,8 @@ runtime, test assertions or existing test deadlines.
 - Named SQL sections and configurable diagnostics are integrated in the current 69-native
   API. Their implementation, file/capture limits and examples are described in
   [named SQL sections](sql-sections.md) and [logging](debugging.md). The verified baseline
-  above covers them; the final merged candidate still requires its own exact-source CI.
+  above covers them; RC.1's separate final-source evidence is recorded at the top of this
+  page. Later changes require their own exact-source checks.
 - x64 builds qualify the engine and compilation. The tested distributed open.mp server is
   x86; component, client libraries and server architectures/ABIs must match.
 - Validation applies to these tested compiler/client/server combinations. Requalify changes

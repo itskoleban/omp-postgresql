@@ -7,6 +7,7 @@ fragments assume `<open.mp>` and `<omp-postgresql>`, the
 `accountid` is the authenticated player's authorized int32 database ID; this lookup is
 not authentication. Call `LoadAccountScore` from the application's load path:
 
+<!-- pawn-example: account.submit -->
 ```pawn
 stock LoadAccountScore(playerid, accountid) {
     if (playerid < 0 || playerid >= MAX_PLAYERS || !IsPlayerConnected(playerid) ||
@@ -32,6 +33,7 @@ stock LoadAccountScore(playerid, accountid) {
 Validate the exact pending job before clearing its slot. A late callback must not clear
 or apply the next player's request:
 
+<!-- pawn-example: account.result -->
 ```pawn
 forward OnAccountLoaded(job, playerid, session);
 public OnAccountLoaded(job, playerid, session) {
@@ -82,6 +84,7 @@ those application lifecycle hooks are deliberately not duplicated here.
 `pg_begin_ex`, `pg_savepoint`, `pg_rollback_to`, `pg_release_savepoint`, `pg_commit`
 and `pg_rollback` append the same arguments after their existing `notify` parameter:
 
+<!-- pawn-fragment: Generic optional argument tail; not a complete Pawn declaration. -->
 ```pawn
 const callback[] = "", const format[] = "", {Float,_}:...
 ```

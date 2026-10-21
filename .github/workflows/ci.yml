@@ -64,7 +64,7 @@ jobs:
             - run: |
                   cmake --build build --parallel 4
             - run: |
-                  python3 tests/run_postgres.py --build build
+                  python3 tests/run_postgres.py --build build --doc-sql
             - name: Verify package, fault fixture, and CTest qualification regressions
               run: python3 -m unittest discover -s tests -p 'test_*.py' -v
             - name: Compile all Pawn examples with warnings treated as errors
@@ -76,7 +76,7 @@ jobs:
                   git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
                   python3 scripts/check_docs.py
                   python3 scripts/compile_examples.py --compiler build-pawn/pawncc --include pawn \
-                      --include build-stdlib --include build/_deps/pawn-src/include --output build
+                      --include build-stdlib --include build/_deps/pawn-src/include --output build --docs
             - name: Retain core test and sanitizer logs
               if: always()
               uses: actions/upload-artifact@v4
@@ -138,7 +138,7 @@ jobs:
                   git -C build-stdlib checkout 46a5d1d7ac8985e4104f745c462a247a0c2eb6a0
                   python3 scripts/check_docs.py
                   python3 scripts/compile_examples.py --compiler build-pawn32/pawncc --include pawn \
-                      --include build-stdlib --include build-linux32/_deps/pawn-src/include --output build-linux32
+                      --include build-stdlib --include build-linux32/_deps/pawn-src/include --output build-linux32 --docs
                   build-pawn32/pawncc tests/logging_performance.pwn -E -ipawn -ibuild-stdlib \
                       -ibuild-linux32/_deps/pawn-src/include -obuild-linux32/logging-performance.amx
             - name: Obtain the fixed open.mp distribution with dynamic OpenSSL
@@ -176,7 +176,7 @@ jobs:
                   python3 scripts/compile_examples.py --compiler build-pawn32/pawncc \
                       --root build-package-check/omp-postgresql --include build-package-check/omp-postgresql/qawno/include \
                       --include build-stdlib --include build-linux32/_deps/pawn-src/include \
-                      --output build-linux32 --prefix packaged-
+                      --output build-linux32 --prefix packaged- --docs
             - name: Test the package in a fresh Linux server
               run: |
                   mkdir -p "$RUNNER_TEMP/openmp-package"
@@ -349,7 +349,7 @@ jobs:
                   python scripts/check_docs.py
                   if ($LASTEXITCODE -ne 0) { throw 'Documentation validation failed' }
                   python scripts/compile_examples.py --compiler build-pawn32/Release/pawncc.exe --include pawn `
-                      --include build-stdlib --include build-msvc32/_deps/pawn-src/include --output build-msvc32
+                      --include build-stdlib --include build-msvc32/_deps/pawn-src/include --output build-msvc32 --docs
                   if ($LASTEXITCODE -ne 0) { throw 'Pawn32 compilation failed' }
                   & build-pawn32/Release/pawncc.exe tests/logging_performance.pwn '-E' '-ipawn' '-ibuild-stdlib' `
                       '-ibuild-msvc32/_deps/pawn-src/include' '-obuild-msvc32/logging-performance.amx'
@@ -415,7 +415,7 @@ jobs:
                   python scripts/compile_examples.py --compiler build-pawn32/Release/pawncc.exe `
                       --root build-package-check/omp-postgresql --include build-package-check/omp-postgresql/qawno/include `
                       --include build-stdlib --include build-msvc32/_deps/pawn-src/include `
-                      --output build-msvc32 --prefix packaged-
+                      --output build-msvc32 --prefix packaged- --docs
                   if ($LASTEXITCODE -ne 0) { throw 'Packaged Pawn compilation failed' }
             - name: Test the package in a fresh Windows server
               shell: pwsh

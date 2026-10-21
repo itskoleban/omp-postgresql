@@ -84,13 +84,17 @@ and 262144 total slot cells are accepted; encoded parameters must also fit the c
 parameter and batch limits.
 
 When filling a slot through an indexed cell, pass the slot width explicitly to string
-functions; their default `sizeof` does not describe that slot. For example:
+functions; their default `sizeof` does not describe that slot. This fragment belongs in
+a boolean-returning function whose caller owns `statement` and captures `pg_last_error`
+immediately on failure. It only binds one array parameter; the caller still checks
+`pg_add`/`pg_execute` and owns statement/job cleanup as in the [API guide](api.md).
 
+<!-- pawn-example: types.array -->
 ```pawn
 new values[72], nulls[] = {0, 1, 0};
 strcat(values, "9223372036854775807", 24);
 strcat(values[48], "-9223372036854775808", 24);
-pg_bind_array(statement, 1, values, 3, 24, PG_INT64, nulls);
+if (!pg_bind_array(statement, 1, values, 3, 24, PG_INT64, nulls)) return false;
 ```
 
 All non-NULL elements use textual input, including booleans (`true`), floats, BIGINT decimal

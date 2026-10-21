@@ -32,8 +32,8 @@ publication. Subsequent documentation changes need their own CI and packaging ch
 | Publication            | Owner-authorized testing Pre-release published after exact-master CI and draft/public asset verification.                                                                            | Future releases require separate exact-source qualification and owner authorization.                                                                                          |
 
 Implemented, verified, integrated and published are separate states. A successful PR
-preview or branch run is not exact-commit `master` evidence. No merge, tag or release is
-authorized by this documentation review. See [release notes](release-notes.md) and
+preview or branch run is not exact-commit `master` evidence. CI success does not authorize
+a future tag or release. See [release notes](release-notes.md) and
 [installation prerequisites](installation.md).
 
 ## Historical qualification context
@@ -59,16 +59,20 @@ publication decisions remain intact. These are repository-only records: source a
 exclude `/audit/`, and binary staging is unchanged. See
 [validation](validation.md#verified-master-baseline-october-20-2026-utc) for provenance.
 
-## Owner actions for audit-branch retirement
+## Completed audit preservation and branch retirement
 
-1. Review the focused audit-preservation/documentation PR and its own CI. Integrate only
-   with owner approval; do not merge the original audit branch wholesale.
-2. Verify both records are reachable from `master` and still match checkpoint `255f568`.
-   Check their GitHub links, source-archive exclusion, package gates and final master CI.
-3. Only after those checks, delete remote `codex/rc-audit-resumable`. Until then retain it
-   as an additional reference to the original evidence.
-4. Preserve the published RC tag and assets. Future releases need separate version/source
-   qualification and owner authorization under the [release procedure](releasing.md).
+[PR #22](https://github.com/itskoleban/omp-postgresql/pull/22) was owner-merged on October 21,
+2026 as `da5ced7fd85b918c43c62296169463d39129cae2`. Its seven-job PR CI and subsequent
+[master CI 39631310024](https://github.com/itskoleban/omp-postgresql/actions/runs/39631310024)
+succeeded. Both records are reachable from `master` and retain the exact historical bytes;
+source archives exclude them and public packages use repository links. The temporary
+`codex/rc-audit-resumable` branch has been retired. It is not a remaining integration task.
+
+Later formatting source `162a061b279f16f8b032b7a62f779c0b29e589c3` also passed all seven
+jobs in [master CI 39634333824](https://github.com/itskoleban/omp-postgresql/actions/runs/39634333824).
+These development results do not replace RC.1's tagged source or qualification. Future
+changes need their own checks; future releases need separate owner authorization under
+the [release procedure](releasing.md).
 
 Publication of the testing RC is complete. Audit preservation and later documentation
 maintenance do not extend its audit scope or certify production safety.

@@ -1,7 +1,8 @@
 # Native reference 0.1.0-rc.1
 
 This reference covers all 69 declarations in [the public include](../pawn/omp-postgresql.inc).
-Read [the execution contract](api.md) first. Signatures below preserve Pawn tags, reference
+Use the [operation selector](quick-reference.md) and [execution contract](api.md) first.
+Signatures below preserve Pawn tags, reference
 arguments and defaults. This is an internal source review, not an independent Astra audit.
 
 New applications should use [custom completion callbacks](callbacks.md). Each job-submitting
@@ -558,7 +559,8 @@ native bool:pg_cancel(job);
 ```
 
 **Contract:** Mark a queued/running job for worker cancellation. Before dispatch this can be
-CANCELLED; after SQL dispatch it can be UNCERTAIN. A racing completion can still be CONFIRMED.
+CANCELLED, including between statements after earlier items confirmed. During an unconfirmed
+SQL dispatch it can be UNCERTAIN. A racing completion can still be CONFIRMED.
 Cancellation does not release the job or confirm that no earlier batch writes occurred.
 **Return/errors:** true when marked; false without error if already terminal; false with local
 error for invalid job. Inspect final state/items and finish/rollback the transaction as appropriate.

@@ -1,6 +1,11 @@
 # Candidate versioning and owner-controlled publication
 
-The candidate being prepared is **v0.1.0-rc.1**. CMake's numeric `PROJECT_VERSION` remains
+The configured candidate identity is **v0.1.0-rc.1**, already published as a
+[testing Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1).
+Its tag, assets and source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc` remain historical
+references. Later development CI can prepare bundles with the same version string and a
+different commit; those bundles do not update the published release.
+CMake's numeric `PROJECT_VERSION` remains
 `0.1.0`; the tracked, non-cache `PG_RELEASE_CANDIDATE` value supplies `rc.1` to package
 metadata and names. The component's SDK `SemanticVersion` receives those same numeric
 major/minor/patch/prerelease values from CMake. No Pawn signature changes. Historical
@@ -37,6 +42,10 @@ and signed attestations are not bundled. Compiler updates can change binary inpu
 The named artifact `omp-postgresql-release-FULL_COMMIT` is preparation, not approval.
 
 ## Manual release workflow
+
+The procedure below records the publication controls. RC.1 publication is complete;
+do not redispatch it to replace existing assets. A future release needs a separately
+authorized identity and exact-source qualification.
 
 Only the owner may authorize main integration, creation of the final tag and public
 publication. No automation run in this project creates tags, merges branches or invokes
