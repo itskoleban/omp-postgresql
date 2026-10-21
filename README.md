@@ -92,6 +92,7 @@ The following fragment belongs inside `OnGameModeInit`. See
 [smoke.pwn](examples/smoke.pwn) for a complete gamemode and callback implementation.
 
 <!-- pawn-example: intro.connection -->
+
 ```pawn
 new database = pg_connect("game", 2);
 // Wait for OnPgConnection(database, PG_CONNECTED) before submitting queries.

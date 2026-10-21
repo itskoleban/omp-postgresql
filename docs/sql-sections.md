@@ -15,6 +15,7 @@ with a username; it binds the value even when it comes from a player. This admin
 lookup does not apply data to a player slot; use the [session guards](callbacks.md) for that.
 
 <!-- pawn-example: section.submit -->
+
 ```pawn
 new LastSectionError[512]; // Private operator diagnostic buffer, never sent to players.
 stock LoadSectionAccount(const username[]) {
@@ -33,6 +34,7 @@ stock LoadSectionAccount(const username[]) {
 ```
 
 <!-- pawn-example: section.result -->
+
 ```pawn
 forward OnSectionAccount(job);
 public OnSectionAccount(job) {
@@ -64,6 +66,7 @@ the same relative `.sql`, canonical confinement and size checks as `pg_prepare_f
 Declarations occupy their own physical line:
 
 <!-- sql-example: section.file -->
+
 ```sql
 -- name: load_account
 SELECT id, username, money, score FROM accounts WHERE username = $1;

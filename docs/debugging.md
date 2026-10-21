@@ -84,6 +84,7 @@ Inside initialization, choose one policy and check local rejection. These altern
 use `ReportLocalPgError`, defined below. For routine console diagnostics:
 
 <!-- pawn-example: log.console -->
+
 ```pawn
 if (!pg_log_config(PG_LOG_WARN, PG_LOG_CONSOLE)) ReportLocalPgError();
 ```
@@ -91,6 +92,7 @@ if (!pg_log_config(PG_LOG_WARN, PG_LOG_CONSOLE)) ReportLocalPgError();
 To select the default `logs/omp-postgresql.log` file:
 
 <!-- pawn-example: log.file -->
+
 ```pawn
 if (!pg_log_config(PG_LOG_WARN, PG_LOG_FILE)) ReportLocalPgError();
 ```
@@ -98,6 +100,7 @@ if (!pg_log_config(PG_LOG_WARN, PG_LOG_FILE)) ReportLocalPgError();
 Or select both console and an allowed custom file:
 
 <!-- pawn-example: log.both -->
+
 ```pawn
 if (!pg_log_config(PG_LOG_DEBUG, PG_LOG_BOTH, "./logs/postgresql.log")) {
     ReportLocalPgError();
@@ -157,6 +160,7 @@ Call this helper immediately after a native returns a local failure, before clos
 statement or calling any other PostgreSQL native:
 
 <!-- pawn-example: error.local -->
+
 ```pawn
 new PgLocalDetail[512];
 
@@ -171,6 +175,7 @@ There may be no PostgreSQL result at all. The error index identifies an operatio
 guaranteed result entry; enumerate the available results for SQLSTATE and server text:
 
 <!-- pawn-example: error.job -->
+
 ```pawn
 new PgJobDetail[512], PgSqlDetail[512];
 

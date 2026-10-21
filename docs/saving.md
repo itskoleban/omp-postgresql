@@ -40,6 +40,7 @@ for a script, not separate gamemodes. Do not call all three strategies for the s
 One account needs one captured parameter set. Player-supplied values remain parameters:
 
 <!-- pawn-example: save.one -->
+
 ```pawn
 stock SaveOne(connection, accountid, score) {
     new statement = pg_prepare(connection,
@@ -58,6 +59,7 @@ For repeated saves, keep a script-level `SaveStatement` handle (initially 0). Pr
 once after connection readiness; this fragment belongs inside that initialization handler:
 
 <!-- pawn-example: save.prepare -->
+
 ```pawn
 SaveStatement = pg_prepare(connection,
     "UPDATE tutorial_saves SET score=$2 WHERE id=$1", 2);
@@ -68,6 +70,7 @@ Call `SaveThree(SaveStatement)` for the next wave. Bind every parameter again be
 `pg_add`, then submit once; the caller retains the statement after acceptance:
 
 <!-- pawn-example: save.snapshots -->
+
 ```pawn
 stock SaveThree(&statement) {
     new ids[] = {1, 2, 3}, scores[] = {100, 200, 300};
@@ -93,6 +96,7 @@ call `pg_statement_close(SaveStatement)` if nonzero, then set `SaveStatement = 0
 To update all three accounts in one PostgreSQL execution, pair typed arrays in `FROM`:
 
 <!-- sql-example: save.sql -->
+
 ```sql
 UPDATE tutorial_saves AS a
 SET score = v.score
@@ -104,6 +108,7 @@ The SQL above is a parameterized statement template, not a standalone command wi
 Here both arrays have capacity four but only three entries belong to this save:
 
 <!-- pawn-example: save.bulk -->
+
 ```pawn
 stock SaveBulk(connection) {
     new ids[4] = {1, 2, 3, 0}, scores[4] = {100, 200, 300, 0};
@@ -137,6 +142,7 @@ Use this shared completion callback for the three fragments. It validates every 
 result without converting PostgreSQL's affected-row strings to a potentially overflowing cell:
 
 <!-- pawn-example: save.result -->
+
 ```pawn
 forward OnScoresSaved(job, expectedResults, expectedRows);
 public OnScoresSaved(job, expectedResults, expectedRows) {
@@ -161,6 +167,7 @@ public OnScoresSaved(job, expectedResults, expectedRows) {
 The local rejection helper reads the diagnostic before cleanup clears it:
 
 <!-- pawn-example: save.reject -->
+
 ```pawn
 stock RejectSave(&statement) {
     new detail[256];

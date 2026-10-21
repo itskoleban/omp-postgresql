@@ -76,6 +76,7 @@ programs. The `game` service profile is configured as above. A nonzero connectio
 means the request was accepted locally, not that authentication or TLS has succeeded:
 
 <!-- pawn-example: start.connect -->
+
 ```pawn
 new Database;
 new bool:FirstQuerySubmitted;
@@ -95,6 +96,7 @@ Submit only after `OnPgConnection` reports the entire pool ready. This example s
 trusted literal query, once; reconnecting does not automatically repeat it:
 
 <!-- pawn-example: start.ready -->
+
 ```pawn
 public OnPgConnection(connection, connection_state) {
     if (connection != Database) return 1;
@@ -119,6 +121,7 @@ and result shape before using a value; a getter returning false must not become 
 or other application value:
 
 <!-- pawn-example: start.result -->
+
 ```pawn
 public OnPgComplete(job, context) {
     #pragma unused context
@@ -141,6 +144,7 @@ diagnostics before closure when needed; see [debugging](debugging.md). Closing t
 starts shutdown and rejects further submissions; it is not a way to wait for a final save:
 
 <!-- pawn-example: start.close -->
+
 ```pawn
 public OnGameModeExit() {
     if (Database) pg_connection_close(Database);

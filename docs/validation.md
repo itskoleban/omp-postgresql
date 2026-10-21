@@ -4,12 +4,12 @@ The published testing candidate is **v0.1.0-rc.1**. Passing a finite suite verif
 scenarios; it does not certify production suitability. Current evidence
 is separated below from the historical qualification records that follow.
 
-| Evidence | Where to start | Scope |
-| --- | --- | --- |
-| Published RC.1 | [Publication record](#published-release-candidate-october-21-2026-utc) | Exact tagged source `db2bfb9`; immutable release assets. |
-| Development documentation | [Current checks](#development-documentation-checks) | Current checkout/PR; compilation and disposable SQL checks have explicit limits. |
-| Historical qualification | [October 20 baseline](#verified-master-baseline-october-20-2026-utc) and later dated sections | Original source identities, counts and measurements remain historical. |
-| Unqualified scenarios | [Remaining coverage](#remaining-release-qualification) | Work not established by the finite suites or measurements. |
+| Evidence                  | Where to start                                                                                | Scope                                                                            |
+| ------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Published RC.1            | [Publication record](#published-release-candidate-october-21-2026-utc)                        | Exact tagged source `db2bfb9`; immutable release assets.                         |
+| Development documentation | [Current checks](#development-documentation-checks)                                           | Current checkout/PR; compilation and disposable SQL checks have explicit limits. |
+| Historical qualification  | [October 20 baseline](#verified-master-baseline-october-20-2026-utc) and later dated sections | Original source identities, counts and measurements remain historical.           |
+| Unqualified scenarios     | [Remaining coverage](#remaining-release-qualification)                                        | Work not established by the finite suites or measurements.                       |
 
 ## Development documentation checks
 

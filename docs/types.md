@@ -90,6 +90,7 @@ immediately on failure. It only binds one array parameter; the caller still chec
 `pg_add`/`pg_execute` and owns statement/job cleanup as in the [API guide](api.md).
 
 <!-- pawn-example: types.array -->
+
 ```pawn
 new values[72], nulls[] = {0, 1, 0};
 strcat(values, "9223372036854775807", 24);

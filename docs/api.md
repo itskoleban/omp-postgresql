@@ -161,6 +161,7 @@ table in a disposable database and grant the runtime role the required table/seq
 permissions; it is separate from the authentication tutorial's schema:
 
 <!-- sql-example: crud.schema -->
+
 ```sql
 CREATE TABLE tutorial_inline_accounts (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -172,6 +173,7 @@ CREATE TABLE tutorial_inline_accounts (
 Bind a username and score as values, including when the username contains quotes:
 
 <!-- pawn-example: crud.insert -->
+
 ```pawn
 stock InsertAccount(const username[], score) {
     new statement = pg_prepare(Database,
@@ -192,6 +194,7 @@ number as an account ID. This uses the same completion handler because both stat
 return the affected account's `id`:
 
 <!-- pawn-example: crud.delete -->
+
 ```pawn
 stock DeleteAccount(accountid) {
     new statement = pg_prepare(Database,
@@ -211,6 +214,7 @@ and snapshots; closing it after acceptance leaves the job's copies intact. A fai
 never submits a partial operation. The callback checks both affected rows and returned data:
 
 <!-- pawn-example: crud.result -->
+
 ```pawn
 forward OnAccountChanged(job);
 public OnAccountChanged(job) {
