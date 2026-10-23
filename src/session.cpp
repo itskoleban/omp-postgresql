@@ -3,11 +3,17 @@
 #include "pg/statement.hpp"
 #include "pg/stream.hpp"
 #include <algorithm>
+#include <cerrno>
 #include <limits>
 #ifdef _WIN32
 #include <winsock2.h>
 #else
 #include <sys/select.h>
+#endif
+
+// Compile-time syscall seam used by the deterministic socket regression only.
+#ifndef PG_SOCKET_SELECT
+#define PG_SOCKET_SELECT ::select
 #endif
 
 namespace pg {
@@ -144,17 +150,20 @@ void Lane::drop() {
 	transaction_failed_ = false;
 }
 
-bool Lane::wait_socket(bool writing, Clock::time_point deadline, const Job *job) {
-	if (stop_.load() || (job && job->cancel.load()) || Clock::now() >= deadline) {
-		return false;
+Error Lane::wait_socket(bool writing, Clock::time_point deadline, const Job *job) {
+	if (stop_.load() || (job && job->cancel.load())) {
+		return Error::cancelled;
+	}
+	if (Clock::now() >= deadline) {
+		return Error::timeout;
 	}
 	int socket = PQsocket(conn_.get());
 	if (socket < 0) {
-		return false;
+		return Error::connection;
 	}
 #ifndef _WIN32
 	if (socket >= FD_SETSIZE) {
-		return false;
+		return Error::connection;
 	}
 #endif
 	fd_set fds;
@@ -165,9 +174,18 @@ bool Lane::wait_socket(bool writing, Clock::time_point deadline, const Job *job)
 	FD_SET(socket, &fds);
 #endif
 	timeval timeout{0, 10000};
-	int rc =
-	    select(socket + 1, writing ? nullptr : &fds, writing ? &fds : nullptr, nullptr, &timeout);
-	return rc >= 0;
+	int rc = PG_SOCKET_SELECT(socket + 1, writing ? nullptr : &fds, writing ? &fds : nullptr,
+	                          nullptr, &timeout);
+	if (rc < 0) {
+		// Capture the wait's result before inspecting any later cancel/deadline.
+		// A signal interruption is retryable; the caller rechecks its stop conditions.
+#ifdef _WIN32
+		return WSAGetLastError() == WSAEINTR ? Error::none : Error::connection;
+#else
+		return errno == EINTR ? Error::none : Error::connection;
+#endif
+	}
+	return Error::none;
 }
 
 bool Lane::connect() {
@@ -206,7 +224,7 @@ bool Lane::connect() {
 		if (status == PGRES_POLLING_FAILED) {
 			break;
 		}
-		if (!wait_socket(status == PGRES_POLLING_WRITING, deadline, nullptr)) {
+		if (wait_socket(status == PGRES_POLLING_WRITING, deadline, nullptr) != Error::none) {
 			break;
 		}
 	}
@@ -257,19 +275,11 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 			throw Failure(Error::connection, "Connection lost after dispatch");
 		}
 		if (PQisBusy(conn_.get())) {
-			if (!wait_socket(flush == 1, deadline, &job)) {
-				// A stop/deadline can become visible after the loop's initial check.
-				// Preserve its cause instead of classifying every interrupted wait as
-				// a transport failure. The dispatched SQL outcome stays uncertain.
-				if (job.cancel.load() || stop_.load()) {
-					throw Failure(Error::cancelled,
-					              "Interrupted after dispatch; outcome may be unknown");
-				}
-				if (Clock::now() >= deadline) {
-					throw Failure(Error::timeout,
-					              "Interrupted after dispatch; outcome may be unknown");
-				}
-				throw Failure(Error::connection, "Interrupted connection");
+			const auto cause = wait_socket(flush == 1, deadline, &job);
+			if (cause != Error::none) {
+				throw Failure(cause, cause == Error::connection
+				                         ? "Interrupted connection"
+				                         : "Interrupted after dispatch; outcome may be unknown");
 			}
 			continue;
 		}

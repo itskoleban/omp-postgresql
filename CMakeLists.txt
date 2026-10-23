@@ -233,6 +233,8 @@ if(BUILD_TESTING)
     add_executable(pg_sql_section_tests tests/sql_sections.cpp)
     add_executable(pg_audit_fuzz tests/audit_fuzz.cpp)
     add_executable(pg_audit_faults tests/audit_faults.cpp)
+    # Source seams compile the actual Lane body; the archive supplies Engine/helpers.
+    add_executable(pg_socket_wait_tests tests/socket_wait.cpp)
     if(WIN32)
         target_link_libraries(pg_stress_tests PRIVATE psapi)
     endif()
@@ -248,6 +250,7 @@ if(BUILD_TESTING)
         pg_diagnostics_tests
         pg_audit_fuzz
         pg_audit_faults
+        pg_socket_wait_tests
     )
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -259,6 +262,8 @@ if(BUILD_TESTING)
     endforeach()
     add_test(NAME unit COMMAND pg_tests)
     add_test(NAME audit_semantic_fuzz COMMAND pg_audit_fuzz)
+    add_test(NAME socket_wait_unit COMMAND pg_socket_wait_tests)
+    set_tests_properties(socket_wait_unit PROPERTIES TIMEOUT 30)
     set_tests_properties(audit_semantic_fuzz PROPERTIES TIMEOUT 60 LABELS "audit;fuzz")
     add_test(NAME audit_faults_integration COMMAND pg_audit_faults)
     set_tests_properties(audit_faults_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60 LABELS "audit;stress")

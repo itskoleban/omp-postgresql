@@ -126,15 +126,24 @@ void during_commit(const char *service) {
 
 void cancellation_category(const char *service) {
 	pg::Limits limits;
-	limits.query_ms = 2000;
+	limits.query_ms = 10000;
 	pg::Engine e(limits);
 	auto c = e.connect(owner, service, 1);
+	auto observer = e.connect(owner, service, 1);
+	ready(e, observer);
 	for (int round = 0; round != 32; ++round) {
 		ready(e, c);
-		auto id = e.query(owner, c, "SELECT pg_sleep(1)", 0, 0, round, false);
+		const auto pid = sql(e, c, "SELECT pg_backend_pid()");
+		const auto query = "SELECT pg_sleep(60) /* audit_cancel_" + std::to_string(round) + " */";
+		auto id = e.query(owner, c, query, 0, 0, round, false);
 		auto job = e.job(owner, id);
+		// RUNNING precedes dispatch. Observe this exact command executing in our own
+		// backend before cancelling; the separate socket_wait unit forces the wait entry.
 		until(e, [&] {
-			return job->status.load() == pg::Status::running;
+			return sql(e, observer,
+			           "SELECT count(*) FROM pg_stat_activity WHERE pid=" + pid +
+			               " AND state='active' AND wait_event='PgSleep' AND query='" + query +
+			               "'") == "1";
 		});
 		job->cancel.store(true);
 		wait(e, id);
@@ -142,7 +151,9 @@ void cancellation_category(const char *service) {
 			std::cerr << "cancel round=" << round << " status=" << int(job->status.load())
 			          << " error=" << int(job->error) << " message=" << job->message << std::endl;
 		}
-		check(job->status.load() != pg::Status::confirmed && job->error == pg::Error::cancelled,
+		check(job->status.load() == pg::Status::uncertain && job->error == pg::Error::cancelled &&
+		          job->completed == 0 &&
+		          job->items_status == std::vector{pg::ItemStatus::uncertain},
 		      "Observed cancellation lost its cancellation error category");
 		e.close_job(owner, id);
 	}
