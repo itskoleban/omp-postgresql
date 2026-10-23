@@ -1,0 +1,4 @@
+mode=0 injected_select_errors=1 SQL_dispatches=1 status=4 error=5 item=3 completed=0 message=Interrupted connection
+mode=1 injected_select_errors=1 SQL_dispatches=1 status=4 error=5 item=3 completed=0 message=Interrupted connection
+mode=2 injected_select_errors=1 SQL_dispatches=1 status=4 error=5 item=3 completed=0 message=Interrupted connection
+mode=3 injected_select_errors=0 SQL_dispatches=0 status=5 error=7 item=4 completed=0 message=Batch cancelled between statements

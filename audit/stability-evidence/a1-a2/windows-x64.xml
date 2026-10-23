@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="18"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="AUDIT_HOST"
+	time="199"
+	timestamp="2026-10-23T18:29:48"
+	>
+	<testcase name="natives_unit" classname="natives_unit" time="0.94376" status="run">
+		<properties/>
+		<system-out>Native validation passed: 13927 checks; address seed=0x414d5801
+</system-out>
+	</testcase>
+	<testcase name="natives_integration" classname="natives_integration" time="1.90409" status="run">
+		<properties/>
+		<system-out># Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,515000,170200
+callback_benchmark,custom_ii,1,64,626600,242600
+callback_benchmark,custom_s96,1,64,1833500,490800
+callback_benchmark,global_old_arity,1,64,920200,220100
+callback_benchmark,custom_ii,2,64,598200,301800
+callback_benchmark,custom_s96,2,64,618100,184000
+callback_benchmark,global_old_arity,2,64,305000,143900
+callback_benchmark,custom0,2,64,365200,123800
+callback_benchmark,custom_s96,3,64,1193500,271700
+callback_benchmark,global_old_arity,3,64,523800,228400
+callback_benchmark,custom0,3,64,735600,198100
+callback_benchmark,custom_ii,3,64,815600,167100
+callback_benchmark,global_old_arity,4,64,444000,221700
+callback_benchmark,custom0,4,64,1016200,136400
+callback_benchmark,custom_ii,4,64,402700,489300
+callback_benchmark,custom_s96,4,64,2476600,257700
+callback_benchmar...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="logging_integration" classname="logging_integration" time="8.2675" status="run">
+		<properties>
+			<property name="cmake_labels" value="benchmark"/>
+		</properties>
+		<system-out>logging_benchmark,level,destination,mode,repetition,jobs,submission_ns,dispatch_with_drain_ns,dropped,output_bytes
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,344500,326000
+logging_benchmark,0,0,custom0,1,64,344500,326000,0,0
+callback_benchmark,custom_ii,1,64,1100000,159400
+logging_benchmark,0,0,custom_ii,1,64,1100000,159400,0,0
+callback_benchmark,custom_s96,1,64,1157300,313700
+logging_benchmark,0,0,custom_s96,1,64,1157300,313700,0,0
+callback_benchmark,global_old_arity,1,64,730600,140000
+logging_benchmark,0,0,global_old_arity,1,64,730600,140000,0,0
+callback_benchmark,custom_ii,2,64,514800,230700
+logging_benchmark,0,0,custom_ii,2,64,514800,230700,0,0
+callback_benchmark,custom_s96,2,64,899900,380000
+logging_benchmark,0,0,custom_s96,2,64,899900,380000,0,0
+callback_benchmark,global_old_arity,2,64,601500,267000
+logging...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="unit" classname="unit" time="0.537104" status="run">
+		<properties/>
+		<system-out>26 checks passed
+</system-out>
+	</testcase>
+	<testcase name="audit_semantic_fuzz" classname="audit_semantic_fuzz" time="0.930635" status="run">
+		<properties>
+			<property name="cmake_labels" value="audit;fuzz"/>
+		</properties>
+		<system-out>semantic_fuzz seed=1096107081 cases=4096
+semantic_fuzz PASS cases=4096
+</system-out>
+	</testcase>
+	<testcase name="socket_wait_unit" classname="socket_wait_unit" time="0.522531" status="run">
+		<properties/>
+		<system-out>cancel_entry observed sends=1 select=0 results=0 status=4 error=7
+cancel_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+timeout_entry observed sends=1 select=0 results=0 status=4 error=6
+timeout_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=6
+shutdown_entry observed sends=1 select=0 results=0 status=4 error=7
+shutdown_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+transport observed sends=1 select=1 results=0 status=4 error=5
+transport PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_cancel observed sends=1 select=1 results=0 status=4 error=5
+transport_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_timeout observed sends=1 select=1 results=0 status=4 error=5
+transport_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_both observed sends=1 select=1 results=0 status=4 error=5
+transport_both PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+invalid_socket_cancel ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="audit_faults_integration" classname="audit_faults_integration" time="8.05883" status="run">
+		<properties>
+			<property name="cmake_labels" value="audit;stress"/>
+		</properties>
+		<system-out>fault phase: ROLLBACK response loss
+fault phase: terminate during deferred COMMIT
+fault phase: cancellation category race rounds=32
+fault phase: timeout category rounds=8 query_ms=30
+audit_faults PASS
+</system-out>
+	</testcase>
+	<testcase name="diagnostics_unit" classname="diagnostics_unit" time="0.943652" status="run">
+		<properties/>
+		<system-out>Diagnostics filtering/privacy/bounds/flood/sink/reload passed; buffer_bytes=20624 record_bytes=80
+File output levels/destinations/paths/append/rotation/failure/recovery/links/injection/concurrency passed
+</system-out>
+	</testcase>
+	<testcase name="integration" classname="integration" time="10.8564" status="run">
+		<properties/>
+		<system-out>163 checks passed
+</system-out>
+	</testcase>
+	<testcase name="types_unit" classname="types_unit" time="0.470714" status="run">
+		<properties/>
+		<system-out>97 type checks passed
+</system-out>
+	</testcase>
+	<testcase name="types_integration" classname="types_integration" time="2.66936" status="run">
+		<properties/>
+		<system-out>532 type checks passed
+</system-out>
+	</testcase>
+	<testcase name="extensions_integration" classname="extensions_integration" time="12.223" status="run">
+		<properties/>
+		<system-out>extension phase: batches
+extension phase: rejection
+extension phase: transactions
+extension phase: streaming
+extension phase: stream lifecycle
+606 extension checks passed
+</system-out>
+	</testcase>
+	<testcase name="stress_integration" classname="stress_integration" time="130.797" status="run">
+		<properties>
+			<property name="cmake_labels" value="stress"/>
+		</properties>
+		<system-out>seed=1592594996 rounds=10 libpq=180004 pointer_bytes=8 peak_rss_start_kib=9224
+load connecting
+load round 0
+audit_metric round=0 elapsed_us=216929 cpu_us=125000 rss_kib=18492 pending=0 errors=0 wave_jobs=48 sql_operations=464 p50_us=82163 p95_us=148068 p99_us=165032
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+load_sample round=0 elapsed_ms=849 peak_rss_kib=24756
+load round 1
+audit_metric round=1 elapsed_us=1066512 cpu_us=218750 rss_kib=24732 pending=0 errors=0 wave_jobs=48 sql_operations=929 p50_us=97669 p95_us=147798 p99_us=161918
+load_sample round=1 elapsed_ms=1066 peak_rss_kib=24756
+load round 2
+audit_metric round=2 elapsed_us=1249878 cpu_us=312500 rss_kib=24744 pending=0 errors=0 wave_jobs=48 sql_operations=1393 p50_us=80860 p95_us=130826 p99_us=131077
+load_sample round=2 elapsed_ms=1249 peak_rss_kib=24756
+load round 3
+audit_metric round=3 elapsed_us=1449779 cpu_us=406250 rss_kib=24800 pending=0 errors=0 wave_jobs=48 sql_operations=1857 p50_us=82486 p95_us=1466...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="connection_lifecycle_integration" classname="connection_lifecycle_integration" time="4.11552" status="run">
+		<properties>
+			<property name="cmake_labels" value="stress"/>
+		</properties>
+		<system-out>connection_rounds=10 lanes=8 libpq=180004 pointer_bytes=8
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+connection round 1 immediate create
+connection round 1 immediate destroy
+connection round 1 ready create
+connection round 1 ready destroy
+connection round 1 disconnect during startup
+connection round 1 disconnected destroy
+connection round 1 failed connection retry
+connection round 1 retry destroy
+connection round 1 complete
+connection round 2 immediate create
+connection round 2 immediate destroy
+connection round 2 ready create
+connection round 2 ready destroy
+connection round 2 disconnect during startup
+connection round 2 disconnected destroy
+connection round 2 failed connection retry
+connection round 2 retry destroy
+connection ro...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="connection_stalls_integration" classname="connection_stalls_integration" time="9.04062" status="run">
+		<properties>
+			<property name="cmake_labels" value="stress"/>
+		</properties>
+		<system-out>stall_lanes=4 libpq=180004 pointer_bytes=8
+stall ssl timeout start
+stall ssl timeout destroy
+stall ssl timeout complete
+stall ssl disconnect start
+stall ssl disconnect destroy
+stall ssl disconnect complete
+stall ssl unload start
+stall ssl unload destroy
+stall ssl unload complete
+stall ssl destroy start
+stall ssl destroy destroy
+stall ssl destroy complete
+stall tls timeout start
+stall tls timeout destroy
+stall tls timeout complete
+stall tls disconnect start
+stall tls disconnect destroy
+stall tls disconnect complete
+stall tls unload start
+stall tls unload destroy
+stall tls unload complete
+stall tls destroy start
+stall tls destroy destroy
+stall tls destroy complete
+stall startup timeout start
+stall startup timeout destroy
+stall startup timeout complete
+stall startup disconnect start
+stall startup disconnect destroy
+stall startup disconnect complete
+stall startup unload start
+stall startup unload destroy
+stall startup unload complete
+stall startup destroy start
+stall startup destroy destroy
+stall startup destroy ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="sql_sections_unit" classname="sql_sections_unit" time="0.751201" status="run">
+		<properties/>
+		<system-out>accounts.sql:3:1: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:3:3: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:2:4: Malformed SQL section declaration; expected '-- name: identifier' (also '--name:identifier')
+accounts.sql:1:1: Empty SQL section 'empty'; add one SQL statement after the declaration
+accounts.sql:4:11: SQL section must contain exactly one statement in section 'other'; remove the extra statement or semicolon
+accounts.sql:2:14: SQL section must contain exactly one statement in section 'x'; remove the extra statement or semicolon
+accounts.sql:2:8: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql:2:9: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql:2:8: Unterminated SQL quoted identifier in section 'x'; close the opening quote
+accounts.sql:2:8: Unterminated SQL dollar quote in section 'x'; close with the matching dollar delimiter
+accounts.sql:2:11: Unterminated SQL block comment in s...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="sql_sections_integration" classname="sql_sections_integration" time="3.28395" status="run">
+		<properties/>
+		<system-out>345 SQL section checks passed
+</system-out>
+	</testcase>
+	<testcase name="engine_benchmark_smoke" classname="engine_benchmark_smoke" time="2.78518" status="run">
+		<properties>
+			<property name="cmake_labels" value="benchmark"/>
+		</properties>
+		<system-out># commit=ba384fffbdef757e3a22c0dc00901af18c6c9512 source_tree=clean configuration=Debug compiler=GNU-16.1.0 sanitize=OFF pointer_bits=64 os=Windows libpq=180004 PostgreSQL=17.11 ssl=true tls=TLSv1.3 pool=4 window=32 group=20 stream_rows=128 warmup=1 order_seed=902 network=service-defined RTT=unmeasured
+mode,repetition,rows,sql_commands,jobs,sql_text_bytes,parameter_value_bytes,total_us,rows_per_second,job_p50_us,job_p95_us,job_p99_us,queue_p50_us,queue_p95_us,queue_p99_us,execution_p50_us,execution_p95_us,execution_p99_us,process_cpu_us,process_peak_kib
+streaming,1,41,1,1,68,0,339,120943.95,329,329,329,8,8,8,311,311,311,0,24780
+individual4,1,41,41,41,3936,73,4100,10000.00,1852,3145,3290,1540,2920,3065,330,456,577,0,24780
+file_snapshots20,1,41,41,3,3936,73,14387,2849.79,12880,14311,14311,7990,12878,12878,4887,8003,8003,15625,24780
+unnest20,1,41,3,3,390,117,1279,32056.29,964,1248,1248,540,959,959,422,537,537,0,24780
+individual,1,41,41,41,3936,73,8756,4682.50,5431,7012,7235,5248,6856,7076,172,418,560,15625,24780...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

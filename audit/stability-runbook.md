@@ -31,7 +31,13 @@ Windows x64 Engine. Existing server/package jobs remain the architecture qualifi
 The new `audit_faults_integration` requires `run_postgres.py`: it drops a ROLLBACK
 confirmation and terminates our own backend while a deferred trigger blocks COMMIT on
 an advisory lock. It checks actual database rows, terminal/item status and recovery.
-Cancellation races run 32 rounds and require the cancellation error category.
+Cancellation runs 32 rounds after an observer sees the exact command/PID active in
+PostgreSQL's PgSleep wait; it requires uncertain status/item metadata and cancellation cause.
+`socket_wait_unit` independently forces the critical wait-entry and select-return phases,
+including transport/cancel/deadline competition, using a controlled clock without sleeps.
+It compiles the actual Lane body with test-only syscall/libpq seams and checks dispatch,
+terminal metadata, no replay, reconnection and a single completion. See
+[A1/A2 resolution](a1-a2-resolution.md) for negative historical-runtime tests and evidence.
 The existing COMMIT confirmation-loss, abrupt cluster restart, startup/TLS stalls,
 authentication/TLS failures, resource limits, native boundaries and logger faults remain.
 

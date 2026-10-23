@@ -1,5 +1,11 @@
 # Auditoría de estabilidad v0.1.0 — 23 de octubre de 2026
 
+> **Seguimiento A1/A2:** [resolución, pruebas negativas y nueva evidencia](a1-a2-resolution.md).
+> El runtime corregido es `ba384fffbdef757e3a22c0dc00901af18c6c9512`; las ejecuciones
+> descritas a continuación pertenecen al estado histórico y no se reasignan a ese SHA.
+> El resultado del CI del head final se comprueba y registra por separado en PR #24.
+> Resolver estos bloqueantes de integración no autoriza publicar v0.1.0 estable.
+
 **Veredicto: INSUFFICIENT EVIDENCE para aprobar una versión estable.**
 La validación Windows ejecutada es satisfactoria después de corregir un defecto Medium,
 pero faltan la calificación Linux de la revisión final, los paquetes nuevos extraídos y
