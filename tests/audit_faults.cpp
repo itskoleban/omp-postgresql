@@ -147,6 +147,26 @@ void cancellation_category(const char *service) {
 		e.close_job(owner, id);
 	}
 }
+
+void timeout_category(const char *service) {
+	pg::Limits limits;
+	limits.query_ms = 30;
+	pg::Engine e(limits);
+	auto c = e.connect(owner, service, 1);
+	for (int round = 0; round != 8; ++round) {
+		ready(e, c);
+		auto job = wait(e, e.query(owner, c, "SELECT pg_sleep(1)", 0, 0, round, false));
+		if (job->error != pg::Error::timeout) {
+			std::cerr << "timeout round=" << round << " status=" << int(job->status.load())
+			          << " error=" << int(job->error) << " message=" << job->message << std::endl;
+		}
+		check(job->status.load() == pg::Status::uncertain && job->error == pg::Error::timeout &&
+		          job->completed == 0 &&
+		          job->items_status == std::vector{pg::ItemStatus::uncertain},
+		      "Dispatched timeout lost cause or uncertain item metadata");
+		e.close_job(owner, job->id);
+	}
+}
 } // namespace
 int main() {
 	const auto service = std::getenv("OMP_PG_TEST_SERVICE");
@@ -162,6 +182,8 @@ int main() {
 		during_commit(service);
 		std::cout << "fault phase: cancellation category race rounds=32" << std::endl;
 		cancellation_category(service);
+		std::cout << "fault phase: timeout category rounds=8 query_ms=30" << std::endl;
+		timeout_category(service);
 		std::cout << "audit_faults PASS\n";
 		return 0;
 	} catch (const std::exception &e) {
