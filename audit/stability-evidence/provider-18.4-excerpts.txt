@@ -1,0 +1,8 @@
+2026-10-23 16:20:34.086 -05 [32788] STATEMENT:  SELECT $1
+2026-10-23 16:20:34.196 -05 [14660] LOG:  client backend (PID 17632) was terminated by exception 0xC0000028
+2026-10-23 16:20:34.196 -05 [14660] DETAIL:  Failed process was running: SELECT 1; SELECT 2
+2026-10-23 16:20:34.196 -05 [14660] HINT:  See C include file "ntstatus.h" for a description of the hexadecimal value.
+2026-10-23 16:20:34.196 -05 [14660] LOG:  terminating any other active server processes
+2026-10-23 16:20:34.214 -05 [14660] LOG:  all server processes terminated; reinitializing
+2026-10-23 16:20:34.365 -05 [10308] LOG:  database system was interrupted; last known up at 2026-10-23 16:20:10 -05
+Standalone Engine-free reproduction was not completed. No attribution beyond this observed provider combination.

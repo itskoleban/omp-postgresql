@@ -1,0 +1,1 @@
+Clang 22 Windows x64 ASan/UBSan helper fuzz: seed 1096107081, requested cases 100000. Started but interrupted after approximately ten minutes wall time without a completed result. Status: incomplete/Failed budget; NOT Passed. The separate 4096-case run completed successfully; see asan-ubsan-helpers.txt.
