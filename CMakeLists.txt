@@ -15,10 +15,10 @@ option(PG_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 option(PG_THREAD_SANITIZE "Enable ThreadSanitizer (Linux x64 qualification only)" OFF)
 set(PG_STRESS_SECONDS
     "0"
-    CACHE STRING "Minimum sustained stress load duration (0..1800 seconds)"
+    CACHE STRING "Minimum sustained stress load duration (0..86400 seconds)"
 )
-if(NOT PG_STRESS_SECONDS MATCHES "^(0|[1-9][0-9]*)$" OR PG_STRESS_SECONDS GREATER 1800)
-    message(FATAL_ERROR "PG_STRESS_SECONDS must be a decimal integer in 0..1800")
+if(NOT PG_STRESS_SECONDS MATCHES "^(0|[1-9][0-9]*)$" OR PG_STRESS_SECONDS GREATER 86400)
+    message(FATAL_ERROR "PG_STRESS_SECONDS must be a decimal integer in 0..86400")
 endif()
 if(PG_THREAD_SANITIZE)
     if(PG_SANITIZE)
@@ -231,6 +231,8 @@ if(BUILD_TESTING)
     add_executable(pg_connection_tests tests/connection_lifecycle.cpp)
     add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
     add_executable(pg_sql_section_tests tests/sql_sections.cpp)
+    add_executable(pg_audit_fuzz tests/audit_fuzz.cpp)
+    add_executable(pg_audit_faults tests/audit_faults.cpp)
     if(WIN32)
         target_link_libraries(pg_stress_tests PRIVATE psapi)
     endif()
@@ -244,6 +246,8 @@ if(BUILD_TESTING)
         pg_connection_stall_tests
         pg_sql_section_tests
         pg_diagnostics_tests
+        pg_audit_fuzz
+        pg_audit_faults
     )
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -254,6 +258,10 @@ if(BUILD_TESTING)
         endif()
     endforeach()
     add_test(NAME unit COMMAND pg_tests)
+    add_test(NAME audit_semantic_fuzz COMMAND pg_audit_fuzz)
+    set_tests_properties(audit_semantic_fuzz PROPERTIES TIMEOUT 60 LABELS "audit;fuzz")
+    add_test(NAME audit_faults_integration COMMAND pg_audit_faults)
+    set_tests_properties(audit_faults_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60 LABELS "audit;stress")
     add_test(NAME diagnostics_unit COMMAND pg_diagnostics_tests)
     set_tests_properties(diagnostics_unit PROPERTIES TIMEOUT 30)
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")

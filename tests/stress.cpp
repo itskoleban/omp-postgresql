@@ -6,6 +6,7 @@
 #include <array>
 #include <charconv>
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <random>
 #include <thread>
@@ -71,6 +72,39 @@ std::uint64_t peak_kib() {
 #endif
 }
 
+std::pair<std::uint64_t, std::uint64_t> resources() {
+#ifdef _WIN32
+	FILETIME created{}, exited{}, kernel{}, user{};
+	PROCESS_MEMORY_COUNTERS memory{};
+	check(GetProcessTimes(GetCurrentProcess(), &created, &exited, &kernel, &user) &&
+	          GetProcessMemoryInfo(GetCurrentProcess(), &memory, sizeof(memory)),
+	      "Resource sampling failed");
+	auto ticks = [](FILETIME t) {
+		return (std::uint64_t(t.dwHighDateTime) << 32) | t.dwLowDateTime;
+	};
+	return {(ticks(kernel) + ticks(user)) / 10, memory.WorkingSetSize / 1024};
+#else
+	rusage usage{};
+	check(getrusage(RUSAGE_SELF, &usage) == 0, "CPU sampling failed");
+	std::uint64_t rss = 0;
+#ifdef __linux__
+	std::ifstream status("/proc/self/status");
+	std::string line;
+	while (std::getline(status, line)) {
+		if (line.starts_with("VmRSS:")) {
+			auto start = line.find_first_of("0123456789");
+			check(start != std::string::npos, "Invalid Linux RSS record");
+			rss = std::stoull(line.substr(start));
+		}
+	}
+	check(rss != 0, "Current RSS unavailable");
+#endif
+	return {std::uint64_t(usage.ru_utime.tv_sec + usage.ru_stime.tv_sec) * 1000000 +
+	            usage.ru_utime.tv_usec + usage.ru_stime.tv_usec,
+	        rss};
+#endif
+}
+
 template <class F> void until(pg::Engine &engine, F condition) {
 	const auto deadline = pg::Clock::now() + std::chrono::seconds(20);
 	while (!condition()) {
@@ -123,6 +157,71 @@ template <class F> void rejects(F action, pg::Error expected) {
 	check(false, "Expected local rejection");
 }
 
+// Periodic mixed work shares the same long-lived Engine as the load waves.
+void mixed(pg::Engine &engine, pg::Id connection, const char *service, const std::string &table,
+           std::array<std::int64_t, 4> &expected) {
+	for (const bool read_only : {true, false}) {
+		auto tx =
+		    engine.begin(owner, connection, 0, 0, false, pg::Isolation::read_committed, read_only);
+		success(engine, tx);
+		auto job =
+		    success(engine, query(engine, connection,
+		                          read_only ? "SELECT n FROM " + table + " WHERE id=0"
+		                                    : "UPDATE " + table + " SET n=n+1 WHERE id IN (0,4)",
+		                          0, tx));
+		engine.close_job(owner, job->id);
+		job = success(engine, engine.finish(owner, tx, true, 0, false));
+		engine.close_job(owner, job->id);
+		engine.close_job(owner, tx);
+		if (!read_only) {
+			++expected[0];
+		}
+	}
+	auto statement = engine.prepare(owner, connection, "SELECT i FROM generate_series(1,33) i", 0);
+	engine.statement(owner, statement).add(engine.limits());
+	auto id = engine.execute_stream(owner, statement, 7, 1, 0, 0, false);
+	engine.close_statement(owner, statement);
+	auto stream = engine.job(owner, id);
+	unsigned rows = 0;
+	until(engine, [&] {
+		if (stream->stream->next()) {
+			for (const auto &row : stream->stream->current()->rows) {
+				check(row[0] == std::to_string(++rows), "Mixed stream row order/contents");
+			}
+			stream->stream->release();
+		}
+		return stream->delivered && !stream->stream->available();
+	});
+	check(stream->status.load() == pg::Status::confirmed && rows == 33,
+	      "Mixed stream completeness");
+	engine.close_job(owner, id);
+	// Cancellation forces recovery, then destroy this additional physical connection.
+	auto side = engine.connect(owner, service, 1);
+	ready(engine, side);
+	id = query(engine, side, "SELECT pg_sleep(1)");
+	auto cancelled = engine.job(owner, id);
+	until(engine, [&] {
+		return cancelled->status.load() == pg::Status::running;
+	});
+	cancelled->cancel.store(true);
+	wait(engine, id);
+	std::cout << "mixed_cancel status=" << static_cast<int>(cancelled->status.load())
+	          << " error=" << static_cast<int>(cancelled->error)
+	          << " message=" << cancelled->message << std::endl;
+	check(cancelled->status.load() != pg::Status::confirmed &&
+	          cancelled->error == pg::Error::cancelled,
+	      "Mixed cancellation outcome");
+	engine.close_job(owner, id);
+	ready(engine, side);
+	execute(engine, side, "SELECT 42");
+	engine.disconnect(owner, side);
+	until(engine, [&] {
+		return engine.connection(owner, side).state() == pg::State::disconnected;
+	});
+	engine.poll();
+	engine.poll();
+}
+
 void load(const char *service, std::mt19937 &random, unsigned rounds, unsigned seconds,
           const std::string &table) {
 	phase = "load";
@@ -144,6 +243,7 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, unsigned s
 	                 " SET n=n+1 WHERE id=$1::integer AND EXISTS(SELECT 1 FROM shared) RETURNING n";
 	const auto started = pg::Clock::now();
 	const auto deadline = started + std::chrono::seconds(seconds);
+	const auto cpu_start = resources().first;
 	unsigned round = 0;
 	for (; round < rounds || pg::Clock::now() < deadline; ++round) {
 		phase = "load round " + std::to_string(round);
@@ -194,8 +294,10 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, unsigned s
 			operations += count == 4 ? 8 : count;
 			pending.push_back({id, first, count});
 		}
+		std::vector<std::int64_t> latencies;
 		for (const auto &item : pending) {
 			auto job = success(engine, item.id);
+			latencies.push_back(job->delivery_us);
 			released.push_back(job);
 			check(job->results.size() == static_cast<std::size_t>(item.count == 4 ? 8 : item.count),
 			      "Retained result count");
@@ -235,6 +337,24 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, unsigned s
 		check(result->results[0].rows[4][0] == std::to_string(total),
 		      "Shared row has no lost updates");
 		engine.close_job(owner, result->id);
+		std::sort(latencies.begin(), latencies.end());
+		const auto [cpu_us, rss_kib] = resources();
+		const auto elapsed_us =
+		    std::chrono::duration_cast<std::chrono::microseconds>(pg::Clock::now() - started)
+		        .count();
+		std::cout << "audit_metric round=" << round << " elapsed_us=" << elapsed_us
+		          << " cpu_us=" << cpu_us - cpu_start << " rss_kib=" << rss_kib
+		          << " pending=0 errors=0 wave_jobs=48 sql_operations=" << operations
+		          << " p50_us=" << latencies[23] << " p95_us=" << latencies[45]
+		          << " p99_us=" << latencies[47] << std::endl;
+		if (round % 32 == 0) {
+			mixed(engine, connection, service, table, expected);
+			++operations; // One periodic SQL write updating both owned/shared counters.
+		}
+		// Alternate bursts and idle recovery periods, deterministically from the seed.
+		if (round % 16 == 0) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(20 + random() % 80));
+		}
 		std::cout << "load_sample round=" << round << " elapsed_ms="
 		          << std::chrono::duration_cast<std::chrono::milliseconds>(pg::Clock::now() -
 		                                                                   started)
@@ -457,7 +577,7 @@ int main() {
 	try {
 		const auto seed = setting("OMP_PG_STRESS_SEED", 1592594996, 4294967295u);
 		const auto rounds = setting("OMP_PG_STRESS_ROUNDS", 10, 100);
-		const auto seconds = setting("OMP_PG_STRESS_SECONDS", 0, 1800, 0);
+		const auto seconds = setting("OMP_PG_STRESS_SECONDS", 0, 86400, 0);
 		std::mt19937 random(seed);
 		const auto table =
 		    "omp_stress_" + std::to_string(pg::Clock::now().time_since_epoch().count());
