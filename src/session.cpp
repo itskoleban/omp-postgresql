@@ -242,7 +242,7 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 			    cancelled ? Error::cancelled : Error::timeout,
 			    sql_confirmed_
 			        ? "SQL completed; stream delivery interrupted and incomplete"
-					: "Stream interrupted before definitive SQL response; outcome may be unknown");
+			        : "Stream interrupted before definitive SQL response; outcome may be unknown");
 		}
 		out = std::move(next);
 		bytes = metadata_bytes;
@@ -258,6 +258,17 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 		}
 		if (PQisBusy(conn_.get())) {
 			if (!wait_socket(flush == 1, deadline, &job)) {
+				// A stop/deadline can become visible after the loop's initial check.
+				// Preserve its cause instead of classifying every interrupted wait as
+				// a transport failure. The dispatched SQL outcome stays uncertain.
+				if (job.cancel.load() || stop_.load()) {
+					throw Failure(Error::cancelled,
+					              "Interrupted after dispatch; outcome may be unknown");
+				}
+				if (Clock::now() >= deadline) {
+					throw Failure(Error::timeout,
+					              "Interrupted after dispatch; outcome may be unknown");
+				}
 				throw Failure(Error::connection, "Interrupted connection");
 			}
 			continue;
