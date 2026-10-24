@@ -52,6 +52,10 @@ def timeline_records(data):
         if not isinstance(record["utc"], str) or datetime.fromisoformat(record["utc"].replace("Z", "+00:00")).utcoffset() != timedelta(0):
             raise ValueError("Timeline clock must be UTC")
         for key, value in record.items():
+            # Server observations use numeric PG status codes; case outcomes use
+            # text in the same field. Preserve both without coercing their types.
+            if key == "status" and type(value) is int:
+                continue
             if key in labels and (not isinstance(value, str) or not re.fullmatch(r"[A-Za-z0-9_ -]{0,80}", value)):
                 raise ValueError("Timeline labels must not contain paths or private payloads")
             if key in numbers and not (type(value) is int or (key == "exit_code" and value is None)):
