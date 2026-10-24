@@ -12,6 +12,9 @@ import subprocess
 import sys
 import time
 import signal
+import shutil
+import platform
+from qualification_metrics import analyze
 
 
 def main():
@@ -43,7 +46,21 @@ def main():
     sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
     dirty = subprocess.check_output(["git", "status", "--porcelain"], cwd=root, text=True)
     manifest = {"commit": sha, "dirty": dirty, "seconds": args.seconds, "seed": args.seed,
-                "started_unix": time.time(), "stages": [], "status": "Running"}
+                "started_unix": time.time(), "stages": [], "status": "RUNNING"}
+    manifest["platform"] = platform.platform()
+    manifest["python"] = sys.version
+    manifest["tool_versions"] = {}
+    for tool in (["cmake", "--version"], ["pg_config", "--version"],
+                 ["postgres", "--version"], ["openssl", "version"]):
+        result = subprocess.run(tool, capture_output=True, text=True, env=env,
+                                creationflags=flags, timeout=30)
+        manifest["tool_versions"][" ".join(tool)] = {
+            "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
+    for info in build.glob("package-build-info-*.json"):
+        manifest.setdefault("build_info", {})[info.name] = json.loads(info.read_text(encoding="utf8"))
+    fuzz = build / ("pg_audit_fuzz.exe" if os.name == "nt" else "pg_audit_fuzz")
+    if not fuzz.is_file():
+        fuzz = build / args.config / fuzz.name
     def save():
         (output / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf8")
     save()
@@ -54,8 +71,7 @@ def main():
     try:
         for name, argv, budget in [
             ("integration-soak", command, args.seconds + 900),
-            ("extended-fuzz", ["ctest", "--test-dir", str(build), "-C", args.config,
-                               "-R", "^audit_semantic_fuzz$", "--no-tests=error", "-V"], 600),
+            ("extended-fuzz", [str(fuzz)], 600),
         ]:
             stage = {"name": name, "command": argv, "started_unix": time.time()}
             manifest["stages"].append(stage)
@@ -70,7 +86,7 @@ def main():
                 )
                 try:
                     returncode = process.wait(timeout=budget)
-                except BaseException:
+                except BaseException as error:
                     # Kill only this newly launched process tree, never a server discovered globally.
                     if os.name == "nt":
                         subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"],
@@ -79,14 +95,28 @@ def main():
                     else:
                         os.killpg(process.pid, signal.SIGKILL)
                     process.wait(timeout=30)
+                    stage.update(returncode=process.returncode, elapsed_seconds=time.time()-stage["started_unix"], error=repr(error))
+                    save()
                     raise
             stage.update(returncode=returncode, elapsed_seconds=time.time()-stage["started_unix"])
+            # Preserve the complete soak before another tool can replace LastTest.log.
+            if name == "integration-soak":
+                for filename in ("LastTest.log", "qualification.xml"):
+                    original = build / "Testing/Temporary" / filename
+                    if original.is_file():
+                        shutil.copyfile(original, output / ("integration-" + filename))
+                if returncode == 0:
+                    summary, csv = analyze((output / "integration-LastTest.log").read_text(
+                        encoding="utf8", errors="replace"), args.seconds)
+                    (output / "metrics-summary.json").write_text(json.dumps(summary, indent=2), encoding="utf8")
+                    (output / "metrics.csv").write_text(csv, encoding="utf8", newline="")
+                    stage["measured_load_seconds"] = summary["measured_load_seconds"]
             save()
             if returncode:
                 raise subprocess.CalledProcessError(returncode, argv)
-        manifest["status"] = "Passed"
+        manifest["status"] = "PASS"
     except BaseException as error:
-        manifest["status"] = "Failed"
+        manifest["status"] = "FAIL"
         manifest["error"] = repr(error)
         raise
     finally:
@@ -105,10 +135,10 @@ def main():
                     cleanup.append({"data": str(data), "error": repr(error)})
         manifest["fallback_cleanup"] = cleanup
         if any(item.get("returncode", 1) for item in cleanup):
-            manifest["status"] = "Failed"
+            manifest["status"] = "FAIL"
         manifest["ended_unix"] = time.time()
         save()
-        if manifest["status"] == "Failed" and sys.exc_info()[0] is None:
+        if manifest["status"] == "FAIL" and sys.exc_info()[0] is None:
             raise RuntimeError("Disposable fixture cleanup failed; inspect manifest")
 
 

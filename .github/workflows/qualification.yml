@@ -5,6 +5,9 @@ on:
     workflow_dispatch:
 permissions:
     contents: read
+concurrency:
+    group: final-qualification-${{ github.ref }}
+    cancel-in-progress: true
 jobs:
     terminal-allocation:
         runs-on: ubuntu-24.04
@@ -50,3 +53,83 @@ jobs:
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
                   if-no-files-found: error
+    bounded-linux:
+        name: bounded Linux ${{ matrix.sanitize }} (${{ matrix.seconds }}s)
+        runs-on: ubuntu-24.04
+        timeout-minutes: 60
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - {sanitize: "OFF", seconds: 1200, seed: 1592594996}
+                    - {sanitize: "ON", seconds: 600, seed: 1592594997}
+                    - {sanitize: "THREAD", seconds: 600, seed: 1592594998}
+        env:
+            ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+            UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+            TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+            OMP_PG_STRESS_ROUNDS: "20"
+            OMP_PG_CONNECTION_ROUNDS: "50"
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install remote disposable PostgreSQL and toolchains
+              run: |
+                  sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+                  sudo apt-get update
+                  sudo apt-get install -y libpq-dev postgresql-17 ninja-build clang-19
+                  echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+            - name: Verify historical evidence bytes without extending their scope
+              run: |
+                  set -o pipefail
+                  python3 scripts/verify_audit_provenance.py | tee source-provenance.log
+            - name: Configure isolated resource faults and the selected sanitizer
+              env:
+                  SANITIZE: ${{ matrix.sanitize }}
+                  SECONDS_REQUESTED: ${{ matrix.seconds }}
+              run: |
+                  if [[ "$SANITIZE" == THREAD ]]; then
+                      export CC=clang-19 CXX=clang++-19
+                  fi
+                  logfs=$(mktemp -d "$RUNNER_TEMP/omp-pg-logfs.XXXXXX")
+                  sudo mount -t tmpfs -o "size=1m,mode=0700,uid=$(id -u),gid=$(id -g),nosuid,nodev,noexec" tmpfs "$logfs"
+                  echo "PG_LOG_ENOSPC_BASE=$logfs" >> "$GITHUB_ENV"
+                  cmake -S . -B build-qualified -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+                      -DPG_SANITIZE="$([[ "$SANITIZE" == ON ]] && echo ON || echo OFF)" \
+                      -DPG_THREAD_SANITIZE="$([[ "$SANITIZE" == THREAD ]] && echo ON || echo OFF)" \
+                      -DPG_STRESS_SECONDS="$SECONDS_REQUESTED" -DPG_BUILD_BENCHMARK=ON \
+                      -DPG_LOG_ENOSPC_BASE="$logfs"
+                  cmake --build build-qualified --parallel 4
+            - name: Execute the bounded campaign and retain full logs
+              env:
+                  SECONDS_REQUESTED: ${{ matrix.seconds }}
+                  SEED_REQUESTED: ${{ matrix.seed }}
+              run: |
+                  python3 scripts/audit_long.py --build build-qualified --config Debug \
+                      --output build-qualification-evidence --seconds "$SECONDS_REQUESTED" --seed "$SEED_REQUESTED"
+                  cat build-qualification-evidence/manifest.json
+                  cat build-qualification-evidence/metrics-summary.json
+                  cat build-qualification-evidence/extended-fuzz.log
+            - name: Execute Python release, package and qualification regressions
+              run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+            - name: Preserve complete evidence even after a negative result
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: bounded-${{ matrix.sanitize }}-${{ github.sha }}-${{ github.run_attempt }}
+                  path: |
+                      source-provenance.log
+                      build-qualification-evidence/*.json
+                      build-qualification-evidence/*.csv
+                      build-qualification-evidence/*.xml
+                      build-qualification-evidence/*.log
+                      build-qualification-evidence/temporary/**/*.log
+                      build-qualified/Testing/Temporary/
+                      build-qualified/audit-fuzz-failure.bin
+                  if-no-files-found: error
+                  retention-days: 90
+            - name: Release this runner's tiny fault filesystem
+              if: always() && env.PG_LOG_ENOSPC_BASE != ''
+              run: |
+                  [[ "$PG_LOG_ENOSPC_BASE" == "$RUNNER_TEMP"/omp-pg-logfs.* ]]
+                  sudo umount -- "$PG_LOG_ENOSPC_BASE"
+                  rmdir -- "$PG_LOG_ENOSPC_BASE"
