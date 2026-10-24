@@ -266,6 +266,8 @@ class Server:
         if self.proc.returncode != 0:
             raise AssertionError(f"open.mp shutdown exit {self.proc.returncode}")
         content = self.log_path.read_text(encoding="utf8", errors="replace")
+        if re.search(r"Stack/heap collision|Run time error|AMX_ERR_", content):
+            raise AssertionError("Pawn VM runtime error in server log despite successful process exit")
         if any(secret in content for secret in (self.suite.password, self.suite.wrong)) or re.search(r"\$2[aby]\$\d\d\$[./A-Za-z0-9]{53}", content):
             raise AssertionError("Sensitive authentication material in server log")
 

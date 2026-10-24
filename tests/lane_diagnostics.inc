@@ -28,7 +28,9 @@ public QaLaneSnapshot() {
 		QaLastAttempts[lane] = attempt;
 		printf("QA event=lane tick_ms=%d lane=%d state=%d attempts=%d pending=%d active=%d",
 			GetTickCount(), lane, lane_state, attempt, pg_lane_pending(QaConnection, lane), pg_lane_active(QaConnection, lane));
-		new message[4097];
+		// The default Pawn stack is smaller than this diagnostic buffer. Keep it
+		// in fixture data storage, including when sampling during VM shutdown.
+		static message[4097];
 		if (pg_connection_message(QaConnection, lane, message) && message[0])
 			printf("QA diagnostic tick_ms=%d lane=%d libpq=%s", GetTickCount(), lane, message);
 	}
