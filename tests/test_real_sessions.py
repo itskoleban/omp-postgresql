@@ -29,6 +29,8 @@ class RealSessionEvidenceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             suite = Suite.__new__(Suite)
             suite.output = Path(directory)
+            suite.password = "fixture-password"
+            suite.wrong = "fixture-wrong"
             suite.trace("server_started", server="custom-load", pid=42, udp_port=1234)
             suite.trace("event_failed", server="custom-load", pid=42, exit_code=None)
             rows = [json.loads(line) for line in (suite.output/"timeline.jsonl").read_text().splitlines()]
