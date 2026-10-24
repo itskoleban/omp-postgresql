@@ -155,25 +155,18 @@ jobs:
               run: |
                   sudo apt-get update
                   sudo apt-get install -y clang-19
-            - name: Compile an independent thread and descriptor control
+            - name: Execute independent controls and retain exact-source manifests
               env:
                   INSTRUMENT: ${{ matrix.instrument }}
                   CXX: ${{ matrix.compiler }}
               run: |
-                  flags=()
-                  if [[ "$INSTRUMENT" == ON ]]; then flags=(-fsanitize=address,undefined -fno-sanitize-recover=all); fi
-                  "$CXX" --version
-                  # Model an ordinary external dependency; the driver retains all sanitizer flags.
-                  "$CXX" -std=c++20 -g -O0 -fno-pie -c tests/sanitizer_descriptor_factory.cpp -o descriptor-factory.o
-                  "$CXX" -std=c++20 -g -O0 -pthread -fno-pie -no-pie "${flags[@]}" \
-                      tests/sanitizer_descriptor_control.cpp descriptor-factory.o -o descriptor-control
-            - name: Record the actual result without a component or database
-              run: |
-                  set -o pipefail
-                  ./descriptor-control 2>&1 | tee descriptor-control.log
+                  python3 scripts/probe_sanitizer_descriptors.py --compiler "$CXX" \
+                      --instrument "$INSTRUMENT" --output build-descriptor-control
             - if: always()
               uses: actions/upload-artifact@v4
               with:
                   name: descriptor-control-${{ matrix.compiler }}-${{ matrix.instrument }}-${{ github.sha }}
-                  path: descriptor-control.log
+                  path: |
+                      build-descriptor-control/*.log
+                      build-descriptor-control/*.json
                   if-no-files-found: error

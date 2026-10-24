@@ -5,47 +5,131 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
+from datetime import datetime, timezone
+import uuid
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"tests"))
+from source_provenance import capture
+
+ROOT = Path(__file__).resolve().parents[1]
+INPUTS = ("tests/sanitizer_descriptor_control.cpp", "tests/sanitizer_descriptor_factory.cpp",
+          "tests/sanitizer_descriptor_control.hpp", "scripts/probe_sanitizer_descriptors.py")
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def utc():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def outcome(returncode, log):
+    reached = b"CONTROL reached actual EMFILE" in log
+    diagnostic = any(marker in log for marker in (b"runtime error:", b"ERROR: AddressSanitizer", b"CHECK failed"))
+    complete = b"CONTROL completed with no component code linked" in log
+    return {"actual_emfile":reached, "diagnostics_present":diagnostic,
+            "status":"PASS" if returncode == 0 and reached and complete and not diagnostic else "FAIL"}
+
+
+def verify(directory):
+    directory = Path(directory)
+    manifest = json.loads((directory/"manifest.json").read_text(encoding="utf8"))
+    if manifest["schema"] != 2 or len(manifest["results"]) != manifest["expected_records"]:
+        raise ValueError("Descriptor evidence inventory mismatch")
+    for name, expected in manifest["logs"].items():
+        path = (directory/name).resolve()
+        if not path.is_relative_to(directory.resolve()) or digest(path.read_bytes()) != expected:
+            raise ValueError("Descriptor log identity mismatch")
+    for row in manifest["results"]:
+        log = (directory/row["log"]).read_bytes()
+        if digest(log) != row["sha256"] or any(row[key] != value for key,value in outcome(row["returncode"],log).items()):
+            raise ValueError("Descriptor result or observed EMFILE changed")
+        if not row["compiler"] or not row["factory_command"] or not row["command"]:
+            raise ValueError("Descriptor compiler/build provenance missing")
+        if row["instrumented"] and not {"-fsanitize=address,undefined", "-fno-sanitize-recover=all"} <= set(row["command"]):
+            raise ValueError("Descriptor sanitizer flags were weakened")
+        if any(flag.startswith("-fno-sanitize=") for flag in row["command"]) or any("suppressions=" in value for value in row["environment"].values()):
+            raise ValueError("Descriptor sanitizer checks must not be suppressed")
+    return manifest
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--compiler", action="append", required=True)
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--compiler", action="append", default=[])
+    parser.add_argument("--output", type=Path)
+    parser.add_argument("--instrument", choices=("OFF", "ON", "BOTH"), default="BOTH")
+    parser.add_argument("--verify", type=Path, help="Verify identities only; does not relabel FAIL results")
     args = parser.parse_args()
-    root = Path(__file__).resolve().parents[1]
+    if args.verify:
+        manifest = verify(args.verify)
+        print("Verified descriptor evidence integrity; outcomes retained:", [r["status"] for r in manifest["results"]])
+        return 0
+    if not args.compiler or not args.output:
+        parser.error("--compiler and --output are required for execution")
+    root = ROOT
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
+    modes = (False, True) if args.instrument == "BOTH" else (args.instrument == "ON",)
+    source = capture(root)
+    manifest = {"schema":2, "run_id":uuid.uuid4().hex, "started_utc":utc(),
+                "source_commit":source["source_commit"], "source_provenance":source,
+                "sources":{name:digest((root/name).read_bytes()) for name in INPUTS},
+                "github_run_id":os.environ.get("GITHUB_RUN_ID"), "github_run_attempt":os.environ.get("GITHUB_RUN_ATTEMPT"),
+                "expected_records":len(args.compiler)*len(modes), "logs":{}, "results":[]}
     records = []
     failed = False
+    def record_log(name, data):
+        (output/name).write_bytes(data)
+        manifest["logs"][name] = digest(data)
+    def build(command, name):
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        record_log(name,result.stdout)
+        save()
+        result.check_returncode()
+    def save():
+        manifest["results"] = records
+        (output/"manifest.json").write_bytes((json.dumps(manifest,indent=2)+"\n").encode())
+    save()
     for index, compiler in enumerate(args.compiler):
-        version = subprocess.check_output([compiler, "--version"], text=True)
+        version_bytes = subprocess.check_output([compiler, "--version"])
+        record_log(f"compiler-{index}-version.log",version_bytes)
+        version = version_bytes.decode("utf8")
         factory = output / f"factory-{index}.o"
         common = [compiler, "-std=c++20", "-g", "-O0", "-fno-pie"]
-        subprocess.run(common + ["-c", str(root/"tests/sanitizer_descriptor_factory.cpp"), "-o", str(factory)], check=True)
-        for instrument in (False, True):
+        factory_command = common + ["-c", str(root/"tests/sanitizer_descriptor_factory.cpp"), "-o", str(factory)]
+        build(factory_command,f"factory-{index}-build.log")
+        for instrument in modes:
             binary = output / f"control-{index}-{int(instrument)}"
             command = common + ["-pthread", "-no-pie"]
             if instrument:
                 command += ["-fsanitize=address,undefined", "-fno-sanitize-recover=all"]
             command += [str(root/"tests/sanitizer_descriptor_control.cpp"), str(factory), "-o", str(binary)]
-            subprocess.run(command, check=True)
-            result = subprocess.run([str(binary)], capture_output=True, timeout=20,
+            build(command,binary.name+"-build.log")
+            started = utc()
+            result = subprocess.run([str(binary)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=20,
                 env=dict(os.environ, ASAN_OPTIONS="detect_leaks=1:halt_on_error=1",
                          UBSAN_OPTIONS="halt_on_error=1:print_stacktrace=1"))
-            log = result.stdout + result.stderr
+            log = result.stdout
             name = binary.name + ".log"
-            (output/name).write_bytes(log)
+            record_log(name,log)
             records.append({"compiler":version, "instrumented":instrument,
-                            "command":command, "returncode":result.returncode,
-                            "actual_emfile":b"CONTROL reached actual EMFILE" in log,
-                            "status":"PASS" if result.returncode == 0 else "FAIL",
-                            "log":name, "sha256":hashlib.sha256(log).hexdigest()})
-            failed |= result.returncode != 0
-    manifest = {"source_commit":subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip(),
-                "sources":{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in
-                           (root/"tests/sanitizer_descriptor_control.cpp",root/"tests/sanitizer_descriptor_factory.cpp")},
-                "results":records}
-    (output/"manifest.json").write_text(json.dumps(manifest, indent=2)+"\n", encoding="utf8")
+                            "version_command":[compiler,"--version"], "factory_command":factory_command,
+                            "command":command, "run_command":[str(binary)], "returncode":result.returncode,
+                            "started_utc":started, "finished_utc":utc(),
+                            "output_capture":"merged-stdout-stderr",
+                            "environment":{"ASAN_OPTIONS":"detect_leaks=1:halt_on_error=1", "UBSAN_OPTIONS":"halt_on_error=1:print_stacktrace=1"},
+                            "binary_sha256":digest(binary.read_bytes()), "factory_sha256":digest(factory.read_bytes()),
+                            **outcome(result.returncode,log), "log":name, "sha256":digest(log)})
+            failed |= records[-1]["status"] != "PASS"
+            save()
+    manifest["finished_utc"] = utc()
+    manifest["inputs_unchanged"] = all(digest((root/name).read_bytes())==expected for name,expected in manifest["sources"].items())
+    save()
+    if not manifest["inputs_unchanged"]:
+        raise RuntimeError("Descriptor source inputs changed during execution; evidence retained")
+    verify(output)
     for row in records:
         print(row["compiler"].splitlines()[0], "instrumented="+str(row["instrumented"]), row["status"], "exit="+str(row["returncode"]))
     return 1 if failed else 0
