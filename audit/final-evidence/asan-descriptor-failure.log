@@ -1,0 +1,712 @@
+﻿2026-10-24T01:45:51.9523148Z Current runner version: '2.338.0'
+2026-10-24T01:45:51.9537961Z ##[group]Runner Image Provisioner
+2026-10-24T01:45:51.9538539Z Hosted Compute Agent
+2026-10-24T01:45:51.9538873Z Version: 20261012.601
+2026-10-24T01:45:51.9539253Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-24T01:45:51.9539698Z Build Date: 2026-10-12T17:48:21Z
+2026-10-24T01:45:51.9540077Z Worker ID: {27c06249-5955-4989-8332-ca34e72d8219}
+2026-10-24T01:45:51.9540491Z Region: centralus
+2026-10-24T01:45:51.9540836Z Cloud: Azure
+2026-10-24T01:45:51.9541163Z ##[endgroup]
+2026-10-24T01:45:51.9541897Z ##[group]Operating System
+2026-10-24T01:45:51.9542235Z Ubuntu
+2026-10-24T01:45:51.9542571Z 24.04.5
+2026-10-24T01:45:51.9543082Z LTS
+2026-10-24T01:45:51.9543415Z ##[endgroup]
+2026-10-24T01:45:51.9543809Z ##[group]Runner Image
+2026-10-24T01:45:51.9544150Z Image: ubuntu-24.04
+2026-10-24T01:45:51.9544501Z Version: 20261012.334.1
+2026-10-24T01:45:51.9545226Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-24T01:45:51.9546108Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-24T01:45:51.9546637Z ##[endgroup]
+2026-10-24T01:45:51.9547296Z ##[group]GITHUB_TOKEN Permissions
+2026-10-24T01:45:51.9548410Z Contents: read
+2026-10-24T01:45:51.9548838Z Metadata: read
+2026-10-24T01:45:51.9549150Z ##[endgroup]
+2026-10-24T01:45:51.9550339Z Secret source: Actions
+2026-10-24T01:45:51.9550885Z Cache mode: write
+2026-10-24T01:45:51.9551276Z Prepare workflow directory
+2026-10-24T01:45:51.9858143Z Prepare all required actions
+2026-10-24T01:45:51.9887415Z Getting action download info
+2026-10-24T01:45:52.1952021Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-24T01:45:52.2964565Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-24T01:45:52.4994403Z Complete job name: linux (ON)
+2026-10-24T01:45:52.5469464Z ##[group]Run actions/checkout@v4
+2026-10-24T01:45:52.5469879Z with:
+2026-10-24T01:45:52.5470126Z   ref: 4a84446f0642cda34e690469e87dc819cb97267b
+2026-10-24T01:45:52.5470454Z   repository: itskoleban/omp-postgresql
+2026-10-24T01:45:52.5472354Z   token: ***
+2026-10-24T01:45:52.5472576Z   ssh-strict: true
+2026-10-24T01:45:52.5472983Z   ssh-user: git
+2026-10-24T01:45:52.5473217Z   persist-credentials: true
+2026-10-24T01:45:52.5473470Z   clean: true
+2026-10-24T01:45:52.5473703Z   sparse-checkout-cone-mode: true
+2026-10-24T01:45:52.5473974Z   fetch-depth: 1
+2026-10-24T01:45:52.5474195Z   fetch-tags: false
+2026-10-24T01:45:52.5474423Z   show-progress: true
+2026-10-24T01:45:52.5474653Z   lfs: false
+2026-10-24T01:45:52.5474863Z   submodules: false
+2026-10-24T01:45:52.5475092Z   set-safe-directory: true
+2026-10-24T01:45:52.5475353Z   allow-unsafe-pr-checkout: false
+2026-10-24T01:45:52.5475688Z env:
+2026-10-24T01:45:52.5475900Z   OMP_PG_STRESS_SEED: 1592594996
+2026-10-24T01:45:52.5476190Z   OMP_PG_STRESS_ROUNDS: 10
+2026-10-24T01:45:52.5476440Z   PG_STRESS_SECONDS: 120
+2026-10-24T01:45:52.5476702Z   ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+2026-10-24T01:45:52.5477037Z   UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+2026-10-24T01:45:52.5477391Z   TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+2026-10-24T01:45:52.5477702Z ##[endgroup]
+2026-10-24T01:45:52.6094973Z Syncing repository: itskoleban/omp-postgresql
+2026-10-24T01:45:52.6096161Z ##[group]Getting Git version info
+2026-10-24T01:45:52.6096785Z Working directory is '/home/runner/work/omp-postgresql/omp-postgresql'
+2026-10-24T01:45:52.6097423Z [command]/usr/bin/git version
+2026-10-24T01:45:52.6158131Z git version 2.55.0
+2026-10-24T01:45:52.6171376Z ##[endgroup]
+2026-10-24T01:45:52.6181819Z Temporarily overriding HOME='/home/runner/work/_temp/c2766a63-a58d-41fd-82d8-047936ba987a' before making global git config changes
+2026-10-24T01:45:52.6183087Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-24T01:45:52.6186839Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/omp-postgresql/omp-postgresql
+2026-10-24T01:45:52.6228350Z Deleting the contents of '/home/runner/work/omp-postgresql/omp-postgresql'
+2026-10-24T01:45:52.6231444Z ##[group]Initializing the repository
+2026-10-24T01:45:52.6233909Z [command]/usr/bin/git init /home/runner/work/omp-postgresql/omp-postgresql
+2026-10-24T01:45:52.6360358Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-24T01:45:52.6361489Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-24T01:45:52.6365882Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-24T01:45:52.6366685Z hint: call:
+2026-10-24T01:45:52.6367166Z hint:
+2026-10-24T01:45:52.6367713Z hint: 	git config --global init.defaultBranch <name>
+2026-10-24T01:45:52.6368317Z hint:
+2026-10-24T01:45:52.6368939Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-24T01:45:52.6369824Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-24T01:45:52.6370555Z hint:
+2026-10-24T01:45:52.6371000Z hint: 	git branch -m <name>
+2026-10-24T01:45:52.6371565Z hint:
+2026-10-24T01:45:52.6372175Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-24T01:45:52.6373470Z Initialized empty Git repository in /home/runner/work/omp-postgresql/omp-postgresql/.git/
+2026-10-24T01:45:52.6375432Z [command]/usr/bin/git remote add origin https://github.com/itskoleban/omp-postgresql
+2026-10-24T01:45:52.6420435Z ##[endgroup]
+2026-10-24T01:45:52.6421083Z ##[group]Disabling automatic garbage collection
+2026-10-24T01:45:52.6424184Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-24T01:45:52.6454204Z ##[endgroup]
+2026-10-24T01:45:52.6454773Z ##[group]Setting up auth
+2026-10-24T01:45:52.6460125Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-24T01:45:52.6489102Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-24T01:45:52.6786570Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-24T01:45:52.6814978Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-24T01:45:52.6986701Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-24T01:45:52.7015966Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-24T01:45:52.7183168Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-24T01:45:52.7215531Z ##[endgroup]
+2026-10-24T01:45:52.7216278Z ##[group]Fetching the repository
+2026-10-24T01:45:52.7222314Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 4a84446f0642cda34e690469e87dc819cb97267b
+2026-10-24T01:45:53.2091025Z From https://github.com/itskoleban/omp-postgresql
+2026-10-24T01:45:53.2091557Z  * branch            4a84446f0642cda34e690469e87dc819cb97267b -> FETCH_HEAD
+2026-10-24T01:45:53.2095347Z ##[endgroup]
+2026-10-24T01:45:53.2095793Z ##[group]Determining the checkout info
+2026-10-24T01:45:53.2097131Z ##[endgroup]
+2026-10-24T01:45:53.2101531Z [command]/usr/bin/git sparse-checkout disable
+2026-10-24T01:45:53.2145250Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-24T01:45:53.2175742Z ##[group]Checking out the ref
+2026-10-24T01:45:53.2177741Z [command]/usr/bin/git checkout --progress --force 4a84446f0642cda34e690469e87dc819cb97267b
+2026-10-24T01:45:53.2321023Z Note: switching to '4a84446f0642cda34e690469e87dc819cb97267b'.
+2026-10-24T01:45:53.2321361Z 
+2026-10-24T01:45:53.2321573Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-24T01:45:53.2322316Z changes and commit them, and you can discard any commits you make in this
+2026-10-24T01:45:53.2322975Z state without impacting any branches by switching back to a branch.
+2026-10-24T01:45:53.2323460Z 
+2026-10-24T01:45:53.2323786Z If you want to create a new branch to retain commits you create, you may
+2026-10-24T01:45:53.2324380Z do so (now or later) by using -c with the switch command. Example:
+2026-10-24T01:45:53.2324648Z 
+2026-10-24T01:45:53.2324777Z   git switch -c <new-branch-name>
+2026-10-24T01:45:53.2324963Z 
+2026-10-24T01:45:53.2325090Z Or undo this operation with:
+2026-10-24T01:45:53.2325268Z 
+2026-10-24T01:45:53.2325380Z   git switch -
+2026-10-24T01:45:53.2325551Z 
+2026-10-24T01:45:53.2325774Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-24T01:45:53.2326091Z 
+2026-10-24T01:45:53.2326387Z HEAD is now at 4a84446 docs: preserve R1 negative stacks, positive regression and qualification limits
+2026-10-24T01:45:53.2329692Z ##[endgroup]
+2026-10-24T01:45:53.2361285Z [command]/usr/bin/git log -1 --format=%H
+2026-10-24T01:45:53.2381848Z 4a84446f0642cda34e690469e87dc819cb97267b
+2026-10-24T01:45:53.2599588Z ##[group]Run sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+2026-10-24T01:45:53.2600196Z [36;1msudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y[0m
+2026-10-24T01:45:53.2600622Z [36;1msudo apt-get update[0m
+2026-10-24T01:45:53.2600989Z [36;1msudo apt-get install -y libpq-dev postgresql-17 ninja-build[0m
+2026-10-24T01:45:53.2601432Z [36;1mecho /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"[0m
+2026-10-24T01:45:53.2815267Z shell: /usr/bin/bash -e {0}
+2026-10-24T01:45:53.2815564Z env:
+2026-10-24T01:45:53.2815829Z   OMP_PG_STRESS_SEED: 1592594996
+2026-10-24T01:45:53.2816118Z   OMP_PG_STRESS_ROUNDS: 10
+2026-10-24T01:45:53.2816391Z   PG_STRESS_SECONDS: 120
+2026-10-24T01:45:53.2816683Z   ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+2026-10-24T01:45:53.2817050Z   UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+2026-10-24T01:45:53.2817446Z   TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+2026-10-24T01:45:53.2817786Z ##[endgroup]
+2026-10-24T01:45:53.3056646Z This script will enable the PostgreSQL APT repository on apt.postgresql.org on
+2026-10-24T01:45:53.3057438Z your system. The distribution codename used will be noble-pgdg.
+2026-10-24T01:45:53.3057882Z 
+2026-10-24T01:45:53.3060704Z Using keyring /usr/share/postgresql-common/pgdg/apt.postgresql.org.gpg
+2026-10-24T01:45:53.3061609Z Writing /etc/apt/sources.list.d/pgdg.sources ...
+2026-10-24T01:45:53.3075461Z 
+2026-10-24T01:45:53.3076021Z Running apt-get update ...
+2026-10-24T01:45:53.3604945Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-24T01:45:53.3845273Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+2026-10-24T01:45:53.4226088Z Get:7 https://apt.postgresql.org/pub/repos/apt noble-pgdg InRelease [189 kB]
+2026-10-24T01:45:53.4386105Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [589 kB]
+2026-10-24T01:45:53.4554159Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [652 kB]
+2026-10-24T01:45:53.4618637Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+2026-10-24T01:45:53.4873945Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+2026-10-24T01:45:53.4881382Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+2026-10-24T01:45:53.4902348Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+2026-10-24T01:45:53.4931103Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+2026-10-24T01:45:53.5033253Z Get:11 https://apt.postgresql.org/pub/repos/apt noble-pgdg/main amd64 Packages [899 kB]
+2026-10-24T01:45:53.5670030Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1400 kB]
+2026-10-24T01:45:53.5717869Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [310 kB]
+2026-10-24T01:45:53.5733876Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1706 kB]
+2026-10-24T01:45:53.5790985Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+2026-10-24T01:45:53.5834831Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+2026-10-24T01:45:53.5868020Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+2026-10-24T01:45:53.6433537Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1146 kB]
+2026-10-24T01:45:53.6495203Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+2026-10-24T01:45:53.6504247Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1222 kB]
+2026-10-24T01:45:53.6530148Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+2026-10-24T01:45:53.6965766Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+2026-10-24T01:45:53.7022634Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+2026-10-24T01:45:58.4295926Z Fetched 13.6 MB in 1s (13.1 MB/s)
+2026-10-24T01:45:58.9586280Z Reading package lists...
+2026-10-24T01:45:58.9685200Z 
+2026-10-24T01:45:58.9685752Z You can now start installing packages from apt.postgresql.org.
+2026-10-24T01:45:58.9686091Z 
+2026-10-24T01:45:58.9686708Z Have a look at https://wiki.postgresql.org/wiki/Apt for more information;
+2026-10-24T01:45:58.9687166Z most notably the FAQ at https://wiki.postgresql.org/wiki/Apt/FAQ
+2026-10-24T01:45:59.0162564Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-24T01:45:59.0484500Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+2026-10-24T01:45:59.0492028Z Hit:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease
+2026-10-24T01:45:59.0505206Z Hit:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease
+2026-10-24T01:45:59.0513640Z Hit:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease
+2026-10-24T01:45:59.0582594Z Hit:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease
+2026-10-24T01:45:59.0820960Z Hit:7 https://apt.postgresql.org/pub/repos/apt noble-pgdg InRelease
+2026-10-24T01:45:59.8831264Z Reading package lists...
+2026-10-24T01:45:59.9069017Z Reading package lists...
+2026-10-24T01:46:00.0533081Z Building dependency tree...
+2026-10-24T01:46:00.0537657Z Reading state information...
+2026-10-24T01:46:00.1597499Z libpq-dev is already the newest version (18.6-1.pgdg24.04+2).
+2026-10-24T01:46:00.1597901Z Suggested packages:
+2026-10-24T01:46:00.1598101Z   postgresql-doc-17
+2026-10-24T01:46:00.1752500Z The following NEW packages will be installed:
+2026-10-24T01:46:00.1753137Z   ninja-build postgresql-17 postgresql-client-17
+2026-10-24T01:46:00.1909438Z 0 upgraded, 3 newly installed, 0 to remove and 99 not upgraded.
+2026-10-24T01:46:00.1910014Z Need to get 19.1 MB of archives.
+2026-10-24T01:46:00.1910316Z After this operation, 69.8 MB of additional disk space will be used.
+2026-10-24T01:46:00.1910731Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-24T01:46:00.2798522Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 ninja-build amd64 1.11.1-2 [129 kB]
+2026-10-24T01:46:00.4876905Z Get:3 https://apt.postgresql.org/pub/repos/apt noble-pgdg/main amd64 postgresql-client-17 amd64 17.11-1.pgdg24.04+2 [2053 kB]
+2026-10-24T01:46:00.5761325Z Get:4 https://apt.postgresql.org/pub/repos/apt noble-pgdg/main amd64 postgresql-17 amd64 17.11-1.pgdg24.04+2 [16.9 MB]
+2026-10-24T01:46:00.8028686Z Preconfiguring packages ...
+2026-10-24T01:46:00.8412535Z Fetched 19.1 MB in 0s (40.1 MB/s)
+2026-10-24T01:46:00.8558644Z Selecting previously unselected package ninja-build.
+2026-10-24T01:46:00.8811745Z (Reading database ... 
+2026-10-24T01:46:00.8812012Z (Reading database ... 5%
+2026-10-24T01:46:00.8812213Z (Reading database ... 10%
+2026-10-24T01:46:00.8812744Z (Reading database ... 15%
+2026-10-24T01:46:00.8813106Z (Reading database ... 20%
+2026-10-24T01:46:00.8813292Z (Reading database ... 25%
+2026-10-24T01:46:00.8813503Z (Reading database ... 30%
+2026-10-24T01:46:00.8813686Z (Reading database ... 35%
+2026-10-24T01:46:00.8813871Z (Reading database ... 40%
+2026-10-24T01:46:00.8814061Z (Reading database ... 45%
+2026-10-24T01:46:00.8814214Z (Reading database ... 50%
+2026-10-24T01:46:00.8850705Z (Reading database ... 55%
+2026-10-24T01:46:01.0199810Z (Reading database ... 60%
+2026-10-24T01:46:01.2280909Z (Reading database ... 65%
+2026-10-24T01:46:01.3785867Z (Reading database ... 70%
+2026-10-24T01:46:01.5847472Z (Reading database ... 75%
+2026-10-24T01:46:01.7690322Z (Reading database ... 80%
+2026-10-24T01:46:01.9338850Z (Reading database ... 85%
+2026-10-24T01:46:02.1142758Z (Reading database ... 90%
+2026-10-24T01:46:02.2837027Z (Reading database ... 95%
+2026-10-24T01:46:02.2837294Z (Reading database ... 100%
+2026-10-24T01:46:02.2837607Z (Reading database ... 203540 files and directories currently installed.)
+2026-10-24T01:46:02.2873803Z Preparing to unpack .../ninja-build_1.11.1-2_amd64.deb ...
+2026-10-24T01:46:02.2891192Z Unpacking ninja-build (1.11.1-2) ...
+2026-10-24T01:46:02.3310412Z Selecting previously unselected package postgresql-client-17.
+2026-10-24T01:46:02.3401687Z Preparing to unpack .../postgresql-client-17_17.11-1.pgdg24.04+2_amd64.deb ...
+2026-10-24T01:46:02.3408525Z Unpacking postgresql-client-17 (17.11-1.pgdg24.04+2) ...
+2026-10-24T01:46:02.4953003Z Selecting previously unselected package postgresql-17.
+2026-10-24T01:46:02.5046595Z Preparing to unpack .../postgresql-17_17.11-1.pgdg24.04+2_amd64.deb ...
+2026-10-24T01:46:02.5072003Z Unpacking postgresql-17 (17.11-1.pgdg24.04+2) ...
+2026-10-24T01:46:03.3303488Z Setting up postgresql-client-17 (17.11-1.pgdg24.04+2) ...
+2026-10-24T01:46:03.6008769Z update-alternatives: using /usr/share/postgresql/17/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode
+2026-10-24T01:46:03.6342096Z Setting up ninja-build (1.11.1-2) ...
+2026-10-24T01:46:03.6360215Z Setting up postgresql-17 (17.11-1.pgdg24.04+2) ...
+2026-10-24T01:46:04.2639715Z Processing triggers for postgresql-common (293.pgdg24.04+1) ...
+2026-10-24T01:46:04.3310607Z Building PostgreSQL dictionaries from installed myspell/hunspell packages...
+2026-10-24T01:46:04.3363094Z   en_us
+2026-10-24T01:46:04.3843916Z Removing obsolete dictionary files:
+2026-10-24T01:46:04.4022058Z Processing triggers for man-db (2.12.0-4build2) ...
+2026-10-24T01:46:04.4039912Z Not building database; man-db/auto-update is not 'true'.
+2026-10-24T01:46:04.8476069Z 
+2026-10-24T01:46:04.8476581Z Running kernel seems to be up-to-date.
+2026-10-24T01:46:04.8476758Z 
+2026-10-24T01:46:04.8476818Z No services need to be restarted.
+2026-10-24T01:46:04.8476914Z 
+2026-10-24T01:46:04.8476970Z No containers need to be restarted.
+2026-10-24T01:46:04.8477071Z 
+2026-10-24T01:46:04.8477142Z No user sessions are running outdated binaries.
+2026-10-24T01:46:04.8477284Z 
+2026-10-24T01:46:04.8477390Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-10-24T01:46:05.5306546Z ##[group]Run logfs=$(mktemp -d "$RUNNER_TEMP/omp-pg-logfs.XXXXXX")
+2026-10-24T01:46:05.5306829Z [36;1mlogfs=$(mktemp -d "$RUNNER_TEMP/omp-pg-logfs.XXXXXX")[0m
+2026-10-24T01:46:05.5307146Z [36;1msudo mount -t tmpfs -o "size=1m,mode=0700,uid=$(id -u),gid=$(id -g),nosuid,nodev,noexec" tmpfs "$logfs"[0m
+2026-10-24T01:46:05.5307419Z [36;1mecho "PG_LOG_ENOSPC_BASE=$logfs" >> "$GITHUB_ENV"[0m
+2026-10-24T01:46:05.5362283Z shell: /usr/bin/bash -e {0}
+2026-10-24T01:46:05.5362422Z env:
+2026-10-24T01:46:05.5362536Z   OMP_PG_STRESS_SEED: 1592594996
+2026-10-24T01:46:05.5362675Z   OMP_PG_STRESS_ROUNDS: 10
+2026-10-24T01:46:05.5362964Z   PG_STRESS_SECONDS: 120
+2026-10-24T01:46:05.5363110Z   ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+2026-10-24T01:46:05.5363289Z   UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+2026-10-24T01:46:05.5363473Z   TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+2026-10-24T01:46:05.5363773Z ##[endgroup]
+2026-10-24T01:46:05.5543591Z ##[group]Run cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+2026-10-24T01:46:05.5543844Z [36;1mcmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \[0m
+2026-10-24T01:46:05.5544059Z [36;1m    -DPG_SANITIZE=ON \[0m
+2026-10-24T01:46:05.5544202Z [36;1m    -DPG_THREAD_SANITIZE=OFF \[0m
+2026-10-24T01:46:05.5544402Z [36;1m    -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS" -DPG_BUILD_BENCHMARK=ON \[0m
+2026-10-24T01:46:05.5544625Z [36;1m    -DPG_LOG_ENOSPC_BASE="$PG_LOG_ENOSPC_BASE"[0m
+2026-10-24T01:46:05.5589722Z shell: /usr/bin/bash -e {0}
+2026-10-24T01:46:05.5589859Z env:
+2026-10-24T01:46:05.5589971Z   OMP_PG_STRESS_SEED: 1592594996
+2026-10-24T01:46:05.5590111Z   OMP_PG_STRESS_ROUNDS: 10
+2026-10-24T01:46:05.5590237Z   PG_STRESS_SECONDS: 120
+2026-10-24T01:46:05.5590375Z   ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+2026-10-24T01:46:05.5590550Z   UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+2026-10-24T01:46:05.5590765Z   TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+2026-10-24T01:46:05.5590974Z   PG_LOG_ENOSPC_BASE: /home/runner/work/_temp/omp-pg-logfs.NP9rT6
+2026-10-24T01:46:05.5591156Z ##[endgroup]
+2026-10-24T01:46:06.6488445Z -- The C compiler identification is GNU 13.3.0
+2026-10-24T01:46:06.9427022Z -- The CXX compiler identification is GNU 13.3.0
+2026-10-24T01:46:07.0349536Z -- Detecting C compiler ABI info
+2026-10-24T01:46:07.2310721Z -- Detecting C compiler ABI info - done
+2026-10-24T01:46:07.2406796Z -- Check for working C compiler: /usr/bin/cc - skipped
+2026-10-24T01:46:07.2462122Z -- Detecting C compile features
+2026-10-24T01:46:07.2500496Z -- Detecting C compile features - done
+2026-10-24T01:46:07.2783747Z -- Detecting CXX compiler ABI info
+2026-10-24T01:46:07.3678099Z -- Detecting CXX compiler ABI info - done
+2026-10-24T01:46:07.3775937Z -- Check for working CXX compiler: /usr/bin/c++ - skipped
+2026-10-24T01:46:07.3778224Z -- Detecting CXX compile features
+2026-10-24T01:46:07.3782258Z -- Detecting CXX compile features - done
+2026-10-24T01:46:07.4431530Z -- Found PostgreSQL: /usr/lib/x86_64-linux-gnu/libpq.so (found suitable version "18.6", minimum required is "17")
+2026-10-24T01:46:07.4695733Z -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+2026-10-24T01:46:07.6734291Z -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+2026-10-24T01:46:07.6740107Z -- Found Threads: TRUE
+2026-10-24T01:46:12.3661283Z CMake Deprecation Warning at build/_deps/omp_sdk-src/lib/glm/CMakeLists.txt:1 (cmake_minimum_required):
+2026-10-24T01:46:12.3661718Z   Compatibility with CMake < 3.10 will be removed from a future version of
+2026-10-24T01:46:12.3661917Z   CMake.
+2026-10-24T01:46:12.3661977Z 
+2026-10-24T01:46:12.3662088Z   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+2026-10-24T01:46:12.3662351Z   to tell CMake that the project requires at least <min> but has been updated
+2026-10-24T01:46:12.3662573Z   to work with policies introduced by <max> or earlier.
+2026-10-24T01:46:12.3662719Z 
+2026-10-24T01:46:12.3662722Z 
+2026-10-24T01:46:12.3662988Z CMake Deprecation Warning at build/_deps/omp_sdk-src/lib/glm/CMakeLists.txt:2 (cmake_policy):
+2026-10-24T01:46:12.3663276Z   Compatibility with CMake < 3.10 will be removed from a future version of
+2026-10-24T01:46:12.3663461Z   CMake.
+2026-10-24T01:46:12.3663517Z 
+2026-10-24T01:46:12.3663620Z   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+2026-10-24T01:46:12.3663861Z   to tell CMake that the project requires at least <min> but has been updated
+2026-10-24T01:46:12.3664077Z   to work with policies introduced by <max> or earlier.
+2026-10-24T01:46:12.3664192Z 
+2026-10-24T01:46:12.3664193Z 
+2026-10-24T01:46:12.3844901Z CMake Deprecation Warning at build/_deps/omp_sdk-src/lib/robin-hood-hashing/CMakeLists.txt:1 (cmake_minimum_required):
+2026-10-24T01:46:12.3845414Z   Compatibility with CMake < 3.10 will be removed from a future version of
+2026-10-24T01:46:12.3845706Z   CMake.
+2026-10-24T01:46:12.3845790Z 
+2026-10-24T01:46:12.3846352Z   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+2026-10-24T01:46:12.3846734Z   to tell CMake that the project requires at least <min> but has been updated
+2026-10-24T01:46:12.3847067Z   to work with policies introduced by <max> or earlier.
+2026-10-24T01:46:12.3847244Z 
+2026-10-24T01:46:12.3847247Z 
+2026-10-24T01:46:12.4014687Z CMake Deprecation Warning at build/_deps/omp_sdk-src/lib/span-lite/CMakeLists.txt:8 (cmake_minimum_required):
+2026-10-24T01:46:12.4015163Z   Compatibility with CMake < 3.10 will be removed from a future version of
+2026-10-24T01:46:12.4015442Z   CMake.
+2026-10-24T01:46:12.4015530Z 
+2026-10-24T01:46:12.4015687Z   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+2026-10-24T01:46:12.4016065Z   to tell CMake that the project requires at least <min> but has been updated
+2026-10-24T01:46:12.4016395Z   to work with policies introduced by <max> or earlier.
+2026-10-24T01:46:12.4016569Z 
+2026-10-24T01:46:12.4016572Z 
+2026-10-24T01:46:12.4016723Z -- Project 'span_lite', package 'span-lite' version: '0.10.3'
+2026-10-24T01:46:12.4091090Z CMake Deprecation Warning at build/_deps/omp_sdk-src/lib/string-view-lite/CMakeLists.txt:8 (cmake_minimum_required):
+2026-10-24T01:46:12.4091581Z   Compatibility with CMake < 3.10 will be removed from a future version of
+2026-10-24T01:46:12.4091872Z   CMake.
+2026-10-24T01:46:12.4091954Z 
+2026-10-24T01:46:12.4092109Z   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+2026-10-24T01:46:12.4092487Z   to tell CMake that the project requires at least <min> but has been updated
+2026-10-24T01:46:12.4092915Z   to work with policies introduced by <max> or earlier.
+2026-10-24T01:46:12.4093091Z 
+2026-10-24T01:46:12.4093094Z 
+2026-10-24T01:46:12.4093249Z -- Project 'string_view_lite', package 'string-view-lite' version: '1.6.0'
+2026-10-24T01:46:13.7108295Z -- Configuring done (7.7s)
+2026-10-24T01:46:13.7427751Z -- Generating done (0.0s)
+2026-10-24T01:46:13.7430590Z -- Build files have been written to: /home/runner/work/omp-postgresql/omp-postgresql/build
+2026-10-24T01:46:13.7516516Z ##[group]Run cmake --build build --parallel 4
+2026-10-24T01:46:13.7516727Z [36;1mcmake --build build --parallel 4[0m
+2026-10-24T01:46:13.7567202Z shell: /usr/bin/bash -e {0}
+2026-10-24T01:46:13.7567334Z env:
+2026-10-24T01:46:13.7567442Z   OMP_PG_STRESS_SEED: 1592594996
+2026-10-24T01:46:13.7567577Z   OMP_PG_STRESS_ROUNDS: 10
+2026-10-24T01:46:13.7567699Z   PG_STRESS_SECONDS: 120
+2026-10-24T01:46:13.7567834Z   ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+2026-10-24T01:46:13.7568007Z   UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+2026-10-24T01:46:13.7568193Z   TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+2026-10-24T01:46:13.7568402Z   PG_LOG_ENOSPC_BASE: /home/runner/work/_temp/omp-pg-logfs.NP9rT6
+2026-10-24T01:46:13.7568586Z ##[endgroup]
+2026-10-24T01:46:15.7600152Z [1/48] Building CXX object CMakeFiles/pg_core.dir/src/config.cpp.o
+2026-10-24T01:46:15.9343991Z [2/48] Building CXX object CMakeFiles/pg_core.dir/src/diagnostics.cpp.o
+2026-10-24T01:46:15.9723657Z [3/48] Building CXX object CMakeFiles/pg_core.dir/src/parameters.cpp.o
+2026-10-24T01:46:15.9878290Z [4/48] Building CXX object CMakeFiles/pg_core.dir/src/log_file.cpp.o
+2026-10-24T01:46:17.3674037Z [5/48] Building CXX object CMakeFiles/pg_core.dir/src/statement.cpp.o
+2026-10-24T01:46:17.4496752Z [6/48] Building CXX object CMakeFiles/pg_core.dir/src/sql_sections.cpp.o
+2026-10-24T01:46:19.2274089Z [7/48] Building CXX object CMakeFiles/pg_core.dir/src/session.cpp.o
+2026-10-24T01:46:20.3634096Z [8/48] Building CXX object CMakeFiles/pg_core.dir/src/engine.cpp.o
+2026-10-24T01:46:21.5944606Z [9/48] Building CXX object CMakeFiles/omp-postgresql.dir/src/component.cpp.o
+2026-10-24T01:46:21.5951746Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/component.hpp:3,
+2026-10-24T01:46:21.5961340Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/core.hpp:3,
+2026-10-24T01:46:21.5973892Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:3,
+2026-10-24T01:46:21.5974628Z                  from /home/runner/work/omp-postgresql/omp-postgresql/include/pg/component.hpp:5,
+2026-10-24T01:46:21.5975349Z                  from /home/runner/work/omp-postgresql/omp-postgresql/src/component.cpp:1:
+2026-10-24T01:46:21.5976747Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:373:34: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:21.5977625Z   373 |         void(__CDECL* free)(void*); ///< The free function to use for deallocating the dynamic storage
+2026-10-24T01:46:21.5978103Z       |                                  ^
+2026-10-24T01:46:21.5978885Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:547:74: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:21.5979604Z   547 |         void initMove(char* data, size_t len, void(__CDECL* freeFn)(void*))
+2026-10-24T01:46:21.5980076Z       |                                                                          ^
+2026-10-24T01:46:21.5980744Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Checkpoints/checkpoints.hpp:3,
+2026-10-24T01:46:21.5981654Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:10:
+2026-10-24T01:46:21.5982635Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/sdk.hpp:13:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:21.5983458Z    13 | typedef IComponent*(__CDECL* ComponentEntryPoint_t)();
+2026-10-24T01:46:21.5983872Z       |                                                     ^
+2026-10-24T01:46:21.5984541Z /home/runner/work/omp-postgresql/omp-postgresql/src/component.cpp:221:23: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:21.5985387Z   221 | COMPONENT_ENTRY_POINT() {
+2026-10-24T01:46:21.5985728Z       |                       ^
+2026-10-24T01:46:21.8520641Z [10/48] Building CXX object CMakeFiles/omp-postgresql.dir/src/natives.cpp.o
+2026-10-24T01:46:21.8521644Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/component.hpp:3,
+2026-10-24T01:46:21.8522487Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/core.hpp:3,
+2026-10-24T01:46:21.8523440Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:3,
+2026-10-24T01:46:21.8524179Z                  from /home/runner/work/omp-postgresql/omp-postgresql/include/pg/component.hpp:5,
+2026-10-24T01:46:21.8524784Z                  from /home/runner/work/omp-postgresql/omp-postgresql/src/natives.cpp:1:
+2026-10-24T01:46:21.8525987Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:373:34: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:21.8526849Z   373 |         void(__CDECL* free)(void*); ///< The free function to use for deallocating the dynamic storage
+2026-10-24T01:46:21.8527358Z       |                                  ^
+2026-10-24T01:46:21.8528129Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:547:74: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:21.8528903Z   547 |         void initMove(char* data, size_t len, void(__CDECL* freeFn)(void*))
+2026-10-24T01:46:21.8529387Z       |                                                                          ^
+2026-10-24T01:46:21.8530089Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Checkpoints/checkpoints.hpp:3,
+2026-10-24T01:46:21.8531020Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:10:
+2026-10-24T01:46:21.8532453Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/sdk.hpp:13:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:21.8533727Z    13 | typedef IComponent*(__CDECL* ComponentEntryPoint_t)();
+2026-10-24T01:46:21.8542596Z       |                                                     ^
+2026-10-24T01:46:25.1337108Z [11/48] Building CXX object CMakeFiles/pg_native_tests.dir/src/component.cpp.o
+2026-10-24T01:46:25.1337939Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/component.hpp:3,
+2026-10-24T01:46:25.1338749Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/core.hpp:3,
+2026-10-24T01:46:25.1339590Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:3,
+2026-10-24T01:46:25.1340393Z                  from /home/runner/work/omp-postgresql/omp-postgresql/include/pg/component.hpp:5,
+2026-10-24T01:46:25.1341037Z                  from /home/runner/work/omp-postgresql/omp-postgresql/src/component.cpp:1:
+2026-10-24T01:46:25.1342188Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:373:34: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:25.1343157Z   373 |         void(__CDECL* free)(void*); ///< The free function to use for deallocating the dynamic storage
+2026-10-24T01:46:25.1343737Z       |                                  ^
+2026-10-24T01:46:25.1344497Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:547:74: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:25.1345217Z   547 |         void initMove(char* data, size_t len, void(__CDECL* freeFn)(void*))
+2026-10-24T01:46:25.1345674Z       |                                                                          ^
+2026-10-24T01:46:25.1346589Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Checkpoints/checkpoints.hpp:3,
+2026-10-24T01:46:25.1347525Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:10:
+2026-10-24T01:46:25.1348692Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/sdk.hpp:13:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:25.1360538Z    13 | typedef IComponent*(__CDECL* ComponentEntryPoint_t)();
+2026-10-24T01:46:25.1361069Z       |                                                     ^
+2026-10-24T01:46:25.1361826Z /home/runner/work/omp-postgresql/omp-postgresql/src/component.cpp:221:23: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:25.1362410Z   221 | COMPONENT_ENTRY_POINT() {
+2026-10-24T01:46:25.1362737Z       |                       ^
+2026-10-24T01:46:26.2008681Z [12/48] Building CXX object CMakeFiles/pg_native_tests.dir/src/natives.cpp.o
+2026-10-24T01:46:26.2009351Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/component.hpp:3,
+2026-10-24T01:46:26.2009978Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/core.hpp:3,
+2026-10-24T01:46:26.2010622Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:3,
+2026-10-24T01:46:26.2011249Z                  from /home/runner/work/omp-postgresql/omp-postgresql/include/pg/component.hpp:5,
+2026-10-24T01:46:26.2011703Z                  from /home/runner/work/omp-postgresql/omp-postgresql/src/natives.cpp:1:
+2026-10-24T01:46:26.2030480Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:373:34: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:26.2031004Z   373 |         void(__CDECL* free)(void*); ///< The free function to use for deallocating the dynamic storage
+2026-10-24T01:46:26.2031478Z       |                                  ^
+2026-10-24T01:46:26.2031946Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:547:74: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:26.2032348Z   547 |         void initMove(char* data, size_t len, void(__CDECL* freeFn)(void*))
+2026-10-24T01:46:26.2032582Z       |                                                                          ^
+2026-10-24T01:46:26.2034525Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Checkpoints/checkpoints.hpp:3,
+2026-10-24T01:46:26.2035025Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:10:
+2026-10-24T01:46:26.2035567Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/sdk.hpp:13:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:26.2035942Z    13 | typedef IComponent*(__CDECL* ComponentEntryPoint_t)();
+2026-10-24T01:46:26.2036151Z       |                                                     ^
+2026-10-24T01:46:27.3019497Z [13/48] Building CXX object CMakeFiles/pg_tests.dir/tests/tests.cpp.o
+2026-10-24T01:46:27.4165388Z [14/48] Building CXX object CMakeFiles/pg_native_tests.dir/tests/native_tests.cpp.o
+2026-10-24T01:46:27.4166281Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/component.hpp:3,
+2026-10-24T01:46:27.4167097Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/core.hpp:3,
+2026-10-24T01:46:27.4167862Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:3,
+2026-10-24T01:46:27.4168586Z                  from /home/runner/work/omp-postgresql/omp-postgresql/include/pg/component.hpp:5,
+2026-10-24T01:46:27.4169335Z                  from /home/runner/work/omp-postgresql/omp-postgresql/tests/pawn_memory.hpp:3,
+2026-10-24T01:46:27.4170182Z                  from /home/runner/work/omp-postgresql/omp-postgresql/tests/native_tests.cpp:1:
+2026-10-24T01:46:27.4171308Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:373:34: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:27.4172111Z   373 |         void(__CDECL* free)(void*); ///< The free function to use for deallocating the dynamic storage
+2026-10-24T01:46:27.4172617Z       |                                  ^
+2026-10-24T01:46:27.4174229Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/types.hpp:547:74: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:27.4174977Z   547 |         void initMove(char* data, size_t len, void(__CDECL* freeFn)(void*))
+2026-10-24T01:46:27.4175591Z       |                                                                          ^
+2026-10-24T01:46:27.4176309Z In file included from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Checkpoints/checkpoints.hpp:3,
+2026-10-24T01:46:27.4177227Z                  from /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:10:
+2026-10-24T01:46:27.4178199Z /home/runner/work/omp-postgresql/omp-postgresql/build/_deps/omp_sdk-src/include/sdk.hpp:13:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+2026-10-24T01:46:27.4178885Z    13 | typedef IComponent*(__CDECL* ComponentEntryPoint_t)();
+2026-10-24T01:46:27.4179315Z       |                                                     ^
+2026-10-24T01:46:28.3003115Z [15/48] Linking CXX static library libpg_core.a
+2026-10-24T01:46:29.1308193Z [16/48] Building CXX object CMakeFiles/pg_extension_tests.dir/tests/engine_extensions.cpp.o
+2026-10-24T01:46:29.3494057Z [17/48] Building CXX object CMakeFiles/pg_diagnostics_tests.dir/tests/diagnostics.cpp.o
+2026-10-24T01:46:29.3683938Z [18/48] Building CXX object CMakeFiles/pg_type_tests.dir/tests/type_tests.cpp.o
+2026-10-24T01:46:30.7903903Z [19/48] Building CXX object CMakeFiles/pg_connection_tests.dir/tests/connection_lifecycle.cpp.o
+2026-10-24T01:46:30.9504430Z [20/48] Building CXX object CMakeFiles/pg_connection_stall_tests.dir/tests/connection_stalls.cpp.o
+2026-10-24T01:46:31.5523874Z [21/48] Building CXX object CMakeFiles/pg_stress_tests.dir/tests/stress.cpp.o
+2026-10-24T01:46:32.2103961Z [22/48] Building CXX object CMakeFiles/pg_resource_exhaustion.dir/tests/resource_exhaustion.cpp.o
+2026-10-24T01:46:32.4253282Z [23/48] Building CXX object CMakeFiles/pg_worker_allocation.dir/tests/worker_allocation.cpp.o
+2026-10-24T01:46:32.6743966Z [24/48] Building CXX object CMakeFiles/pg_sql_section_tests.dir/tests/sql_sections.cpp.o
+2026-10-24T01:46:33.0524080Z [25/48] Building CXX object CMakeFiles/pg_terminal_allocation.dir/tests/terminal_allocation.cpp.o
+2026-10-24T01:46:33.7523936Z [26/48] Building CXX object CMakeFiles/pg_audit_fuzz.dir/tests/audit_fuzz.cpp.o
+2026-10-24T01:46:34.0393947Z [27/48] Building CXX object CMakeFiles/pg_benchmark.dir/tests/benchmark.cpp.o
+2026-10-24T01:46:34.0899806Z [28/48] Building CXX object CMakeFiles/pg_audit_faults.dir/tests/audit_faults.cpp.o
+2026-10-24T01:46:34.3373802Z [29/48] Linking CXX shared library omp-postgresql.so
+2026-10-24T01:46:34.4243932Z [30/48] Linking CXX executable pg_native_tests
+2026-10-24T01:46:34.5493814Z [31/48] Linking CXX executable pg_tests
+2026-10-24T01:46:34.6184068Z [32/48] Linking CXX executable pg_diagnostics_tests
+2026-10-24T01:46:34.7603293Z [33/48] Linking CXX executable pg_extension_tests
+2026-10-24T01:46:34.8263798Z [34/48] Linking CXX executable pg_type_tests
+2026-10-24T01:46:34.9773827Z [35/48] Linking CXX executable pg_stress_tests
+2026-10-24T01:46:35.0264030Z [36/48] Linking CXX executable pg_connection_tests
+2026-10-24T01:46:35.1663902Z [37/48] Linking CXX executable pg_connection_stall_tests
+2026-10-24T01:46:35.2263931Z [38/48] Linking CXX executable pg_sql_section_tests
+2026-10-24T01:46:35.3798762Z [39/48] Linking CXX executable pg_resource_exhaustion
+2026-10-24T01:46:35.4276556Z [40/48] Linking CXX executable pg_worker_allocation
+2026-10-24T01:46:35.4793831Z [41/48] Linking CXX executable pg_terminal_allocation
+2026-10-24T01:46:35.5442742Z [42/48] Linking CXX executable pg_audit_fuzz
+2026-10-24T01:46:35.6357289Z [43/48] Linking CXX executable pg_benchmark
+2026-10-24T01:46:35.6702230Z [44/48] Linking CXX executable pg_audit_faults
+2026-10-24T01:46:36.0586920Z [45/48] Building CXX object CMakeFiles/pg_socket_wait_tests.dir/tests/socket_wait.cpp.o
+2026-10-24T01:46:36.1023980Z [46/48] Building CXX object CMakeFiles/pg_engine_benchmark.dir/tests/engine_benchmark.cpp.o
+2026-10-24T01:46:36.1986563Z [47/48] Linking CXX executable pg_socket_wait_tests
+2026-10-24T01:46:36.2374453Z [48/48] Linking CXX executable pg_engine_benchmark
+2026-10-24T01:46:36.2412207Z ##[group]Run python3 tests/run_postgres.py --build build --doc-sql
+2026-10-24T01:46:36.2412489Z [36;1mpython3 tests/run_postgres.py --build build --doc-sql[0m
+2026-10-24T01:46:36.2465170Z shell: /usr/bin/bash -e {0}
+2026-10-24T01:46:36.2465310Z env:
+2026-10-24T01:46:36.2465432Z   OMP_PG_STRESS_SEED: 1592594996
+2026-10-24T01:46:36.2465573Z   OMP_PG_STRESS_ROUNDS: 10
+2026-10-24T01:46:36.2465702Z   PG_STRESS_SECONDS: 120
+2026-10-24T01:46:36.2465852Z   ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+2026-10-24T01:46:36.2466036Z   UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+2026-10-24T01:46:36.2466227Z   TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+2026-10-24T01:46:36.2466440Z   PG_LOG_ENOSPC_BASE: /home/runner/work/_temp/omp-pg-logfs.NP9rT6
+2026-10-24T01:46:36.2466626Z ##[endgroup]
+2026-10-24T01:46:36.8807520Z The files belonging to this database system will be owned by user "runner".
+2026-10-24T01:46:36.8807801Z This user must also own the server process.
+2026-10-24T01:46:36.8808091Z 
+2026-10-24T01:46:36.8808220Z The database cluster will be initialized with locale "C".
+2026-10-24T01:46:36.8808522Z The default text search configuration will be set to "english".
+2026-10-24T01:46:36.8808969Z 
+2026-10-24T01:46:36.8809052Z Data page checksums are disabled.
+2026-10-24T01:46:36.8809185Z 
+2026-10-24T01:46:36.8809324Z creating directory /tmp/omp-pg-integration-lbvhpmtr/data ... ok
+2026-10-24T01:46:36.8809612Z creating subdirectories ... ok
+2026-10-24T01:46:36.8809856Z selecting dynamic shared memory implementation ... posix
+2026-10-24T01:46:36.8810127Z selecting default "max_connections" ... 100
+2026-10-24T01:46:36.8810367Z selecting default "shared_buffers" ... 128MB
+2026-10-24T01:46:36.8810591Z selecting default time zone ... Etc/UTC
+2026-10-24T01:46:36.8810808Z creating configuration files ... ok
+2026-10-24T01:46:36.8811021Z running bootstrap script ... ok
+2026-10-24T01:46:36.8811247Z performing post-bootstrap initialization ... ok
+2026-10-24T01:46:36.8811487Z syncing data to disk ... ok
+2026-10-24T01:46:36.8811602Z 
+2026-10-24T01:46:36.8811713Z Success. You can now start the database server using:
+2026-10-24T01:46:36.8811882Z 
+2026-10-24T01:46:36.8812054Z     pg_ctl -D /tmp/omp-pg-integration-lbvhpmtr/data -l logfile start
+2026-10-24T01:46:36.8812262Z 
+2026-10-24T01:46:36.8812265Z 
+2026-10-24T01:46:37.2040646Z waiting for server to start.... done
+2026-10-24T01:46:37.2040863Z server started
+2026-10-24T01:46:37.2040933Z 
+2026-10-24T01:46:37.3010716Z CREATE ROLE
+2026-10-24T01:46:37.3010974Z CREATE ROLE
+2026-10-24T01:46:37.3011078Z 
+2026-10-24T01:46:37.3582645Z DOCUMENTATION SQL PASS: parameterized CRUD/zero rows, individual/snapshot/UNNEST updates, affected counts, savepoint rollback, array padding and section queries. No Pawn runtime claim.
+2026-10-24T01:46:37.3583329Z 
+2026-10-24T01:46:47.9090649Z waiting for server to shut down.... done
+2026-10-24T01:46:47.9090859Z server stopped
+2026-10-24T01:46:47.9090935Z 
+2026-10-24T01:46:48.2163287Z waiting for server to start.... done
+2026-10-24T01:46:48.2163523Z server started
+2026-10-24T01:46:48.2163594Z 
+2026-10-24T01:49:07.5497347Z Internal ctest changing into directory: /home/runner/work/omp-postgresql/omp-postgresql/build
+2026-10-24T01:49:07.5498470Z Test project /home/runner/work/omp-postgresql/omp-postgresql/build
+2026-10-24T01:49:07.5498797Z       Start  1: natives_unit
+2026-10-24T01:49:07.5499062Z  1/24 Test  #1: natives_unit .......................   Passed    0.49 sec
+2026-10-24T01:49:07.5499353Z       Start  2: natives_integration
+2026-10-24T01:49:07.5499553Z  2/24 Test  #2: natives_integration ................   Passed    0.39 sec
+2026-10-24T01:49:07.5499740Z       Start  3: logging_integration
+2026-10-24T01:49:07.5500011Z  3/24 Test  #3: logging_integration ................   Passed    1.89 sec
+2026-10-24T01:49:07.5500315Z       Start  4: resource_exhaustion_integration
+2026-10-24T01:49:07.5500557Z  4/24 Test  #4: resource_exhaustion_integration ....***Failed    0.73 sec
+2026-10-24T01:49:07.5501328Z /usr/include/c++/13/bits/std_thread.h:234:14: runtime error: member call on address 0x502000004cd0 which does not point to an object of type '_State'
+2026-10-24T01:49:07.5501784Z 0x502000004cd0: note: object has invalid vptr
+2026-10-24T01:49:07.5501986Z  00 00 00 00  70 58 61 00 00 00 00 00  80 03 00 00 60 51 00 00  02 02 00 00 08 00 00 00  0d 12 00 00
+2026-10-24T01:49:07.5502271Z               ^~~~~~~~~~~~~~~~~~~~~~~
+2026-10-24T01:49:07.5502476Z               invalid vptr
+2026-10-24T01:49:07.5502734Z     #0 0x43ee52 in ~_State_impl /usr/include/c++/13/bits/std_thread.h:234
+2026-10-24T01:49:07.5503131Z     #1 0x43ee7d in ~_State_impl /usr/include/c++/13/bits/std_thread.h:234
+2026-10-24T01:49:07.5503442Z     #2 0x7fd8776ecdbc  (/lib/x86_64-linux-gnu/libstdc++.so.6+0xecdbc) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+2026-10-24T01:49:07.5503795Z     #3 0x7fd877a5ea41 in asan_thread_start ../../../../src/libsanitizer/asan/asan_interceptors.cpp:234
+2026-10-24T01:49:07.5504139Z     #4 0x7fd876a9cb83  (/lib/x86_64-linux-gnu/libc.so.6+0x9cb83) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+2026-10-24T01:49:07.5504495Z     #5 0x7fd876b29ecb  (/lib/x86_64-linux-gnu/libc.so.6+0x129ecb) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+2026-10-24T01:49:07.5504830Z 
+2026-10-24T01:49:07.5504833Z 
+2026-10-24T01:49:07.5504892Z       Start  5: worker_allocation_integration
+2026-10-24T01:49:07.5505085Z  5/24 Test  #5: worker_allocation_integration ......   Passed    0.08 sec
+2026-10-24T01:49:07.5505272Z       Start  6: terminal_allocation_unit
+2026-10-24T01:49:07.5505450Z  6/24 Test  #6: terminal_allocation_unit ...........   Passed    0.03 sec
+2026-10-24T01:49:07.5505625Z       Start  7: unit
+2026-10-24T01:49:07.5505770Z  7/24 Test  #7: unit ...............................   Passed    0.02 sec
+2026-10-24T01:49:07.5505943Z       Start  8: audit_semantic_fuzz
+2026-10-24T01:49:07.5506113Z  8/24 Test  #8: audit_semantic_fuzz ................   Passed    1.20 sec
+2026-10-24T01:49:07.5506292Z       Start  9: socket_wait_unit
+2026-10-24T01:49:07.5506463Z  9/24 Test  #9: socket_wait_unit ...................   Passed    0.03 sec
+2026-10-24T01:49:07.5506645Z       Start 10: audit_faults_integration
+2026-10-24T01:49:07.5506823Z 10/24 Test #10: audit_faults_integration ...........   Passed    1.15 sec
+2026-10-24T01:49:07.5507007Z       Start 11: diagnostics_unit
+2026-10-24T01:49:07.5507172Z 11/24 Test #11: diagnostics_unit ...................   Passed    0.25 sec
+2026-10-24T01:49:07.5507354Z       Start 12: diagnostics_short_write
+2026-10-24T01:49:07.5507528Z 12/24 Test #12: diagnostics_short_write ............   Passed    0.02 sec
+2026-10-24T01:49:07.5507712Z       Start 13: diagnostics_permission
+2026-10-24T01:49:07.5507885Z 13/24 Test #13: diagnostics_permission .............   Passed    0.02 sec
+2026-10-24T01:49:07.5508070Z       Start 14: diagnostics_enospc
+2026-10-24T01:49:07.5508242Z 14/24 Test #14: diagnostics_enospc .................   Passed    0.05 sec
+2026-10-24T01:49:07.5508419Z       Start 15: integration
+2026-10-24T01:49:07.5508582Z 15/24 Test #15: integration ........................   Passed    4.27 sec
+2026-10-24T01:49:07.5508757Z       Start 16: types_unit
+2026-10-24T01:49:07.5508913Z 16/24 Test #16: types_unit .........................   Passed    0.01 sec
+2026-10-24T01:49:07.5509096Z       Start 17: types_integration
+2026-10-24T01:49:07.5509263Z 17/24 Test #17: types_integration ..................   Passed    0.21 sec
+2026-10-24T01:49:07.5509446Z       Start 18: extensions_integration
+2026-10-24T01:49:07.5509619Z 18/24 Test #18: extensions_integration .............   Passed    1.20 sec
+2026-10-24T01:49:07.5509804Z       Start 19: stress_integration
+2026-10-24T01:49:07.5509970Z 19/24 Test #19: stress_integration .................   Passed  126.92 sec
+2026-10-24T01:49:07.5510159Z       Start 20: connection_lifecycle_integration
+2026-10-24T01:49:07.5510350Z 20/24 Test #20: connection_lifecycle_integration ...   Passed    0.44 sec
+2026-10-24T01:49:07.5510540Z       Start 21: connection_stalls_integration
+2026-10-24T01:49:07.5510823Z 21/24 Test #21: connection_stalls_integration ......   Passed    6.57 sec
+2026-10-24T01:49:07.5511008Z       Start 22: sql_sections_unit
+2026-10-24T01:49:07.5511173Z 22/24 Test #22: sql_sections_unit ..................   Passed    0.12 sec
+2026-10-24T01:49:07.5511354Z       Start 23: sql_sections_integration
+2026-10-24T01:49:07.5511533Z 23/24 Test #23: sql_sections_integration ...........   Passed    1.12 sec
+2026-10-24T01:49:07.5511714Z       Start 24: engine_benchmark_smoke
+2026-10-24T01:49:07.5511887Z 24/24 Test #24: engine_benchmark_smoke .............   Passed    2.40 sec
+2026-10-24T01:49:07.5512018Z 
+2026-10-24T01:49:07.5512089Z 96% tests passed, 1 tests failed out of 24
+2026-10-24T01:49:07.5512186Z 
+2026-10-24T01:49:07.5512234Z Label Time Summary:
+2026-10-24T01:49:07.5512371Z audit        =   2.35 sec*proc (2 tests)
+2026-10-24T01:49:07.5512511Z benchmark    =   4.29 sec*proc (2 tests)
+2026-10-24T01:49:07.5512669Z fuzz         =   1.20 sec*proc (1 test)
+2026-10-24T01:49:07.5513094Z stress       = 135.08 sec*proc (4 tests)
+2026-10-24T01:49:07.5513186Z 
+2026-10-24T01:49:07.5513237Z Total Test time (real) = 149.67 sec
+2026-10-24T01:49:07.5513328Z 
+2026-10-24T01:49:07.5513380Z The following tests FAILED:
+2026-10-24T01:49:07.5513613Z 	  4 - resource_exhaustion_integration (Failed)
+2026-10-24T01:49:07.5513767Z Errors while running CTest
+2026-10-24T01:49:07.5513845Z 
+2026-10-24T01:49:07.6220681Z mode=ssl accepted=20 ready=20 closed=20
+2026-10-24T01:49:07.7041252Z mode=tls accepted=20 ready=20 closed=20
+2026-10-24T01:49:07.7819710Z mode=startup accepted=20 ready=20 closed=20
+2026-10-24T01:49:07.8832643Z waiting for server to shut down.... done
+2026-10-24T01:49:07.8833058Z server stopped
+2026-10-24T01:49:07.8833133Z 
+2026-10-24T01:49:07.8833478Z Isolated test artifacts: /tmp/omp-pg-integration-lbvhpmtr
+2026-10-24T01:49:07.9415799Z Traceback (most recent call last):
+2026-10-24T01:49:07.9416241Z   File "/home/runner/work/omp-postgresql/omp-postgresql/tests/run_postgres.py", line 318, in <module>
+2026-10-24T01:49:07.9416698Z     qualify_ctest(args.build, args.config, env, run)
+2026-10-24T01:49:07.9417167Z   File "/home/runner/work/omp-postgresql/omp-postgresql/tests/ctest_qualification.py", line 45, in qualify_ctest
+2026-10-24T01:49:07.9417605Z     run(
+2026-10-24T01:49:07.9417920Z   File "/home/runner/work/omp-postgresql/omp-postgresql/tests/run_postgres.py", line 104, in run
+2026-10-24T01:49:07.9418305Z     result.check_returncode()
+2026-10-24T01:49:07.9418604Z   File "/usr/lib/python3.12/subprocess.py", line 502, in check_returncode
+2026-10-24T01:49:07.9418988Z     raise CalledProcessError(self.returncode, self.args, self.stdout,
+2026-10-24T01:49:07.9420085Z subprocess.CalledProcessError: Command '['ctest', '--test-dir', '/home/runner/work/omp-postgresql/omp-postgresql/build', '-C', 'Release', '--no-tests=error', '--output-on-failure', '--output-junit', '/home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml']' returned non-zero exit status 8.
+2026-10-24T01:49:07.9532649Z ##[error]Process completed with exit code 1.
+2026-10-24T01:49:07.9585606Z ##[group]Run actions/upload-artifact@v4
+2026-10-24T01:49:07.9585754Z with:
+2026-10-24T01:49:07.9585868Z   name: linux-x64-test-logs-ON
+2026-10-24T01:49:07.9586222Z   path: build/Testing/Temporary/*.log
+build/Testing/Temporary/qualification.xml
+/tmp/omp-pg-integration-*/command-*.log
+/tmp/omp-pg-integration-*/server.log
+
+2026-10-24T01:49:07.9586578Z   if-no-files-found: warn
+2026-10-24T01:49:07.9586701Z   compression-level: 6
+2026-10-24T01:49:07.9586815Z   overwrite: false
+2026-10-24T01:49:07.9586928Z   include-hidden-files: false
+2026-10-24T01:49:07.9587061Z env:
+2026-10-24T01:49:07.9587167Z   OMP_PG_STRESS_SEED: 1592594996
+2026-10-24T01:49:07.9587297Z   OMP_PG_STRESS_ROUNDS: 10
+2026-10-24T01:49:07.9587419Z   PG_STRESS_SECONDS: 120
+2026-10-24T01:49:07.9587549Z   ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+2026-10-24T01:49:07.9587716Z   UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+2026-10-24T01:49:07.9587900Z   TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+2026-10-24T01:49:07.9588131Z   PG_LOG_ENOSPC_BASE: /home/runner/work/_temp/omp-pg-logfs.NP9rT6
+2026-10-24T01:49:07.9588311Z ##[endgroup]
+2026-10-24T01:49:08.0547571Z (node:6207) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-24T01:49:08.0548000Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-24T01:49:08.0617555Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-24T01:49:08.0619002Z The least common ancestor is /. This will be the root directory of the artifact
+2026-10-24T01:49:08.0619395Z With the provided path, there will be 15 files uploaded
+2026-10-24T01:49:08.0623097Z Artifact name is valid!
+2026-10-24T01:49:08.0623313Z Root directory input is valid!
+2026-10-24T01:49:08.3161809Z Beginning upload of artifact content to blob storage
+2026-10-24T01:49:08.3472173Z (node:6207) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-24T01:49:08.5833209Z Uploaded bytes 114842
+2026-10-24T01:49:08.6244997Z Finished uploading artifact content to blob storage!
+2026-10-24T01:49:08.6245932Z SHA256 digest of uploaded artifact zip is 0c81984d3a6d97552487e1b5771b8b58921749491cca79f42a7e3adcb78852ba
+2026-10-24T01:49:08.6247842Z Finalizing artifact upload
+2026-10-24T01:49:09.0348933Z Artifact linux-x64-test-logs-ON.zip successfully finalized. Artifact ID 12543557148
+2026-10-24T01:49:09.0349436Z Artifact linux-x64-test-logs-ON has been successfully uploaded! Final size is 114842 bytes. Artifact ID is 12543557148
+2026-10-24T01:49:09.0353509Z Artifact download URL: https://github.com/itskoleban/omp-postgresql/actions/runs/40051203920/artifacts/12543557148
+2026-10-24T01:49:09.0454630Z ##[group]Run [[ "$PG_LOG_ENOSPC_BASE" == "$RUNNER_TEMP"/omp-pg-logfs.* ]]
+2026-10-24T01:49:09.0454900Z [36;1m[[ "$PG_LOG_ENOSPC_BASE" == "$RUNNER_TEMP"/omp-pg-logfs.* ]][0m
+2026-10-24T01:49:09.0455100Z [36;1msudo umount -- "$PG_LOG_ENOSPC_BASE"[0m
+2026-10-24T01:49:09.0455262Z [36;1mrmdir -- "$PG_LOG_ENOSPC_BASE"[0m
+2026-10-24T01:49:09.0505711Z shell: /usr/bin/bash -e {0}
+2026-10-24T01:49:09.0505847Z env:
+2026-10-24T01:49:09.0505959Z   OMP_PG_STRESS_SEED: 1592594996
+2026-10-24T01:49:09.0506097Z   OMP_PG_STRESS_ROUNDS: 10
+2026-10-24T01:49:09.0506227Z   PG_STRESS_SECONDS: 120
+2026-10-24T01:49:09.0506369Z   ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+2026-10-24T01:49:09.0506551Z   UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+2026-10-24T01:49:09.0506738Z   TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+2026-10-24T01:49:09.0506952Z   PG_LOG_ENOSPC_BASE: /home/runner/work/_temp/omp-pg-logfs.NP9rT6
+2026-10-24T01:49:09.0507136Z ##[endgroup]
+2026-10-24T01:49:09.0855006Z Post job cleanup.
+2026-10-24T01:49:09.1362525Z [command]/usr/bin/git version
+2026-10-24T01:49:09.1394406Z git version 2.55.0
+2026-10-24T01:49:09.1417561Z Temporarily overriding HOME='/home/runner/work/_temp/16bde641-005e-430e-99cc-d1f191d3e4c8' before making global git config changes
+2026-10-24T01:49:09.1418302Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-24T01:49:09.1421028Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/omp-postgresql/omp-postgresql
+2026-10-24T01:49:09.1449004Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-24T01:49:09.1473742Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-24T01:49:09.1653451Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-24T01:49:09.1674679Z http.https://github.com/.extraheader
+2026-10-24T01:49:09.1682019Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-24T01:49:09.1717506Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-24T01:49:09.1900149Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-24T01:49:09.1933118Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-24T01:49:09.2202501Z Cleaning up orphan processes
+2026-10-24T01:49:09.2426023Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

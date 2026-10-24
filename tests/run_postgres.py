@@ -6,6 +6,7 @@ The temporary directory is retained for inspection; server is always stopped.
 
 import argparse
 import csv
+import json
 import os
 from pathlib import Path
 import platform
@@ -345,6 +346,9 @@ try:
                 binary = binary.parent / args.config / binary.name
             run([str(binary), *arguments], env=env, timeout=1800)
     if args.openmp_dir:
+        info = Path(args.build).resolve() / f"package-build-info-{args.config}.json"
+        expected_version = json.loads(info.read_text(encoding="utf8"))["version"]
+        env["OMP_PG_EXPECTED_VERSION"] = expected_version
         if not args.component or not args.gamemode:
             raise ValueError("--openmp-dir requires --component and --gamemode")
         command = [

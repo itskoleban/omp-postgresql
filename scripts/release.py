@@ -1,4 +1,4 @@
-"""Prepare a source-bound RC inventory or validate publication inputs; no network writes."""
+"""Prepare source-bound stable/RC inventories and validate publication; no network writes."""
 
 import argparse
 import json
@@ -26,17 +26,23 @@ def source_identity(source):
     commit = package.run(["git", "rev-parse", "HEAD"], cwd=source)
     cmake = package.run(["git", "show", f"{commit}:CMakeLists.txt"], cwd=source)
     base = re.search(r"\bVERSION ([0-9]+\.[0-9]+\.[0-9]+)\b", cmake)
-    candidate = re.search(r"^set\(PG_RELEASE_CANDIDATE ([1-9][0-9]*)\)$", cmake, re.MULTILINE)
+    candidate = re.search(r"^set\(PG_RELEASE_CANDIDATE (0|[1-9][0-9]*)\)$", cmake, re.MULTILINE)
     if not base or not candidate:
-        raise ValueError("Source does not declare a Release Candidate")
-    version = f"{base[1]}-rc.{candidate[1]}"
-    package.archive_name(version, commit, "linux")
+        raise ValueError("Source does not declare a stable/RC identity")
+    version = base[1] if candidate[1] == "0" else f"{base[1]}-rc.{candidate[1]}"
+    package.archive_name(version, commit, "linux", "stable" if candidate[1] == "0" else "rc")
     return commit, version
 
 
+def publication_channel(tag):
+    number = r"(?:0|[1-9][0-9]*)"
+    if not re.fullmatch(rf"v{number}\.{number}\.{number}(?:-rc\.[1-9][0-9]*)?", tag):
+        raise ValueError("Publication requires a canonical stable or RC tag")
+    return "rc" if "-rc." in tag else "stable"
+
+
 def validate_run(run, jobs, repository, commit, tag, confirmation):
-    if not re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+-rc\.[1-9][0-9]*", tag):
-        raise ValueError("Publication requires an RC tag")
+    publication_channel(tag)
     if confirmation != tag:
         raise ValueError("Explicit confirmation must equal the tag")
     if (
@@ -86,8 +92,7 @@ def check_publication(args):
 
 
 def check_remote_tag(repository, tag, commit):
-    if not re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+-rc\.[1-9][0-9]*", tag):
-        raise ValueError("Publication requires an RC tag")
+    publication_channel(tag)
     reference = json.loads(package.run(["gh", "api", f"repos/{repository}/git/ref/tags/{tag}"]))
     target = reference["object"]
     # Support lightweight and annotated tags, but fail closed on unexpected objects.
@@ -107,8 +112,9 @@ def check_remote_tag(repository, tag, commit):
 def prepare(packages, output, source=ROOT):
     package.ensure_checkout(source)
     commit, version = source_identity(source)
+    channel = publication_channel(f"v{version}")
     expected = {
-        package.archive_name(version, commit, platform) for platform in ("windows", "linux")
+        package.archive_name(version, commit, platform, channel) for platform in ("windows", "linux")
     }
     if {path.name for path in packages.iterdir()} != expected | {
         f"{name}.sha256" for name in expected
@@ -117,12 +123,13 @@ def prepare(packages, output, source=ROOT):
     manifests = {}
     for name in sorted(expected):
         manifest = package.verify(packages / name)
-        if manifest["commit"] != commit or manifest["version"] != version:
-            raise ValueError("Every distribution must match the exact source and candidate version")
+        if (manifest["commit"] != commit or manifest["version"] != version
+                or package.distribution_channel(manifest["version"], manifest.get("release_channel")) != channel):
+            raise ValueError("Every distribution must match the exact source and source version")
         manifests[manifest["platform"]] = manifest
     notes = (source / "docs/release-notes.md").read_text(encoding="utf8")
     if not notes.startswith(f"# omp-postgresql {version}\n"):
-        raise ValueError("Release notes do not match the candidate version")
+        raise ValueError("Release notes do not match the source version")
     base_url = f"https://github.com/itskoleban/omp-postgresql/blob/{commit}/docs/"
     notes = re.sub(r"\]\(([^)]+)\)", lambda match: f"]({urljoin(base_url, match[1])})", notes)
     output.mkdir(parents=True, exist_ok=False)
@@ -143,7 +150,7 @@ def prepare(packages, output, source=ROOT):
         check=True,
     )
     (output / "RELEASE-NOTES.md").write_text(
-        f"{notes}\n## Exact candidate identity\n\nSource commit: `{commit}`.\n"
+        f"{notes}\n## Exact source identity\n\nSource commit: `{commit}`.\n"
         "Package manifests below record build settings, dependencies, licenses and payload hashes.\n"
         "A CI artifact or this inventory does not authorize publication.\n",
         encoding="utf8",
@@ -151,6 +158,8 @@ def prepare(packages, output, source=ROOT):
     )
     inventory = {
         "schema": 1,
+        "release_channel": channel,
+        "prerelease": channel != "stable",
         "version": version,
         "tag": f"v{version}",
         "commit": commit,

@@ -48,6 +48,8 @@ jobs:
               with:
                   name: stability-audit-${{ github.sha }}-${{ github.run_attempt }}
                   path: |
+                      build-audit-evidence/*.csv
+                      build-audit-evidence/*.xml
                       build-audit-evidence/*.json
                       build-audit-evidence/*.log
                       build-audit-evidence/temporary/**/*.log

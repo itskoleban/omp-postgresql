@@ -66,14 +66,25 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def archive_name(version, commit, platform):
+def archive_name(version, commit, platform, release_channel=None):
     if not re.fullmatch(
         r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-rc\.[1-9][0-9]*)?", version
     ):
         raise ValueError("Invalid project version")
-    # Continue verifying historical experimental artifacts without relabelling them.
-    identity = version if "-rc." in version else f"{version}-experimental"
+    channel = distribution_channel(version, release_channel)
+    identity = f"{version}-experimental" if channel == "experimental" else version
     return f"omp-postgresql-{identity}.{commit[:12]}-{platform}-x86.zip"
+
+
+def distribution_channel(version, declared=None):
+    # Missing metadata retains historical meaning; a bare version was experimental.
+    inferred = "rc" if "-rc." in version else "experimental"
+    channel = inferred if declared is None else declared
+    if channel not in {"stable", "rc", "experimental"}:
+        raise ValueError("Invalid release channel")
+    if (channel == "rc") != ("-rc." in version):
+        raise ValueError("Release channel differs from version")
+    return channel
 
 
 def record_libpq_build(libpq, source):
@@ -164,7 +175,12 @@ def validate_payload(files, manifest):
         raise ValueError("Build metadata does not describe the package")
     if not re.fullmatch(r"[0-9a-f]{40}", manifest["commit"]):
         raise ValueError("Invalid source commit")
-    expected_name = archive_name(manifest["version"], manifest["commit"], platform)
+    channel = distribution_channel(manifest["version"], manifest.get("release_channel"))
+    if distribution_channel(build["version"], build.get("release_channel")) != channel:
+        raise ValueError("Build release channel does not describe the package")
+    expected_name = archive_name(
+        manifest["version"], manifest["commit"], platform, manifest.get("release_channel")
+    )
     if manifest["archive"] != expected_name:
         raise ValueError("Archive name does not match version/commit/platform")
     component = f"components/omp-postgresql.{ 'dll' if platform == 'windows' else 'so'}"
@@ -417,9 +433,11 @@ def create(args):
             for path in stage.rglob("*")
             if path.is_file()
         }
-        name = archive_name(metadata["version"], commit, platform)
+        channel = distribution_channel(metadata["version"], metadata.get("release_channel"))
+        name = archive_name(metadata["version"], commit, platform, channel)
         manifest = {
             "archive": name,
+            "release_channel": channel,
             "version": metadata["version"],
             "commit": commit,
             "platform": platform,

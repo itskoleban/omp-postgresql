@@ -1,5 +1,6 @@
 #include "pawn_memory.hpp"
 #include <algorithm>
+#include <array>
 #include <bit>
 #include <cstdint>
 #include <cstdlib>
@@ -251,6 +252,35 @@ void unit() {
 	check(h.vm.unexpected_calls == 0, "Native used an unexpected SDK method");
 }
 
+void adversarial_native_parameters() {
+    Harness h;
+    std::mt19937 random(0xf17a2026);
+    const std::array<cell, 10> extremes = {std::numeric_limits<cell>::min(), -16385, -1, 0, 1,
+                                         255, 1024, 16384, 16385, std::numeric_limits<cell>::max()};
+    for (unsigned iteration = 0; iteration < 16384; ++iteration) {
+        for (auto &cell_value : h.vm.cells)
+            cell_value = std::bit_cast<cell>(static_cast<std::uint32_t>(random()));
+        const auto before = h.vm.cells;
+        const auto base = std::bit_cast<cell>(static_cast<std::uint32_t>(random()));
+        const auto count = extremes[random() % extremes.size()];
+        const auto width = extremes[random() % extremes.size()];
+        cell result = 1;
+        switch (iteration % 6) {
+        case 0: result = h.call("pg_bind_int_array", {0, 1, base, count}); break;
+        case 1: result = h.call("pg_bind_string_array", {0, 1, base, count, width}); break;
+        case 2: result = h.call("pg_bind_array", {0, 1, base, count, width, 25, base}); break;
+        case 3: result = h.call("pg_bind_string", {0, 1, base, 25}); break;
+        case 4: result = h.call("pg_prepare_file", {0, base, count, 1, base}); break;
+        case 5: result = h.call("pg_bind_int64", {0, 1, base}); break;
+        }
+        check(result == 0, "Adversarial input accepted with an invalid statement/connection");
+        check(h.vm.cells == before, "Rejected adversarial parameters wrote Pawn memory");
+    }
+    h.component.onAmxUnload(h.vm);
+    check(h.vm.unexpected_calls == 0, "Adversarial parameters reached an unsupported SDK call");
+    std::cout << "native_adversarial PASS seed=4051312678 cases=16384; registered wrappers, SDK memory double\n";
+}
+
 void integration(const char *profile) {
 	Harness h;
 	h.text(profile);
@@ -441,6 +471,7 @@ int main(int argc, char **argv) {
 			}
 		} else {
 			unit();
+			adversarial_native_parameters();
 			callback_unit();
 		}
 		std::cout << "Native validation passed: " << checks << " checks; address seed=0x414d5801\n";

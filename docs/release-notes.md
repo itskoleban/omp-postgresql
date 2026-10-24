@@ -1,4 +1,9 @@
-# omp-postgresql 0.1.0-rc.1
+# omp-postgresql 0.1.0
+
+**Unpublished qualification source.** Stable publication remains blocked by the final
+qualification report. No tag or release is created by preparing these notes.
+
+## Historical RC.1 (unchanged public artifacts)
 
 [v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
 was published on October 21, 2026 as a testing Pre-release, not a stable or

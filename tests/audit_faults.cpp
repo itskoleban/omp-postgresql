@@ -56,7 +56,7 @@ void finish_loss(const char *service, const char *loss_service) {
 	ready(e, writer);
 	const auto table =
 	    "audit_rollback_" + std::to_string(pg::Clock::now().time_since_epoch().count());
-	sql(e, observer, "CREATE TABLE " + table + "(n integer)");
+	sql(e, observer, "CREATE TABLE " + table + "(n integer PRIMARY KEY)");
 	auto tx = begin(e, writer);
 	sql(e, writer, "INSERT INTO " + table + " VALUES(1)", 0, tx);
 	auto finish = wait(e, e.finish(owner, tx, false, 0, false));
@@ -122,6 +122,65 @@ void during_commit(const char *service) {
 	check(sql(e, writer, "SELECT 42") == "42", "Recovery after interrupted COMMIT failed");
 	sql(e, observer, "DROP TABLE " + table);
 	sql(e, observer, "DROP FUNCTION " + function + "()");
+}
+
+// Block an exact statement on a PostgreSQL lock, then terminate only our writer PID.
+// This proves dispatch, unlike observing the Engine's pre-dispatch RUNNING state.
+void terminate_statement(const char *service, bool update) {
+    pg::Engine e;
+    auto writer = e.connect(owner, service, 1);
+    auto observer = e.connect(owner, service, 1);
+    ready(e, writer);
+    ready(e, observer);
+    const auto table = "audit_transport_" + std::to_string(pg::Clock::now().time_since_epoch().count());
+    sql(e, observer, "CREATE TABLE " + table + "(n integer PRIMARY KEY)");
+    sql(e, observer, "INSERT INTO " + table + " VALUES(1)");
+    const auto pid = sql(e, writer, "SELECT pg_backend_pid()");
+    auto lock = begin(e, observer);
+    // Row/unique-index locks block execution while permitting the unnamed Parse.
+    // A table ACCESS EXCLUSIVE lock could block PREPARE and would not prove dispatch.
+    sql(e, observer, update ? "SELECT n FROM " + table + " WHERE n=1 FOR UPDATE"
+                           : "INSERT INTO " + table + " VALUES(2)", 0, lock);
+    const auto command = update ? "UPDATE " + table + " SET n=2"
+                                : "INSERT INTO " + table + " VALUES(2)";
+    auto statement = e.prepare(owner, writer, command, 0);
+    e.statement(owner, statement).add(e.limits());
+    auto id = e.execute(owner, statement, 0, 0, 0, true);
+    auto pending = e.job(owner, id);
+    until(e, [&] {
+        // The observer's transaction sees a fresh activity snapshot after each query.
+        sql(e, observer, "SELECT pg_stat_clear_snapshot()", 0, lock);
+        return sql(e, observer, "SELECT count(*) FROM pg_stat_activity WHERE pid=" + pid +
+                   " AND state='active' AND wait_event_type='Lock' AND wait_event='transactionid'"
+                   " AND query='" + command + "'", 0, lock) == "1";
+    });
+    check(sql(e, observer, "SELECT pg_terminate_backend(" + pid + ")", 0, lock) == "t",
+          "Could not terminate the exact blocked writer");
+    wait(e, id);
+    check(pending->status.load() == pg::Status::uncertain &&
+          pending->error == pg::Error::connection && pending->completed == 0 &&
+          pending->items_status == std::vector{pg::ItemStatus::uncertain},
+          "Dispatched write transport loss lost uncertainty");
+    e.close_job(owner, id);
+    auto rollback = wait(e, e.finish(owner, lock, false, 0, false));
+    check(rollback->status.load() == pg::Status::confirmed, "Observer rollback failed");
+    e.close_job(owner, rollback->id);
+    e.close_job(owner, lock);
+    ready(e, writer);
+    check(sql(e, writer, "SELECT pg_backend_pid()") != pid, "Writer session was not replaced");
+    check(sql(e, observer, "SELECT count(*) FROM " + table + " WHERE n=1") == "1" &&
+          sql(e, observer, "SELECT count(*) FROM " + table + " WHERE n=2") == "0",
+          "Aborted write changed data or was replayed");
+    // A prepared handle remains usable, but must prepare again in the fresh session.
+    e.statement(owner, statement).add(e.limits());
+    auto recovered = wait(e, e.execute(owner, statement, 0, 0, 0, false));
+    check(recovered->status.load() == pg::Status::confirmed && recovered->completed == 1,
+          "Prepared recovery failed");
+    e.close_job(owner, recovered->id);
+    check(sql(e, observer, "SELECT count(*) FROM " + table + " WHERE n=2") == "1",
+          "Recovery write was missing or replayed");
+    e.close_statement(owner, statement);
+    sql(e, observer, "DROP TABLE " + table);
 }
 
 void cancellation_category(const char *service) {
@@ -191,6 +250,10 @@ int main() {
 		finish_loss(service, rollback);
 		std::cout << "fault phase: terminate during deferred COMMIT" << std::endl;
 		during_commit(service);
+		std::cout << "fault phase: terminate exact blocked INSERT" << std::endl;
+		terminate_statement(service, false);
+		std::cout << "fault phase: terminate exact blocked UPDATE" << std::endl;
+		terminate_statement(service, true);
 		std::cout << "fault phase: cancellation category race rounds=32" << std::endl;
 		cancellation_category(service);
 		std::cout << "fault phase: timeout category rounds=8 query_ms=30" << std::endl;

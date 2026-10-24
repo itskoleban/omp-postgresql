@@ -1,4 +1,4 @@
-name: release-candidate
+name: manual release
 on:
     workflow_dispatch:
         inputs:
@@ -7,7 +7,7 @@ on:
                 type: string
                 required: true
             tag:
-                description: Existing owner-approved RC tag (for example v0.1.0-rc.1)
+                description: Existing owner-approved stable or RC tag (v0.1.0 or v0.1.0-rc.2)
                 type: string
                 required: true
             confirmation:
@@ -15,14 +15,14 @@ on:
                 type: string
                 required: true
             action:
-                description: Create a draft, or explicitly publish a public prerelease
+                description: Create a draft, or explicitly publish the selected stable/RC release
                 type: choice
                 options: [draft, publish]
                 default: draft
 permissions:
     contents: read
 concurrency:
-    group: release-candidate
+    group: manual-release
     cancel-in-progress: false
 jobs:
     prepare:
@@ -33,6 +33,7 @@ jobs:
             actions: read
         outputs:
             commit: ${{ steps.identity.outputs.commit }}
+            prerelease: ${{ steps.identity.outputs.prerelease }}
         env:
             GH_TOKEN: ${{ github.token }}
             GH_REPO: ${{ github.repository }}
@@ -53,6 +54,12 @@ jobs:
                   python3 scripts/release.py check-publication --run build-run.json --jobs build-jobs.json \
                       --repository "$GH_REPO" --tag "$RELEASE_TAG" --confirmation "$CONFIRMATION"
                   echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+                  python3 - <<'PY' >> "$GITHUB_OUTPUT"
+                  import os, sys
+                  sys.path.insert(0, "scripts")
+                  import release
+                  print("prerelease=" + str(release.publication_channel(os.environ["RELEASE_TAG"]) != "stable").lower())
+                  PY
             - name: Download only both tested distributions from that CI run
               env:
                   SOURCE_COMMIT: ${{ steps.identity.outputs.commit }}
@@ -83,6 +90,7 @@ jobs:
             RELEASE_TAG: ${{ inputs.tag }}
             RELEASE_ACTION: ${{ inputs.action }}
             SOURCE_COMMIT: ${{ needs.prepare.outputs.commit }}
+            IS_PRERELEASE: ${{ needs.prepare.outputs.prerelease }}
         steps:
             - uses: actions/checkout@v4
               with:
@@ -92,18 +100,18 @@ jobs:
               with:
                   name: approved-release-input
                   path: build-release
-            - name: Create a draft prerelease with all verified assets
+            - name: Create a draft with the verified release channel and assets
               run: |
                   python3 scripts/release.py check-remote-tag --repository "$GH_REPO" \
                       --tag "$RELEASE_TAG" --commit "$SOURCE_COMMIT"
                   cd build-release
                   sha256sum --strict --check SHA256SUMS
                   gh release create "$RELEASE_TAG" ./* --verify-tag --target "$SOURCE_COMMIT" \
-                      --draft --prerelease --latest=false --title "omp-postgresql $RELEASE_TAG" \
+                      --draft --prerelease="$IS_PRERELEASE" --latest=false --title "omp-postgresql $RELEASE_TAG" \
                       --notes-file RELEASE-NOTES.md
             - name: Publish only when explicitly selected by the owner
               if: inputs.action == 'publish'
               run: |
                   python3 scripts/release.py check-remote-tag --repository "$GH_REPO" \
                       --tag "$RELEASE_TAG" --commit "$SOURCE_COMMIT"
-                  gh release edit "$RELEASE_TAG" --draft=false --prerelease --latest=false
+                  gh release edit "$RELEASE_TAG" --draft=false --prerelease="$IS_PRERELEASE" --latest=false

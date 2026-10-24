@@ -21,7 +21,7 @@ permissions:
 env:
     OMP_PG_STRESS_SEED: ${{ inputs.stress_seed || '1592594996' }}
     OMP_PG_STRESS_ROUNDS: ${{ inputs.stress_rounds || '10' }}
-    PG_STRESS_SECONDS: ${{ inputs.stress_seconds || '0' }}
+    PG_STRESS_SECONDS: ${{ inputs.stress_seconds || '120' }}
 concurrency:
     group: build-and-test-${{ github.head_ref || github.ref_name }}
     cancel-in-progress: true
@@ -38,6 +38,8 @@ jobs:
                 sanitize: ["OFF", "ON", "THREAD"]
         steps:
             - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha || github.sha }}
             - name: PostgreSQL 17 development tools
               run: |
                   sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
@@ -99,6 +101,8 @@ jobs:
         timeout-minutes: 45
         steps:
             - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha || github.sha }}
             - name: Install multilib, 32-bit TLS and the PostgreSQL server tools
               run: |
                   sudo dpkg --add-architecture i386
@@ -198,7 +202,7 @@ jobs:
             - name: Upload the validated Linux x86 package and SHA-256
               uses: actions/upload-artifact@v4
               with:
-                  name: omp-postgresql-linux-x86-${{ github.sha }}
+                  name: omp-postgresql-linux-x86-${{ github.event.pull_request.head.sha || github.sha }}
                   path: build-dist/*
                   if-no-files-found: error
             - name: Retain the x86 test logs
@@ -226,6 +230,8 @@ jobs:
         runs-on: windows-latest
         steps:
             - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha || github.sha }}
             - uses: msys2/setup-msys2@v2
               with:
                   msystem: UCRT64
@@ -271,6 +277,8 @@ jobs:
               run: |
                   git config --global core.autocrlf false
             - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha || github.sha }}
             - uses: actions/setup-python@v6
               with:
                   python-version: "3.13"
@@ -446,7 +454,7 @@ jobs:
             - name: Upload the validated Windows x86 package and SHA-256
               uses: actions/upload-artifact@v4
               with:
-                  name: omp-postgresql-windows-x86-${{ github.sha }}
+                  name: omp-postgresql-windows-x86-${{ github.event.pull_request.head.sha || github.sha }}
                   path: build-dist/*
                   if-no-files-found: error
             - name: Retain the x86 test logs
@@ -468,6 +476,8 @@ jobs:
         runs-on: ubuntu-24.04
         steps:
             - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha || github.sha }}
             - uses: actions/download-artifact@v4
               with:
                   pattern: omp-postgresql-*-x86-*
@@ -492,6 +502,6 @@ jobs:
             - name: Upload candidate sources, notes, dependency inventory and checksums
               uses: actions/upload-artifact@v4
               with:
-                  name: omp-postgresql-release-${{ github.sha }}
+                  name: omp-postgresql-release-${{ github.event.pull_request.head.sha || github.sha }}
                   path: build-release/*
                   if-no-files-found: error

@@ -4,8 +4,16 @@ project(
     VERSION 0.1.0
     LANGUAGES C CXX
 )
-set(PG_RELEASE_CANDIDATE 1)
-set(PG_DISTRIBUTION_VERSION "${PROJECT_VERSION}-rc.${PG_RELEASE_CANDIDATE}")
+# Zero selects a stable source identity; positive values retain the RC route.
+# This is intentionally source-controlled, never a cache/build override.
+set(PG_RELEASE_CANDIDATE 0)
+if(PG_RELEASE_CANDIDATE EQUAL 0)
+    set(PG_DISTRIBUTION_VERSION "${PROJECT_VERSION}")
+    set(PG_RELEASE_CHANNEL "stable")
+else()
+    set(PG_DISTRIBUTION_VERSION "${PROJECT_VERSION}-rc.${PG_RELEASE_CANDIDATE}")
+    set(PG_RELEASE_CHANNEL "rc")
+endif()
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -132,7 +140,7 @@ if(PG_BUILD_COMPONENT)
         GENERATE
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/package-build-info-$<CONFIG>.json"
         CONTENT
-            "{\n\"version\": \"${PG_DISTRIBUTION_VERSION}\",\n\"commit\": \"${PG_SOURCE_COMMIT}\",\n\"configuration\": \"$<CONFIG>\",\n\"system\": \"${CMAKE_SYSTEM_NAME}\",\n\"pointer_bytes\": ${CMAKE_SIZEOF_VOID_P},\n\"compiler\": \"${CMAKE_CXX_COMPILER_ID}\",\n\"compiler_version\": \"${CMAKE_CXX_COMPILER_VERSION}\",\n\"cxx_standard\": 20,\n\"libpq_version\": \"${PostgreSQL_VERSION_STRING}\",\n\"sanitize\": \"${PG_SANITIZER_LABEL}\",\n\"sdk_commit\": \"473b732b2de159773b2e2908fd11aa99f07db284\",\n\"pawn_commit\": \"29f1a8c7fd2e01929807cd8c50353fbc93bbd651\"\n}\n"
+            "{\n\"version\": \"${PG_DISTRIBUTION_VERSION}\",\n\"release_channel\": \"${PG_RELEASE_CHANNEL}\",\n\"commit\": \"${PG_SOURCE_COMMIT}\",\n\"configuration\": \"$<CONFIG>\",\n\"system\": \"${CMAKE_SYSTEM_NAME}\",\n\"pointer_bytes\": ${CMAKE_SIZEOF_VOID_P},\n\"compiler\": \"${CMAKE_CXX_COMPILER_ID}\",\n\"compiler_version\": \"${CMAKE_CXX_COMPILER_VERSION}\",\n\"cxx_standard\": 20,\n\"libpq_version\": \"${PostgreSQL_VERSION_STRING}\",\n\"sanitize\": \"${PG_SANITIZER_LABEL}\",\n\"sdk_commit\": \"473b732b2de159773b2e2908fd11aa99f07db284\",\n\"pawn_commit\": \"29f1a8c7fd2e01929807cd8c50353fbc93bbd651\"\n}\n"
     )
     install(
         TARGETS omp-postgresql
@@ -231,6 +239,46 @@ if(BUILD_TESTING)
     add_executable(pg_connection_tests tests/connection_lifecycle.cpp)
     add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
     add_executable(pg_sql_section_tests tests/sql_sections.cpp)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND NOT PG_SANITIZE)
+        add_executable(pg_resource_exhaustion tests/resource_exhaustion.cpp)
+        target_link_libraries(pg_resource_exhaustion PRIVATE pg_core)
+        if(PG_SANITIZE)
+            target_compile_options(pg_resource_exhaustion PRIVATE -fno-pie)
+            target_link_options(pg_resource_exhaustion PRIVATE -no-pie)
+        endif()
+        add_test(NAME resource_exhaustion_integration COMMAND pg_resource_exhaustion)
+        set_tests_properties(resource_exhaustion_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    endif()
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND PG_SANITIZE)
+        message(STATUS "NOT RUN: total FD exhaustion with ASan/UBSan; runtime vptr checks require pipe descriptors (see audit/final-allocation.md)")
+    endif()
+    add_executable(pg_worker_allocation tests/worker_allocation.cpp)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        target_compile_options(pg_worker_allocation PRIVATE -fno-pie)
+        target_link_options(pg_worker_allocation PRIVATE -no-pie -rdynamic)
+    endif()
+    if(PG_THREAD_SANITIZE)
+        # Clang TSan supplies strong global new/delete interceptors. Keep them intact.
+        # Run the same worker/queue schedules under TSan without allocator replacement;
+        # ordinary and ASan/UBSan configurations retain actual allocation denial.
+        target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=0)
+        add_test(NAME worker_recovery_integration COMMAND pg_worker_allocation)
+        set_tests_properties(worker_recovery_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    else()
+        target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
+        add_test(NAME worker_allocation_integration COMMAND pg_worker_allocation)
+        set_tests_properties(worker_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    endif()
+    add_executable(pg_terminal_allocation tests/terminal_allocation.cpp)
+    if(PG_THREAD_SANITIZE)
+        target_compile_definitions(pg_terminal_allocation PRIVATE PG_TEST_ALLOCATIONS=0)
+        add_test(NAME terminal_queue_unit COMMAND pg_terminal_allocation)
+        set_tests_properties(terminal_queue_unit PROPERTIES TIMEOUT 30)
+    else()
+        target_compile_definitions(pg_terminal_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
+        add_test(NAME terminal_allocation_unit COMMAND pg_terminal_allocation)
+        set_tests_properties(terminal_allocation_unit PROPERTIES TIMEOUT 30)
+    endif()
     add_executable(pg_audit_fuzz tests/audit_fuzz.cpp)
     add_executable(pg_audit_faults tests/audit_faults.cpp)
     # Source seams compile the actual Lane body; the archive supplies Engine/helpers.
@@ -251,6 +299,8 @@ if(BUILD_TESTING)
         pg_audit_fuzz
         pg_audit_faults
         pg_socket_wait_tests
+        pg_terminal_allocation
+        pg_worker_allocation
     )
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")

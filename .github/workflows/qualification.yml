@@ -1,0 +1,173 @@
+name: final qualification probes
+on:
+    push:
+        branches: [audit/v0.1.0-final-qualification]
+    workflow_dispatch:
+permissions:
+    contents: read
+concurrency:
+    group: final-qualification-${{ github.ref }}
+    cancel-in-progress: true
+jobs:
+    terminal-allocation:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@v4
+            - run: |
+                  sudo apt-get update
+                  sudo apt-get install -y libpq-dev
+            - name: Compile the actual terminal queue allocation probe
+              run: c++ -std=c++20 -pthread -Iinclude -I/usr/include/postgresql tests/terminal_allocation.cpp -o terminal-allocation
+            - name: Execute with allocations denied during terminal publication
+              run: |
+                  set -o pipefail
+                  ./terminal-allocation 2>&1 | tee terminal-allocation.log
+            - if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: terminal-allocation-${{ github.sha }}
+                  path: terminal-allocation.log
+                  if-no-files-found: error
+    worker-allocation:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 15
+        steps:
+            - uses: actions/checkout@v4
+            - run: |
+                  sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+                  sudo apt-get update
+                  sudo apt-get install -y libpq-dev postgresql-17 ninja-build
+                  echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+            - run: |
+                  cmake -S . -B probe -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_BUILD_COMPONENT=OFF
+                  cmake --build probe --parallel 4
+            - name: Run the real Engine against a disposable TLS cluster
+              run: python3 tests/run_postgres.py --build probe --config Debug
+            - if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: worker-allocation-${{ github.sha }}
+                  path: |
+                      probe/Testing/Temporary/
+                      /tmp/omp-pg-integration-*/command-*.log
+                      /tmp/omp-pg-integration-*/server.log
+                  if-no-files-found: error
+    bounded-linux:
+        # Optional general qualification; immediate allocation regression work uses the two probes above.
+        if: github.event_name == 'workflow_dispatch'
+        name: bounded Linux ${{ matrix.sanitize }} (${{ matrix.seconds }}s)
+        runs-on: ubuntu-24.04
+        timeout-minutes: 60
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - {sanitize: "OFF", seconds: 1200, seed: 1592594996}
+                    - {sanitize: "ON", seconds: 600, seed: 1592594997}
+                    - {sanitize: "THREAD", seconds: 600, seed: 1592594998}
+        env:
+            ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+            UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+            TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+            OMP_PG_STRESS_ROUNDS: "20"
+            OMP_PG_CONNECTION_ROUNDS: "50"
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install remote disposable PostgreSQL and toolchains
+              run: |
+                  sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+                  sudo apt-get update
+                  sudo apt-get install -y libpq-dev postgresql-17 ninja-build clang-19
+                  echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+            - name: Verify historical evidence bytes without extending their scope
+              run: |
+                  set -o pipefail
+                  python3 scripts/verify_audit_provenance.py | tee source-provenance.log
+            - name: Configure isolated resource faults and the selected sanitizer
+              env:
+                  SANITIZE: ${{ matrix.sanitize }}
+                  SECONDS_REQUESTED: ${{ matrix.seconds }}
+              run: |
+                  if [[ "$SANITIZE" == THREAD ]]; then
+                      export CC=clang-19 CXX=clang++-19
+                  fi
+                  logfs=$(mktemp -d "$RUNNER_TEMP/omp-pg-logfs.XXXXXX")
+                  sudo mount -t tmpfs -o "size=1m,mode=0700,uid=$(id -u),gid=$(id -g),nosuid,nodev,noexec" tmpfs "$logfs"
+                  echo "PG_LOG_ENOSPC_BASE=$logfs" >> "$GITHUB_ENV"
+                  cmake -S . -B build-qualified -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+                      -DPG_SANITIZE="$([[ "$SANITIZE" == ON ]] && echo ON || echo OFF)" \
+                      -DPG_THREAD_SANITIZE="$([[ "$SANITIZE" == THREAD ]] && echo ON || echo OFF)" \
+                      -DPG_STRESS_SECONDS="$SECONDS_REQUESTED" -DPG_BUILD_BENCHMARK=ON \
+                      -DPG_LOG_ENOSPC_BASE="$logfs"
+                  cmake --build build-qualified --parallel 4
+            - name: Execute the bounded campaign and retain full logs
+              env:
+                  SECONDS_REQUESTED: ${{ matrix.seconds }}
+                  SEED_REQUESTED: ${{ matrix.seed }}
+              run: |
+                  python3 scripts/audit_long.py --build build-qualified --config Debug \
+                      --output build-qualification-evidence --seconds "$SECONDS_REQUESTED" --seed "$SEED_REQUESTED"
+                  cat build-qualification-evidence/manifest.json
+                  cat build-qualification-evidence/metrics-summary.json
+                  cat build-qualification-evidence/extended-fuzz.log
+            - name: Execute Python release, package and qualification regressions
+              run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+            - name: Preserve complete evidence even after a negative result
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: bounded-${{ matrix.sanitize }}-${{ github.sha }}-${{ github.run_attempt }}
+                  path: |
+                      source-provenance.log
+                      build-qualification-evidence/*.json
+                      build-qualification-evidence/*.csv
+                      build-qualification-evidence/*.xml
+                      build-qualification-evidence/*.log
+                      build-qualification-evidence/temporary/**/*.log
+                      build-qualified/Testing/Temporary/
+                      build-qualified/audit-fuzz-failure.bin
+                  if-no-files-found: error
+                  retention-days: 90
+            - name: Release this runner's tiny fault filesystem
+              if: always() && env.PG_LOG_ENOSPC_BASE != ''
+              run: |
+                  [[ "$PG_LOG_ENOSPC_BASE" == "$RUNNER_TEMP"/omp-pg-logfs.* ]]
+                  sudo umount -- "$PG_LOG_ENOSPC_BASE"
+                  rmdir -- "$PG_LOG_ENOSPC_BASE"
+    sanitizer-descriptor-control:
+        # Manual runtime diagnostic control, not a component qualification pass.
+        if: github.event_name == 'workflow_dispatch'
+        name: independent FD control ${{ matrix.instrument }}
+        runs-on: ubuntu-24.04
+        timeout-minutes: 5
+        strategy:
+            fail-fast: false
+            matrix:
+                instrument: ["OFF", "ON"]
+        env:
+            ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+            UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+        steps:
+            - uses: actions/checkout@v4
+            - name: Compile an independent thread and descriptor control
+              env:
+                  INSTRUMENT: ${{ matrix.instrument }}
+              run: |
+                  flags=()
+                  if [[ "$INSTRUMENT" == ON ]]; then flags=(-fsanitize=address,undefined -fno-sanitize-recover=all); fi
+                  c++ --version
+                  # Model an ordinary external dependency; the driver retains all sanitizer flags.
+                  c++ -std=c++20 -g -O0 -fno-pie -c tests/sanitizer_descriptor_factory.cpp -o descriptor-factory.o
+                  c++ -std=c++20 -g -O0 -pthread -fno-pie -no-pie "${flags[@]}" \
+                      tests/sanitizer_descriptor_control.cpp descriptor-factory.o -o descriptor-control
+            - name: Record the actual result without a component or database
+              run: |
+                  set -o pipefail
+                  ./descriptor-control 2>&1 | tee descriptor-control.log
+            - if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: descriptor-control-${{ matrix.instrument }}-${{ github.sha }}
+                  path: descriptor-control.log
+                  if-no-files-found: error

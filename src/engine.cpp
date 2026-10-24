@@ -478,8 +478,8 @@ Dispatch Engine::poll() {
 	std::erase_if(connections_, [](auto &item) {
 		return item.second->close_delivered && item.second->state() == State::disconnected;
 	});
-	for (auto handle : completed_.drain()) {
-		auto it = jobs_.find(handle);
+	for (auto completed = completed_.pop(); completed; completed = completed_.pop()) {
+		auto it = jobs_.find(completed->id);
 		if (it == jobs_.end()) {
 			continue;
 		}

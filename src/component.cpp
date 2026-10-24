@@ -9,7 +9,11 @@ void Component::onLoad(ICore *core) {
 	instance = this;
 	core_ = core;
 	core_->getEventDispatcher().addEventHandler(this);
-	core_->printLn("omp-postgresql " PG_VERSION_STRING " (candidate build)");
+#if PG_VERSION_PRERELEASE > 0
+    core_->printLn("omp-postgresql " PG_VERSION_STRING " (candidate build)");
+#else
+    core_->printLn("omp-postgresql " PG_VERSION_STRING);
+#endif
 }
 
 void Component::onInit(IComponentList *list) {

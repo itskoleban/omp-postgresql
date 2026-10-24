@@ -432,19 +432,19 @@ void completion_publication_integration(const char *profile) {
 	}
 	check(job->status.load() == pg::Status::cancelled && job->error == pg::Error::cancelled,
 	      "Completion publication fixture did not cancel before SQL dispatch");
-	check(completed.ids.empty(), "Terminal status unexpectedly guaranteed queue publication");
+	check(!completed.head, "Terminal status unexpectedly guaranteed queue publication");
 	publication_lock.unlock();
-	std::deque<pg::Id> published;
-	while (published.empty()) {
-		published = completed.drain();
+	std::shared_ptr<pg::Job> published;
+	while (!published) {
+		published = completed.pop();
 		check(pg::Clock::now() < deadline, "Completion ID publication timeout");
-		if (published.empty()) {
+		if (!published) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 	}
-	check(published.size() == 1 && published.front() == job->id,
+	check(published == job && !published->completion_next,
 	      "Completion publication fixture lost or duplicated its ID");
-	check(completed.drain().empty() && lane.snapshot().sql_commands == 0,
+	check(!completed.pop() && lane.snapshot().sql_commands == 0,
 	      "Completion publication fixture executed SQL or published twice");
 }
 
