@@ -239,6 +239,9 @@ if(BUILD_TESTING)
     add_executable(pg_connection_tests tests/connection_lifecycle.cpp)
     add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
     add_executable(pg_sql_section_tests tests/sql_sections.cpp)
+    add_executable(pg_worker_allocation tests/worker_allocation.cpp)
+    add_test(NAME worker_allocation_integration COMMAND pg_worker_allocation)
+    set_tests_properties(worker_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
     add_executable(pg_terminal_allocation tests/terminal_allocation.cpp)
     add_test(NAME terminal_allocation_unit COMMAND pg_terminal_allocation)
     set_tests_properties(terminal_allocation_unit PROPERTIES TIMEOUT 30)
@@ -263,6 +266,7 @@ if(BUILD_TESTING)
         pg_audit_faults
         pg_socket_wait_tests
         pg_terminal_allocation
+        pg_worker_allocation
     )
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")

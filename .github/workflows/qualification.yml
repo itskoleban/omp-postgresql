@@ -26,3 +26,27 @@ jobs:
                   name: terminal-allocation-${{ github.sha }}
                   path: terminal-allocation.log
                   if-no-files-found: error
+    worker-allocation:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 15
+        steps:
+            - uses: actions/checkout@v4
+            - run: |
+                  sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+                  sudo apt-get update
+                  sudo apt-get install -y libpq-dev postgresql-17 ninja-build
+                  echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+            - run: |
+                  cmake -S . -B probe -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_BUILD_COMPONENT=OFF
+                  cmake --build probe --parallel 4
+            - name: Run the real Engine against a disposable TLS cluster
+              run: python3 tests/run_postgres.py --build probe --config Debug
+            - if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: worker-allocation-${{ github.sha }}
+                  path: |
+                      probe/Testing/Temporary/
+                      /tmp/omp-pg-integration-*/command-*.log
+                      /tmp/omp-pg-integration-*/server.log
+                  if-no-files-found: error
