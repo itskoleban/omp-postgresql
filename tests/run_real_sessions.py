@@ -55,6 +55,10 @@ class Suite:
         self.results = []
         self.servers = []
         self.sql_results = []
+        # Capture provenance before work starts, rather than rebinding earlier
+        # observations if somebody edits the checkout during a long test run.
+        self.provenance = None
+        self.save()
         self.data = self.sql("SHOW data_directory")
         # Preserve TLS verification while restricting the tutorial to its own role.
         profiles = configparser.ConfigParser(interpolation=None)
@@ -141,6 +145,10 @@ class Suite:
         return server
 
     def save(self):
+        if self.provenance is not None:
+            manifest = dict(self.provenance, results=self.results, sql=self.sql_results)
+            self.write_manifest(manifest)
+            return
         identity = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=Path(__file__).parents[1]).decode().strip()
         dirty = subprocess.check_output(["git", "status", "--porcelain"], cwd=Path(__file__).parents[1]).decode().strip()
         manifest = {"source_commit": identity, "source_dirty": bool(dirty), "platform": sys.platform,
@@ -152,6 +160,10 @@ class Suite:
                 manifest["inputs"][key] = {"path": self.config[key], "sha256": digest(self.config[key])}
         manifest["runtime"] = [{"file": Path(p).name, "sha256": digest(p)} for p in self.config.get("runtime", [])]
         manifest["harness_sha256"] = digest(__file__)
+        self.provenance = dict(manifest)
+        self.write_manifest(manifest)
+
+    def write_manifest(self, manifest):
         serialized = json.dumps(manifest, indent=2)
         for secret in (self.password, self.wrong):
             if secret in serialized:
@@ -545,9 +557,11 @@ def run_cases(s):
             server = s.server("insert-response-loss")
             a = server.client("QLostWrite")
             a.prompt(2)
+            before = int(s.sql("SELECT last_value FROM tutorial_accounts_id_seq"))
             mark = server.mark(); a.password()
             server.wait("sql_begin", since=mark, status=4, seconds=20)
             assert proxy.dropped.is_set() and s.count("QLostWrite") == 1
+            assert int(s.sql("SELECT last_value FROM tutorial_accounts_id_seq")) == before + 1
             assert not [e for e in server.events()[mark:] if e.get("state") == 7]
             # Explicitly reconnect the player and reconcile the committed account.
             a.close()
@@ -556,7 +570,8 @@ def run_cases(s):
             mark = server.mark(); b.password(False)
             server.wait("verify_end", since=mark, p=b.p, state=7)
             assert s.count("QLostWrite") == 1
-            return ["real INSERT committed", "wire CommandComplete discarded", "PG_UNCERTAIN observed", "no automatic authentication", "explicit reconnect/lookup/provider verification", "one row before/after reconciliation"]
+            assert int(s.sql("SELECT last_value FROM tutorial_accounts_id_seq")) == before + 1
+            return ["real INSERT committed", "wire CommandComplete discarded", "PG_UNCERTAIN observed", "no automatic authentication", "explicit reconnect/lookup/provider verification", "one row before/after reconciliation", "identity sequence advanced once: no replayed INSERT attempt"]
         finally:
             s.env["PGSERVICEFILE"] = original
             for server in s.servers: server.close()
