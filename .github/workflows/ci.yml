@@ -227,11 +227,7 @@ jobs:
                       ${{ runner.temp }}/openmp-package/Server/logs/pg-perf-*.log*
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
-                      build-real-sessions/evidence/results.json
-                      build-real-sessions/evidence/**/server-output.txt
-                      build-real-sessions/evidence/**/client-output.txt
-                      build-real-sessions/evidence/postgres-*.txt
-                      build-real-sessions/client/client-build.json
+                      build-real-sessions/sanitized-evidence/**
             - name: Unmount the isolated log filesystem
               if: always() && env.PG_LOG_ENOSPC_BASE != ''
               run: |
@@ -494,11 +490,7 @@ jobs:
                       build-openmp-package/Server/logs/pg-perf-*.log*
                       ${{ runner.temp }}/omp-pg-integration-*/server.log
                       ${{ runner.temp }}/omp-pg-integration-*/command-*.log
-                      build-real-sessions/evidence/results.json
-                      build-real-sessions/evidence/**/server-output.txt
-                      build-real-sessions/evidence/**/client-output.txt
-                      build-real-sessions/evidence/postgres-*.txt
-                      build-real-sessions/client/client-build.json
+                      build-real-sessions/sanitized-evidence/**
     verify-distribution-artifacts:
         name: Verify downloaded x86 distributions
         needs: [linux-x86, windows-x86]

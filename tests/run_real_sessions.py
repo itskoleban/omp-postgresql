@@ -19,6 +19,7 @@ import subprocess
 import sys
 import time
 from commit_proxy import CommitLossProxy
+from source_provenance import capture as capture_source
 
 FLAGS = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
 
@@ -149,9 +150,9 @@ class Suite:
             manifest = dict(self.provenance, results=self.results, sql=self.sql_results)
             self.write_manifest(manifest)
             return
-        identity = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=Path(__file__).parents[1]).decode().strip()
-        dirty = subprocess.check_output(["git", "status", "--porcelain"], cwd=Path(__file__).parents[1]).decode().strip()
-        manifest = {"source_commit": identity, "source_dirty": bool(dirty), "platform": sys.platform,
+        source = capture_source(Path(__file__).parents[1])
+        manifest = {"source_commit": source["source_commit"], "source_dirty": source["source_dirty"],
+                    "source_provenance":source, "platform": sys.platform,
                     "inputs": {k: {"path": str(Path(self.config[k]).resolve()), "sha256": digest(self.config[k])} for k in ("component", "gamemode", "client", "provider")},
                     "results": self.results, "sql": self.sql_results}
         manifest["inputs"]["server"] = {"sha256": digest(Path(self.config["server"]) / ("omp-server.exe" if os.name == "nt" else "omp-server")), "version": "1.5.8.3079 (supplied distribution; verify archive separately)"}

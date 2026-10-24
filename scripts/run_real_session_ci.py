@@ -8,10 +8,12 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import urllib.request
 import zipfile
+from real_session_evidence import publish
 
 
 PROVIDER_HASHES = {
@@ -62,8 +64,22 @@ def main():
               "runtime": [str(p.resolve()) for p in args.runtime], "output": str(root / "evidence")}
     config_path = root / "config.json"
     config_path.write_text(json.dumps(config, indent=2)+"\n", encoding="utf8")
-    run([sys.executable, repo / "tests/run_postgres.py", "--only-real-sessions", "--real-sessions", config_path,
-         "--postgres-bin", args.postgres_bin], timeout=600)
+    try:
+        run([sys.executable, repo / "tests/run_postgres.py", "--only-real-sessions", "--real-sessions", config_path,
+             "--postgres-bin", args.postgres_bin], timeout=600)
+    finally:
+        # Raw local files remain available to the operator. Only explicitly
+        # labelled copies with original/new byte hashes are uploaded by CI.
+        evidence = root / "evidence"
+        if evidence.exists():
+            client_manifest = client.resolve().parent.parent / "client-build.json"
+            if client_manifest.is_file():
+                shutil.copy2(client_manifest, evidence / "client-build.json")
+            publish(evidence, root / "sanitized-evidence")
+            if (evidence / "results.json").is_file():
+                results = json.loads((evidence / "results.json").read_text(encoding="utf8"))
+                if os.environ.get("GITHUB_ACTIONS") == "true" and results["source_provenance"]["tracked_source_modified"]:
+                    raise RuntimeError("Tracked source changed before session qualification; evidence retained")
 
 
 if __name__ == "__main__":
