@@ -17,6 +17,12 @@
 #define PG_SOCKET_SELECT ::select
 #endif
 
+// Only test translation units replace this checkpoint. Production has no hook,
+// branch, state, allocator replacement or additional exported symbol.
+#ifndef PG_ALLOCATION_CHECKPOINT
+#define PG_ALLOCATION_CHECKPOINT(site) ((void)0)
+#endif
+
 namespace pg {
 
 namespace {
@@ -40,6 +46,7 @@ void quiet_notice(void *, const char *) {}
 // Structured status/error/item metadata remains authoritative if text cannot be copied.
 void terminal_message(Job &job, std::string_view message) noexcept {
     try {
+        PG_ALLOCATION_CHECKPOINT("terminal_message");
         job.message.assign(message.data(), message.size());
     } catch (...) {
         job.message.clear();
@@ -278,6 +285,7 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 	};
 	for (;;) {
 		if (stop_.load() || job.cancel.load() || Clock::now() >= deadline) {
+			PG_ALLOCATION_CHECKPOINT("interrupted_failure");
 			throw Failure(job.cancel.load() || stop_.load() ? Error::cancelled : Error::timeout,
 			              "Interrupted after dispatch; outcome may be unknown");
 		}
@@ -288,6 +296,7 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 		if (PQisBusy(conn_.get())) {
 			const auto cause = wait_socket(flush == 1, deadline, &job);
 			if (cause != Error::none) {
+				PG_ALLOCATION_CHECKPOINT("interrupted_failure");
 				throw Failure(cause, cause == Error::connection
 				                         ? "Interrupted connection"
 				                         : "Interrupted after dispatch; outcome may be unknown");

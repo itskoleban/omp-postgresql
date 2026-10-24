@@ -259,11 +259,18 @@ if(BUILD_TESTING)
     endif()
     if(PG_THREAD_SANITIZE)
         # Clang TSan supplies strong global new/delete interceptors. Keep them intact.
-        # Run the same worker/queue schedules under TSan without allocator replacement;
-        # ordinary and ASan/UBSan configurations retain actual allocation denial.
-        target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=0)
-        add_test(NAME worker_recovery_integration COMMAND pg_worker_allocation)
-        set_tests_properties(worker_recovery_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+        # Named checkpoints in the actual Lane body model allocation exceptions
+        # without replacing TSan's global allocator interceptors.
+        target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=2)
+        add_test(NAME worker_site_allocation_integration COMMAND pg_worker_allocation)
+        set_tests_properties(worker_site_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+        find_package(Python3 REQUIRED COMPONENTS Interpreter)
+        add_executable(pg_tsan_race_control tests/tsan_race_control.cpp)
+        target_compile_options(pg_tsan_race_control PRIVATE -fsanitize=thread -g -O1)
+        target_link_options(pg_tsan_race_control PRIVATE -fsanitize=thread)
+        add_test(NAME tsan_detector_control COMMAND ${Python3_EXECUTABLE}
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_control.py $<TARGET_FILE:pg_tsan_race_control>)
+        set_tests_properties(tsan_detector_control PROPERTIES TIMEOUT 30)
     else()
         target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
         add_test(NAME worker_allocation_integration COMMAND pg_worker_allocation)

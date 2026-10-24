@@ -18,7 +18,24 @@ std::atomic<unsigned> denied_allocations{0};
 const auto main_thread = std::this_thread::get_id();
 std::atomic<bool> deny_worker{false};
 }
-#if PG_TEST_ALLOCATIONS
+#if PG_TEST_ALLOCATIONS == 2
+// Compile the real Lane with narrowly named allocation checkpoints. TSan retains
+// every allocator interceptor. These faults model these sites, not global OOM.
+namespace {
+std::atomic<unsigned> interrupted_faults{0}, message_faults{0};
+void allocation_checkpoint(const char *site) {
+    if (!deny_worker.load() || std::this_thread::get_id() == main_thread) return;
+    if (site[0] == 'i') interrupted_faults.fetch_add(1);
+    else message_faults.fetch_add(1);
+    denied_allocations.fetch_add(1);
+    throw std::bad_alloc();
+}
+}
+#define PG_ALLOCATION_CHECKPOINT(site) allocation_checkpoint(site)
+#include "../src/session.cpp"
+#undef PG_ALLOCATION_CHECKPOINT
+#endif
+#if PG_TEST_ALLOCATIONS == 1
 void *operator new(std::size_t n) {
     if (deny_worker.load() && std::this_thread::get_id() != main_thread) {
         if (denied_allocations.fetch_add(1) < 8) {
@@ -129,7 +146,7 @@ void run(const char *service, bool shutdown) {
     deny_worker.store(false);
     check(e.poll().jobs.empty(),"late duplicated completion");
     std::printf("worker_recovery PASS allocation_injection=%s mode=%s active_status=%d queued_status=%d callbacks=2\n",
-                PG_TEST_ALLOCATIONS ? "ON" : "OFF(TSan)",
+                PG_TEST_ALLOCATIONS == 2 ? "SITE(TSan)" : PG_TEST_ALLOCATIONS ? "ON" : "OFF(TSan)",
                 shutdown?"shutdown":"recover",int(active->status.load()),int(queued->status.load()));
 }
 }
@@ -145,6 +162,12 @@ int main() {
         run(service,false);run(service,true);
         check(!PG_TEST_ALLOCATIONS || denied_allocations.load()>0,
               "Allocator denial was configured but never exercised");
+#if PG_TEST_ALLOCATIONS == 2
+        check(interrupted_faults.load() >= 2 && message_faults.load() >= 4,
+              "Both recovery/shutdown allocation sites must fail");
+        std::printf("site_faults interrupted=%u terminal_message=%u\n",
+                    interrupted_faults.load(), message_faults.load());
+#endif
         std::printf("worker denied_allocations=%u\n",denied_allocations.load());
         return 0;
     }
