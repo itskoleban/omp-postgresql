@@ -5,12 +5,26 @@ import unittest
 import json
 import tempfile
 from unittest.mock import patch
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).parent))
-from run_real_sessions import parse_events, Suite
+from run_real_sessions import parse_events, Suite, Server
 
 
 class RealSessionEvidenceTests(unittest.TestCase):
+    def test_zero_exit_does_not_hide_pawn_stack_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            server = Server.__new__(Server)
+            server.root = Path(directory)
+            server.log_path = server.root/"server-output.txt"
+            server.log_path.write_text("[Error] Stack/heap collision (insufficient stack size)\n")
+            server.log = server.log_path.open("ab")
+            server.clients = []
+            server.proc = SimpleNamespace(returncode=0, pid=42, poll=lambda:0)
+            server.suite = SimpleNamespace(password="fixture-password", wrong="fixture-wrong", trace=lambda *a,**k:None)
+            with self.assertRaisesRegex(AssertionError, "Pawn VM runtime error"):
+                server.close()
+
     def test_timeline_records_clock_and_process_identity_without_payloads(self):
         with tempfile.TemporaryDirectory() as directory:
             suite = Suite.__new__(Suite)
