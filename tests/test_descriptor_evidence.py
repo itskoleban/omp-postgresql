@@ -12,6 +12,26 @@ import probe_sanitizer_descriptors as probe
 
 
 class DescriptorEvidenceTests(unittest.TestCase):
+    def test_repository_descriptor_publications_preserve_all_four_results(self):
+        root=Path(__file__).parents[1]/"audit/pending-qualification-evidence"
+        for name,commit in (("emfile-baseline-2f36600","2f366003b866461b80432fdfb075e072dc026551"),("emfile-68c4da8","68c4da874ef51f548e761b29dcefdac6d23f3afb")):
+            manifest=probe.verify(root/name)
+            self.assertEqual(manifest["source_commit"],commit)
+            self.assertEqual([r["status"] for r in manifest["results"]],["PASS","FAIL","PASS","FAIL"])
+            self.assertTrue(all(r["actual_emfile"] for r in manifest["results"]))
+
+    def test_repository_tsan_publication_preserves_independent_counter_evidence(self):
+        from real_session_evidence import verify
+        root=Path(__file__).parents[1]/"audit/pending-qualification-evidence/tsan-68c4da8"
+        self.assertEqual(verify(root),7)
+        log=(root/"LastTest.log").read_text(encoding="utf8")
+        for scenario in ("recovery","shutdown"):
+            self.assertIn("site_faults scenario="+scenario+" interrupted=1 terminal_message=2 denied=3",log)
+            self.assertIn("site_faults scenario="+scenario+" interrupted=0 terminal_message=0 denied=0",log)
+            self.assertIn("Missing scenario checkpoints: "+scenario,log)
+        self.assertIn("WARNING: ThreadSanitizer: data race",log)
+        self.assertIn("intentional race rejected with exit 66",log)
+
     def execute_fixture(self, root):
         for name in probe.INPUTS:
             path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b"English fixture input\n")
