@@ -1,0 +1,16 @@
+2026-10-24 12:59:54.238 UTC [17129] LOG:  starting PostgreSQL 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-10-24 12:59:54.238 UTC [17129] LOG:  listening on IPv4 address "127.0.0.1", port 55939
+2026-10-24 12:59:54.257 UTC [17132] LOG:  database system was interrupted; last known up at 2026-10-24 12:56:53 UTC
+2026-10-24 12:59:54.361 UTC [17133] FATAL:  the database system is starting up
+2026-10-24 12:59:54.789 UTC [17134] FATAL:  the database system is starting up
+2026-10-24 12:59:55.086 UTC [17132] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-24 12:59:55.091 UTC [17132] LOG:  redo starts at 0/14EF3D0
+2026-10-24 12:59:55.100 UTC [17132] LOG:  invalid record length at 0/155DFE0: expected at least 24, got 0
+2026-10-24 12:59:55.100 UTC [17132] LOG:  redo done at 0/155DFA8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2026-10-24 12:59:55.109 UTC [17130] LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-10-24 12:59:55.245 UTC [17130] LOG:  checkpoint complete: wrote 104 buffers (0.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.013 s, sync=0.111 s, total=0.140 s; sync files=61, longest=0.008 s, average=0.002 s; distance=443 kB, estimate=443 kB; lsn=0/155DFE0, redo lsn=0/155DFE0
+2026-10-24 12:59:55.257 UTC [17129] LOG:  database system is ready to accept connections
+2026-10-24 13:01:17.322 UTC [17251] FATAL:  terminating connection due to administrator command
+2026-10-24 13:01:21.344 UTC [17274] FATAL:  terminating connection due to administrator command
+2026-10-24 13:01:26.135 UTC [17129] LOG:  received immediate shutdown request
+2026-10-24 13:01:26.150 UTC [17129] LOG:  database system is shut down

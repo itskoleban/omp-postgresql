@@ -1,0 +1,41 @@
+CTest qualification: 2 tests executed successfully; report: <TMP>/fixture-527b0b6e1357/Testing/Temporary/qualification.xml
+Compiled 1 Markdown Pawn examples and 0 declaration fences; 0 explicitly incomplete fragment(s). Compilation is not runtime validation.
+DOCUMENTATION SQL PASS: parameterized CRUD/zero rows, individual/snapshot/UNNEST updates, affected counts, savepoint rollback, array padding and section queries. No Pawn runtime claim.
+Compiled 2 examples with warnings treated as errors
+................................................................<PYTHON_RUNTIME>/Python313/Lib/zipfile/__init__.py:1661: UserWarning: Duplicate name: 'omp-postgresql/README.md'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+............warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+.warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+HEAD is now at bb6e532 Candidate
+HEAD is now at bb6e532 Candidate
+...warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+...warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+Documentation checked: 69 natives, 3 callbacks, links and example/SQL inventory
+Approved publication inputs: v0.1.0-rc.1 at bb6e532b5df659467cf386757f47976c97890457
+Prepared 0.1.0-rc.1 from c07b12b1fdb786f9de1c7f4b33aabfd742dc62c7: <TMP>/fixture-c2cb31ff75be/first
+Prepared 0.1.0-rc.1 from c07b12b1fdb786f9de1c7f4b33aabfd742dc62c7: <TMP>/fixture-c2cb31ff75be/second
+Prepared 0.1.0 from 7de13e59e691042fbc52b74f7b076afa292db7c3: <TMP>/fixture-0321cc7ed1c7/first
+Prepared 0.1.0 from 7de13e59e691042fbc52b74f7b076afa292db7c3: <TMP>/fixture-0321cc7ed1c7/second
+mode=startup accepted=1 ready=0 closed=1
+mode=ssl accepted=1 ready=0 closed=1
+mode=ssl accepted=1 ready=1 closed=1
+mode=startup accepted=1 ready=1 closed=1
+mode=startup accepted=1 ready=1 closed=1
+mode=tls accepted=1 ready=1 closed=1
+......
+----------------------------------------------------------------------
+Ran 89 tests in 54.758s
+
+OK

@@ -13,6 +13,36 @@ is separated below from the historical qualification records that follow.
 
 ## Development documentation checks
 
+### Real player sessions: October 24, 2026
+
+The follow-up within [PR #27](https://github.com/itskoleban/omp-postgresql/pull/27)
+replaces unnecessary local paths/hostnames with explicitly labelled sanitized
+representations. The evidence ledger retains original and sanitized hashes and
+observation fingerprints; historical outcomes are unchanged. New source snapshots
+separate tracked edits from generated/untracked entries while retaining the aggregate
+`source_dirty` flag. Windows startup aborts remain a known limitation without a
+confirmed cause, rather than a defect marked fixed after a pass. This follow-up
+requires full CI for its own head, with all 19 scenarios and existing gates intact.
+The 24-hour gate remains BLOCKED pending infrastructure, formal freeze and explicit
+owner authorization.
+
+The [bounded real-session qualification](https://github.com/itskoleban/omp-postgresql/pull/27)
+adds genuine ordinary-protocol network clients and the samp-bcrypt 0.4.1 binary to
+official open.mp 1.5.8.3079 x86. Local complete runs passed 19/19 scenarios on Linux
+and 19/19 on Windows, including observed playerid reuse before stale SQL/password
+callbacks, job closure, concurrent duplicate registration, actual PostgreSQL restart,
+uncertain INSERT reconciliation, GMX and the custom tutorial's load/save routing.
+The report/matrix bind each run to its exact source; earlier Windows TLS readiness
+failures remain recorded with successful follow-ups, without an invented cause.
+
+The new x86 CI steps build pinned clients, verify the provider archive, run bounded
+fixtures against a fresh TLS cluster and retain individual results and logs. See
+the PR for the latest exact-source CI status. Retain-work/provider-drop/RCON-gate
+fixture controls, ordinary compatibility protocol and NPC scope are explicit.
+No rendered/official-client encryption claim, stable-release approval or 24-hour
+campaign follows from these results. Historical results below retain their original
+source identities and limitations.
+
 Audit preservation and inline guides were integrated through
 [PR #22](https://github.com/itskoleban/omp-postgresql/pull/22); the temporary audit branch
 is retired. Its merged source `da5ced7` passed

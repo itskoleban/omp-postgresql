@@ -1,0 +1,66 @@
+Starting open.mp server (1.5.8.3079) from commit c6759bd8d265171ae3d86598895a23d5a8d92a3b
+Loading component $CAPI.so
+	Successfully loaded component C-API (1.5.8.3079) with UID 10467dd8d4c56fc6
+Loading component Checkpoints.so
+	Successfully loaded component Checkpoints (1.5.8.3079) with UID 44a937350d611dde
+Loading component Console.so
+	Successfully loaded component Console (1.5.8.3079) with UID bfa24e49d0c95ee4
+Loading component Timers.so
+	Successfully loaded component Timers (1.5.8.3079) with UID 2ad8124c5ea257a3
+Loading component Menus.so
+	Successfully loaded component Menus (1.5.8.3079) with UID 621e219eb97ee0b2
+Loading component Recordings.so
+	Successfully loaded component Recordings (1.5.8.3079) with UID 871144d399f5f613
+Loading component Actors.so
+	Successfully loaded component Actors (1.5.8.3079) with UID c81ca021eae2ad5c
+Loading component Classes.so
+	Successfully loaded component Classes (1.5.8.3079) with UID 8cfb3183976da208
+Loading component Pickups.so
+	Successfully loaded component Pickups (1.5.8.3079) with UID cf304faa363dd971
+Loading component Objects.so
+	Successfully loaded component Objects (1.5.8.3079) with UID 59f8415f72da6160
+Loading component Vehicles.so
+	Successfully loaded component Vehicles (1.5.8.3079) with UID 3f1f62ee9e22ab19
+Loading component NPCs.so
+	Successfully loaded component NPCs (1.5.8.3079) with UID 3d0e59e87f4e90bc
+Loading component Variables.so
+	Successfully loaded component Variables (1.5.8.3079) with UID 75e121848bc01fa2
+Loading component Pawn.so
+	Successfully loaded component Pawn (1.5.8.3079) with UID 78906cd9f19c36a6
+Loading component LegacyConfig.so
+	Successfully loaded component LegacyConfig (1.5.8.3079) with UID 24ef6216838f9ffc
+Loading component LegacyNetwork.so
+	Successfully loaded component RakNetLegacyNetwork (1.5.8.3079) with UID ea9799fd79cf8442
+Loading component TextDraws.so
+	Successfully loaded component TextDraws (1.5.8.3079) with UID 9b5dc2b1d15c992a
+Loading component TextLabels.so
+	Successfully loaded component TextLabels (1.5.8.3079) with UID a0c57ea80a009742
+Loading component GangZones.so
+	Successfully loaded component GangZones (1.5.8.3079) with UID b3351d11ee8d8056
+Loading component Dialogs.so
+	Successfully loaded component Dialogs (1.5.8.3079) with UID 44a111350d611dde
+Loading component Databases.so
+	Successfully loaded component Databases (1.5.8.3079) with UID 80092e7eb5821a96
+Loading component CustomModels.so
+	Successfully loaded component CustomModels (1.5.8.3079) with UID 15e3cb1e7c77ffff
+Loading component omp-postgresql.so
+	Successfully loaded component omp-postgresql (0.1.0.0) with UID cfd9534e1ba74280
+Loaded 23 component(s) from <EVIDENCE>/shutdown/components
+[2026-10-24T13:01:07+0000] [Info] omp-postgresql 0.1.0
+[2026-10-24T13:01:07+0000] [Info] Loading plugin: samp_bcrypt.so
+[2026-10-24T13:01:07+0000] [Info] [SampBcrypt] [info]: Version: 0.4.1
+[2026-10-24T13:01:07+0000] [Info] QA event=init counter=0
+[2026-10-24T13:01:07+0000] [Info] Legacy Network started on 127.0.0.1:50712.
+[2026-10-24T13:01:07+0000] [Info] QA event=database state=1 ready=0
+[2026-10-24T13:01:07+0000] [Info] QA event=database state=2 ready=1
+[2026-10-24T13:01:08+0000] [Info] [connection] incoming connection: 127.0.0.1:37855 id: 0
+[2026-10-24T13:01:08+0000] [Info] [join] QShutdown has joined the server (0:127.0.0.1)
+[2026-10-24T13:01:08+0000] [Info] QA event=connect p=0 name=QShutdown
+[2026-10-24T13:01:08+0000] [Info] QA event=connected p=0 connected=1 npc=0 token=1 state=1 job=3 account=0 score=0 ready=1
+[2026-10-24T13:01:08+0000] [Info] QA event=sql_begin p=0 callback_token=1 callback_job=3 status=2 sqlstate=
+[2026-10-24T13:01:08+0000] [Info] QA event=sql_owner p=0 connected=1 npc=0 token=1 state=1 job=3 account=0 score=0 ready=1
+[2026-10-24T13:01:08+0000] [Info] QA event=sql_closed job=3 closed=1
+[2026-10-24T13:01:08+0000] [Info] QA event=sql_end p=0 connected=1 npc=0 token=1 state=2 job=0 account=0 score=0 ready=1
+[2026-10-24T13:01:08+0000] [Info] QA event=shutdown_pending job=4
+[2026-10-24T13:01:08+0000] [Info] QA event=control p=0 retain=0 cost=12 drop=0
+[2026-10-24T13:01:08+0000] [Info] QA event=exit

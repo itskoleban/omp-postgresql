@@ -1,0 +1,17 @@
+2026-10-24 08:00:40.743 -05 [33448] LOG:  starting PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit
+2026-10-24 08:00:40.746 -05 [33448] LOG:  listening on IPv4 address "127.0.0.1", port 52746
+2026-10-24 08:00:41.055 -05 [18764] LOG:  database system was interrupted; last known up at 2026-10-24 07:56:04 -05
+2026-10-24 08:00:41.951 -05 [18764] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-24 08:00:41.962 -05 [18764] LOG:  redo starts at 0/1574378
+2026-10-24 08:00:42.065 -05 [18764] LOG:  invalid record length at 0/15E2400: expected at least 24, got 0
+2026-10-24 08:00:42.065 -05 [18764] LOG:  redo done at 0/15E23C8 system usage: CPU: user: 0.00 s, system: 0.06 s, elapsed: 0.10 s
+2026-10-24 08:00:42.074 -05 [13844] LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-10-24 08:00:42.191 -05 [13844] LOG:  checkpoint complete: wrote 97 buffers (0.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.043 s, sync=0.059 s, total=0.119 s; sync files=59, longest=0.005 s, average=0.001 s; distance=440 kB, estimate=440 kB; lsn=0/15E2400, redo lsn=0/15E2400
+2026-10-24 08:00:42.446 -05 [33448] LOG:  database system is ready to accept connections
+2026-10-24 08:02:18.306 -05 [28532] LOG:  could not receive data from client: unrecognized winsock error 10053
+2026-10-24 08:03:04.271 -05 [11676] LOG:  could not accept SSL connection: unrecognized winsock error 10053
+2026-10-24 08:03:04.598 -05 [26300] LOG:  could not accept SSL connection: unrecognized winsock error 10053
+2026-10-24 08:03:27.929 -05 [17088] LOG:  could not accept SSL connection: unrecognized winsock error 10053
+2026-10-24 08:03:28.039 -05 [29260] LOG:  could not accept SSL connection: unrecognized winsock error 10053
+2026-10-24 08:03:30.230 -05 [33448] LOG:  received immediate shutdown request
+2026-10-24 08:03:30.306 -05 [33448] LOG:  database system is shut down

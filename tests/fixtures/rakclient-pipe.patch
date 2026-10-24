@@ -1,0 +1,50 @@
+diff --git a/client/src/console.cpp b/client/src/console.cpp
+index 361d258..906f950 100644
+--- a/client/src/console.cpp
++++ b/client/src/console.cpp
+@@ -62,6 +62,12 @@ BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
+ 
+ void SetUpConsole()
+ {
++	if (GetFileType(GetStdHandle(STD_INPUT_HANDLE)) == FILE_TYPE_PIPE)
++	{
++		setvbuf(stdout, NULL, _IONBF, 0);
++		CreateThread(NULL, 0, inputThread, NULL, 0, NULL);
++		return;
++	}
+ 	// Already launched from cmd/PowerShell — don't create a second console window
+ 	// (closing that extra window sends CTRL_CLOSE_EVENT and kills the process).
+ 	if (GetConsoleWindow() == NULL)
+diff --git a/client/src/dialog_ui.cpp b/client/src/dialog_ui.cpp
+index 0a18c87..11392e4 100644
+--- a/client/src/dialog_ui.cpp
++++ b/client/src/dialog_ui.cpp
+@@ -594,6 +594,7 @@ static DWORD WINAPI ConsoleDialogThread(PVOID)
+ 
+ void DialogUI_Show()
+ {
++	if (GetFileType(GetStdHandle(STD_INPUT_HANDLE)) == FILE_TYPE_PIPE) return;
+ 	if (sampDialog.iIsActive)
+ 		return;
+ 
+@@ -960,6 +961,7 @@ void DialogUI_Show()
+ {
+ 	if (sampDialog.iIsActive)
+ 		return;
++	if (!isatty(STDIN_FILENO)) return;
+ 	sampDialog.iIsActive = 1;
+ 	s_dlgCancel = 0;
+ 	s_dlgThreadRunning = 1;
+diff --git a/client/src/xmlsets.cpp b/client/src/xmlsets.cpp
+index 835b6b0..a9bd03d 100644
+--- a/client/src/xmlsets.cpp
++++ b/client/src/xmlsets.cpp
+@@ -289,6 +289,8 @@ int LoadSettings()
+ 	}
+ 
+ 	xmlSettings.Clear();
++	// Explicit config mode must not scan -n/-p fragments inside absolute paths.
++	if (strstr(GetCommandLineA(), "--config") != NULL) return 1;
+ 
+ 	PCHAR szCmdLine = GetCommandLineA();
+ 	CHAR szPort[20];
