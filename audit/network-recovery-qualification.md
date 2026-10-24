@@ -169,7 +169,12 @@ Its original result cannot distinguish successful execution without detection fr
 an early signal/runtime failure. **ROOT CAUSE UNKNOWN** at this revision; it is not
 attributed to the component, network tests, ASLR or compiler optimization without proof.
 The failed artifact identity is
-`a5600785b7647c7ab0d0edde4f099f2738febe8a0a8dac4264fd3345f4145498` (GitHub metadata).
+`a5600785b7647c7ab0d0edde4f099f2738febe8a0a8dac4264fd3345f4145498`;
+the ZIP was independently downloaded and its digest matched. The
+[negative log and x86 result excerpts](network-recovery-evidence/ci-f8fbb3f/execution.json)
+retain original/public identities. The separate
+[focused Windows run](network-recovery-evidence/real-focused-f8fbb3f/results.json)
+passed registration and both corrected new cases at the same source.
 
 The diagnostic extension preserves the genuine race source and its compiler flags.
 It records executable hashes, every child return code, output lengths and complete
