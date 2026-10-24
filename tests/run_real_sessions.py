@@ -50,8 +50,11 @@ class Suite:
         # record commands, SQL, dialog input, environment or credentials here.
         record = {"utc": datetime.now(timezone.utc).isoformat(),
                   "monotonic_ns": time.monotonic_ns(), "event": event, **fields}
+        serialized = json.dumps(record, sort_keys=True)
+        if any(secret in serialized for secret in (self.password, self.wrong)):
+            raise RuntimeError("Secret in qualification timeline")
         with (self.output / "timeline.jsonl").open("a", encoding="utf8") as stream:
-            stream.write(json.dumps(record, sort_keys=True)+"\n")
+            stream.write(serialized+"\n")
 
     def __init__(self, config, postgres_bin):
         self.config = config
@@ -68,6 +71,7 @@ class Suite:
         # Capture provenance before work starts, rather than rebinding earlier
         # observations if somebody edits the checkout during a long test run.
         self.provenance = None
+        self.trace("suite_started")
         self.save()
         self.data = self.sql("SHOW data_directory")
         # Preserve TLS verification while restricting the tutorial to its own role.
@@ -92,6 +96,7 @@ class Suite:
                                 env=self.env, capture_output=True, creationflags=FLAGS, timeout=15)
         if result.returncode:
             # Error text can include bound SQL data. Do not emit it.
+            self.trace("postgres_failed", exit_code=result.returncode)
             raise RuntimeError("Disposable SQL operation failed")
         output = result.stdout.decode("utf8", errors="replace").strip()
         self.sql_results.append({"sql": statement, "result": output})
