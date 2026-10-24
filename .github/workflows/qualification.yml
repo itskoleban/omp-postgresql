@@ -138,28 +138,34 @@ jobs:
     sanitizer-descriptor-control:
         # Manual runtime diagnostic control, not a component qualification pass.
         if: github.event_name == 'workflow_dispatch'
-        name: independent FD control ${{ matrix.instrument }}
+        name: independent FD control ${{ matrix.compiler }} ${{ matrix.instrument }}
         runs-on: ubuntu-24.04
         timeout-minutes: 5
         strategy:
             fail-fast: false
             matrix:
                 instrument: ["OFF", "ON"]
+                compiler: ["g++", "clang++-19"]
         env:
             ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
             UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
         steps:
             - uses: actions/checkout@v4
+            - name: Install the alternative sanitizer runtime
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y clang-19
             - name: Compile an independent thread and descriptor control
               env:
                   INSTRUMENT: ${{ matrix.instrument }}
+                  CXX: ${{ matrix.compiler }}
               run: |
                   flags=()
                   if [[ "$INSTRUMENT" == ON ]]; then flags=(-fsanitize=address,undefined -fno-sanitize-recover=all); fi
-                  c++ --version
+                  "$CXX" --version
                   # Model an ordinary external dependency; the driver retains all sanitizer flags.
-                  c++ -std=c++20 -g -O0 -fno-pie -c tests/sanitizer_descriptor_factory.cpp -o descriptor-factory.o
-                  c++ -std=c++20 -g -O0 -pthread -fno-pie -no-pie "${flags[@]}" \
+                  "$CXX" -std=c++20 -g -O0 -fno-pie -c tests/sanitizer_descriptor_factory.cpp -o descriptor-factory.o
+                  "$CXX" -std=c++20 -g -O0 -pthread -fno-pie -no-pie "${flags[@]}" \
                       tests/sanitizer_descriptor_control.cpp descriptor-factory.o -o descriptor-control
             - name: Record the actual result without a component or database
               run: |
@@ -168,6 +174,6 @@ jobs:
             - if: always()
               uses: actions/upload-artifact@v4
               with:
-                  name: descriptor-control-${{ matrix.instrument }}-${{ github.sha }}
+                  name: descriptor-control-${{ matrix.compiler }}-${{ matrix.instrument }}-${{ github.sha }}
                   path: descriptor-control.log
                   if-no-files-found: error

@@ -11,6 +11,18 @@ from run_real_sessions import parse_events, Suite
 
 
 class RealSessionEvidenceTests(unittest.TestCase):
+    def test_timeline_records_clock_and_process_identity_without_payloads(self):
+        with tempfile.TemporaryDirectory() as directory:
+            suite = Suite.__new__(Suite)
+            suite.output = Path(directory)
+            suite.trace("server_started", server="custom-load", pid=42, udp_port=1234)
+            suite.trace("event_failed", server="custom-load", pid=42, exit_code=None)
+            rows = [json.loads(line) for line in (suite.output/"timeline.jsonl").read_text().splitlines()]
+            self.assertEqual([row["event"] for row in rows], ["server_started", "event_failed"])
+            self.assertLessEqual(rows[0]["monotonic_ns"], rows[1]["monotonic_ns"])
+            self.assertTrue(all(row["utc"].endswith("+00:00") and row["pid"] == 42 for row in rows))
+            self.assertNotIn("command", rows[0])
+
     def test_initial_source_and_binary_identity_are_not_rebound(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)

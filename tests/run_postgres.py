@@ -212,6 +212,8 @@ with (data / "postgresql.conf").open("a", encoding="utf8") as f:
     f.write(
         f"\nlisten_addresses='127.0.0.1'\nport={port}\nunix_socket_directories=''\n"
         "ssl=on\nssl_ca_file='server.crt'\n"
+        "log_timezone='UTC'\nlog_line_prefix='%m [%p] session=%c app=%a peer=%r '\n"
+        "log_connections=on\nlog_disconnections=on\n"
     )
 env = os.environ.copy()
 base = f"host=localhost\nhostaddr=127.0.0.1\nport={port}\ndbname=postgres\nuser=omp_test\n"
