@@ -1,0 +1,28 @@
+name: final qualification probes
+on:
+    push:
+        branches: [audit/v0.1.0-final-qualification]
+    workflow_dispatch:
+permissions:
+    contents: read
+jobs:
+    terminal-allocation:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@v4
+            - run: |
+                  sudo apt-get update
+                  sudo apt-get install -y libpq-dev
+            - name: Compile the actual terminal queue allocation probe
+              run: c++ -std=c++20 -pthread -Iinclude -I/usr/include/postgresql tests/terminal_allocation.cpp -o terminal-allocation
+            - name: Execute with allocations denied during terminal publication
+              run: |
+                  set -o pipefail
+                  ./terminal-allocation 2>&1 | tee terminal-allocation.log
+            - if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: terminal-allocation-${{ github.sha }}
+                  path: terminal-allocation.log
+                  if-no-files-found: error
