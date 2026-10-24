@@ -39,6 +39,8 @@ parser.add_argument(
 )
 parser.add_argument("--openmp-dir", help="Disposable extracted open.mp server for end-to-end smoke")
 parser.add_argument("--component")
+parser.add_argument("--real-sessions", help="JSON configuration for the optional real network client suite")
+parser.add_argument("--only-real-sessions", action="store_true")
 parser.add_argument("--gamemode")
 parser.add_argument("--runtime", action="append", default=[])
 parser.add_argument("--unload-script")
@@ -63,6 +65,8 @@ parser.add_argument(
     help="Use fresh PostgreSQL fixture and run only server smoke",
 )
 args = parser.parse_args()
+if args.only_real_sessions and not args.real_sessions:
+    parser.error("--only-real-sessions requires --real-sessions")
 if bool(args.logging_performance_gamemode) != bool(args.logging_performance_csv):
     parser.error(
         "--logging-performance-gamemode and --logging-performance-csv must be supplied together"
@@ -299,7 +303,7 @@ try:
             ],
             env=env,
         )
-    if not args.only_openmp:
+    if not args.only_openmp and not args.only_real_sessions:
         env["OMP_PG_TEST_STALL_ROOT"] = str(root)
         for mode in ("ssl", "tls", "startup"):
             stalled = StallServer(mode, root / mode)
@@ -325,8 +329,14 @@ try:
         for stalled in stall_servers:
             if stalled.errors or len(list(stalled.directory.glob("ready-*"))) != 20:
                 raise RuntimeError(f"Stalled {stalled.mode} handshakes were not fully exercised")
-    elif not args.openmp_dir:
+    elif not args.openmp_dir and not args.only_real_sessions:
         raise ValueError("--only-openmp requires --openmp-dir")
+    if args.real_sessions:
+        run(
+            [sys.executable, str(Path(__file__).with_name("run_real_sessions.py")),
+             "--config", args.real_sessions, "--postgres-bin", args.postgres_bin or ""],
+            env=env,
+        )
     if args.benchmark:
         print(
             f"Benchmark host: {platform.platform()}; machine={platform.machine()}; "

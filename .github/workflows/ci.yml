@@ -164,6 +164,13 @@ jobs:
                       "$PWD/libpq32/lib/libpq.so.5" --tutorial-dir build-linux32 --tutorial-sql-dir examples/sql \
                       --logging-performance-gamemode build-linux32/logging-performance.amx \
                       --logging-performance-csv build-linux32/Testing/Temporary/openmp-source-performance.csv
+            - name: Qualify real player sessions with the external bcrypt provider
+              run: |
+                  python3 scripts/run_real_session_ci.py --output build-real-sessions \
+                      --component build-linux32/omp-postgresql.so --server "$OPENMP_DIR" \
+                      --compiler build-pawn32/pawncc --stdlib build-stdlib \
+                      --pawn-include build-linux32/_deps/pawn-src/include \
+                      --runtime "$PWD/libpq32/lib/libpq.so.5"
             - name: Assemble and verify the Linux x86 package
               run: |
                   python3 scripts/package.py create --platform linux --build build-linux32 \
@@ -220,6 +227,11 @@ jobs:
                       ${{ runner.temp }}/openmp-package/Server/logs/pg-perf-*.log*
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
+                      build-real-sessions/evidence/results.json
+                      build-real-sessions/evidence/**/server-output.txt
+                      build-real-sessions/evidence/**/client-output.txt
+                      build-real-sessions/evidence/postgres-*.txt
+                      build-real-sessions/client/client-build.json
             - name: Unmount the isolated log filesystem
               if: always() && env.PG_LOG_ENOSPC_BASE != ''
               run: |
@@ -288,7 +300,7 @@ jobs:
                   msystem: MINGW32
                   update: true
                   install: >-
-                      mingw-w64-i686-gcc mingw-w64-i686-openssl
+                      mingw-w64-i686-gcc mingw-w64-i686-openssl mingw-w64-i686-ninja
                       make bison flex perl diffutils git tar curl
             - name: Build PostgreSQL 17.11 libpq with 32-bit TLS
               shell: msys2 {0}
@@ -395,6 +407,16 @@ jobs:
                   if ($LASTEXITCODE -ne 0) {
                   	throw 'MSVC x86 PostgreSQL/open.mp integration failed'
                   }
+            - name: Qualify real player sessions with the external bcrypt provider
+              shell: pwsh
+              run: |
+                  python scripts/run_real_session_ci.py --output build-real-sessions `
+                      --component build-msvc32/Release/omp-postgresql.dll --server build-openmp/Server `
+                      --compiler build-pawn32/Release/pawncc.exe --stdlib build-stdlib `
+                      --pawn-include build-msvc32/_deps/pawn-src/include --postgres-bin build-server/pgsql/bin `
+                      --mingw-bin "$env:MINGW32_ROOT/bin" --bash "$env:MINGW32_ROOT/../usr/bin/bash.exe" `
+                      --runtime libpq32/bin/libpq.dll --runtime libpq32/bin/libssl-3.dll --runtime libpq32/bin/libcrypto-3.dll
+                  if ($LASTEXITCODE -ne 0) { throw 'Real player session qualification failed' }
             - name: Assemble and verify the Windows x86 package
               shell: pwsh
               run: |
@@ -470,6 +492,11 @@ jobs:
                       build-openmp-package/Server/pg-*-output.log
                       build-openmp/Server/logs/pg-perf-*.log*
                       build-openmp-package/Server/logs/pg-perf-*.log*
+                      build-real-sessions/evidence/results.json
+                      build-real-sessions/evidence/**/server-output.txt
+                      build-real-sessions/evidence/**/client-output.txt
+                      build-real-sessions/evidence/postgres-*.txt
+                      build-real-sessions/client/client-build.json
     verify-distribution-artifacts:
         name: Verify downloaded x86 distributions
         needs: [linux-x86, windows-x86]
