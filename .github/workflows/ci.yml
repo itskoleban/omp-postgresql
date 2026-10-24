@@ -492,6 +492,8 @@ jobs:
                       build-openmp-package/Server/pg-*-output.log
                       build-openmp/Server/logs/pg-perf-*.log*
                       build-openmp-package/Server/logs/pg-perf-*.log*
+                      ${{ runner.temp }}/omp-pg-integration-*/server.log
+                      ${{ runner.temp }}/omp-pg-integration-*/command-*.log
                       build-real-sessions/evidence/results.json
                       build-real-sessions/evidence/**/server-output.txt
                       build-real-sessions/evidence/**/client-output.txt
