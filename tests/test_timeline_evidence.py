@@ -96,6 +96,9 @@ class TimelineEvidenceTests(unittest.TestCase):
                 self.assertEqual((source/"timeline.jsonl").read_bytes(),data)
         with self.assertRaisesRegex(ValueError,"Duplicate"):
             sanitized_bytes(b'{"event":"a","event":"b"}\n',".jsonl")
+        escaped=(json.dumps({**base,"event":"ghp_"+"A"*30})+"\n").encode().replace(b"ghp_",b"gh\\u0070_")
+        with self.assertRaisesRegex(ValueError,"Sensitive timeline"):
+            sanitized_bytes(escaped,".jsonl")
 
     def test_ci_finally_publishes_timeline_and_preserves_failure_exit(self):
         with tempfile.TemporaryDirectory() as directory:

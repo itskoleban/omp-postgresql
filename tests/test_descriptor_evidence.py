@@ -58,7 +58,7 @@ class DescriptorEvidenceTests(unittest.TestCase):
             self.assertEqual(manifest["source_commit"],"a"*40)
 
     def test_rejects_modified_logs_status_or_disabled_vptr(self):
-        for change in ("log","status","vptr"):
+        for change in ("log","status","vptr","uninventoried-log"):
             with self.subTest(change=change),tempfile.TemporaryDirectory() as directory:
                 output=self.execute_fixture(Path(directory))
                 path=output/"manifest.json";manifest=json.loads(path.read_text())
@@ -66,8 +66,10 @@ class DescriptorEvidenceTests(unittest.TestCase):
                     (output/manifest["results"][1]["log"]).write_bytes(b"Changed negative diagnostic")
                 elif change=="status":
                     manifest["results"][1]["status"]="PASS"
-                else:
+                elif change=="vptr":
                     manifest["results"][1]["command"].append("-fno-sanitize=vptr")
+                else:
+                    manifest["results"][1]["log"]="../outside.log"
                 path.write_text(json.dumps(manifest))
                 with self.assertRaises(ValueError):
                     probe.verify(output)
