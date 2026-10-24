@@ -1,0 +1,10 @@
+{"event": "accepted", "monotonic_ns": 418250934268600, "utc": "2026-10-24T20:49:36.073475+00:00"}
+{"event": "backend_identity", "monotonic_ns": 418250994483300, "pid": 20440, "utc": "2026-10-24T20:49:36.133695+00:00"}
+{"command": "ROLLBACK", "event": "command_response_withheld", "mode": "lose", "monotonic_ns": 418251065061400, "utc": "2026-10-24T20:49:36.204273+00:00"}
+{"backend": true, "event": "relay_closed", "monotonic_ns": 418251066159200, "utc": "2026-10-24T20:49:36.205366+00:00"}
+{"backend": false, "event": "relay_closed", "monotonic_ns": 418251067773200, "utc": "2026-10-24T20:49:36.206972+00:00"}
+{"event": "accepted", "monotonic_ns": 418251070926500, "utc": "2026-10-24T20:49:36.210126+00:00"}
+{"event": "backend_identity", "monotonic_ns": 418251132559900, "pid": 32804, "utc": "2026-10-24T20:49:36.271755+00:00"}
+{"backend": false, "event": "relay_closed", "monotonic_ns": 418251280971800, "utc": "2026-10-24T20:49:36.420180+00:00"}
+{"backend": true, "event": "relay_closed", "monotonic_ns": 418251282274800, "utc": "2026-10-24T20:49:36.421471+00:00"}
+{"event": "fixture_closed", "injected": true, "monotonic_ns": 418309929414600, "utc": "2026-10-24T20:50:35.068615+00:00", "workers": 4}

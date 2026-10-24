@@ -1,0 +1,742 @@
+{
+  "source_commit": "a96efdf475908c511296273580f0f5e1b62766e6",
+  "source_dirty": false,
+  "source_provenance": {
+    "schema": 1,
+    "source_commit": "a96efdf475908c511296273580f0f5e1b62766e6",
+    "head_tree": "129477a1fec8a96b04f60a1b0ea0f7a367f80a7a",
+    "source_dirty": false,
+    "tracked_source_modified": false,
+    "tracked_changes": [],
+    "untracked_entries": [],
+    "untracked_count": 0,
+    "source_state": "clean",
+    "tracked_patch_sha256": null,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "generated_classification_basis": "Exact roots created by .github/workflows/ci.yml; all other entries remain unclassified"
+  },
+  "platform": "win32",
+  "inputs": {
+    "component": {
+      "path": "<WORKSPACE>/build-msvc32/Release/omp-postgresql.dll",
+      "sha256": "621e34ebcfcdd169a404d75178cdab43e3d95db0d651179f4b79b2f574c485ed"
+    },
+    "gamemode": {
+      "path": "<FIXTURES>/real_sessions.amx",
+      "sha256": "c433ac294aeb383b581381dc6f4f082c11b451b48c440b79719e69dec614dfac"
+    },
+    "client": {
+      "path": "<CLIENT_BUILD>/build/RakSAMPClient.exe",
+      "sha256": "03d22313bac429acfbbb7683a73e4bbe8535469ad30b56fe77a5e55552f36c38"
+    },
+    "provider": {
+      "path": "<PROVIDER>/plugins/samp_bcrypt.dll",
+      "sha256": "42ff95d26a586e51ea964e80bc747498dc64f3015d29a1c5a2d790c8906944a5"
+    },
+    "server": {
+      "sha256": "690363cc8d4708685eb2bfcfdc117abfc1293c5606fe5f8a4bbb3d53591c2829",
+      "version": "1.5.8.3079 (supplied distribution; verify archive separately)"
+    },
+    "custom_gamemode": {
+      "path": "<FIXTURES>/real_custom_sessions.amx",
+      "sha256": "873f72f8ceb2f020a5ce0cb6017d2184558cf9505d8d9aa26f2ed777f661fc05"
+    }
+  },
+  "results": [
+    {
+      "id": "register",
+      "status": "PASS",
+      "assertions": [
+        "real non-NPC connection",
+        "real bcrypt cost 12",
+        "INSERT confirmed",
+        "one account",
+        "job closed"
+      ],
+      "seconds": 11.284
+    },
+    {
+      "id": "login_valid",
+      "status": "PASS",
+      "assertions": [
+        "provider verification succeeded",
+        "authenticated only after provider callback"
+      ],
+      "seconds": 10.799
+    },
+    {
+      "id": "login_wrong",
+      "status": "PASS",
+      "assertions": [
+        "real bcrypt rejection",
+        "token invalidated",
+        "no score applied"
+      ],
+      "seconds": 10.496
+    },
+    {
+      "id": "reuse_lookup_late",
+      "status": "PASS",
+      "assertions": [
+        "observed playerid reuse 0",
+        "old callback after new connect",
+        "different generation and pending job",
+        "no old account/score/auth",
+        "old job closed",
+        "explicit retain-work fault variant"
+      ],
+      "seconds": 11.506
+    },
+    {
+      "id": "disconnect_lookup_cancel",
+      "status": "PASS",
+      "assertions": [
+        "default cancellation forwarded",
+        "completed job closed",
+        "observed reuse 0",
+        "no claim callback arrived after B"
+      ],
+      "seconds": 11.021
+    },
+    {
+      "id": "reuse_hash_late",
+      "status": "PASS",
+      "assertions": [
+        "observed reuse 0",
+        "actual cost-16 provider callback after B",
+        "stale generation ignored",
+        "neither account inserted"
+      ],
+      "seconds": 18.327
+    },
+    {
+      "id": "provider_slow_fixture",
+      "status": "PASS",
+      "assertions": [
+        "real cost-16 account prepared for slow verification"
+      ],
+      "seconds": 17.476
+    },
+    {
+      "id": "reuse_verify_late",
+      "status": "PASS",
+      "assertions": [
+        "observed reuse 0",
+        "real successful verification for A after B",
+        "B received no account, score or authentication"
+      ],
+      "seconds": 19.176
+    },
+    {
+      "id": "reuse_insert_late",
+      "status": "PASS",
+      "assertions": [
+        "observed reuse 0",
+        "A INSERT confirmed after B",
+        "old job closed",
+        "no A state applied to B",
+        "one write; retain-work variant"
+      ],
+      "seconds": 14.769
+    },
+    {
+      "id": "concurrent_auth",
+      "status": "PASS",
+      "assertions": [
+        "two connected players",
+        "overlapping real provider work",
+        "distinct tokens and accounts"
+      ],
+      "seconds": 15.555
+    },
+    {
+      "id": "duplicate_concurrent_registration",
+      "status": "PASS",
+      "assertions": [
+        "same account name on two real servers",
+        "two overlapping INSERT jobs",
+        "one winner",
+        "23505 loser remains unauthenticated",
+        "one row"
+      ],
+      "seconds": 26.531
+    },
+    {
+      "id": "provider_response_timeout",
+      "status": "PASS",
+      "assertions": [
+        "actual provider executed; response discarded by named fault adapter",
+        "real 30-second deadline",
+        "fail closed",
+        "no INSERT"
+      ],
+      "seconds": 42.552
+    },
+    {
+      "id": "postgres_recovery",
+      "status": "PASS",
+      "assertions": [
+        "real PostgreSQL process stopped/restarted",
+        "readiness loss invalidated authentication",
+        "explicit failed-pool recreation",
+        "fresh lookup and real reauthentication",
+        "no registration replay"
+      ],
+      "seconds": 14.377
+    },
+    {
+      "id": "insert_confirmation_loss",
+      "status": "PASS",
+      "assertions": [
+        "real INSERT committed",
+        "wire CommandComplete discarded",
+        "PG_UNCERTAIN observed",
+        "no automatic authentication",
+        "explicit reconnect/lookup/provider verification",
+        "one row before/after reconciliation",
+        "identity sequence advanced once: no replayed INSERT attempt"
+      ],
+      "seconds": 12.761
+    },
+    {
+      "id": "gmx_pending_provider",
+      "status": "PASS",
+      "assertions": [
+        "actual GMX with real provider work pending",
+        "SVar generation survived reload",
+        "old provider callback rejected by new VM"
+      ],
+      "seconds": 37.498
+    },
+    {
+      "id": "shutdown_pending_sql",
+      "status": "PASS",
+      "assertions": [
+        "official server exit with SQL pending",
+        "exit 0",
+        "no callback after owner unload"
+      ],
+      "seconds": 10.435
+    },
+    {
+      "id": "official_npc_scope",
+      "status": "PASS",
+      "assertions": [
+        "official NPC_Create/NPC_Destroy executed",
+        "NPC flagged npc=1; real network client npc=0",
+        "NPC evidence does not qualify client protocol or real-player reuse"
+      ],
+      "seconds": 10.468
+    },
+    {
+      "id": "custom_reuse_load",
+      "status": "PASS",
+      "assertions": [
+        "actual custom.pwn callbacks",
+        "observed reuse 0",
+        "generation/request ownership rejected stale results",
+        "all retained jobs closed",
+        "RCON gate bypass and retain-work explicitly confined to fixture"
+      ],
+      "seconds": 11.675
+    },
+    {
+      "id": "custom_reuse_save",
+      "status": "PASS",
+      "assertions": [
+        "actual custom.pwn callbacks",
+        "observed reuse 0",
+        "generation/request ownership rejected stale results",
+        "all retained jobs closed",
+        "RCON gate bypass and retain-work explicitly confined to fixture"
+      ],
+      "seconds": 11.455
+    },
+    {
+      "id": "startup_exit_overlap",
+      "status": "PASS",
+      "assertions": [
+        "three bounded start/exit overlap rounds",
+        "six real TLS readiness transitions",
+        "six official open.mp processes exited 0",
+        "no timeout or retry changes"
+      ],
+      "seconds": 59.367
+    },
+    {
+      "id": "postgres_recovery_playerid_reuse",
+      "status": "FAIL",
+      "error": "AssertionError: Observed-event deadline expired",
+      "seconds": 25.757
+    }
+  ],
+  "sql": [
+    {
+      "sql": "SHOW data_directory",
+      "result": "<POSTGRES_CLUSTER>/data"
+    },
+    {
+      "sql": "ALTER SYSTEM SET log_min_error_statement='panic'",
+      "result": "ALTER SYSTEM"
+    },
+    {
+      "sql": "ALTER SYSTEM SET log_parameter_max_length_on_error=0",
+      "result": "ALTER SYSTEM"
+    },
+    {
+      "sql": "SELECT pg_reload_conf()",
+      "result": "t"
+    },
+    {
+      "sql": "CREATE ROLE qa_runtime LOGIN",
+      "result": "CREATE ROLE"
+    },
+    {
+      "sql": "-- Apply manually with psql to a disposable database, using its schema-owner role.\n-- Never submit this file as an automatic application migration.\nCREATE TABLE tutorial_accounts (\n    id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,\n    username text NOT NULL UNIQUE CHECK (length(username) BETWEEN 1 AND 24),\n    password_hash text NOT NULL CHECK (length(password_hash) = 60),\n    score integer NOT NULL DEFAULT 0 CHECK (score >= 0)\n);\n",
+      "result": "CREATE TABLE"
+    },
+    {
+      "sql": "GRANT SELECT,INSERT ON tutorial_accounts TO qa_runtime; GRANT USAGE ON SEQUENCE tutorial_accounts_id_seq TO qa_runtime",
+      "result": "GRANT\r\nGRANT"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QSeed'",
+      "result": "1"
+    },
+    {
+      "sql": "INSERT INTO tutorial_accounts(username,password_hash,score) SELECT 'QLookA',password_hash,731 FROM tutorial_accounts WHERE username='QSeed'",
+      "result": "INSERT 0 1"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_accounts'::regclass AND l.granted",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_accounts'::regclass AND l.granted",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE application_name='qa_lock'",
+      "result": "t"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_accounts'::regclass AND l.granted",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE application_name='qa_lock'",
+      "result": "t"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QHashA'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QHashB'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QSlow'",
+      "result": "1"
+    },
+    {
+      "sql": "INSERT INTO tutorial_accounts(username,password_hash,score) SELECT 'QVerifyA',password_hash,937 FROM tutorial_accounts WHERE username='QSlow'",
+      "result": "INSERT 0 1"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_accounts'::regclass AND l.granted",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_accounts'::regclass AND l.granted",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE application_name='qa_lock'",
+      "result": "t"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QInsertA'",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QInsertB'",
+      "result": "0"
+    },
+    {
+      "sql": "INSERT INTO tutorial_accounts(username,password_hash,score) SELECT 'QConcurrentA',password_hash,731 FROM tutorial_accounts WHERE username='QSeed'",
+      "result": "INSERT 0 1"
+    },
+    {
+      "sql": "INSERT INTO tutorial_accounts(username,password_hash,score) SELECT 'QConcurrentB',password_hash,731 FROM tutorial_accounts WHERE username='QSeed'",
+      "result": "INSERT 0 1"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_accounts'::regclass AND l.granted",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_accounts'::regclass AND l.granted",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE application_name='qa_lock'",
+      "result": "t"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QDuplicate'",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QTimeout'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QSeed'",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT last_value FROM tutorial_accounts_id_seq",
+      "result": "33"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QLostWrite'",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT last_value FROM tutorial_accounts_id_seq",
+      "result": "34"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QLostWrite'",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT last_value FROM tutorial_accounts_id_seq",
+      "result": "34"
+    },
+    {
+      "sql": "SELECT count(*) FROM tutorial_accounts WHERE username='QReload'",
+      "result": "0"
+    },
+    {
+      "sql": "CREATE TABLE tutorial_custom_accounts(id integer PRIMARY KEY, username text UNIQUE NOT NULL, score integer NOT NULL); CREATE TABLE tutorial_custom_clans(id integer PRIMARY KEY,name varchar(64) NOT NULL); CREATE TABLE tutorial_custom_properties(id integer PRIMARY KEY,owner_id integer NOT NULL REFERENCES tutorial_custom_accounts(id),label text NOT NULL); INSERT INTO tutorial_custom_accounts VALUES(1,'QCustomA',853); INSERT INTO tutorial_custom_clans VALUES(1,'QA clan'); INSERT INTO tutorial_custom_properties VALUES(1,1,'Original'); GRANT SELECT,UPDATE ON tutorial_custom_accounts,tutorial_custom_properties TO qa_runtime; GRANT SELECT ON tutorial_custom_clans TO qa_runtime",
+      "result": "CREATE TABLE\r\nCREATE TABLE\r\nCREATE TABLE\r\nINSERT 0 1\r\nINSERT 0 1\r\nINSERT 0 1\r\nGRANT\r\nGRANT"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_custom_accounts'::regclass AND l.granted",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_custom_accounts'::regclass AND l.granted",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE application_name='qa_lock'",
+      "result": "t"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_custom_accounts'::regclass AND l.granted",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE application_name='qa_lock'",
+      "result": "t"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='qa_lock' AND l.relation='tutorial_accounts'::regclass AND l.granted",
+      "result": "1"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'",
+      "result": "0"
+    },
+    {
+      "sql": "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE application_name='qa_lock'",
+      "result": "t"
+    }
+  ],
+  "runtime": [
+    {
+      "file": "libpq.dll",
+      "sha256": "56c57862f25fd6eea8c1fe11892430a056a5f083845dac56af6283722f400e6d"
+    },
+    {
+      "file": "libssl-3.dll",
+      "sha256": "996a66143505f6831cf7f2c486095bb78e0c8e425a1cb5c48dfc0ffe2a4dfe64"
+    },
+    {
+      "file": "libcrypto-3.dll",
+      "sha256": "b206bf8553f7b2e4583d65aec4fced04dac2f7f2250351268e00fb538bcd70dc"
+    }
+  ],
+  "harness_sha256": "47671508f65aef1e4fc7566cb765962beb61975e6643b0f5f8890038140bcad2"
+}

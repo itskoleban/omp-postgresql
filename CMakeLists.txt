@@ -276,8 +276,12 @@ if(BUILD_TESTING)
         add_executable(pg_tsan_race_control tests/tsan_race_control.cpp)
         target_compile_options(pg_tsan_race_control PRIVATE -fsanitize=thread -g -O1)
         target_link_options(pg_tsan_race_control PRIVATE -fsanitize=thread)
+        add_executable(pg_tsan_startup_control tests/tsan_startup_control.cpp)
+        target_compile_options(pg_tsan_startup_control PRIVATE -fsanitize=thread -g -O1)
+        target_link_options(pg_tsan_startup_control PRIVATE -fsanitize=thread)
         add_test(NAME tsan_detector_control COMMAND ${Python3_EXECUTABLE}
-                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_control.py $<TARGET_FILE:pg_tsan_race_control>)
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_control.py $<TARGET_FILE:pg_tsan_race_control>
+                 --startup-probe $<TARGET_FILE:pg_tsan_startup_control> --runs 20)
         set_tests_properties(tsan_detector_control PROPERTIES TIMEOUT 30)
     else()
         target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
@@ -296,6 +300,7 @@ if(BUILD_TESTING)
     endif()
     add_executable(pg_audit_fuzz tests/audit_fuzz.cpp)
     add_executable(pg_audit_faults tests/audit_faults.cpp)
+    add_executable(pg_network_recovery tests/network_recovery.cpp)
     # Source seams compile the actual Lane body; the archive supplies Engine/helpers.
     add_executable(pg_socket_wait_tests tests/socket_wait.cpp)
     if(WIN32)
@@ -313,6 +318,7 @@ if(BUILD_TESTING)
         pg_diagnostics_tests
         pg_audit_fuzz
         pg_audit_faults
+        pg_network_recovery
         pg_socket_wait_tests
         pg_terminal_allocation
         pg_worker_allocation
@@ -332,6 +338,8 @@ if(BUILD_TESTING)
     set_tests_properties(audit_semantic_fuzz PROPERTIES TIMEOUT 60 LABELS "audit;fuzz")
     add_test(NAME audit_faults_integration COMMAND pg_audit_faults)
     set_tests_properties(audit_faults_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60 LABELS "audit;stress")
+    add_test(NAME network_recovery_integration COMMAND pg_network_recovery)
+    set_tests_properties(network_recovery_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS "network;recovery")
     add_test(NAME diagnostics_unit COMMAND pg_diagnostics_tests)
     set_tests_properties(diagnostics_unit PROPERTIES TIMEOUT 30)
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")

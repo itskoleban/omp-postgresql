@@ -1,0 +1,42 @@
+network_recovery libpq=170011 pointer_bytes=4
+SCENARIO begin start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=23152 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_begin(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=17980 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=23152
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_begin
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_begin
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO begin PASS
+SCENARIO savepoint start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1656 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_savepoint(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_savepoint(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+job=8 status=3 error=9 completed=0 error_index=-1 items=0, message=Transaction no longer owns this session
+FAIL savepoint: Old transaction is rejected on replacement session
+network_recovery FAIL savepoint Old transaction is rejected on replacement session

@@ -1,0 +1,21 @@
+{
+  "commit": "4e579ae1e067c6f0bae7a7af49ecf88a566c4634",
+  "run": 40140261736,
+  "job": 121010637702,
+  "status": "FAIL",
+  "cause": "Diagnostic preflight PermissionError reading optional mmap_rnd_bits, errno 13",
+  "startup_controls": "NOT RUN: all 20",
+  "race_controls": "NOT RUN: all 20",
+  "other_tsan_cases": "28 PASS, including network_recovery_integration",
+  "correction": "Report optional metadata as UNAVAILABLE with errno; required child oracles unchanged",
+  "file": "tsan-job.log",
+  "original_sha256": "9044fae181082811f9aab2d51f9f83777ff47f39abfb68bac97999213ae6643d",
+  "sha256": "beece5b1743bbda1c09daf98e99f7f7590a766d33cd2015bc5652e71488bc8c2",
+  "bytes": 68666,
+  "transformations": {
+    "runner-temp": 7,
+    "runner-workspace": 57,
+    "postgres-cluster": 3,
+    "temporary-root": 2
+  }
+}

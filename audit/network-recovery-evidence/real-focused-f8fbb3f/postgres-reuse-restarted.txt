@@ -1,0 +1,28 @@
+2026-10-24 21:03:45.620 UTC [18576] session=6add1d31.4890 app= peer= LOG:  starting PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit
+2026-10-24 21:03:45.622 UTC [18576] session=6add1d31.4890 app= peer= LOG:  listening on IPv4 address "127.0.0.1", port 53971
+2026-10-24 21:03:45.722 UTC [31560] session=6add1d31.7b48 app= peer= LOG:  database system was interrupted; last known up at 2026-10-24 21:02:08 UTC
+2026-10-24 21:03:46.240 UTC [31560] session=6add1d31.7b48 app= peer= LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-24 21:03:46.249 UTC [31560] session=6add1d31.7b48 app= peer= LOG:  redo starts at 0/1574378
+2026-10-24 21:03:46.297 UTC [31560] session=6add1d31.7b48 app= peer= LOG:  invalid record length at 0/1603098: expected at least 24, got 0
+2026-10-24 21:03:46.297 UTC [31560] session=6add1d31.7b48 app= peer= LOG:  redo done at 0/1603060 system usage: CPU: user: 0.01 s, system: 0.01 s, elapsed: 0.04 s
+2026-10-24 21:03:46.302 UTC [15908] session=6add1d31.3e24 app= peer= LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-10-24 21:03:46.399 UTC [15908] session=6add1d31.3e24 app= peer= LOG:  checkpoint complete: wrote 131 buffers (0.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.040 s, sync=0.047 s, total=0.099 s; sync files=76, longest=0.002 s, average=0.001 s; distance=571 kB, estimate=571 kB; lsn=0/1603098, redo lsn=0/1603098
+2026-10-24 21:03:46.516 UTC [18576] session=6add1d31.4890 app= peer= LOG:  database system is ready to accept connections
+2026-10-24 21:03:46.658 UTC [19692] session=6add1d32.4cec app=[unknown] peer=127.0.0.1(62137) LOG:  connection received: host=127.0.0.1 port=62137
+2026-10-24 21:03:46.678 UTC [19692] session=6add1d32.4cec app=[unknown] peer=127.0.0.1(62137) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 21:03:46.678 UTC [19692] session=6add1d32.4cec app=[unknown] peer=127.0.0.1(62137) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 21:03:46.841 UTC [35148] session=6add1d32.894c app=[unknown] peer=127.0.0.1(62141) LOG:  connection received: host=127.0.0.1 port=62141
+2026-10-24 21:03:46.882 UTC [35148] session=6add1d32.894c app=[unknown] peer=127.0.0.1(62141) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 21:03:46.882 UTC [35148] session=6add1d32.894c app=[unknown] peer=127.0.0.1(62141) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 21:03:47.067 UTC [30304] session=6add1d33.7660 app=[unknown] peer=127.0.0.1(62142) LOG:  connection received: host=127.0.0.1 port=62142
+2026-10-24 21:03:47.100 UTC [30304] session=6add1d33.7660 app=[unknown] peer=127.0.0.1(62142) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 21:03:47.101 UTC [30304] session=6add1d33.7660 app=[unknown] peer=127.0.0.1(62142) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 21:03:47.112 UTC [30304] session=6add1d33.7660 app=psql peer=127.0.0.1(62142) LOG:  disconnection: session time: 0:00:00.066 user=omp_test database=postgres host=127.0.0.1 port=62142
+2026-10-24 21:03:47.239 UTC [19160] session=6add1d33.4ad8 app=[unknown] peer=127.0.0.1(62144) LOG:  connection received: host=127.0.0.1 port=62144
+2026-10-24 21:03:47.265 UTC [19160] session=6add1d33.4ad8 app=[unknown] peer=127.0.0.1(62144) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 21:03:47.265 UTC [19160] session=6add1d33.4ad8 app=[unknown] peer=127.0.0.1(62144) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 21:03:47.276 UTC [19160] session=6add1d33.4ad8 app=psql peer=127.0.0.1(62144) LOG:  disconnection: session time: 0:00:00.055 user=omp_test database=postgres host=127.0.0.1 port=62144
+2026-10-24 21:03:47.402 UTC [19692] session=6add1d32.4cec app=omp-postgresql peer=127.0.0.1(62137) LOG:  disconnection: session time: 0:00:00.763 user=qa_runtime database=postgres host=127.0.0.1 port=62137
+2026-10-24 21:03:47.573 UTC [35148] session=6add1d32.894c app=omp-postgresql peer=127.0.0.1(62141) LOG:  disconnection: session time: 0:00:00.753 user=qa_runtime database=postgres host=127.0.0.1 port=62141
+2026-10-24 21:03:47.811 UTC [18576] session=6add1d31.4890 app= peer= LOG:  received immediate shutdown request
+2026-10-24 21:03:47.836 UTC [18576] session=6add1d31.4890 app= peer= LOG:  database system is shut down

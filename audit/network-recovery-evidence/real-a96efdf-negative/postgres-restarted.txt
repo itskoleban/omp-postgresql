@@ -1,0 +1,436 @@
+2026-10-24 20:55:07.134 UTC [24244] session=6add1b2a.5eb4 app= peer= LOG:  starting PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit
+2026-10-24 20:55:07.136 UTC [24244] session=6add1b2a.5eb4 app= peer= LOG:  listening on IPv4 address "127.0.0.1", port 54678
+2026-10-24 20:55:07.259 UTC [18808] session=6add1b2b.4978 app= peer= LOG:  database system was interrupted; last known up at 2026-10-24 20:51:19 UTC
+2026-10-24 20:55:07.766 UTC [18808] session=6add1b2b.4978 app= peer= LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-24 20:55:07.775 UTC [18808] session=6add1b2b.4978 app= peer= LOG:  redo starts at 0/1574378
+2026-10-24 20:55:07.820 UTC [18808] session=6add1b2b.4978 app= peer= LOG:  invalid record length at 0/15DA120: expected at least 24, got 0
+2026-10-24 20:55:07.820 UTC [18808] session=6add1b2b.4978 app= peer= LOG:  redo done at 0/15DA0E8 system usage: CPU: user: 0.00 s, system: 0.03 s, elapsed: 0.04 s
+2026-10-24 20:55:07.824 UTC [34772] session=6add1b2b.87d4 app= peer= LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-10-24 20:55:07.896 UTC [34772] session=6add1b2b.87d4 app= peer= LOG:  checkpoint complete: wrote 93 buffers (0.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.022 s, sync=0.040 s, total=0.073 s; sync files=59, longest=0.002 s, average=0.001 s; distance=407 kB, estimate=407 kB; lsn=0/15DA120, redo lsn=0/15DA120
+2026-10-24 20:55:08.012 UTC [24244] session=6add1b2a.5eb4 app= peer= LOG:  database system is ready to accept connections
+2026-10-24 20:55:08.155 UTC [25592] session=6add1b2c.63f8 app=[unknown] peer=127.0.0.1(58202) LOG:  connection received: host=127.0.0.1 port=58202
+2026-10-24 20:55:08.169 UTC [25592] session=6add1b2c.63f8 app=[unknown] peer=127.0.0.1(58202) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:08.169 UTC [25592] session=6add1b2c.63f8 app=[unknown] peer=127.0.0.1(58202) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:09.120 UTC [9832] session=6add1b2d.2668 app=[unknown] peer=127.0.0.1(58203) LOG:  connection received: host=127.0.0.1 port=58203
+2026-10-24 20:55:09.161 UTC [9832] session=6add1b2d.2668 app=[unknown] peer=127.0.0.1(58203) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:09.162 UTC [9832] session=6add1b2d.2668 app=[unknown] peer=127.0.0.1(58203) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:09.179 UTC [9832] session=6add1b2d.2668 app=psql peer=127.0.0.1(58203) LOG:  disconnection: session time: 0:00:00.084 user=omp_test database=postgres host=127.0.0.1 port=58203
+2026-10-24 20:55:09.295 UTC [25592] session=6add1b2c.63f8 app=omp-postgresql peer=127.0.0.1(58202) LOG:  disconnection: session time: 0:00:01.157 user=qa_runtime database=postgres host=127.0.0.1 port=58202
+2026-10-24 20:55:19.149 UTC [7792] session=6add1b37.1e70 app=[unknown] peer=127.0.0.1(58206) LOG:  connection received: host=127.0.0.1 port=58206
+2026-10-24 20:55:19.151 UTC [7792] session=6add1b37.1e70 app=[unknown] peer=127.0.0.1(58206) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:19.151 UTC [7792] session=6add1b37.1e70 app=[unknown] peer=127.0.0.1(58206) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql
+2026-10-24 20:55:19.767 UTC [22996] session=6add1b37.59d4 app=[unknown] peer=127.0.0.1(58207) LOG:  connection received: host=127.0.0.1 port=58207
+2026-10-24 20:55:19.809 UTC [22996] session=6add1b37.59d4 app=[unknown] peer=127.0.0.1(58207) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:19.809 UTC [22996] session=6add1b37.59d4 app=[unknown] peer=127.0.0.1(58207) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:19.816 UTC [22996] session=6add1b37.59d4 app=psql peer=127.0.0.1(58207) LOG:  disconnection: session time: 0:00:00.067 user=omp_test database=postgres host=127.0.0.1 port=58207
+2026-10-24 20:55:20.289 UTC [7792] session=6add1b37.1e70 app=omp-postgresql peer=127.0.0.1(58206) LOG:  disconnection: session time: 0:00:01.161 user=qa_runtime database=postgres host=127.0.0.1 port=58206
+2026-10-24 20:55:20.357 UTC [17004] session=6add1b38.426c app=[unknown] peer=127.0.0.1(58209) LOG:  connection received: host=127.0.0.1 port=58209
+2026-10-24 20:55:20.359 UTC [17004] session=6add1b38.426c app=[unknown] peer=127.0.0.1(58209) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:20.360 UTC [17004] session=6add1b38.426c app=[unknown] peer=127.0.0.1(58209) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql
+2026-10-24 20:55:20.486 UTC [35456] session=6add1b38.8a80 app=[unknown] peer=127.0.0.1(58210) LOG:  connection received: host=127.0.0.1 port=58210
+2026-10-24 20:55:20.510 UTC [35456] session=6add1b38.8a80 app=[unknown] peer=127.0.0.1(58210) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:20.510 UTC [35456] session=6add1b38.8a80 app=[unknown] peer=127.0.0.1(58210) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:20.516 UTC [35456] session=6add1b38.8a80 app=psql peer=127.0.0.1(58210) LOG:  disconnection: session time: 0:00:00.049 user=omp_test database=postgres host=127.0.0.1 port=58210
+2026-10-24 20:55:20.649 UTC [30404] session=6add1b38.76c4 app=[unknown] peer=127.0.0.1(58211) LOG:  connection received: host=127.0.0.1 port=58211
+2026-10-24 20:55:20.681 UTC [30404] session=6add1b38.76c4 app=[unknown] peer=127.0.0.1(58211) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:20.681 UTC [30404] session=6add1b38.76c4 app=[unknown] peer=127.0.0.1(58211) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:20.687 UTC [30404] session=6add1b38.76c4 app=psql peer=127.0.0.1(58211) LOG:  disconnection: session time: 0:00:00.056 user=omp_test database=postgres host=127.0.0.1 port=58211
+2026-10-24 20:55:21.766 UTC [35540] session=6add1b39.8ad4 app=[unknown] peer=127.0.0.1(58212) LOG:  connection received: host=127.0.0.1 port=58212
+2026-10-24 20:55:21.798 UTC [35540] session=6add1b39.8ad4 app=[unknown] peer=127.0.0.1(58212) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:21.798 UTC [35540] session=6add1b39.8ad4 app=[unknown] peer=127.0.0.1(58212) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:21.807 UTC [35540] session=6add1b39.8ad4 app=psql peer=127.0.0.1(58212) LOG:  disconnection: session time: 0:00:00.054 user=omp_test database=postgres host=127.0.0.1 port=58212
+2026-10-24 20:55:21.943 UTC [25488] session=6add1b39.6390 app=[unknown] peer=127.0.0.1(58213) LOG:  connection received: host=127.0.0.1 port=58213
+2026-10-24 20:55:21.964 UTC [25488] session=6add1b39.6390 app=[unknown] peer=127.0.0.1(58213) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:21.965 UTC [25488] session=6add1b39.6390 app=[unknown] peer=127.0.0.1(58213) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:21.969 UTC [25488] session=6add1b39.6390 app=psql peer=127.0.0.1(58213) LOG:  disconnection: session time: 0:00:00.038 user=omp_test database=postgres host=127.0.0.1 port=58213
+2026-10-24 20:55:22.081 UTC [17004] session=6add1b38.426c app=omp-postgresql peer=127.0.0.1(58209) LOG:  disconnection: session time: 0:00:01.747 user=qa_runtime database=postgres host=127.0.0.1 port=58209
+2026-10-24 20:55:31.910 UTC [25116] session=6add1b43.621c app=[unknown] peer=127.0.0.1(58214) LOG:  connection received: host=127.0.0.1 port=58214
+2026-10-24 20:55:31.950 UTC [25116] session=6add1b43.621c app=[unknown] peer=127.0.0.1(58214) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:31.950 UTC [25116] session=6add1b43.621c app=[unknown] peer=127.0.0.1(58214) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:32.466 UTC [25116] session=6add1b43.621c app=omp-postgresql peer=127.0.0.1(58214) LOG:  disconnection: session time: 0:00:00.579 user=qa_runtime database=postgres host=127.0.0.1 port=58214
+2026-10-24 20:55:44.551 UTC [6312] session=6add1b50.18a8 app=[unknown] peer=127.0.0.1(58218) LOG:  connection received: host=127.0.0.1 port=58218
+2026-10-24 20:55:44.566 UTC [6312] session=6add1b50.18a8 app=[unknown] peer=127.0.0.1(58218) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:44.566 UTC [6312] session=6add1b50.18a8 app=[unknown] peer=127.0.0.1(58218) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:59.610 UTC [18448] session=6add1b5f.4810 app=[unknown] peer=127.0.0.1(58221) LOG:  connection received: host=127.0.0.1 port=58221
+2026-10-24 20:55:59.628 UTC [18448] session=6add1b5f.4810 app=[unknown] peer=127.0.0.1(58221) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:55:59.628 UTC [18448] session=6add1b5f.4810 app=[unknown] peer=127.0.0.1(58221) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:55:59.634 UTC [18448] session=6add1b5f.4810 app=psql peer=127.0.0.1(58221) LOG:  disconnection: session time: 0:00:00.038 user=omp_test database=postgres host=127.0.0.1 port=58221
+2026-10-24 20:55:59.736 UTC [6312] session=6add1b50.18a8 app=omp-postgresql peer=127.0.0.1(58218) LOG:  disconnection: session time: 0:00:15.204 user=qa_runtime database=postgres host=127.0.0.1 port=58218
+2026-10-24 20:56:09.592 UTC [3292] session=6add1b69.cdc app=[unknown] peer=127.0.0.1(58222) LOG:  connection received: host=127.0.0.1 port=58222
+2026-10-24 20:56:09.632 UTC [3292] session=6add1b69.cdc app=[unknown] peer=127.0.0.1(58222) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:09.633 UTC [3292] session=6add1b69.cdc app=[unknown] peer=127.0.0.1(58222) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:15.099 UTC [3292] session=6add1b69.cdc app=omp-postgresql peer=127.0.0.1(58222) LOG:  could not receive data from client: unrecognized winsock error 10053
+2026-10-24 20:56:15.100 UTC [3292] session=6add1b69.cdc app=omp-postgresql peer=127.0.0.1(58222) LOG:  disconnection: session time: 0:00:05.525 user=qa_runtime database=postgres host=127.0.0.1 port=58222
+2026-10-24 20:56:20.247 UTC [27784] session=6add1b74.6c88 app=[unknown] peer=127.0.0.1(58224) LOG:  connection received: host=127.0.0.1 port=58224
+2026-10-24 20:56:20.274 UTC [27784] session=6add1b74.6c88 app=[unknown] peer=127.0.0.1(58224) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:20.274 UTC [27784] session=6add1b74.6c88 app=[unknown] peer=127.0.0.1(58224) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:20.685 UTC [27784] session=6add1b74.6c88 app=omp-postgresql peer=127.0.0.1(58224) LOG:  disconnection: session time: 0:00:00.461 user=qa_runtime database=postgres host=127.0.0.1 port=58224
+2026-10-24 20:56:20.769 UTC [12636] session=6add1b74.315c app=[unknown] peer=127.0.0.1(58225) LOG:  connection received: host=127.0.0.1 port=58225
+2026-10-24 20:56:20.792 UTC [12636] session=6add1b74.315c app=[unknown] peer=127.0.0.1(58225) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:20.792 UTC [12636] session=6add1b74.315c app=[unknown] peer=127.0.0.1(58225) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:20.843 UTC [12636] session=6add1b74.315c app=omp-postgresql peer=127.0.0.1(58225) LOG:  disconnection: session time: 0:00:00.091 user=qa_runtime database=postgres host=127.0.0.1 port=58225
+2026-10-24 20:56:21.066 UTC [23924] session=6add1b75.5d74 app=[unknown] peer=127.0.0.1(58226) LOG:  connection received: host=127.0.0.1 port=58226
+2026-10-24 20:56:21.107 UTC [23924] session=6add1b75.5d74 app=[unknown] peer=127.0.0.1(58226) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:21.107 UTC [23924] session=6add1b75.5d74 app=[unknown] peer=127.0.0.1(58226) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:21.184 UTC [23924] session=6add1b75.5d74 app=psql peer=127.0.0.1(58226) LOG:  disconnection: session time: 0:00:00.136 user=omp_test database=postgres host=127.0.0.1 port=58226
+2026-10-24 20:56:31.143 UTC [14184] session=6add1b7f.3768 app=[unknown] peer=127.0.0.1(58229) LOG:  connection received: host=127.0.0.1 port=58229
+2026-10-24 20:56:31.163 UTC [4612] session=6add1b7f.1204 app=[unknown] peer=127.0.0.1(58228) LOG:  connection received: host=127.0.0.1 port=58228
+2026-10-24 20:56:31.186 UTC [14184] session=6add1b7f.3768 app=[unknown] peer=127.0.0.1(58229) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:31.187 UTC [14184] session=6add1b7f.3768 app=[unknown] peer=127.0.0.1(58229) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:31.189 UTC [4612] session=6add1b7f.1204 app=[unknown] peer=127.0.0.1(58228) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:31.189 UTC [4612] session=6add1b7f.1204 app=[unknown] peer=127.0.0.1(58228) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:31.727 UTC [1364] session=6add1b7f.554 app=[unknown] peer=127.0.0.1(58231) LOG:  connection received: host=127.0.0.1 port=58231
+2026-10-24 20:56:31.750 UTC [1364] session=6add1b7f.554 app=[unknown] peer=127.0.0.1(58231) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:31.750 UTC [1364] session=6add1b7f.554 app=[unknown] peer=127.0.0.1(58231) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:31.760 UTC [1364] session=6add1b7f.554 app=psql peer=127.0.0.1(58231) LOG:  disconnection: session time: 0:00:00.045 user=omp_test database=postgres host=127.0.0.1 port=58231
+2026-10-24 20:56:31.836 UTC [9868] session=6add1b7f.268c app=[unknown] peer=127.0.0.1(58230) LOG:  connection received: host=127.0.0.1 port=58230
+2026-10-24 20:56:31.871 UTC [9868] session=6add1b7f.268c app=[unknown] peer=127.0.0.1(58230) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:31.871 UTC [9868] session=6add1b7f.268c app=[unknown] peer=127.0.0.1(58230) LOG:  connection authorized: user=omp_test database=postgres application_name=qa_lock SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:31.937 UTC [25892] session=6add1b7f.6524 app=[unknown] peer=127.0.0.1(58232) LOG:  connection received: host=127.0.0.1 port=58232
+2026-10-24 20:56:31.968 UTC [25892] session=6add1b7f.6524 app=[unknown] peer=127.0.0.1(58232) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:31.969 UTC [25892] session=6add1b7f.6524 app=[unknown] peer=127.0.0.1(58232) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:31.983 UTC [25892] session=6add1b7f.6524 app=psql peer=127.0.0.1(58232) LOG:  disconnection: session time: 0:00:00.062 user=omp_test database=postgres host=127.0.0.1 port=58232
+2026-10-24 20:56:32.709 UTC [10788] session=6add1b80.2a24 app=[unknown] peer=127.0.0.1(58233) LOG:  connection received: host=127.0.0.1 port=58233
+2026-10-24 20:56:32.744 UTC [10788] session=6add1b80.2a24 app=[unknown] peer=127.0.0.1(58233) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:32.745 UTC [10788] session=6add1b80.2a24 app=[unknown] peer=127.0.0.1(58233) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:32.754 UTC [9868] session=6add1b7f.268c app=qa_lock peer=127.0.0.1(58230) FATAL:  terminating connection due to administrator command
+2026-10-24 20:56:32.755 UTC [9868] session=6add1b7f.268c app=qa_lock peer=127.0.0.1(58230) LOG:  disconnection: session time: 0:00:00.941 user=omp_test database=postgres host=127.0.0.1 port=58230
+2026-10-24 20:56:32.755 UTC [10788] session=6add1b80.2a24 app=psql peer=127.0.0.1(58233) LOG:  disconnection: session time: 0:00:00.069 user=omp_test database=postgres host=127.0.0.1 port=58233
+2026-10-24 20:56:32.971 UTC [4612] session=6add1b7f.1204 app=omp-postgresql peer=127.0.0.1(58228) LOG:  disconnection: session time: 0:00:01.829 user=qa_runtime database=postgres host=127.0.0.1 port=58228
+2026-10-24 20:56:32.971 UTC [14184] session=6add1b7f.3768 app=omp-postgresql peer=127.0.0.1(58229) LOG:  disconnection: session time: 0:00:01.854 user=qa_runtime database=postgres host=127.0.0.1 port=58229
+2026-10-24 20:56:43.008 UTC [2188] session=6add1b8a.88c app=[unknown] peer=127.0.0.1(58234) LOG:  connection received: host=127.0.0.1 port=58234
+2026-10-24 20:56:43.024 UTC [32932] session=6add1b8b.80a4 app=[unknown] peer=127.0.0.1(58235) LOG:  connection received: host=127.0.0.1 port=58235
+2026-10-24 20:56:43.047 UTC [2188] session=6add1b8a.88c app=[unknown] peer=127.0.0.1(58234) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:43.047 UTC [2188] session=6add1b8a.88c app=[unknown] peer=127.0.0.1(58234) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:43.047 UTC [32932] session=6add1b8b.80a4 app=[unknown] peer=127.0.0.1(58235) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:43.047 UTC [32932] session=6add1b8b.80a4 app=[unknown] peer=127.0.0.1(58235) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:43.608 UTC [30688] session=6add1b8b.77e0 app=[unknown] peer=127.0.0.1(58236) LOG:  connection received: host=127.0.0.1 port=58236
+2026-10-24 20:56:43.621 UTC [34072] session=6add1b8b.8518 app=[unknown] peer=127.0.0.1(58237) LOG:  connection received: host=127.0.0.1 port=58237
+2026-10-24 20:56:43.633 UTC [30688] session=6add1b8b.77e0 app=[unknown] peer=127.0.0.1(58236) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:43.633 UTC [30688] session=6add1b8b.77e0 app=[unknown] peer=127.0.0.1(58236) LOG:  connection authorized: user=omp_test database=postgres application_name=qa_lock SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:43.647 UTC [34072] session=6add1b8b.8518 app=[unknown] peer=127.0.0.1(58237) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:43.647 UTC [34072] session=6add1b8b.8518 app=[unknown] peer=127.0.0.1(58237) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:43.655 UTC [34072] session=6add1b8b.8518 app=psql peer=127.0.0.1(58237) LOG:  disconnection: session time: 0:00:00.049 user=omp_test database=postgres host=127.0.0.1 port=58237
+2026-10-24 20:56:44.302 UTC [14768] session=6add1b8c.39b0 app=[unknown] peer=127.0.0.1(58238) LOG:  connection received: host=127.0.0.1 port=58238
+2026-10-24 20:56:44.341 UTC [14768] session=6add1b8c.39b0 app=[unknown] peer=127.0.0.1(58238) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:44.341 UTC [14768] session=6add1b8c.39b0 app=[unknown] peer=127.0.0.1(58238) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:44.363 UTC [30688] session=6add1b8b.77e0 app=qa_lock peer=127.0.0.1(58236) FATAL:  terminating connection due to administrator command
+2026-10-24 20:56:44.364 UTC [30688] session=6add1b8b.77e0 app=qa_lock peer=127.0.0.1(58236) LOG:  disconnection: session time: 0:00:00.771 user=omp_test database=postgres host=127.0.0.1 port=58236
+2026-10-24 20:56:44.364 UTC [14768] session=6add1b8c.39b0 app=psql peer=127.0.0.1(58238) LOG:  disconnection: session time: 0:00:00.085 user=omp_test database=postgres host=127.0.0.1 port=58238
+2026-10-24 20:56:44.596 UTC [2188] session=6add1b8a.88c app=omp-postgresql peer=127.0.0.1(58234) LOG:  disconnection: session time: 0:00:01.611 user=qa_runtime database=postgres host=127.0.0.1 port=58234
+2026-10-24 20:56:44.596 UTC [32932] session=6add1b8b.80a4 app=omp-postgresql peer=127.0.0.1(58235) LOG:  disconnection: session time: 0:00:01.594 user=qa_runtime database=postgres host=127.0.0.1 port=58235
+2026-10-24 20:56:54.523 UTC [5948] session=6add1b96.173c app=[unknown] peer=127.0.0.1(58244) LOG:  connection received: host=127.0.0.1 port=58244
+2026-10-24 20:56:54.560 UTC [5948] session=6add1b96.173c app=[unknown] peer=127.0.0.1(58244) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:56:54.560 UTC [5948] session=6add1b96.173c app=[unknown] peer=127.0.0.1(58244) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:56:54.582 UTC [5948] session=6add1b96.173c app=omp-postgresql peer=127.0.0.1(58244) LOG:  disconnection: session time: 0:00:00.084 user=qa_runtime database=postgres host=127.0.0.1 port=58244
+2026-10-24 20:57:04.378 UTC [13832] session=6add1ba0.3608 app=[unknown] peer=127.0.0.1(58255) LOG:  connection received: host=127.0.0.1 port=58255
+2026-10-24 20:57:04.435 UTC [13832] session=6add1ba0.3608 app=[unknown] peer=127.0.0.1(58255) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:04.435 UTC [13832] session=6add1ba0.3608 app=[unknown] peer=127.0.0.1(58255) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:04.517 UTC [13832] session=6add1ba0.3608 app=omp-postgresql peer=127.0.0.1(58255) LOG:  disconnection: session time: 0:00:00.160 user=qa_runtime database=postgres host=127.0.0.1 port=58255
+2026-10-24 20:57:14.255 UTC [10380] session=6add1baa.288c app=[unknown] peer=127.0.0.1(58256) LOG:  connection received: host=127.0.0.1 port=58256
+2026-10-24 20:57:14.311 UTC [10380] session=6add1baa.288c app=[unknown] peer=127.0.0.1(58256) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:14.311 UTC [10380] session=6add1baa.288c app=[unknown] peer=127.0.0.1(58256) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:14.336 UTC [10380] session=6add1baa.288c app=omp-postgresql peer=127.0.0.1(58256) LOG:  disconnection: session time: 0:00:00.097 user=qa_runtime database=postgres host=127.0.0.1 port=58256
+2026-10-24 20:57:24.009 UTC [16388] session=6add1bb3.4004 app=[unknown] peer=127.0.0.1(58257) LOG:  connection received: host=127.0.0.1 port=58257
+2026-10-24 20:57:24.047 UTC [16388] session=6add1bb3.4004 app=[unknown] peer=127.0.0.1(58257) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:24.047 UTC [16388] session=6add1bb3.4004 app=[unknown] peer=127.0.0.1(58257) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:24.107 UTC [16388] session=6add1bb3.4004 app=omp-postgresql peer=127.0.0.1(58257) LOG:  disconnection: session time: 0:00:00.113 user=qa_runtime database=postgres host=127.0.0.1 port=58257
+2026-10-24 20:57:33.964 UTC [6012] session=6add1bbd.177c app=[unknown] peer=127.0.0.1(58262) LOG:  connection received: host=127.0.0.1 port=58262
+2026-10-24 20:57:34.026 UTC [6012] session=6add1bbd.177c app=[unknown] peer=127.0.0.1(58262) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:34.026 UTC [6012] session=6add1bbd.177c app=[unknown] peer=127.0.0.1(58262) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:34.088 UTC [6012] session=6add1bbd.177c app=omp-postgresql peer=127.0.0.1(58262) LOG:  disconnection: session time: 0:00:00.140 user=qa_runtime database=postgres host=127.0.0.1 port=58262
+2026-10-24 20:57:43.827 UTC [25988] session=6add1bc7.6584 app=[unknown] peer=127.0.0.1(58263) LOG:  connection received: host=127.0.0.1 port=58263
+2026-10-24 20:57:43.885 UTC [25988] session=6add1bc7.6584 app=[unknown] peer=127.0.0.1(58263) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:43.886 UTC [25988] session=6add1bc7.6584 app=[unknown] peer=127.0.0.1(58263) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:43.966 UTC [25988] session=6add1bc7.6584 app=omp-postgresql peer=127.0.0.1(58263) LOG:  disconnection: session time: 0:00:00.160 user=qa_runtime database=postgres host=127.0.0.1 port=58263
+2026-10-24 20:57:53.699 UTC [17840] session=6add1bd1.45b0 app=[unknown] peer=127.0.0.1(58265) LOG:  connection received: host=127.0.0.1 port=58265
+2026-10-24 20:57:53.761 UTC [17840] session=6add1bd1.45b0 app=[unknown] peer=127.0.0.1(58265) LOG:  connection authenticated: user="qa_runtime" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:53.761 UTC [17840] session=6add1bd1.45b0 app=[unknown] peer=127.0.0.1(58265) LOG:  connection authorized: user=qa_runtime database=postgres application_name=omp-postgresql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:53.951 UTC [31020] session=6add1bd1.792c app=[unknown] peer=127.0.0.1(58266) LOG:  connection received: host=127.0.0.1 port=58266
+2026-10-24 20:57:53.966 UTC [35344] session=6add1bd1.8a10 app=[unknown] peer=127.0.0.1(58267) LOG:  connection received: host=127.0.0.1 port=58267
+2026-10-24 20:57:53.978 UTC [31020] session=6add1bd1.792c app=[unknown] peer=127.0.0.1(58266) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:53.978 UTC [31020] session=6add1bd1.792c app=[unknown] peer=127.0.0.1(58266) LOG:  connection authorized: user=omp_test database=postgres application_name=qa_lock SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:53.989 UTC [35344] session=6add1bd1.8a10 app=[unknown] peer=127.0.0.1(58267) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:53.989 UTC [35344] session=6add1bd1.8a10 app=[unknown] peer=127.0.0.1(58267) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:53.997 UTC [35344] session=6add1bd1.8a10 app=psql peer=127.0.0.1(58267) LOG:  disconnection: session time: 0:00:00.051 user=omp_test database=postgres host=127.0.0.1 port=58267
+2026-10-24 20:57:54.536 UTC [1668] session=6add1bd2.684 app=[unknown] peer=127.0.0.1(58268) LOG:  connection received: host=127.0.0.1 port=58268
+2026-10-24 20:57:54.563 UTC [1668] session=6add1bd2.684 app=[unknown] peer=127.0.0.1(58268) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:54.563 UTC [1668] session=6add1bd2.684 app=[unknown] peer=127.0.0.1(58268) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:54.575 UTC [1668] session=6add1bd2.684 app=psql peer=127.0.0.1(58268) LOG:  disconnection: session time: 0:00:00.056 user=omp_test database=postgres host=127.0.0.1 port=58268
+2026-10-24 20:57:54.731 UTC [21264] session=6add1bd2.5310 app=[unknown] peer=127.0.0.1(58269) LOG:  connection received: host=127.0.0.1 port=58269
+2026-10-24 20:57:54.764 UTC [21264] session=6add1bd2.5310 app=[unknown] peer=127.0.0.1(58269) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:54.764 UTC [21264] session=6add1bd2.5310 app=[unknown] peer=127.0.0.1(58269) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:54.775 UTC [21264] session=6add1bd2.5310 app=psql peer=127.0.0.1(58269) LOG:  disconnection: session time: 0:00:00.058 user=omp_test database=postgres host=127.0.0.1 port=58269
+2026-10-24 20:57:54.945 UTC [15988] session=6add1bd2.3e74 app=[unknown] peer=127.0.0.1(58270) LOG:  connection received: host=127.0.0.1 port=58270
+2026-10-24 20:57:54.973 UTC [15988] session=6add1bd2.3e74 app=[unknown] peer=127.0.0.1(58270) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:54.973 UTC [15988] session=6add1bd2.3e74 app=[unknown] peer=127.0.0.1(58270) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:54.985 UTC [15988] session=6add1bd2.3e74 app=psql peer=127.0.0.1(58270) LOG:  disconnection: session time: 0:00:00.056 user=omp_test database=postgres host=127.0.0.1 port=58270
+2026-10-24 20:57:55.139 UTC [34992] session=6add1bd3.88b0 app=[unknown] peer=127.0.0.1(58271) LOG:  connection received: host=127.0.0.1 port=58271
+2026-10-24 20:57:55.171 UTC [34992] session=6add1bd3.88b0 app=[unknown] peer=127.0.0.1(58271) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:55.171 UTC [34992] session=6add1bd3.88b0 app=[unknown] peer=127.0.0.1(58271) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:55.183 UTC [34992] session=6add1bd3.88b0 app=psql peer=127.0.0.1(58271) LOG:  disconnection: session time: 0:00:00.060 user=omp_test database=postgres host=127.0.0.1 port=58271
+2026-10-24 20:57:55.356 UTC [20856] session=6add1bd3.5178 app=[unknown] peer=127.0.0.1(58272) LOG:  connection received: host=127.0.0.1 port=58272
+2026-10-24 20:57:55.389 UTC [20856] session=6add1bd3.5178 app=[unknown] peer=127.0.0.1(58272) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:55.389 UTC [20856] session=6add1bd3.5178 app=[unknown] peer=127.0.0.1(58272) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:55.401 UTC [20856] session=6add1bd3.5178 app=psql peer=127.0.0.1(58272) LOG:  disconnection: session time: 0:00:00.065 user=omp_test database=postgres host=127.0.0.1 port=58272
+2026-10-24 20:57:55.590 UTC [29452] session=6add1bd3.730c app=[unknown] peer=127.0.0.1(58273) LOG:  connection received: host=127.0.0.1 port=58273
+2026-10-24 20:57:55.627 UTC [29452] session=6add1bd3.730c app=[unknown] peer=127.0.0.1(58273) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:55.627 UTC [29452] session=6add1bd3.730c app=[unknown] peer=127.0.0.1(58273) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:55.642 UTC [29452] session=6add1bd3.730c app=psql peer=127.0.0.1(58273) LOG:  disconnection: session time: 0:00:00.076 user=omp_test database=postgres host=127.0.0.1 port=58273
+2026-10-24 20:57:55.794 UTC [29440] session=6add1bd3.7300 app=[unknown] peer=127.0.0.1(58274) LOG:  connection received: host=127.0.0.1 port=58274
+2026-10-24 20:57:55.827 UTC [29440] session=6add1bd3.7300 app=[unknown] peer=127.0.0.1(58274) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:55.827 UTC [29440] session=6add1bd3.7300 app=[unknown] peer=127.0.0.1(58274) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:55.838 UTC [29440] session=6add1bd3.7300 app=psql peer=127.0.0.1(58274) LOG:  disconnection: session time: 0:00:00.060 user=omp_test database=postgres host=127.0.0.1 port=58274
+2026-10-24 20:57:56.014 UTC [4132] session=6add1bd3.1024 app=[unknown] peer=127.0.0.1(58275) LOG:  connection received: host=127.0.0.1 port=58275
+2026-10-24 20:57:56.048 UTC [4132] session=6add1bd3.1024 app=[unknown] peer=127.0.0.1(58275) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:56.048 UTC [4132] session=6add1bd3.1024 app=[unknown] peer=127.0.0.1(58275) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:56.060 UTC [4132] session=6add1bd3.1024 app=psql peer=127.0.0.1(58275) LOG:  disconnection: session time: 0:00:00.062 user=omp_test database=postgres host=127.0.0.1 port=58275
+2026-10-24 20:57:56.223 UTC [29404] session=6add1bd4.72dc app=[unknown] peer=127.0.0.1(58276) LOG:  connection received: host=127.0.0.1 port=58276
+2026-10-24 20:57:56.253 UTC [29404] session=6add1bd4.72dc app=[unknown] peer=127.0.0.1(58276) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:56.253 UTC [29404] session=6add1bd4.72dc app=[unknown] peer=127.0.0.1(58276) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:56.268 UTC [29404] session=6add1bd4.72dc app=psql peer=127.0.0.1(58276) LOG:  disconnection: session time: 0:00:00.063 user=omp_test database=postgres host=127.0.0.1 port=58276
+2026-10-24 20:57:56.451 UTC [35248] session=6add1bd4.89b0 app=[unknown] peer=127.0.0.1(58277) LOG:  connection received: host=127.0.0.1 port=58277
+2026-10-24 20:57:56.482 UTC [35248] session=6add1bd4.89b0 app=[unknown] peer=127.0.0.1(58277) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:56.482 UTC [35248] session=6add1bd4.89b0 app=[unknown] peer=127.0.0.1(58277) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:56.491 UTC [35248] session=6add1bd4.89b0 app=psql peer=127.0.0.1(58277) LOG:  disconnection: session time: 0:00:00.063 user=omp_test database=postgres host=127.0.0.1 port=58277
+2026-10-24 20:57:56.764 UTC [1372] session=6add1bd4.55c app=[unknown] peer=127.0.0.1(58278) LOG:  connection received: host=127.0.0.1 port=58278
+2026-10-24 20:57:56.794 UTC [1372] session=6add1bd4.55c app=[unknown] peer=127.0.0.1(58278) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:56.794 UTC [1372] session=6add1bd4.55c app=[unknown] peer=127.0.0.1(58278) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:56.804 UTC [1372] session=6add1bd4.55c app=psql peer=127.0.0.1(58278) LOG:  disconnection: session time: 0:00:00.061 user=omp_test database=postgres host=127.0.0.1 port=58278
+2026-10-24 20:57:56.972 UTC [3484] session=6add1bd4.d9c app=[unknown] peer=127.0.0.1(58279) LOG:  connection received: host=127.0.0.1 port=58279
+2026-10-24 20:57:56.996 UTC [3484] session=6add1bd4.d9c app=[unknown] peer=127.0.0.1(58279) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:56.996 UTC [3484] session=6add1bd4.d9c app=[unknown] peer=127.0.0.1(58279) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:57.003 UTC [3484] session=6add1bd4.d9c app=psql peer=127.0.0.1(58279) LOG:  disconnection: session time: 0:00:00.048 user=omp_test database=postgres host=127.0.0.1 port=58279
+2026-10-24 20:57:57.156 UTC [2196] session=6add1bd5.894 app=[unknown] peer=127.0.0.1(58280) LOG:  connection received: host=127.0.0.1 port=58280
+2026-10-24 20:57:57.178 UTC [2196] session=6add1bd5.894 app=[unknown] peer=127.0.0.1(58280) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:57.178 UTC [2196] session=6add1bd5.894 app=[unknown] peer=127.0.0.1(58280) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:57.187 UTC [2196] session=6add1bd5.894 app=psql peer=127.0.0.1(58280) LOG:  disconnection: session time: 0:00:00.044 user=omp_test database=postgres host=127.0.0.1 port=58280
+2026-10-24 20:57:57.436 UTC [27448] session=6add1bd5.6b38 app=[unknown] peer=127.0.0.1(58281) LOG:  connection received: host=127.0.0.1 port=58281
+2026-10-24 20:57:57.466 UTC [27448] session=6add1bd5.6b38 app=[unknown] peer=127.0.0.1(58281) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:57.466 UTC [27448] session=6add1bd5.6b38 app=[unknown] peer=127.0.0.1(58281) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:57.478 UTC [27448] session=6add1bd5.6b38 app=psql peer=127.0.0.1(58281) LOG:  disconnection: session time: 0:00:00.059 user=omp_test database=postgres host=127.0.0.1 port=58281
+2026-10-24 20:57:57.653 UTC [8464] session=6add1bd5.2110 app=[unknown] peer=127.0.0.1(58282) LOG:  connection received: host=127.0.0.1 port=58282
+2026-10-24 20:57:57.672 UTC [8464] session=6add1bd5.2110 app=[unknown] peer=127.0.0.1(58282) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:57.672 UTC [8464] session=6add1bd5.2110 app=[unknown] peer=127.0.0.1(58282) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:57.679 UTC [8464] session=6add1bd5.2110 app=psql peer=127.0.0.1(58282) LOG:  disconnection: session time: 0:00:00.039 user=omp_test database=postgres host=127.0.0.1 port=58282
+2026-10-24 20:57:57.841 UTC [8816] session=6add1bd5.2270 app=[unknown] peer=127.0.0.1(58283) LOG:  connection received: host=127.0.0.1 port=58283
+2026-10-24 20:57:57.871 UTC [8816] session=6add1bd5.2270 app=[unknown] peer=127.0.0.1(58283) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:57.871 UTC [8816] session=6add1bd5.2270 app=[unknown] peer=127.0.0.1(58283) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:57.883 UTC [8816] session=6add1bd5.2270 app=psql peer=127.0.0.1(58283) LOG:  disconnection: session time: 0:00:00.063 user=omp_test database=postgres host=127.0.0.1 port=58283
+2026-10-24 20:57:58.047 UTC [15708] session=6add1bd6.3d5c app=[unknown] peer=127.0.0.1(58284) LOG:  connection received: host=127.0.0.1 port=58284
+2026-10-24 20:57:58.078 UTC [15708] session=6add1bd6.3d5c app=[unknown] peer=127.0.0.1(58284) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:58.078 UTC [15708] session=6add1bd6.3d5c app=[unknown] peer=127.0.0.1(58284) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:58.088 UTC [15708] session=6add1bd6.3d5c app=psql peer=127.0.0.1(58284) LOG:  disconnection: session time: 0:00:00.063 user=omp_test database=postgres host=127.0.0.1 port=58284
+2026-10-24 20:57:58.279 UTC [35292] session=6add1bd6.89dc app=[unknown] peer=127.0.0.1(58286) LOG:  connection received: host=127.0.0.1 port=58286
+2026-10-24 20:57:58.310 UTC [35292] session=6add1bd6.89dc app=[unknown] peer=127.0.0.1(58286) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:58.310 UTC [35292] session=6add1bd6.89dc app=[unknown] peer=127.0.0.1(58286) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:58.323 UTC [35292] session=6add1bd6.89dc app=psql peer=127.0.0.1(58286) LOG:  disconnection: session time: 0:00:00.061 user=omp_test database=postgres host=127.0.0.1 port=58286
+2026-10-24 20:57:58.488 UTC [6172] session=6add1bd6.181c app=[unknown] peer=127.0.0.1(58287) LOG:  connection received: host=127.0.0.1 port=58287
+2026-10-24 20:57:58.512 UTC [6172] session=6add1bd6.181c app=[unknown] peer=127.0.0.1(58287) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:58.512 UTC [6172] session=6add1bd6.181c app=[unknown] peer=127.0.0.1(58287) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:58.526 UTC [6172] session=6add1bd6.181c app=psql peer=127.0.0.1(58287) LOG:  disconnection: session time: 0:00:00.054 user=omp_test database=postgres host=127.0.0.1 port=58287
+2026-10-24 20:57:58.758 UTC [12920] session=6add1bd6.3278 app=[unknown] peer=127.0.0.1(58288) LOG:  connection received: host=127.0.0.1 port=58288
+2026-10-24 20:57:58.793 UTC [12920] session=6add1bd6.3278 app=[unknown] peer=127.0.0.1(58288) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:58.793 UTC [12920] session=6add1bd6.3278 app=[unknown] peer=127.0.0.1(58288) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:58.808 UTC [12920] session=6add1bd6.3278 app=psql peer=127.0.0.1(58288) LOG:  disconnection: session time: 0:00:00.072 user=omp_test database=postgres host=127.0.0.1 port=58288
+2026-10-24 20:57:58.951 UTC [14576] session=6add1bd6.38f0 app=[unknown] peer=127.0.0.1(58289) LOG:  connection received: host=127.0.0.1 port=58289
+2026-10-24 20:57:58.982 UTC [14576] session=6add1bd6.38f0 app=[unknown] peer=127.0.0.1(58289) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:58.982 UTC [14576] session=6add1bd6.38f0 app=[unknown] peer=127.0.0.1(58289) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:58.989 UTC [14576] session=6add1bd6.38f0 app=psql peer=127.0.0.1(58289) LOG:  disconnection: session time: 0:00:00.052 user=omp_test database=postgres host=127.0.0.1 port=58289
+2026-10-24 20:57:59.162 UTC [22812] session=6add1bd7.591c app=[unknown] peer=127.0.0.1(58290) LOG:  connection received: host=127.0.0.1 port=58290
+2026-10-24 20:57:59.191 UTC [22812] session=6add1bd7.591c app=[unknown] peer=127.0.0.1(58290) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:59.191 UTC [22812] session=6add1bd7.591c app=[unknown] peer=127.0.0.1(58290) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:59.205 UTC [22812] session=6add1bd7.591c app=psql peer=127.0.0.1(58290) LOG:  disconnection: session time: 0:00:00.064 user=omp_test database=postgres host=127.0.0.1 port=58290
+2026-10-24 20:57:59.379 UTC [27336] session=6add1bd7.6ac8 app=[unknown] peer=127.0.0.1(58291) LOG:  connection received: host=127.0.0.1 port=58291
+2026-10-24 20:57:59.402 UTC [27336] session=6add1bd7.6ac8 app=[unknown] peer=127.0.0.1(58291) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:59.402 UTC [27336] session=6add1bd7.6ac8 app=[unknown] peer=127.0.0.1(58291) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:59.410 UTC [27336] session=6add1bd7.6ac8 app=psql peer=127.0.0.1(58291) LOG:  disconnection: session time: 0:00:00.046 user=omp_test database=postgres host=127.0.0.1 port=58291
+2026-10-24 20:57:59.581 UTC [2412] session=6add1bd7.96c app=[unknown] peer=127.0.0.1(58292) LOG:  connection received: host=127.0.0.1 port=58292
+2026-10-24 20:57:59.620 UTC [2412] session=6add1bd7.96c app=[unknown] peer=127.0.0.1(58292) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:59.620 UTC [2412] session=6add1bd7.96c app=[unknown] peer=127.0.0.1(58292) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:59.633 UTC [2412] session=6add1bd7.96c app=psql peer=127.0.0.1(58292) LOG:  disconnection: session time: 0:00:00.076 user=omp_test database=postgres host=127.0.0.1 port=58292
+2026-10-24 20:57:59.863 UTC [2908] session=6add1bd7.b5c app=[unknown] peer=127.0.0.1(58293) LOG:  connection received: host=127.0.0.1 port=58293
+2026-10-24 20:57:59.885 UTC [2908] session=6add1bd7.b5c app=[unknown] peer=127.0.0.1(58293) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:57:59.885 UTC [2908] session=6add1bd7.b5c app=[unknown] peer=127.0.0.1(58293) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:57:59.892 UTC [2908] session=6add1bd7.b5c app=psql peer=127.0.0.1(58293) LOG:  disconnection: session time: 0:00:00.045 user=omp_test database=postgres host=127.0.0.1 port=58293
+2026-10-24 20:58:00.048 UTC [15488] session=6add1bd8.3c80 app=[unknown] peer=127.0.0.1(58294) LOG:  connection received: host=127.0.0.1 port=58294
+2026-10-24 20:58:00.083 UTC [15488] session=6add1bd8.3c80 app=[unknown] peer=127.0.0.1(58294) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:00.083 UTC [15488] session=6add1bd8.3c80 app=[unknown] peer=127.0.0.1(58294) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:00.096 UTC [15488] session=6add1bd8.3c80 app=psql peer=127.0.0.1(58294) LOG:  disconnection: session time: 0:00:00.068 user=omp_test database=postgres host=127.0.0.1 port=58294
+2026-10-24 20:58:00.261 UTC [11760] session=6add1bd8.2df0 app=[unknown] peer=127.0.0.1(58295) LOG:  connection received: host=127.0.0.1 port=58295
+2026-10-24 20:58:00.296 UTC [11760] session=6add1bd8.2df0 app=[unknown] peer=127.0.0.1(58295) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:00.296 UTC [11760] session=6add1bd8.2df0 app=[unknown] peer=127.0.0.1(58295) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:00.308 UTC [11760] session=6add1bd8.2df0 app=psql peer=127.0.0.1(58295) LOG:  disconnection: session time: 0:00:00.066 user=omp_test database=postgres host=127.0.0.1 port=58295
+2026-10-24 20:58:00.461 UTC [520] session=6add1bd8.208 app=[unknown] peer=127.0.0.1(58296) LOG:  connection received: host=127.0.0.1 port=58296
+2026-10-24 20:58:00.493 UTC [520] session=6add1bd8.208 app=[unknown] peer=127.0.0.1(58296) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:00.494 UTC [520] session=6add1bd8.208 app=[unknown] peer=127.0.0.1(58296) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:00.506 UTC [520] session=6add1bd8.208 app=psql peer=127.0.0.1(58296) LOG:  disconnection: session time: 0:00:00.063 user=omp_test database=postgres host=127.0.0.1 port=58296
+2026-10-24 20:58:00.669 UTC [23076] session=6add1bd8.5a24 app=[unknown] peer=127.0.0.1(58297) LOG:  connection received: host=127.0.0.1 port=58297
+2026-10-24 20:58:00.701 UTC [23076] session=6add1bd8.5a24 app=[unknown] peer=127.0.0.1(58297) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:00.701 UTC [23076] session=6add1bd8.5a24 app=[unknown] peer=127.0.0.1(58297) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:00.711 UTC [23076] session=6add1bd8.5a24 app=psql peer=127.0.0.1(58297) LOG:  disconnection: session time: 0:00:00.059 user=omp_test database=postgres host=127.0.0.1 port=58297
+2026-10-24 20:58:00.862 UTC [22796] session=6add1bd8.590c app=[unknown] peer=127.0.0.1(58298) LOG:  connection received: host=127.0.0.1 port=58298
+2026-10-24 20:58:00.902 UTC [22796] session=6add1bd8.590c app=[unknown] peer=127.0.0.1(58298) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:00.902 UTC [22796] session=6add1bd8.590c app=[unknown] peer=127.0.0.1(58298) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:00.912 UTC [22796] session=6add1bd8.590c app=psql peer=127.0.0.1(58298) LOG:  disconnection: session time: 0:00:00.065 user=omp_test database=postgres host=127.0.0.1 port=58298
+2026-10-24 20:58:01.084 UTC [31520] session=6add1bd9.7b20 app=[unknown] peer=127.0.0.1(58299) LOG:  connection received: host=127.0.0.1 port=58299
+2026-10-24 20:58:01.107 UTC [31520] session=6add1bd9.7b20 app=[unknown] peer=127.0.0.1(58299) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:01.107 UTC [31520] session=6add1bd9.7b20 app=[unknown] peer=127.0.0.1(58299) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:01.119 UTC [31520] session=6add1bd9.7b20 app=psql peer=127.0.0.1(58299) LOG:  disconnection: session time: 0:00:00.052 user=omp_test database=postgres host=127.0.0.1 port=58299
+2026-10-24 20:58:01.392 UTC [6416] session=6add1bd9.1910 app=[unknown] peer=127.0.0.1(58300) LOG:  connection received: host=127.0.0.1 port=58300
+2026-10-24 20:58:01.424 UTC [6416] session=6add1bd9.1910 app=[unknown] peer=127.0.0.1(58300) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:01.424 UTC [6416] session=6add1bd9.1910 app=[unknown] peer=127.0.0.1(58300) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:01.437 UTC [6416] session=6add1bd9.1910 app=psql peer=127.0.0.1(58300) LOG:  disconnection: session time: 0:00:00.062 user=omp_test database=postgres host=127.0.0.1 port=58300
+2026-10-24 20:58:01.598 UTC [5164] session=6add1bd9.142c app=[unknown] peer=127.0.0.1(58301) LOG:  connection received: host=127.0.0.1 port=58301
+2026-10-24 20:58:01.632 UTC [5164] session=6add1bd9.142c app=[unknown] peer=127.0.0.1(58301) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:01.632 UTC [5164] session=6add1bd9.142c app=[unknown] peer=127.0.0.1(58301) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:01.644 UTC [5164] session=6add1bd9.142c app=psql peer=127.0.0.1(58301) LOG:  disconnection: session time: 0:00:00.066 user=omp_test database=postgres host=127.0.0.1 port=58301
+2026-10-24 20:58:01.850 UTC [20904] session=6add1bd9.51a8 app=[unknown] peer=127.0.0.1(58302) LOG:  connection received: host=127.0.0.1 port=58302
+2026-10-24 20:58:01.885 UTC [20904] session=6add1bd9.51a8 app=[unknown] peer=127.0.0.1(58302) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:01.885 UTC [20904] session=6add1bd9.51a8 app=[unknown] peer=127.0.0.1(58302) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:01.897 UTC [20904] session=6add1bd9.51a8 app=psql peer=127.0.0.1(58302) LOG:  disconnection: session time: 0:00:00.064 user=omp_test database=postgres host=127.0.0.1 port=58302
+2026-10-24 20:58:02.102 UTC [24840] session=6add1bda.6108 app=[unknown] peer=127.0.0.1(58304) LOG:  connection received: host=127.0.0.1 port=58304
+2026-10-24 20:58:02.138 UTC [24840] session=6add1bda.6108 app=[unknown] peer=127.0.0.1(58304) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:02.138 UTC [24840] session=6add1bda.6108 app=[unknown] peer=127.0.0.1(58304) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:02.149 UTC [24840] session=6add1bda.6108 app=psql peer=127.0.0.1(58304) LOG:  disconnection: session time: 0:00:00.070 user=omp_test database=postgres host=127.0.0.1 port=58304
+2026-10-24 20:58:02.301 UTC [31948] session=6add1bda.7ccc app=[unknown] peer=127.0.0.1(58305) LOG:  connection received: host=127.0.0.1 port=58305
+2026-10-24 20:58:02.326 UTC [31948] session=6add1bda.7ccc app=[unknown] peer=127.0.0.1(58305) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:02.326 UTC [31948] session=6add1bda.7ccc app=[unknown] peer=127.0.0.1(58305) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:02.338 UTC [31948] session=6add1bda.7ccc app=psql peer=127.0.0.1(58305) LOG:  disconnection: session time: 0:00:00.050 user=omp_test database=postgres host=127.0.0.1 port=58305
+2026-10-24 20:58:02.501 UTC [5204] session=6add1bda.1454 app=[unknown] peer=127.0.0.1(58306) LOG:  connection received: host=127.0.0.1 port=58306
+2026-10-24 20:58:02.528 UTC [5204] session=6add1bda.1454 app=[unknown] peer=127.0.0.1(58306) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:02.528 UTC [5204] session=6add1bda.1454 app=[unknown] peer=127.0.0.1(58306) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:02.538 UTC [5204] session=6add1bda.1454 app=psql peer=127.0.0.1(58306) LOG:  disconnection: session time: 0:00:00.052 user=omp_test database=postgres host=127.0.0.1 port=58306
+2026-10-24 20:58:02.706 UTC [21736] session=6add1bda.54e8 app=[unknown] peer=127.0.0.1(58307) LOG:  connection received: host=127.0.0.1 port=58307
+2026-10-24 20:58:02.733 UTC [21736] session=6add1bda.54e8 app=[unknown] peer=127.0.0.1(58307) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:02.733 UTC [21736] session=6add1bda.54e8 app=[unknown] peer=127.0.0.1(58307) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:02.744 UTC [21736] session=6add1bda.54e8 app=psql peer=127.0.0.1(58307) LOG:  disconnection: session time: 0:00:00.056 user=omp_test database=postgres host=127.0.0.1 port=58307
+2026-10-24 20:58:02.901 UTC [11688] session=6add1bda.2da8 app=[unknown] peer=127.0.0.1(58308) LOG:  connection received: host=127.0.0.1 port=58308
+2026-10-24 20:58:02.932 UTC [11688] session=6add1bda.2da8 app=[unknown] peer=127.0.0.1(58308) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:02.932 UTC [11688] session=6add1bda.2da8 app=[unknown] peer=127.0.0.1(58308) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:02.943 UTC [11688] session=6add1bda.2da8 app=psql peer=127.0.0.1(58308) LOG:  disconnection: session time: 0:00:00.062 user=omp_test database=postgres host=127.0.0.1 port=58308
+2026-10-24 20:58:03.116 UTC [23400] session=6add1bdb.5b68 app=[unknown] peer=127.0.0.1(58309) LOG:  connection received: host=127.0.0.1 port=58309
+2026-10-24 20:58:03.137 UTC [23400] session=6add1bdb.5b68 app=[unknown] peer=127.0.0.1(58309) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:03.137 UTC [23400] session=6add1bdb.5b68 app=[unknown] peer=127.0.0.1(58309) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:03.147 UTC [23400] session=6add1bdb.5b68 app=psql peer=127.0.0.1(58309) LOG:  disconnection: session time: 0:00:00.047 user=omp_test database=postgres host=127.0.0.1 port=58309
+2026-10-24 20:58:03.402 UTC [23328] session=6add1bdb.5b20 app=[unknown] peer=127.0.0.1(58310) LOG:  connection received: host=127.0.0.1 port=58310
+2026-10-24 20:58:03.429 UTC [23328] session=6add1bdb.5b20 app=[unknown] peer=127.0.0.1(58310) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:03.430 UTC [23328] session=6add1bdb.5b20 app=[unknown] peer=127.0.0.1(58310) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:03.440 UTC [23328] session=6add1bdb.5b20 app=psql peer=127.0.0.1(58310) LOG:  disconnection: session time: 0:00:00.056 user=omp_test database=postgres host=127.0.0.1 port=58310
+2026-10-24 20:58:03.594 UTC [16624] session=6add1bdb.40f0 app=[unknown] peer=127.0.0.1(58311) LOG:  connection received: host=127.0.0.1 port=58311
+2026-10-24 20:58:03.615 UTC [16624] session=6add1bdb.40f0 app=[unknown] peer=127.0.0.1(58311) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:03.615 UTC [16624] session=6add1bdb.40f0 app=[unknown] peer=127.0.0.1(58311) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:03.621 UTC [16624] session=6add1bdb.40f0 app=psql peer=127.0.0.1(58311) LOG:  disconnection: session time: 0:00:00.037 user=omp_test database=postgres host=127.0.0.1 port=58311
+2026-10-24 20:58:03.786 UTC [2780] session=6add1bdb.adc app=[unknown] peer=127.0.0.1(58312) LOG:  connection received: host=127.0.0.1 port=58312
+2026-10-24 20:58:03.816 UTC [2780] session=6add1bdb.adc app=[unknown] peer=127.0.0.1(58312) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:03.817 UTC [2780] session=6add1bdb.adc app=[unknown] peer=127.0.0.1(58312) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:03.828 UTC [2780] session=6add1bdb.adc app=psql peer=127.0.0.1(58312) LOG:  disconnection: session time: 0:00:00.057 user=omp_test database=postgres host=127.0.0.1 port=58312
+2026-10-24 20:58:03.987 UTC [26412] session=6add1bdb.672c app=[unknown] peer=127.0.0.1(58313) LOG:  connection received: host=127.0.0.1 port=58313
+2026-10-24 20:58:04.013 UTC [26412] session=6add1bdb.672c app=[unknown] peer=127.0.0.1(58313) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:04.013 UTC [26412] session=6add1bdb.672c app=[unknown] peer=127.0.0.1(58313) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:04.023 UTC [26412] session=6add1bdb.672c app=psql peer=127.0.0.1(58313) LOG:  disconnection: session time: 0:00:00.049 user=omp_test database=postgres host=127.0.0.1 port=58313
+2026-10-24 20:58:04.207 UTC [29060] session=6add1bdc.7184 app=[unknown] peer=127.0.0.1(58314) LOG:  connection received: host=127.0.0.1 port=58314
+2026-10-24 20:58:04.226 UTC [29060] session=6add1bdc.7184 app=[unknown] peer=127.0.0.1(58314) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:04.226 UTC [29060] session=6add1bdc.7184 app=[unknown] peer=127.0.0.1(58314) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:04.233 UTC [29060] session=6add1bdc.7184 app=psql peer=127.0.0.1(58314) LOG:  disconnection: session time: 0:00:00.044 user=omp_test database=postgres host=127.0.0.1 port=58314
+2026-10-24 20:58:04.394 UTC [2116] session=6add1bdc.844 app=[unknown] peer=127.0.0.1(58315) LOG:  connection received: host=127.0.0.1 port=58315
+2026-10-24 20:58:04.413 UTC [2116] session=6add1bdc.844 app=[unknown] peer=127.0.0.1(58315) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:04.413 UTC [2116] session=6add1bdc.844 app=[unknown] peer=127.0.0.1(58315) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:04.418 UTC [2116] session=6add1bdc.844 app=psql peer=127.0.0.1(58315) LOG:  disconnection: session time: 0:00:00.034 user=omp_test database=postgres host=127.0.0.1 port=58315
+2026-10-24 20:58:04.570 UTC [8568] session=6add1bdc.2178 app=[unknown] peer=127.0.0.1(58316) LOG:  connection received: host=127.0.0.1 port=58316
+2026-10-24 20:58:04.596 UTC [8568] session=6add1bdc.2178 app=[unknown] peer=127.0.0.1(58316) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:04.597 UTC [8568] session=6add1bdc.2178 app=[unknown] peer=127.0.0.1(58316) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:04.605 UTC [8568] session=6add1bdc.2178 app=psql peer=127.0.0.1(58316) LOG:  disconnection: session time: 0:00:00.051 user=omp_test database=postgres host=127.0.0.1 port=58316
+2026-10-24 20:58:04.757 UTC [9760] session=6add1bdc.2620 app=[unknown] peer=127.0.0.1(58317) LOG:  connection received: host=127.0.0.1 port=58317
+2026-10-24 20:58:04.784 UTC [9760] session=6add1bdc.2620 app=[unknown] peer=127.0.0.1(58317) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:04.784 UTC [9760] session=6add1bdc.2620 app=[unknown] peer=127.0.0.1(58317) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:04.790 UTC [9760] session=6add1bdc.2620 app=psql peer=127.0.0.1(58317) LOG:  disconnection: session time: 0:00:00.048 user=omp_test database=postgres host=127.0.0.1 port=58317
+2026-10-24 20:58:05.052 UTC [35556] session=6add1bdd.8ae4 app=[unknown] peer=127.0.0.1(58318) LOG:  connection received: host=127.0.0.1 port=58318
+2026-10-24 20:58:05.085 UTC [35556] session=6add1bdd.8ae4 app=[unknown] peer=127.0.0.1(58318) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:05.085 UTC [35556] session=6add1bdd.8ae4 app=[unknown] peer=127.0.0.1(58318) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:05.092 UTC [35556] session=6add1bdd.8ae4 app=psql peer=127.0.0.1(58318) LOG:  disconnection: session time: 0:00:00.059 user=omp_test database=postgres host=127.0.0.1 port=58318
+2026-10-24 20:58:05.364 UTC [31872] session=6add1bdd.7c80 app=[unknown] peer=127.0.0.1(58319) LOG:  connection received: host=127.0.0.1 port=58319
+2026-10-24 20:58:05.395 UTC [31872] session=6add1bdd.7c80 app=[unknown] peer=127.0.0.1(58319) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:05.395 UTC [31872] session=6add1bdd.7c80 app=[unknown] peer=127.0.0.1(58319) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:05.407 UTC [31872] session=6add1bdd.7c80 app=psql peer=127.0.0.1(58319) LOG:  disconnection: session time: 0:00:00.058 user=omp_test database=postgres host=127.0.0.1 port=58319
+2026-10-24 20:58:05.551 UTC [31972] session=6add1bdd.7ce4 app=[unknown] peer=127.0.0.1(58320) LOG:  connection received: host=127.0.0.1 port=58320
+2026-10-24 20:58:05.576 UTC [31972] session=6add1bdd.7ce4 app=[unknown] peer=127.0.0.1(58320) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:05.576 UTC [31972] session=6add1bdd.7ce4 app=[unknown] peer=127.0.0.1(58320) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:05.587 UTC [31972] session=6add1bdd.7ce4 app=psql peer=127.0.0.1(58320) LOG:  disconnection: session time: 0:00:00.047 user=omp_test database=postgres host=127.0.0.1 port=58320
+2026-10-24 20:58:05.753 UTC [14572] session=6add1bdd.38ec app=[unknown] peer=127.0.0.1(58321) LOG:  connection received: host=127.0.0.1 port=58321
+2026-10-24 20:58:05.788 UTC [14572] session=6add1bdd.38ec app=[unknown] peer=127.0.0.1(58321) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:05.788 UTC [14572] session=6add1bdd.38ec app=[unknown] peer=127.0.0.1(58321) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:05.799 UTC [14572] session=6add1bdd.38ec app=psql peer=127.0.0.1(58321) LOG:  disconnection: session time: 0:00:00.063 user=omp_test database=postgres host=127.0.0.1 port=58321
+2026-10-24 20:58:06.074 UTC [23104] session=6add1bde.5a40 app=[unknown] peer=127.0.0.1(58322) LOG:  connection received: host=127.0.0.1 port=58322
+2026-10-24 20:58:06.110 UTC [23104] session=6add1bde.5a40 app=[unknown] peer=127.0.0.1(58322) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:06.111 UTC [23104] session=6add1bde.5a40 app=[unknown] peer=127.0.0.1(58322) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:06.124 UTC [23104] session=6add1bde.5a40 app=psql peer=127.0.0.1(58322) LOG:  disconnection: session time: 0:00:00.070 user=omp_test database=postgres host=127.0.0.1 port=58322
+2026-10-24 20:58:06.319 UTC [3440] session=6add1bde.d70 app=[unknown] peer=127.0.0.1(58323) LOG:  connection received: host=127.0.0.1 port=58323
+2026-10-24 20:58:06.349 UTC [3440] session=6add1bde.d70 app=[unknown] peer=127.0.0.1(58323) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:06.349 UTC [3440] session=6add1bde.d70 app=[unknown] peer=127.0.0.1(58323) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:06.360 UTC [3440] session=6add1bde.d70 app=psql peer=127.0.0.1(58323) LOG:  disconnection: session time: 0:00:00.057 user=omp_test database=postgres host=127.0.0.1 port=58323
+2026-10-24 20:58:06.546 UTC [14324] session=6add1bde.37f4 app=[unknown] peer=127.0.0.1(58324) LOG:  connection received: host=127.0.0.1 port=58324
+2026-10-24 20:58:06.582 UTC [14324] session=6add1bde.37f4 app=[unknown] peer=127.0.0.1(58324) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:06.582 UTC [14324] session=6add1bde.37f4 app=[unknown] peer=127.0.0.1(58324) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:06.594 UTC [14324] session=6add1bde.37f4 app=psql peer=127.0.0.1(58324) LOG:  disconnection: session time: 0:00:00.069 user=omp_test database=postgres host=127.0.0.1 port=58324
+2026-10-24 20:58:06.759 UTC [33484] session=6add1bde.82cc app=[unknown] peer=127.0.0.1(58325) LOG:  connection received: host=127.0.0.1 port=58325
+2026-10-24 20:58:06.781 UTC [33484] session=6add1bde.82cc app=[unknown] peer=127.0.0.1(58325) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:06.781 UTC [33484] session=6add1bde.82cc app=[unknown] peer=127.0.0.1(58325) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:06.789 UTC [33484] session=6add1bde.82cc app=psql peer=127.0.0.1(58325) LOG:  disconnection: session time: 0:00:00.040 user=omp_test database=postgres host=127.0.0.1 port=58325
+2026-10-24 20:58:06.953 UTC [19024] session=6add1bde.4a50 app=[unknown] peer=127.0.0.1(58326) LOG:  connection received: host=127.0.0.1 port=58326
+2026-10-24 20:58:06.987 UTC [19024] session=6add1bde.4a50 app=[unknown] peer=127.0.0.1(58326) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:06.987 UTC [19024] session=6add1bde.4a50 app=[unknown] peer=127.0.0.1(58326) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:07.002 UTC [19024] session=6add1bde.4a50 app=psql peer=127.0.0.1(58326) LOG:  disconnection: session time: 0:00:00.067 user=omp_test database=postgres host=127.0.0.1 port=58326
+2026-10-24 20:58:07.308 UTC [28708] session=6add1bdf.7024 app=[unknown] peer=127.0.0.1(58327) LOG:  connection received: host=127.0.0.1 port=58327
+2026-10-24 20:58:07.337 UTC [28708] session=6add1bdf.7024 app=[unknown] peer=127.0.0.1(58327) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:07.337 UTC [28708] session=6add1bdf.7024 app=[unknown] peer=127.0.0.1(58327) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:07.346 UTC [28708] session=6add1bdf.7024 app=psql peer=127.0.0.1(58327) LOG:  disconnection: session time: 0:00:00.061 user=omp_test database=postgres host=127.0.0.1 port=58327
+2026-10-24 20:58:07.518 UTC [5196] session=6add1bdf.144c app=[unknown] peer=127.0.0.1(58328) LOG:  connection received: host=127.0.0.1 port=58328
+2026-10-24 20:58:07.536 UTC [5196] session=6add1bdf.144c app=[unknown] peer=127.0.0.1(58328) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:07.537 UTC [5196] session=6add1bdf.144c app=[unknown] peer=127.0.0.1(58328) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:07.543 UTC [5196] session=6add1bdf.144c app=psql peer=127.0.0.1(58328) LOG:  disconnection: session time: 0:00:00.035 user=omp_test database=postgres host=127.0.0.1 port=58328
+2026-10-24 20:58:07.710 UTC [27156] session=6add1bdf.6a14 app=[unknown] peer=127.0.0.1(58329) LOG:  connection received: host=127.0.0.1 port=58329
+2026-10-24 20:58:07.744 UTC [27156] session=6add1bdf.6a14 app=[unknown] peer=127.0.0.1(58329) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:07.744 UTC [27156] session=6add1bdf.6a14 app=[unknown] peer=127.0.0.1(58329) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:07.756 UTC [27156] session=6add1bdf.6a14 app=psql peer=127.0.0.1(58329) LOG:  disconnection: session time: 0:00:00.063 user=omp_test database=postgres host=127.0.0.1 port=58329
+2026-10-24 20:58:07.904 UTC [30012] session=6add1bdf.753c app=[unknown] peer=127.0.0.1(58330) LOG:  connection received: host=127.0.0.1 port=58330
+2026-10-24 20:58:07.921 UTC [30012] session=6add1bdf.753c app=[unknown] peer=127.0.0.1(58330) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:07.921 UTC [30012] session=6add1bdf.753c app=[unknown] peer=127.0.0.1(58330) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:07.927 UTC [30012] session=6add1bdf.753c app=psql peer=127.0.0.1(58330) LOG:  disconnection: session time: 0:00:00.036 user=omp_test database=postgres host=127.0.0.1 port=58330
+2026-10-24 20:58:08.107 UTC [13884] session=6add1be0.363c app=[unknown] peer=127.0.0.1(58331) LOG:  connection received: host=127.0.0.1 port=58331
+2026-10-24 20:58:08.132 UTC [13884] session=6add1be0.363c app=[unknown] peer=127.0.0.1(58331) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:08.132 UTC [13884] session=6add1be0.363c app=[unknown] peer=127.0.0.1(58331) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:08.140 UTC [13884] session=6add1be0.363c app=psql peer=127.0.0.1(58331) LOG:  disconnection: session time: 0:00:00.056 user=omp_test database=postgres host=127.0.0.1 port=58331
+2026-10-24 20:58:08.283 UTC [34692] session=6add1be0.8784 app=[unknown] peer=127.0.0.1(58332) LOG:  connection received: host=127.0.0.1 port=58332
+2026-10-24 20:58:08.304 UTC [34692] session=6add1be0.8784 app=[unknown] peer=127.0.0.1(58332) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:08.304 UTC [34692] session=6add1be0.8784 app=[unknown] peer=127.0.0.1(58332) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:08.311 UTC [34692] session=6add1be0.8784 app=psql peer=127.0.0.1(58332) LOG:  disconnection: session time: 0:00:00.037 user=omp_test database=postgres host=127.0.0.1 port=58332
+2026-10-24 20:58:08.596 UTC [32736] session=6add1be0.7fe0 app=[unknown] peer=127.0.0.1(58333) LOG:  connection received: host=127.0.0.1 port=58333
+2026-10-24 20:58:08.625 UTC [32736] session=6add1be0.7fe0 app=[unknown] peer=127.0.0.1(58333) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:08.625 UTC [32736] session=6add1be0.7fe0 app=[unknown] peer=127.0.0.1(58333) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:08.635 UTC [32736] session=6add1be0.7fe0 app=psql peer=127.0.0.1(58333) LOG:  disconnection: session time: 0:00:00.061 user=omp_test database=postgres host=127.0.0.1 port=58333
+2026-10-24 20:58:08.824 UTC [17756] session=6add1be0.455c app=[unknown] peer=127.0.0.1(58334) LOG:  connection received: host=127.0.0.1 port=58334
+2026-10-24 20:58:08.850 UTC [17756] session=6add1be0.455c app=[unknown] peer=127.0.0.1(58334) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:08.850 UTC [17756] session=6add1be0.455c app=[unknown] peer=127.0.0.1(58334) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:08.857 UTC [17756] session=6add1be0.455c app=psql peer=127.0.0.1(58334) LOG:  disconnection: session time: 0:00:00.055 user=omp_test database=postgres host=127.0.0.1 port=58334
+2026-10-24 20:58:09.036 UTC [3980] session=6add1be1.f8c app=[unknown] peer=127.0.0.1(58335) LOG:  connection received: host=127.0.0.1 port=58335
+2026-10-24 20:58:09.065 UTC [3980] session=6add1be1.f8c app=[unknown] peer=127.0.0.1(58335) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:09.065 UTC [3980] session=6add1be1.f8c app=[unknown] peer=127.0.0.1(58335) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:09.071 UTC [3980] session=6add1be1.f8c app=psql peer=127.0.0.1(58335) LOG:  disconnection: session time: 0:00:00.055 user=omp_test database=postgres host=127.0.0.1 port=58335
+2026-10-24 20:58:09.241 UTC [23808] session=6add1be1.5d00 app=[unknown] peer=127.0.0.1(58336) LOG:  connection received: host=127.0.0.1 port=58336
+2026-10-24 20:58:09.274 UTC [23808] session=6add1be1.5d00 app=[unknown] peer=127.0.0.1(58336) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:09.274 UTC [23808] session=6add1be1.5d00 app=[unknown] peer=127.0.0.1(58336) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:09.284 UTC [23808] session=6add1be1.5d00 app=psql peer=127.0.0.1(58336) LOG:  disconnection: session time: 0:00:00.063 user=omp_test database=postgres host=127.0.0.1 port=58336
+2026-10-24 20:58:09.448 UTC [19200] session=6add1be1.4b00 app=[unknown] peer=127.0.0.1(58337) LOG:  connection received: host=127.0.0.1 port=58337
+2026-10-24 20:58:09.466 UTC [19200] session=6add1be1.4b00 app=[unknown] peer=127.0.0.1(58337) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:09.466 UTC [19200] session=6add1be1.4b00 app=[unknown] peer=127.0.0.1(58337) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:09.472 UTC [19200] session=6add1be1.4b00 app=psql peer=127.0.0.1(58337) LOG:  disconnection: session time: 0:00:00.034 user=omp_test database=postgres host=127.0.0.1 port=58337
+2026-10-24 20:58:09.736 UTC [6636] session=6add1be1.19ec app=[unknown] peer=127.0.0.1(58338) LOG:  connection received: host=127.0.0.1 port=58338
+2026-10-24 20:58:09.772 UTC [6636] session=6add1be1.19ec app=[unknown] peer=127.0.0.1(58338) LOG:  connection authenticated: user="omp_test" method=trust (<POSTGRES_CLUSTER>/data/pg_hba.conf:3)
+2026-10-24 20:58:09.772 UTC [6636] session=6add1be1.19ec app=[unknown] peer=127.0.0.1(58338) LOG:  connection authorized: user=omp_test database=postgres application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-10-24 20:58:09.785 UTC [31020] session=6add1bd1.792c app=qa_lock peer=127.0.0.1(58266) FATAL:  terminating connection due to administrator command
+2026-10-24 20:58:09.785 UTC [31020] session=6add1bd1.792c app=qa_lock peer=127.0.0.1(58266) LOG:  disconnection: session time: 0:00:15.853 user=omp_test database=postgres host=127.0.0.1 port=58266
+2026-10-24 20:58:09.786 UTC [6636] session=6add1be1.19ec app=psql peer=127.0.0.1(58338) LOG:  disconnection: session time: 0:00:00.070 user=omp_test database=postgres host=127.0.0.1 port=58338
+2026-10-24 20:58:09.927 UTC [17840] session=6add1bd1.45b0 app=omp-postgresql peer=127.0.0.1(58265) LOG:  disconnection: session time: 0:00:16.248 user=qa_runtime database=postgres host=127.0.0.1 port=58265
+2026-10-24 20:58:10.165 UTC [24244] session=6add1b2a.5eb4 app= peer= LOG:  received immediate shutdown request
+2026-10-24 20:58:10.191 UTC [24244] session=6add1b2a.5eb4 app= peer= LOG:  database system is shut down

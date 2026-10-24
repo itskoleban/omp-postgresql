@@ -157,8 +157,8 @@ class Suite:
         self.trace("case_end", case=name, status=self.results[-1]["status"])
         print(f"REAL SESSION {self.results[-1]['status']} {name}", flush=True)
 
-    def server(self, name, gamemode=None):
-        server = Server(self, name, gamemode)
+    def server(self, name, gamemode=None, wait_ready=True):
+        server = Server(self, name, gamemode, wait_ready)
         return server
 
     def save(self):
@@ -189,7 +189,7 @@ class Suite:
 
 
 class Server:
-    def __init__(self, suite, name, gamemode=None):
+    def __init__(self, suite, name, gamemode=None, wait_ready=True):
         self.suite = suite
         self.root = suite.output / name
         shutil.copytree(suite.config["server"], self.root)
@@ -220,7 +220,8 @@ class Server:
                                      stdout=self.log, stderr=subprocess.STDOUT, creationflags=FLAGS)
         suite.trace("server_started", server=name, pid=self.proc.pid, udp_port=self.port)
         suite.servers.append(self)
-        self.wait("database", ready=1)
+        if wait_ready:
+            self.wait("database", ready=1)
 
     def events(self):
         return parse_events(self.log_path.read_text(encoding="utf8", errors="replace"))
@@ -677,6 +678,78 @@ def run_cases(s):
                 if lock: s.unlock(lock)
         s.case("custom_reuse_load", custom_reuse)
         s.case("custom_reuse_save", lambda: custom_reuse(True))
+
+    def startup_overlap():
+        # Three rounds, two live processes per round. Start the second without
+        # waiting for readiness, then stop the first during the startup window.
+        for iteration in range(3):
+            first = s.server(f"overlap-first-{iteration}")
+            second = s.server(f"overlap-second-{iteration}", wait_ready=False)
+            assert first.proc.poll() is None and second.proc.poll() is None
+            first.command("exit")
+            second.wait("database", ready=1)
+            first.close()
+            second.close()
+        return ["three bounded start/exit overlap rounds", "six real TLS readiness transitions",
+                "six official open.mp processes exited 0", "no timeout or retry changes"]
+    s.case("startup_exit_overlap", startup_overlap)
+
+    def recovery_reuse():
+        server = s.server("recovery-reuse")
+        lock = s.lock("ACCESS EXCLUSIVE")
+        stopped = False
+        try:
+            a = server.client("QSeed")
+            a.control("retain")
+            old = a.initial
+            # Observe a real backend blocked by our fixture, rather than RUNNING.
+            # Lane::connect explicitly sets application_name, overriding the profile.
+            backend = "usename='qa_runtime' AND application_name='omp-postgresql' AND wait_event_type='Lock'"
+            s.until(lambda: s.sql("SELECT count(*) FROM pg_stat_activity WHERE " + backend) == "1")
+            observed = s.sql("SELECT pid,query,state,wait_event FROM pg_stat_activity WHERE " + backend)
+            fields = observed.split("|")
+            assert len(fields) == 4 and fields[0].isdigit() and fields[1] == "SELECT id,password_hash,score FROM tutorial_accounts WHERE username=$1" and fields[2] == "active"
+            a.close()
+            b = server.client("QRecoveryNew")
+            assert a.p == b.p and old["token"] != b.initial["token"]
+            mark = server.mark()
+            subprocess.run([s.pg_ctl, "-D", s.data, "-m", "immediate", "-w", "stop"],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True,
+                           creationflags=FLAGS, timeout=15)
+            stopped = True
+            lock.wait(timeout=5)
+            lock = None
+            server.wait("sql_begin", since=mark, callback_job=old["job"], callback_token=old["token"])
+            server.wait("sql_closed", since=mark, job=old["job"], closed=1)
+            server.wait("database", since=mark, ready=0)
+            server.wait("database", since=mark, state=4, seconds=20)
+            state = b.state()
+            assert state["token"] == 0 and state["account"] == 0 and state["score"] == 0 and state["state"] != 7
+            # A second official process starts while PostgreSQL is unavailable.
+            secondary = s.server("startup-unavailable", wait_ready=False)
+            secondary.wait("database", state=4, seconds=20)
+            c = secondary.client("QStartupNew")
+            assert c.state()["ready"] == 0
+        finally:
+            if stopped:
+                with (s.output / "postgres-reuse-recovery.txt").open("wb") as log:
+                    subprocess.run([s.pg_ctl, "-D", s.data, "-l", str(s.output / "postgres-reuse-restarted.txt"), "-w", "start"],
+                                   stdout=log, stderr=subprocess.STDOUT, check=True, creationflags=FLAGS, timeout=20)
+            if lock:
+                s.unlock(lock)
+        b.control("recover")
+        server.wait("database", since=mark, ready=1)
+        fresh = server.wait("sql_end", since=mark, p=b.p, state=2)
+        assert fresh["account"] == 0 and fresh["score"] == 0
+        c.control("recover")
+        secondary.wait("database", ready=1)
+        assert c.prompt(2)["account"] == 0
+        assert s.count("QSeed") == 1 and s.count("QRecoveryNew") == 0
+        return ["PostgreSQL observed A's blocked query", "real A/B playerid reuse before database stop",
+                "old SQL completion delivered after B connected and job closed", "B never inherited A's account or score",
+                "second server started during PostgreSQL outage and exhausted its policy",
+                "both failed pools recreated explicitly", "fresh B lookup remains unauthenticated", "no registration replay"]
+    s.case("postgres_recovery_playerid_reuse", recovery_reuse)
 
 
 def main():

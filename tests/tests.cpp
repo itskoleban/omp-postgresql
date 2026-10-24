@@ -409,14 +409,29 @@ void integration_limits(const char *profile) {
 		pg::Engine e(limits);
 		auto c = e.connect(owner, profile, 1);
 		ready(e, c);
-		auto running = query(e, c, "SELECT pg_sleep(5)");
-		auto active = e.job(owner, running);
+		auto observer = e.connect(owner, profile, 1);
+		ready(e, observer);
+		auto identity = success(e, query(e, c, "SELECT pg_backend_pid()"));
+		const auto pid = *identity->results[0].rows[0][0];
+		e.close_job(owner, identity->id);
+		const std::string restart_sql = "SELECT pg_sleep(5) /* phase2_restart */";
+		auto running = query(e, c, restart_sql);
 		auto deadline = pg::Clock::now() + std::chrono::seconds(2);
-		while (active->status.load() == pg::Status::queued && pg::Clock::now() < deadline) {
+		for (;;) {
+			auto observed =
+			    success(e, query(e, observer,
+			                     "SELECT count(*) FROM pg_stat_activity WHERE pid=" + pid +
+			                         " AND state='active' AND wait_event='PgSleep' AND query='" +
+			                         restart_sql + "'"));
+			const auto received = observed->results[0].rows[0][0] == "1";
+			e.close_job(owner, observed->id);
+			if (received) {
+				break;
+			}
+			check(pg::Clock::now() < deadline, "PostgreSQL observed exact restart SQL and PID");
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
-		check(active->status.load() == pg::Status::running, "Restart test has active work");
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+		std::cout << "restart observed pid=" << pid << " query=" << restart_sql << std::endl;
 		auto queued = query(e, c, "SELECT 999");
 		{
 			std::ofstream request(restart_request);
