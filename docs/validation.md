@@ -15,7 +15,7 @@ is separated below from the historical qualification records that follow.
 
 ### Phase 2 network, TLS and recovery
 
-The [Phase 2 report](../audit/network-recovery-qualification.md) defines thirteen
+The [Phase 2 report](https://github.com/itskoleban/omp-postgresql/blob/test/v0.1.0-network-recovery-qualification/audit/network-recovery-qualification.md) defines thirteen
 bounded real Engine/PostgreSQL wire scenarios and two additional official open.mp
 session cases, preserving all nineteen existing cases. It distinguishes conservative
 uncertainty from confirmed PostgreSQL execution, physical transport recovery from
