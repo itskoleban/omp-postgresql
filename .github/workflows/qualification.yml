@@ -135,3 +135,35 @@ jobs:
                   [[ "$PG_LOG_ENOSPC_BASE" == "$RUNNER_TEMP"/omp-pg-logfs.* ]]
                   sudo umount -- "$PG_LOG_ENOSPC_BASE"
                   rmdir -- "$PG_LOG_ENOSPC_BASE"
+    sanitizer-descriptor-control:
+        name: independent FD control ${{ matrix.instrument }}
+        runs-on: ubuntu-24.04
+        timeout-minutes: 5
+        strategy:
+            fail-fast: false
+            matrix:
+                instrument: ["OFF", "ON"]
+        env:
+            ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+            UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+        steps:
+            - uses: actions/checkout@v4
+            - name: Compile an independent thread and descriptor control
+              env:
+                  INSTRUMENT: ${{ matrix.instrument }}
+              run: |
+                  flags=()
+                  if [[ "$INSTRUMENT" == ON ]]; then flags=(-fsanitize=address,undefined); fi
+                  c++ --version
+                  c++ -std=c++20 -g -O0 -pthread -fno-pie -no-pie "${flags[@]}" \
+                      tests/sanitizer_descriptor_control.cpp -o descriptor-control
+            - name: Record the actual result without a component or database
+              run: |
+                  set -o pipefail
+                  ./descriptor-control 2>&1 | tee descriptor-control.log
+            - if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: descriptor-control-${{ matrix.instrument }}-${{ github.sha }}
+                  path: descriptor-control.log
+                  if-no-files-found: error
