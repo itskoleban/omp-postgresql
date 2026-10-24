@@ -7,12 +7,13 @@ import tempfile
 import unittest
 import zipfile
 
-from test_release import ReleaseTests, release
+import test_release as fixtures
+release = fixtures.release
 from test_package import payload
 
 class StableReleaseTests(unittest.TestCase):
     def test_exact_main_run_accepts_stable_and_rc_but_rejects_other_channels(self):
-        fixture = ReleaseTests()
+        fixture = fixtures.ReleaseTests()
         fixture.setUp()
         for tag in ("v0.1.0", "v0.1.0-rc.1", "v1.0.0-rc.12"):
             release.validate_run(fixture.run, fixture.jobs, fixture.repository,
@@ -45,7 +46,7 @@ class StableReleaseTests(unittest.TestCase):
                 release.package.archive_name(version, "a" * 40, "linux", channel)
 
     def test_stable_source_bundle_is_repeatable_and_rejects_legacy_experimental(self):
-        fixture = ReleaseTests()
+        fixture = fixtures.ReleaseTests()
         fixture.setUp()
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

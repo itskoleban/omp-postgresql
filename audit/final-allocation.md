@@ -1,6 +1,8 @@
 # R1: terminal publication and worker allocation failures
 
-Status at this source: fixes implemented; exact-head qualification must complete.
+Status: confirmed component defect with implemented fix and executed regression.
+The exact final-head CI result is recorded in [PR #25](https://github.com/itskoleban/omp-postgresql/pull/25),
+including its complete SHA; the source-specific records below are not reassigned to later commits.
 Severity: **High** (an allocation exception can terminate the server process).
 No public Pawn signature or error/status constant changes.
 
@@ -57,3 +59,38 @@ libpq/OpenSSL allocation paths are not covered by this C++ replacement. System-w
 memory/handle exhaustion, every allocation point and every SQL commit outcome still
 need separate qualification. The 24-hour campaign remains **BLOCKED** pending verified,
 authorized remote infrastructure. No merge, tag, release or RC.1 asset was changed.
+
+## Executed positive record and test compatibility
+
+Fix commit: `93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122`.
+[Remote probe run 40048647471](https://github.com/itskoleban/omp-postgresql/actions/runs/40048647471)
+completed both jobs successfully: real PostgreSQL fixture **18/18 CTest**, including
+worker allocation recovery/shutdown, and the terminal queue probe. Later intermediate
+CI also passed these allocation cases on Windows x86/x64 and Linux normal/ASan.
+Those partial passes do **not** turn failed overall CI runs into successful ones.
+
+The new global allocation replacements cannot link over Clang 19 TSan's strong
+new/delete interceptors. The failed link is retained in run 40048651060. TSan now
+keeps its interceptors and runs `worker_recovery_integration` and
+`terminal_queue_unit` with `allocation_injection=OFF(TSan)`. Ordinary and ASan/UBSan
+builds retain actual allocation denial, with distinct allocation test names. No TSan
+allocation-injection pass is claimed. Its queue/worker concurrency checks remain enabled.
+
+A later unrelated, newly added INSERT lock test initially omitted a primary key:
+the INSERT completed instead of waiting for a unique-index conflict, and the phase
+assertion correctly timed out. Runs 40048938444 and 40050269804 remain **FAIL**.
+The fixture now creates the primary key; the phase check and deadline are unchanged.
+This is a test-fixture defect, separate from the reproduced worker abort.
+
+## Evidence preservation
+
+Full decoded job logs are preserved in [final-evidence](final-evidence/r1-ledger.json),
+with original run/job/source identities and GitHub artifact SHA-256 digests. These are
+public CI fixture logs, without database directories, TLS private keys or service files.
+A negative result is retained as a negative result.
+
+The optional general bounded-soak matrix is now manual-only to respect the immediate
+allocation-failure scope. Incomplete/cancelled earlier attempts are not qualification
+passes. The dedicated 24-hour run was not dispatched and remains **BLOCKED**. Existing
+stable/RC preparation remains on the branch; no publication recommendation follows
+from this allocation fix.
