@@ -231,6 +231,9 @@ if(BUILD_TESTING)
     add_executable(pg_connection_tests tests/connection_lifecycle.cpp)
     add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
     add_executable(pg_sql_section_tests tests/sql_sections.cpp)
+    add_executable(pg_terminal_allocation tests/terminal_allocation.cpp)
+    add_test(NAME terminal_allocation_unit COMMAND pg_terminal_allocation)
+    set_tests_properties(terminal_allocation_unit PROPERTIES TIMEOUT 30)
     add_executable(pg_audit_fuzz tests/audit_fuzz.cpp)
     add_executable(pg_audit_faults tests/audit_faults.cpp)
     # Source seams compile the actual Lane body; the archive supplies Engine/helpers.
@@ -251,6 +254,7 @@ if(BUILD_TESTING)
         pg_audit_fuzz
         pg_audit_faults
         pg_socket_wait_tests
+        pg_terminal_allocation
     )
         target_link_libraries(${test_target} PRIVATE pg_core)
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")

@@ -723,7 +723,7 @@ void Lane::run() {
 				record_completion(*job, Status::cancelled);
 				job->completed_at = start;
 				job->status.store(Status::cancelled);
-				completed_.push(job->id);
+				completed_.push(job);
 				continue;
 			}
 			query_dispatched_ = false;
@@ -806,7 +806,7 @@ void Lane::run() {
 				state.store(State::reconnecting);
 			}
 			job->status.store(status);
-			completed_.push(job->id);
+			completed_.push(job);
 			if (!connected && !stop_.load()) {
 				state.store(State::reconnecting);
 				// Existing queued jobs must not silently execute in a new session.
@@ -825,7 +825,7 @@ void Lane::run() {
 					                        .count();
 					record_completion(*pending, Status::failed);
 					pending->status.store(Status::failed);
-					completed_.push(pending->id);
+					completed_.push(pending);
 				}
 				connected = recover();
 			}
@@ -851,7 +851,7 @@ void Lane::run() {
 		                    .count();
 		record_completion(*job, Status::cancelled);
 		job->status.store(Status::cancelled);
-		completed_.push(job->id);
+		completed_.push(job);
 	}
 	state.store(State::disconnected);
 	log(LogEvent::lane_stopped);

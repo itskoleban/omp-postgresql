@@ -90,6 +90,8 @@ struct Batch {
 class Stream;
 
 struct Job {
+	// Terminal queue owns this link; workers/main access it only under that queue's mutex.
+	std::shared_ptr<Job> completion_next;
 	Id id = 0, connection = 0, transaction = 0;
 	Owner owner = 0;
 	int lane = 0, context = 0;

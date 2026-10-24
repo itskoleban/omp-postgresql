@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <new>
 #include <vector>
+#include <thread>
+#include <array>
 
 thread_local bool deny_allocation = false;
 void *operator new(std::size_t n) {
@@ -77,5 +79,49 @@ int main() {
         if (weak.expired()) return 3;
     }
     if (!weak.expired()) return 4;
+    // Concurrent producers, with allocation denial in each publishing thread and
+    // in the consumer. FIFO is local to each producer; no global order is assumed.
+    constexpr std::size_t producers = 4, per_producer = 1024;
+    std::vector<std::shared_ptr<pg::Job>> concurrent;
+    for (std::size_t i = 0; i < producers * per_producer; ++i) {
+        auto job = std::make_shared<pg::Job>();
+        job->id = static_cast<pg::Id>(i);
+        concurrent.push_back(std::move(job));
+    }
+    std::array<std::thread, producers> threads;
+    std::atomic<bool> failed{false};
+    for (std::size_t p = 0; p < producers; ++p) {
+        threads[p] = std::thread([&, p] {
+            deny_allocation = true;
+            try {
+                for (std::size_t i = 0; i < per_producer; ++i)
+                    publish(queue, concurrent[p * per_producer + i]);
+            } catch (...) { failed.store(true); }
+            deny_allocation = false;
+        });
+    }
+    bool ordered = true;
+    std::array<std::size_t, producers> next{};
+    std::size_t received = 0;
+    auto deadline = pg::Clock::now() + std::chrono::seconds(10);
+    // This phase uses the fixed queue interface; the historical build has already
+    // returned 1 at its first failed allocation above.
+    auto concurrent_check = [&]<class Queue>(Queue &q) {
+        if constexpr (requires { q.pop(); }) {
+            deny_allocation = true;
+            while (received < concurrent.size() && pg::Clock::now() < deadline) {
+                if (auto job = q.pop()) {
+                    auto p = static_cast<std::size_t>(job->id) / per_producer;
+                    auto i = static_cast<std::size_t>(job->id) % per_producer;
+                    if (p >= producers || i != next[p]++) ordered = false;
+                    ++received;
+                } else std::this_thread::yield();
+            }
+            deny_allocation = false;
+        }
+    };
+    concurrent_check(queue);
+    for (auto &thread : threads) thread.join();
+    if (failed.load() || !ordered || received != concurrent.size()) return 5;
     std::printf("R1 PASS: %zu terminal publications without allocation; FIFO and ownership checked\n", count);
 }

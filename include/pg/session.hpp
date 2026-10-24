@@ -11,21 +11,32 @@
 
 namespace pg {
 
+// Intrusive ownership is allocated with Job before acceptance. Terminal publication
+// and consumption require no allocator, including when a worker handles bad_alloc.
 struct CompletionQueue {
-	std::mutex mutex;
-	std::deque<Id> ids;
+    std::mutex mutex;
+    std::shared_ptr<Job> head;
+    Job *tail = nullptr;
 
-	void push(Id id) {
-		std::lock_guard lock(mutex);
-		ids.push_back(id);
-	}
+    ~CompletionQueue() {
+        // Release long abandoned chains iteratively, without recursive Job destruction.
+        while (pop()) {}
+    }
 
-	std::deque<Id> drain() {
-		std::lock_guard lock(mutex);
-		std::deque<Id> out;
-		out.swap(ids);
-		return out;
-	}
+    void push(const std::shared_ptr<Job> &job) {
+        std::lock_guard lock(mutex);
+        if (tail) tail->completion_next = job;
+        else head = job;
+        tail = job.get();
+    }
+
+    std::shared_ptr<Job> pop() {
+        std::lock_guard lock(mutex);
+        auto job = std::move(head);
+        if (job) head = std::move(job->completion_next);
+        if (!head) tail = nullptr;
+        return job;
+    }
 };
 
 // Independent atomic samples are approximate while work is running.
