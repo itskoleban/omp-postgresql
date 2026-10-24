@@ -9,6 +9,7 @@ import argparse
 import codecs
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -161,6 +162,13 @@ with log_path.open("wb") as log:
         if samples:
             samples.close()
 print(log_path.read_text(encoding="utf8", errors="replace"))
+expected_version = os.environ.get("OMP_PG_EXPECTED_VERSION")
+if expected_version:
+    suffix = r" \(candidate build\)" if "-rc." in expected_version else ""
+    pattern = rf"omp-postgresql {re.escape(expected_version)}{suffix}\s*$"
+    if not re.search(pattern, log_path.read_text(encoding="utf8", errors="replace"), re.MULTILINE):
+        raise SystemExit(f"Component startup identity differs from {expected_version}")
+    print(f"Verified component startup identity: {expected_version}")
 if not passed:
     raise SystemExit("open.mp smoke did not pass")
 if proc.returncode != 0:

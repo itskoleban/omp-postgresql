@@ -15,6 +15,7 @@
 #include <windows.h>
 
 #include <psapi.h>
+#include <tlhelp32.h>
 #else
 #include <sys/resource.h>
 #endif
@@ -103,6 +104,43 @@ std::pair<std::uint64_t, std::uint64_t> resources() {
 	            usage.ru_utime.tv_usec + usage.ru_stime.tv_usec,
 	        rss};
 #endif
+}
+
+std::pair<std::uint64_t, std::uint64_t> process_counts() {
+#ifdef _WIN32
+    DWORD handles = 0;
+    check(GetProcessHandleCount(GetCurrentProcess(), &handles), "Handle sampling failed");
+    const auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+    check(snapshot != INVALID_HANDLE_VALUE, "Thread snapshot failed");
+    THREADENTRY32 entry{};
+    entry.dwSize = sizeof(entry);
+    std::uint64_t threads = 0;
+    if (Thread32First(snapshot, &entry)) {
+        do { if (entry.th32OwnerProcessID == GetCurrentProcessId()) ++threads; }
+        while (Thread32Next(snapshot, &entry));
+    }
+    CloseHandle(snapshot);
+    return {handles, threads};
+#elif defined(__linux__)
+    auto count = [](const char *directory) {
+        std::uint64_t entries = 0;
+        for ([[maybe_unused]] const auto &entry : std::filesystem::directory_iterator(directory))
+            ++entries;
+        return entries;
+    };
+    // The fd directory iterator itself contributes one transient descriptor.
+    return {count("/proc/self/fd") - 1, count("/proc/self/task")};
+#else
+    return {0, 0};
+#endif
+}
+
+void resource_sample(const char *point) {
+    const auto [cpu, rss] = resources();
+    const auto [descriptors, threads] = process_counts();
+    std::cout << "audit_resource point=" << point << " cpu_us=" << cpu
+              << " rss_kib=" << rss << " peak_rss_kib=" << peak_kib()
+              << " descriptors_or_handles=" << descriptors << " threads=" << threads << std::endl;
 }
 
 template <class F> void until(pg::Engine &engine, F condition) {
@@ -339,6 +377,17 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, unsigned s
 		engine.close_job(owner, result->id);
 		std::sort(latencies.begin(), latencies.end());
 		const auto [cpu_us, rss_kib] = resources();
+        const auto [descriptors, threads] = process_counts();
+        pg::LaneStats totals;
+        for (const auto &lane : engine.connection(owner, connection).lanes) {
+            const auto stats = lane->snapshot();
+            totals.sql_commands += stats.sql_commands;
+            totals.confirmed_jobs += stats.confirmed_jobs;
+            totals.failed_jobs += stats.failed_jobs;
+            totals.cancelled_jobs += stats.cancelled_jobs;
+            totals.uncertain_jobs += stats.uncertain_jobs;
+            totals.reconnects += stats.reconnects;
+        }
 		const auto elapsed_us =
 		    std::chrono::duration_cast<std::chrono::microseconds>(pg::Clock::now() - started)
 		        .count();
@@ -346,7 +395,15 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, unsigned s
 		          << " cpu_us=" << cpu_us - cpu_start << " rss_kib=" << rss_kib
 		          << " pending=0 errors=0 wave_jobs=48 sql_operations=" << operations
 		          << " p50_us=" << latencies[23] << " p95_us=" << latencies[45]
-		          << " p99_us=" << latencies[47] << std::endl;
+		          << " p99_us=" << latencies[47]
+                  << " descriptors_or_handles=" << descriptors << " threads=" << threads
+                  << " peak_rss_kib=" << peak_kib()
+                  << " primary_sql_commands=" << totals.sql_commands
+                  << " primary_confirmed_jobs=" << totals.confirmed_jobs
+                  << " primary_failed_jobs=" << totals.failed_jobs
+                  << " primary_cancelled_jobs=" << totals.cancelled_jobs
+                  << " primary_uncertain_jobs=" << totals.uncertain_jobs
+                  << " primary_reconnects=" << totals.reconnects << std::endl;
 		if (round % 32 == 0) {
 			mixed(engine, connection, service, table, expected);
 			++operations; // One periodic SQL write updating both owned/shared counters.
@@ -361,9 +418,12 @@ void load(const char *service, std::mt19937 &random, unsigned rounds, unsigned s
 		                 .count()
 		          << " peak_rss_kib=" << peak_kib() << std::endl;
 	}
+    const auto load_elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        pg::Clock::now() - started).count();
 	execute(engine, connection, "DROP TABLE " + table);
 	std::cout << "load_sql_operations=" << operations << " load_rounds=" << round
-	          << " minimum_seconds=" << seconds << " lanes=4 peak_rss_kib=" << peak_kib()
+	          << " minimum_seconds=" << seconds << " load_elapsed_us=" << load_elapsed_us
+              << " lanes=4 peak_rss_kib=" << peak_kib()
 	          << std::endl;
 }
 
@@ -584,8 +644,11 @@ int main() {
 		std::cout << "seed=" << seed << " rounds=" << rounds << " libpq=" << PQlibVersion()
 		          << " pointer_bytes=" << sizeof(void *) << " peak_rss_start_kib=" << peak_kib()
 		          << std::endl;
+        resource_sample("before_load");
 		load(service, random, rounds, seconds, table);
+        resource_sample("after_load_engine_destroyed");
 		lifecycle(service, random, rounds, table);
+        resource_sample("after_lifecycle_engines_destroyed");
 		std::cout << checks << " stress checks passed peak_rss_final_kib=" << peak_kib()
 		          << std::endl;
 		return 0;
