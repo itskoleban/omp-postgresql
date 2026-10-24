@@ -1,0 +1,27 @@
+[
+  {
+    "file": "manifest.json",
+    "bytes": 3664,
+    "sha256": "7e2a5c85179cdb0003f98da00f2ae22ffb3b702a6da718adb8d08e6ae70abb7d"
+  },
+  {
+    "file": "control-0-0.log",
+    "bytes": 171,
+    "sha256": "2baabca899a723ba7325fcb3fca580e62d27a78409bb3ecdfd8513e1d523e7c2"
+  },
+  {
+    "file": "control-0-1.log",
+    "bytes": 390,
+    "sha256": "fc866a69e85ab47a958241c3451c01b4b382c76c717ff962edfbfb0e84cc9883"
+  },
+  {
+    "file": "control-1-0.log",
+    "bytes": 171,
+    "sha256": "2baabca899a723ba7325fcb3fca580e62d27a78409bb3ecdfd8513e1d523e7c2"
+  },
+  {
+    "file": "control-1-1.log",
+    "bytes": 2267,
+    "sha256": "a1ebf2360de2bdae88665b4d3a781afc4bcbc60b269c1dfb4ee98f5d73c83760"
+  }
+]

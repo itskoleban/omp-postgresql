@@ -1,5 +1,9 @@
 # R1: terminal publication and worker allocation failures
 
+Current PR #28 follow-up: [independent scenario assertions and published descriptor
+evidence](pr28-follow-up.md). The records below retain their historical source,
+results and instrumentation scope; the follow-up does not reassign those results.
+
 Status: confirmed component defect with implemented fix and executed regression.
 The exact final-head CI result is recorded in [PR #25](https://github.com/itskoleban/omp-postgresql/pull/25),
 including its complete SHA; the source-specific records below are not reassigned to later commits.

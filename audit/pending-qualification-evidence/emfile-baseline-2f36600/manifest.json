@@ -1,0 +1,101 @@
+{
+  "source_commit": "2f366003b866461b80432fdfb075e072dc026551",
+  "sources": {
+    "sanitizer_descriptor_control.cpp": "0e694b8091196acfea8bf7f2be44179bacb1bfdcc87583fee2916091776f56ce",
+    "sanitizer_descriptor_factory.cpp": "def2d8b3e79f74a62f7646be148aeed3005f0c265a1f9e3580f7ab6a734f436c"
+  },
+  "results": [
+    {
+      "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "instrumented": false,
+      "command": [
+        "g++",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-pthread",
+        "-no-pie",
+        "<TMP>/pending-qualification/tests/sanitizer_descriptor_control.cpp",
+        "<TMP>/pending-controls/matrix/factory-0.o",
+        "-o",
+        "<TMP>/pending-controls/matrix/control-0-0"
+      ],
+      "returncode": 0,
+      "actual_emfile": true,
+      "status": "PASS",
+      "log": "control-0-0.log",
+      "sha256": "2baabca899a723ba7325fcb3fca580e62d27a78409bb3ecdfd8513e1d523e7c2"
+    },
+    {
+      "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "instrumented": true,
+      "command": [
+        "g++",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-pthread",
+        "-no-pie",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "<TMP>/pending-qualification/tests/sanitizer_descriptor_control.cpp",
+        "<TMP>/pending-controls/matrix/factory-0.o",
+        "-o",
+        "<TMP>/pending-controls/matrix/control-0-1"
+      ],
+      "returncode": 1,
+      "actual_emfile": true,
+      "status": "FAIL",
+      "log": "control-0-1.log",
+      "sha256": "fc866a69e85ab47a958241c3451c01b4b382c76c717ff962edfbfb0e84cc9883"
+    },
+    {
+      "compiler": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n",
+      "instrumented": false,
+      "command": [
+        "clang++-19",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-pthread",
+        "-no-pie",
+        "<TMP>/pending-qualification/tests/sanitizer_descriptor_control.cpp",
+        "<TMP>/pending-controls/matrix/factory-1.o",
+        "-o",
+        "<TMP>/pending-controls/matrix/control-1-0"
+      ],
+      "returncode": 0,
+      "actual_emfile": true,
+      "status": "PASS",
+      "log": "control-1-0.log",
+      "sha256": "2baabca899a723ba7325fcb3fca580e62d27a78409bb3ecdfd8513e1d523e7c2"
+    },
+    {
+      "compiler": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n",
+      "instrumented": true,
+      "command": [
+        "clang++-19",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-pthread",
+        "-no-pie",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "<TMP>/pending-qualification/tests/sanitizer_descriptor_control.cpp",
+        "<TMP>/pending-controls/matrix/factory-1.o",
+        "-o",
+        "<TMP>/pending-controls/matrix/control-1-1"
+      ],
+      "returncode": 1,
+      "actual_emfile": true,
+      "status": "FAIL",
+      "log": "control-1-1.log",
+      "sha256": "a1ebf2360de2bdae88665b4d3a781afc4bcbc60b269c1dfb4ee98f5d73c83760"
+    }
+  ]
+}

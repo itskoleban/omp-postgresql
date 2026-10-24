@@ -1,0 +1,130 @@
+Start testing: Oct 24 18:35 UTC
+----------------------------------------------------------
+1/5 Testing: worker_site_counter_isolation
+1/5 Test: worker_site_counter_isolation
+Command: "<TMP>/pr28-followup/worker-tsan" "--check-counter-isolation"
+Directory: <TMP>/pr28-followup/ctest
+"worker_site_counter_isolation" start time: Oct 24 18:35 UTC
+Output:
+----------------------------------------------------------
+Scenario counter isolation: missing and compensating injections rejected
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"worker_site_counter_isolation" end time: Oct 24 18:35 UTC
+"worker_site_counter_isolation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/5 Testing: worker_site_allocation_integration
+2/5 Test: worker_site_allocation_integration
+Command: "<TMP>/pr28-followup/worker-tsan"
+Directory: <TMP>/pr28-followup/ctest
+"worker_site_allocation_integration" start time: Oct 24 18:35 UTC
+Output:
+----------------------------------------------------------
+site_faults scenario=recovery interrupted=1 terminal_message=2 denied=3
+worker_recovery PASS allocation_injection=SITE(TSan) mode=recover active_status=4 queued_status=3 callbacks=2
+site_faults scenario=shutdown interrupted=1 terminal_message=2 denied=3
+worker_recovery PASS allocation_injection=SITE(TSan) mode=shutdown active_status=4 queued_status=5 callbacks=2
+worker denied_allocations=6
+<end of output>
+Test time =   0.33 sec
+----------------------------------------------------------
+Test Passed.
+"worker_site_allocation_integration" end time: Oct 24 18:35 UTC
+"worker_site_allocation_integration" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/5 Testing: worker_site_requires_recovery
+3/5 Test: worker_site_requires_recovery
+Command: "/usr/bin/python3" "/pending/omp-postgresql/tests/check_worker_faults.py" "<TMP>/pr28-followup/worker-tsan" "recovery"
+Directory: <TMP>/pr28-followup/ctest
+"worker_site_requires_recovery" start time: Oct 24 18:35 UTC
+Output:
+----------------------------------------------------------
+worker_allocation FAIL Missing scenario checkpoints: recovery
+site_faults scenario=recovery interrupted=0 terminal_message=0 denied=0
+Worker negative control: missing recovery checkpoints rejected
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"worker_site_requires_recovery" end time: Oct 24 18:35 UTC
+"worker_site_requires_recovery" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/5 Testing: worker_site_requires_shutdown
+4/5 Test: worker_site_requires_shutdown
+Command: "/usr/bin/python3" "/pending/omp-postgresql/tests/check_worker_faults.py" "<TMP>/pr28-followup/worker-tsan" "shutdown"
+Directory: <TMP>/pr28-followup/ctest
+"worker_site_requires_shutdown" start time: Oct 24 18:35 UTC
+Output:
+----------------------------------------------------------
+worker_allocation FAIL Missing scenario checkpoints: shutdown
+site_faults scenario=recovery interrupted=1 terminal_message=2 denied=3
+worker_recovery PASS allocation_injection=SITE(TSan) mode=recover active_status=4 queued_status=3 callbacks=2
+site_faults scenario=shutdown interrupted=0 terminal_message=0 denied=0
+Worker negative control: missing shutdown checkpoints rejected
+<end of output>
+Test time =   0.45 sec
+----------------------------------------------------------
+Test Passed.
+"worker_site_requires_shutdown" end time: Oct 24 18:35 UTC
+"worker_site_requires_shutdown" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/5 Testing: tsan_detector_control
+5/5 Test: tsan_detector_control
+Command: "/usr/bin/python3" "/pending/omp-postgresql/tests/check_tsan_control.py" "<TMP>/pr28-followup/race-tsan"
+Directory: <TMP>/pr28-followup/ctest
+"tsan_detector_control" start time: Oct 24 18:35 UTC
+Output:
+----------------------------------------------------------
+/usr/bin/llvm-symbolizer-19: error: '[stack]': No such file or directory
+==================
+WARNING: ThreadSanitizer: data race (pid=7434)
+  Write of size 4 at 0x7fffffffeae0 by thread T1:
+    #0 main::$_0::operator()() const /pending/omp-postgresql/tests/tsan_race_control.cpp:10:47 (race-tsan+0xe9a51) (BuildId: 54bc4af4110aec65bbf55da2e24238efefad0c95)
+    #1 void std::__invoke_impl<void, main::$_0>(std::__invoke_other, main::$_0&&) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:61:14 (race-tsan+0xe9a51)
+    #2 std::__invoke_result<main::$_0>::type std::__invoke<main::$_0>(main::$_0&&) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:96:14 (race-tsan+0xe9a51)
+    #3 void std::thread::_Invoker<std::tuple<main::$_0>>::_M_invoke<0ul>(std::_Index_tuple<0ul>) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:292:13 (race-tsan+0xe9a51)
+    #4 std::thread::_Invoker<std::tuple<main::$_0>>::operator()() /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:299:11 (race-tsan+0xe9a51)
+    #5 std::thread::_State_impl<std::thread::_Invoker<std::tuple<main::$_0>>>::_M_run() /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:244:13 (race-tsan+0xe9a51)
+    #6 <null> <null> (libstdc++.so.6+0xecdb3) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+
+  Previous write of size 4 at 0x7fffffffeae0 by thread T2:
+    #0 main::$_0::operator()() const /pending/omp-postgresql/tests/tsan_race_control.cpp:10:47 (race-tsan+0xe9a51) (BuildId: 54bc4af4110aec65bbf55da2e24238efefad0c95)
+    #1 void std::__invoke_impl<void, main::$_0>(std::__invoke_other, main::$_0&&) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:61:14 (race-tsan+0xe9a51)
+    #2 std::__invoke_result<main::$_0>::type std::__invoke<main::$_0>(main::$_0&&) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:96:14 (race-tsan+0xe9a51)
+    #3 void std::thread::_Invoker<std::tuple<main::$_0>>::_M_invoke<0ul>(std::_Index_tuple<0ul>) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:292:13 (race-tsan+0xe9a51)
+    #4 std::thread::_Invoker<std::tuple<main::$_0>>::operator()() /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:299:11 (race-tsan+0xe9a51)
+    #5 std::thread::_State_impl<std::thread::_Invoker<std::tuple<main::$_0>>>::_M_run() /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:244:13 (race-tsan+0xe9a51)
+    #6 <null> <null> (libstdc++.so.6+0xecdb3) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+
+  Location is stack of main thread.
+
+  Location is global '??' at 0x7ffffffde000 ([stack]+0x20ae0)
+
+  Thread T1 (tid=7436, running) created by main thread at:
+    #0 pthread_create <null> (race-tsan+0x63cc5) (BuildId: 54bc4af4110aec65bbf55da2e24238efefad0c95)
+    #1 std::thread::_M_start_thread(std::unique_ptr<std::thread::_State, std::default_delete<std::thread::_State>>, void (*)()) <null> (libstdc++.so.6+0xeceb0) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+    #2 <null> <null> (libc.so.6+0x2a1c9) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+
+  Thread T2 (tid=7437, finished) created by main thread at:
+    #0 pthread_create <null> (race-tsan+0x63cc5) (BuildId: 54bc4af4110aec65bbf55da2e24238efefad0c95)
+    #1 std::thread::_M_start_thread(std::unique_ptr<std::thread::_State, std::default_delete<std::thread::_State>>, void (*)()) <null> (libstdc++.so.6+0xeceb0) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+    #2 <null> <null> (libc.so.6+0x2a1c9) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+
+SUMMARY: ThreadSanitizer: data race /pending/omp-postgresql/tests/tsan_race_control.cpp:10:47 in main::$_0::operator()() const
+==================
+TSan detector control: intentional race rejected with exit 66
+<end of output>
+Test time =   0.66 sec
+----------------------------------------------------------
+Test Passed.
+"tsan_detector_control" end time: Oct 24 18:35 UTC
+"tsan_detector_control" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 24 18:35 UTC

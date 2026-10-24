@@ -1,0 +1,58 @@
+[
+  {
+    "file": "control-0-0.log",
+    "bytes": 171,
+    "sha256": "2baabca899a723ba7325fcb3fca580e62d27a78409bb3ecdfd8513e1d523e7c2",
+    "original_bytes": 171,
+    "original_sha256": "2baabca899a723ba7325fcb3fca580e62d27a78409bb3ecdfd8513e1d523e7c2",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "unchanged-original",
+    "transformations": {}
+  },
+  {
+    "file": "control-0-1.log",
+    "bytes": 391,
+    "sha256": "a6f319a3e3f07bac6f7a7e2f78fa3fd7fe693698cb71e72dd9c05e0cd4aa7e51",
+    "original_bytes": 390,
+    "original_sha256": "fc866a69e85ab47a958241c3451c01b4b382c76c717ff962edfbfb0e84cc9883",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "sanitized-copy",
+    "transformations": {
+      "temporary-root": 1
+    }
+  },
+  {
+    "file": "control-1-0.log",
+    "bytes": 171,
+    "sha256": "2baabca899a723ba7325fcb3fca580e62d27a78409bb3ecdfd8513e1d523e7c2",
+    "original_bytes": 171,
+    "original_sha256": "2baabca899a723ba7325fcb3fca580e62d27a78409bb3ecdfd8513e1d523e7c2",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "unchanged-original",
+    "transformations": {}
+  },
+  {
+    "file": "control-1-1.log",
+    "bytes": 2276,
+    "sha256": "eab475a6825423ef8e894952a56783aa01d417ce502f6d20eb6fb024480f4e32",
+    "original_bytes": 2267,
+    "original_sha256": "a1ebf2360de2bdae88665b4d3a781afc4bcbc60b269c1dfb4ee98f5d73c83760",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "sanitized-copy",
+    "transformations": {
+      "temporary-root": 9
+    }
+  },
+  {
+    "file": "manifest.json",
+    "bytes": 3676,
+    "sha256": "75f78c96f348d749e7dcab864b4fb7692c17722ebbe30a3d2af22b58e5e6ea9a",
+    "original_bytes": 3664,
+    "original_sha256": "7e2a5c85179cdb0003f98da00f2ae22ffb3b702a6da718adb8d08e6ae70abb7d",
+    "observations_sha256": "8cf9a95e54c165c10b7e90cb1106805bd437703cbeedc4db56cec4dd532659cd",
+    "representation": "sanitized-copy",
+    "transformations": {
+      "temporary-root": 12
+    }
+  }
+]

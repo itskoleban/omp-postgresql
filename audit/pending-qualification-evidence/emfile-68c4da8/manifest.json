@@ -1,0 +1,256 @@
+{
+  "schema": 2,
+  "run_id": "625602dfe77148d8a09745edc88d7d5d",
+  "started_utc": "2026-10-24T18:35:18.932267+00:00",
+  "source_commit": "68c4da874ef51f548e761b29dcefdac6d23f3afb",
+  "source_provenance": {
+    "schema": 1,
+    "source_commit": "68c4da874ef51f548e761b29dcefdac6d23f3afb",
+    "head_tree": "7290be2f9a020527449a3f6355f649ab935de798",
+    "source_dirty": true,
+    "tracked_source_modified": false,
+    "tracked_changes": [],
+    "untracked_entries": [
+      {
+        "path": "audit/pending-qualification-evidence/",
+        "classification": "unclassified"
+      }
+    ],
+    "untracked_count": 1,
+    "source_state": "untracked-unclassified",
+    "tracked_patch_sha256": null,
+    "status_sha256": "a394d36a61d5eabf500224747b6a797be07e6a67a67735d519609c4b7d42b2fc",
+    "generated_classification_basis": "Exact roots created by .github/workflows/ci.yml; all other entries remain unclassified"
+  },
+  "sources": {
+    "tests/sanitizer_descriptor_control.cpp": "0e694b8091196acfea8bf7f2be44179bacb1bfdcc87583fee2916091776f56ce",
+    "tests/sanitizer_descriptor_factory.cpp": "def2d8b3e79f74a62f7646be148aeed3005f0c265a1f9e3580f7ab6a734f436c",
+    "tests/sanitizer_descriptor_control.hpp": "1e92d5d01d40ba91f2ebaf12ccc81799e9ad33e9e95e7151abbd8a0fa693371c",
+    "scripts/probe_sanitizer_descriptors.py": "4f7e4c67b8df0aaf0f66e8d1bffb132a6547d804e2697798021227d15c6e0949"
+  },
+  "github_run_id": null,
+  "github_run_attempt": null,
+  "expected_records": 4,
+  "logs": {
+    "compiler-0-version.log": "59d1cbef41d4ae78d5063d525b7aa13d18dc0493ea00537efc19b2ee398cb5a8",
+    "factory-0-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control-0-0-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control-0-0.log": "7817eb8ef07a50892e0eb50674199b063821d94452c53fb0621e06ea521a1f83",
+    "control-0-1-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control-0-1.log": "52eb38fcbd47ce3f28da6a3f995e4e39f6003c19173f19acfc3c9300ac5594a3",
+    "compiler-1-version.log": "b3cb03f0f6691a660981461c40489b0ad377a7563bb813e8ed4c5f1ad0302179",
+    "factory-1-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control-1-0-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control-1-0.log": "7817eb8ef07a50892e0eb50674199b063821d94452c53fb0621e06ea521a1f83",
+    "control-1-1-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control-1-1.log": "dcac9a14878345b66d12d301e8d74af8003412929b1cd26c5aae60517e657c6c"
+  },
+  "results": [
+    {
+      "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "instrumented": false,
+      "version_command": [
+        "g++",
+        "--version"
+      ],
+      "factory_command": [
+        "g++",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-c",
+        "/pending/omp-postgresql/tests/sanitizer_descriptor_factory.cpp",
+        "-o",
+        "<TMP>/pr28-followup/descriptors/factory-0.o"
+      ],
+      "command": [
+        "g++",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-pthread",
+        "-no-pie",
+        "/pending/omp-postgresql/tests/sanitizer_descriptor_control.cpp",
+        "<TMP>/pr28-followup/descriptors/factory-0.o",
+        "-o",
+        "<TMP>/pr28-followup/descriptors/control-0-0"
+      ],
+      "run_command": [
+        "<TMP>/pr28-followup/descriptors/control-0-0"
+      ],
+      "returncode": 0,
+      "started_utc": "2026-10-24T18:35:21.176561+00:00",
+      "finished_utc": "2026-10-24T18:35:21.181121+00:00",
+      "output_capture": "merged-stdout-stderr",
+      "environment": {
+        "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS": "halt_on_error=1:print_stacktrace=1"
+      },
+      "binary_sha256": "94a6e335eaf828baec06f029dc5936fdc53d22d5b704bd68c6248dc152d1fbf4",
+      "factory_sha256": "8e1466b85f07535eafb107c7a9165cda22a713b857cd14175b5effe8a2b392c2",
+      "actual_emfile": true,
+      "diagnostics_present": false,
+      "status": "PASS",
+      "log": "control-0-0.log",
+      "sha256": "7817eb8ef07a50892e0eb50674199b063821d94452c53fb0621e06ea521a1f83"
+    },
+    {
+      "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "instrumented": true,
+      "version_command": [
+        "g++",
+        "--version"
+      ],
+      "factory_command": [
+        "g++",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-c",
+        "/pending/omp-postgresql/tests/sanitizer_descriptor_factory.cpp",
+        "-o",
+        "<TMP>/pr28-followup/descriptors/factory-0.o"
+      ],
+      "command": [
+        "g++",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-pthread",
+        "-no-pie",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "/pending/omp-postgresql/tests/sanitizer_descriptor_control.cpp",
+        "<TMP>/pr28-followup/descriptors/factory-0.o",
+        "-o",
+        "<TMP>/pr28-followup/descriptors/control-0-1"
+      ],
+      "run_command": [
+        "<TMP>/pr28-followup/descriptors/control-0-1"
+      ],
+      "returncode": 1,
+      "started_utc": "2026-10-24T18:35:23.257598+00:00",
+      "finished_utc": "2026-10-24T18:35:23.284103+00:00",
+      "output_capture": "merged-stdout-stderr",
+      "environment": {
+        "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS": "halt_on_error=1:print_stacktrace=1"
+      },
+      "binary_sha256": "9ba052001b289d2f5b077ece58d3f007aa6f49cd1e4cb16bb75e4e48958bb443",
+      "factory_sha256": "8e1466b85f07535eafb107c7a9165cda22a713b857cd14175b5effe8a2b392c2",
+      "actual_emfile": true,
+      "diagnostics_present": true,
+      "status": "FAIL",
+      "log": "control-0-1.log",
+      "sha256": "52eb38fcbd47ce3f28da6a3f995e4e39f6003c19173f19acfc3c9300ac5594a3"
+    },
+    {
+      "compiler": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n",
+      "instrumented": false,
+      "version_command": [
+        "clang++-19",
+        "--version"
+      ],
+      "factory_command": [
+        "clang++-19",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-c",
+        "/pending/omp-postgresql/tests/sanitizer_descriptor_factory.cpp",
+        "-o",
+        "<TMP>/pr28-followup/descriptors/factory-1.o"
+      ],
+      "command": [
+        "clang++-19",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-pthread",
+        "-no-pie",
+        "/pending/omp-postgresql/tests/sanitizer_descriptor_control.cpp",
+        "<TMP>/pr28-followup/descriptors/factory-1.o",
+        "-o",
+        "<TMP>/pr28-followup/descriptors/control-1-0"
+      ],
+      "run_command": [
+        "<TMP>/pr28-followup/descriptors/control-1-0"
+      ],
+      "returncode": 0,
+      "started_utc": "2026-10-24T18:35:25.543747+00:00",
+      "finished_utc": "2026-10-24T18:35:25.549619+00:00",
+      "output_capture": "merged-stdout-stderr",
+      "environment": {
+        "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS": "halt_on_error=1:print_stacktrace=1"
+      },
+      "binary_sha256": "1595e2a2ecc395d98434475afea42fac0214c8f6826639f1825896e22121c750",
+      "factory_sha256": "ae235491e89ac38ca161ae251714b7ea6a86222bb98c5dd29d6dbd95f83931a4",
+      "actual_emfile": true,
+      "diagnostics_present": false,
+      "status": "PASS",
+      "log": "control-1-0.log",
+      "sha256": "7817eb8ef07a50892e0eb50674199b063821d94452c53fb0621e06ea521a1f83"
+    },
+    {
+      "compiler": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n",
+      "instrumented": true,
+      "version_command": [
+        "clang++-19",
+        "--version"
+      ],
+      "factory_command": [
+        "clang++-19",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-c",
+        "/pending/omp-postgresql/tests/sanitizer_descriptor_factory.cpp",
+        "-o",
+        "<TMP>/pr28-followup/descriptors/factory-1.o"
+      ],
+      "command": [
+        "clang++-19",
+        "-std=c++20",
+        "-g",
+        "-O0",
+        "-fno-pie",
+        "-pthread",
+        "-no-pie",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "/pending/omp-postgresql/tests/sanitizer_descriptor_control.cpp",
+        "<TMP>/pr28-followup/descriptors/factory-1.o",
+        "-o",
+        "<TMP>/pr28-followup/descriptors/control-1-1"
+      ],
+      "run_command": [
+        "<TMP>/pr28-followup/descriptors/control-1-1"
+      ],
+      "returncode": 1,
+      "started_utc": "2026-10-24T18:35:27.765494+00:00",
+      "finished_utc": "2026-10-24T18:35:27.780445+00:00",
+      "output_capture": "merged-stdout-stderr",
+      "environment": {
+        "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS": "halt_on_error=1:print_stacktrace=1"
+      },
+      "binary_sha256": "cafbff8a14ddb2d4415ed38bf16598b7102df001f91b71d5526673b2f26273df",
+      "factory_sha256": "ae235491e89ac38ca161ae251714b7ea6a86222bb98c5dd29d6dbd95f83931a4",
+      "actual_emfile": true,
+      "diagnostics_present": true,
+      "status": "FAIL",
+      "log": "control-1-1.log",
+      "sha256": "dcac9a14878345b66d12d301e8d74af8003412929b1cd26c5aae60517e657c6c"
+    }
+  ],
+  "finished_utc": "2026-10-24T18:35:27.787194+00:00",
+  "inputs_unchanged": true
+}

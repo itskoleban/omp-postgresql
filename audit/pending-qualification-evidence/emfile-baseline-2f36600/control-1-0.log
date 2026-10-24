@@ -1,0 +1,3 @@
+CONTROL completed with no component code linked
+CONTROL reached actual EMFILE; joining ordinary std::thread
+CONTROL checking a valid external polymorphic object at EMFILE
