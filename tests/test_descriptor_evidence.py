@@ -55,3 +55,15 @@ class DescriptorEvidenceTests(unittest.TestCase):
     def test_zero_exit_without_emfile_or_with_diagnostic_is_not_a_pass(self):
         self.assertEqual(probe.outcome(0,b"No exhaustion observed")["status"],"FAIL")
         self.assertEqual(probe.outcome(0,b"CONTROL reached actual EMFILE\nruntime error: fixture\nCONTROL completed with no component code linked")["status"],"FAIL")
+
+    def test_publication_keeps_original_log_hashes_and_negative_outcomes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);raw=self.execute_fixture(root)
+            original=(raw/"manifest.json").read_bytes()
+            public=root/"public";probe.publish(raw,public)
+            self.assertEqual((raw/"manifest.json").read_bytes(),original)
+            manifest=probe.verify(public)
+            self.assertEqual([r["status"] for r in manifest["results"]],["PASS","FAIL"])
+            ledger=json.loads((public/"sha256.json").read_text())
+            row=next(r for r in ledger if r["file"]==manifest["results"][1]["log"])
+            self.assertEqual(row["original_sha256"],manifest["results"][1]["sha256"])
