@@ -592,7 +592,10 @@ def run_cases(s):
         a = server.client("QNpcControl")
         mark = server.mark(); a.control("npc")
         npc = server.wait("npc_created", since=mark, connected=1, npc=1)
-        server.wait("npc_destroyed", since=mark, p=npc["p"], connected=0)
+        # NPC_Destroy queues removal; connection flags clear after this callback.
+        server.wait("npc_destroyed", since=mark, p=npc["p"])
+        server.wait("disconnect_end", since=mark, p=npc["p"])
+        server.wait("sql_owner", since=mark, p=npc["p"], connected=0)
         assert a.initial["npc"] == 0 and a.p != npc["p"]
         return ["official NPC_Create/NPC_Destroy executed", "NPC flagged npc=1; real network client npc=0", "NPC evidence does not qualify client protocol or real-player reuse"]
     s.case("official_npc_scope", official_npc)
