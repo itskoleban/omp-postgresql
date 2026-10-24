@@ -204,7 +204,10 @@ class Server:
             if self.proc.poll() is not None and not matches:
                 raise AssertionError(f"open.mp exited with {self.proc.returncode}")
             return matches[0] if matches else None
-        return self.suite.until(find, seconds)
+        try:
+            return self.suite.until(find, seconds)
+        except AssertionError as error:
+            raise AssertionError(f"{event} {fields}: {error}") from None
 
     def command(self, text):
         self.proc.stdin.write((text+"\n").encode("utf-16le" if os.name == "nt" else "utf8"))
@@ -508,11 +511,13 @@ def run_cases(s):
             a.control("lookup")
             server.wait("database", since=mark, ready=0)
             assert a.state()["token"] == 0
+            # Hold the outage until exhaustion instead of racing a fast restart
+            # against the first automatic reconnect attempt on a faster runner.
+            server.wait("database", since=mark, state=4, seconds=20)
         finally:
             with (s.output / "postgres-recovery.txt").open("wb") as log:
                 subprocess.run([s.pg_ctl, "-D", s.data, "-l", str(s.output / "postgres-restarted.txt"), "-w", "start"], stdout=log, stderr=subprocess.STDOUT, check=True, creationflags=FLAGS, timeout=20)
         # A failed logical pool has exhausted its policy; recreation is explicit.
-        server.wait("database", since=mark, state=4, seconds=20)
         a.control("recover")
         server.wait("database", since=mark, ready=1)
         server.wait("sql_end", since=mark, p=a.p, state=3)
