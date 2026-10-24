@@ -45,7 +45,7 @@ Loading component Databases.so
 	Successfully loaded component Databases (1.5.8.3079) with UID 80092e7eb5821a96
 Loading component Actors.so
 	Successfully loaded component Actors (1.5.8.3079) with UID c81ca021eae2ad5c
-Loaded 23 component(s) from /home/runner/work/omp-postgresql/omp-postgresql/build-real-sessions/evidence/database-recovery/components
+Loaded 23 component(s) from <RUNNER_WORKSPACE>/build-real-sessions/evidence/database-recovery/components
 [2026-10-24T13:07:40+0000] [Info] omp-postgresql 0.1.0
 [2026-10-24T13:07:40+0000] [Info] Loading plugin: samp_bcrypt.so
 [2026-10-24T13:07:40+0000] [Info] [SampBcrypt] [info]: Version: 0.4.1

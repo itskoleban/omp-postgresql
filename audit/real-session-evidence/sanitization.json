@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "profile": "local-paths-v1",
+  "original_commit": "101f540520657273f5bc987b0ae834a5bc45000f",
+  "original_ledger_sha256": "25d05c1d1bd0b6faaf6c119d62b797bb693d21e5ec01a5a4edc2437d9b81059b",
+  "original_ledger": "original-sha256.json",
+  "files": 127,
+  "sanitized_copies": 58,
+  "observations_changed": false,
+  "notes": [
+    "Original hashes identify pre-transformation bytes, not sanitized copies.",
+    "Originals are not duplicated here. Old Git history is not rewritten.",
+    "Only environment path strings change; session/job tokens, outcomes and binary hashes remain."
+  ]
+}

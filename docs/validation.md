@@ -15,6 +15,17 @@ is separated below from the historical qualification records that follow.
 
 ### Real player sessions: October 24, 2026
 
+The follow-up within [PR #27](https://github.com/itskoleban/omp-postgresql/pull/27)
+replaces unnecessary local paths/hostnames with explicitly labelled sanitized
+representations. The evidence ledger retains original and sanitized hashes and
+observation fingerprints; historical outcomes are unchanged. New source snapshots
+separate tracked edits from generated/untracked entries while retaining the aggregate
+`source_dirty` flag. Windows startup aborts remain a known limitation without a
+confirmed cause, rather than a defect marked fixed after a pass. This follow-up
+requires full CI for its own head, with all 19 scenarios and existing gates intact.
+The 24-hour gate remains BLOCKED pending infrastructure, formal freeze and explicit
+owner authorization.
+
 The [bounded real-session qualification](https://github.com/itskoleban/omp-postgresql/pull/27)
 adds genuine ordinary-protocol network clients and the samp-bcrypt 0.4.1 binary to
 official open.mp 1.5.8.3079 x86. Local complete runs passed 19/19 scenarios on Linux

@@ -4,7 +4,7 @@
 	failures="0"
 	disabled="0"
 	skipped="0"
-	hostname="2f49b6ea0aad"
+	hostname="SANITIZED-HOST"
 	time="37"
 	timestamp="2026-10-24T12:39:12"
 	>
@@ -70,22 +70,22 @@ logging_benchmark,0,0,gl...
 	<testcase name="worker_allocation_integration" classname="worker_allocation_integration" time="0.0965885" status="run">
 		<properties/>
 		<system-out>worker allocation denied bytes=51
-/tmp/build32/pg_worker_allocation(_Znwj+0x9f)[0x8058c1f]
-/tmp/build32/pg_worker_allocation[0x805b10c]
-/tmp/build32/pg_worker_allocation[0x8051a61]
-/tmp/build32/pg_worker_allocation(_ZN2pg4Lane7commandERNS_3JobERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt6vectorINS_5ParamESaISC_EEbRj+0x5d0)[0x8062360]
-/tmp/build32/pg_worker_allocation[0x8063158]
-/tmp/build32/pg_worker_allocation(_ZN2pg4Lane7executeERNS_3JobE+0x5e8)[0x8065838]
-/tmp/build32/pg_worker_allocation(_ZN2pg4Lane3runEv+0xab7)[0x80675d7]
-/tmp/build32/pg_worker_allocation[0x806842b]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation(_Znwj+0x9f)[0x8058c1f]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation[0x805b10c]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation[0x8051a61]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation(_ZN2pg4Lane7commandERNS_3JobERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt6vectorINS_5ParamESaISC_EEbRj+0x5d0)[0x8062360]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation[0x8063158]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation(_ZN2pg4Lane7executeERNS_3JobE+0x5e8)[0x8065838]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation(_ZN2pg4Lane3runEv+0xab7)[0x80675d7]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation[0x806842b]
 /lib32/libstdc++.so.6(+0xccd21)[0xf7d28d21]
 /lib/i386-linux-gnu/libc.so.6(+0x8ce57)[0xf7a75e57]
 /lib/i386-linux-gnu/libc.so.6(__clone+0x66)[0xf7b0d246]
 worker allocation denied bytes=36
-/tmp/build32/pg_worker_allocation(_Znwj+0x9f)[0x8058c1f]
-/tmp/build32/pg_worker_allocation[0x805d186]
-/tmp/build32/pg_worker_allocation(_ZN2pg4Lane3runEv+0x13c4)[0x8067ee4]
-/tmp/build32/pg_worker_allocation[0x806842b]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation(_Znwj+0x9f)[0x8058c1f]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation[0x805d186]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation(_ZN2pg4Lane3runEv+0x13c4)[0x8067ee4]
+&lt;WORKSPACE&gt;/build-linux32/pg_worker_allocation[0x806842b]
 /lib32/libstdc++.so.6(+0xccd...
 [This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
 </system-out>

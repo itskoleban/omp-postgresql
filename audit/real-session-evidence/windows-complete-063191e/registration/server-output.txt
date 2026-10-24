@@ -45,7 +45,7 @@ Loading component Variables.dll
 	Successfully loaded component Variables (1.5.8.3079) with UID 75e121848bc01fa2
 Loading component Vehicles.dll
 	Successfully loaded component Vehicles (1.5.8.3079) with UID 3f1f62ee9e22ab19
-Loaded 23 component(s) from C:\Users\esteb\Documents\Codex\2026-10-24\calificaci-n-de-integraci-n-real\work\reviewed-windows\evidence\registration\components
+Loaded 23 component(s) from <EVIDENCE>/registration/components
 [2026-10-24T08:17:50-0500] [Info] omp-postgresql 0.1.0
 [2026-10-24T08:17:50-0500] [Info] Loading plugin: samp_bcrypt
 [2026-10-24T08:17:50-0500] [Info] [SampBcrypt] [info]: Version: 0.4.1

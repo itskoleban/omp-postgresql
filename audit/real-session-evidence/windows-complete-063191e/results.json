@@ -4,19 +4,19 @@
   "platform": "win32",
   "inputs": {
     "component": {
-      "path": "C:\\Users\\esteb\\Documents\\Codex\\2026-10-24\\calificaci-n-de-integraci-n-real\\work\\omp-postgresql\\build-msvc32\\Release\\omp-postgresql.dll",
+      "path": "<WORKSPACE>/build-msvc32/Release/omp-postgresql.dll",
       "sha256": "619d60fc04392e004971cff5f727ebc6773dbbdb99a69cce7441fc75d57725d5"
     },
     "gamemode": {
-      "path": "C:\\Users\\esteb\\Documents\\Codex\\2026-10-24\\calificaci-n-de-integraci-n-real\\work\\reviewed-windows\\real_sessions.amx",
+      "path": "<FIXTURES>/real_sessions.amx",
       "sha256": "692f6cf4ed7c717c566d46a7e4395cb94261d78258a872f17dbfc9af97e3d2ae"
     },
     "client": {
-      "path": "C:\\Users\\esteb\\Documents\\Codex\\2026-10-24\\calificaci-n-de-integraci-n-real\\work\\client-repro-win\\build\\RakSAMPClient.exe",
+      "path": "<CLIENT_BUILD>/build/RakSAMPClient.exe",
       "sha256": "03d22313bac429acfbbb7683a73e4bbe8535469ad30b56fe77a5e55552f36c38"
     },
     "provider": {
-      "path": "C:\\Users\\esteb\\Documents\\Codex\\2026-10-24\\calificaci-n-de-integraci-n-real\\work\\reviewed-windows\\provider\\plugins\\samp_bcrypt.dll",
+      "path": "<PROVIDER>/plugins/samp_bcrypt.dll",
       "sha256": "42ff95d26a586e51ea964e80bc747498dc64f3015d29a1c5a2d790c8906944a5"
     },
     "server": {
@@ -24,7 +24,7 @@
       "version": "1.5.8.3079 (supplied distribution; verify archive separately)"
     },
     "custom_gamemode": {
-      "path": "C:\\Users\\esteb\\Documents\\Codex\\2026-10-24\\calificaci-n-de-integraci-n-real\\work\\reviewed-windows\\real_custom_sessions.amx",
+      "path": "<FIXTURES>/real_custom_sessions.amx",
       "sha256": "e215e2912e14bdb260ae8f33a2ad5dc0c80595e8e35f693c8ea5f4c2af24415d"
     }
   },
@@ -242,7 +242,7 @@
   "sql": [
     {
       "sql": "SHOW data_directory",
-      "result": "C:/Users/esteb/AppData/Local/Temp/omp-pg-integration-hp51762a/data"
+      "result": "<POSTGRES_CLUSTER>/data"
     },
     {
       "sql": "ALTER SYSTEM SET log_min_error_statement='panic'",

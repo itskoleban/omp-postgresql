@@ -3,6 +3,12 @@
 Fecha: 24 de octubre de 2026 (America/Bogota). Rama: `codex/real-player-qualification`.
 PR: https://github.com/itskoleban/omp-postgresql/pull/27.
 
+Revisión posterior dentro de la misma PR: [privacidad, integridad, Windows y
+procedencia](real-session-review.md). Los archivos citados a continuación son ahora
+copias saneadas expresamente identificadas donde fue necesario; los resultados y
+hashes originales se conservan en [el contrato de evidencia](real-session-evidence/README.md).
+El nuevo CI se evalúa por su propio SHA y no hereda los resultados históricos.
+
 ## Identidad y alcance
 
 El `master` inspeccionado y vuelto a consultar es
@@ -193,7 +199,9 @@ antes: la carrera confirmada posterior a B es la variante retain explícita.
 No hay en esta fase un defecto reproducido de implementación del componente que
 justifique alterar la API o la ABI. Los cambios son pruebas, preparación y documentación.
 
-No se inició, programó ni despachó la campaña de 24 horas. Tampoco se creó un tag,
+La puerta de 24 horas permanece **BLOCKED** hasta verificar infraestructura remota
+aislada, congelar formalmente el candidato y obtener autorización expresa del dueño.
+No se inició, programó ni despachó esa campaña. Tampoco se creó un tag,
 se publicó un release, se fusionó la PR ni se modificó directamente master.
 
 ## Reproducción

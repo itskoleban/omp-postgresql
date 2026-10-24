@@ -4,19 +4,19 @@
   "platform": "linux",
   "inputs": {
     "component": {
-      "path": "/tmp/build32/omp-postgresql.so",
+      "path": "<WORKSPACE>/build-linux32/omp-postgresql.so",
       "sha256": "c8bc22e05c2956e9f094fb21ba66de7949c33d614129c4e0f636cfed28d777d0"
     },
     "gamemode": {
-      "path": "/tmp/build32/real-sessions.amx",
+      "path": "<WORKSPACE>/build-linux32/real-sessions.amx",
       "sha256": "692f6cf4ed7c717c566d46a7e4395cb94261d78258a872f17dbfc9af97e3d2ae"
     },
     "client": {
-      "path": "/work/RakSAMP-cli/build/RakSAMPClient",
+      "path": "<CLIENT_SOURCE>/build/RakSAMPClient",
       "sha256": "532ab1e5009f6103e94975c9c2a1cb410eaaa79f3500dc7b8fe0de896552c7d8"
     },
     "provider": {
-      "path": "/tmp/bcrypt/plugins/samp_bcrypt.so",
+      "path": "<DEPENDENCIES>/bcrypt/plugins/samp_bcrypt.so",
       "sha256": "8b5c9024b20b55e8eb031ab7a3ba126653b41f45d4e11e835a6d481643883d14"
     },
     "server": {
@@ -24,7 +24,7 @@
       "version": "1.5.8.3079 (supplied distribution; verify archive separately)"
     },
     "custom_gamemode": {
-      "path": "/tmp/build32/real-custom-sessions.amx",
+      "path": "<WORKSPACE>/build-linux32/real-custom-sessions.amx",
       "sha256": "e215e2912e14bdb260ae8f33a2ad5dc0c80595e8e35f693c8ea5f4c2af24415d"
     }
   },
@@ -59,7 +59,7 @@
   "sql": [
     {
       "sql": "SHOW data_directory",
-      "result": "/tmp/omp-pg-integration-0wobj8qw/data"
+      "result": "<POSTGRES_CLUSTER>/data"
     },
     {
       "sql": "ALTER SYSTEM SET log_min_error_statement='panic'",

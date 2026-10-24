@@ -45,7 +45,7 @@ Loading component CustomModels.so
 	Successfully loaded component CustomModels (1.5.8.3079) with UID 15e3cb1e7c77ffff
 Loading component omp-postgresql.so
 	Successfully loaded component omp-postgresql (0.1.0.0) with UID cfd9534e1ba74280
-Loaded 23 component(s) from /tmp/linux-evidence/linux-uncertain-final/registration/components
+Loaded 23 component(s) from <TMP>/linux-evidence/linux-uncertain-final/registration/components
 [2026-10-24T13:14:48+0000] [Info] omp-postgresql 0.1.0
 [2026-10-24T13:14:48+0000] [Info] Loading plugin: samp_bcrypt.so
 [2026-10-24T13:14:48+0000] [Info] [SampBcrypt] [info]: Version: 0.4.1

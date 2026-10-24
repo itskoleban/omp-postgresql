@@ -4,19 +4,19 @@
   "platform": "linux",
   "inputs": {
     "component": {
-      "path": "/home/runner/work/omp-postgresql/omp-postgresql/build-linux32/omp-postgresql.so",
+      "path": "<RUNNER_WORKSPACE>/build-linux32/omp-postgresql.so",
       "sha256": "35344376ea7ade6a3d6bb109cb3a6902a7b6b314433aeb35a82fd1362922b729"
     },
     "gamemode": {
-      "path": "/home/runner/work/omp-postgresql/omp-postgresql/build-real-sessions/real_sessions.amx",
+      "path": "<RUNNER_WORKSPACE>/build-real-sessions/real_sessions.amx",
       "sha256": "692f6cf4ed7c717c566d46a7e4395cb94261d78258a872f17dbfc9af97e3d2ae"
     },
     "client": {
-      "path": "/home/runner/work/omp-postgresql/omp-postgresql/build-real-sessions/client/build/RakSAMPClient",
+      "path": "<RUNNER_WORKSPACE>/build-real-sessions/client/build/RakSAMPClient",
       "sha256": "698ade9d27e198cb85d99abf03dddc0880ca84ce5f5912d6597a704745af0723"
     },
     "provider": {
-      "path": "/home/runner/work/omp-postgresql/omp-postgresql/build-real-sessions/provider/plugins/samp_bcrypt.so",
+      "path": "<RUNNER_WORKSPACE>/build-real-sessions/provider/plugins/samp_bcrypt.so",
       "sha256": "8b5c9024b20b55e8eb031ab7a3ba126653b41f45d4e11e835a6d481643883d14"
     },
     "server": {
@@ -24,7 +24,7 @@
       "version": "1.5.8.3079 (supplied distribution; verify archive separately)"
     },
     "custom_gamemode": {
-      "path": "/home/runner/work/omp-postgresql/omp-postgresql/build-real-sessions/real_custom_sessions.amx",
+      "path": "<RUNNER_WORKSPACE>/build-real-sessions/real_custom_sessions.amx",
       "sha256": "e215e2912e14bdb260ae8f33a2ad5dc0c80595e8e35f693c8ea5f4c2af24415d"
     }
   },
@@ -235,7 +235,7 @@
   "sql": [
     {
       "sql": "SHOW data_directory",
-      "result": "/tmp/omp-pg-integration-82jk10ai/data"
+      "result": "<POSTGRES_CLUSTER>/data"
     },
     {
       "sql": "ALTER SYSTEM SET log_min_error_statement='panic'",
