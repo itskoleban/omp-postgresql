@@ -1,88 +1,99 @@
-# Resolución de A1 y A2 — PR #24
+<a id="resolución-de-a1-y-a2--pr-24"></a>
+# A1 and A2 resolution - PR #24
 
-Fecha: 23 de octubre de 2026. Código corregido: **`ba384fffbdef757e3a22c0dc00901af18c6c9512`**.
-Base de esta revisión: `0fbea5f7c7a3e209be3f38b516490b4ea9414f21`; master permanece
-`3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f`. Este documento y sus evidencias no cambian el runtime.
+English translation of the maintained narrative at `c8528bf89068dfd33fd96bf7350ee59e599d278f`. Historical statements retain their original dates and scope; this translation does not rerun tests or change evidence. Numeric spelling and legacy heading IDs are preserved.
 
-## A1: conservar la causa observada
+Date: October 23, 2026. Corrected code: **`ba384fffbdef757e3a22c0dc00901af18c6c9512`**.
+Review base: `0fbea5f7c7a3e209be3f38b516490b4ea9414f21`; master remains
+`3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f`. This document and its evidence do not change runtime behavior.
 
-`Lane::wait_socket()` devuelve ahora `Error`, utilizando `Error::none` para continuar.
-Captura cancelación/shutdown o deadline al entrar; socket inválido, descriptor fuera de
-FD_SETSIZE y fallo no reintentable de select devuelven connection. `receive()` propaga
-ese resultado sin volver a deducirlo de flags/reloj posteriores. Un error de transporte
-observado por select sigue siendo connection aunque cancel se active o venza el plazo
-durante la llamada. Si la interrupción se observa antes de intentar I/O, se conserva esa
-interrupción; no se afirma diagnosticar una avería de red que todavía no se ha observado.
+<a id="a1-conservar-la-causa-observada"></a>
+## A1: preserve the observed cause
 
-También se corrige el caso de EINTR/WSAEINTR: se reintenta mediante el bucle, que comprueba
-de nuevo cancelación, stop y deadline. Una interrupción de señal no implica por sí sola
-una conexión rota. Los errores de flush/consume siguen siendo connection.
+`Lane::wait_socket()` now returns `Error`, using `Error::none` to continue.
+It captures cancellation/shutdown or deadline expiry on entry; an invalid socket,
+a descriptor outside FD_SETSIZE and a nonretryable select failure return connection.
+`receive()` propagates that result without inferring it again from later flags or
+clock readings. A transport error observed by select remains connection even if
+cancel is set or the deadline expires during the call. If interruption is observed
+before attempting I/O, that interruption is preserved; this does not claim to
+diagnose a network failure that has not yet been observed.
 
-No cambia la publicación terminal: SQL enviado sin respuesta definitiva sigue uncertain,
-completed=0 e item uncertain; se cierra la sesión y se invalida su estado transaccional y
-prepared. Recuperar la sesión no reenvía SQL. Una respuesta definitiva ya procesada puede
-ganar frente a una cancelación posterior; solicitar cancelación no equivale a ROLLBACK.
-Las firmas y constantes Pawn permanecen iguales.
+EINTR/WSAEINTR is also corrected: the loop retries and checks cancellation, stop
+and deadline again. A signal interruption alone does not imply a broken connection.
+Flush/consume errors remain connection errors.
 
-## A2: demostrar el punto de ejecución
+Terminal publication is unchanged: dispatched SQL without a definitive response
+remains uncertain, with completed=0 and an uncertain item; the session closes and
+its transaction and prepared state are invalidated. Session recovery does not resend
+SQL. An already processed definitive response can win over later cancellation;
+requesting cancellation does not mean ROLLBACK. Pawn signatures and constants are unchanged.
 
-El nuevo `socket_wait_unit` compila el cuerpo real de `src/session.cpp` con seams de
-libpq, reloj y select; Engine, colas, publicación y reconexión siguen siendo reales.
-El reloj controlado avanza sin sleeps. La sincronización con condición publica el job
-antes de la inyección. Contadores acreditan send, entrada a select y consumo de resultados.
-El único selector de syscall nuevo, PG_SOCKET_SELECT, se resuelve directamente a ::select
-en el componente normal: no añade hooks de runtime ni llamadas falsas al paquete.
+<a id="a2-demostrar-el-punto-de-ejecución"></a>
+## A2: demonstrate the execution point
 
-Se comprueban 20 casos Windows y 21 Linux (incluye límite de descriptor): cancel/timeout/
-stop al entrar; transporte solo y concurrente con cancel/deadline/ambos; socket inválido;
-EINTR con recuperación/cancel/timeout; readiness y poll timeout; respuesta provisional y
-cancel; respuesta completa que gana a cancel/deadline; cancelación previa al dispatch;
-fallos de flush/consume coincidentes con cancel. Cada caso exige estado, causa, metadata,
-fase alcanzada, un solo envío (o cero en predispatch), una completion y recuperación
-cuando corresponde. Un watchdog limita fallos; ningún punto de inyección depende de sleeps.
+The new `socket_wait_unit` compiles the actual `src/session.cpp` body with libpq,
+clock and select seams; Engine, queues, publication and reconnection remain real.
+The controlled clock advances without sleeps. Condition-variable synchronization
+publishes the job before injection. Counters establish send, select entry and result
+consumption. The only new syscall selector, PG_SOCKET_SELECT, resolves directly to
+::select in the normal component: it adds no runtime hooks or fake calls to the package.
 
-La prueba real conserva sus 32 rondas y ahora usa otro backend para observar en
-pg_stat_activity el PID propio, SQL exacto, state=active y wait_event=PgSleep antes de
-cancelar. RUNNING ya no sirve como prueba de dispatch. Se exige uncertain/cancelled,
-completed=0 e item uncertain. El polling solo espera la condición observable; no decide
-el schedule crítico. La prueba determinista complementa a PostgreSQL real, no lo sustituye.
+The tests cover 20 Windows cases and 21 Linux cases (including the descriptor limit):
+cancel/timeout/stop on entry; transport alone and concurrent with cancel/deadline/both;
+invalid socket; EINTR with recovery/cancel/timeout; readiness and poll timeout;
+provisional response and cancel; complete response winning over cancel/deadline;
+predispatch cancellation; flush/consume failures coinciding with cancel. Every case
+requires the state, cause, metadata, reached phase, one send (or zero before dispatch),
+one completion and recovery where applicable. A watchdog bounds failures; injection
+points do not depend on sleeps.
 
-## Pruebas negativas y reproducción original
+The real test retains its 32 rounds and now uses another backend to observe its own
+PID, exact SQL, state=active and wait_event=PgSleep in pg_stat_activity before
+cancelling. RUNNING is no longer proof of dispatch. The test requires
+uncertain/cancelled, completed=0 and an uncertain item. Polling only waits for the
+observable condition; it does not decide the critical schedule. The deterministic
+test complements real PostgreSQL rather than replacing it.
 
-Se construyeron copias desechables con runtime histórico y el nuevo test, añadiendo solo
-el selector de syscall necesario para la inyección (sin cambiar wait/receive históricos).
+<a id="pruebas-negativas-y-reproducción-original"></a>
+## Negative tests and original reproduction
 
-| Runtime | Caso | Fase comprobada | Resultado esperado y observado |
+Disposable copies were built with the historical runtime and the new test, adding
+only the syscall selector needed for injection (without changing historical wait/receive).
+
+| Runtime | Case | Verified phase | Expected and observed result |
 | --- | --- | --- | --- |
-| 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f | cancel_entry | sends=1, select=0 | Exit 1: uncertain/connection, debía conservar cancelled |
-| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | transport_cancel | sends=1, select=1 | Exit 1: uncertain/cancelled, debía conservar connection |
-| 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f | timeout_entry | sends=1, select=0 | Exit 1: connection en vez de timeout |
-| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | transport_timeout | sends=1, select=1 | Exit 1: timeout en vez de connection |
-| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | eintr_retry | sends=1, select=1 | Exit 1: uncertain/connection en vez de completar tras reintento |
-| ba384fffbdef757e3a22c0dc00901af18c6c9512 | Todos | 20 casos en Windows | PASS; metadata y completion verificadas |
+| 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f | cancel_entry | sends=1, select=0 | Exit 1: uncertain/connection; should preserve cancelled |
+| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | transport_cancel | sends=1, select=1 | Exit 1: uncertain/cancelled; should preserve connection |
+| 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f | timeout_entry | sends=1, select=0 | Exit 1: connection instead of timeout |
+| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | transport_timeout | sends=1, select=1 | Exit 1: timeout instead of connection |
+| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | eintr_retry | sends=1, select=1 | Exit 1: uncertain/connection instead of completing after retry |
+| ba384fffbdef757e3a22c0dc00901af18c6c9512 | All | 20 Windows cases | PASS; metadata and completion verified |
 
-La reproducción original de la auditoría, enlazada con el pg_core corregido, publica
-connection en sus tres modos de error de select, incluso con cancel/deadline concurrentes;
-su cuarto modo conserva cancelación predispatch con cero envíos. Véanse
-[evidencias y hashes](stability-evidence/a1-a2/SHA256SUMS.txt).
+The original audit reproduction, linked to corrected pg_core, publishes connection
+in its three select-error modes, including concurrent cancel/deadline; its fourth
+mode preserves predispatch cancellation with zero sends. See
+[evidence and hashes](stability-evidence/a1-a2/SHA256SUMS.txt).
 
-## Validación local y CI
+<a id="validación-local-y-ci"></a>
+## Local validation and CI
 
-Las evidencias locales incluyen JUnit Windows x64 (18/18) y Windows x86/MSVC (20/20),
-81 métodos Python, cinco ejecuciones negativas y la reproducción original. Ambos builds se configuraron
-con source_tree=clean en el commit de código indicado, PostgreSQL oficial 17.11/TLS y
-PG_STRESS_SECONDS=120. Incluyen COMMIT, ROLLBACK, reconexión y las suites anteriores.
-La transformación pública redacta rutas de los workspaces y hostname; el ledger registra
-hash de origen y de la copia pública. Los logs históricos anteriores no se reinterpretan.
+Local evidence includes Windows x64 JUnit (18/18), Windows x86/MSVC (20/20),
+81 Python methods, five negative executions and the original reproduction. Both
+builds were configured with source_tree=clean at the stated code commit, official
+PostgreSQL 17.11/TLS and PG_STRESS_SECONDS=120. They include COMMIT, ROLLBACK,
+reconnection and the previous suites. The public transformation redacts workspace
+paths and hostname; the ledger records original and public-copy hashes. Earlier
+historical logs are not reinterpreted.
 
-La puerta final de integración es el **CI del head actual de la PR**, incluido su merge
-candidate: [checks de PR #24](https://github.com/itskoleban/omp-postgresql/pull/24/checks).
-Este documento registra la validación local antes del push; no anticipa un pass remoto.
-La descripción de la PR y el informe de seguimiento registran el run y SHA finales
-después de esperar a GitHub Actions. Se requieren Linux x86/open.mp, Windows x86/open.mp,
-Windows x64 y Linux OFF/ASan-UBSan/TSan, además del gate de paquetes.
+The final integration gate is **CI for the current PR head**, including its merge
+candidate: [PR #24 checks](https://github.com/itskoleban/omp-postgresql/pull/24/checks).
+This document records local validation before push and does not anticipate a remote
+pass. The PR description and follow-up report record the final run and SHA after
+waiting for GitHub Actions. Linux x86/open.mp, Windows x86/open.mp, Windows x64,
+Linux OFF/ASan-UBSan/TSan and the package gate are required.
 
-Reproducción en un entorno de desarrollo aislado:
+Reproduction in an isolated development environment:
 
 ```sh
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_BUILD_BENCHMARK=ON -DPG_STRESS_SECONDS=120
@@ -92,20 +103,21 @@ python tests/run_postgres.py --build build --config Debug --doc-sql
 python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-En Windows, seleccionar toolchain y libpq de la misma arquitectura y proporcionar
---postgres-bin/--openssl como indica el runbook. El test admite un nombre de caso como
-argumento de pg_socket_wait_tests para reproducir una intercalación individual.
+On Windows, select a toolchain and libpq of the same architecture and provide
+--postgres-bin/--openssl as described in the runbook. The test accepts a case name
+as a pg_socket_wait_tests argument to reproduce an individual interleaving.
 
-## Riesgos restantes y decisión
+<a id="riesgos-restantes-y-decisión"></a>
+## Remaining risks and decision
 
-A1 y A2 quedan corregidos y cubiertos por oráculos deterministas más integración real.
-La recomendación técnica local es **APPROVE WITH CONDITIONS** hasta que pase el CI del
-head final; el veredicto posterior se registra en la descripción de PR tras comprobarlo.
-No se ha hecho merge, force push, tag, release ni modificación de activos RC.1.
+A1 and A2 are corrected and covered by deterministic oracles and real integration.
+The local technical recommendation is **APPROVE WITH CONDITIONS** until final-head
+CI passes; the later verdict is recorded in the PR description after verification.
+No merge, force push, tag, release or RC.1 asset modification was performed.
 
-La publicación estable v0.1.0 sigue siendo una decisión independiente: no se ejecutó una
-campaña de 12–24 h, agotamiento sistemático de allocator/FD, toda partición de red, fuzz
-del loader AMX ni reutilización de playerid real. R1 (asignación en publicación terminal)
-permanece un riesgo no reproducido, no un nuevo defecto confirmado. Dependencias externas
-no completamente instrumentadas y shutdown sujeto al SO conservan sus límites anteriores.
-Los metadatos de hostname de evidencias históricas siguen siendo un hallazgo Low.
+Stable v0.1.0 publication remains a separate decision: no 12-24-hour campaign,
+systematic allocator/FD exhaustion, every network partition, AMX-loader fuzzing or
+real playerid reuse was executed. R1 (allocation during terminal publication)
+remains an unreproduced risk, not a newly confirmed defect. Incompletely instrumented
+external dependencies and OS-dependent shutdown retain their earlier limitations.
+Hostname metadata in historical evidence remains a Low finding.
