@@ -1,0 +1,102 @@
+{
+  "source_commit": "f8fbb3fae6e08b6931a671d63b89889be3b579f9",
+  "run_id": 40132439602,
+  "result": "FAIL: six jobs PASS; THREAD control failed",
+  "jobs": [
+    {
+      "name": "Linux x86 and open.mp",
+      "id": 120986936444,
+      "result": "PASS"
+    },
+    {
+      "name": "windows",
+      "id": 120986936571,
+      "result": "PASS"
+    },
+    {
+      "name": "linux (THREAD)",
+      "id": 120986936596,
+      "result": "FAIL"
+    },
+    {
+      "name": "linux (OFF)",
+      "id": 120986936608,
+      "result": "PASS"
+    },
+    {
+      "name": "linux (ON)",
+      "id": 120986936623,
+      "result": "PASS"
+    },
+    {
+      "name": "Windows x86 MSVC and open.mp",
+      "id": 120986936704,
+      "result": "PASS"
+    },
+    {
+      "name": "Verify downloaded x86 distributions",
+      "id": 120989458349,
+      "result": "PASS"
+    }
+  ],
+  "real_sessions": {
+    "linux_x86": "21/21 PASS",
+    "windows_x86": "21/21 PASS"
+  },
+  "tsan": {
+    "tests": 29,
+    "passed": 28,
+    "failed": 1,
+    "test": "tsan_detector_control",
+    "new_network_suite": "PASS, 9.52 seconds",
+    "child_exit": "NOT RECORDED by original wrapper",
+    "root_cause": "UNKNOWN: no component, optimization, ASLR or runtime attribution is established"
+  },
+  "artifact": {
+    "id": 12575268542,
+    "sha256": "a5600785b7647c7ab0d0edde4f099f2738febe8a0a8dac4264fd3345f4145498",
+    "identity": "Independently downloaded and computed; matches GitHub digest"
+  },
+  "packages": {
+    "linux_x86": "Verified after download by job 120989458349",
+    "windows_x86": "Verified after download by job 120989458349"
+  },
+  "excerpts": "Selected exact result lines, not complete positive job logs; original full job links remain authoritative",
+  "diagnostics": "Next source requires twenty startup-only and twenty genuine-race controls, with every outcome preserved; no retries to obtain green",
+  "ledger": [
+    {
+      "file": "tsan-LastTest.log",
+      "original_sha256": "fa098f3ba3375fe80e7a90e0ad7af4782678bd801a7bb1c7209cd3da54df1b4c",
+      "sha256": "c8fc2ea239e095e688f9dc32a4f418945e7714dcae5df71845252a316d18a4f1",
+      "bytes": 778183,
+      "representation": "sanitized-copy: environment paths only",
+      "transformations": {
+        "runner-temp": 1,
+        "runner-workspace": 61
+      }
+    },
+    {
+      "file": "tsan-job.log",
+      "original_sha256": "771f6a529920f5aa4acc484b1695aefa110dd9dbb82ca0b96a7b8d076d8806fd",
+      "sha256": "c07c10a7883ba5e0b414a9d528f4ddf91ac1527ebb375ea5e05d96aad672698a",
+      "bytes": 67353,
+      "representation": "sanitized-copy: environment paths only",
+      "transformations": {
+        "runner-temp": 7,
+        "runner-workspace": 55,
+        "postgres-cluster": 3,
+        "temporary-root": 2
+      }
+    },
+    {
+      "file": "x86-result-excerpts.json",
+      "original_sha256": "52ac93e10b2c9390af15e0d97c5a697677d2dbc43ab858da42f75ee01bc60b3d",
+      "sha256": "c40c1f7d903656cfd263e4e0fa95f3d4b5397a233affde575c0663b54556d413",
+      "bytes": 4991,
+      "representation": "sanitized-copy: environment paths only",
+      "transformations": {
+        "runner-workspace": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+ 
+* ===================================================== *
+  RakSAMP v0.8.6-0.3.7 initialized on 24/10/2026 16:02:20
+  Authors: jlfm, bartekdvd, P3ti
+* ===================================================== *
+ 
+Connecting to 127.0.0.1:58444..
+Connected. Joining the game...
+Connected to Isolated SQL session qualification
+
+Dialog response sent.
+[CMSG] Account loaded. You can spawn.
+Disconnected.

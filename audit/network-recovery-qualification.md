@@ -151,6 +151,37 @@ Final source-specific CI, both x86 packages, corrected real sessions and the ver
 are reported in [PR #29](https://github.com/itskoleban/omp-postgresql/pull/29).
 No green result is inherited from PR #28, a cancelled run or an earlier source.
 
+### Independent TSan control failure at f8fbb3f
+
+[CI 40132439602](https://github.com/itskoleban/omp-postgresql/actions/runs/40132439602)
+at `f8fbb3fae6e08b6931a671d63b89889be3b579f9` completed six of seven jobs successfully.
+Both x86 platforms passed all **21/21** real-session cases, including the corrected
+observer, actual simultaneous live processes, startup during a PostgreSQL outage and
+explicit recreation of both failed pools. Both packages were built, installed in fresh
+servers, downloaded and independently verified by the seventh job. These are finite
+qualification results, not stable-release approval.
+
+The THREAD job [120986936596](https://github.com/itskoleban/omp-postgresql/actions/runs/40132439602/job/120986936596)
+remains **FAIL**: 28/29 CTest cases passed, including the new wire suite (9.52 seconds),
+but `tsan_detector_control` did not satisfy its required race diagnostic/exit 66.
+The old wrapper did not print the child's exit code when both streams were empty.
+Its original result cannot distinguish successful execution without detection from
+an early signal/runtime failure. **ROOT CAUSE UNKNOWN** at this revision; it is not
+attributed to the component, network tests, ASLR or compiler optimization without proof.
+The failed artifact identity is
+`a5600785b7647c7ab0d0edde4f099f2738febe8a0a8dac4264fd3345f4145498` (GitHub metadata).
+
+The diagnostic extension preserves the genuine race source and its compiler flags.
+It records executable hashes, every child return code, output lengths and complete
+streams, and the Linux mmap entropy setting. Twenty independent race executions and
+twenty independent instrumented startup-only executions must all satisfy their own
+oracle. This is a bounded diagnostic/control series, not retry-until-success: any
+failure fails the existing CTest gate. The 30-second CTest supervisor and 15-second
+child timeout are unchanged. Two synthetic oracle regressions reject crashes,
+missing markers, wrong exits and false race confirmation; they do not qualify TSan.
+No suppression, uninstrumented component path, ASLR change or unsupported non-PIE
+workaround is introduced. See the [upstream TSan limitations](https://clang.llvm.org/docs/ThreadSanitizer.html#limitations).
+
 For the next phase, retain the current sanitizer/descriptor limitations, inject bounded
 allocations and storage failures independently, and carry uncertain/no-replay and
 session-generation oracles into those tests. Defer exhaustive fuzzing, prolonged

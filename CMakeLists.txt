@@ -276,8 +276,12 @@ if(BUILD_TESTING)
         add_executable(pg_tsan_race_control tests/tsan_race_control.cpp)
         target_compile_options(pg_tsan_race_control PRIVATE -fsanitize=thread -g -O1)
         target_link_options(pg_tsan_race_control PRIVATE -fsanitize=thread)
+        add_executable(pg_tsan_startup_control tests/tsan_startup_control.cpp)
+        target_compile_options(pg_tsan_startup_control PRIVATE -fsanitize=thread -g -O1)
+        target_link_options(pg_tsan_startup_control PRIVATE -fsanitize=thread)
         add_test(NAME tsan_detector_control COMMAND ${Python3_EXECUTABLE}
-                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_control.py $<TARGET_FILE:pg_tsan_race_control>)
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_control.py $<TARGET_FILE:pg_tsan_race_control>
+                 --startup-probe $<TARGET_FILE:pg_tsan_startup_control> --runs 20)
         set_tests_properties(tsan_detector_control PROPERTIES TIMEOUT 30)
     else()
         target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
