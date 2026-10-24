@@ -1,0 +1,6 @@
+2026-10-24 18:35:05.180 UTC [7397] LOG:  starting PostgreSQL 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-10-24 18:35:05.181 UTC [7397] LOG:  listening on IPv4 address "127.0.0.1", port 53885
+2026-10-24 18:35:05.196 UTC [7400] LOG:  database system was shut down at 2026-10-24 18:35:01 UTC
+2026-10-24 18:35:05.212 UTC [7397] LOG:  database system is ready to accept connections
+2026-10-24 18:35:07.248 UTC [7397] LOG:  received immediate shutdown request
+2026-10-24 18:35:07.263 UTC [7397] LOG:  database system is shut down

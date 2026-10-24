@@ -1,0 +1,5 @@
+CONTROL reached actual EMFILE; joining ordinary std::thread
+CONTROL checking a valid external polymorphic object at EMFILE
+<TMP>/pending-qualification/tests/sanitizer_descriptor_control.cpp:29:21: runtime error: member call on address 0x502000000010 which does not point to an object of type 'DescriptorControlObject'
+0x502000000010: note: object has invalid vptr
+<memory cannot be printed>

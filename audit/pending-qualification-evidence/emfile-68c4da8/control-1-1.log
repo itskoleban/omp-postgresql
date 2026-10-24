@@ -1,0 +1,23 @@
+CONTROL reached actual EMFILE; joining ordinary std::thread
+CONTROL checking a valid external polymorphic object at EMFILE
+/pending/omp-postgresql/tests/sanitizer_descriptor_control.cpp:29:16: runtime error: member call on address 0x502000000010 which does not point to an object of type 'DescriptorControlObject'
+0x502000000010: note: object has invalid vptr
+<memory cannot be printed>
+AddressSanitizer: CHECK failed: sanitizer_linux_libcdep.cpp:177 "((pthread_getattr_np(pthread_self(), &attr))) == ((0))" (0x18, 0x0) (tid=7473)
+==7473==WARNING: Can't create a socket pair to start external symbolizer (errno: 24)
+==7473==WARNING: Can't create a socket pair to start external symbolizer (errno: 24)
+==7473==WARNING: Can't create a socket pair to start external symbolizer (errno: 24)
+==7473==WARNING: Can't create a socket pair to start external symbolizer (errno: 24)
+==7473==WARNING: Can't create a socket pair to start external symbolizer (errno: 24)
+==7473==WARNING: Failed to use and restart external symbolizer!
+    #0 0x0000004d61f5  (<TMP>/pr28-followup/descriptors/control-1-1+0x4d61f5) (BuildId: e5706a9feaef4ebff51e89db387d551693cce5f9)
+    #1 0x0000004f14a6  (<TMP>/pr28-followup/descriptors/control-1-1+0x4f14a6) (BuildId: e5706a9feaef4ebff51e89db387d551693cce5f9)
+    #2 0x0000004f1edb  (<TMP>/pr28-followup/descriptors/control-1-1+0x4f1edb) (BuildId: e5706a9feaef4ebff51e89db387d551693cce5f9)
+    #3 0x0000005070bd  (<TMP>/pr28-followup/descriptors/control-1-1+0x5070bd) (BuildId: e5706a9feaef4ebff51e89db387d551693cce5f9)
+    #4 0x00000050e2a7  (<TMP>/pr28-followup/descriptors/control-1-1+0x50e2a7) (BuildId: e5706a9feaef4ebff51e89db387d551693cce5f9)
+    #5 0x00000050e2f7  (<TMP>/pr28-followup/descriptors/control-1-1+0x50e2f7) (BuildId: e5706a9feaef4ebff51e89db387d551693cce5f9)
+    #6 0x00000050f332  (<TMP>/pr28-followup/descriptors/control-1-1+0x50f332) (BuildId: e5706a9feaef4ebff51e89db387d551693cce5f9)
+    #7 0x7e4d828a11c9  (/lib/x86_64-linux-gnu/libc.so.6+0x2a1c9) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+    #8 0x7e4d828a128a  (/lib/x86_64-linux-gnu/libc.so.6+0x2a28a) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+    #9 0x00000042b404  (<TMP>/pr28-followup/descriptors/control-1-1+0x42b404) (BuildId: e5706a9feaef4ebff51e89db387d551693cce5f9)
+

@@ -7,6 +7,7 @@ Passwords exist in memory only. No rendered game/client-encryption claim.
 
 import argparse
 import configparser
+from datetime import datetime, timezone
 import hashlib
 import json
 import os
@@ -44,6 +45,17 @@ def free_port(kind=socket.SOCK_STREAM):
 
 
 class Suite:
+    def trace(self, event, **fields):
+        # Callers supply process IDs, event names and numeric state only. Never
+        # record commands, SQL, dialog input, environment or credentials here.
+        record = {"utc": datetime.now(timezone.utc).isoformat(),
+                  "monotonic_ns": time.monotonic_ns(), "event": event, **fields}
+        serialized = json.dumps(record, sort_keys=True)
+        if any(secret in serialized for secret in (self.password, self.wrong)):
+            raise RuntimeError("Secret in qualification timeline")
+        with (self.output / "timeline.jsonl").open("a", encoding="utf8") as stream:
+            stream.write(serialized+"\n")
+
     def __init__(self, config, postgres_bin):
         self.config = config
         self.output = Path(config["output"]).resolve()
@@ -59,6 +71,7 @@ class Suite:
         # Capture provenance before work starts, rather than rebinding earlier
         # observations if somebody edits the checkout during a long test run.
         self.provenance = None
+        self.trace("suite_started")
         self.save()
         self.data = self.sql("SHOW data_directory")
         # Preserve TLS verification while restricting the tutorial to its own role.
@@ -83,6 +96,7 @@ class Suite:
                                 env=self.env, capture_output=True, creationflags=FLAGS, timeout=15)
         if result.returncode:
             # Error text can include bound SQL data. Do not emit it.
+            self.trace("postgres_failed", exit_code=result.returncode)
             raise RuntimeError("Disposable SQL operation failed")
         output = result.stdout.decode("utf8", errors="replace").strip()
         self.sql_results.append({"sql": statement, "result": output})
@@ -126,6 +140,7 @@ class Suite:
             return
         started = time.monotonic()
         print(f"REAL SESSION RUN {name}", flush=True)
+        self.trace("case_begin", case=name)
         try:
             detail = action()
             self.results.append({"id": name, "status": "PASS", "assertions": detail, "seconds": round(time.monotonic()-started, 3)})
@@ -139,6 +154,7 @@ class Suite:
                     self.results[-1].update(status="FAIL", cleanup_error=f"{type(error).__name__}: {error}")
             self.servers.clear()
         self.save()
+        self.trace("case_end", case=name, status=self.results[-1]["status"])
         print(f"REAL SESSION {self.results[-1]['status']} {name}", flush=True)
 
     def server(self, name, gamemode=None):
@@ -202,6 +218,7 @@ class Server:
             env["LD_LIBRARY_PATH"] = str(self.root) + ":" + env.get("LD_LIBRARY_PATH", "")
         self.proc = subprocess.Popen([str(exe)], cwd=self.root, env=env, stdin=subprocess.PIPE,
                                      stdout=self.log, stderr=subprocess.STDOUT, creationflags=FLAGS)
+        suite.trace("server_started", server=name, pid=self.proc.pid, udp_port=self.port)
         suite.servers.append(self)
         self.wait("database", ready=1)
 
@@ -218,8 +235,13 @@ class Server:
                 raise AssertionError(f"open.mp exited with {self.proc.returncode}")
             return matches[0] if matches else None
         try:
-            return self.suite.until(find, seconds)
+            result = self.suite.until(find, seconds)
+            self.suite.trace("event_observed", server=self.root.name, pid=self.proc.pid,
+                             observed=event, **fields)
+            return result
         except AssertionError as error:
+            self.suite.trace("event_failed", server=self.root.name, pid=self.proc.pid,
+                             observed=event, exit_code=self.proc.poll())
             raise AssertionError(f"{event} {fields}: {error}") from None
 
     def command(self, text):
@@ -244,9 +266,13 @@ class Server:
                 self.proc.wait(timeout=5)
                 raise AssertionError("open.mp required forced shutdown")
         self.log.close()
+        self.suite.trace("server_exited", server=self.root.name, pid=self.proc.pid,
+                         exit_code=self.proc.returncode)
         if self.proc.returncode != 0:
             raise AssertionError(f"open.mp shutdown exit {self.proc.returncode}")
         content = self.log_path.read_text(encoding="utf8", errors="replace")
+        if re.search(r"Stack/heap collision|Run time error|AMX_ERR_", content):
+            raise AssertionError("Pawn VM runtime error in server log despite successful process exit")
         if any(secret in content for secret in (self.suite.password, self.suite.wrong)) or re.search(r"\$2[aby]\$\d\d\$[./A-Za-z0-9]{53}", content):
             raise AssertionError("Sensitive authentication material in server log")
 

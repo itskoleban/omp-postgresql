@@ -1,197 +1,208 @@
-# Auditoría de estabilidad v0.1.0 — 23 de octubre de 2026
+<a id="auditoría-de-estabilidad-v010--23-de-octubre-de-2026"></a>
+# v0.1.0 stability audit - October 23, 2026
 
-> **Seguimiento A1/A2:** [resolución, pruebas negativas y nueva evidencia](a1-a2-resolution.md).
-> El runtime corregido es `ba384fffbdef757e3a22c0dc00901af18c6c9512`; las ejecuciones
-> descritas a continuación pertenecen al estado histórico y no se reasignan a ese SHA.
-> El resultado del CI del head final se comprueba y registra por separado en PR #24.
-> Resolver estos bloqueantes de integración no autoriza publicar v0.1.0 estable.
+English translation of the maintained narrative at `c8528bf89068dfd33fd96bf7350ee59e599d278f`. Historical statements retain their original dates and scope; this translation does not rerun tests or change evidence. Numeric spelling and legacy heading IDs are preserved.
 
-**Veredicto: INSUFFICIENT EVIDENCE para aprobar una versión estable.**
-La validación Windows ejecutada es satisfactoria después de corregir un defecto Medium,
-pero faltan la calificación Linux de la revisión final, los paquetes nuevos extraídos y
-las campañas prolongadas/adversas restantes. Este informe no autoriza una publicación estable.
+> **A1/A2 follow-up:** [resolution, negative tests and new evidence](a1-a2-resolution.md).
+> The corrected runtime is `ba384fffbdef757e3a22c0dc00901af18c6c9512`; the executions
+> below belong to the historical state and are not reassigned to that SHA.
+> Final-head CI is checked and recorded separately in PR #24.
+> Resolving these integration blockers does not authorize stable v0.1.0 publication.
 
-## Identidad y alcance
+**Verdict: INSUFFICIENT EVIDENCE to approve a stable version.**
+Executed Windows validation is satisfactory after correcting a Medium defect,
+but final-revision Linux qualification, newly extracted packages and the remaining
+long/adverse campaigns are missing. This report does not authorize a stable release.
 
-- Base auditada: `3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f`.
-- Revisión de código ejecutada: `6cf0c05893c79cb8dbdb0b54f2eeacf585ac3f91`, árbol limpio.
-- Rama: `audit/v0.1.0-stability`. El commit posterior de documentación/evidencias no
-  cambia los binarios probados. No se atribuyen esas ejecuciones a otro SHA.
-- Corrección funcional: `6303e0f32cb6bc708b5902abda7d16c61d8cf726`.
-- No se modificaron `master`, tags, releases, activos RC.1 ni servicios de producción.
-  Las bases usadas fueron clústeres temporales limitados a loopback y detenidos al finalizar.
-- Auditoría realizada por inspección y ejecución local; no se presenta como una nueva
-  auditoría independiente del revisor histórico de `docs/independent-audit.md`.
+<a id="identidad-y-alcance"></a>
+## Identity and scope
 
-## Resultado ejecutivo
+- Audited base: `3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f`.
+- Executed code revision: `6cf0c05893c79cb8dbdb0b54f2eeacf585ac3f91`, clean tree.
+- Branch: `audit/v0.1.0-stability`. The later documentation/evidence commit does not
+  change tested binaries. These executions are not attributed to another SHA.
+- Functional correction: `6303e0f32cb6bc708b5902abda7d16c61d8cf726`.
+- `master`, tags, releases, RC.1 assets and production services were not modified.
+  Databases were temporary loopback-only clusters, stopped after execution.
+- Audit by inspection and local execution; this is not presented as a new independent
+  audit by the historical reviewer in `docs/independent-audit.md`.
 
-| Verificación ejecutada | Resultado | Evidencia |
+<a id="resultado-ejecutivo"></a>
+## Executive results
+
+| Executed check | Result | Evidence |
 | --- | --- | --- |
-| Windows x64, GCC 16.1, libpq 18.4, servidor oficial PostgreSQL 17.11/TLS | **17/17 CTest**, cero fallos/errores/omisiones; 226,20 s de CTest | [JUnit](stability-evidence/windows-x64.xml) |
-| Windows x86, MSVC 19.51, libpq 17.11 con parche del proyecto, servidor PostgreSQL 17.11/TLS | **19/19 CTest**, cero fallos/errores/omisiones; aproximadamente 205,7 s | [JUnit](stability-evidence/windows-x86.xml), [log completo](stability-evidence/windows-x86-ctest.txt) |
-| Python | **81 métodos**, 75,281 s | [Log](stability-evidence/python-final.txt) |
-| open.mp oficial 1.5.8.3079 Windows x86, componente construido desde fuente | Smoke y GMX/unload/reload, callbacks, extensiones, bootstrap, sections, logging, performance y cuatro tutoriales: PASS | [Extractos](stability-evidence/openmp-source-excerpts.txt) |
-| Pawn 3.10.11 | 13 ejemplos públicos; 29 fragmentos Markdown y 70 declaraciones compilados; un fragmento explícitamente incompleto no se trata como ejecutable | Compilación local con warnings como errores; no sustituye ejecución Pawn |
-| Fuzzing semántico normal | 4.096 casos por suite, y **100.000 casos adicionales** sin sanitizadores; semilla extendida 1592594996 | [Log extendido](stability-evidence/extended-fuzz.txt) |
-| Helpers con Clang 22 ASan/UBSan Windows x64 | **4.096 casos**, semilla 1096107081; sin diagnósticos, salida 0; 16,45 s | [Log](stability-evidence/asan-ubsan-helpers.txt) |
-| Supervisor externo, ejecución reducida | Completó integración/carga y fuzz extendido, conserva SHA y estados; limpieza de respaldo innecesaria | [Resumen](stability-evidence/external-runner-summary.json) |
+| Windows x64, GCC 16.1, libpq 18.4, official PostgreSQL 17.11/TLS server | **17/17 CTest**, zero failures/errors/skips; 226,20 s CTest | [JUnit](stability-evidence/windows-x64.xml) |
+| Windows x86, MSVC 19.51, project-patched libpq 17.11, PostgreSQL 17.11/TLS server | **19/19 CTest**, zero failures/errors/skips; approximately 205,7 s | [JUnit](stability-evidence/windows-x86.xml), [full log](stability-evidence/windows-x86-ctest.txt) |
+| Python | **81 methods**, 75,281 s | [Log](stability-evidence/python-final.txt) |
+| Official open.mp 1.5.8.3079 Windows x86, component built from source | Smoke and GMX/unload/reload, callbacks, extensions, bootstrap, sections, logging, performance and four tutorials: PASS | [Excerpts](stability-evidence/openmp-source-excerpts.txt) |
+| Pawn 3.10.11 | 13 public examples; 29 Markdown snippets and 70 declarations compiled; one explicitly incomplete snippet is not treated as executable | Local compilation with warnings as errors; does not replace Pawn execution |
+| Normal semantic fuzzing | 4.096 cases per suite and **100.000 additional cases** without sanitizers; extended seed 1592594996 | [Extended log](stability-evidence/extended-fuzz.txt) |
+| Helpers with Clang 22 ASan/UBSan Windows x64 | **4.096 cases**, seed 1096107081; no diagnostics, exit 0; 16,45 s | [Log](stability-evidence/asan-ubsan-helpers.txt) |
+| External supervisor, reduced execution | Completed integration/load and extended fuzzing, retains SHA and statuses; fallback cleanup unnecessary | [Summary](stability-evidence/external-runner-summary.json) |
 
-ASan/UBSan local instrumentó `audit_fuzz.cpp`, `parameters.cpp`, `sql_sections.cpp` y
-`statement.cpp`: **no** el Engine completo, libpq, OpenSSL ni el intérprete AMX. No hubo
-una nueva ejecución local de TSan. La prueba x64 del Engine no califica un servidor x64.
+Local ASan/UBSan instrumented `audit_fuzz.cpp`, `parameters.cpp`, `sql_sections.cpp`
+and `statement.cpp`: **not** the complete Engine, libpq, OpenSSL or AMX interpreter.
+There was no new local TSan execution. Engine x64 testing does not qualify an x64 server.
 
-## Cobertura histórica contrastada
+<a id="cobertura-histórica-contrastada"></a>
+## Historical coverage cross-check
 
-Se revisaron `docs/validation.md`, `docs/rc-readiness.md`, `docs/independent-audit.md`,
-el ledger de continuidad y los workflows. Además se recuperaron los logs completos de
-los siete jobs de [CI 39666914034](https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034),
-exactamente en la base `3cbf998`: Linux x86 18, Windows x86 17, Windows x64 15 y
-Linux x64 OFF/ASan-UBSan/TSan 18 cada uno: **104 casos CTest históricos**. También
-constan los escenarios de servidor fuente/paquete y el job de distribuciones.
-Los [extractos conservados](stability-evidence/historical-ci-excerpts.json) distinguen
-esa ejecución remota histórica de las ejecuciones nuevas. No se detectaron firmas de
-diagnósticos ASan/UBSan/TSan en los logs recuperados; las dependencias no estaban
-completamente instrumentadas. No se volvieron a descargar/verificar los activos RC.1.
+`docs/validation.md`, `docs/rc-readiness.md`, `docs/independent-audit.md`, the continuity
+ledger and workflows were reviewed. Full logs for the seven jobs in
+[CI 39666914034](https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034)
+were retrieved at exactly base `3cbf998`: Linux x86 18, Windows x86 17, Windows x64 15
+and Linux x64 OFF/ASan-UBSan/TSan 18 each: **104 historical CTest cases**. Source/package
+server scenarios and the distribution job are also recorded. The
+[retained excerpts](stability-evidence/historical-ci-excerpts.json) distinguish that
+historical remote run from new executions. No ASan/UBSan/TSan diagnostic signatures
+were detected in the retrieved logs; dependencies were not fully instrumented.
+RC.1 assets were not downloaded or verified again.
 
-Ya existían pruebas de FIFO, snapshots/prepared/batches, savepoints, COMMIT rechazado
-por constraints diferidos, pérdida de confirmación COMMIT, restart inmediato, cancelación,
-streaming/backpressure, límites, fronteras nativas, unload y logging. Las nuevas pruebas
-complementan esos escenarios; las suites existentes se conservaron.
+Tests already covered FIFO, snapshots/prepared/batches, savepoints, COMMIT rejected
+by deferred constraints, COMMIT confirmation loss, immediate restart, cancellation,
+streaming/backpressure, limits, native boundaries, unload and logging. New tests
+complement those scenarios; existing suites were preserved.
 
-## Revisión de arquitectura y límites
+<a id="revisión-de-arquitectura-y-límites"></a>
+## Architecture review and limits
 
-- **Engine y workers:** registros públicos en el hilo propietario; un `PGconn` y su
-  destrucción pertenecen a cada worker. La cola está protegida y la publicación terminal
-  atómica precede la lectura de resultados. `poll()` extrae completions antes de ejecutar
-  callbacks; el join ocurre antes de destruir las colas. El análisis encontró D1 en la
-  clasificación de una interrupción, no una prueba de carrera sobre resultados.
-- **Pools/FIFO y ownership:** las lanes conservan orden local, no orden global. Los jobs
-  aceptados poseen snapshots; el cierre de statements no invalida ese trabajo. La carga
-  comprueba contadores SQL exactos, reutilización de capacidad y expiración de weak refs.
-- **Transacciones/savepoints:** reserva de lane y de capacidad para finalizar; reconciliación
-  de COMMIT rechazado ya existente. Las nuevas pruebas bloquean un trigger diferido dentro
-  de COMMIT, terminan únicamente el PID obtenido de nuestra conexión y verifican cero filas,
-  estado incierto, nueva sesión y recuperación. No hay reejecución automática de escrituras.
-- **Scripts/callbacks:** generaciones AMX, argumentos copiados y dispatch sin locks de cola.
-  Se conservaron pruebas de reentrada, cierre desde callbacks, sleep/error y unload. El
-  reset sintético durante `Exec()` documentado en la revisión anterior sigue sin una
-  reproducción alcanzable en el servidor oficial; no se convierte aquí en un crash confirmado.
-- **Streaming/batches/prepared:** backpressure acotado por bloques, deadlines y cancelación;
-  invalidación de prepared al cambiar sesión/plan. Se verifican orden y completitud de filas.
-  Un bloque provisional no confirma el resultado SQL ni justifica replay.
-- **Parser/archivos:** UTF-8 sin NUL, nombres/budgets, comentarios anidados, quotes/dollar
-  delimiters, selección exacta y rechazo de secciones duplicadas/múltiples statements.
-  Canonicalización y tamaño no protegen contra un administrador que cambie symlinks entre
-  comprobación/apertura; los SQL son código confiado del operador.
-- **Nativas/memoria:** se conservaron comprobaciones de aridad, direcciones/celdas, índices,
-  preflight de salida y dimensiones del contrato de slots planos. El fuzz nuevo evalúa
-  helpers/argumentos del componente, no el cargador ni el intérprete AMX.
-- **Logging/shutdown:** colas limitadas, descartes contabilizados y writer asíncrono. Las
-  pruebas históricas Linux EACCES/short-write/ENOSPC no son nuevas pruebas Windows. Llamadas
-  bloqueadas del SO/DNS/auth/filesystem pueden retrasar el join: no hay límite absoluto
-  de shutdown independiente del SO. Los drops observados bajo saturación son contabilizados,
-  no se presentan como pérdida cero.
-- **libpq:** protocolo extendido, single-row retrieval y recuperación sin replay. Una fila
-  o mensaje puede asignarse dentro de libpq antes de aplicar el presupuesto del componente;
-  los límites retenidos no son un límite estricto de RSS.
+- **Engine and workers:** public registries belong to the owner thread; each worker
+  owns one `PGconn` and its destruction. The queue is protected, and atomic terminal
+  publication precedes result reads. `poll()` removes completions before callbacks;
+  join precedes queue destruction. Analysis found D1 in interruption classification,
+  not evidence of a result race.
+- **Pools/FIFO and ownership:** lanes retain local order, not global order. Accepted
+  jobs own snapshots; closing statements does not invalidate that work. Load checks
+  exact SQL counters, capacity reuse and weak-reference expiry.
+- **Transactions/savepoints:** lane and completion-capacity reservations; existing
+  reconciliation of rejected COMMIT. New tests block a deferred trigger inside COMMIT,
+  terminate only the PID obtained from our connection and verify zero rows, uncertain
+  state, a new session and recovery. Writes are not automatically replayed.
+- **Scripts/callbacks:** AMX generations, copied arguments and dispatch without queue
+  locks. Reentry, closure from callbacks, sleep/error and unload tests were preserved.
+  The synthetic reset during `Exec()` documented in the earlier review still lacks
+  a reachable reproduction in the official server and is not a confirmed crash here.
+- **Streaming/batches/prepared:** block-bounded backpressure, deadlines and cancellation;
+  prepared-state invalidation on session/plan changes. Row order and completeness
+  are checked. A provisional block neither confirms SQL nor justifies replay.
+- **Parser/files:** UTF-8 without NUL, names/budgets, nested comments, quotes/dollar
+  delimiters, exact selection and rejection of duplicate sections/multiple statements.
+  Canonicalization and size limits do not protect against an administrator changing
+  symlinks between checking and opening; SQL is trusted operator code.
+- **Natives/memory:** arity, address/cell, index, output-preflight and flat-slot dimension
+  checks were preserved. New fuzzing tests component helpers/arguments, not the AMX
+  loader or interpreter.
+- **Logging/shutdown:** bounded queues, counted drops and asynchronous writer. Historical
+  Linux EACCES/short-write/ENOSPC tests are not new Windows tests. Blocked OS/DNS/auth/
+  filesystem calls can delay join; there is no absolute OS-independent shutdown bound.
+  Observed saturation drops are counted, not presented as zero loss.
+- **libpq:** extended protocol, single-row retrieval and recovery without replay.
+  libpq can allocate a row or message before component budgets apply; retained-data
+  limits are not a strict RSS bound.
 
-## Defecto D1 — Medium — corregido
+<a id="defecto-d1--medium--corregido"></a>
+## D1 defect - Medium - corrected
 
-**Problema:** una cancelación observada en `Lane::wait_socket()` podía publicarse como
-`Error::connection` en lugar de `Error::cancelled`. El mismo camino descartaba la causa
-de un deadline observado dentro del wait. El estado de SQL enviado permanecía incierto.
+**Problem:** cancellation observed in `Lane::wait_socket()` could be published as
+`Error::connection` instead of `Error::cancelled`. The same path discarded the cause
+of a deadline observed inside wait. Dispatched SQL remained uncertain.
 
-**Reproducción:** con Engine/libpq reales y PostgreSQL 17.11 desechable, enviar
-`SELECT pg_sleep(1)`, esperar `Status::running`, activar `job->cancel` y despachar el
-terminal. La carga mixta inicial falló; una regresión dedicada de 32 rondas volvió a
-fallar en la primera ronda:
+**Reproduction:** with real Engine/libpq and disposable PostgreSQL 17.11, send
+`SELECT pg_sleep(1)`, wait for `Status::running`, set `job->cancel` and dispatch the
+terminal result. Initial mixed load failed; a dedicated 32-round regression failed
+again on its first round:
 
 ```text
 cancel round=0 status=4 error=5 message=Interrupted connection
 audit_faults FAIL Observed cancellation lost its cancellation error category
 ```
 
-**Esperado:** causa `cancelled`; tras dispatch, incertidumbre conservada y ningún replay.
-**Observado:** estado `uncertain` correcto pero causa de transporte incorrecta. Esto puede
-desviar el manejo de errores de la aplicación; no se demostró corrupción ni confirmación falsa.
+**Expected:** cancelled cause; uncertainty retained after dispatch and no replay.
+**Observed:** correct uncertain status but incorrect transport cause. This can
+misdirect application error handling; corruption or false confirmation was not demonstrated.
 
-**Causa raíz:** el bucle comprueba flags/deadline antes de consumir input. Pueden cambiar
-antes de la comprobación interna de `wait_socket()`. Su retorno falso se traducía
-incondicionalmente a fallo de conexión. La corrección vuelve a leer cancel/stop/deadline
-antes de usar el fallback de transporte. No cambia firmas, ABI, política de reconexión,
-clasificación de incertidumbre ni replay. La rama de timeout se prueba ahora en ocho rondas;
-la reproducción previa conservada demuestra específicamente la cancelación.
+**Root cause:** the loop checks flags/deadline before consuming input. They can change
+before `wait_socket()` checks internally. Its false return was unconditionally
+translated into connection failure. The correction rereads cancel/stop/deadline
+before the transport fallback. It does not change signatures, ABI, reconnection
+policy, uncertainty classification or replay. The timeout branch now has eight
+test rounds; the retained earlier reproduction specifically demonstrates cancellation.
 
-**Regresión:** [fallo previo](stability-evidence/cancel-before.txt),
-[suite x64 posterior](stability-evidence/windows-x64.xml) y
-[suite x86 posterior](stability-evidence/windows-x86.xml). El fallo previo corresponde
-al runtime de la base con las nuevas pruebas antes del fix; no se presenta ese árbol
-de trabajo inicial como un build limpio del SHA final.
+**Regression:** [previous failure](stability-evidence/cancel-before.txt),
+[later x64 suite](stability-evidence/windows-x64.xml) and
+[later x86 suite](stability-evidence/windows-x86.xml). The earlier failure used the
+base runtime and new tests before the fix; that initial working tree is not presented
+as a clean build of the final SHA.
 
-No se confirmó un nuevo Critical/High del componente en este trabajo. Esa observación
-no demuestra ausencia de defectos en todos los schedules o entornos.
+No new Critical/High component defect was confirmed in this work. This does not
+demonstrate absence of defects in every schedule or environment.
 
-## Carga reducida y medición
+<a id="carga-reducida-y-medición"></a>
+## Reduced load and measurement
 
-Se ejecutaron fases sostenidas de mínimo **120 segundos**, no 12 ni 24 horas, con semilla
-1592594996. La misma instancia principal del Engine retuvo cuatro lanes durante cada fase.
-Cada wave tiene 48 jobs; cada 32 waves hay transacciones read/write, streaming ordenado,
-cancelación, reconexión y creación/cierre de una conexión adicional. Hay pausas de recuperación
-deterministas y después se ejecutan los escenarios de lifecycle existentes.
+Sustained phases of at least **120 seconds**, not 12 or 24 hours, used seed 1592594996.
+The same main Engine instance retained four lanes in each phase. Each wave has
+48 jobs; every 32 waves there are read/write transactions, ordered streaming,
+cancellation, reconnection and creation/closure of an additional connection.
+Deterministic recovery pauses precede the existing lifecycle scenarios.
 
-Windows x86: **393 waves**, **182.365 operaciones de carga contabilizadas**, último sample
-a **120,113289 s**, aproximadamente **1.518 operaciones/s** bajo esta carga y este host.
-RSS tras la primera wave: **15.908 KiB**; final **16.524 KiB**; máximo observado **16.544 KiB**.
-CPU del proceso hasta el último sample: **36,546875 s**. Medianas de los percentiles por wave:
-p50 **131.979 us**, p95 **246.549 us**, p99 **258.938 us**. No son percentiles globales.
+Windows x86: **393 waves**, **182.365 counted load operations**, last sample at
+**120,113289 s**, approximately **1.518 operations/s** for this load and host.
+RSS after the first wave: **15.908 KiB**; final **16.524 KiB**; observed maximum
+**16.544 KiB**. Process CPU through the last sample: **36,546875 s**. Medians of
+per-wave percentiles: p50 **131.979 us**, p95 **246.549 us**, p99 **258.938 us**.
+These are not global percentiles.
 
-[CSV x86](stability-evidence/stress-x86.csv) y [resumen estructurado](stability-evidence/metrics-summary.json).
-Los samples de pending=0/errors=0 son puntos de quiescencia comprobados; no muestreo continuo.
-El contador omite setup/verificación y parte del SQL auxiliar. No se midieron bytes del
-allocator. Las mediciones finitas no establecen una cota de fuga ni comparativas de rendimiento.
+[x86 CSV](stability-evidence/stress-x86.csv) and [structured summary](stability-evidence/metrics-summary.json).
+pending=0/errors=0 samples are checked quiescence points, not continuous sampling.
+The counter omits setup/verification and some auxiliary SQL. Allocator bytes were
+not measured. Finite measurements establish neither a leak bound nor performance comparisons.
 
-En x64, CTest aprobó la fase completa, pero el CTest posterior de fuzzing sobrescribió
-`LastTest.log`; el JUnit conserva stdout truncado y solo tres muestras completas iniciales.
-Se conserva explícitamente esa captura parcial, **sin inferir métricas finales x64**.
-El texto x64 adjunto se deriva del stdout del JUnit y está identificado como tal.
+On x64, CTest passed the complete phase, but the later fuzz CTest overwrote
+`LastTest.log`; JUnit retains truncated stdout and only three complete initial
+samples. That partial capture is explicitly retained, **without inferring final x64
+metrics**. The attached x64 text is derived from JUnit stdout and labelled accordingly.
 
-## Fallos, bloqueos y trabajo no ejecutado
+<a id="fallos-bloqueos-y-trabajo-no-ejecutado"></a>
+## Failures, blockers and work not executed
 
-- **Fallo previo D1:** conservado y corregido; no se borra del historial de resultados.
-- **Proveedor local PostgreSQL 18.4/MSYS2:** la suite base quedó 14/15. El servidor registró
-  backend terminado por excepción `0xC0000028` al procesar `SELECT 1; SELECT 2`; el cliente
-  obtuvo timeout. Con servidor oficial 17.11 ese caso pasó, usando también libpq 18.4.
-  No se completó un repro standalone fuera del Engine; no se atribuye como nuevo defecto
-  confirmado del componente ni se certifica ese proveedor. Logs originales en la entrega local.
-- **ASan/UBSan 100.000 casos:** empezó pero se interrumpió al presupuesto aproximado de
-  diez minutos de pared, sin resultado completo; no pasó. Una ejecución separada de 4.096
-  casos sí terminó y es la única calificación sanitizada nueva declarada.
-- **Sandbox:** initdb, sockets/Python y workers MSBuild tuvieron bloqueos de permisos.
-  Esos intentos fallidos no cuentan como passes. Las ejecuciones válidas usaron permisos
-  del host, carpetas nuevas y limpieza específica del fixture.
-- **Linux final/TSan/ASan completo:** no ejecutados localmente; Docker sin daemon y WSL
-  devolvió acceso denegado. Los resultados históricos corresponden a la base, no al fix.
-- **Paquetes extraídos de la revisión nueva:** no ejecutados. La instalación desde fuente
-  x86 oficial pasó; no se equipara a una nueva calificación de distribución.
-- **12–24 horas, particiones largas, agotamiento sistemático de FDs/allocator, presión de
-  memoria, storage físico/red congelado, AMX loader fuzz y playerid real reutilizado:**
-  no calificados por este trabajo. Los tests de límites y SDK doubles son más acotados.
+- **Earlier D1 failure:** retained and corrected; not erased from result history.
+- **Local PostgreSQL 18.4/MSYS2 provider:** baseline suite was 14/15. The server recorded
+  a backend terminated by exception `0xC0000028` while processing `SELECT 1; SELECT 2`;
+  the client timed out. That case passed with official server 17.11, also using libpq
+  18.4. No standalone reproduction outside Engine was completed; this is neither a
+  newly confirmed component defect nor certification of that provider. Original logs
+  are in the local delivery.
+- **ASan/UBSan 100.000 cases:** started but was interrupted at the approximate ten-minute
+  wall budget without a complete result; not a pass. A separate 4.096-case execution
+  completed and is the only new sanitized qualification claimed.
+- **Sandbox:** permissions blocked initdb, sockets/Python and MSBuild workers. Failed
+  attempts are not passes. Valid runs used host permissions, new folders and fixture-specific cleanup.
+- **Final Linux/TSan/full ASan:** not run locally; Docker lacked a daemon and WSL returned
+  access denied. Historical results belong to the base, not the fix.
+- **Packages extracted from the new revision:** not run. The official x86 source
+  installation passed; this is not equivalent to new distribution qualification.
+- **12-24 hours, long partitions, systematic FD/allocator exhaustion, memory pressure,
+  frozen physical/network storage, AMX-loader fuzzing and real playerid reuse:** not
+  qualified by this work. Limit tests and SDK doubles have narrower scope.
 
-## Automatización y criterios pendientes
+<a id="automatización-y-criterios-pendientes"></a>
+## Automation and pending criteria
 
-[Runbook](stability-runbook.md), [matriz por escenario](stability-matrix.csv) y
-[workflow manual](../.github/workflows/audit-long.yml). El CI rápido y de release existente
-se conserva. El workflow prolongado necesita un runner Linux desechable ya aprovisionado
-con etiqueta `pg-audit-isolated`; no fue despachado ni se activaron recursos de pago.
-El supervisor fue ejecutado con 120 s y rechaza builds configurados con una duración menor.
+[Runbook](stability-runbook.md), [scenario matrix](stability-matrix.csv) and
+[manual workflow](../.github/workflows/audit-long.yml). Existing fast/release CI is
+preserved. The long workflow needs a preprovisioned disposable Linux runner labelled
+`pg-audit-isolated`; it was not dispatched and no paid resources were activated.
+The supervisor ran with 120 s and rejects builds configured for a shorter duration.
 
-Para considerar READY se requiere, al menos: CI exacto del cambio integrado propuesto,
-Linux x86 y sanitizadores de la revisión corregida, fresh package/server qualification en
-ambos sistemas, binding de los artefactos nuevos al código evaluado y evaluación de los
-límites de soporte que quedan. La campaña prolongada está preparada pero sin ejecutar.
-La PR debe permanecer en borrador; un CI verde posterior tampoco autoriza merge o release.
+READY requires at least exact CI for the proposed integrated change, Linux x86 and
+sanitizers for the corrected revision, fresh package/server qualification on both
+systems, binding new artifacts to evaluated code and assessment of remaining support
+limits. The long campaign is prepared but unexecuted. The PR must remain a draft;
+later green CI also does not authorize a merge or release.
 
-Los archivos de evidencia son texto/CSV/JSON/XML, con rutas de workspace redactadas y
-[ledger de hashes](stability-evidence/ledger.json). No contienen clústeres, dumps, perfiles
-de conexión, claves TLS, tokens, binarios ni paquetes. `/audit/` ya está excluido de los
-source archives e instalación pública por las reglas preexistentes del proyecto.
+Evidence files are text/CSV/JSON/XML with workspace paths redacted and a
+[hash ledger](stability-evidence/ledger.json). They contain no clusters, dumps,
+connection profiles, TLS keys, tokens, binaries or packages. Existing project rules
+already exclude `/audit/` from source archives and public installation.

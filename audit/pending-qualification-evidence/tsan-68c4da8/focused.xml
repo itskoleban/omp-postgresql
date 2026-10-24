@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="5"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="SANITIZED-HOST"
+	time="1"
+	timestamp="2026-10-24T18:35:05"
+	>
+	<testcase name="worker_site_counter_isolation" classname="worker_site_counter_isolation" time="0.0777686" status="run">
+		<properties/>
+		<system-out>Scenario counter isolation: missing and compensating injections rejected
+</system-out>
+	</testcase>
+	<testcase name="worker_site_allocation_integration" classname="worker_site_allocation_integration" time="0.334212" status="run">
+		<properties/>
+		<system-out>site_faults scenario=recovery interrupted=1 terminal_message=2 denied=3
+worker_recovery PASS allocation_injection=SITE(TSan) mode=recover active_status=4 queued_status=3 callbacks=2
+site_faults scenario=shutdown interrupted=1 terminal_message=2 denied=3
+worker_recovery PASS allocation_injection=SITE(TSan) mode=shutdown active_status=4 queued_status=5 callbacks=2
+worker denied_allocations=6
+</system-out>
+	</testcase>
+	<testcase name="worker_site_requires_recovery" classname="worker_site_requires_recovery" time="0.384752" status="run">
+		<properties/>
+		<system-out>worker_allocation FAIL Missing scenario checkpoints: recovery
+site_faults scenario=recovery interrupted=0 terminal_message=0 denied=0
+Worker negative control: missing recovery checkpoints rejected
+</system-out>
+	</testcase>
+	<testcase name="worker_site_requires_shutdown" classname="worker_site_requires_shutdown" time="0.44651" status="run">
+		<properties/>
+		<system-out>worker_allocation FAIL Missing scenario checkpoints: shutdown
+site_faults scenario=recovery interrupted=1 terminal_message=2 denied=3
+worker_recovery PASS allocation_injection=SITE(TSan) mode=recover active_status=4 queued_status=3 callbacks=2
+site_faults scenario=shutdown interrupted=0 terminal_message=0 denied=0
+Worker negative control: missing shutdown checkpoints rejected
+</system-out>
+	</testcase>
+	<testcase name="tsan_detector_control" classname="tsan_detector_control" time="0.656658" status="run">
+		<properties/>
+		<system-out>/usr/bin/llvm-symbolizer-19: error: '[stack]': No such file or directory
+==================
+WARNING: ThreadSanitizer: data race (pid=7434)
+  Write of size 4 at 0x7fffffffeae0 by thread T1:
+    #0 main::$_0::operator()() const /pending/omp-postgresql/tests/tsan_race_control.cpp:10:47 (race-tsan+0xe9a51) (BuildId: 54bc4af4110aec65bbf55da2e24238efefad0c95)
+    #1 void std::__invoke_impl&lt;void, main::$_0&gt;(std::__invoke_other, main::$_0&amp;&amp;) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:61:14 (race-tsan+0xe9a51)
+    #2 std::__invoke_result&lt;main::$_0&gt;::type std::__invoke&lt;main::$_0&gt;(main::$_0&amp;&amp;) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:96:14 (race-tsan+0xe9a51)
+    #3 void std::thread::_Invoker&lt;std::tuple&lt;main::$_0&gt;&gt;::_M_invoke&lt;0ul&gt;(std::_Index_tuple&lt;0ul&gt;) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:292:13 (race-tsan+0xe9a51)
+    #4 std::thread::_Invoker&lt;std::tuple&lt;main::$_0&gt;&gt;::operator()() /usr/lib/gcc/x86_64-linux-gnu/13/.....
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

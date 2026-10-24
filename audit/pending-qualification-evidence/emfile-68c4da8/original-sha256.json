@@ -1,0 +1,67 @@
+[
+  {
+    "file": "manifest.json",
+    "bytes": 9968,
+    "sha256": "8e18fead7c0d8a83cfc5fc181a9c3d5604ec16d0f959fcc1b5b5666bd53ead89"
+  },
+  {
+    "file": "compiler-0-version.log",
+    "bytes": 246,
+    "sha256": "59d1cbef41d4ae78d5063d525b7aa13d18dc0493ea00537efc19b2ee398cb5a8"
+  },
+  {
+    "file": "compiler-1-version.log",
+    "bytes": 130,
+    "sha256": "b3cb03f0f6691a660981461c40489b0ad377a7563bb813e8ed4c5f1ad0302179"
+  },
+  {
+    "file": "control-0-0-build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "control-0-0.log",
+    "bytes": 171,
+    "sha256": "7817eb8ef07a50892e0eb50674199b063821d94452c53fb0621e06ea521a1f83"
+  },
+  {
+    "file": "control-0-1-build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "control-0-1.log",
+    "bytes": 387,
+    "sha256": "52eb38fcbd47ce3f28da6a3f995e4e39f6003c19173f19acfc3c9300ac5594a3"
+  },
+  {
+    "file": "control-1-0-build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "control-1-0.log",
+    "bytes": 171,
+    "sha256": "7817eb8ef07a50892e0eb50674199b063821d94452c53fb0621e06ea521a1f83"
+  },
+  {
+    "file": "control-1-1-build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "control-1-1.log",
+    "bytes": 2287,
+    "sha256": "dcac9a14878345b66d12d301e8d74af8003412929b1cd26c5aae60517e657c6c"
+  },
+  {
+    "file": "factory-0-build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "factory-1-build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

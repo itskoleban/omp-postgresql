@@ -2,3 +2,5 @@
 /scripts/patches/*.patch -whitespace
 /audit/ export-ignore
 /audit/real-session-evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Diagnostic captures retain byte identities, including original final blank lines.
+/audit/pending-qualification-evidence/** -text whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof

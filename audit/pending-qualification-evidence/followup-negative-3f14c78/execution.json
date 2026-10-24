@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "windows_ci": {
+    "source_commit": "3f14c78508fd57506752cf52b5d2a1016e50d926",
+    "run_id": 40122543704,
+    "job_id": 120957180483,
+    "job_conclusion": "failure",
+    "artifact_id": 12572136486,
+    "artifact_sha256": "11131ba1180ae444dd116e03c77674c8f712abf7cc63c7603850ba959b0f36b1",
+    "diagnosis": "Checkpoint-only omission controls were incorrectly registered for the Windows global-allocation-denial binary, which has no site-omission mode. Both controls failed; the real-session step was not run.",
+    "correction_commit": "41490411c196b3b032e753eb2642fc4e89e44a05"
+  },
+  "timeline_before": {
+    "validator_commit": "3f14c78508fd57506752cf52b5d2a1016e50d926",
+    "validator_sha256": "a9b44cbd354e314ad613a3a2cfff097dd619e99929d80319d3a1870c6af01a74",
+    "regression_sha256": "b8d402e6ad7762a29e7a5cfff121b9939ee0178626cc96977066857a38d8b687",
+    "regression_scope": "New test added to the working tree before the fix; validator bytes matched the recorded old commit.",
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_timeline_evidence.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "result": "ERROR: numeric PG status 4 rejected during publication"
+  },
+  "timeline_after": {
+    "source_commit": "41490411c196b3b032e753eb2642fc4e89e44a05",
+    "returncode": 0,
+    "tests": 6,
+    "result": "PASS; numeric PG status and text case outcome retain their original types and byte identity"
+  },
+  "cmake_after": {
+    "source_commit": "41490411c196b3b032e753eb2642fc4e89e44a05",
+    "commands": [
+      [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build-msvc32"
+      ],
+      [
+        "ctest",
+        "--test-dir",
+        "build-msvc32",
+        "-C",
+        "Release",
+        "--show-only=json-v1"
+      ]
+    ],
+    "scope": "Existing local isolated MSVC build; 21 registrations, original worker_allocation_integration retained and checkpoint-only controls absent. Final CI separately verifies all platform inventories."
+  },
+  "notes": [
+    "These are separate execution identities, not results reassigned to the final HEAD.",
+    "Original failed outcomes and full available diagnostics are retained. No deadline, retry or production behavior was changed."
+  ]
+}

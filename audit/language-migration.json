@@ -1,0 +1,76 @@
+{
+  "scope": "Language-only narrative translation; original Git history and raw evidence are unchanged.",
+  "files": [
+    {
+      "path": "audit/a1-a2-resolution.md",
+      "original_commit": "c8528bf89068dfd33fd96bf7350ee59e599d278f",
+      "original_sha256": "445c8eeeab40e92d2432ef58f8db404d9d004e4bc9f6ab0345e94735270d79f3",
+      "translated_sha256": "59a9036ccba2d58199f621b0fefc8c7b9da6dcee8e2dc825824fcf050cbc1139",
+      "legacy_heading_ids": [
+        "resoluci\u00f3n-de-a1-y-a2--pr-24",
+        "a1-conservar-la-causa-observada",
+        "a2-demostrar-el-punto-de-ejecuci\u00f3n",
+        "pruebas-negativas-y-reproducci\u00f3n-original",
+        "validaci\u00f3n-local-y-ci",
+        "riesgos-restantes-y-decisi\u00f3n"
+      ],
+      "fenced_blocks_unchanged": true,
+      "external_urls_unchanged": true
+    },
+    {
+      "path": "audit/real-session-qualification.md",
+      "original_commit": "c8528bf89068dfd33fd96bf7350ee59e599d278f",
+      "original_sha256": "062429571fda239d7591c160befb3e990b13be1565b673c9070a2bbc84532bbf",
+      "translated_sha256": "6eef306cde09b00c135e3e7c4fc82a7774ac64788a17a74d43184a8f54581b41",
+      "legacy_heading_ids": [
+        "integraci\u00f3n-real-de-openmp--omp-postgresql-v010",
+        "identidad-y-alcance",
+        "viabilidad-comprobada",
+        "entorno-aislado-y-dependencias",
+        "m\u00e9todo-y-controles-de-las-pruebas",
+        "resultados",
+        "fallos-de-preparaci\u00f3n-y-l\u00edmites-conservados",
+        "pendientes-y-recomendaci\u00f3n",
+        "reproducci\u00f3n"
+      ],
+      "fenced_blocks_unchanged": true,
+      "external_urls_unchanged": true
+    },
+    {
+      "path": "audit/stability-report.md",
+      "original_commit": "c8528bf89068dfd33fd96bf7350ee59e599d278f",
+      "original_sha256": "f751c4deae857ff71ef3b40d694bb1b91864d12c4a61b37f72cd647b73e6c33a",
+      "translated_sha256": "356ca6a53d1b728892b66b2e553875292e65102ac271a05dc18db3b53c2f3a57",
+      "legacy_heading_ids": [
+        "auditor\u00eda-de-estabilidad-v010--23-de-octubre-de-2026",
+        "identidad-y-alcance",
+        "resultado-ejecutivo",
+        "cobertura-hist\u00f3rica-contrastada",
+        "revisi\u00f3n-de-arquitectura-y-l\u00edmites",
+        "defecto-d1--medium--corregido",
+        "carga-reducida-y-medici\u00f3n",
+        "fallos-bloqueos-y-trabajo-no-ejecutado",
+        "automatizaci\u00f3n-y-criterios-pendientes"
+      ],
+      "fenced_blocks_unchanged": true,
+      "external_urls_unchanged": true
+    },
+    {
+      "path": "audit/v0.1.0-qualification-evidence.md",
+      "original_commit": "c8528bf89068dfd33fd96bf7350ee59e599d278f",
+      "original_sha256": "065db85b1d3115418b9248a5c6a448352f3b28613b65b51f0d7996b690b6c0b0",
+      "translated_sha256": "84200d547485b930231d1eee9782f3c087049b4d848a7b693d73fe0719006d64",
+      "legacy_heading_ids": [
+        "\u00edndice-de-evidencias-de-la-calificaci\u00f3n-previa-de-v010",
+        "ejecuciones-y-atribuci\u00f3n",
+        "jobs-de-ci",
+        "jobs-de-campa\u00f1as-y-controles",
+        "artefactos-y-retenci\u00f3n",
+        "entregables-locales-originales",
+        "reproducci\u00f3n-y-l\u00edmites"
+      ],
+      "fenced_blocks_unchanged": true,
+      "external_urls_unchanged": true
+    }
+  ]
+}

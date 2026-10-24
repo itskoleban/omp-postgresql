@@ -32,14 +32,20 @@ forward bool:FixtureCancel(job);
 #undef OnEntitySaved
 #undef IsPlayerAdmin
 #undef pg_cancel
+#include "lane_diagnostics.inc"
 
 stock Snapshot(const event[], playerid) {
 	printf("QA event=%s p=%d connected=%d npc=%d token=%d account=%d score=%d ready=%d",
 		event, playerid, IsPlayerConnected(playerid), IsPlayerNPC(playerid), Session[playerid],
 		Account[playerid], GetPlayerScore(playerid), Ready);
 }
-public OnGameModeInit() { pg_log_config(PG_LOG_OFF); return CustomInit(); }
-public OnGameModeExit() { return CustomExit(); }
+public OnGameModeInit() {
+	pg_log_config(PG_LOG_DEBUG);
+	new result = CustomInit();
+	StartLaneDiagnostics(Database, 2);
+	return result;
+}
+public OnGameModeExit() { StopLaneDiagnostics(); return CustomExit(); }
 public OnPgConnection(connection, connection_state) {
 	new result = CustomConnection(connection, connection_state);
 	printf("QA event=database state=%d ready=%d", connection_state, Ready);

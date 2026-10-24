@@ -1,0 +1,1854 @@
+Start testing: Oct 24 18:56 Coordinated Universal Time
+----------------------------------------------------------
+1/25 Testing: libpq_windows_mutex_unit
+1/25 Test: libpq_windows_mutex_unit
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_libpq_mutex_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"libpq_windows_mutex_unit" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+libpq Windows mutex: deterministic stale claim and 80000 contended locks passed
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"libpq_windows_mutex_unit" end time: Oct 24 18:56 Coordinated Universal Time
+"libpq_windows_mutex_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/25 Testing: worker_site_counter_isolation
+2/25 Test: worker_site_counter_isolation
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_worker_allocation.exe" "--check-counter-isolation"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"worker_site_counter_isolation" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+worker allocation denied bytes=64
+worker allocation denied bytes=48
+worker allocation denied bytes=64
+worker allocation denied bytes=32
+worker_recovery PASS allocation_injection=ON mode=recover active_status=4 queued_status=3 callbacks=2
+worker_recovery PASS allocation_injection=ON mode=shutdown active_status=4 queued_status=5 callbacks=2
+worker denied_allocations=4
+<end of output>
+Test time =   0.30 sec
+----------------------------------------------------------
+Test Passed.
+"worker_site_counter_isolation" end time: Oct 24 18:56 Coordinated Universal Time
+"worker_site_counter_isolation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/25 Testing: worker_site_requires_recovery
+3/25 Test: worker_site_requires_recovery
+Command: "C:/hostedtoolcache/windows/Python/3.13.16/x64/python3.exe" "D:/a/omp-postgresql/omp-postgresql/tests/check_worker_faults.py" "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_worker_allocation.exe" "recovery"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"worker_site_requires_recovery" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+worker allocation denied bytes=64
+worker allocation denied bytes=48
+worker allocation denied bytes=64
+worker allocation denied bytes=32
+worker_recovery PASS allocation_injection=ON mode=recover active_status=4 queued_status=3 callbacks=2
+worker_recovery PASS allocation_injection=ON mode=shutdown active_status=4 queued_status=5 callbacks=2
+worker denied_allocations=4
+Worker negative control did not reject the selected missing injections
+<end of output>
+Test time =   0.26 sec
+----------------------------------------------------------
+Test Failed.
+"worker_site_requires_recovery" end time: Oct 24 18:56 Coordinated Universal Time
+"worker_site_requires_recovery" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/25 Testing: worker_site_requires_shutdown
+4/25 Test: worker_site_requires_shutdown
+Command: "C:/hostedtoolcache/windows/Python/3.13.16/x64/python3.exe" "D:/a/omp-postgresql/omp-postgresql/tests/check_worker_faults.py" "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_worker_allocation.exe" "shutdown"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"worker_site_requires_shutdown" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+worker allocation denied bytes=64
+worker allocation denied bytes=48
+worker allocation denied bytes=64
+worker allocation denied bytes=32
+worker_recovery PASS allocation_injection=ON mode=recover active_status=4 queued_status=3 callbacks=2
+worker_recovery PASS allocation_injection=ON mode=shutdown active_status=4 queued_status=5 callbacks=2
+worker denied_allocations=4
+Worker negative control did not reject the selected missing injections
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Failed.
+"worker_site_requires_shutdown" end time: Oct 24 18:56 Coordinated Universal Time
+"worker_site_requires_shutdown" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/25 Testing: libpq_process_startup_integration
+5/25 Test: libpq_process_startup_integration
+Command: "C:/hostedtoolcache/windows/Python/3.13.16/x64/python3.exe" "D:/a/omp-postgresql/omp-postgresql/tests/repeat_connection_startup.py" "--binary" "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_connection_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"libpq_process_startup_integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+Fresh connection process 1/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 2/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 3/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 4/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 5/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 6/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 7/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 8/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 9/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 10/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 11/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 12/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 13/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 14/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 15/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 16/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 17/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 18/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 19/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 20/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+<end of output>
+Test time =   4.58 sec
+----------------------------------------------------------
+Test Passed.
+"libpq_process_startup_integration" end time: Oct 24 18:56 Coordinated Universal Time
+"libpq_process_startup_integration" time elapsed: 00:00:04
+----------------------------------------------------------
+
+6/25 Testing: natives_unit
+6/25 Test: natives_unit
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_native_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"natives_unit" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+native_adversarial PASS seed=4051312678 cases=16384; registered wrappers, SDK memory double
+Native validation passed: 46696 checks; address seed=0x414d5801
+<end of output>
+Test time =   0.18 sec
+----------------------------------------------------------
+Test Passed.
+"natives_unit" end time: Oct 24 18:56 Coordinated Universal Time
+"natives_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/25 Testing: natives_integration
+7/25 Test: natives_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_native_tests.exe" "--integration"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"natives_integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,525300,58000
+callback_benchmark,custom_ii,1,64,127600,36300
+callback_benchmark,custom_s96,1,64,426200,62500
+callback_benchmark,global_old_arity,1,64,373100,57200
+callback_benchmark,custom_ii,2,64,195800,66100
+callback_benchmark,custom_s96,2,64,360400,88200
+callback_benchmark,global_old_arity,2,64,148500,57900
+callback_benchmark,custom0,2,64,120000,27200
+callback_benchmark,custom_s96,3,64,258600,50600
+callback_benchmark,global_old_arity,3,64,186700,24900
+callback_benchmark,custom0,3,64,198900,61600
+callback_benchmark,custom_ii,3,64,162500,56600
+callback_benchmark,global_old_arity,4,64,124900,33600
+callback_benchmark,custom0,4,64,181800,30000
+callback_benchmark,custom_ii,4,64,198200,29700
+callback_benchmark,custom_s96,4,64,259100,49500
+callback_benchmark,custom0,5,64,243400,35700
+callback_benchmark,custom_ii,5,64,237900,30900
+callback_benchmark,custom_s96,5,64,352300,41200
+callback_benchmark,global_old_arity,5,64,99100,25200
+callback_benchmark,custom_ii,6,64,213400,51100
+callback_benchmark,custom_s96,6,64,264900,46600
+callback_benchmark,global_old_arity,6,64,99000,29400
+callback_benchmark,custom0,6,64,185300,37000
+callback_benchmark,custom_s96,7,64,397600,41700
+callback_benchmark,global_old_arity,7,64,130700,25700
+callback_benchmark,custom0,7,64,217300,44500
+callback_benchmark,custom_ii,7,64,584400,74400
+Native validation passed: 6695 checks; address seed=0x414d5801
+<end of output>
+Test time =   1.67 sec
+----------------------------------------------------------
+Test Passed.
+"natives_integration" end time: Oct 24 18:56 Coordinated Universal Time
+"natives_integration" time elapsed: 00:00:01
+----------------------------------------------------------
+
+8/25 Testing: logging_integration
+8/25 Test: logging_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_native_tests.exe" "--logging-benchmark"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"logging_integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+logging_benchmark,level,destination,mode,repetition,jobs,submission_ns,dispatch_with_drain_ns,dropped,output_bytes
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,180300,35600
+logging_benchmark,0,0,custom0,1,64,180300,35600,0,0
+callback_benchmark,custom_ii,1,64,233300,62000
+logging_benchmark,0,0,custom_ii,1,64,233300,62000,0,0
+callback_benchmark,custom_s96,1,64,370300,46500
+logging_benchmark,0,0,custom_s96,1,64,370300,46500,0,0
+callback_benchmark,global_old_arity,1,64,127900,25800
+logging_benchmark,0,0,global_old_arity,1,64,127900,25800,0,0
+callback_benchmark,custom_ii,2,64,215200,38000
+logging_benchmark,0,0,custom_ii,2,64,215200,38000,0,0
+callback_benchmark,custom_s96,2,64,483500,59600
+logging_benchmark,0,0,custom_s96,2,64,483500,59600,0,0
+callback_benchmark,global_old_arity,2,64,139600,38300
+logging_benchmark,0,0,global_old_arity,2,64,139600,38300,0,0
+callback_benchmark,custom0,2,64,152000,27500
+logging_benchmark,0,0,custom0,2,64,152000,27500,0,0
+callback_benchmark,custom_s96,3,64,527600,76900
+logging_benchmark,0,0,custom_s96,3,64,527600,76900,0,0
+callback_benchmark,global_old_arity,3,64,127100,30400
+logging_benchmark,0,0,global_old_arity,3,64,127100,30400,0,0
+callback_benchmark,custom0,3,64,150600,30400
+logging_benchmark,0,0,custom0,3,64,150600,30400,0,0
+callback_benchmark,custom_ii,3,64,197100,35300
+logging_benchmark,0,0,custom_ii,3,64,197100,35300,0,0
+callback_benchmark,global_old_arity,4,64,121200,39600
+logging_benchmark,0,0,global_old_arity,4,64,121200,39600,0,0
+callback_benchmark,custom0,4,64,129400,87600
+logging_benchmark,0,0,custom0,4,64,129400,87600,0,0
+callback_benchmark,custom_ii,4,64,188100,44200
+logging_benchmark,0,0,custom_ii,4,64,188100,44200,0,0
+callback_benchmark,custom_s96,4,64,272300,428800
+logging_benchmark,0,0,custom_s96,4,64,272300,428800,0,0
+callback_benchmark,custom0,5,64,146800,70600
+logging_benchmark,0,0,custom0,5,64,146800,70600,0,0
+callback_benchmark,custom_ii,5,64,150800,46400
+logging_benchmark,0,0,custom_ii,5,64,150800,46400,0,0
+callback_benchmark,custom_s96,5,64,377700,337000
+logging_benchmark,0,0,custom_s96,5,64,377700,337000,0,0
+callback_benchmark,global_old_arity,5,64,135000,29200
+logging_benchmark,0,0,global_old_arity,5,64,135000,29200,0,0
+callback_benchmark,custom_ii,6,64,202300,36900
+logging_benchmark,0,0,custom_ii,6,64,202300,36900,0,0
+callback_benchmark,custom_s96,6,64,420400,49000
+logging_benchmark,0,0,custom_s96,6,64,420400,49000,0,0
+callback_benchmark,global_old_arity,6,64,261700,31300
+logging_benchmark,0,0,global_old_arity,6,64,261700,31300,0,0
+callback_benchmark,custom0,6,64,244400,33400
+logging_benchmark,0,0,custom0,6,64,244400,33400,0,0
+callback_benchmark,custom_s96,7,64,257900,50800
+logging_benchmark,0,0,custom_s96,7,64,257900,50800,0,0
+callback_benchmark,global_old_arity,7,64,116800,38500
+logging_benchmark,0,0,global_old_arity,7,64,116800,38500,0,0
+callback_benchmark,custom0,7,64,179400,30400
+logging_benchmark,0,0,custom0,7,64,179400,30400,0,0
+callback_benchmark,custom_ii,7,64,268400,33300
+logging_benchmark,0,0,custom_ii,7,64,268400,33300,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,194500,45900
+logging_benchmark,0,1,custom0,1,64,194500,45900,0,0
+callback_benchmark,custom_ii,1,64,308500,41400
+logging_benchmark,0,1,custom_ii,1,64,308500,41400,0,0
+callback_benchmark,custom_s96,1,64,423100,72500
+logging_benchmark,0,1,custom_s96,1,64,423100,72500,0,0
+callback_benchmark,global_old_arity,1,64,279000,37200
+logging_benchmark,0,1,global_old_arity,1,64,279000,37200,0,0
+callback_benchmark,custom_ii,2,64,196200,43900
+logging_benchmark,0,1,custom_ii,2,64,196200,43900,0,0
+callback_benchmark,custom_s96,2,64,408500,42700
+logging_benchmark,0,1,custom_s96,2,64,408500,42700,0,0
+callback_benchmark,global_old_arity,2,64,120500,28700
+logging_benchmark,0,1,global_old_arity,2,64,120500,28700,0,0
+callback_benchmark,custom0,2,64,129300,32800
+logging_benchmark,0,1,custom0,2,64,129300,32800,0,0
+callback_benchmark,custom_s96,3,64,284600,44300
+logging_benchmark,0,1,custom_s96,3,64,284600,44300,0,0
+callback_benchmark,global_old_arity,3,64,85700,30100
+logging_benchmark,0,1,global_old_arity,3,64,85700,30100,0,0
+callback_benchmark,custom0,3,64,129400,29500
+logging_benchmark,0,1,custom0,3,64,129400,29500,0,0
+callback_benchmark,custom_ii,3,64,163900,62700
+logging_benchmark,0,1,custom_ii,3,64,163900,62700,0,0
+callback_benchmark,global_old_arity,4,64,103900,27200
+logging_benchmark,0,1,global_old_arity,4,64,103900,27200,0,0
+callback_benchmark,custom0,4,64,107400,28300
+logging_benchmark,0,1,custom0,4,64,107400,28300,0,0
+callback_benchmark,custom_ii,4,64,132900,50700
+logging_benchmark,0,1,custom_ii,4,64,132900,50700,0,0
+callback_benchmark,custom_s96,4,64,254000,51500
+logging_benchmark,0,1,custom_s96,4,64,254000,51500,0,0
+callback_benchmark,custom0,5,64,128300,38300
+logging_benchmark,0,1,custom0,5,64,128300,38300,0,0
+callback_benchmark,custom_ii,5,64,123000,39300
+logging_benchmark,0,1,custom_ii,5,64,123000,39300,0,0
+callback_benchmark,custom_s96,5,64,252100,42200
+logging_benchmark,0,1,custom_s96,5,64,252100,42200,0,0
+callback_benchmark,global_old_arity,5,64,84900,31500
+logging_benchmark,0,1,global_old_arity,5,64,84900,31500,0,0
+callback_benchmark,custom_ii,6,64,138800,35500
+logging_benchmark,0,1,custom_ii,6,64,138800,35500,0,0
+callback_benchmark,custom_s96,6,64,237200,48600
+logging_benchmark,0,1,custom_s96,6,64,237200,48600,0,0
+callback_benchmark,global_old_arity,6,64,82200,31000
+logging_benchmark,0,1,global_old_arity,6,64,82200,31000,0,0
+callback_benchmark,custom0,6,64,119500,28700
+logging_benchmark,0,1,custom0,6,64,119500,28700,0,0
+callback_benchmark,custom_s96,7,64,229400,45200
+logging_benchmark,0,1,custom_s96,7,64,229400,45200,0,0
+callback_benchmark,global_old_arity,7,64,83300,31300
+logging_benchmark,0,1,global_old_arity,7,64,83300,31300,0,0
+callback_benchmark,custom0,7,64,132900,36800
+logging_benchmark,0,1,custom0,7,64,132900,36800,0,0
+callback_benchmark,custom_ii,7,64,144000,36300
+logging_benchmark,0,1,custom_ii,7,64,144000,36300,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,126500,51100
+logging_benchmark,0,2,custom0,1,64,126500,51100,0,0
+callback_benchmark,custom_ii,1,64,115800,37100
+logging_benchmark,0,2,custom_ii,1,64,115800,37100,0,0
+callback_benchmark,custom_s96,1,64,206800,42000
+logging_benchmark,0,2,custom_s96,1,64,206800,42000,0,0
+callback_benchmark,global_old_arity,1,64,83400,33900
+logging_benchmark,0,2,global_old_arity,1,64,83400,33900,0,0
+callback_benchmark,custom_ii,2,64,138400,39300
+logging_benchmark,0,2,custom_ii,2,64,138400,39300,0,0
+callback_benchmark,custom_s96,2,64,253800,85000
+logging_benchmark,0,2,custom_s96,2,64,253800,85000,0,0
+callback_benchmark,global_old_arity,2,64,85100,39700
+logging_benchmark,0,2,global_old_arity,2,64,85100,39700,0,0
+callback_benchmark,custom0,2,64,152400,76600
+logging_benchmark,0,2,custom0,2,64,152400,76600,0,0
+callback_benchmark,custom_s96,3,64,223100,58300
+logging_benchmark,0,2,custom_s96,3,64,223100,58300,0,0
+callback_benchmark,global_old_arity,3,64,101500,30700
+logging_benchmark,0,2,global_old_arity,3,64,101500,30700,0,0
+callback_benchmark,custom0,3,64,110300,36800
+logging_benchmark,0,2,custom0,3,64,110300,36800,0,0
+callback_benchmark,custom_ii,3,64,142600,36400
+logging_benchmark,0,2,custom_ii,3,64,142600,36400,0,0
+callback_benchmark,global_old_arity,4,64,102800,32100
+logging_benchmark,0,2,global_old_arity,4,64,102800,32100,0,0
+callback_benchmark,custom0,4,64,125700,43600
+logging_benchmark,0,2,custom0,4,64,125700,43600,0,0
+callback_benchmark,custom_ii,4,64,140300,40300
+logging_benchmark,0,2,custom_ii,4,64,140300,40300,0,0
+callback_benchmark,custom_s96,4,64,209100,40900
+logging_benchmark,0,2,custom_s96,4,64,209100,40900,0,0
+callback_benchmark,custom0,5,64,127700,35000
+logging_benchmark,0,2,custom0,5,64,127700,35000,0,0
+callback_benchmark,custom_ii,5,64,120000,32100
+logging_benchmark,0,2,custom_ii,5,64,120000,32100,0,0
+callback_benchmark,custom_s96,5,64,207500,52400
+logging_benchmark,0,2,custom_s96,5,64,207500,52400,0,0
+callback_benchmark,global_old_arity,5,64,96700,31800
+logging_benchmark,0,2,global_old_arity,5,64,96700,31800,0,0
+callback_benchmark,custom_ii,6,64,137000,29600
+logging_benchmark,0,2,custom_ii,6,64,137000,29600,0,0
+callback_benchmark,custom_s96,6,64,240300,61300
+logging_benchmark,0,2,custom_s96,6,64,240300,61300,0,0
+callback_benchmark,global_old_arity,6,64,96100,24900
+logging_benchmark,0,2,global_old_arity,6,64,96100,24900,0,0
+callback_benchmark,custom0,6,64,126100,27700
+logging_benchmark,0,2,custom0,6,64,126100,27700,0,0
+callback_benchmark,custom_s96,7,64,213700,43700
+logging_benchmark,0,2,custom_s96,7,64,213700,43700,0,0
+callback_benchmark,global_old_arity,7,64,102400,29800
+logging_benchmark,0,2,global_old_arity,7,64,102400,29800,0,0
+callback_benchmark,custom0,7,64,107600,31400
+logging_benchmark,0,2,custom0,7,64,107600,31400,0,0
+callback_benchmark,custom_ii,7,64,144200,34900
+logging_benchmark,0,2,custom_ii,7,64,144200,34900,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,126200,31200
+logging_benchmark,2,0,custom0,1,64,126200,31200,0,0
+callback_benchmark,custom_ii,1,64,141000,39500
+logging_benchmark,2,0,custom_ii,1,64,141000,39500,0,0
+callback_benchmark,custom_s96,1,64,216600,42100
+logging_benchmark,2,0,custom_s96,1,64,216600,42100,0,0
+callback_benchmark,global_old_arity,1,64,116000,37900
+logging_benchmark,2,0,global_old_arity,1,64,116000,37900,0,0
+callback_benchmark,custom_ii,2,64,120200,34100
+logging_benchmark,2,0,custom_ii,2,64,120200,34100,0,0
+callback_benchmark,custom_s96,2,64,239300,57000
+logging_benchmark,2,0,custom_s96,2,64,239300,57000,0,0
+callback_benchmark,global_old_arity,2,64,98100,42700
+logging_benchmark,2,0,global_old_arity,2,64,98100,42700,0,0
+callback_benchmark,custom0,2,64,187700,41000
+logging_benchmark,2,0,custom0,2,64,187700,41000,0,0
+callback_benchmark,custom_s96,3,64,254300,52700
+logging_benchmark,2,0,custom_s96,3,64,254300,52700,0,0
+callback_benchmark,global_old_arity,3,64,110500,35800
+logging_benchmark,2,0,global_old_arity,3,64,110500,35800,0,0
+callback_benchmark,custom0,3,64,110300,35400
+logging_benchmark,2,0,custom0,3,64,110300,35400,0,0
+callback_benchmark,custom_ii,3,64,152900,39000
+logging_benchmark,2,0,custom_ii,3,64,152900,39000,0,0
+callback_benchmark,global_old_arity,4,64,131400,37600
+logging_benchmark,2,0,global_old_arity,4,64,131400,37600,0,0
+callback_benchmark,custom0,4,64,116700,28400
+logging_benchmark,2,0,custom0,4,64,116700,28400,0,0
+callback_benchmark,custom_ii,4,64,136800,39100
+logging_benchmark,2,0,custom_ii,4,64,136800,39100,0,0
+callback_benchmark,custom_s96,4,64,304400,40900
+logging_benchmark,2,0,custom_s96,4,64,304400,40900,0,0
+callback_benchmark,custom0,5,64,112700,33000
+logging_benchmark,2,0,custom0,5,64,112700,33000,0,0
+callback_benchmark,custom_ii,5,64,201600,36600
+logging_benchmark,2,0,custom_ii,5,64,201600,36600,0,0
+callback_benchmark,custom_s96,5,64,371600,40600
+logging_benchmark,2,0,custom_s96,5,64,371600,40600,0,0
+callback_benchmark,global_old_arity,5,64,130500,36100
+logging_benchmark,2,0,global_old_arity,5,64,130500,36100,0,0
+callback_benchmark,custom_ii,6,64,178200,34900
+logging_benchmark,2,0,custom_ii,6,64,178200,34900,0,0
+callback_benchmark,custom_s96,6,64,427000,76800
+logging_benchmark,2,0,custom_s96,6,64,427000,76800,0,0
+callback_benchmark,global_old_arity,6,64,135100,33900
+logging_benchmark,2,0,global_old_arity,6,64,135100,33900,0,0
+callback_benchmark,custom0,6,64,186900,34100
+logging_benchmark,2,0,custom0,6,64,186900,34100,0,0
+callback_benchmark,custom_s96,7,64,373000,44900
+logging_benchmark,2,0,custom_s96,7,64,373000,44900,0,0
+callback_benchmark,global_old_arity,7,64,123900,27500
+logging_benchmark,2,0,global_old_arity,7,64,123900,27500,0,0
+callback_benchmark,custom0,7,64,124200,26800
+logging_benchmark,2,0,custom0,7,64,124200,26800,0,0
+callback_benchmark,custom_ii,7,64,134600,81900
+logging_benchmark,2,0,custom_ii,7,64,134600,81900,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,106500,32800
+logging_benchmark,2,1,custom0,1,64,106500,32800,0,0
+callback_benchmark,custom_ii,1,64,110900,44200
+logging_benchmark,2,1,custom_ii,1,64,110900,44200,0,0
+callback_benchmark,custom_s96,1,64,230300,60100
+logging_benchmark,2,1,custom_s96,1,64,230300,60100,0,0
+callback_benchmark,global_old_arity,1,64,94300,42900
+logging_benchmark,2,1,global_old_arity,1,64,94300,42900,0,0
+callback_benchmark,custom_ii,2,64,145800,37600
+logging_benchmark,2,1,custom_ii,2,64,145800,37600,0,0
+callback_benchmark,custom_s96,2,64,231500,66300
+logging_benchmark,2,1,custom_s96,2,64,231500,66300,0,0
+callback_benchmark,global_old_arity,2,64,105700,83800
+logging_benchmark,2,1,global_old_arity,2,64,105700,83800,0,0
+callback_benchmark,custom0,2,64,157400,58200
+logging_benchmark,2,1,custom0,2,64,157400,58200,0,0
+callback_benchmark,custom_s96,3,64,370900,48900
+logging_benchmark,2,1,custom_s96,3,64,370900,48900,0,0
+callback_benchmark,global_old_arity,3,64,93800,35600
+logging_benchmark,2,1,global_old_arity,3,64,93800,35600,0,0
+callback_benchmark,custom0,3,64,120500,31700
+logging_benchmark,2,1,custom0,3,64,120500,31700,0,0
+callback_benchmark,custom_ii,3,64,114500,41600
+logging_benchmark,2,1,custom_ii,3,64,114500,41600,0,0
+callback_benchmark,global_old_arity,4,64,101800,27200
+logging_benchmark,2,1,global_old_arity,4,64,101800,27200,0,0
+callback_benchmark,custom0,4,64,124200,34500
+logging_benchmark,2,1,custom0,4,64,124200,34500,0,0
+callback_benchmark,custom_ii,4,64,117600,40200
+logging_benchmark,2,1,custom_ii,4,64,117600,40200,0,0
+callback_benchmark,custom_s96,4,64,223800,62200
+logging_benchmark,2,1,custom_s96,4,64,223800,62200,0,0
+callback_benchmark,custom0,5,64,154900,66500
+logging_benchmark,2,1,custom0,5,64,154900,66500,0,0
+callback_benchmark,custom_ii,5,64,155700,88800
+logging_benchmark,2,1,custom_ii,5,64,155700,88800,0,0
+callback_benchmark,custom_s96,5,64,239900,81900
+logging_benchmark,2,1,custom_s96,5,64,239900,81900,0,0
+callback_benchmark,global_old_arity,5,64,202000,47900
+logging_benchmark,2,1,global_old_arity,5,64,202000,47900,0,0
+callback_benchmark,custom_ii,6,64,147800,70000
+logging_benchmark,2,1,custom_ii,6,64,147800,70000,0,0
+callback_benchmark,custom_s96,6,64,264200,79300
+logging_benchmark,2,1,custom_s96,6,64,264200,79300,0,0
+callback_benchmark,global_old_arity,6,64,115900,44700
+logging_benchmark,2,1,global_old_arity,6,64,115900,44700,0,0
+callback_benchmark,custom0,6,64,151000,51900
+logging_benchmark,2,1,custom0,6,64,151000,51900,0,0
+callback_benchmark,custom_s96,7,64,265800,58800
+logging_benchmark,2,1,custom_s96,7,64,265800,58800,0,0
+callback_benchmark,global_old_arity,7,64,103400,48600
+logging_benchmark,2,1,global_old_arity,7,64,103400,48600,0,0
+callback_benchmark,custom0,7,64,119400,64500
+logging_benchmark,2,1,custom0,7,64,119400,64500,0,0
+callback_benchmark,custom_ii,7,64,139200,57700
+logging_benchmark,2,1,custom_ii,7,64,139200,57700,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,120900,53100
+logging_benchmark,2,2,custom0,1,64,120900,53100,0,0
+callback_benchmark,custom_ii,1,64,139200,111200
+logging_benchmark,2,2,custom_ii,1,64,139200,111200,0,0
+callback_benchmark,custom_s96,1,64,257400,130900
+logging_benchmark,2,2,custom_s96,1,64,257400,130900,0,0
+callback_benchmark,global_old_arity,1,64,99400,54600
+logging_benchmark,2,2,global_old_arity,1,64,99400,54600,0,0
+callback_benchmark,custom_ii,2,64,145200,52000
+logging_benchmark,2,2,custom_ii,2,64,145200,52000,0,0
+callback_benchmark,custom_s96,2,64,242400,69900
+logging_benchmark,2,2,custom_s96,2,64,242400,69900,0,0
+callback_benchmark,global_old_arity,2,64,115400,46900
+logging_benchmark,2,2,global_old_arity,2,64,115400,46900,0,0
+callback_benchmark,custom0,2,64,149000,48800
+logging_benchmark,2,2,custom0,2,64,149000,48800,0,0
+callback_benchmark,custom_s96,3,64,280200,106600
+logging_benchmark,2,2,custom_s96,3,64,280200,106600,0,0
+callback_benchmark,global_old_arity,3,64,113700,55400
+logging_benchmark,2,2,global_old_arity,3,64,113700,55400,0,0
+callback_benchmark,custom0,3,64,115300,63200
+logging_benchmark,2,2,custom0,3,64,115300,63200,0,0
+callback_benchmark,custom_ii,3,64,150100,110000
+logging_benchmark,2,2,custom_ii,3,64,150100,110000,0,0
+callback_benchmark,global_old_arity,4,64,114200,135500
+logging_benchmark,2,2,global_old_arity,4,64,114200,135500,0,0
+callback_benchmark,custom0,4,64,6997500,230200
+logging_benchmark,2,2,custom0,4,64,6997500,230200,0,0
+callback_benchmark,custom_ii,4,64,9524700,60000
+logging_benchmark,2,2,custom_ii,4,64,9524700,60000,0,0
+callback_benchmark,custom_s96,4,64,488300,152500
+logging_benchmark,2,2,custom_s96,4,64,488300,152500,0,0
+callback_benchmark,custom0,5,64,764400,46500
+logging_benchmark,2,2,custom0,5,64,764400,46500,0,0
+callback_benchmark,custom_ii,5,64,168900,40300
+logging_benchmark,2,2,custom_ii,5,64,168900,40300,0,0
+callback_benchmark,custom_s96,5,64,399600,63000
+logging_benchmark,2,2,custom_s96,5,64,399600,63000,0,0
+callback_benchmark,global_old_arity,5,64,138000,51900
+logging_benchmark,2,2,global_old_arity,5,64,138000,51900,0,0
+callback_benchmark,custom_ii,6,64,3818200,292900
+logging_benchmark,2,2,custom_ii,6,64,3818200,292900,0,0
+callback_benchmark,custom_s96,6,64,3987400,85200
+logging_benchmark,2,2,custom_s96,6,64,3987400,85200,0,0
+callback_benchmark,global_old_arity,6,64,2688800,83500
+logging_benchmark,2,2,global_old_arity,6,64,2688800,83500,0,0
+callback_benchmark,custom0,6,64,198300,57900
+logging_benchmark,2,2,custom0,6,64,198300,57900,0,0
+callback_benchmark,custom_s96,7,64,6234000,64300
+logging_benchmark,2,2,custom_s96,7,64,6234000,64300,0,0
+callback_benchmark,global_old_arity,7,64,137600,37400
+logging_benchmark,2,2,global_old_arity,7,64,137600,37400,0,0
+callback_benchmark,custom0,7,64,193500,38700
+logging_benchmark,2,2,custom0,7,64,193500,38700,0,0
+callback_benchmark,custom_ii,7,64,167300,56600
+logging_benchmark,2,2,custom_ii,7,64,167300,56600,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,158800,115700
+logging_benchmark,4,0,custom0,1,64,158800,115700,128,9752
+callback_benchmark,custom_ii,1,64,128600,140500
+logging_benchmark,4,0,custom_ii,1,64,128600,140500,128,9753
+callback_benchmark,custom_s96,1,64,496800,184600
+logging_benchmark,4,0,custom_s96,1,64,496800,184600,128,9760
+callback_benchmark,global_old_arity,1,64,129000,138400
+logging_benchmark,4,0,global_old_arity,1,64,129000,138400,128,9752
+callback_benchmark,custom_ii,2,64,161800,152300
+logging_benchmark,4,0,custom_ii,2,64,161800,152300,128,9752
+callback_benchmark,custom_s96,2,64,600900,168600
+logging_benchmark,4,0,custom_s96,2,64,600900,168600,128,9754
+callback_benchmark,global_old_arity,2,64,127900,147100
+logging_benchmark,4,0,global_old_arity,2,64,127900,147100,128,9752
+callback_benchmark,custom0,2,64,240300,235400
+logging_benchmark,4,0,custom0,2,64,240300,235400,128,9753
+callback_benchmark,custom_s96,3,64,370100,129000
+logging_benchmark,4,0,custom_s96,3,64,370100,129000,128,9758
+callback_benchmark,global_old_arity,3,64,134000,120700
+logging_benchmark,4,0,global_old_arity,3,64,134000,120700,128,9752
+callback_benchmark,custom0,3,64,161900,108000
+logging_benchmark,4,0,custom0,3,64,161900,108000,128,9752
+callback_benchmark,custom_ii,3,64,206700,120900
+logging_benchmark,4,0,custom_ii,3,64,206700,120900,128,9775
+callback_benchmark,global_old_arity,4,64,133900,132600
+logging_benchmark,4,0,global_old_arity,4,64,133900,132600,128,9815
+callback_benchmark,custom0,4,64,119000,113700
+logging_benchmark,4,0,custom0,4,64,119000,113700,128,9816
+callback_benchmark,custom_ii,4,64,123400,136500
+logging_benchmark,4,0,custom_ii,4,64,123400,136500,128,9815
+callback_benchmark,custom_s96,4,64,218600,237300
+logging_benchmark,4,0,custom_s96,4,64,218600,237300,128,9816
+callback_benchmark,custom0,5,64,135700,122600
+logging_benchmark,4,0,custom0,5,64,135700,122600,128,9815
+callback_benchmark,custom_ii,5,64,144600,147500
+logging_benchmark,4,0,custom_ii,5,64,144600,147500,128,9815
+callback_benchmark,custom_s96,5,64,242900,150800
+logging_benchmark,4,0,custom_s96,5,64,242900,150800,128,9815
+callback_benchmark,global_old_arity,5,64,117100,116800
+logging_benchmark,4,0,global_old_arity,5,64,117100,116800,128,9815
+callback_benchmark,custom_ii,6,64,119700,124100
+logging_benchmark,4,0,custom_ii,6,64,119700,124100,128,9815
+callback_benchmark,custom_s96,6,64,224800,458200
+logging_benchmark,4,0,custom_s96,6,64,224800,458200,128,9817
+callback_benchmark,global_old_arity,6,64,114000,103000
+logging_benchmark,4,0,global_old_arity,6,64,114000,103000,128,9815
+callback_benchmark,custom0,6,64,130600,107800
+logging_benchmark,4,0,custom0,6,64,130600,107800,128,9815
+callback_benchmark,custom_s96,7,64,219700,132500
+logging_benchmark,4,0,custom_s96,7,64,219700,132500,128,9816
+callback_benchmark,global_old_arity,7,64,107700,106200
+logging_benchmark,4,0,global_old_arity,7,64,107700,106200,128,9815
+callback_benchmark,custom0,7,64,134000,119200
+logging_benchmark,4,0,custom0,7,64,134000,119200,128,9815
+callback_benchmark,custom_ii,7,64,144500,116900
+logging_benchmark,4,0,custom_ii,7,64,144500,116900,128,9815
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,135900,95100
+logging_benchmark,4,1,custom0,1,64,135900,95100,128,0
+callback_benchmark,custom_ii,1,64,140900,72500
+logging_benchmark,4,1,custom_ii,1,64,140900,72500,128,0
+callback_benchmark,custom_s96,1,64,244800,84400
+logging_benchmark,4,1,custom_s96,1,64,244800,84400,128,0
+callback_benchmark,global_old_arity,1,64,113300,100800
+logging_benchmark,4,1,global_old_arity,1,64,113300,100800,128,0
+callback_benchmark,custom_ii,2,64,140400,92800
+logging_benchmark,4,1,custom_ii,2,64,140400,92800,128,0
+callback_benchmark,custom_s96,2,64,247900,95400
+logging_benchmark,4,1,custom_s96,2,64,247900,95400,128,0
+callback_benchmark,global_old_arity,2,64,104300,73000
+logging_benchmark,4,1,global_old_arity,2,64,104300,73000,128,0
+callback_benchmark,custom0,2,64,135500,87200
+logging_benchmark,4,1,custom0,2,64,135500,87200,128,0
+callback_benchmark,custom_s96,3,64,258700,104500
+logging_benchmark,4,1,custom_s96,3,64,258700,104500,128,0
+callback_benchmark,global_old_arity,3,64,114500,80700
+logging_benchmark,4,1,global_old_arity,3,64,114500,80700,128,0
+callback_benchmark,custom0,3,64,137200,109500
+logging_benchmark,4,1,custom0,3,64,137200,109500,128,0
+callback_benchmark,custom_ii,3,64,206000,87800
+logging_benchmark,4,1,custom_ii,3,64,206000,87800,128,0
+callback_benchmark,global_old_arity,4,64,151300,67400
+logging_benchmark,4,1,global_old_arity,4,64,151300,67400,128,0
+callback_benchmark,custom0,4,64,1716600,88000
+logging_benchmark,4,1,custom0,4,64,1716600,88000,128,0
+callback_benchmark,custom_ii,4,64,1270600,72700
+logging_benchmark,4,1,custom_ii,4,64,1270600,72700,128,0
+callback_benchmark,custom_s96,4,64,520800,89900
+logging_benchmark,4,1,custom_s96,4,64,520800,89900,128,0
+callback_benchmark,custom0,5,64,213000,59500
+logging_benchmark,4,1,custom0,5,64,213000,59500,128,0
+callback_benchmark,custom_ii,5,64,239000,61700
+logging_benchmark,4,1,custom_ii,5,64,239000,61700,128,0
+callback_benchmark,custom_s96,5,64,466300,68300
+logging_benchmark,4,1,custom_s96,5,64,466300,68300,128,0
+callback_benchmark,global_old_arity,5,64,130100,57000
+logging_benchmark,4,1,global_old_arity,5,64,130100,57000,128,0
+callback_benchmark,custom_ii,6,64,702500,64500
+logging_benchmark,4,1,custom_ii,6,64,702500,64500,128,0
+callback_benchmark,custom_s96,6,64,254000,66500
+logging_benchmark,4,1,custom_s96,6,64,254000,66500,128,0
+callback_benchmark,global_old_arity,6,64,108200,53600
+logging_benchmark,4,1,global_old_arity,6,64,108200,53600,128,0
+callback_benchmark,custom0,6,64,131900,324000
+logging_benchmark,4,1,custom0,6,64,131900,324000,128,0
+callback_benchmark,custom_s96,7,64,288000,85100
+logging_benchmark,4,1,custom_s96,7,64,288000,85100,128,0
+callback_benchmark,global_old_arity,7,64,105500,52600
+logging_benchmark,4,1,global_old_arity,7,64,105500,52600,128,0
+callback_benchmark,custom0,7,64,125400,52000
+logging_benchmark,4,1,custom0,7,64,125400,52000,128,0
+callback_benchmark,custom_ii,7,64,141300,68200
+logging_benchmark,4,1,custom_ii,7,64,141300,68200,128,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,132100,153200
+logging_benchmark,4,2,custom0,1,64,132100,153200,128,9752
+callback_benchmark,custom_ii,1,64,146800,120700
+logging_benchmark,4,2,custom_ii,1,64,146800,120700,128,9752
+callback_benchmark,custom_s96,1,64,257800,137100
+logging_benchmark,4,2,custom_s96,1,64,257800,137100,128,9754
+callback_benchmark,global_old_arity,1,64,103800,117700
+logging_benchmark,4,2,global_old_arity,1,64,103800,117700,129,9752
+callback_benchmark,custom_ii,2,64,142800,167500
+logging_benchmark,4,2,custom_ii,2,64,142800,167500,129,9752
+callback_benchmark,custom_s96,2,64,257300,134600
+logging_benchmark,4,2,custom_s96,2,64,257300,134600,129,9753
+callback_benchmark,global_old_arity,2,64,108500,141100
+logging_benchmark,4,2,global_old_arity,2,64,108500,141100,129,9752
+callback_benchmark,custom0,2,64,130200,149500
+logging_benchmark,4,2,custom0,2,64,130200,149500,128,9752
+callback_benchmark,custom_s96,3,64,253600,135400
+logging_benchmark,4,2,custom_s96,3,64,253600,135400,130,9753
+callback_benchmark,global_old_arity,3,64,108700,160100
+logging_benchmark,4,2,global_old_arity,3,64,108700,160100,129,9752
+callback_benchmark,custom0,3,64,133300,149100
+logging_benchmark,4,2,custom0,3,64,133300,149100,129,9752
+callback_benchmark,custom_ii,3,64,147700,134300
+logging_benchmark,4,2,custom_ii,3,64,147700,134300,131,9775
+callback_benchmark,global_old_arity,4,64,109600,158200
+logging_benchmark,4,2,global_old_arity,4,64,109600,158200,129,9815
+callback_benchmark,custom0,4,64,133700,159000
+logging_benchmark,4,2,custom0,4,64,133700,159000,128,9815
+callback_benchmark,custom_ii,4,64,143800,166900
+logging_benchmark,4,2,custom_ii,4,64,143800,166900,129,9815
+callback_benchmark,custom_s96,4,64,261100,170700
+logging_benchmark,4,2,custom_s96,4,64,261100,170700,129,9816
+callback_benchmark,custom0,5,64,135400,150500
+logging_benchmark,4,2,custom0,5,64,135400,150500,128,9815
+callback_benchmark,custom_ii,5,64,146400,122700
+logging_benchmark,4,2,custom_ii,5,64,146400,122700,130,9815
+callback_benchmark,custom_s96,5,64,257400,147200
+logging_benchmark,4,2,custom_s96,5,64,257400,147200,129,9816
+callback_benchmark,global_old_arity,5,64,106200,117400
+logging_benchmark,4,2,global_old_arity,5,64,106200,117400,129,9816
+callback_benchmark,custom_ii,6,64,146200,175500
+logging_benchmark,4,2,custom_ii,6,64,146200,175500,129,9815
+callback_benchmark,custom_s96,6,64,261100,136200
+logging_benchmark,4,2,custom_s96,6,64,261100,136200,129,9817
+callback_benchmark,global_old_arity,6,64,111300,144400
+logging_benchmark,4,2,global_old_arity,6,64,111300,144400,130,9815
+callback_benchmark,custom0,6,64,132300,150800
+logging_benchmark,4,2,custom0,6,64,132300,150800,128,9815
+callback_benchmark,custom_s96,7,64,266000,237800
+logging_benchmark,4,2,custom_s96,7,64,266000,237800,129,9817
+callback_benchmark,global_old_arity,7,64,110400,121300
+logging_benchmark,4,2,global_old_arity,7,64,110400,121300,129,9815
+callback_benchmark,custom0,7,64,135100,113700
+logging_benchmark,4,2,custom0,7,64,135100,113700,128,9815
+callback_benchmark,custom_ii,7,64,139900,117600
+logging_benchmark,4,2,custom_ii,7,64,139900,117600,130,9815
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,109200,155700
+logging_benchmark,5,0,custom0,1,64,109200,155700,129,9752
+callback_benchmark,custom_ii,1,64,118100,137000
+logging_benchmark,5,0,custom_ii,1,64,118100,137000,129,9752
+callback_benchmark,custom_s96,1,64,237900,169900
+logging_benchmark,5,0,custom_s96,1,64,237900,169900,129,9754
+callback_benchmark,global_old_arity,1,64,96900,113900
+logging_benchmark,5,0,global_old_arity,1,64,96900,113900,129,9752
+callback_benchmark,custom_ii,2,64,146000,134500
+logging_benchmark,5,0,custom_ii,2,64,146000,134500,129,9752
+callback_benchmark,custom_s96,2,64,205800,130400
+logging_benchmark,5,0,custom_s96,2,64,205800,130400,129,9752
+callback_benchmark,global_old_arity,2,64,103000,113900
+logging_benchmark,5,0,global_old_arity,2,64,103000,113900,129,9752
+callback_benchmark,custom0,2,64,151500,108200
+logging_benchmark,5,0,custom0,2,64,151500,108200,129,9752
+callback_benchmark,custom_s96,3,64,386200,129600
+logging_benchmark,5,0,custom_s96,3,64,386200,129600,129,9758
+callback_benchmark,global_old_arity,3,64,125900,113600
+logging_benchmark,5,0,global_old_arity,3,64,125900,113600,129,9752
+callback_benchmark,custom0,3,64,157400,127200
+logging_benchmark,5,0,custom0,3,64,157400,127200,129,9753
+callback_benchmark,custom_ii,3,64,189900,114500
+logging_benchmark,5,0,custom_ii,3,64,189900,114500,129,9774
+callback_benchmark,global_old_arity,4,64,134600,172600
+logging_benchmark,5,0,global_old_arity,4,64,134600,172600,129,9815
+callback_benchmark,custom0,4,64,162700,172400
+logging_benchmark,5,0,custom0,4,64,162700,172400,129,9815
+callback_benchmark,custom_ii,4,64,155900,135100
+logging_benchmark,5,0,custom_ii,4,64,155900,135100,129,9815
+callback_benchmark,custom_s96,4,64,353800,200500
+logging_benchmark,5,0,custom_s96,4,64,353800,200500,129,9816
+callback_benchmark,custom0,5,64,157200,116800
+logging_benchmark,5,0,custom0,5,64,157200,116800,129,9815
+callback_benchmark,custom_ii,5,64,202300,123600
+logging_benchmark,5,0,custom_ii,5,64,202300,123600,129,9818
+callback_benchmark,custom_s96,5,64,364500,143200
+logging_benchmark,5,0,custom_s96,5,64,364500,143200,129,9821
+callback_benchmark,global_old_arity,5,64,101300,108000
+logging_benchmark,5,0,global_old_arity,5,64,101300,108000,129,9815
+callback_benchmark,custom_ii,6,64,208400,113000
+logging_benchmark,5,0,custom_ii,6,64,208400,113000,129,9815
+callback_benchmark,custom_s96,6,64,371300,122800
+logging_benchmark,5,0,custom_s96,6,64,371300,122800,129,9822
+callback_benchmark,global_old_arity,6,64,124600,115000
+logging_benchmark,5,0,global_old_arity,6,64,124600,115000,129,9815
+callback_benchmark,custom0,6,64,153300,113000
+logging_benchmark,5,0,custom0,6,64,153300,113000,129,9815
+callback_benchmark,custom_s96,7,64,265300,148500
+logging_benchmark,5,0,custom_s96,7,64,265300,148500,129,9816
+callback_benchmark,global_old_arity,7,64,128100,135100
+logging_benchmark,5,0,global_old_arity,7,64,128100,135100,129,9815
+callback_benchmark,custom0,7,64,155300,119100
+logging_benchmark,5,0,custom0,7,64,155300,119100,129,9815
+callback_benchmark,custom_ii,7,64,198400,154700
+logging_benchmark,5,0,custom_ii,7,64,198400,154700,129,9815
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,150300,59800
+logging_benchmark,5,1,custom0,1,64,150300,59800,129,0
+callback_benchmark,custom_ii,1,64,157700,57800
+logging_benchmark,5,1,custom_ii,1,64,157700,57800,129,0
+callback_benchmark,custom_s96,1,64,375900,122100
+logging_benchmark,5,1,custom_s96,1,64,375900,122100,129,0
+callback_benchmark,global_old_arity,1,64,132200,65700
+logging_benchmark,5,1,global_old_arity,1,64,132200,65700,129,0
+callback_benchmark,custom_ii,2,64,161600,275300
+logging_benchmark,5,1,custom_ii,2,64,161600,275300,129,0
+callback_benchmark,custom_s96,2,64,391100,70400
+logging_benchmark,5,1,custom_s96,2,64,391100,70400,129,0
+callback_benchmark,global_old_arity,2,64,110400,50400
+logging_benchmark,5,1,global_old_arity,2,64,110400,50400,129,0
+callback_benchmark,custom0,2,64,129600,57600
+logging_benchmark,5,1,custom0,2,64,129600,57600,129,0
+callback_benchmark,custom_s96,3,64,255400,135600
+logging_benchmark,5,1,custom_s96,3,64,255400,135600,129,0
+callback_benchmark,global_old_arity,3,64,90300,62200
+logging_benchmark,5,1,global_old_arity,3,64,90300,62200,129,0
+callback_benchmark,custom0,3,64,128500,53200
+logging_benchmark,5,1,custom0,3,64,128500,53200,129,0
+callback_benchmark,custom_ii,3,64,143500,87800
+logging_benchmark,5,1,custom_ii,3,64,143500,87800,129,0
+callback_benchmark,global_old_arity,4,64,105900,52500
+logging_benchmark,5,1,global_old_arity,4,64,105900,52500,129,0
+callback_benchmark,custom0,4,64,133700,54200
+logging_benchmark,5,1,custom0,4,64,133700,54200,129,0
+callback_benchmark,custom_ii,4,64,142000,66700
+logging_benchmark,5,1,custom_ii,4,64,142000,66700,129,0
+callback_benchmark,custom_s96,4,64,250900,96800
+logging_benchmark,5,1,custom_s96,4,64,250900,96800,129,0
+callback_benchmark,custom0,5,64,159500,61200
+logging_benchmark,5,1,custom0,5,64,159500,61200,129,0
+callback_benchmark,custom_ii,5,64,143700,111700
+logging_benchmark,5,1,custom_ii,5,64,143700,111700,129,0
+callback_benchmark,custom_s96,5,64,269200,69600
+logging_benchmark,5,1,custom_s96,5,64,269200,69600,129,0
+callback_benchmark,global_old_arity,5,64,108500,74000
+logging_benchmark,5,1,global_old_arity,5,64,108500,74000,129,0
+callback_benchmark,custom_ii,6,64,140100,65000
+logging_benchmark,5,1,custom_ii,6,64,140100,65000,129,0
+callback_benchmark,custom_s96,6,64,258800,82600
+logging_benchmark,5,1,custom_s96,6,64,258800,82600,129,0
+callback_benchmark,global_old_arity,6,64,106000,63500
+logging_benchmark,5,1,global_old_arity,6,64,106000,63500,129,0
+callback_benchmark,custom0,6,64,125000,97900
+logging_benchmark,5,1,custom0,6,64,125000,97900,129,0
+callback_benchmark,custom_s96,7,64,261700,98500
+logging_benchmark,5,1,custom_s96,7,64,261700,98500,129,0
+callback_benchmark,global_old_arity,7,64,107000,76900
+logging_benchmark,5,1,global_old_arity,7,64,107000,76900,129,0
+callback_benchmark,custom0,7,64,137500,63300
+logging_benchmark,5,1,custom0,7,64,137500,63300,129,0
+callback_benchmark,custom_ii,7,64,136700,75900
+logging_benchmark,5,1,custom_ii,7,64,136700,75900,129,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,143700,196400
+logging_benchmark,5,2,custom0,1,64,143700,196400,130,9752
+callback_benchmark,custom_ii,1,64,152000,183800
+logging_benchmark,5,2,custom_ii,1,64,152000,183800,130,9752
+callback_benchmark,custom_s96,1,64,270500,142300
+logging_benchmark,5,2,custom_s96,1,64,270500,142300,131,9752
+callback_benchmark,global_old_arity,1,64,109900,122400
+logging_benchmark,5,2,global_old_arity,1,64,109900,122400,130,9752
+callback_benchmark,custom_ii,2,64,149600,178400
+logging_benchmark,5,2,custom_ii,2,64,149600,178400,131,9752
+callback_benchmark,custom_s96,2,64,267700,144300
+logging_benchmark,5,2,custom_s96,2,64,267700,144300,130,9753
+callback_benchmark,global_old_arity,2,64,133000,130600
+logging_benchmark,5,2,global_old_arity,2,64,133000,130600,132,9752
+callback_benchmark,custom0,2,64,156200,175500
+logging_benchmark,5,2,custom0,2,64,156200,175500,130,9752
+callback_benchmark,custom_s96,3,64,330400,212900
+logging_benchmark,5,2,custom_s96,3,64,330400,212900,130,9754
+callback_benchmark,global_old_arity,3,64,129700,122600
+logging_benchmark,5,2,global_old_arity,3,64,129700,122600,130,9752
+callback_benchmark,custom0,3,64,134500,180900
+logging_benchmark,5,2,custom0,3,64,134500,180900,131,9752
+callback_benchmark,custom_ii,3,64,153000,143800
+logging_benchmark,5,2,custom_ii,3,64,153000,143800,130,9776
+callback_benchmark,global_old_arity,4,64,146500,127000
+logging_benchmark,5,2,global_old_arity,4,64,146500,127000,131,9815
+callback_benchmark,custom0,4,64,206900,140800
+logging_benchmark,5,2,custom0,4,64,206900,140800,130,9815
+callback_benchmark,custom_ii,4,64,145700,164300
+logging_benchmark,5,2,custom_ii,4,64,145700,164300,129,9815
+callback_benchmark,custom_s96,4,64,271600,200300
+logging_benchmark,5,2,custom_s96,4,64,271600,200300,130,9816
+callback_benchmark,custom0,5,64,144300,182300
+logging_benchmark,5,2,custom0,5,64,144300,182300,129,9815
+callback_benchmark,custom_ii,5,64,153500,193800
+logging_benchmark,5,2,custom_ii,5,64,153500,193800,131,9815
+callback_benchmark,custom_s96,5,64,286900,206900
+logging_benchmark,5,2,custom_s96,5,64,286900,206900,129,9815
+callback_benchmark,global_old_arity,5,64,150400,1687000
+logging_benchmark,5,2,global_old_arity,5,64,150400,1687000,129,9817
+callback_benchmark,custom_ii,6,64,562800,9696200
+logging_benchmark,5,2,custom_ii,6,64,562800,9696200,129,9816
+callback_benchmark,custom_s96,6,64,290000,233400
+logging_benchmark,5,2,custom_s96,6,64,290000,233400,130,9817
+callback_benchmark,global_old_arity,6,64,115600,240500
+logging_benchmark,5,2,global_old_arity,6,64,115600,240500,130,9815
+callback_benchmark,custom0,6,64,228600,174200
+logging_benchmark,5,2,custom0,6,64,228600,174200,129,9815
+callback_benchmark,custom_s96,7,64,1044700,269300
+logging_benchmark,5,2,custom_s96,7,64,1044700,269300,129,9815
+callback_benchmark,global_old_arity,7,64,138700,222600
+logging_benchmark,5,2,global_old_arity,7,64,138700,222600,130,9815
+callback_benchmark,custom0,7,64,237900,276800
+logging_benchmark,5,2,custom0,7,64,237900,276800,129,9814
+callback_benchmark,custom_ii,7,64,231400,301400
+logging_benchmark,5,2,custom_ii,7,64,231400,301400,129,9814
+Native validation passed: 76537 checks; address seed=0x414d5801
+<end of output>
+Test time =   7.13 sec
+----------------------------------------------------------
+Test Passed.
+"logging_integration" end time: Oct 24 18:56 Coordinated Universal Time
+"logging_integration" time elapsed: 00:00:07
+----------------------------------------------------------
+
+9/25 Testing: worker_allocation_integration
+9/25 Test: worker_allocation_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_worker_allocation.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"worker_allocation_integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+worker allocation denied bytes=64
+worker allocation denied bytes=48
+worker allocation denied bytes=64
+worker allocation denied bytes=32
+worker_recovery PASS allocation_injection=ON mode=recover active_status=4 queued_status=3 callbacks=2
+worker_recovery PASS allocation_injection=ON mode=shutdown active_status=4 queued_status=5 callbacks=2
+worker denied_allocations=4
+<end of output>
+Test time =   0.27 sec
+----------------------------------------------------------
+Test Passed.
+"worker_allocation_integration" end time: Oct 24 18:56 Coordinated Universal Time
+"worker_allocation_integration" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/25 Testing: terminal_allocation_unit
+10/25 Test: terminal_allocation_unit
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_terminal_allocation.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"terminal_allocation_unit" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+terminal_queue PASS allocation_injection=ON publications=4096 FIFO=checked ownership=checked producers=4
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"terminal_allocation_unit" end time: Oct 24 18:56 Coordinated Universal Time
+"terminal_allocation_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/25 Testing: unit
+11/25 Test: unit
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"unit" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+26 checks passed
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"unit" end time: Oct 24 18:56 Coordinated Universal Time
+"unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/25 Testing: audit_semantic_fuzz
+12/25 Test: audit_semantic_fuzz
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_audit_fuzz.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"audit_semantic_fuzz" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+semantic_fuzz seed=1096107081 cases=4096
+semantic_fuzz PASS cases=4096
+<end of output>
+Test time =   0.27 sec
+----------------------------------------------------------
+Test Passed.
+"audit_semantic_fuzz" end time: Oct 24 18:56 Coordinated Universal Time
+"audit_semantic_fuzz" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/25 Testing: socket_wait_unit
+13/25 Test: socket_wait_unit
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_socket_wait_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"socket_wait_unit" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+cancel_entry observed sends=1 select=0 results=0 status=4 error=7
+cancel_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+timeout_entry observed sends=1 select=0 results=0 status=4 error=6
+timeout_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=6
+shutdown_entry observed sends=1 select=0 results=0 status=4 error=7
+shutdown_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+transport observed sends=1 select=1 results=0 status=4 error=5
+transport PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_cancel observed sends=1 select=1 results=0 status=4 error=5
+transport_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_timeout observed sends=1 select=1 results=0 status=4 error=5
+transport_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_both observed sends=1 select=1 results=0 status=4 error=5
+transport_both PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+invalid_socket_cancel observed sends=1 select=0 results=0 status=4 error=5
+invalid_socket_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+eintr_retry observed sends=1 select=1 results=2 status=2 error=0
+eintr_retry PASS sends=1 select=1 results=2 callbacks=1 status=2 error=0
+eintr_cancel observed sends=1 select=1 results=0 status=4 error=7
+eintr_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=7
+eintr_timeout observed sends=1 select=1 results=0 status=4 error=6
+eintr_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+ready_cancel observed sends=1 select=1 results=0 status=4 error=7
+ready_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=7
+ready_timeout observed sends=1 select=1 results=0 status=4 error=6
+ready_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+poll_timeout observed sends=1 select=1 results=0 status=4 error=6
+poll_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+response_cancel observed sends=1 select=0 results=1 status=4 error=7
+response_cancel PASS sends=1 select=0 results=1 callbacks=1 status=4 error=7
+completed_cancel observed sends=1 select=0 results=2 status=2 error=0
+completed_cancel PASS sends=1 select=0 results=2 callbacks=1 status=2 error=0
+completed_timeout observed sends=1 select=0 results=2 status=2 error=0
+completed_timeout PASS sends=1 select=0 results=2 callbacks=1 status=2 error=0
+predispatch_cancel observed sends=0 select=0 results=0 status=5 error=7
+predispatch_cancel PASS sends=0 select=0 results=0 callbacks=1 status=5 error=7
+flush_cancel observed sends=1 select=0 results=0 status=4 error=5
+flush_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+consume_cancel observed sends=1 select=0 results=0 status=4 error=5
+consume_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+socket_wait PASS cases=20
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"socket_wait_unit" end time: Oct 24 18:56 Coordinated Universal Time
+"socket_wait_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/25 Testing: audit_faults_integration
+14/25 Test: audit_faults_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_audit_faults.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"audit_faults_integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+fault phase: ROLLBACK response loss
+fault phase: terminate during deferred COMMIT
+fault phase: terminate exact blocked INSERT
+fault phase: terminate exact blocked UPDATE
+fault phase: cancellation category race rounds=32
+fault phase: timeout category rounds=8 query_ms=30
+audit_faults PASS
+<end of output>
+Test time =   2.99 sec
+----------------------------------------------------------
+Test Passed.
+"audit_faults_integration" end time: Oct 24 18:56 Coordinated Universal Time
+"audit_faults_integration" time elapsed: 00:00:02
+----------------------------------------------------------
+
+15/25 Testing: diagnostics_unit
+15/25 Test: diagnostics_unit
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_diagnostics_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"diagnostics_unit" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+Diagnostics filtering/privacy/bounds/flood/sink/reload passed; buffer_bytes=20632 record_bytes=80
+File output levels/destinations/paths/append/rotation/failure/recovery/links/injection/concurrency passed
+<end of output>
+Test time =   1.51 sec
+----------------------------------------------------------
+Test Passed.
+"diagnostics_unit" end time: Oct 24 18:56 Coordinated Universal Time
+"diagnostics_unit" time elapsed: 00:00:01
+----------------------------------------------------------
+
+16/25 Testing: integration
+16/25 Test: integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_tests.exe" "--integration"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+163 checks passed
+<end of output>
+Test time =  13.32 sec
+----------------------------------------------------------
+Test Passed.
+"integration" end time: Oct 24 18:56 Coordinated Universal Time
+"integration" time elapsed: 00:00:13
+----------------------------------------------------------
+
+17/25 Testing: types_unit
+17/25 Test: types_unit
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_type_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"types_unit" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+97 type checks passed
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"types_unit" end time: Oct 24 18:56 Coordinated Universal Time
+"types_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/25 Testing: types_integration
+18/25 Test: types_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_type_tests.exe" "--integration"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"types_integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+532 type checks passed
+<end of output>
+Test time =   1.99 sec
+----------------------------------------------------------
+Test Passed.
+"types_integration" end time: Oct 24 18:56 Coordinated Universal Time
+"types_integration" time elapsed: 00:00:01
+----------------------------------------------------------
+
+19/25 Testing: extensions_integration
+19/25 Test: extensions_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_extension_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"extensions_integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+extension phase: batches
+extension phase: rejection
+extension phase: transactions
+extension phase: streaming
+extension phase: stream lifecycle
+606 extension checks passed
+<end of output>
+Test time =   8.48 sec
+----------------------------------------------------------
+Test Passed.
+"extensions_integration" end time: Oct 24 18:56 Coordinated Universal Time
+"extensions_integration" time elapsed: 00:00:08
+----------------------------------------------------------
+
+20/25 Testing: stress_integration
+20/25 Test: stress_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_stress_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"stress_integration" start time: Oct 24 18:56 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+seed=1592594996 rounds=10 libpq=170011 pointer_bytes=4 peak_rss_start_kib=8760
+audit_resource point=before_load cpu_us=15625 rss_kib=8780 peak_rss_kib=9244 descriptors_or_handles=146 threads=4
+load connecting
+load round 0
+audit_metric round=0 elapsed_us=1907184 cpu_us=78125 rss_kib=15852 pending=0 errors=0 wave_jobs=48 sql_operations=464 p50_us=854100 p95_us=1802488 p99_us=1849781 descriptors_or_handles=209 threads=9 peak_rss_kib=16316 primary_sql_commands=467 primary_confirmed_jobs=51 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+load_sample round=0 elapsed_ms=2497 peak_rss_kib=16316
+load round 1
+audit_metric round=1 elapsed_us=3646252 cpu_us=171875 rss_kib=16240 pending=0 errors=0 wave_jobs=48 sql_operations=929 p50_us=681908 p95_us=1076006 p99_us=1091840 descriptors_or_handles=209 threads=9 peak_rss_kib=16476 primary_sql_commands=939 primary_confirmed_jobs=107 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=1 elapsed_ms=3646 peak_rss_kib=16476
+load round 2
+audit_metric round=2 elapsed_us=4613802 cpu_us=203125 rss_kib=16268 pending=0 errors=0 wave_jobs=48 sql_operations=1393 p50_us=450174 p95_us=894005 p99_us=909632 descriptors_or_handles=209 threads=9 peak_rss_kib=16504 primary_sql_commands=1404 primary_confirmed_jobs=156 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=2 elapsed_ms=4613 peak_rss_kib=16504
+load round 3
+audit_metric round=3 elapsed_us=5658931 cpu_us=218750 rss_kib=16268 pending=0 errors=0 wave_jobs=48 sql_operations=1857 p50_us=544109 p95_us=971742 p99_us=987364 descriptors_or_handles=209 threads=9 peak_rss_kib=16504 primary_sql_commands=1869 primary_confirmed_jobs=205 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=3 elapsed_ms=5658 peak_rss_kib=16504
+load round 4
+audit_metric round=4 elapsed_us=6735369 cpu_us=250000 rss_kib=16224 pending=0 errors=0 wave_jobs=48 sql_operations=2321 p50_us=575849 p95_us=1002905 p99_us=1018656 descriptors_or_handles=209 threads=9 peak_rss_kib=16504 primary_sql_commands=2334 primary_confirmed_jobs=254 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=4 elapsed_ms=6735 peak_rss_kib=16504
+load round 5
+audit_metric round=5 elapsed_us=7748016 cpu_us=281250 rss_kib=16244 pending=0 errors=0 wave_jobs=48 sql_operations=2785 p50_us=512300 p95_us=939390 p99_us=971097 descriptors_or_handles=209 threads=9 peak_rss_kib=16504 primary_sql_commands=2799 primary_confirmed_jobs=303 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=5 elapsed_ms=7748 peak_rss_kib=16504
+load round 6
+audit_metric round=6 elapsed_us=8730191 cpu_us=343750 rss_kib=16260 pending=0 errors=0 wave_jobs=48 sql_operations=3249 p50_us=465275 p95_us=877080 p99_us=924572 descriptors_or_handles=209 threads=9 peak_rss_kib=16504 primary_sql_commands=3264 primary_confirmed_jobs=352 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=6 elapsed_ms=8730 peak_rss_kib=16504
+load round 7
+audit_metric round=7 elapsed_us=9712452 cpu_us=375000 rss_kib=16276 pending=0 errors=0 wave_jobs=48 sql_operations=3713 p50_us=449706 p95_us=877406 p99_us=924673 descriptors_or_handles=209 threads=9 peak_rss_kib=16512 primary_sql_commands=3729 primary_confirmed_jobs=401 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=7 elapsed_ms=9712 peak_rss_kib=16512
+load round 8
+audit_metric round=8 elapsed_us=10788801 cpu_us=406250 rss_kib=16264 pending=0 errors=0 wave_jobs=48 sql_operations=4177 p50_us=575490 p95_us=1018364 p99_us=1034225 descriptors_or_handles=209 threads=9 peak_rss_kib=16512 primary_sql_commands=4194 primary_confirmed_jobs=450 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=8 elapsed_ms=10788 peak_rss_kib=16512
+load round 9
+audit_metric round=9 elapsed_us=11785690 cpu_us=484375 rss_kib=16252 pending=0 errors=0 wave_jobs=48 sql_operations=4641 p50_us=496707 p95_us=860278 p99_us=939332 descriptors_or_handles=209 threads=9 peak_rss_kib=16512 primary_sql_commands=4659 primary_confirmed_jobs=499 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=9 elapsed_ms=11785 peak_rss_kib=16512
+load round 10
+audit_metric round=10 elapsed_us=13067910 cpu_us=531250 rss_kib=16292 pending=0 errors=0 wave_jobs=48 sql_operations=5105 p50_us=654804 p95_us=1177228 p99_us=1225145 descriptors_or_handles=209 threads=9 peak_rss_kib=16528 primary_sql_commands=5124 primary_confirmed_jobs=548 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=10 elapsed_ms=13067 peak_rss_kib=16528
+load round 11
+audit_metric round=11 elapsed_us=14459637 cpu_us=531250 rss_kib=16316 pending=0 errors=0 wave_jobs=48 sql_operations=5569 p50_us=639192 p95_us=1270857 p99_us=1334293 descriptors_or_handles=209 threads=9 peak_rss_kib=16552 primary_sql_commands=5589 primary_confirmed_jobs=597 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=11 elapsed_ms=14459 peak_rss_kib=16552
+load round 12
+audit_metric round=12 elapsed_us=15869328 cpu_us=546875 rss_kib=16328 pending=0 errors=0 wave_jobs=48 sql_operations=6033 p50_us=498964 p95_us=1321383 p99_us=1368760 descriptors_or_handles=209 threads=9 peak_rss_kib=16560 primary_sql_commands=6054 primary_confirmed_jobs=646 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=12 elapsed_ms=15869 peak_rss_kib=16560
+load round 13
+audit_metric round=13 elapsed_us=17389022 cpu_us=593750 rss_kib=16328 pending=0 errors=0 wave_jobs=48 sql_operations=6497 p50_us=418013 p95_us=1430667 p99_us=1478004 descriptors_or_handles=209 threads=9 peak_rss_kib=16564 primary_sql_commands=6519 primary_confirmed_jobs=695 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=13 elapsed_ms=17389 peak_rss_kib=16564
+load round 14
+audit_metric round=14 elapsed_us=18922575 cpu_us=656250 rss_kib=16328 pending=0 errors=0 wave_jobs=48 sql_operations=6961 p50_us=906956 p95_us=1475995 p99_us=1491696 descriptors_or_handles=209 threads=9 peak_rss_kib=16564 primary_sql_commands=6984 primary_confirmed_jobs=744 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=14 elapsed_ms=18922 peak_rss_kib=16564
+load round 15
+audit_metric round=15 elapsed_us=20140892 cpu_us=703125 rss_kib=16336 pending=0 errors=0 wave_jobs=48 sql_operations=7425 p50_us=575985 p95_us=1160910 p99_us=1176666 descriptors_or_handles=209 threads=9 peak_rss_kib=16572 primary_sql_commands=7449 primary_confirmed_jobs=793 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=15 elapsed_ms=20140 peak_rss_kib=16572
+load round 16
+audit_metric round=16 elapsed_us=21169677 cpu_us=750000 rss_kib=16336 pending=0 errors=0 wave_jobs=48 sql_operations=7889 p50_us=497625 p95_us=908362 p99_us=971569 descriptors_or_handles=209 threads=9 peak_rss_kib=16572 primary_sql_commands=7914 primary_confirmed_jobs=842 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=16 elapsed_ms=21255 peak_rss_kib=16572
+load round 17
+audit_metric round=17 elapsed_us=22436298 cpu_us=812500 rss_kib=16336 pending=0 errors=0 wave_jobs=48 sql_operations=8353 p50_us=648709 p95_us=1091687 p99_us=1123151 descriptors_or_handles=209 threads=9 peak_rss_kib=16572 primary_sql_commands=8379 primary_confirmed_jobs=891 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=17 elapsed_ms=22436 peak_rss_kib=16572
+load round 18
+audit_metric round=18 elapsed_us=23955954 cpu_us=875000 rss_kib=16336 pending=0 errors=0 wave_jobs=48 sql_operations=8817 p50_us=528187 p95_us=1428744 p99_us=1476218 descriptors_or_handles=209 threads=9 peak_rss_kib=16572 primary_sql_commands=8844 primary_confirmed_jobs=940 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=18 elapsed_ms=23955 peak_rss_kib=16572
+load round 19
+audit_metric round=19 elapsed_us=25822214 cpu_us=906250 rss_kib=16336 pending=0 errors=0 wave_jobs=48 sql_operations=9281 p50_us=765111 p95_us=1793657 p99_us=1825166 descriptors_or_handles=209 threads=9 peak_rss_kib=16572 primary_sql_commands=9309 primary_confirmed_jobs=989 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=19 elapsed_ms=25822 peak_rss_kib=16572
+load round 20
+audit_metric round=20 elapsed_us=28997794 cpu_us=984375 rss_kib=16356 pending=0 errors=0 wave_jobs=48 sql_operations=9745 p50_us=2012891 p95_us=3102819 p99_us=3118594 descriptors_or_handles=209 threads=9 peak_rss_kib=16588 primary_sql_commands=9774 primary_confirmed_jobs=1038 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=20 elapsed_ms=28997 peak_rss_kib=16588
+load round 21
+audit_metric round=21 elapsed_us=30010992 cpu_us=1000000 rss_kib=16316 pending=0 errors=0 wave_jobs=48 sql_operations=10209 p50_us=512787 p95_us=908676 p99_us=956286 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=10239 primary_confirmed_jobs=1087 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=21 elapsed_ms=30011 peak_rss_kib=16588
+load round 22
+audit_metric round=22 elapsed_us=31136448 cpu_us=1046875 rss_kib=16288 pending=0 errors=0 wave_jobs=48 sql_operations=10673 p50_us=562835 p95_us=1052727 p99_us=1068607 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=10704 primary_confirmed_jobs=1136 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=22 elapsed_ms=31136 peak_rss_kib=16588
+load round 23
+audit_metric round=23 elapsed_us=32149600 cpu_us=1062500 rss_kib=16296 pending=0 errors=0 wave_jobs=48 sql_operations=11137 p50_us=496902 p95_us=924652 p99_us=956254 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=11169 primary_confirmed_jobs=1185 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=23 elapsed_ms=32149 peak_rss_kib=16588
+load round 24
+audit_metric round=24 elapsed_us=33229882 cpu_us=1109375 rss_kib=16304 pending=0 errors=0 wave_jobs=48 sql_operations=11601 p50_us=482042 p95_us=972466 p99_us=1035741 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=11634 primary_confirmed_jobs=1234 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=24 elapsed_ms=33229 peak_rss_kib=16588
+load round 25
+audit_metric round=25 elapsed_us=34382923 cpu_us=1171875 rss_kib=16312 pending=0 errors=0 wave_jobs=48 sql_operations=12065 p50_us=510404 p95_us=1064114 p99_us=1111673 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=12099 primary_confirmed_jobs=1283 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=25 elapsed_ms=34382 peak_rss_kib=16588
+load round 26
+audit_metric round=26 elapsed_us=35429218 cpu_us=1203125 rss_kib=16324 pending=0 errors=0 wave_jobs=48 sql_operations=12529 p50_us=561384 p95_us=941432 p99_us=988848 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=12564 primary_confirmed_jobs=1332 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=26 elapsed_ms=35429 peak_rss_kib=16588
+load round 27
+audit_metric round=27 elapsed_us=36457888 cpu_us=1265625 rss_kib=16324 pending=0 errors=0 wave_jobs=48 sql_operations=12993 p50_us=481037 p95_us=907855 p99_us=971363 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=13029 primary_confirmed_jobs=1381 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=27 elapsed_ms=36457 peak_rss_kib=16588
+load round 28
+audit_metric round=28 elapsed_us=37440630 cpu_us=1312500 rss_kib=16304 pending=0 errors=0 wave_jobs=48 sql_operations=13457 p50_us=498077 p95_us=910035 p99_us=925830 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=13494 primary_confirmed_jobs=1430 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=28 elapsed_ms=37440 peak_rss_kib=16588
+load round 29
+audit_metric round=29 elapsed_us=38374379 cpu_us=1312500 rss_kib=16304 pending=0 errors=0 wave_jobs=48 sql_operations=13921 p50_us=450398 p95_us=860913 p99_us=876734 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=13959 primary_confirmed_jobs=1479 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=29 elapsed_ms=38374 peak_rss_kib=16588
+load round 30
+audit_metric round=30 elapsed_us=39340351 cpu_us=1343750 rss_kib=16308 pending=0 errors=0 wave_jobs=48 sql_operations=14385 p50_us=465677 p95_us=892969 p99_us=909055 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=14424 primary_confirmed_jobs=1528 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=30 elapsed_ms=39340 peak_rss_kib=16588
+load round 31
+audit_metric round=31 elapsed_us=40337372 cpu_us=1375000 rss_kib=16316 pending=0 errors=0 wave_jobs=48 sql_operations=14849 p50_us=545145 p95_us=939853 p99_us=939866 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=14889 primary_confirmed_jobs=1577 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=31 elapsed_ms=40337 peak_rss_kib=16588
+load round 32
+audit_metric round=32 elapsed_us=41256531 cpu_us=1484375 rss_kib=16316 pending=0 errors=0 wave_jobs=48 sql_operations=15313 p50_us=466460 p95_us=814869 p99_us=878227 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=15354 primary_confirmed_jobs=1626 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+load_sample round=32 elapsed_ms=41846 peak_rss_kib=16588
+load round 33
+audit_metric round=33 elapsed_us=42869144 cpu_us=1531250 rss_kib=16180 pending=0 errors=0 wave_jobs=48 sql_operations=15778 p50_us=506101 p95_us=903946 p99_us=965158 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=15826 primary_confirmed_jobs=1682 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=33 elapsed_ms=42869 peak_rss_kib=16588
+load round 34
+audit_metric round=34 elapsed_us=43881552 cpu_us=1640625 rss_kib=16192 pending=0 errors=0 wave_jobs=48 sql_operations=16242 p50_us=497374 p95_us=939584 p99_us=954690 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=16291 primary_confirmed_jobs=1731 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=34 elapsed_ms=43881 peak_rss_kib=16588
+load round 35
+audit_metric round=35 elapsed_us=44989626 cpu_us=1703125 rss_kib=16196 pending=0 errors=0 wave_jobs=48 sql_operations=16706 p50_us=513304 p95_us=987608 p99_us=1050765 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=16756 primary_confirmed_jobs=1780 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=35 elapsed_ms=44989 peak_rss_kib=16588
+load round 36
+audit_metric round=36 elapsed_us=46035954 cpu_us=1750000 rss_kib=16188 pending=0 errors=0 wave_jobs=48 sql_operations=17170 p50_us=497722 p95_us=974939 p99_us=988723 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=17221 primary_confirmed_jobs=1829 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=36 elapsed_ms=46036 peak_rss_kib=16588
+load round 37
+audit_metric round=37 elapsed_us=47034293 cpu_us=1812500 rss_kib=16184 pending=0 errors=0 wave_jobs=48 sql_operations=17634 p50_us=433747 p95_us=877555 p99_us=940563 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=17686 primary_confirmed_jobs=1878 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=37 elapsed_ms=47034 peak_rss_kib=16588
+load round 38
+audit_metric round=38 elapsed_us=48098140 cpu_us=1843750 rss_kib=16184 pending=0 errors=0 wave_jobs=48 sql_operations=18098 p50_us=528700 p95_us=1020077 p99_us=1035861 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=18151 primary_confirmed_jobs=1927 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=38 elapsed_ms=48098 peak_rss_kib=16588
+load round 39
+audit_metric round=39 elapsed_us=49584584 cpu_us=1906250 rss_kib=16208 pending=0 errors=0 wave_jobs=48 sql_operations=18562 p50_us=700936 p95_us=1320452 p99_us=1444583 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=18616 primary_confirmed_jobs=1976 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=39 elapsed_ms=49584 peak_rss_kib=16588
+load round 40
+audit_metric round=40 elapsed_us=50929336 cpu_us=1984375 rss_kib=16204 pending=0 errors=0 wave_jobs=48 sql_operations=19026 p50_us=876301 p95_us=1240222 p99_us=1287388 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=19081 primary_confirmed_jobs=2025 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=40 elapsed_ms=50929 peak_rss_kib=16588
+load round 41
+audit_metric round=41 elapsed_us=52087528 cpu_us=2046875 rss_kib=16180 pending=0 errors=0 wave_jobs=48 sql_operations=19490 p50_us=559917 p95_us=1082804 p99_us=1114772 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=19546 primary_confirmed_jobs=2074 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=41 elapsed_ms=52087 peak_rss_kib=16588
+load round 42
+audit_metric round=42 elapsed_us=53257499 cpu_us=2093750 rss_kib=16192 pending=0 errors=0 wave_jobs=48 sql_operations=19954 p50_us=542542 p95_us=1081039 p99_us=1128480 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=20011 primary_confirmed_jobs=2123 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=42 elapsed_ms=53257 peak_rss_kib=16588
+load round 43
+audit_metric round=43 elapsed_us=55454822 cpu_us=2125000 rss_kib=16204 pending=0 errors=0 wave_jobs=48 sql_operations=20418 p50_us=780458 p95_us=2140430 p99_us=2140481 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=20476 primary_confirmed_jobs=2172 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=43 elapsed_ms=55454 peak_rss_kib=16588
+load round 44
+audit_metric round=44 elapsed_us=57148638 cpu_us=2171875 rss_kib=16180 pending=0 errors=0 wave_jobs=48 sql_operations=20882 p50_us=924821 p95_us=1541746 p99_us=1636964 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=20941 primary_confirmed_jobs=2221 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=44 elapsed_ms=57148 peak_rss_kib=16588
+load round 45
+audit_metric round=45 elapsed_us=59034060 cpu_us=2203125 rss_kib=16216 pending=0 errors=0 wave_jobs=48 sql_operations=21346 p50_us=799440 p95_us=1716638 p99_us=1827804 descriptors_or_handles=209 threads=8 peak_rss_kib=16588 primary_sql_commands=21406 primary_confirmed_jobs=2270 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=45 elapsed_ms=59034 peak_rss_kib=16588
+load round 46
+audit_metric round=46 elapsed_us=60389568 cpu_us=2234375 rss_kib=16144 pending=0 errors=0 wave_jobs=48 sql_operations=21810 p50_us=655823 p95_us=1194999 p99_us=1290542 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=21871 primary_confirmed_jobs=2319 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=46 elapsed_ms=60389 peak_rss_kib=16588
+load round 47
+audit_metric round=47 elapsed_us=62188182 cpu_us=2250000 rss_kib=16120 pending=0 errors=0 wave_jobs=48 sql_operations=22274 p50_us=819999 p95_us=1737324 p99_us=1737346 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=22336 primary_confirmed_jobs=2368 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=47 elapsed_ms=62188 peak_rss_kib=16588
+load round 48
+audit_metric round=48 elapsed_us=64134476 cpu_us=2312500 rss_kib=16128 pending=0 errors=0 wave_jobs=48 sql_operations=22738 p50_us=1079351 p95_us=1743702 p99_us=1886101 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=22801 primary_confirmed_jobs=2417 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=48 elapsed_ms=64217 peak_rss_kib=16588
+load round 49
+audit_metric round=49 elapsed_us=66112178 cpu_us=2390625 rss_kib=16100 pending=0 errors=0 wave_jobs=48 sql_operations=23202 p50_us=774268 p95_us=1834628 p99_us=1834646 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=23266 primary_confirmed_jobs=2466 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=49 elapsed_ms=66112 peak_rss_kib=16588
+load round 50
+audit_metric round=50 elapsed_us=67347683 cpu_us=2468750 rss_kib=16104 pending=0 errors=0 wave_jobs=48 sql_operations=23666 p50_us=684095 p95_us=1143397 p99_us=1175187 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=23731 primary_confirmed_jobs=2515 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=50 elapsed_ms=67347 peak_rss_kib=16588
+load round 51
+audit_metric round=51 elapsed_us=68778071 cpu_us=2500000 rss_kib=16120 pending=0 errors=0 wave_jobs=48 sql_operations=24130 p50_us=637061 p95_us=1317037 p99_us=1380213 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=24196 primary_confirmed_jobs=2564 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=51 elapsed_ms=68778 peak_rss_kib=16588
+load round 52
+audit_metric round=52 elapsed_us=72427240 cpu_us=2578125 rss_kib=16140 pending=0 errors=0 wave_jobs=48 sql_operations=24594 p50_us=1184890 p95_us=3382761 p99_us=3604166 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=24661 primary_confirmed_jobs=2613 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=52 elapsed_ms=72427 peak_rss_kib=16588
+load round 53
+audit_metric round=53 elapsed_us=79023356 cpu_us=2656250 rss_kib=16144 pending=0 errors=0 wave_jobs=48 sql_operations=25058 p50_us=3609024 p95_us=6202987 p99_us=6550729 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=25126 primary_confirmed_jobs=2662 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=53 elapsed_ms=79023 peak_rss_kib=16588
+load round 54
+audit_metric round=54 elapsed_us=80496143 cpu_us=2687500 rss_kib=16148 pending=0 errors=0 wave_jobs=48 sql_operations=25522 p50_us=745657 p95_us=1395276 p99_us=1426737 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=25591 primary_confirmed_jobs=2711 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=54 elapsed_ms=80496 peak_rss_kib=16588
+load round 55
+audit_metric round=55 elapsed_us=82236295 cpu_us=2734375 rss_kib=16148 pending=0 errors=0 wave_jobs=48 sql_operations=25986 p50_us=856281 p95_us=1631513 p99_us=1678822 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=26056 primary_confirmed_jobs=2760 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=55 elapsed_ms=82236 peak_rss_kib=16588
+load round 56
+audit_metric round=56 elapsed_us=83410099 cpu_us=2812500 rss_kib=16148 pending=0 errors=0 wave_jobs=48 sql_operations=26450 p50_us=619616 p95_us=1126027 p99_us=1126046 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=26521 primary_confirmed_jobs=2809 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=56 elapsed_ms=83410 peak_rss_kib=16588
+load round 57
+audit_metric round=57 elapsed_us=84534150 cpu_us=2843750 rss_kib=16160 pending=0 errors=0 wave_jobs=48 sql_operations=26914 p50_us=412252 p95_us=1030794 p99_us=1078365 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=26986 primary_confirmed_jobs=2858 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=57 elapsed_ms=84534 peak_rss_kib=16588
+load round 58
+audit_metric round=58 elapsed_us=86451979 cpu_us=2921875 rss_kib=16132 pending=0 errors=0 wave_jobs=48 sql_operations=27378 p50_us=620397 p95_us=1806107 p99_us=1869310 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=27451 primary_confirmed_jobs=2907 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=58 elapsed_ms=86452 peak_rss_kib=16588
+load round 59
+audit_metric round=59 elapsed_us=89427301 cpu_us=3015625 rss_kib=16160 pending=0 errors=0 wave_jobs=48 sql_operations=27842 p50_us=1124110 p95_us=2848775 p99_us=2927546 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=27916 primary_confirmed_jobs=2956 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=59 elapsed_ms=89427 peak_rss_kib=16588
+load round 60
+audit_metric round=60 elapsed_us=93410152 cpu_us=3093750 rss_kib=16160 pending=0 errors=0 wave_jobs=48 sql_operations=28306 p50_us=2039457 p95_us=3682924 p99_us=3936619 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=28381 primary_confirmed_jobs=3005 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=60 elapsed_ms=93410 peak_rss_kib=16588
+load round 61
+audit_metric round=61 elapsed_us=95217960 cpu_us=3125000 rss_kib=16136 pending=0 errors=0 wave_jobs=48 sql_operations=28770 p50_us=1409381 p95_us=1757772 p99_us=1773548 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=28846 primary_confirmed_jobs=3054 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=61 elapsed_ms=95218 peak_rss_kib=16588
+load round 62
+audit_metric round=62 elapsed_us=96227024 cpu_us=3171875 rss_kib=16156 pending=0 errors=0 wave_jobs=48 sql_operations=29234 p50_us=489107 p95_us=916207 p99_us=963566 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=29311 primary_confirmed_jobs=3103 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=62 elapsed_ms=96227 peak_rss_kib=16588
+load round 63
+audit_metric round=63 elapsed_us=97226963 cpu_us=3218750 rss_kib=16156 pending=0 errors=0 wave_jobs=48 sql_operations=29698 p50_us=508543 p95_us=904851 p99_us=952340 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=29776 primary_confirmed_jobs=3152 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=63 elapsed_ms=97227 peak_rss_kib=16588
+load round 64
+audit_metric round=64 elapsed_us=98540660 cpu_us=3234375 rss_kib=16128 pending=0 errors=0 wave_jobs=48 sql_operations=30162 p50_us=459476 p95_us=1203018 p99_us=1266492 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=30241 primary_confirmed_jobs=3201 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+load_sample round=64 elapsed_ms=99016 peak_rss_kib=16588
+load round 65
+audit_metric round=65 elapsed_us=100421698 cpu_us=3265625 rss_kib=16288 pending=0 errors=0 wave_jobs=48 sql_operations=30627 p50_us=789589 p95_us=1328109 p99_us=1359660 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=30713 primary_confirmed_jobs=3257 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=65 elapsed_ms=100421 peak_rss_kib=16588
+load round 66
+audit_metric round=66 elapsed_us=102208208 cpu_us=3296875 rss_kib=16288 pending=0 errors=0 wave_jobs=48 sql_operations=31091 p50_us=871661 p95_us=1693839 p99_us=1741069 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=31178 primary_confirmed_jobs=3306 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=66 elapsed_ms=102208 peak_rss_kib=16588
+load round 67
+audit_metric round=67 elapsed_us=103838376 cpu_us=3343750 rss_kib=16300 pending=0 errors=0 wave_jobs=48 sql_operations=31555 p50_us=414252 p95_us=1552797 p99_us=1568632 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=31643 primary_confirmed_jobs=3355 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=67 elapsed_ms=103838 peak_rss_kib=16588
+load round 68
+audit_metric round=68 elapsed_us=105325947 cpu_us=3375000 rss_kib=16300 pending=0 errors=0 wave_jobs=48 sql_operations=32019 p50_us=840143 p95_us=1378365 p99_us=1425670 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=32108 primary_confirmed_jobs=3404 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=68 elapsed_ms=105325 peak_rss_kib=16588
+load round 69
+audit_metric round=69 elapsed_us=152441597 cpu_us=3687500 rss_kib=16288 pending=0 errors=0 wave_jobs=48 sql_operations=32483 p50_us=20586461 p95_us=45579123 p99_us=47049902 descriptors_or_handles=209 threads=6 peak_rss_kib=16588 primary_sql_commands=32573 primary_confirmed_jobs=3453 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=69 elapsed_ms=152441 peak_rss_kib=16588
+load_sql_operations=32483 load_rounds=70 minimum_seconds=120 load_elapsed_us=152441683 lanes=4 peak_rss_kib=16588
+audit_resource point=after_load_engine_destroyed cpu_us=3734375 rss_kib=15672 peak_rss_kib=16588 descriptors_or_handles=191 threads=2
+lifecycle round 0 action 0 peak_rss_kib=16588
+lifecycle round 1 action 1 peak_rss_kib=16588
+lifecycle round 2 action 2 peak_rss_kib=16692
+lifecycle round 3 action 3 peak_rss_kib=16692
+lifecycle round 4 action 4 peak_rss_kib=16692
+lifecycle round 5 action 0 peak_rss_kib=16692
+lifecycle round 6 action 1 peak_rss_kib=16692
+lifecycle round 7 action 2 peak_rss_kib=16692
+lifecycle round 8 action 3 peak_rss_kib=16692
+lifecycle round 9 action 4 peak_rss_kib=16692
+audit_resource point=after_lifecycle_engines_destroyed cpu_us=3828125 rss_kib=15996 peak_rss_kib=16692 descriptors_or_handles=191 threads=2
+44744 stress checks passed peak_rss_final_kib=16692
+<end of output>
+Test time = 161.47 sec
+----------------------------------------------------------
+Test Passed.
+"stress_integration" end time: Oct 24 18:59 Coordinated Universal Time
+"stress_integration" time elapsed: 00:02:41
+----------------------------------------------------------
+
+21/25 Testing: connection_lifecycle_integration
+21/25 Test: connection_lifecycle_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_connection_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"connection_lifecycle_integration" start time: Oct 24 18:59 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+connection_rounds=10 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+connection round 1 immediate create
+connection round 1 immediate destroy
+connection round 1 ready create
+connection round 1 ready destroy
+connection round 1 disconnect during startup
+connection round 1 disconnected destroy
+connection round 1 failed connection retry
+connection round 1 retry destroy
+connection round 1 complete
+connection round 2 immediate create
+connection round 2 immediate destroy
+connection round 2 ready create
+connection round 2 ready destroy
+connection round 2 disconnect during startup
+connection round 2 disconnected destroy
+connection round 2 failed connection retry
+connection round 2 retry destroy
+connection round 2 complete
+connection round 3 immediate create
+connection round 3 immediate destroy
+connection round 3 ready create
+connection round 3 ready destroy
+connection round 3 disconnect during startup
+connection round 3 disconnected destroy
+connection round 3 failed connection retry
+connection round 3 retry destroy
+connection round 3 complete
+connection round 4 immediate create
+connection round 4 immediate destroy
+connection round 4 ready create
+connection round 4 ready destroy
+connection round 4 disconnect during startup
+connection round 4 disconnected destroy
+connection round 4 failed connection retry
+connection round 4 retry destroy
+connection round 4 complete
+connection round 5 immediate create
+connection round 5 immediate destroy
+connection round 5 ready create
+connection round 5 ready destroy
+connection round 5 disconnect during startup
+connection round 5 disconnected destroy
+connection round 5 failed connection retry
+connection round 5 retry destroy
+connection round 5 complete
+connection round 6 immediate create
+connection round 6 immediate destroy
+connection round 6 ready create
+connection round 6 ready destroy
+connection round 6 disconnect during startup
+connection round 6 disconnected destroy
+connection round 6 failed connection retry
+connection round 6 retry destroy
+connection round 6 complete
+connection round 7 immediate create
+connection round 7 immediate destroy
+connection round 7 ready create
+connection round 7 ready destroy
+connection round 7 disconnect during startup
+connection round 7 disconnected destroy
+connection round 7 failed connection retry
+connection round 7 retry destroy
+connection round 7 complete
+connection round 8 immediate create
+connection round 8 immediate destroy
+connection round 8 ready create
+connection round 8 ready destroy
+connection round 8 disconnect during startup
+connection round 8 disconnected destroy
+connection round 8 failed connection retry
+connection round 8 retry destroy
+connection round 8 complete
+connection round 9 immediate create
+connection round 9 immediate destroy
+connection round 9 ready create
+connection round 9 ready destroy
+connection round 9 disconnect during startup
+connection round 9 disconnected destroy
+connection round 9 failed connection retry
+connection round 9 retry destroy
+connection round 9 complete
+340 connection lifecycle checks passed
+<end of output>
+Test time =   2.13 sec
+----------------------------------------------------------
+Test Passed.
+"connection_lifecycle_integration" end time: Oct 24 18:59 Coordinated Universal Time
+"connection_lifecycle_integration" time elapsed: 00:00:02
+----------------------------------------------------------
+
+22/25 Testing: connection_stalls_integration
+22/25 Test: connection_stalls_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_connection_stall_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"connection_stalls_integration" start time: Oct 24 18:59 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+stall_lanes=4 libpq=170011 pointer_bytes=4
+stall ssl timeout start
+stall ssl timeout destroy
+stall ssl timeout complete
+stall ssl disconnect start
+stall ssl disconnect destroy
+stall ssl disconnect complete
+stall ssl unload start
+stall ssl unload destroy
+stall ssl unload complete
+stall ssl destroy start
+stall ssl destroy destroy
+stall ssl destroy complete
+stall tls timeout start
+stall tls timeout destroy
+stall tls timeout complete
+stall tls disconnect start
+stall tls disconnect destroy
+stall tls disconnect complete
+stall tls unload start
+stall tls unload destroy
+stall tls unload complete
+stall tls destroy start
+stall tls destroy destroy
+stall tls destroy complete
+stall startup timeout start
+stall startup timeout destroy
+stall startup timeout complete
+stall startup disconnect start
+stall startup disconnect destroy
+stall startup disconnect complete
+stall startup unload start
+stall startup unload destroy
+stall startup unload complete
+stall startup destroy start
+stall startup destroy destroy
+stall startup destroy complete
+192 stalled connection checks passed
+<end of output>
+Test time =   7.65 sec
+----------------------------------------------------------
+Test Passed.
+"connection_stalls_integration" end time: Oct 24 18:59 Coordinated Universal Time
+"connection_stalls_integration" time elapsed: 00:00:07
+----------------------------------------------------------
+
+23/25 Testing: sql_sections_unit
+23/25 Test: sql_sections_unit
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_sql_section_tests.exe"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"sql_sections_unit" start time: Oct 24 18:59 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+accounts.sql:3:1: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:3:3: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:2:4: Malformed SQL section declaration; expected '-- name: identifier' (also '--name:identifier')
+accounts.sql:1:1: Empty SQL section 'empty'; add one SQL statement after the declaration
+accounts.sql:4:11: SQL section must contain exactly one statement in section 'other'; remove the extra statement or semicolon
+accounts.sql:2:14: SQL section must contain exactly one statement in section 'x'; remove the extra statement or semicolon
+accounts.sql:2:8: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql:2:9: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql:2:8: Unterminated SQL quoted identifier in section 'x'; close the opening quote
+accounts.sql:2:8: Unterminated SQL dollar quote in section 'x'; close with the matching dollar delimiter
+accounts.sql:2:11: Unterminated SQL block comment in section 'x'; close with '*/'
+accounts.sql:1:3: SQL content before first section; add '-- name: identifier' before SQL
+4283 SQL section checks passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"sql_sections_unit" end time: Oct 24 18:59 Coordinated Universal Time
+"sql_sections_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/25 Testing: sql_sections_integration
+24/25 Test: sql_sections_integration
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_sql_section_tests.exe" "--integration"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"sql_sections_integration" start time: Oct 24 18:59 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+354 SQL section checks passed
+<end of output>
+Test time =   2.75 sec
+----------------------------------------------------------
+Test Passed.
+"sql_sections_integration" end time: Oct 24 18:59 Coordinated Universal Time
+"sql_sections_integration" time elapsed: 00:00:02
+----------------------------------------------------------
+
+25/25 Testing: engine_benchmark_smoke
+25/25 Test: engine_benchmark_smoke
+Command: "D:/a/omp-postgresql/omp-postgresql/build-msvc32/Release/pg_engine_benchmark.exe" "41" "2"
+Directory: D:/a/omp-postgresql/omp-postgresql/build-msvc32
+"engine_benchmark_smoke" start time: Oct 24 18:59 Coordinated Universal Time
+Output:
+----------------------------------------------------------
+# commit=3f14c78508fd57506752cf52b5d2a1016e50d926 source_tree=dirty configuration=Release compiler=MSVC-19.51.36260.0 sanitize=OFF pointer_bits=32 os=Windows libpq=170011 PostgreSQL=17.11 ssl=true tls=TLSv1.3 pool=4 window=32 group=20 stream_rows=128 warmup=1 order_seed=902 network=service-defined RTT=unmeasured
+mode,repetition,rows,sql_commands,jobs,sql_text_bytes,parameter_value_bytes,total_us,rows_per_second,job_p50_us,job_p95_us,job_p99_us,queue_p50_us,queue_p95_us,queue_p99_us,execution_p50_us,execution_p95_us,execution_p99_us,process_cpu_us,process_peak_kib
+section1024_snapshots20,1,41,41,3,3895,73,109390,374.81,109333,109333,109333,59154,105322,105322,46167,59156,59156,0,16312
+section128,1,41,41,41,3895,73,126081,325.19,62711,95033,95155,51160,77762,81450,2562,3688,4734,15625,16312
+individual,1,41,41,41,3813,73,111030,369.27,63437,95011,95088,48330,78217,80252,2230,4249,5454,0,16312
+individual4,1,41,41,41,3813,73,62942,651.39,31102,46898,47093,21276,34539,34542,4169,8472,8504,0,16312
+section1,1,41,41,41,3895,73,157682,260.02,62862,126480,142332,51402,119724,125818,2324,6038,33738,15625,16312
+unnest20,1,41,3,3,381,117,15922,2575.05,15887,15902,15902,2644,4713,4713,2069,2641,2641,0,16312
+snapshots20,1,41,41,3,3813,73,110667,370.48,110605,110606,110606,49031,99945,99945,49032,50914,50914,0,16312
+buffered,1,41,1,1,65,0,15777,2598.72,15760,15760,15760,18,18,18,560,560,560,0,16312
+heterogeneous20,1,41,41,3,3813,73,94865,432.19,94785,94786,94786,48369,91557,91557,43187,48380,48380,0,16312
+streaming,1,41,1,1,65,0,15894,2579.59,15881,15881,15881,13,13,13,494,494,494,0,16312
+file,1,41,41,41,3813,73,110561,370.84,63016,79387,79389,47265,72801,76076,2174,3121,5211,0,16312
+section1024,1,41,41,41,3895,73,220838,185.66,109839,158420,173272,103856,150227,155828,3144,19773,25488,15625,16412
+file_snapshots20,1,41,41,3,3813,73,171191,239.50,171132,171132,171132,119307,160806,160806,41497,119307,119307,0,16412
+snapshots20,2,41,41,3,3813,73,126590,323.88,126493,126496,126496,44341,113179,113179,44343,68837,68837,0,16412
+individual,2,41,41,41,3813,73,174022,235.60,110762,142106,157911,106685,136315,140408,2056,3751,69307,0,16412
+buffered,2,41,1,1,65,0,15775,2599.05,15762,15762,15762,17,17,17,588,588,588,0,16412
+file,2,41,41,41,3813,73,205208,199.80,157597,189755,189756,153794,178281,181062,2328,4027,101100,15625,16412
+section1,2,41,41,41,3895,73,110382,371.44,62744,94881,95151,47633,81544,85923,2226,5399,6859,0,16412
+heterogeneous20,2,41,41,3,3813,73,126808,323.32,112704,126709,126709,58911,111804,111804,52893,58954,58954,0,16412
+section128,2,41,41,41,3895,73,126535,324.02,62835,95316,95813,54308,80440,82615,2359,3889,8002,15625,16412
+section1024,2,41,41,41,3895,73,188930,217.01,109639,157154,158252,98462,141211,144122,2912,3918,52422,46875,16412
+streaming,2,41,1,1,65,0,15815,2592.48,15797,15797,15797,16,16,16,459,459,459,0,16412
+individual4,2,41,41,41,3813,73,63443,646.25,31224,47036,47688,18888,29870,31606,4316,6052,6354,0,16412
+unnest20,2,41,3,3,381,117,13631,3007.85,13596,13610,13610,2544,4694,4694,2151,2540,2540,0,16412
+file_snapshots20,2,41,41,3,3813,73,93951,436.40,93887,93887,93887,44798,87278,87278,42479,44799,44799,0,16412
+section1024_snapshots20,2,41,41,3,3895,73,109702,373.74,93857,109650,109650,47600,93045,93045,45444,47601,47601,0,16412
+<end of output>
+Test time =   6.60 sec
+----------------------------------------------------------
+Test Passed.
+"engine_benchmark_smoke" end time: Oct 24 18:59 Coordinated Universal Time
+"engine_benchmark_smoke" time elapsed: 00:00:06
+----------------------------------------------------------
+
+End testing: Oct 24 18:59 Coordinated Universal Time
+
+audit =   3.26 sec*proc
+
+benchmark =  13.72 sec*proc
+
+fuzz =   0.27 sec*proc
+
+stress = 174.24 sec*proc
+

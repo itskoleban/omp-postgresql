@@ -47,6 +47,7 @@ forward bool:FixtureCancel(job);
 #undef pg_cancel
 #undef bcrypt_hash
 #undef bcrypt_verify
+#include "lane_diagnostics.inc"
 
 stock Snapshot(const event[], playerid) {
 	printf("QA event=%s p=%d connected=%d npc=%d token=%d state=%d job=%d account=%d score=%d ready=%d",
@@ -55,11 +56,14 @@ stock Snapshot(const event[], playerid) {
 }
 
 public OnGameModeInit() {
-	pg_log_config(PG_LOG_OFF);
+	pg_log_config(PG_LOG_DEBUG);
 	printf("QA event=init counter=%d", GetSVarInt(TOKEN_COUNTER));
-	return AccountInit();
+	new result = AccountInit();
+	StartLaneDiagnostics(Database, 1);
+	return result;
 }
 public OnGameModeExit() {
+	StopLaneDiagnostics();
 	printf("QA event=exit");
 	return AccountExit();
 }

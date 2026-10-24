@@ -69,6 +69,8 @@ jobs:
                   python3 tests/run_postgres.py --build build --doc-sql
             - name: Verify package, fault fixture, and CTest qualification regressions
               run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+            - name: Enforce English maintenance and preserve historical exceptions
+              run: python3 scripts/check_english.py
             - name: Compile all Pawn examples with warnings treated as errors
               run: |
                   cmake -S build/_deps/pawn-src/source/compiler -B build-pawn -G Ninja \

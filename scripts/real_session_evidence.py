@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+from datetime import datetime, timedelta
 
 
 PROFILE = "local-paths-v1"
@@ -23,6 +24,48 @@ PRIVATE_MARKERS = re.compile(
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def timeline_records(data):
+    """Validate the fixture's deliberately payload-free, ordered JSONL records."""
+    labels = {"event", "case", "status", "server", "observed", "name", "sqlstate"}
+    numbers = {"monotonic_ns", "pid", "udp_port", "exit_code", "account", "callback_job",
+               "callback_token", "closed", "connected", "forwarded", "job", "npc", "p",
+               "ready", "state", "success", "token", "lane", "tick_ms", "attempts",
+               "pending", "active", "load", "clan", "save", "property", "request"}
+
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("Duplicate timeline field")
+            result[key] = value
+        return result
+
+    records = []
+    for line in data.decode("utf8").splitlines():
+        record = json.loads(line, object_pairs_hook=unique_object)
+        if not isinstance(record, dict) or not {"utc", "monotonic_ns", "event"} <= record.keys():
+            raise ValueError("Timeline record lacks clock/event identity")
+        if set(record) - labels - numbers - {"utc"}:
+            raise ValueError("Unexpected timeline field; payloads and secrets are forbidden")
+        if not isinstance(record["utc"], str) or datetime.fromisoformat(record["utc"].replace("Z", "+00:00")).utcoffset() != timedelta(0):
+            raise ValueError("Timeline clock must be UTC")
+        for key, value in record.items():
+            # Server observations use numeric PG status codes; case outcomes use
+            # text in the same field. Preserve both without coercing their types.
+            if key == "status" and type(value) is int:
+                continue
+            if key in labels and (not isinstance(value, str) or not re.fullmatch(r"[A-Za-z0-9_ -]{0,80}", value)):
+                raise ValueError("Timeline labels must not contain paths or private payloads")
+            if key in numbers and not (type(value) is int or (key == "exit_code" and value is None)):
+                raise ValueError("Timeline numeric identity has an invalid type")
+        if record["monotonic_ns"] < 0:
+            raise ValueError("Invalid monotonic timeline clock")
+        if PRIVATE_MARKERS.search(json.dumps(record,ensure_ascii=False).encode("utf8")):
+            raise ValueError("Sensitive timeline content")
+        records.append(record)
+    return records
 
 
 def neutral_windows_path(value):
@@ -95,6 +138,11 @@ def sanitize_text(value):
 
 def sanitized_bytes(data, suffix):
     counts = Counter()
+    if suffix == ".jsonl":
+        # Valid records have no free-form payload/path fields. Preserve even their
+        # original formatting and line endings; secret markers are checked below.
+        timeline_records(data)
+        return data, {}
     if suffix == ".json":
         original = json.loads(data)
 
@@ -126,6 +174,8 @@ def sanitized_bytes(data, suffix):
 
 def outcome_summary(path, data):
     """Only observations, never environment paths, for preservation checks."""
+    if path.suffix == ".jsonl":
+        return timeline_records(data)
     if path.suffix == ".json":
         value = json.loads(data)
         if isinstance(value, dict) and "results" in value:
@@ -166,7 +216,7 @@ def publish(source, destination, *, original_commit=None, original_ledger=None):
         (destination / "original-sha256.json").write_bytes(ledger_bytes)
     else:
         paths = sorted(p for p in source.rglob("*") if p.is_file() and
-                       (p.name in ("results.json", "server-output.txt", "client-output.txt", "client-build.json") or
+                       (p.name in ("results.json", "timeline.jsonl", "server-output.txt", "client-output.txt", "client-build.json") or
                         (p.parent == source and p.name.startswith("postgres-") and p.suffix == ".txt")))
         ledger_bytes = None
     ledger = []

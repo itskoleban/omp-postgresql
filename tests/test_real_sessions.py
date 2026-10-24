@@ -5,12 +5,40 @@ import unittest
 import json
 import tempfile
 from unittest.mock import patch
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).parent))
-from run_real_sessions import parse_events, Suite
+from run_real_sessions import parse_events, Suite, Server
 
 
 class RealSessionEvidenceTests(unittest.TestCase):
+    def test_zero_exit_does_not_hide_pawn_stack_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            server = Server.__new__(Server)
+            server.root = Path(directory)
+            server.log_path = server.root/"server-output.txt"
+            server.log_path.write_text("[Error] Stack/heap collision (insufficient stack size)\n")
+            server.log = server.log_path.open("ab")
+            server.clients = []
+            server.proc = SimpleNamespace(returncode=0, pid=42, poll=lambda:0)
+            server.suite = SimpleNamespace(password="fixture-password", wrong="fixture-wrong", trace=lambda *a,**k:None)
+            with self.assertRaisesRegex(AssertionError, "Pawn VM runtime error"):
+                server.close()
+
+    def test_timeline_records_clock_and_process_identity_without_payloads(self):
+        with tempfile.TemporaryDirectory() as directory:
+            suite = Suite.__new__(Suite)
+            suite.output = Path(directory)
+            suite.password = "fixture-password"
+            suite.wrong = "fixture-wrong"
+            suite.trace("server_started", server="custom-load", pid=42, udp_port=1234)
+            suite.trace("event_failed", server="custom-load", pid=42, exit_code=None)
+            rows = [json.loads(line) for line in (suite.output/"timeline.jsonl").read_text().splitlines()]
+            self.assertEqual([row["event"] for row in rows], ["server_started", "event_failed"])
+            self.assertLessEqual(rows[0]["monotonic_ns"], rows[1]["monotonic_ns"])
+            self.assertTrue(all(row["utc"].endswith("+00:00") and row["pid"] == 42 for row in rows))
+            self.assertNotIn("command", rows[0])
+
     def test_initial_source_and_binary_identity_are_not_rebound(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)

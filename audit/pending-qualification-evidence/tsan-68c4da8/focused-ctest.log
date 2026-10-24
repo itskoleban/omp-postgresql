@@ -1,0 +1,16 @@
+Internal ctest changing into directory: <TMP>/pr28-followup/ctest
+Test project <TMP>/pr28-followup/ctest
+    Start 1: worker_site_counter_isolation
+1/5 Test #1: worker_site_counter_isolation ........   Passed    0.08 sec
+    Start 2: worker_site_allocation_integration
+2/5 Test #2: worker_site_allocation_integration ...   Passed    0.33 sec
+    Start 3: worker_site_requires_recovery
+3/5 Test #3: worker_site_requires_recovery ........   Passed    0.38 sec
+    Start 4: worker_site_requires_shutdown
+4/5 Test #4: worker_site_requires_shutdown ........   Passed    0.45 sec
+    Start 5: tsan_detector_control
+5/5 Test #5: tsan_detector_control ................   Passed    0.66 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =   1.91 sec

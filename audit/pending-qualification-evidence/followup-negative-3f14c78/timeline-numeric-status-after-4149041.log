@@ -1,0 +1,11 @@
+test_ci_finally_publishes_timeline_and_preserves_failure_exit (test_timeline_evidence.TimelineEvidenceTests.test_ci_finally_publishes_timeline_and_preserves_failure_exit) ... ok
+test_event_order_clock_and_outcomes_are_fingerprinted (test_timeline_evidence.TimelineEvidenceTests.test_event_order_clock_and_outcomes_are_fingerprinted) ... ok
+test_observed_numeric_status_and_text_case_result_keep_their_types (test_timeline_evidence.TimelineEvidenceTests.test_observed_numeric_status_and_text_case_result_keep_their_types) ... ok
+test_rejects_secret_payloads_and_duplicate_fields_without_editing_original (test_timeline_evidence.TimelineEvidenceTests.test_rejects_secret_payloads_and_duplicate_fields_without_editing_original) ... ok
+test_success_failure_readiness_tls_and_process_exit_keep_timelines (test_timeline_evidence.TimelineEvidenceTests.test_success_failure_readiness_tls_and_process_exit_keep_timelines) ... ok
+test_timeline_observation_change_is_detected_after_rehashing_bytes (test_timeline_evidence.TimelineEvidenceTests.test_timeline_observation_change_is_detected_after_rehashing_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.312s
+
+OK
