@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <new>
 #include <thread>
+#include <string_view>
 #ifdef __linux__
 #include <execinfo.h>
 #include <unistd.h>
@@ -23,8 +24,26 @@ std::atomic<bool> deny_worker{false};
 // every allocator interceptor. These faults model these sites, not global OOM.
 namespace {
 std::atomic<unsigned> interrupted_faults{0}, message_faults{0};
+std::atomic<bool> site_injection_enabled{true};
+std::string_view omitted_scenario;
+struct FaultCounts { unsigned interrupted, message, denied; };
+FaultCounts fault_counts() {
+    return {interrupted_faults.load(), message_faults.load(), denied_allocations.load()};
+}
+bool scenario_covered(FaultCounts before, FaultCounts after) {
+    return after.interrupted >= before.interrupted + 1 &&
+           after.message >= before.message + 2 && after.denied >= before.denied + 3;
+}
+bool counter_isolation_control() {
+    // Earlier or excess injections cannot satisfy another scenario's delta.
+    const FaultCounts prior{8, 16, 24};
+    return !scenario_covered(prior, prior) &&
+           !scenario_covered(prior, {8, 30, 38}) &&
+           !scenario_covered(prior, {20, 17, 37}) &&
+           scenario_covered(prior, {9, 18, 27});
+}
 void allocation_checkpoint(const char *site) {
-    if (!deny_worker.load() || std::this_thread::get_id() == main_thread) return;
+    if (!deny_worker.load() || !site_injection_enabled.load() || std::this_thread::get_id() == main_thread) return;
     if (site[0] == 'i') interrupted_faults.fetch_add(1);
     else message_faults.fetch_add(1);
     denied_allocations.fetch_add(1);
@@ -70,6 +89,11 @@ template<class F> void until(pg::Engine &e, F condition) {
     }
 }
 void run(const char *service, bool shutdown) {
+#if PG_TEST_ALLOCATIONS == 2
+    const auto before = fault_counts();
+    const auto scenario = shutdown ? "shutdown" : "recovery";
+    site_injection_enabled.store(omitted_scenario != scenario);
+#endif
     pg::Engine e;
     auto c = e.connect(owner, service, 1);
     until(e, [&]{ return e.connection(owner,c).state() == pg::State::connected; });
@@ -99,7 +123,8 @@ void run(const char *service, bool shutdown) {
     PQfinish(observer);
     auto queued_id=e.query(owner,c,"SELECT 42",0,0,0,true);
     auto queued=e.job(owner,queued_id);
-    // No C++ allocations are permitted in any worker until shutdown completes.
+    // Global-denial builds reject worker allocations; site builds throw only at
+    // the named checkpoints. Neither mode models allocation failure inside libpq.
     deny_worker.store(true);
     if(shutdown) e.disconnect(owner,c);
     else active->cancel.store(true);
@@ -145,12 +170,37 @@ void run(const char *service, bool shutdown) {
     }
     deny_worker.store(false);
     check(e.poll().jobs.empty(),"late duplicated completion");
+#if PG_TEST_ALLOCATIONS == 2
+    const auto after = fault_counts();
+    std::printf("site_faults scenario=%s interrupted=%u terminal_message=%u denied=%u\n",
+                scenario, after.interrupted-before.interrupted, after.message-before.message,
+                after.denied-before.denied);
+    std::fflush(stdout);
+    if (!scenario_covered(before, after))
+        throw std::runtime_error(std::string("Missing scenario checkpoints: ")+scenario);
+    check(active->error == pg::Error::internal,
+          "Injected allocation exception lost its structured internal error");
+#endif
     std::printf("worker_recovery PASS allocation_injection=%s mode=%s active_status=%d queued_status=%d callbacks=2\n",
                 PG_TEST_ALLOCATIONS == 2 ? "SITE(TSan)" : PG_TEST_ALLOCATIONS ? "ON" : "OFF(TSan)",
                 shutdown?"shutdown":"recover",int(active->status.load()),int(queued->status.load()));
 }
 }
-int main() {
+int main(int argc, char **argv) {
+#if PG_TEST_ALLOCATIONS == 2
+    if (argc == 2 && std::string_view(argv[1]) == "--check-counter-isolation") {
+        if (!counter_isolation_control()) return 1;
+        std::puts("Scenario counter isolation: missing and compensating injections rejected");
+        return 0;
+    }
+    if (argc == 3 && std::string_view(argv[1]) == "--omit-sites" &&
+        (std::string_view(argv[2]) == "recovery" || std::string_view(argv[2]) == "shutdown"))
+        omitted_scenario = argv[2];
+    else if (argc != 1) return 2;
+#else
+    (void)argc;
+    (void)argv;
+#endif
 #ifdef __linux__
     // Warm the unwinder before denying allocations; trace emission uses no C++ allocation.
     void *frames[1];
@@ -162,12 +212,6 @@ int main() {
         run(service,false);run(service,true);
         check(!PG_TEST_ALLOCATIONS || denied_allocations.load()>0,
               "Allocator denial was configured but never exercised");
-#if PG_TEST_ALLOCATIONS == 2
-        check(interrupted_faults.load() >= 2 && message_faults.load() >= 4,
-              "Both recovery/shutdown allocation sites must fail");
-        std::printf("site_faults interrupted=%u terminal_message=%u\n",
-                    interrupted_faults.load(), message_faults.load());
-#endif
         std::printf("worker denied_allocations=%u\n",denied_allocations.load());
         return 0;
     }

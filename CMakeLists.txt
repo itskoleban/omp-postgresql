@@ -192,6 +192,14 @@ if(BUILD_TESTING)
         add_test(NAME libpq_windows_mutex_unit COMMAND pg_libpq_mutex_tests)
         set_tests_properties(libpq_windows_mutex_unit PROPERTIES TIMEOUT 15)
         find_package(Python3 REQUIRED COMPONENTS Interpreter)
+        add_test(NAME worker_site_counter_isolation COMMAND pg_worker_allocation --check-counter-isolation)
+        foreach(scenario recovery shutdown)
+            add_test(NAME worker_site_requires_${scenario} COMMAND ${Python3_EXECUTABLE}
+                     ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_worker_faults.py
+                     $<TARGET_FILE:pg_worker_allocation> ${scenario})
+            set_tests_properties(worker_site_requires_${scenario} PROPERTIES TIMEOUT 30)
+        endforeach()
+        set_tests_properties(worker_site_counter_isolation PROPERTIES TIMEOUT 30)
         add_test(
             NAME libpq_process_startup_integration
             COMMAND
