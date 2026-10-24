@@ -94,10 +94,28 @@ void run(const char *service, bool shutdown) {
     }
     check(active->status.load()==pg::Status::uncertain && active->completed==0,
           "OOM/cancel after dispatch falsely confirmed SQL");
+    check(active->items_status == std::vector{pg::ItemStatus::uncertain},
+          "OOM after dispatch lost uncertain item metadata");
+    check(queued->status.load() == (shutdown ? pg::Status::cancelled : pg::Status::failed) &&
+          queued->error == (shutdown ? pg::Error::cancelled : pg::Error::connection),
+          "Queued job lost pre-dispatch cause or state");
     check(queued->status.load()!=(pg::Status::confirmed) && queued->completed==0,
           "Queued SQL was dispatched or replayed after the interrupted session");
     check(active_deliveries==1 && queued_deliveries==1,"missing or duplicate terminal callback");
-    if(!shutdown) e.disconnect(owner,c);
+    check(e.connection(owner,c).lanes.at(0)->snapshot().sql_commands==2,
+          "Queued SQL was replayed during allocation failure");
+    if(!shutdown) {
+        deny_worker.store(false);
+        until(e,[&]{return e.connection(owner,c).state()==pg::State::connected;});
+        auto recovery=e.job(owner,e.query(owner,c,"SELECT 42",0,0,0,false));
+        until(e,[&]{return recovery->delivered;});
+        check(recovery->status.load()==pg::Status::confirmed &&
+              recovery->results.at(0).rows.at(0).at(0)=="42",
+              "Explicit new SQL did not recover after allocator restoration");
+        e.close_job(owner,recovery->id);
+        deny_worker.store(true);
+        e.disconnect(owner,c);
+    }
     auto stopped_deadline=pg::Clock::now()+std::chrono::seconds(10);
     while(!e.connection(owner,c).lanes.at(0)->stopped.load()) {
         check(pg::Clock::now()<stopped_deadline,"worker shutdown under OOM stalled");

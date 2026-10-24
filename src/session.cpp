@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cerrno>
 #include <limits>
+#include <string_view>
 #ifdef _WIN32
 #include <winsock2.h>
 #else
@@ -34,6 +35,16 @@ std::string field(PGresult *r, int key) {
 }
 
 void quiet_notice(void *, const char *) {}
+
+// Error reporting must not prevent publication when the allocator is exhausted.
+// Structured status/error/item metadata remains authoritative if text cannot be copied.
+void terminal_message(Job &job, std::string_view message) noexcept {
+    try {
+        job.message.assign(message.data(), message.size());
+    } catch (...) {
+        job.message.clear();
+    }
+}
 
 bool valid_savepoint(const std::string &name) {
 	if (name.empty() || name.size() > 63) {
@@ -674,6 +685,32 @@ void Lane::run() {
 		}
 		return false;
 	};
+    // Reuse accepted jobs one by one. Constructing even an empty deque here can
+    // allocate, including after the outer exception handler during final shutdown.
+    auto settle_queued = [&](Status status, Error error, std::string_view message) {
+        for (;;) {
+            std::shared_ptr<Job> pending;
+            {
+                std::lock_guard lock(mutex_);
+                if (queue_.empty()) break;
+                pending = std::move(queue_.front());
+                queue_.pop_front();
+                queued_jobs_.fetch_sub(1, std::memory_order_relaxed);
+            }
+            pending->error = error;
+            terminal_message(*pending, message);
+            if (status == Status::cancelled)
+                std::fill(pending->items_status.begin(), pending->items_status.end(),
+                          ItemStatus::cancelled);
+            pending->completed_at = Clock::now();
+            pending->queue_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                pending->completed_at - pending->accepted_at).count();
+            record_completion(*pending, status);
+            pending->status.store(status);
+            completed_.push(pending);
+        }
+    };
+
 	try {
 		connected = recover();
 		for (;;) {
@@ -717,7 +754,7 @@ void Lane::run() {
 					}
 				}
 				job->error = Error::cancelled;
-				job->message = "Cancelled before dispatch";
+				terminal_message(*job, "Cancelled before dispatch");
 				std::fill(job->items_status.begin(), job->items_status.end(),
 				          ItemStatus::cancelled);
 				record_completion(*job, Status::cancelled);
@@ -741,7 +778,7 @@ void Lane::run() {
 				execute(*job);
 			} catch (const Failure &e) {
 				job->error = e.code;
-				job->message = e.detail;
+				terminal_message(*job, e.detail);
 				const bool interrupted = e.code == Error::connection || e.code == Error::timeout ||
 				                         e.code == Error::limit || e.code == Error::cancelled ||
 				                         e.code == Error::internal;
@@ -776,7 +813,7 @@ void Lane::run() {
 				}
 			} catch (...) {
 				job->error = Error::internal;
-				job->message = "Worker failure";
+				terminal_message(*job, "Worker failure");
 				status = query_dispatched_ && !sql_confirmed_ ? Status::uncertain : Status::failed;
 				if (job->error_index >= 0 &&
 				    static_cast<std::size_t>(job->error_index) < job->items_status.size()) {
@@ -810,23 +847,7 @@ void Lane::run() {
 			if (!connected && !stop_.load()) {
 				state.store(State::reconnecting);
 				// Existing queued jobs must not silently execute in a new session.
-				std::deque<std::shared_ptr<Job>> failed;
-				{
-					std::lock_guard lock(mutex_);
-					failed.swap(queue_);
-					queued_jobs_.fetch_sub(failed.size(), std::memory_order_relaxed);
-				}
-				for (auto &pending : failed) {
-					pending->error = Error::connection;
-					pending->message = "Not dispatched: session interrupted";
-					pending->completed_at = Clock::now();
-					pending->queue_us = std::chrono::duration_cast<std::chrono::microseconds>(
-					                        pending->completed_at - pending->accepted_at)
-					                        .count();
-					record_completion(*pending, Status::failed);
-					pending->status.store(Status::failed);
-					completed_.push(pending);
-				}
+                settle_queued(Status::failed, Error::connection, "Not dispatched: session interrupted");
 				connected = recover();
 			}
 		}
@@ -835,24 +856,7 @@ void Lane::run() {
 		log(LogEvent::worker_failed);
 	}
 	drop();
-	std::deque<std::shared_ptr<Job>> abandoned;
-	{
-		std::lock_guard lock(mutex_);
-		abandoned.swap(queue_);
-		queued_jobs_.fetch_sub(abandoned.size(), std::memory_order_relaxed);
-	}
-	for (auto &job : abandoned) {
-		job->error = Error::cancelled;
-		job->message = "Worker stopped before dispatch";
-		std::fill(job->items_status.begin(), job->items_status.end(), ItemStatus::cancelled);
-		job->completed_at = Clock::now();
-		job->queue_us = std::chrono::duration_cast<std::chrono::microseconds>(job->completed_at -
-		                                                                      job->accepted_at)
-		                    .count();
-		record_completion(*job, Status::cancelled);
-		job->status.store(Status::cancelled);
-		completed_.push(job);
-	}
+    settle_queued(Status::cancelled, Error::cancelled, "Worker stopped before dispatch");
 	state.store(State::disconnected);
 	log(LogEvent::lane_stopped);
 	stopped.store(true);
