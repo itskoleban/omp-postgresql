@@ -85,6 +85,31 @@ class TimelineEvidenceTests(unittest.TestCase):
             other=("\n".join(json.dumps(row) for row in modified)+"\n").encode()
             self.assertNotEqual(original,observation_hash(Path("timeline.jsonl"),other))
 
+    def test_observed_numeric_status_and_text_case_result_keep_their_types(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);source=root/"raw";source.mkdir();suite=self.suite(source)
+            server=Server.__new__(Server);server.suite=suite;server.root=source/"uncertain"
+            server.root.mkdir();server.log_path=server.root/"server-output.txt"
+            server.log_path.write_text("QA event=result status=4\n")
+            server.proc=SimpleNamespace(pid=42,poll=lambda:None)
+            suite.until=lambda predicate,seconds:predicate()
+            server.wait("result",status=4)
+            suite.trace("case_end",case="uncertain_write",status="PASS")
+            original=(source/"timeline.jsonl").read_bytes();target=root/"public"
+            publish(source,target)
+            self.assertEqual((target/"timeline.jsonl").read_bytes(),original)
+            records=[json.loads(line) for line in original.splitlines()]
+            self.assertIs(type(records[0]["status"]),int)
+            self.assertEqual(records[0]["status"],4)
+            self.assertEqual(records[1]["status"],"PASS")
+            self.assertEqual(verify(target),2)
+            changed=original.replace(b'"status": 4',b'"status": 5')
+            self.assertNotEqual(observation_hash(Path("timeline.jsonl"),original),
+                                observation_hash(Path("timeline.jsonl"),changed))
+            for invalid in (b"true",b"4.0"):
+                with self.assertRaises(ValueError):
+                    sanitized_bytes(original.replace(b'"status": 4',b'"status": '+invalid),".jsonl")
+
     def test_rejects_secret_payloads_and_duplicate_fields_without_editing_original(self):
         base={"utc":"2026-10-24T12:00:00Z","monotonic_ns":1,"event":"case_begin"}
         for extra in ({"password":"fixture-secret"},{"token":"opaque-token"},{"server":"C:\\Users\\fixture-user\\private"}):
