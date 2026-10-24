@@ -2,6 +2,7 @@
 import io
 from contextlib import redirect_stdout
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -106,7 +107,7 @@ class TimelineEvidenceTests(unittest.TestCase):
             def run(command,**kwargs):
                 if "--only-real-sessions" in command:
                     source=output/"evidence";source.mkdir()
-                    (source/"results.json").write_text('{"results":[{"status":"FAIL"}]}')
+                    (source/"results.json").write_text('{"source_provenance":{"tracked_source_modified":false},"results":[{"status":"FAIL"}]}')
                     (source/"timeline.jsonl").write_text('{"utc":"2026-10-24T12:00:00Z","monotonic_ns":1,"event":"event_failed","exit_code":7}\n')
                     raise failure
             argv=["runner","--output",str(output),"--client",str(root/"client/bin/fixture")]
@@ -114,7 +115,8 @@ class TimelineEvidenceTests(unittest.TestCase):
                 argv += ["--"+key,str(root/key)]
             def download(url,target):
                 Path(target).write_bytes(archive.read_bytes())
-            with patch.object(sys,"argv",argv),patch.object(run_real_session_ci.urllib.request,"urlretrieve",side_effect=download),patch.object(run_real_session_ci,"PROVIDER_HASHES",{key:sha(archive.read_bytes()) for key in ("linux","windows")}),patch.object(run_real_session_ci.subprocess,"run",side_effect=run):
+            captured = io.StringIO()
+            with patch.object(sys,"argv",argv),patch.dict(os.environ,{"GITHUB_ACTIONS":"true"}),redirect_stdout(captured),patch.object(run_real_session_ci.urllib.request,"urlretrieve",side_effect=download),patch.object(run_real_session_ci,"PROVIDER_HASHES",{key:sha(archive.read_bytes()) for key in ("linux","windows")}),patch.object(run_real_session_ci.subprocess,"run",side_effect=run):
                 with self.assertRaises(subprocess.CalledProcessError) as caught:
                     run_real_session_ci.main()
             self.assertIs(caught.exception,failure)
@@ -122,6 +124,7 @@ class TimelineEvidenceTests(unittest.TestCase):
             self.assertTrue((target/"timeline.jsonl").is_file())
             self.assertEqual(json.loads((target/"results.json").read_text())["results"][0]["status"],"FAIL")
             self.assertEqual(verify(target),2)
+            self.assertIn("REAL SESSION TIMELINE events=1 original_sha256=",captured.getvalue())
 
     def test_timeline_observation_change_is_detected_after_rehashing_bytes(self):
         with tempfile.TemporaryDirectory() as directory:
