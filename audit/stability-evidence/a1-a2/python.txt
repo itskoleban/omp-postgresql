@@ -1,0 +1,116 @@
+test_short_build_cannot_claim_requested_soak_duration (test_audit_long.AuditLongTests.test_short_build_cannot_claim_requested_soak_duration) ... ok
+test_invalid_tag_is_rejected_before_opening_listener (test_commit_proxy.CommitProxyTests.test_invalid_tag_is_rejected_before_opening_listener) ... ok
+test_only_selected_finish_response_is_discarded (test_commit_proxy.CommitProxyTests.test_only_selected_finish_response_is_discarded) ... ok
+test_disabled_case_is_rejected_despite_ctest_success (test_ctest_qualification.QualificationTests.test_disabled_case_is_rejected_despite_ctest_success) ... ok
+test_empty_inventory_rejects_and_removes_stale_report (test_ctest_qualification.QualificationTests.test_empty_inventory_rejects_and_removes_stale_report) ... ok
+test_failures_and_timeouts_remain_failures (test_ctest_qualification.QualificationTests.test_failures_and_timeouts_remain_failures) ... ok
+test_invalid_or_absent_report_rejected (test_ctest_qualification.QualificationTests.test_invalid_or_absent_report_rejected) ... ok
+test_missing_duplicate_and_unknown_cases_rejected (test_ctest_qualification.QualificationTests.test_missing_duplicate_and_unknown_cases_rejected) ... ok
+test_missing_executable_remains_failure (test_ctest_qualification.QualificationTests.test_missing_executable_remains_failure) ... ok
+test_nonpassing_case_statuses_and_failure_elements_rejected (test_ctest_qualification.QualificationTests.test_nonpassing_case_statuses_and_failure_elements_rejected) ... ok
+test_skip_output_is_rejected_despite_ctest_success (test_ctest_qualification.QualificationTests.test_skip_output_is_rejected_despite_ctest_success) ... ok
+test_skip_return_code_is_rejected_despite_ctest_success (test_ctest_qualification.QualificationTests.test_skip_return_code_is_rejected_despite_ctest_success) ... ok
+CTest qualification: 2 tests executed successfully; report: AUDIT_WORKSPACE\work\omp-pg-ctest-4u04m7o_\Testing\Temporary\qualification.xml
+test_successful_inventory (test_ctest_qualification.QualificationTests.test_successful_inventory) ... ok
+test_backtick_tilde_longer_fences_and_original_line_numbers (test_doc_examples.SnippetTests.test_backtick_tilde_longer_fences_and_original_line_numbers) ... ok
+test_bad_literal_callback_formats_and_extra_counts_are_rejected (test_doc_examples.SnippetTests.test_bad_literal_callback_formats_and_extra_counts_are_rejected) ... ok
+test_balanced_arguments_keep_sql_commas_arrays_and_escaped_quotes (test_doc_examples.SnippetTests.test_balanced_arguments_keep_sql_commas_arrays_and_escaped_quotes) ... ok
+test_comments_inside_arguments_cannot_hide_literal_callbacks (test_doc_examples.SnippetTests.test_comments_inside_arguments_cannot_hide_literal_callbacks) ... ok
+test_compiler_failure_is_not_swallowed_and_points_to_markdown (test_doc_examples.SnippetTests.test_compiler_failure_is_not_swallowed_and_points_to_markdown) ... ok
+test_compiler_receives_real_includes_and_warnings_as_errors (test_doc_examples.SnippetTests.test_compiler_receives_real_includes_and_warnings_as_errors) ... ok
+test_documented_resource_table_matches_cpp_defaults_and_environment_ceilings (test_doc_examples.SnippetTests.test_documented_resource_table_matches_cpp_defaults_and_environment_ceilings) ... ok
+test_duplicate_ids_wrong_language_and_empty_fragment_reason_fail (test_doc_examples.SnippetTests.test_duplicate_ids_wrong_language_and_empty_fragment_reason_fail) ... ok
+test_every_repository_fence_is_classified_and_every_example_is_used_once (test_doc_examples.SnippetTests.test_every_repository_fence_is_classified_and_every_example_is_used_once) ... ok
+test_include_diagnostics_keep_their_original_file_and_line (test_doc_examples.SnippetTests.test_include_diagnostics_keep_their_original_file_and_line) ... ok
+test_incomplete_syntax_needs_an_explicit_reported_reason (test_doc_examples.SnippetTests.test_incomplete_syntax_needs_an_explicit_reported_reason) ... ok
+test_literal_callback_is_made_compiler_visible_with_typed_arguments (test_doc_examples.SnippetTests.test_literal_callback_is_made_compiler_visible_with_typed_arguments) ... ok
+test_literal_callback_typos_reach_the_real_compiler_at_the_original_location (test_doc_examples.SnippetTests.test_literal_callback_typos_reach_the_real_compiler_at_the_original_location) ... ok
+test_missing_stale_repeated_or_unsafe_wrappers_are_rejected (test_doc_examples.SnippetTests.test_missing_stale_repeated_or_unsafe_wrappers_are_rejected) ... ok
+test_nested_pawn_fences_cannot_silently_escape_discovery (test_doc_examples.SnippetTests.test_nested_pawn_fences_cannot_silently_escape_discovery) ... ok
+test_reference_declarations_must_match_actual_names_tags_and_defaults (test_doc_examples.SnippetTests.test_reference_declarations_must_match_actual_names_tags_and_defaults) ... ok
+test_strings_comments_and_dynamic_or_suppressed_callbacks_are_not_false_calls (test_doc_examples.SnippetTests.test_strings_comments_and_dynamic_or_suppressed_callbacks_are_not_false_calls) ... ok
+test_unclassified_new_fences_cannot_escape_validation (test_doc_examples.SnippetTests.test_unclassified_new_fences_cannot_escape_validation) ... ok
+test_unclosed_fence_and_mismatched_closer_are_reported (test_doc_examples.SnippetTests.test_unclosed_fence_and_mismatched_closer_are_reported) ... ok
+test_verbatim_pawn_and_wrapper_line_map_are_preserved (test_doc_examples.SnippetTests.test_verbatim_pawn_and_wrapper_line_map_are_preserved) ... ok
+test_psql_failure_and_missing_affected_counts_fail_the_check (test_doc_examples.SqlDocumentationTests.test_psql_failure_and_missing_affected_counts_fail_the_check) ... ok
+test_psql_is_noninteractive_and_checks_completion_and_counts (test_doc_examples.SqlDocumentationTests.test_psql_is_noninteractive_and_checks_completion_and_counts) ... ok
+test_sql_check_requires_the_existing_disposable_runner_service (test_doc_examples.SqlDocumentationTests.test_sql_check_requires_the_existing_disposable_runner_service) ... ok
+test_sql_is_extracted_from_current_fences_and_rolled_back (test_doc_examples.SqlDocumentationTests.test_sql_is_extracted_from_current_fences_and_rolled_back) ... ok
+test_changed_defaults_tags_callbacks_and_duplicate_declarations (test_docs.DocumentationTests.test_changed_defaults_tags_callbacks_and_duplicate_declarations) ... ok
+Compiled 1 Markdown Pawn examples and 0 declaration fences; 0 explicitly incomplete fragment(s). Compilation is not runtime validation.
+DOCUMENTATION SQL PASS: parameterized CRUD/zero rows, individual/snapshot/UNNEST updates, affected counts, savepoint rollback, array padding and section queries. No Pawn runtime claim.
+Compiled 2 examples with warnings treated as errors
+test_discovery_compiles_all_examples_and_propagates_failure (test_docs.DocumentationTests.test_discovery_compiles_all_examples_and_propagates_failure) ... ok
+test_links_fragments_fences_and_parent_paths (test_docs.DocumentationTests.test_links_fragments_fences_and_parent_paths) ... ok
+test_repository_contract (test_docs.DocumentationTests.test_repository_contract) ... ok
+test_all_levels_destinations_repetitions_jobs_and_timers_required (test_openmp_performance.PerformanceTests.test_all_levels_destinations_repetitions_jobs_and_timers_required) ... ok
+test_bad_fields_and_values_fail (test_openmp_performance.PerformanceTests.test_bad_fields_and_values_fail) ... ok
+test_capture_keeps_sink_observations_separate_and_records_limits (test_openmp_performance.PerformanceTests.test_capture_keeps_sink_observations_separate_and_records_limits) ... ok
+test_duplicate_record_fails (test_openmp_performance.PerformanceTests.test_duplicate_record_fails) ... ok
+test_live_process_sampler_is_bounded_and_monotonic (test_openmp_performance.PerformanceTests.test_live_process_sampler_is_bounded_and_monotonic) ... ok
+test_missing_job_timer_or_batch_fails (test_openmp_performance.PerformanceTests.test_missing_job_timer_or_batch_fails) ... ok
+test_observed_context_distinguishes_workload_from_reporting (test_openmp_performance.PerformanceTests.test_observed_context_distinguishes_workload_from_reporting) ... ok
+test_altered_payload (test_package.PackageTests.test_altered_payload) ... ok
+test_archive_checksum_failure (test_package.PackageTests.test_archive_checksum_failure) ... ok
+test_archive_roundtrip_and_no_overlay (test_package.PackageTests.test_archive_roundtrip_and_no_overlay) ... ok
+test_broken_documentation_link (test_package.PackageTests.test_broken_documentation_link) ... ok
+test_candidate_identity_and_historical_experimental_identity (test_package.PackageTests.test_candidate_identity_and_historical_experimental_identity) ... ok
+test_checkout_allows_downloads_but_rejects_modified_or_untracked_assets (test_package.PackageTests.test_checkout_allows_downloads_but_rejects_modified_or_untracked_assets) ... ok
+test_diagnostics_and_migration_guides_are_required (test_package.PackageTests.test_diagnostics_and_migration_guides_are_required) ... ok
+test_incorrect_build_configuration (test_package.PackageTests.test_incorrect_build_configuration) ... ok
+test_libpq_correction_provenance_is_required_and_bound_to_payload (test_package.PackageTests.test_libpq_correction_provenance_is_required_and_bound_to_payload) ... ok
+test_missing_mandatory_notice (test_package.PackageTests.test_missing_mandatory_notice) ... ok
+test_missing_or_malformed_libpq_versions_are_rejected (test_package.PackageTests.test_missing_or_malformed_libpq_versions_are_rejected) ... ok
+test_missing_runtime_license (test_package.PackageTests.test_missing_runtime_license) ... ok
+test_missing_transitive_runtime (test_package.PackageTests.test_missing_transitive_runtime) ... ok
+test_symlink_entry (test_package.PackageTests.test_symlink_entry) ... ok
+test_unexpected_file_even_when_manifest_lists_it (test_package.PackageTests.test_unexpected_file_even_when_manifest_lists_it) ... ok
+test_unexpected_system_runtime (test_package.PackageTests.test_unexpected_system_runtime) ... ok
+test_unsafe_and_duplicate_paths (test_package.PackageTests.test_unsafe_and_duplicate_paths) ... C:\Users\esteb\AppData\Local\Programs\Python\Python313\Lib\zipfile\__init__.py:1661: UserWarning: Duplicate name: 'omp-postgresql/README.md'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+ok
+test_valid_inventory (test_package.PackageTests.test_valid_inventory) ... ok
+test_wrong_elf_architecture (test_package.PackageTests.test_wrong_elf_architecture) ... ok
+test_wrong_pe_architecture (test_package.PackageTests.test_wrong_pe_architecture) ... ok
+test_complete_exact_main_run_is_accepted (test_release.ReleaseTests.test_complete_exact_main_run_is_accepted) ... ok
+test_incomplete_failed_preview_fork_wrong_workflow_and_commit_are_rejected (test_release.ReleaseTests.test_incomplete_failed_preview_fork_wrong_workflow_and_commit_are_rejected) ... ok
+test_missing_extra_old_commit_and_altered_archives_are_rejected_before_output (test_release.ReleaseTests.test_missing_extra_old_commit_and_altered_archives_are_rejected_before_output) ... warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+ok
+test_publication_checks_existing_tag_merged_source_and_version (test_release.ReleaseTests.test_publication_checks_existing_tag_merged_source_and_version) ... warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+HEAD is now at b412fda Candidate
+HEAD is now at b412fda Candidate
+ok
+test_rc_and_explicit_exact_confirmation_are_required (test_release.ReleaseTests.test_rc_and_explicit_exact_confirmation_are_required) ... ok
+test_remote_lightweight_and_annotated_tags_are_peeled_and_bound (test_release.ReleaseTests.test_remote_lightweight_and_annotated_tags_are_peeled_and_bound) ... ok
+test_skipped_missing_duplicate_or_other_run_jobs_are_rejected (test_release.ReleaseTests.test_skipped_missing_duplicate_or_other_run_jobs_are_rejected) ... ok
+test_two_real_archive_gates_source_inventory_hashes_and_repeatability (test_release.ReleaseTests.test_two_real_archive_gates_source_inventory_hashes_and_repeatability) ... warning: in the working copy of 'CMakeLists.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/release-notes.md', CRLF will be replaced by LF the next time Git touches it
+ok
+Documentation checked: 69 natives, 3 callbacks, links and example/SQL inventory
+Approved publication inputs: v0.1.0-rc.1 at b412fdaef0607cafb7d57231c5643e2184d5ad67
+Prepared 0.1.0-rc.1 from c772cd2ed77ce15680cbdaa532347ff838da5089: AUDIT_WORKSPACE\work\tmp4tsv54x5\first
+Prepared 0.1.0-rc.1 from c772cd2ed77ce15680cbdaa532347ff838da5089: AUDIT_WORKSPACE\work\tmp4tsv54x5\second
+mode=startup accepted=1 ready=0 closed=1
+test_malformed_startup_fails_fixture (test_stall_server.StallServerTests.test_malformed_startup_fails_fixture) ... ok
+mode=ssl accepted=1 ready=0 closed=1
+test_partial_peer_shutdown_does_not_claim_boundary (test_stall_server.StallServerTests.test_partial_peer_shutdown_does_not_claim_boundary) ... ok
+mode=ssl accepted=1 ready=1 closed=1
+test_ssl_request_fragmentation_and_peer_close (test_stall_server.StallServerTests.test_ssl_request_fragmentation_and_peer_close) ... ok
+mode=startup accepted=1 ready=1 closed=1
+mode=startup accepted=1 ready=1 closed=1
+test_startup_withholds_authentication_and_closes_active_peer (test_stall_server.StallServerTests.test_startup_withholds_authentication_and_closes_active_peer) ... ok
+mode=tls accepted=1 ready=1 closed=1
+test_tls_waits_for_client_hello (test_stall_server.StallServerTests.test_tls_waits_for_client_hello) ... ok
+
+----------------------------------------------------------------------
+Ran 81 tests in 18.255s
+
+OK

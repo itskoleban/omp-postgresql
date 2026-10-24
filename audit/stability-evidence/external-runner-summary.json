@@ -1,0 +1,24 @@
+{
+  "commit": "6cf0c05893c79cb8dbdb0b54f2eeacf585ac3f91",
+  "dirty": "",
+  "seconds": 120,
+  "seed": 1592594996,
+  "started_unix": 1792792217.8183434,
+  "stages": [
+    {
+      "name": "integration-soak",
+      "started_unix": 1792792217.820698,
+      "returncode": 0,
+      "elapsed_seconds": 253.5335807800293
+    },
+    {
+      "name": "extended-fuzz",
+      "started_unix": 1792792471.3560216,
+      "returncode": 0,
+      "elapsed_seconds": 47.03963828086853
+    }
+  ],
+  "status": "Passed",
+  "fallback_cleanup": [],
+  "ended_unix": 1792792518.3989692
+}

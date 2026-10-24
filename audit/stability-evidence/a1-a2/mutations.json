@@ -1,0 +1,42 @@
+[
+  {
+    "runtime_commit": "3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f",
+    "case": "cancel_entry",
+    "observed_exit": 1,
+    "expected_exit": 1,
+    "observations": "cancel_entry observed sends=1 select=0 results=0 status=4 error=5",
+    "test_source_sha256": "b15acc452b2f4c9209cfaebd8ee772919192d8cb409432ea0a97ff23a9d8a09c"
+  },
+  {
+    "runtime_commit": "3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f",
+    "case": "timeout_entry",
+    "observed_exit": 1,
+    "expected_exit": 1,
+    "observations": "timeout_entry observed sends=1 select=0 results=0 status=4 error=5",
+    "test_source_sha256": "b15acc452b2f4c9209cfaebd8ee772919192d8cb409432ea0a97ff23a9d8a09c"
+  },
+  {
+    "runtime_commit": "0fbea5f7c7a3e209be3f38b516490b4ea9414f21",
+    "case": "transport_cancel",
+    "observed_exit": 1,
+    "expected_exit": 1,
+    "observations": "transport_cancel observed sends=1 select=1 results=0 status=4 error=7",
+    "test_source_sha256": "b15acc452b2f4c9209cfaebd8ee772919192d8cb409432ea0a97ff23a9d8a09c"
+  },
+  {
+    "runtime_commit": "0fbea5f7c7a3e209be3f38b516490b4ea9414f21",
+    "case": "transport_timeout",
+    "observed_exit": 1,
+    "expected_exit": 1,
+    "observations": "transport_timeout observed sends=1 select=1 results=0 status=4 error=6",
+    "test_source_sha256": "b15acc452b2f4c9209cfaebd8ee772919192d8cb409432ea0a97ff23a9d8a09c"
+  },
+  {
+    "runtime_commit": "0fbea5f7c7a3e209be3f38b516490b4ea9414f21",
+    "case": "eintr_retry",
+    "observed_exit": 1,
+    "expected_exit": 1,
+    "observations": "eintr_retry observed sends=1 select=1 results=0 status=4 error=5",
+    "test_source_sha256": "b15acc452b2f4c9209cfaebd8ee772919192d8cb409432ea0a97ff23a9d8a09c"
+  }
+]

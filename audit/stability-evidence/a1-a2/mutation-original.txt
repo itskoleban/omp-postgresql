@@ -1,0 +1,6 @@
+case=cancel_entry exit=1
+cancel_entry observed sends=1 select=0 results=0 status=4 error=5
+socket_wait FAIL Wrong terminal cause/status
+case=timeout_entry exit=1
+timeout_entry observed sends=1 select=0 results=0 status=4 error=5
+socket_wait FAIL Wrong terminal cause/status

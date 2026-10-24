@@ -1,0 +1,5327 @@
+Start testing: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+----------------------------------------------------------
+
+1/19 Testing: libpq_windows_mutex_unit
+
+1/19 Test: libpq_windows_mutex_unit
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_libpq_mutex_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"libpq_windows_mutex_unit" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+libpq Windows mutex: deterministic stale claim and 80000 contended locks passed
+
+<end of output>
+
+Test time =   0.45 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"libpq_windows_mutex_unit" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"libpq_windows_mutex_unit" time elapsed: 00:00:00
+
+----------------------------------------------------------
+
+
+
+2/19 Testing: libpq_process_startup_integration
+
+2/19 Test: libpq_process_startup_integration
+
+Command: "AUDIT_USER/AppData/Local/Programs/Python/Python313/python.exe" "AUDIT_WORKSPACE/work/omp-postgresql/tests/repeat_connection_startup.py" "--binary" "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_connection_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"libpq_process_startup_integration" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+Fresh connection process 1/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 2/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 3/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 4/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 5/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 6/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 7/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 8/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 9/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 10/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 11/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 12/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 13/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 14/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 15/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 16/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 17/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 18/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 19/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+Fresh connection process 20/20
+
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+34 connection lifecycle checks passed
+
+<end of output>
+
+Test time =  12.15 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"libpq_process_startup_integration" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"libpq_process_startup_integration" time elapsed: 00:00:12
+
+----------------------------------------------------------
+
+
+
+3/19 Testing: natives_unit
+
+3/19 Test: natives_unit
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_native_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"natives_unit" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+Native validation passed: 13927 checks; address seed=0x414d5801
+
+<end of output>
+
+Test time =   3.21 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"natives_unit" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"natives_unit" time elapsed: 00:00:03
+
+----------------------------------------------------------
+
+
+
+4/19 Testing: natives_integration
+
+4/19 Test: natives_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_native_tests.exe" "--integration"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"natives_integration" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,357200,124400
+
+callback_benchmark,custom_ii,1,64,191200,125500
+
+callback_benchmark,custom_s96,1,64,532300,151300
+
+callback_benchmark,global_old_arity,1,64,804600,94500
+
+callback_benchmark,custom_ii,2,64,195800,112300
+
+callback_benchmark,custom_s96,2,64,370500,185100
+
+callback_benchmark,global_old_arity,2,64,498200,94800
+
+callback_benchmark,custom0,2,64,129200,61500
+
+callback_benchmark,custom_s96,3,64,332600,141100
+
+callback_benchmark,global_old_arity,3,64,120500,153300
+
+callback_benchmark,custom0,3,64,671200,172200
+
+callback_benchmark,custom_ii,3,64,287300,58600
+
+callback_benchmark,global_old_arity,4,64,317300,241200
+
+callback_benchmark,custom0,4,64,270500,158400
+
+callback_benchmark,custom_ii,4,64,441300,107600
+
+callback_benchmark,custom_s96,4,64,212500,150800
+
+callback_benchmark,custom0,5,64,246800,171100
+
+callback_benchmark,custom_ii,5,64,712600,124600
+
+callback_benchmark,custom_s96,5,64,689000,148100
+
+callback_benchmark,global_old_arity,5,64,407100,43600
+
+callback_benchmark,custom_ii,6,64,163500,87100
+
+callback_benchmark,custom_s96,6,64,863200,63100
+
+callback_benchmark,global_old_arity,6,64,101800,113900
+
+callback_benchmark,custom0,6,64,106000,135800
+
+callback_benchmark,custom_s96,7,64,633800,246900
+
+callback_benchmark,global_old_arity,7,64,222900,136300
+
+callback_benchmark,custom0,7,64,107500,193200
+
+callback_benchmark,custom_ii,7,64,136300,92100
+
+Native validation passed: 6746 checks; address seed=0x414d5801
+
+<end of output>
+
+Test time =   1.55 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"natives_integration" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"natives_integration" time elapsed: 00:00:01
+
+----------------------------------------------------------
+
+
+
+5/19 Testing: logging_integration
+
+5/19 Test: logging_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_native_tests.exe" "--logging-benchmark"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"logging_integration" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+logging_benchmark,level,destination,mode,repetition,jobs,submission_ns,dispatch_with_drain_ns,dropped,output_bytes
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,622900,73000
+
+logging_benchmark,0,0,custom0,1,64,622900,73000,0,0
+
+callback_benchmark,custom_ii,1,64,520000,194900
+
+logging_benchmark,0,0,custom_ii,1,64,520000,194900,0,0
+
+callback_benchmark,custom_s96,1,64,1155000,129100
+
+logging_benchmark,0,0,custom_s96,1,64,1155000,129100,0,0
+
+callback_benchmark,global_old_arity,1,64,122900,164300
+
+logging_benchmark,0,0,global_old_arity,1,64,122900,164300,0,0
+
+callback_benchmark,custom_ii,2,64,240600,161800
+
+logging_benchmark,0,0,custom_ii,2,64,240600,161800,0,0
+
+callback_benchmark,custom_s96,2,64,1249400,197300
+
+logging_benchmark,0,0,custom_s96,2,64,1249400,197300,0,0
+
+callback_benchmark,global_old_arity,2,64,161800,94700
+
+logging_benchmark,0,0,global_old_arity,2,64,161800,94700,0,0
+
+callback_benchmark,custom0,2,64,336400,73100
+
+logging_benchmark,0,0,custom0,2,64,336400,73100,0,0
+
+callback_benchmark,custom_s96,3,64,776500,125300
+
+logging_benchmark,0,0,custom_s96,3,64,776500,125300,0,0
+
+callback_benchmark,global_old_arity,3,64,377500,48600
+
+logging_benchmark,0,0,global_old_arity,3,64,377500,48600,0,0
+
+callback_benchmark,custom0,3,64,428900,148200
+
+logging_benchmark,0,0,custom0,3,64,428900,148200,0,0
+
+callback_benchmark,custom_ii,3,64,212800,199500
+
+logging_benchmark,0,0,custom_ii,3,64,212800,199500,0,0
+
+callback_benchmark,global_old_arity,4,64,217000,143800
+
+logging_benchmark,0,0,global_old_arity,4,64,217000,143800,0,0
+
+callback_benchmark,custom0,4,64,256100,144600
+
+logging_benchmark,0,0,custom0,4,64,256100,144600,0,0
+
+callback_benchmark,custom_ii,4,64,672300,219900
+
+logging_benchmark,0,0,custom_ii,4,64,672300,219900,0,0
+
+callback_benchmark,custom_s96,4,64,409200,83700
+
+logging_benchmark,0,0,custom_s96,4,64,409200,83700,0,0
+
+callback_benchmark,custom0,5,64,117300,125100
+
+logging_benchmark,0,0,custom0,5,64,117300,125100,0,0
+
+callback_benchmark,custom_ii,5,64,225800,111100
+
+logging_benchmark,0,0,custom_ii,5,64,225800,111100,0,0
+
+callback_benchmark,custom_s96,5,64,698600,57400
+
+logging_benchmark,0,0,custom_s96,5,64,698600,57400,0,0
+
+callback_benchmark,global_old_arity,5,64,163500,101700
+
+logging_benchmark,0,0,global_old_arity,5,64,163500,101700,0,0
+
+callback_benchmark,custom_ii,6,64,442000,65100
+
+logging_benchmark,0,0,custom_ii,6,64,442000,65100,0,0
+
+callback_benchmark,custom_s96,6,64,540000,65300
+
+logging_benchmark,0,0,custom_s96,6,64,540000,65300,0,0
+
+callback_benchmark,global_old_arity,6,64,143900,56900
+
+logging_benchmark,0,0,global_old_arity,6,64,143900,56900,0,0
+
+callback_benchmark,custom0,6,64,334500,128300
+
+logging_benchmark,0,0,custom0,6,64,334500,128300,0,0
+
+callback_benchmark,custom_s96,7,64,298200,126200
+
+logging_benchmark,0,0,custom_s96,7,64,298200,126200,0,0
+
+callback_benchmark,global_old_arity,7,64,156100,93900
+
+logging_benchmark,0,0,global_old_arity,7,64,156100,93900,0,0
+
+callback_benchmark,custom0,7,64,266700,145700
+
+logging_benchmark,0,0,custom0,7,64,266700,145700,0,0
+
+callback_benchmark,custom_ii,7,64,373500,122500
+
+logging_benchmark,0,0,custom_ii,7,64,373500,122500,0,0
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,246300,95700
+
+logging_benchmark,0,1,custom0,1,64,246300,95700,0,0
+
+callback_benchmark,custom_ii,1,64,318600,146700
+
+logging_benchmark,0,1,custom_ii,1,64,318600,146700,0,0
+
+callback_benchmark,custom_s96,1,64,693200,130300
+
+logging_benchmark,0,1,custom_s96,1,64,693200,130300,0,0
+
+callback_benchmark,global_old_arity,1,64,195100,90200
+
+logging_benchmark,0,1,global_old_arity,1,64,195100,90200,0,0
+
+callback_benchmark,custom_ii,2,64,428200,95200
+
+logging_benchmark,0,1,custom_ii,2,64,428200,95200,0,0
+
+callback_benchmark,custom_s96,2,64,379300,148000
+
+logging_benchmark,0,1,custom_s96,2,64,379300,148000,0,0
+
+callback_benchmark,global_old_arity,2,64,386100,89400
+
+logging_benchmark,0,1,global_old_arity,2,64,386100,89400,0,0
+
+callback_benchmark,custom0,2,64,238600,67200
+
+logging_benchmark,0,1,custom0,2,64,238600,67200,0,0
+
+callback_benchmark,custom_s96,3,64,213100,188800
+
+logging_benchmark,0,1,custom_s96,3,64,213100,188800,0,0
+
+callback_benchmark,global_old_arity,3,64,180600,110100
+
+logging_benchmark,0,1,global_old_arity,3,64,180600,110100,0,0
+
+callback_benchmark,custom0,3,64,337400,309100
+
+logging_benchmark,0,1,custom0,3,64,337400,309100,0,0
+
+callback_benchmark,custom_ii,3,64,109500,76100
+
+logging_benchmark,0,1,custom_ii,3,64,109500,76100,0,0
+
+callback_benchmark,global_old_arity,4,64,170500,52400
+
+logging_benchmark,0,1,global_old_arity,4,64,170500,52400,0,0
+
+callback_benchmark,custom0,4,64,103900,46900
+
+logging_benchmark,0,1,custom0,4,64,103900,46900,0,0
+
+callback_benchmark,custom_ii,4,64,135500,140500
+
+logging_benchmark,0,1,custom_ii,4,64,135500,140500,0,0
+
+callback_benchmark,custom_s96,4,64,897000,220300
+
+logging_benchmark,0,1,custom_s96,4,64,897000,220300,0,0
+
+callback_benchmark,custom0,5,64,138600,120100
+
+logging_benchmark,0,1,custom0,5,64,138600,120100,0,0
+
+callback_benchmark,custom_ii,5,64,373200,86400
+
+logging_benchmark,0,1,custom_ii,5,64,373200,86400,0,0
+
+callback_benchmark,custom_s96,5,64,447000,149600
+
+logging_benchmark,0,1,custom_s96,5,64,447000,149600,0,0
+
+callback_benchmark,global_old_arity,5,64,137900,114900
+
+logging_benchmark,0,1,global_old_arity,5,64,137900,114900,0,0
+
+callback_benchmark,custom_ii,6,64,182700,124700
+
+logging_benchmark,0,1,custom_ii,6,64,182700,124700,0,0
+
+callback_benchmark,custom_s96,6,64,297500,160300
+
+logging_benchmark,0,1,custom_s96,6,64,297500,160300,0,0
+
+callback_benchmark,global_old_arity,6,64,317800,62100
+
+logging_benchmark,0,1,global_old_arity,6,64,317800,62100,0,0
+
+callback_benchmark,custom0,6,64,145000,83000
+
+logging_benchmark,0,1,custom0,6,64,145000,83000,0,0
+
+callback_benchmark,custom_s96,7,64,190000,117700
+
+logging_benchmark,0,1,custom_s96,7,64,190000,117700,0,0
+
+callback_benchmark,global_old_arity,7,64,228300,87600
+
+logging_benchmark,0,1,global_old_arity,7,64,228300,87600,0,0
+
+callback_benchmark,custom0,7,64,122200,123000
+
+logging_benchmark,0,1,custom0,7,64,122200,123000,0,0
+
+callback_benchmark,custom_ii,7,64,157600,200400
+
+logging_benchmark,0,1,custom_ii,7,64,157600,200400,0,0
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,296000,170500
+
+logging_benchmark,0,2,custom0,1,64,296000,170500,0,0
+
+callback_benchmark,custom_ii,1,64,181500,97400
+
+logging_benchmark,0,2,custom_ii,1,64,181500,97400,0,0
+
+callback_benchmark,custom_s96,1,64,276400,141700
+
+logging_benchmark,0,2,custom_s96,1,64,276400,141700,0,0
+
+callback_benchmark,global_old_arity,1,64,306800,221400
+
+logging_benchmark,0,2,global_old_arity,1,64,306800,221400,0,0
+
+callback_benchmark,custom_ii,2,64,660700,58200
+
+logging_benchmark,0,2,custom_ii,2,64,660700,58200,0,0
+
+callback_benchmark,custom_s96,2,64,180900,223300
+
+logging_benchmark,0,2,custom_s96,2,64,180900,223300,0,0
+
+callback_benchmark,global_old_arity,2,64,220200,131700
+
+logging_benchmark,0,2,global_old_arity,2,64,220200,131700,0,0
+
+callback_benchmark,custom0,2,64,166600,99900
+
+logging_benchmark,0,2,custom0,2,64,166600,99900,0,0
+
+callback_benchmark,custom_s96,3,64,356100,142400
+
+logging_benchmark,0,2,custom_s96,3,64,356100,142400,0,0
+
+callback_benchmark,global_old_arity,3,64,287400,89500
+
+logging_benchmark,0,2,global_old_arity,3,64,287400,89500,0,0
+
+callback_benchmark,custom0,3,64,177500,281100
+
+logging_benchmark,0,2,custom0,3,64,177500,281100,0,0
+
+callback_benchmark,custom_ii,3,64,159300,170700
+
+logging_benchmark,0,2,custom_ii,3,64,159300,170700,0,0
+
+callback_benchmark,global_old_arity,4,64,350400,76300
+
+logging_benchmark,0,2,global_old_arity,4,64,350400,76300,0,0
+
+callback_benchmark,custom0,4,64,732400,135700
+
+logging_benchmark,0,2,custom0,4,64,732400,135700,0,0
+
+callback_benchmark,custom_ii,4,64,333500,83500
+
+logging_benchmark,0,2,custom_ii,4,64,333500,83500,0,0
+
+callback_benchmark,custom_s96,4,64,454200,138300
+
+logging_benchmark,0,2,custom_s96,4,64,454200,138300,0,0
+
+callback_benchmark,custom0,5,64,146500,86000
+
+logging_benchmark,0,2,custom0,5,64,146500,86000,0,0
+
+callback_benchmark,custom_ii,5,64,192100,97000
+
+logging_benchmark,0,2,custom_ii,5,64,192100,97000,0,0
+
+callback_benchmark,custom_s96,5,64,218900,111600
+
+logging_benchmark,0,2,custom_s96,5,64,218900,111600,0,0
+
+callback_benchmark,global_old_arity,5,64,130500,159100
+
+logging_benchmark,0,2,global_old_arity,5,64,130500,159100,0,0
+
+callback_benchmark,custom_ii,6,64,135200,143100
+
+logging_benchmark,0,2,custom_ii,6,64,135200,143100,0,0
+
+callback_benchmark,custom_s96,6,64,284100,115200
+
+logging_benchmark,0,2,custom_s96,6,64,284100,115200,0,0
+
+callback_benchmark,global_old_arity,6,64,145500,94500
+
+logging_benchmark,0,2,global_old_arity,6,64,145500,94500,0,0
+
+callback_benchmark,custom0,6,64,259800,46900
+
+logging_benchmark,0,2,custom0,6,64,259800,46900,0,0
+
+callback_benchmark,custom_s96,7,64,188700,161300
+
+logging_benchmark,0,2,custom_s96,7,64,188700,161300,0,0
+
+callback_benchmark,global_old_arity,7,64,111500,99200
+
+logging_benchmark,0,2,global_old_arity,7,64,111500,99200,0,0
+
+callback_benchmark,custom0,7,64,132200,89700
+
+logging_benchmark,0,2,custom0,7,64,132200,89700,0,0
+
+callback_benchmark,custom_ii,7,64,225100,114800
+
+logging_benchmark,0,2,custom_ii,7,64,225100,114800,0,0
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,156900,73300
+
+logging_benchmark,2,0,custom0,1,64,156900,73300,0,0
+
+callback_benchmark,custom_ii,1,64,189900,79200
+
+logging_benchmark,2,0,custom_ii,1,64,189900,79200,0,0
+
+callback_benchmark,custom_s96,1,64,417400,219200
+
+logging_benchmark,2,0,custom_s96,1,64,417400,219200,0,0
+
+callback_benchmark,global_old_arity,1,64,121400,111900
+
+logging_benchmark,2,0,global_old_arity,1,64,121400,111900,0,0
+
+callback_benchmark,custom_ii,2,64,252600,167500
+
+logging_benchmark,2,0,custom_ii,2,64,252600,167500,0,0
+
+callback_benchmark,custom_s96,2,64,251900,129700
+
+logging_benchmark,2,0,custom_s96,2,64,251900,129700,0,0
+
+callback_benchmark,global_old_arity,2,64,195400,112500
+
+logging_benchmark,2,0,global_old_arity,2,64,195400,112500,0,0
+
+callback_benchmark,custom0,2,64,219700,82900
+
+logging_benchmark,2,0,custom0,2,64,219700,82900,0,0
+
+callback_benchmark,custom_s96,3,64,503000,114800
+
+logging_benchmark,2,0,custom_s96,3,64,503000,114800,0,0
+
+callback_benchmark,global_old_arity,3,64,86600,133700
+
+logging_benchmark,2,0,global_old_arity,3,64,86600,133700,0,0
+
+callback_benchmark,custom0,3,64,109100,91700
+
+logging_benchmark,2,0,custom0,3,64,109100,91700,0,0
+
+callback_benchmark,custom_ii,3,64,109000,72800
+
+logging_benchmark,2,0,custom_ii,3,64,109000,72800,0,0
+
+callback_benchmark,global_old_arity,4,64,103300,107600
+
+logging_benchmark,2,0,global_old_arity,4,64,103300,107600,0,0
+
+callback_benchmark,custom0,4,64,204000,85400
+
+logging_benchmark,2,0,custom0,4,64,204000,85400,0,0
+
+callback_benchmark,custom_ii,4,64,228300,92800
+
+logging_benchmark,2,0,custom_ii,4,64,228300,92800,0,0
+
+callback_benchmark,custom_s96,4,64,187900,117400
+
+logging_benchmark,2,0,custom_s96,4,64,187900,117400,0,0
+
+callback_benchmark,custom0,5,64,99600,216100
+
+logging_benchmark,2,0,custom0,5,64,99600,216100,0,0
+
+callback_benchmark,custom_ii,5,64,111200,168900
+
+logging_benchmark,2,0,custom_ii,5,64,111200,168900,0,0
+
+callback_benchmark,custom_s96,5,64,426100,113400
+
+logging_benchmark,2,0,custom_s96,5,64,426100,113400,0,0
+
+callback_benchmark,global_old_arity,5,64,158600,119900
+
+logging_benchmark,2,0,global_old_arity,5,64,158600,119900,0,0
+
+callback_benchmark,custom_ii,6,64,115400,126400
+
+logging_benchmark,2,0,custom_ii,6,64,115400,126400,0,0
+
+callback_benchmark,custom_s96,6,64,277700,132400
+
+logging_benchmark,2,0,custom_s96,6,64,277700,132400,0,0
+
+callback_benchmark,global_old_arity,6,64,83400,39100
+
+logging_benchmark,2,0,global_old_arity,6,64,83400,39100,0,0
+
+callback_benchmark,custom0,6,64,91700,53500
+
+logging_benchmark,2,0,custom0,6,64,91700,53500,0,0
+
+callback_benchmark,custom_s96,7,64,404800,122300
+
+logging_benchmark,2,0,custom_s96,7,64,404800,122300,0,0
+
+callback_benchmark,global_old_arity,7,64,216200,121100
+
+logging_benchmark,2,0,global_old_arity,7,64,216200,121100,0,0
+
+callback_benchmark,custom0,7,64,237700,161100
+
+logging_benchmark,2,0,custom0,7,64,237700,161100,0,0
+
+callback_benchmark,custom_ii,7,64,171600,86400
+
+logging_benchmark,2,0,custom_ii,7,64,171600,86400,0,0
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,1827300,139300
+
+logging_benchmark,2,1,custom0,1,64,1827300,139300,0,0
+
+callback_benchmark,custom_ii,1,64,226600,72200
+
+logging_benchmark,2,1,custom_ii,1,64,226600,72200,0,0
+
+callback_benchmark,custom_s96,1,64,386800,153700
+
+logging_benchmark,2,1,custom_s96,1,64,386800,153700,0,0
+
+callback_benchmark,global_old_arity,1,64,169500,85900
+
+logging_benchmark,2,1,global_old_arity,1,64,169500,85900,0,0
+
+callback_benchmark,custom_ii,2,64,215700,73900
+
+logging_benchmark,2,1,custom_ii,2,64,215700,73900,0,0
+
+callback_benchmark,custom_s96,2,64,367000,101000
+
+logging_benchmark,2,1,custom_s96,2,64,367000,101000,0,0
+
+callback_benchmark,global_old_arity,2,64,163600,69600
+
+logging_benchmark,2,1,global_old_arity,2,64,163600,69600,0,0
+
+callback_benchmark,custom0,2,64,532500,121100
+
+logging_benchmark,2,1,custom0,2,64,532500,121100,0,0
+
+callback_benchmark,custom_s96,3,64,378000,696900
+
+logging_benchmark,2,1,custom_s96,3,64,378000,696900,0,0
+
+callback_benchmark,global_old_arity,3,64,184700,93600
+
+logging_benchmark,2,1,global_old_arity,3,64,184700,93600,0,0
+
+callback_benchmark,custom0,3,64,194500,82500
+
+logging_benchmark,2,1,custom0,3,64,194500,82500,0,0
+
+callback_benchmark,custom_ii,3,64,381000,89200
+
+logging_benchmark,2,1,custom_ii,3,64,381000,89200,0,0
+
+callback_benchmark,global_old_arity,4,64,160100,263900
+
+logging_benchmark,2,1,global_old_arity,4,64,160100,263900,0,0
+
+callback_benchmark,custom0,4,64,197500,58400
+
+logging_benchmark,2,1,custom0,4,64,197500,58400,0,0
+
+callback_benchmark,custom_ii,4,64,988200,106800
+
+logging_benchmark,2,1,custom_ii,4,64,988200,106800,0,0
+
+callback_benchmark,custom_s96,4,64,1302500,910100
+
+logging_benchmark,2,1,custom_s96,4,64,1302500,910100,0,0
+
+callback_benchmark,custom0,5,64,507100,74200
+
+logging_benchmark,2,1,custom0,5,64,507100,74200,0,0
+
+callback_benchmark,custom_ii,5,64,531500,85100
+
+logging_benchmark,2,1,custom_ii,5,64,531500,85100,0,0
+
+callback_benchmark,custom_s96,5,64,363500,1022700
+
+logging_benchmark,2,1,custom_s96,5,64,363500,1022700,0,0
+
+callback_benchmark,global_old_arity,5,64,393100,71800
+
+logging_benchmark,2,1,global_old_arity,5,64,393100,71800,0,0
+
+callback_benchmark,custom_ii,6,64,530400,81800
+
+logging_benchmark,2,1,custom_ii,6,64,530400,81800,0,0
+
+callback_benchmark,custom_s96,6,64,1540800,1061700
+
+logging_benchmark,2,1,custom_s96,6,64,1540800,1061700,0,0
+
+callback_benchmark,global_old_arity,6,64,162100,68600
+
+logging_benchmark,2,1,global_old_arity,6,64,162100,68600,0,0
+
+callback_benchmark,custom0,6,64,167600,123300
+
+logging_benchmark,2,1,custom0,6,64,167600,123300,0,0
+
+callback_benchmark,custom_s96,7,64,388300,299700
+
+logging_benchmark,2,1,custom_s96,7,64,388300,299700,0,0
+
+callback_benchmark,global_old_arity,7,64,396700,143600
+
+logging_benchmark,2,1,global_old_arity,7,64,396700,143600,0,0
+
+callback_benchmark,custom0,7,64,187900,80700
+
+logging_benchmark,2,1,custom0,7,64,187900,80700,0,0
+
+callback_benchmark,custom_ii,7,64,178000,96900
+
+logging_benchmark,2,1,custom_ii,7,64,178000,96900,0,0
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,1309000,121100
+
+logging_benchmark,2,2,custom0,1,64,1309000,121100,0,0
+
+callback_benchmark,custom_ii,1,64,208900,119600
+
+logging_benchmark,2,2,custom_ii,1,64,208900,119600,0,0
+
+callback_benchmark,custom_s96,1,64,373800,231000
+
+logging_benchmark,2,2,custom_s96,1,64,373800,231000,0,0
+
+callback_benchmark,global_old_arity,1,64,189100,90900
+
+logging_benchmark,2,2,global_old_arity,1,64,189100,90900,0,0
+
+callback_benchmark,custom_ii,2,64,257100,112300
+
+logging_benchmark,2,2,custom_ii,2,64,257100,112300,0,0
+
+callback_benchmark,custom_s96,2,64,385200,109200
+
+logging_benchmark,2,2,custom_s96,2,64,385200,109200,0,0
+
+callback_benchmark,global_old_arity,2,64,170700,618900
+
+logging_benchmark,2,2,global_old_arity,2,64,170700,618900,0,0
+
+callback_benchmark,custom0,2,64,218600,108200
+
+logging_benchmark,2,2,custom0,2,64,218600,108200,0,0
+
+callback_benchmark,custom_s96,3,64,1982700,141000
+
+logging_benchmark,2,2,custom_s96,3,64,1982700,141000,0,0
+
+callback_benchmark,global_old_arity,3,64,159500,184500
+
+logging_benchmark,2,2,global_old_arity,3,64,159500,184500,0,0
+
+callback_benchmark,custom0,3,64,198000,87600
+
+logging_benchmark,2,2,custom0,3,64,198000,87600,0,0
+
+callback_benchmark,custom_ii,3,64,632700,125100
+
+logging_benchmark,2,2,custom_ii,3,64,632700,125100,0,0
+
+callback_benchmark,global_old_arity,4,64,164000,61700
+
+logging_benchmark,2,2,global_old_arity,4,64,164000,61700,0,0
+
+callback_benchmark,custom0,4,64,203000,172200
+
+logging_benchmark,2,2,custom0,4,64,203000,172200,0,0
+
+callback_benchmark,custom_ii,4,64,184900,85600
+
+logging_benchmark,2,2,custom_ii,4,64,184900,85600,0,0
+
+callback_benchmark,custom_s96,4,64,719700,153600
+
+logging_benchmark,2,2,custom_s96,4,64,719700,153600,0,0
+
+callback_benchmark,custom0,5,64,267700,120100
+
+logging_benchmark,2,2,custom0,5,64,267700,120100,0,0
+
+callback_benchmark,custom_ii,5,64,432300,98400
+
+logging_benchmark,2,2,custom_ii,5,64,432300,98400,0,0
+
+callback_benchmark,custom_s96,5,64,1196500,143500
+
+logging_benchmark,2,2,custom_s96,5,64,1196500,143500,0,0
+
+callback_benchmark,global_old_arity,5,64,1455800,197400
+
+logging_benchmark,2,2,global_old_arity,5,64,1455800,197400,0,0
+
+callback_benchmark,custom_ii,6,64,857900,129300
+
+logging_benchmark,2,2,custom_ii,6,64,857900,129300,0,0
+
+callback_benchmark,custom_s96,6,64,394900,117200
+
+logging_benchmark,2,2,custom_s96,6,64,394900,117200,0,0
+
+callback_benchmark,global_old_arity,6,64,143000,103400
+
+logging_benchmark,2,2,global_old_arity,6,64,143000,103400,0,0
+
+callback_benchmark,custom0,6,64,202900,1073400
+
+logging_benchmark,2,2,custom0,6,64,202900,1073400,0,0
+
+callback_benchmark,custom_s96,7,64,1436600,149000
+
+logging_benchmark,2,2,custom_s96,7,64,1436600,149000,0,0
+
+callback_benchmark,global_old_arity,7,64,170200,118300
+
+logging_benchmark,2,2,global_old_arity,7,64,170200,118300,0,0
+
+callback_benchmark,custom0,7,64,1604000,106800
+
+logging_benchmark,2,2,custom0,7,64,1604000,106800,0,0
+
+callback_benchmark,custom_ii,7,64,500300,83200
+
+logging_benchmark,2,2,custom_ii,7,64,500300,83200,0,0
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,1162800,305700
+
+logging_benchmark,4,0,custom0,1,64,1162800,305700,128,9754
+
+callback_benchmark,custom_ii,1,64,308000,312500
+
+logging_benchmark,4,0,custom_ii,1,64,308000,312500,128,9753
+
+callback_benchmark,custom_s96,1,64,373800,338000
+
+logging_benchmark,4,0,custom_s96,1,64,373800,338000,128,9754
+
+callback_benchmark,global_old_arity,1,64,182000,430100
+
+logging_benchmark,4,0,global_old_arity,1,64,182000,430100,128,9754
+
+callback_benchmark,custom_ii,2,64,220900,417200
+
+logging_benchmark,4,0,custom_ii,2,64,220900,417200,128,9754
+
+callback_benchmark,custom_s96,2,64,3988700,359700
+
+logging_benchmark,4,0,custom_s96,2,64,3988700,359700,128,9812
+
+callback_benchmark,global_old_arity,2,64,165000,360500
+
+logging_benchmark,4,0,global_old_arity,2,64,165000,360500,128,9753
+
+callback_benchmark,custom0,2,64,176700,307100
+
+logging_benchmark,4,0,custom0,2,64,176700,307100,128,9754
+
+callback_benchmark,custom_s96,3,64,419000,357500
+
+logging_benchmark,4,0,custom_s96,3,64,419000,357500,128,9754
+
+callback_benchmark,global_old_arity,3,64,171300,346700
+
+logging_benchmark,4,0,global_old_arity,3,64,171300,346700,128,9754
+
+callback_benchmark,custom0,3,64,608100,256700
+
+logging_benchmark,4,0,custom0,3,64,608100,256700,128,9752
+
+callback_benchmark,custom_ii,3,64,232700,376200
+
+logging_benchmark,4,0,custom_ii,3,64,232700,376200,128,9779
+
+callback_benchmark,global_old_arity,4,64,168800,256600
+
+logging_benchmark,4,0,global_old_arity,4,64,168800,256600,128,9816
+
+callback_benchmark,custom0,4,64,195600,238700
+
+logging_benchmark,4,0,custom0,4,64,195600,238700,128,9816
+
+callback_benchmark,custom_ii,4,64,226500,567300
+
+logging_benchmark,4,0,custom_ii,4,64,226500,567300,128,9816
+
+callback_benchmark,custom_s96,4,64,1901500,759400
+
+logging_benchmark,4,0,custom_s96,4,64,1901500,759400,128,9828
+
+callback_benchmark,custom0,5,64,797300,315900
+
+logging_benchmark,4,0,custom0,5,64,797300,315900,128,9819
+
+callback_benchmark,custom_ii,5,64,196800,443100
+
+logging_benchmark,4,0,custom_ii,5,64,196800,443100,128,9816
+
+callback_benchmark,custom_s96,5,64,424900,288700
+
+logging_benchmark,4,0,custom_s96,5,64,424900,288700,128,9817
+
+callback_benchmark,global_old_arity,5,64,193400,295800
+
+logging_benchmark,4,0,global_old_arity,5,64,193400,295800,128,9815
+
+callback_benchmark,custom_ii,6,64,214800,595000
+
+logging_benchmark,4,0,custom_ii,6,64,214800,595000,128,9816
+
+callback_benchmark,custom_s96,6,64,395300,555500
+
+logging_benchmark,4,0,custom_s96,6,64,395300,555500,128,9817
+
+callback_benchmark,global_old_arity,6,64,199500,1238300
+
+logging_benchmark,4,0,global_old_arity,6,64,199500,1238300,128,9817
+
+callback_benchmark,custom0,6,64,526900,581500
+
+logging_benchmark,4,0,custom0,6,64,526900,581500,128,9817
+
+callback_benchmark,custom_s96,7,64,474700,304600
+
+logging_benchmark,4,0,custom_s96,7,64,474700,304600,128,9816
+
+callback_benchmark,global_old_arity,7,64,176300,439200
+
+logging_benchmark,4,0,global_old_arity,7,64,176300,439200,128,9816
+
+callback_benchmark,custom0,7,64,213000,373400
+
+logging_benchmark,4,0,custom0,7,64,213000,373400,128,9817
+
+callback_benchmark,custom_ii,7,64,233900,455000
+
+logging_benchmark,4,0,custom_ii,7,64,233900,455000,128,9815
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,1037900,307000
+
+logging_benchmark,4,1,custom0,1,64,1037900,307000,128,0
+
+callback_benchmark,custom_ii,1,64,231700,309700
+
+logging_benchmark,4,1,custom_ii,1,64,231700,309700,128,0
+
+callback_benchmark,custom_s96,1,64,845300,269400
+
+logging_benchmark,4,1,custom_s96,1,64,845300,269400,128,0
+
+callback_benchmark,global_old_arity,1,64,194100,189800
+
+logging_benchmark,4,1,global_old_arity,1,64,194100,189800,128,0
+
+callback_benchmark,custom_ii,2,64,2501100,327300
+
+logging_benchmark,4,1,custom_ii,2,64,2501100,327300,128,0
+
+callback_benchmark,custom_s96,2,64,384800,260500
+
+logging_benchmark,4,1,custom_s96,2,64,384800,260500,128,0
+
+callback_benchmark,global_old_arity,2,64,188900,331900
+
+logging_benchmark,4,1,global_old_arity,2,64,188900,331900,128,0
+
+callback_benchmark,custom0,2,64,2285100,194000
+
+logging_benchmark,4,1,custom0,2,64,2285100,194000,128,0
+
+callback_benchmark,custom_s96,3,64,1248200,190600
+
+logging_benchmark,4,1,custom_s96,3,64,1248200,190600,128,0
+
+callback_benchmark,global_old_arity,3,64,455600,1029000
+
+logging_benchmark,4,1,global_old_arity,3,64,455600,1029000,129,0
+
+callback_benchmark,custom0,3,64,1125200,135000
+
+logging_benchmark,4,1,custom0,3,64,1125200,135000,128,0
+
+callback_benchmark,custom_ii,3,64,795800,218400
+
+logging_benchmark,4,1,custom_ii,3,64,795800,218400,128,0
+
+callback_benchmark,global_old_arity,4,64,1527400,139700
+
+logging_benchmark,4,1,global_old_arity,4,64,1527400,139700,128,0
+
+callback_benchmark,custom0,4,64,474100,383900
+
+logging_benchmark,4,1,custom0,4,64,474100,383900,128,0
+
+callback_benchmark,custom_ii,4,64,938100,146600
+
+logging_benchmark,4,1,custom_ii,4,64,938100,146600,128,0
+
+callback_benchmark,custom_s96,4,64,2038500,387600
+
+logging_benchmark,4,1,custom_s96,4,64,2038500,387600,128,0
+
+callback_benchmark,custom0,5,64,2521000,120700
+
+logging_benchmark,4,1,custom0,5,64,2521000,120700,128,0
+
+callback_benchmark,custom_ii,5,64,8236800,252400
+
+logging_benchmark,4,1,custom_ii,5,64,8236800,252400,128,0
+
+callback_benchmark,custom_s96,5,64,3738600,374200
+
+logging_benchmark,4,1,custom_s96,5,64,3738600,374200,128,0
+
+callback_benchmark,global_old_arity,5,64,677400,107900
+
+logging_benchmark,4,1,global_old_arity,5,64,677400,107900,142,0
+
+callback_benchmark,custom_ii,6,64,540400,188800
+
+logging_benchmark,4,1,custom_ii,6,64,540400,188800,130,0
+
+callback_benchmark,custom_s96,6,64,2102600,335900
+
+logging_benchmark,4,1,custom_s96,6,64,2102600,335900,128,0
+
+callback_benchmark,global_old_arity,6,64,889400,120700
+
+logging_benchmark,4,1,global_old_arity,6,64,889400,120700,128,0
+
+callback_benchmark,custom0,6,64,815900,112100
+
+logging_benchmark,4,1,custom0,6,64,815900,112100,128,0
+
+callback_benchmark,custom_s96,7,64,841300,138100
+
+logging_benchmark,4,1,custom_s96,7,64,841300,138100,128,0
+
+callback_benchmark,global_old_arity,7,64,387900,170300
+
+logging_benchmark,4,1,global_old_arity,7,64,387900,170300,128,0
+
+callback_benchmark,custom0,7,64,350800,115000
+
+logging_benchmark,4,1,custom0,7,64,350800,115000,129,0
+
+callback_benchmark,custom_ii,7,64,1065900,153000
+
+logging_benchmark,4,1,custom_ii,7,64,1065900,153000,128,0
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,183600,265400
+
+logging_benchmark,4,2,custom0,1,64,183600,265400,128,9753
+
+callback_benchmark,custom_ii,1,64,221100,361700
+
+logging_benchmark,4,2,custom_ii,1,64,221100,361700,130,9753
+
+callback_benchmark,custom_s96,1,64,441300,397700
+
+logging_benchmark,4,2,custom_s96,1,64,441300,397700,130,9752
+
+callback_benchmark,global_old_arity,1,64,198300,557600
+
+logging_benchmark,4,2,global_old_arity,1,64,198300,557600,128,9753
+
+callback_benchmark,custom_ii,2,64,210400,1159000
+
+logging_benchmark,4,2,custom_ii,2,64,210400,1159000,128,9753
+
+callback_benchmark,custom_s96,2,64,421700,4735900
+
+logging_benchmark,4,2,custom_s96,2,64,421700,4735900,130,9754
+
+callback_benchmark,global_old_arity,2,64,404100,1065500
+
+logging_benchmark,4,2,global_old_arity,2,64,404100,1065500,131,9753
+
+callback_benchmark,custom0,2,64,233000,1228500
+
+logging_benchmark,4,2,custom0,2,64,233000,1228500,129,9754
+
+callback_benchmark,custom_s96,3,64,456400,2298100
+
+logging_benchmark,4,2,custom_s96,3,64,456400,2298100,129,9753
+
+callback_benchmark,global_old_arity,3,64,662800,265700
+
+logging_benchmark,4,2,global_old_arity,3,64,662800,265700,128,9753
+
+callback_benchmark,custom0,3,64,433300,305800
+
+logging_benchmark,4,2,custom0,3,64,433300,305800,128,9753
+
+callback_benchmark,custom_ii,3,64,406100,1483800
+
+logging_benchmark,4,2,custom_ii,3,64,406100,1483800,129,9777
+
+callback_benchmark,global_old_arity,4,64,200500,756200
+
+logging_benchmark,4,2,global_old_arity,4,64,200500,756200,128,9817
+
+callback_benchmark,custom0,4,64,1989100,418500
+
+logging_benchmark,4,2,custom0,4,64,1989100,418500,128,9847
+
+callback_benchmark,custom_ii,4,64,239500,479800
+
+logging_benchmark,4,2,custom_ii,4,64,239500,479800,129,9816
+
+callback_benchmark,custom_s96,4,64,375200,1185600
+
+logging_benchmark,4,2,custom_s96,4,64,375200,1185600,128,9816
+
+callback_benchmark,custom0,5,64,370600,633900
+
+logging_benchmark,4,2,custom0,5,64,370600,633900,130,9815
+
+callback_benchmark,custom_ii,5,64,333200,321400
+
+logging_benchmark,4,2,custom_ii,5,64,333200,321400,128,9816
+
+callback_benchmark,custom_s96,5,64,4293100,1912400
+
+logging_benchmark,4,2,custom_s96,5,64,4293100,1912400,129,9819
+
+callback_benchmark,global_old_arity,5,64,13753500,863900
+
+logging_benchmark,4,2,global_old_arity,5,64,13753500,863900,129,9889
+
+callback_benchmark,custom_ii,6,64,223100,489700
+
+logging_benchmark,4,2,custom_ii,6,64,223100,489700,128,9817
+
+callback_benchmark,custom_s96,6,64,434100,765300
+
+logging_benchmark,4,2,custom_s96,6,64,434100,765300,128,9817
+
+callback_benchmark,global_old_arity,6,64,7672700,386900
+
+logging_benchmark,4,2,global_old_arity,6,64,7672700,386900,129,9853
+
+callback_benchmark,custom0,6,64,209600,308700
+
+logging_benchmark,4,2,custom0,6,64,209600,308700,128,9816
+
+callback_benchmark,custom_s96,7,64,1261700,515600
+
+logging_benchmark,4,2,custom_s96,7,64,1261700,515600,128,9823
+
+callback_benchmark,global_old_arity,7,64,202000,242500
+
+logging_benchmark,4,2,global_old_arity,7,64,202000,242500,128,9816
+
+callback_benchmark,custom0,7,64,173800,408600
+
+logging_benchmark,4,2,custom0,7,64,173800,408600,128,9817
+
+callback_benchmark,custom_ii,7,64,236400,462600
+
+logging_benchmark,4,2,custom_ii,7,64,236400,462600,128,9817
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,265700,869700
+
+logging_benchmark,5,0,custom0,1,64,265700,869700,129,9753
+
+callback_benchmark,custom_ii,1,64,258300,821500
+
+logging_benchmark,5,0,custom_ii,1,64,258300,821500,129,9753
+
+callback_benchmark,custom_s96,1,64,4884400,320700
+
+logging_benchmark,5,0,custom_s96,1,64,4884400,320700,129,9818
+
+callback_benchmark,global_old_arity,1,64,518000,3132700
+
+logging_benchmark,5,0,global_old_arity,1,64,518000,3132700,129,9754
+
+callback_benchmark,custom_ii,2,64,257200,643600
+
+logging_benchmark,5,0,custom_ii,2,64,257200,643600,129,9754
+
+callback_benchmark,custom_s96,2,64,477300,841700
+
+logging_benchmark,5,0,custom_s96,2,64,477300,841700,129,9753
+
+callback_benchmark,global_old_arity,2,64,158600,271700
+
+logging_benchmark,5,0,global_old_arity,2,64,158600,271700,129,9754
+
+callback_benchmark,custom0,2,64,6398800,281100
+
+logging_benchmark,5,0,custom0,2,64,6398800,281100,129,9788
+
+callback_benchmark,custom_s96,3,64,381100,1550500
+
+logging_benchmark,5,0,custom_s96,3,64,381100,1550500,129,9753
+
+callback_benchmark,global_old_arity,3,64,644900,338600
+
+logging_benchmark,5,0,global_old_arity,3,64,644900,338600,129,9752
+
+callback_benchmark,custom0,3,64,225800,360400
+
+logging_benchmark,5,0,custom0,3,64,225800,360400,129,9753
+
+callback_benchmark,custom_ii,3,64,587700,9348500
+
+logging_benchmark,5,0,custom_ii,3,64,587700,9348500,129,9775
+
+callback_benchmark,global_old_arity,4,64,195100,333300
+
+logging_benchmark,5,0,global_old_arity,4,64,195100,333300,129,9817
+
+callback_benchmark,custom0,4,64,23449900,1231400
+
+logging_benchmark,5,0,custom0,4,64,23449900,1231400,129,9821
+
+callback_benchmark,custom_ii,4,64,635900,608600
+
+logging_benchmark,5,0,custom_ii,4,64,635900,608600,129,9816
+
+callback_benchmark,custom_s96,4,64,12557400,330800
+
+logging_benchmark,5,0,custom_s96,4,64,12557400,330800,129,9839
+
+callback_benchmark,custom0,5,64,378400,360200
+
+logging_benchmark,5,0,custom0,5,64,378400,360200,129,9816
+
+callback_benchmark,custom_ii,5,64,274500,2721300
+
+logging_benchmark,5,0,custom_ii,5,64,274500,2721300,129,9817
+
+callback_benchmark,custom_s96,5,64,445500,520600
+
+logging_benchmark,5,0,custom_s96,5,64,445500,520600,129,9817
+
+callback_benchmark,global_old_arity,5,64,149800,285800
+
+logging_benchmark,5,0,global_old_arity,5,64,149800,285800,129,9817
+
+callback_benchmark,custom_ii,6,64,3869500,333100
+
+logging_benchmark,5,0,custom_ii,6,64,3869500,333100,129,9836
+
+callback_benchmark,custom_s96,6,64,1138400,338500
+
+logging_benchmark,5,0,custom_s96,6,64,1138400,338500,129,9825
+
+callback_benchmark,global_old_arity,6,64,417900,288800
+
+logging_benchmark,5,0,global_old_arity,6,64,417900,288800,129,9816
+
+callback_benchmark,custom0,6,64,186200,234800
+
+logging_benchmark,5,0,custom0,6,64,186200,234800,129,9817
+
+callback_benchmark,custom_s96,7,64,686800,288600
+
+logging_benchmark,5,0,custom_s96,7,64,686800,288600,129,9816
+
+callback_benchmark,global_old_arity,7,64,168000,278500
+
+logging_benchmark,5,0,global_old_arity,7,64,168000,278500,129,9816
+
+callback_benchmark,custom0,7,64,459800,279500
+
+logging_benchmark,5,0,custom0,7,64,459800,279500,129,9816
+
+callback_benchmark,custom_ii,7,64,229700,618700
+
+logging_benchmark,5,0,custom_ii,7,64,229700,618700,129,9816
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,197700,128900
+
+logging_benchmark,5,1,custom0,1,64,197700,128900,130,0
+
+callback_benchmark,custom_ii,1,64,239000,310300
+
+logging_benchmark,5,1,custom_ii,1,64,239000,310300,129,0
+
+callback_benchmark,custom_s96,1,64,446100,167900
+
+logging_benchmark,5,1,custom_s96,1,64,446100,167900,129,0
+
+callback_benchmark,global_old_arity,1,64,261000,168700
+
+logging_benchmark,5,1,global_old_arity,1,64,261000,168700,129,0
+
+callback_benchmark,custom_ii,2,64,252500,204100
+
+logging_benchmark,5,1,custom_ii,2,64,252500,204100,129,0
+
+callback_benchmark,custom_s96,2,64,440000,341200
+
+logging_benchmark,5,1,custom_s96,2,64,440000,341200,129,0
+
+callback_benchmark,global_old_arity,2,64,1048900,164800
+
+logging_benchmark,5,1,global_old_arity,2,64,1048900,164800,129,0
+
+callback_benchmark,custom0,2,64,3448200,142300
+
+logging_benchmark,5,1,custom0,2,64,3448200,142300,129,0
+
+callback_benchmark,custom_s96,3,64,435800,191000
+
+logging_benchmark,5,1,custom_s96,3,64,435800,191000,129,0
+
+callback_benchmark,global_old_arity,3,64,205400,236400
+
+logging_benchmark,5,1,global_old_arity,3,64,205400,236400,129,0
+
+callback_benchmark,custom0,3,64,214200,134000
+
+logging_benchmark,5,1,custom0,3,64,214200,134000,129,0
+
+callback_benchmark,custom_ii,3,64,219900,171800
+
+logging_benchmark,5,1,custom_ii,3,64,219900,171800,129,0
+
+callback_benchmark,global_old_arity,4,64,1328100,533900
+
+logging_benchmark,5,1,global_old_arity,4,64,1328100,533900,129,0
+
+callback_benchmark,custom0,4,64,438100,160400
+
+logging_benchmark,5,1,custom0,4,64,438100,160400,129,0
+
+callback_benchmark,custom_ii,4,64,1108600,256700
+
+logging_benchmark,5,1,custom_ii,4,64,1108600,256700,129,0
+
+callback_benchmark,custom_s96,4,64,1683400,552300
+
+logging_benchmark,5,1,custom_s96,4,64,1683400,552300,129,0
+
+callback_benchmark,custom0,5,64,174400,340700
+
+logging_benchmark,5,1,custom0,5,64,174400,340700,129,0
+
+callback_benchmark,custom_ii,5,64,226300,367700
+
+logging_benchmark,5,1,custom_ii,5,64,226300,367700,129,0
+
+callback_benchmark,custom_s96,5,64,499700,170200
+
+logging_benchmark,5,1,custom_s96,5,64,499700,170200,129,0
+
+callback_benchmark,global_old_arity,5,64,421900,112400
+
+logging_benchmark,5,1,global_old_arity,5,64,421900,112400,129,0
+
+callback_benchmark,custom_ii,6,64,299600,174300
+
+logging_benchmark,5,1,custom_ii,6,64,299600,174300,129,0
+
+callback_benchmark,custom_s96,6,64,433300,210200
+
+logging_benchmark,5,1,custom_s96,6,64,433300,210200,129,0
+
+callback_benchmark,global_old_arity,6,64,179500,198000
+
+logging_benchmark,5,1,global_old_arity,6,64,179500,198000,129,0
+
+callback_benchmark,custom0,6,64,189700,159800
+
+logging_benchmark,5,1,custom0,6,64,189700,159800,129,0
+
+callback_benchmark,custom_s96,7,64,382000,143000
+
+logging_benchmark,5,1,custom_s96,7,64,382000,143000,129,0
+
+callback_benchmark,global_old_arity,7,64,5655800,132300
+
+logging_benchmark,5,1,global_old_arity,7,64,5655800,132300,129,0
+
+callback_benchmark,custom0,7,64,272900,112400
+
+logging_benchmark,5,1,custom0,7,64,272900,112400,129,0
+
+callback_benchmark,custom_ii,7,64,906900,148500
+
+logging_benchmark,5,1,custom_ii,7,64,906900,148500,129,0
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,412900,560700
+
+logging_benchmark,5,2,custom0,1,64,412900,560700,130,9752
+
+callback_benchmark,custom_ii,1,64,400600,483000
+
+logging_benchmark,5,2,custom_ii,1,64,400600,483000,130,9753
+
+callback_benchmark,custom_s96,1,64,1113200,308700
+
+logging_benchmark,5,2,custom_s96,1,64,1113200,308700,130,9758
+
+callback_benchmark,global_old_arity,1,64,1193600,876100
+
+logging_benchmark,5,2,global_old_arity,1,64,1193600,876100,129,9752
+
+callback_benchmark,custom_ii,2,64,783700,367800
+
+logging_benchmark,5,2,custom_ii,2,64,783700,367800,129,9753
+
+callback_benchmark,custom_s96,2,64,992500,643300
+
+logging_benchmark,5,2,custom_s96,2,64,992500,643300,130,9753
+
+callback_benchmark,global_old_arity,2,64,679600,425500
+
+logging_benchmark,5,2,global_old_arity,2,64,679600,425500,129,9753
+
+callback_benchmark,custom0,2,64,5525800,329400
+
+logging_benchmark,5,2,custom0,2,64,5525800,329400,129,9753
+
+callback_benchmark,custom_s96,3,64,3093500,278100
+
+logging_benchmark,5,2,custom_s96,3,64,3093500,278100,131,9752
+
+callback_benchmark,global_old_arity,3,64,837400,759700
+
+logging_benchmark,5,2,global_old_arity,3,64,837400,759700,132,9753
+
+callback_benchmark,custom0,3,64,234300,338000
+
+logging_benchmark,5,2,custom0,3,64,234300,338000,130,9754
+
+callback_benchmark,custom_ii,3,64,390200,382600
+
+logging_benchmark,5,2,custom_ii,3,64,390200,382600,130,9775
+
+callback_benchmark,global_old_arity,4,64,352500,250600
+
+logging_benchmark,5,2,global_old_arity,4,64,352500,250600,129,9815
+
+callback_benchmark,custom0,4,64,293200,285000
+
+logging_benchmark,5,2,custom0,4,64,293200,285000,130,9815
+
+callback_benchmark,custom_ii,4,64,1481100,614800
+
+logging_benchmark,5,2,custom_ii,4,64,1481100,614800,129,9815
+
+callback_benchmark,custom_s96,4,64,784700,748700
+
+logging_benchmark,5,2,custom_s96,4,64,784700,748700,130,9815
+
+callback_benchmark,custom0,5,64,1057600,362900
+
+logging_benchmark,5,2,custom0,5,64,1057600,362900,130,9817
+
+callback_benchmark,custom_ii,5,64,3227100,295700
+
+logging_benchmark,5,2,custom_ii,5,64,3227100,295700,129,9815
+
+callback_benchmark,custom_s96,5,64,530100,924900
+
+logging_benchmark,5,2,custom_s96,5,64,530100,924900,131,9815
+
+callback_benchmark,global_old_arity,5,64,807100,267600
+
+logging_benchmark,5,2,global_old_arity,5,64,807100,267600,131,9817
+
+callback_benchmark,custom_ii,6,64,457700,1198000
+
+logging_benchmark,5,2,custom_ii,6,64,457700,1198000,129,9815
+
+callback_benchmark,custom_s96,6,64,498800,355600
+
+logging_benchmark,5,2,custom_s96,6,64,498800,355600,129,9815
+
+callback_benchmark,global_old_arity,6,64,381300,266600
+
+logging_benchmark,5,2,global_old_arity,6,64,381300,266600,130,9815
+
+callback_benchmark,custom0,6,64,533400,268500
+
+logging_benchmark,5,2,custom0,6,64,533400,268500,130,9815
+
+callback_benchmark,custom_s96,7,64,801200,326300
+
+logging_benchmark,5,2,custom_s96,7,64,801200,326300,130,9816
+
+callback_benchmark,global_old_arity,7,64,766600,1505200
+
+logging_benchmark,5,2,global_old_arity,7,64,766600,1505200,129,9820
+
+callback_benchmark,custom0,7,64,843800,307000
+
+logging_benchmark,5,2,custom0,7,64,843800,307000,129,9817
+
+callback_benchmark,custom_ii,7,64,16832500,303000
+
+logging_benchmark,5,2,custom_ii,7,64,16832500,303000,129,9832
+
+Native validation passed: 76938 checks; address seed=0x414d5801
+
+<end of output>
+
+Test time =   8.96 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"logging_integration" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"logging_integration" time elapsed: 00:00:08
+
+----------------------------------------------------------
+
+
+
+6/19 Testing: unit
+
+6/19 Test: unit
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"unit" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+26 checks passed
+
+<end of output>
+
+Test time =   0.22 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"unit" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"unit" time elapsed: 00:00:00
+
+----------------------------------------------------------
+
+
+
+7/19 Testing: audit_semantic_fuzz
+
+7/19 Test: audit_semantic_fuzz
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_audit_fuzz.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"audit_semantic_fuzz" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+semantic_fuzz seed=1096107081 cases=4096
+
+semantic_fuzz PASS cases=4096
+
+<end of output>
+
+Test time =   0.83 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"audit_semantic_fuzz" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"audit_semantic_fuzz" time elapsed: 00:00:00
+
+----------------------------------------------------------
+
+
+
+8/19 Testing: audit_faults_integration
+
+8/19 Test: audit_faults_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_audit_faults.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"audit_faults_integration" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+fault phase: ROLLBACK response loss
+
+fault phase: terminate during deferred COMMIT
+
+fault phase: cancellation category race rounds=32
+
+fault phase: timeout category rounds=8 query_ms=30
+
+audit_faults PASS
+
+<end of output>
+
+Test time =   7.55 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"audit_faults_integration" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"audit_faults_integration" time elapsed: 00:00:07
+
+----------------------------------------------------------
+
+
+
+9/19 Testing: diagnostics_unit
+
+9/19 Test: diagnostics_unit
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_diagnostics_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"diagnostics_unit" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+Diagnostics filtering/privacy/bounds/flood/sink/reload passed; buffer_bytes=20632 record_bytes=80
+
+File output levels/destinations/paths/append/rotation/failure/recovery/links/injection/concurrency passed
+
+<end of output>
+
+Test time =   1.06 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"diagnostics_unit" end time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+"diagnostics_unit" time elapsed: 00:00:01
+
+----------------------------------------------------------
+
+
+
+10/19 Testing: integration
+
+10/19 Test: integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_tests.exe" "--integration"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"integration" start time: Oct 23 16:53 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+163 checks passed
+
+<end of output>
+
+Test time =  12.06 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"integration" end time: Oct 23 16:54 Hora est. Pac�fico, Sudam�rica
+
+"integration" time elapsed: 00:00:12
+
+----------------------------------------------------------
+
+
+
+11/19 Testing: types_unit
+
+11/19 Test: types_unit
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_type_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"types_unit" start time: Oct 23 16:54 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+97 type checks passed
+
+<end of output>
+
+Test time =   0.22 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"types_unit" end time: Oct 23 16:54 Hora est. Pac�fico, Sudam�rica
+
+"types_unit" time elapsed: 00:00:00
+
+----------------------------------------------------------
+
+
+
+12/19 Testing: types_integration
+
+12/19 Test: types_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_type_tests.exe" "--integration"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"types_integration" start time: Oct 23 16:54 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+532 type checks passed
+
+<end of output>
+
+Test time =   1.44 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"types_integration" end time: Oct 23 16:54 Hora est. Pac�fico, Sudam�rica
+
+"types_integration" time elapsed: 00:00:01
+
+----------------------------------------------------------
+
+
+
+13/19 Testing: extensions_integration
+
+13/19 Test: extensions_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_extension_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"extensions_integration" start time: Oct 23 16:54 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+extension phase: batches
+
+extension phase: rejection
+
+extension phase: transactions
+
+extension phase: streaming
+
+extension phase: stream lifecycle
+
+606 extension checks passed
+
+<end of output>
+
+Test time =   6.53 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"extensions_integration" end time: Oct 23 16:54 Hora est. Pac�fico, Sudam�rica
+
+"extensions_integration" time elapsed: 00:00:06
+
+----------------------------------------------------------
+
+
+
+14/19 Testing: stress_integration
+
+14/19 Test: stress_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_stress_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"stress_integration" start time: Oct 23 16:54 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+seed=1592594996 rounds=10 libpq=170011 pointer_bytes=4 peak_rss_start_kib=8828
+
+load connecting
+
+load round 0
+
+audit_metric round=0 elapsed_us=195805 cpu_us=78125 rss_kib=15908 pending=0 errors=0 wave_jobs=48 sql_operations=464 p50_us=64812 p95_us=147022 p99_us=162686
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=0 elapsed_ms=679 peak_rss_kib=16144
+
+load round 1
+
+audit_metric round=1 elapsed_us=849499 cpu_us=187500 rss_kib=16140 pending=0 errors=0 wave_jobs=48 sql_operations=929 p50_us=85942 p95_us=137504 p99_us=149541
+
+load_sample round=1 elapsed_ms=849 peak_rss_kib=16172
+
+load round 2
+
+audit_metric round=2 elapsed_us=1011287 cpu_us=265625 rss_kib=16148 pending=0 errors=0 wave_jobs=48 sql_operations=1393 p50_us=80125 p95_us=121352 p99_us=128835
+
+load_sample round=2 elapsed_ms=1011 peak_rss_kib=16172
+
+load round 3
+
+audit_metric round=3 elapsed_us=1164118 cpu_us=328125 rss_kib=16172 pending=0 errors=0 wave_jobs=48 sql_operations=1857 p50_us=53899 p95_us=117821 p99_us=117992
+
+load_sample round=3 elapsed_ms=1164 peak_rss_kib=16172
+
+load round 4
+
+audit_metric round=4 elapsed_us=1313088 cpu_us=406250 rss_kib=16184 pending=0 errors=0 wave_jobs=48 sql_operations=2321 p50_us=65673 p95_us=115002 p99_us=119046
+
+load_sample round=4 elapsed_ms=1313 peak_rss_kib=16212
+
+load round 5
+
+audit_metric round=5 elapsed_us=1479044 cpu_us=515625 rss_kib=16180 pending=0 errors=0 wave_jobs=48 sql_operations=2785 p50_us=58649 p95_us=132915 p99_us=132946
+
+load_sample round=5 elapsed_ms=1479 peak_rss_kib=16212
+
+load round 6
+
+audit_metric round=6 elapsed_us=1598603 cpu_us=546875 rss_kib=16216 pending=0 errors=0 wave_jobs=48 sql_operations=3249 p50_us=33188 p95_us=99633 p99_us=99642
+
+load_sample round=6 elapsed_ms=1598 peak_rss_kib=16216
+
+load round 7
+
+audit_metric round=7 elapsed_us=1712344 cpu_us=609375 rss_kib=16240 pending=0 errors=0 wave_jobs=48 sql_operations=3713 p50_us=49770 p95_us=95870 p99_us=100319
+
+load_sample round=7 elapsed_ms=1712 peak_rss_kib=16240
+
+load round 8
+
+audit_metric round=8 elapsed_us=1814651 cpu_us=656250 rss_kib=16260 pending=0 errors=0 wave_jobs=48 sql_operations=4177 p50_us=49740 p95_us=85684 p99_us=85728
+
+load_sample round=8 elapsed_ms=1814 peak_rss_kib=16260
+
+load round 9
+
+audit_metric round=9 elapsed_us=1929177 cpu_us=687500 rss_kib=16264 pending=0 errors=0 wave_jobs=48 sql_operations=4641 p50_us=50973 p95_us=83008 p99_us=97467
+
+load_sample round=9 elapsed_ms=1929 peak_rss_kib=16264
+
+load round 10
+
+audit_metric round=10 elapsed_us=2063691 cpu_us=750000 rss_kib=16284 pending=0 errors=0 wave_jobs=48 sql_operations=5105 p50_us=54112 p95_us=97897 p99_us=110307
+
+load_sample round=10 elapsed_ms=2063 peak_rss_kib=16284
+
+load round 11
+
+audit_metric round=11 elapsed_us=2195070 cpu_us=796875 rss_kib=16268 pending=0 errors=0 wave_jobs=48 sql_operations=5569 p50_us=64973 p95_us=99440 p99_us=99544
+
+load_sample round=11 elapsed_ms=2195 peak_rss_kib=16284
+
+load round 12
+
+audit_metric round=12 elapsed_us=2339178 cpu_us=843750 rss_kib=16296 pending=0 errors=0 wave_jobs=48 sql_operations=6033 p50_us=50328 p95_us=99622 p99_us=117608
+
+load_sample round=12 elapsed_ms=2339 peak_rss_kib=16296
+
+load round 13
+
+audit_metric round=13 elapsed_us=2480646 cpu_us=890625 rss_kib=16276 pending=0 errors=0 wave_jobs=48 sql_operations=6497 p50_us=43233 p95_us=105026 p99_us=122502
+
+load_sample round=13 elapsed_ms=2480 peak_rss_kib=16296
+
+load round 14
+
+audit_metric round=14 elapsed_us=2602998 cpu_us=1000000 rss_kib=16268 pending=0 errors=0 wave_jobs=48 sql_operations=6961 p50_us=66099 p95_us=114681 p99_us=114715
+
+load_sample round=14 elapsed_ms=2603 peak_rss_kib=16296
+
+load round 15
+
+audit_metric round=15 elapsed_us=2745797 cpu_us=1078125 rss_kib=16280 pending=0 errors=0 wave_jobs=48 sql_operations=7425 p50_us=77703 p95_us=109594 p99_us=127593
+
+load_sample round=15 elapsed_ms=2745 peak_rss_kib=16296
+
+load round 16
+
+audit_metric round=16 elapsed_us=2881839 cpu_us=1171875 rss_kib=16280 pending=0 errors=0 wave_jobs=48 sql_operations=7889 p50_us=52510 p95_us=101725 p99_us=117944
+
+load_sample round=16 elapsed_ms=2965 peak_rss_kib=16296
+
+load round 17
+
+audit_metric round=17 elapsed_us=3212815 cpu_us=1250000 rss_kib=16292 pending=0 errors=0 wave_jobs=48 sql_operations=8353 p50_us=121171 p95_us=195536 p99_us=225330
+
+load_sample round=17 elapsed_ms=3212 peak_rss_kib=16296
+
+load round 18
+
+audit_metric round=18 elapsed_us=3479413 cpu_us=1343750 rss_kib=16304 pending=0 errors=0 wave_jobs=48 sql_operations=8817 p50_us=132283 p95_us=231780 p99_us=247307
+
+load_sample round=18 elapsed_ms=3479 peak_rss_kib=16304
+
+load round 19
+
+audit_metric round=19 elapsed_us=3747907 cpu_us=1406250 rss_kib=16312 pending=0 errors=0 wave_jobs=48 sql_operations=9281 p50_us=103251 p95_us=216626 p99_us=237511
+
+load_sample round=19 elapsed_ms=3747 peak_rss_kib=16312
+
+load round 20
+
+audit_metric round=20 elapsed_us=4035327 cpu_us=1515625 rss_kib=16328 pending=0 errors=0 wave_jobs=48 sql_operations=9745 p50_us=117817 p95_us=247476 p99_us=262831
+
+load_sample round=20 elapsed_ms=4035 peak_rss_kib=16328
+
+load round 21
+
+audit_metric round=21 elapsed_us=4300687 cpu_us=1609375 rss_kib=16328 pending=0 errors=0 wave_jobs=48 sql_operations=10209 p50_us=127091 p95_us=229039 p99_us=247178
+
+load_sample round=21 elapsed_ms=4300 peak_rss_kib=16328
+
+load round 22
+
+audit_metric round=22 elapsed_us=4595032 cpu_us=1703125 rss_kib=16360 pending=0 errors=0 wave_jobs=48 sql_operations=10673 p50_us=131484 p95_us=247351 p99_us=261375
+
+load_sample round=22 elapsed_ms=4595 peak_rss_kib=16360
+
+load round 23
+
+audit_metric round=23 elapsed_us=4914986 cpu_us=1812500 rss_kib=16364 pending=0 errors=0 wave_jobs=48 sql_operations=11137 p50_us=133204 p95_us=279535 p99_us=284375
+
+load_sample round=23 elapsed_ms=4915 peak_rss_kib=16364
+
+load round 24
+
+audit_metric round=24 elapsed_us=5212710 cpu_us=1921875 rss_kib=16372 pending=0 errors=0 wave_jobs=48 sql_operations=11601 p50_us=129468 p95_us=247337 p99_us=265588
+
+load_sample round=24 elapsed_ms=5212 peak_rss_kib=16372
+
+load round 25
+
+audit_metric round=25 elapsed_us=5504613 cpu_us=1984375 rss_kib=16340 pending=0 errors=0 wave_jobs=48 sql_operations=12065 p50_us=134536 p95_us=252919 p99_us=268863
+
+load_sample round=25 elapsed_ms=5504 peak_rss_kib=16372
+
+load round 26
+
+audit_metric round=26 elapsed_us=5798018 cpu_us=2109375 rss_kib=16352 pending=0 errors=0 wave_jobs=48 sql_operations=12529 p50_us=140898 p95_us=256513 p99_us=273553
+
+load_sample round=26 elapsed_ms=5798 peak_rss_kib=16372
+
+load round 27
+
+audit_metric round=27 elapsed_us=6085545 cpu_us=2171875 rss_kib=16352 pending=0 errors=0 wave_jobs=48 sql_operations=12993 p50_us=147206 p95_us=247847 p99_us=264470
+
+load_sample round=27 elapsed_ms=6085 peak_rss_kib=16372
+
+load round 28
+
+audit_metric round=28 elapsed_us=6383591 cpu_us=2250000 rss_kib=16352 pending=0 errors=0 wave_jobs=48 sql_operations=13457 p50_us=158487 p95_us=261036 p99_us=274101
+
+load_sample round=28 elapsed_ms=6383 peak_rss_kib=16372
+
+load round 29
+
+audit_metric round=29 elapsed_us=6674692 cpu_us=2296875 rss_kib=16372 pending=0 errors=0 wave_jobs=48 sql_operations=13921 p50_us=145161 p95_us=266696 p99_us=273870
+
+load_sample round=29 elapsed_ms=6675 peak_rss_kib=16372
+
+load round 30
+
+audit_metric round=30 elapsed_us=6963464 cpu_us=2359375 rss_kib=16372 pending=0 errors=0 wave_jobs=48 sql_operations=14385 p50_us=118313 p95_us=251987 p99_us=252038
+
+load_sample round=30 elapsed_ms=6963 peak_rss_kib=16372
+
+load round 31
+
+audit_metric round=31 elapsed_us=7248116 cpu_us=2453125 rss_kib=16356 pending=0 errors=0 wave_jobs=48 sql_operations=14849 p50_us=148922 p95_us=265920 p99_us=265950
+
+load_sample round=31 elapsed_ms=7248 peak_rss_kib=16372
+
+load round 32
+
+audit_metric round=32 elapsed_us=7515451 cpu_us=2531250 rss_kib=16360 pending=0 errors=0 wave_jobs=48 sql_operations=15313 p50_us=143998 p95_us=225057 p99_us=241037
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=32 elapsed_ms=7980 peak_rss_kib=16476
+
+load round 33
+
+audit_metric round=33 elapsed_us=8265775 cpu_us=2671875 rss_kib=16420 pending=0 errors=0 wave_jobs=48 sql_operations=15778 p50_us=138360 p95_us=247678 p99_us=265864
+
+load_sample round=33 elapsed_ms=8265 peak_rss_kib=16476
+
+load round 34
+
+audit_metric round=34 elapsed_us=8568061 cpu_us=2781250 rss_kib=16432 pending=0 errors=0 wave_jobs=48 sql_operations=16242 p50_us=160907 p95_us=261412 p99_us=271115
+
+load_sample round=34 elapsed_ms=8568 peak_rss_kib=16476
+
+load round 35
+
+audit_metric round=35 elapsed_us=8847579 cpu_us=2890625 rss_kib=16440 pending=0 errors=0 wave_jobs=48 sql_operations=16706 p50_us=125022 p95_us=223227 p99_us=241069
+
+load_sample round=35 elapsed_ms=8847 peak_rss_kib=16476
+
+load round 36
+
+audit_metric round=36 elapsed_us=9113674 cpu_us=3000000 rss_kib=16428 pending=0 errors=0 wave_jobs=48 sql_operations=17170 p50_us=129844 p95_us=229994 p99_us=230083
+
+load_sample round=36 elapsed_ms=9113 peak_rss_kib=16476
+
+load round 37
+
+audit_metric round=37 elapsed_us=9368584 cpu_us=3109375 rss_kib=16428 pending=0 errors=0 wave_jobs=48 sql_operations=17634 p50_us=96453 p95_us=212223 p99_us=218720
+
+load_sample round=37 elapsed_ms=9368 peak_rss_kib=16476
+
+load round 38
+
+audit_metric round=38 elapsed_us=9645876 cpu_us=3156250 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=18098 p50_us=110742 p95_us=243126 p99_us=243221
+
+load_sample round=38 elapsed_ms=9645 peak_rss_kib=16476
+
+load round 39
+
+audit_metric round=39 elapsed_us=9929962 cpu_us=3296875 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=18562 p50_us=149404 p95_us=250482 p99_us=264896
+
+load_sample round=39 elapsed_ms=9930 peak_rss_kib=16476
+
+load round 40
+
+audit_metric round=40 elapsed_us=10233164 cpu_us=3406250 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=19026 p50_us=130191 p95_us=262018 p99_us=278111
+
+load_sample round=40 elapsed_ms=10233 peak_rss_kib=16476
+
+load round 41
+
+audit_metric round=41 elapsed_us=10563896 cpu_us=3468750 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=19490 p50_us=110936 p95_us=275714 p99_us=293207
+
+load_sample round=41 elapsed_ms=10563 peak_rss_kib=16476
+
+load round 42
+
+audit_metric round=42 elapsed_us=10835466 cpu_us=3562500 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=19954 p50_us=141463 p95_us=241048 p99_us=247663
+
+load_sample round=42 elapsed_ms=10835 peak_rss_kib=16476
+
+load round 43
+
+audit_metric round=43 elapsed_us=11146460 cpu_us=3625000 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=20418 p50_us=116835 p95_us=259065 p99_us=259143
+
+load_sample round=43 elapsed_ms=11146 peak_rss_kib=16476
+
+load round 44
+
+audit_metric round=44 elapsed_us=11495921 cpu_us=3750000 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=20882 p50_us=169628 p95_us=283482 p99_us=314299
+
+load_sample round=44 elapsed_ms=11496 peak_rss_kib=16476
+
+load round 45
+
+audit_metric round=45 elapsed_us=11829620 cpu_us=3843750 rss_kib=16428 pending=0 errors=0 wave_jobs=48 sql_operations=21346 p50_us=155557 p95_us=270683 p99_us=270720
+
+load_sample round=45 elapsed_ms=11829 peak_rss_kib=16476
+
+load round 46
+
+audit_metric round=46 elapsed_us=12179306 cpu_us=3921875 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=21810 p50_us=144805 p95_us=282139 p99_us=298990
+
+load_sample round=46 elapsed_ms=12179 peak_rss_kib=16476
+
+load round 47
+
+audit_metric round=47 elapsed_us=12500435 cpu_us=4062500 rss_kib=16436 pending=0 errors=0 wave_jobs=48 sql_operations=22274 p50_us=131495 p95_us=283250 p99_us=283275
+
+load_sample round=47 elapsed_ms=12500 peak_rss_kib=16476
+
+load round 48
+
+audit_metric round=48 elapsed_us=12796255 cpu_us=4156250 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=22738 p50_us=114588 p95_us=243128 p99_us=256622
+
+load_sample round=48 elapsed_ms=12879 peak_rss_kib=16476
+
+load round 49
+
+audit_metric round=49 elapsed_us=13193819 cpu_us=4265625 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=23202 p50_us=115561 p95_us=265985 p99_us=281537
+
+load_sample round=49 elapsed_ms=13193 peak_rss_kib=16476
+
+load round 50
+
+audit_metric round=50 elapsed_us=13497281 cpu_us=4375000 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=23666 p50_us=149828 p95_us=264574 p99_us=265068
+
+load_sample round=50 elapsed_ms=13497 peak_rss_kib=16476
+
+load round 51
+
+audit_metric round=51 elapsed_us=13800256 cpu_us=4500000 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=24130 p50_us=134421 p95_us=247064 p99_us=263817
+
+load_sample round=51 elapsed_ms=13800 peak_rss_kib=16476
+
+load round 52
+
+audit_metric round=52 elapsed_us=14079270 cpu_us=4546875 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=24594 p50_us=131065 p95_us=227645 p99_us=245416
+
+load_sample round=52 elapsed_ms=14079 peak_rss_kib=16476
+
+load round 53
+
+audit_metric round=53 elapsed_us=14379615 cpu_us=4609375 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=25058 p50_us=116196 p95_us=235108 p99_us=250941
+
+load_sample round=53 elapsed_ms=14379 peak_rss_kib=16476
+
+load round 54
+
+audit_metric round=54 elapsed_us=14678072 cpu_us=4734375 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=25522 p50_us=123990 p95_us=247246 p99_us=264325
+
+load_sample round=54 elapsed_ms=14678 peak_rss_kib=16476
+
+load round 55
+
+audit_metric round=55 elapsed_us=14984103 cpu_us=4796875 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=25986 p50_us=131150 p95_us=249680 p99_us=265058
+
+load_sample round=55 elapsed_ms=14984 peak_rss_kib=16476
+
+load round 56
+
+audit_metric round=56 elapsed_us=15263972 cpu_us=4890625 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=26450 p50_us=145918 p95_us=228083 p99_us=243078
+
+load_sample round=56 elapsed_ms=15264 peak_rss_kib=16476
+
+load round 57
+
+audit_metric round=57 elapsed_us=15563616 cpu_us=4953125 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=26914 p50_us=130966 p95_us=246813 p99_us=263573
+
+load_sample round=57 elapsed_ms=15563 peak_rss_kib=16476
+
+load round 58
+
+audit_metric round=58 elapsed_us=15880103 cpu_us=5062500 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=27378 p50_us=147260 p95_us=249836 p99_us=280495
+
+load_sample round=58 elapsed_ms=15880 peak_rss_kib=16476
+
+load round 59
+
+audit_metric round=59 elapsed_us=16161951 cpu_us=5203125 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=27842 p50_us=114326 p95_us=214643 p99_us=229792
+
+load_sample round=59 elapsed_ms=16162 peak_rss_kib=16476
+
+load round 60
+
+audit_metric round=60 elapsed_us=16428869 cpu_us=5265625 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=28306 p50_us=124054 p95_us=216949 p99_us=232199
+
+load_sample round=60 elapsed_ms=16428 peak_rss_kib=16476
+
+load round 61
+
+audit_metric round=61 elapsed_us=16713569 cpu_us=5343750 rss_kib=16440 pending=0 errors=0 wave_jobs=48 sql_operations=28770 p50_us=116224 p95_us=231651 p99_us=231721
+
+load_sample round=61 elapsed_ms=16713 peak_rss_kib=16476
+
+load round 62
+
+audit_metric round=62 elapsed_us=17029776 cpu_us=5531250 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=29234 p50_us=114983 p95_us=264075 p99_us=280537
+
+load_sample round=62 elapsed_ms=17029 peak_rss_kib=16476
+
+load round 63
+
+audit_metric round=63 elapsed_us=17346265 cpu_us=5640625 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=29698 p50_us=120622 p95_us=264292 p99_us=280586
+
+load_sample round=63 elapsed_ms=17346 peak_rss_kib=16476
+
+load round 64
+
+audit_metric round=64 elapsed_us=17679861 cpu_us=5718750 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=30162 p50_us=157480 p95_us=271530 p99_us=304149
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=64 elapsed_ms=18296 peak_rss_kib=16520
+
+load round 65
+
+audit_metric round=65 elapsed_us=18594125 cpu_us=5796875 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=30627 p50_us=130850 p95_us=240316 p99_us=240367
+
+load_sample round=65 elapsed_ms=18594 peak_rss_kib=16520
+
+load round 66
+
+audit_metric round=66 elapsed_us=18931717 cpu_us=5921875 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=31091 p50_us=149058 p95_us=273015 p99_us=300883
+
+load_sample round=66 elapsed_ms=18931 peak_rss_kib=16520
+
+load round 67
+
+audit_metric round=67 elapsed_us=19229615 cpu_us=5984375 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=31555 p50_us=98696 p95_us=249606 p99_us=264917
+
+load_sample round=67 elapsed_ms=19229 peak_rss_kib=16520
+
+load round 68
+
+audit_metric round=68 elapsed_us=19564168 cpu_us=6093750 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=32019 p50_us=122327 p95_us=252908 p99_us=287504
+
+load_sample round=68 elapsed_ms=19564 peak_rss_kib=16520
+
+load round 69
+
+audit_metric round=69 elapsed_us=19864732 cpu_us=6140625 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=32483 p50_us=117294 p95_us=251672 p99_us=264458
+
+load_sample round=69 elapsed_ms=19864 peak_rss_kib=16520
+
+load round 70
+
+audit_metric round=70 elapsed_us=20115364 cpu_us=6218750 rss_kib=16476 pending=0 errors=0 wave_jobs=48 sql_operations=32947 p50_us=132653 p95_us=212812 p99_us=227874
+
+load_sample round=70 elapsed_ms=20115 peak_rss_kib=16520
+
+load round 71
+
+audit_metric round=71 elapsed_us=20399049 cpu_us=6281250 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=33411 p50_us=123646 p95_us=244609 p99_us=262798
+
+load_sample round=71 elapsed_ms=20399 peak_rss_kib=16520
+
+load round 72
+
+audit_metric round=72 elapsed_us=20649045 cpu_us=6406250 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=33875 p50_us=96769 p95_us=211241 p99_us=230517
+
+load_sample round=72 elapsed_ms=20649 peak_rss_kib=16520
+
+load round 73
+
+audit_metric round=73 elapsed_us=20915325 cpu_us=6468750 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=34339 p50_us=146167 p95_us=244454 p99_us=244609
+
+load_sample round=73 elapsed_ms=20915 peak_rss_kib=16520
+
+load round 74
+
+audit_metric round=74 elapsed_us=21180895 cpu_us=6531250 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=34803 p50_us=113731 p95_us=229405 p99_us=246926
+
+load_sample round=74 elapsed_ms=21180 peak_rss_kib=16520
+
+load round 75
+
+audit_metric round=75 elapsed_us=21465815 cpu_us=6671875 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=35267 p50_us=150578 p95_us=236878 p99_us=265886
+
+load_sample round=75 elapsed_ms=21465 peak_rss_kib=16520
+
+load round 76
+
+audit_metric round=76 elapsed_us=21796159 cpu_us=6703125 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=35731 p50_us=134238 p95_us=278804 p99_us=293656
+
+load_sample round=76 elapsed_ms=21796 peak_rss_kib=16520
+
+load round 77
+
+audit_metric round=77 elapsed_us=22062402 cpu_us=6828125 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=36195 p50_us=135324 p95_us=217405 p99_us=248315
+
+load_sample round=77 elapsed_ms=22062 peak_rss_kib=16520
+
+load round 78
+
+audit_metric round=78 elapsed_us=22364229 cpu_us=6968750 rss_kib=16476 pending=0 errors=0 wave_jobs=48 sql_operations=36659 p50_us=117325 p95_us=252371 p99_us=282675
+
+load_sample round=78 elapsed_ms=22364 peak_rss_kib=16520
+
+load round 79
+
+audit_metric round=79 elapsed_us=22713362 cpu_us=7078125 rss_kib=16476 pending=0 errors=0 wave_jobs=48 sql_operations=37123 p50_us=148568 p95_us=284771 p99_us=317452
+
+load_sample round=79 elapsed_ms=22713 peak_rss_kib=16520
+
+load round 80
+
+audit_metric round=80 elapsed_us=22996424 cpu_us=7171875 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=37587 p50_us=134103 p95_us=263430 p99_us=263479
+
+load_sample round=80 elapsed_ms=23079 peak_rss_kib=16520
+
+load round 81
+
+audit_metric round=81 elapsed_us=23391216 cpu_us=7328125 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=38051 p50_us=99398 p95_us=247580 p99_us=280084
+
+load_sample round=81 elapsed_ms=23391 peak_rss_kib=16520
+
+load round 82
+
+audit_metric round=82 elapsed_us=23694686 cpu_us=7437500 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=38515 p50_us=138272 p95_us=257132 p99_us=267061
+
+load_sample round=82 elapsed_ms=23694 peak_rss_kib=16520
+
+load round 83
+
+audit_metric round=83 elapsed_us=23962684 cpu_us=7562500 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=38979 p50_us=137269 p95_us=232192 p99_us=250199
+
+load_sample round=83 elapsed_ms=23962 peak_rss_kib=16520
+
+load round 84
+
+audit_metric round=84 elapsed_us=24246048 cpu_us=7703125 rss_kib=16452 pending=0 errors=0 wave_jobs=48 sql_operations=39443 p50_us=135632 p95_us=240964 p99_us=260004
+
+load_sample round=84 elapsed_ms=24246 peak_rss_kib=16520
+
+load round 85
+
+audit_metric round=85 elapsed_us=24548644 cpu_us=7812500 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=39907 p50_us=134394 p95_us=248728 p99_us=264187
+
+load_sample round=85 elapsed_ms=24548 peak_rss_kib=16520
+
+load round 86
+
+audit_metric round=86 elapsed_us=24825470 cpu_us=7906250 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=40371 p50_us=129845 p95_us=248095 p99_us=248146
+
+load_sample round=86 elapsed_ms=24825 peak_rss_kib=16520
+
+load round 87
+
+audit_metric round=87 elapsed_us=25113553 cpu_us=8046875 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=40835 p50_us=152846 p95_us=252346 p99_us=268695
+
+load_sample round=87 elapsed_ms=25113 peak_rss_kib=16520
+
+load round 88
+
+audit_metric round=88 elapsed_us=25382900 cpu_us=8140625 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=41299 p50_us=131119 p95_us=232345 p99_us=257228
+
+load_sample round=88 elapsed_ms=25383 peak_rss_kib=16520
+
+load round 89
+
+audit_metric round=89 elapsed_us=25665966 cpu_us=8250000 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=41763 p50_us=149833 p95_us=258376 p99_us=258442
+
+load_sample round=89 elapsed_ms=25666 peak_rss_kib=16520
+
+load round 90
+
+audit_metric round=90 elapsed_us=25965118 cpu_us=8281250 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=42227 p50_us=103652 p95_us=244937 p99_us=261586
+
+load_sample round=90 elapsed_ms=25965 peak_rss_kib=16520
+
+load round 91
+
+audit_metric round=91 elapsed_us=26213798 cpu_us=8437500 rss_kib=16452 pending=0 errors=0 wave_jobs=48 sql_operations=42691 p50_us=134479 p95_us=213237 p99_us=229819
+
+load_sample round=91 elapsed_ms=26213 peak_rss_kib=16520
+
+load round 92
+
+audit_metric round=92 elapsed_us=26503477 cpu_us=8500000 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=43155 p50_us=115362 p95_us=246665 p99_us=265655
+
+load_sample round=92 elapsed_ms=26503 peak_rss_kib=16520
+
+load round 93
+
+audit_metric round=93 elapsed_us=26763775 cpu_us=8562500 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=43619 p50_us=107284 p95_us=220276 p99_us=220321
+
+load_sample round=93 elapsed_ms=26763 peak_rss_kib=16520
+
+load round 94
+
+audit_metric round=94 elapsed_us=27036794 cpu_us=8671875 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=44083 p50_us=124037 p95_us=230251 p99_us=230267
+
+load_sample round=94 elapsed_ms=27036 peak_rss_kib=16520
+
+load round 95
+
+audit_metric round=95 elapsed_us=27295780 cpu_us=8796875 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=44547 p50_us=91862 p95_us=223226 p99_us=223268
+
+load_sample round=95 elapsed_ms=27295 peak_rss_kib=16520
+
+load round 96
+
+audit_metric round=96 elapsed_us=27566746 cpu_us=8875000 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=45011 p50_us=133526 p95_us=232131 p99_us=250423
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=96 elapsed_ms=28129 peak_rss_kib=16524
+
+load round 97
+
+audit_metric round=97 elapsed_us=28447057 cpu_us=8937500 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=45476 p50_us=153967 p95_us=264752 p99_us=280977
+
+load_sample round=97 elapsed_ms=28447 peak_rss_kib=16524
+
+load round 98
+
+audit_metric round=98 elapsed_us=28746192 cpu_us=9015625 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=45940 p50_us=135791 p95_us=246044 p99_us=260825
+
+load_sample round=98 elapsed_ms=28746 peak_rss_kib=16524
+
+load round 99
+
+audit_metric round=99 elapsed_us=29063802 cpu_us=9078125 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=46404 p50_us=133319 p95_us=263557 p99_us=281940
+
+load_sample round=99 elapsed_ms=29063 peak_rss_kib=16524
+
+load round 100
+
+audit_metric round=100 elapsed_us=29363203 cpu_us=9187500 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=46868 p50_us=135039 p95_us=246770 p99_us=263706
+
+load_sample round=100 elapsed_ms=29363 peak_rss_kib=16524
+
+load round 101
+
+audit_metric round=101 elapsed_us=29663954 cpu_us=9281250 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=47332 p50_us=131396 p95_us=249186 p99_us=281328
+
+load_sample round=101 elapsed_ms=29664 peak_rss_kib=16524
+
+load round 102
+
+audit_metric round=102 elapsed_us=29963450 cpu_us=9390625 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=47796 p50_us=152862 p95_us=247458 p99_us=263000
+
+load_sample round=102 elapsed_ms=29963 peak_rss_kib=16524
+
+load round 103
+
+audit_metric round=103 elapsed_us=30247201 cpu_us=9531250 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=48260 p50_us=121417 p95_us=212091 p99_us=227988
+
+load_sample round=103 elapsed_ms=30247 peak_rss_kib=16524
+
+load round 104
+
+audit_metric round=104 elapsed_us=30545899 cpu_us=9593750 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=48724 p50_us=130873 p95_us=229438 p99_us=247118
+
+load_sample round=104 elapsed_ms=30545 peak_rss_kib=16524
+
+load round 105
+
+audit_metric round=105 elapsed_us=30812075 cpu_us=9687500 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=49188 p50_us=154719 p95_us=232713 p99_us=232739
+
+load_sample round=105 elapsed_ms=30812 peak_rss_kib=16524
+
+load round 106
+
+audit_metric round=106 elapsed_us=31078159 cpu_us=9703125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=49652 p50_us=131824 p95_us=215467 p99_us=232196
+
+load_sample round=106 elapsed_ms=31078 peak_rss_kib=16524
+
+load round 107
+
+audit_metric round=107 elapsed_us=31379071 cpu_us=9843750 rss_kib=16472 pending=0 errors=0 wave_jobs=48 sql_operations=50116 p50_us=133860 p95_us=232355 p99_us=248965
+
+load_sample round=107 elapsed_ms=31379 peak_rss_kib=16524
+
+load round 108
+
+audit_metric round=108 elapsed_us=31695864 cpu_us=9921875 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=50580 p50_us=132600 p95_us=248174 p99_us=264697
+
+load_sample round=108 elapsed_ms=31695 peak_rss_kib=16524
+
+load round 109
+
+audit_metric round=109 elapsed_us=31986669 cpu_us=9968750 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=51044 p50_us=148846 p95_us=264517 p99_us=264971
+
+load_sample round=109 elapsed_ms=31986 peak_rss_kib=16524
+
+load round 110
+
+audit_metric round=110 elapsed_us=32295922 cpu_us=10031250 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=51508 p50_us=144726 p95_us=240994 p99_us=257494
+
+load_sample round=110 elapsed_ms=32295 peak_rss_kib=16524
+
+load round 111
+
+audit_metric round=111 elapsed_us=32686602 cpu_us=10125000 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=51972 p50_us=132018 p95_us=331725 p99_us=348847
+
+load_sample round=111 elapsed_ms=32686 peak_rss_kib=16524
+
+load round 112
+
+audit_metric round=112 elapsed_us=33012111 cpu_us=10203125 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=52436 p50_us=174648 p95_us=274056 p99_us=291187
+
+load_sample round=112 elapsed_ms=33077 peak_rss_kib=16524
+
+load round 113
+
+audit_metric round=113 elapsed_us=33431794 cpu_us=10343750 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=52900 p50_us=103856 p95_us=282976 p99_us=315674
+
+load_sample round=113 elapsed_ms=33431 peak_rss_kib=16524
+
+load round 114
+
+audit_metric round=114 elapsed_us=33734875 cpu_us=10437500 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=53364 p50_us=149704 p95_us=248829 p99_us=264198
+
+load_sample round=114 elapsed_ms=33735 peak_rss_kib=16524
+
+load round 115
+
+audit_metric round=115 elapsed_us=34064011 cpu_us=10531250 rss_kib=16472 pending=0 errors=0 wave_jobs=48 sql_operations=53828 p50_us=175740 p95_us=258600 p99_us=292379
+
+load_sample round=115 elapsed_ms=34064 peak_rss_kib=16524
+
+load round 116
+
+audit_metric round=116 elapsed_us=34381204 cpu_us=10640625 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=54292 p50_us=132000 p95_us=248459 p99_us=280439
+
+load_sample round=116 elapsed_ms=34381 peak_rss_kib=16524
+
+load round 117
+
+audit_metric round=117 elapsed_us=34680240 cpu_us=10765625 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=54756 p50_us=129894 p95_us=244796 p99_us=262115
+
+load_sample round=117 elapsed_ms=34680 peak_rss_kib=16524
+
+load round 118
+
+audit_metric round=118 elapsed_us=34949783 cpu_us=10812500 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=55220 p50_us=132364 p95_us=231330 p99_us=247124
+
+load_sample round=118 elapsed_ms=34949 peak_rss_kib=16524
+
+load round 119
+
+audit_metric round=119 elapsed_us=35216659 cpu_us=10890625 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=55684 p50_us=145751 p95_us=245101 p99_us=245144
+
+load_sample round=119 elapsed_ms=35216 peak_rss_kib=16524
+
+load round 120
+
+audit_metric round=120 elapsed_us=35496454 cpu_us=10953125 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=56148 p50_us=112314 p95_us=225433 p99_us=226856
+
+load_sample round=120 elapsed_ms=35496 peak_rss_kib=16524
+
+load round 121
+
+audit_metric round=121 elapsed_us=35813394 cpu_us=11062500 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=56612 p50_us=132337 p95_us=264294 p99_us=264360
+
+load_sample round=121 elapsed_ms=35813 peak_rss_kib=16524
+
+load round 122
+
+audit_metric round=122 elapsed_us=36112370 cpu_us=11203125 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=57076 p50_us=148064 p95_us=248166 p99_us=264621
+
+load_sample round=122 elapsed_ms=36112 peak_rss_kib=16524
+
+load round 123
+
+audit_metric round=123 elapsed_us=36379794 cpu_us=11250000 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=57540 p50_us=137558 p95_us=231342 p99_us=231381
+
+load_sample round=123 elapsed_ms=36379 peak_rss_kib=16524
+
+load round 124
+
+audit_metric round=124 elapsed_us=36663539 cpu_us=11312500 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=58004 p50_us=153018 p95_us=247048 p99_us=247088
+
+load_sample round=124 elapsed_ms=36663 peak_rss_kib=16524
+
+load round 125
+
+audit_metric round=125 elapsed_us=36954175 cpu_us=11421875 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=58468 p50_us=131777 p95_us=237997 p99_us=250115
+
+load_sample round=125 elapsed_ms=36954 peak_rss_kib=16524
+
+load round 126
+
+audit_metric round=126 elapsed_us=37279020 cpu_us=11468750 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=58932 p50_us=127723 p95_us=273459 p99_us=273564
+
+load_sample round=126 elapsed_ms=37279 peak_rss_kib=16524
+
+load round 127
+
+audit_metric round=127 elapsed_us=37578863 cpu_us=11578125 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=59396 p50_us=139630 p95_us=232704 p99_us=249279
+
+load_sample round=127 elapsed_ms=37578 peak_rss_kib=16524
+
+load round 128
+
+audit_metric round=128 elapsed_us=37845562 cpu_us=11671875 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=59860 p50_us=135430 p95_us=237729 p99_us=237960
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=128 elapsed_ms=38481 peak_rss_kib=16548
+
+load round 129
+
+audit_metric round=129 elapsed_us=38814770 cpu_us=11718750 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=60325 p50_us=135003 p95_us=283442 p99_us=297970
+
+load_sample round=129 elapsed_ms=38814 peak_rss_kib=16548
+
+load round 130
+
+audit_metric round=130 elapsed_us=39112628 cpu_us=11750000 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=60789 p50_us=152922 p95_us=244318 p99_us=256215
+
+load_sample round=130 elapsed_ms=39112 peak_rss_kib=16548
+
+load round 131
+
+audit_metric round=131 elapsed_us=39416783 cpu_us=11828125 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=61253 p50_us=151402 p95_us=260555 p99_us=274829
+
+load_sample round=131 elapsed_ms=39416 peak_rss_kib=16548
+
+load round 132
+
+audit_metric round=132 elapsed_us=39679741 cpu_us=12000000 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=61717 p50_us=141754 p95_us=227943 p99_us=238709
+
+load_sample round=132 elapsed_ms=39679 peak_rss_kib=16548
+
+load round 133
+
+audit_metric round=133 elapsed_us=39982232 cpu_us=12140625 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=62181 p50_us=159933 p95_us=266290 p99_us=281531
+
+load_sample round=133 elapsed_ms=39982 peak_rss_kib=16548
+
+load round 134
+
+audit_metric round=134 elapsed_us=40247465 cpu_us=12234375 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=62645 p50_us=146306 p95_us=245179 p99_us=245300
+
+load_sample round=134 elapsed_ms=40247 peak_rss_kib=16548
+
+load round 135
+
+audit_metric round=135 elapsed_us=40512243 cpu_us=12312500 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=63109 p50_us=114019 p95_us=225371 p99_us=242400
+
+load_sample round=135 elapsed_ms=40512 peak_rss_kib=16548
+
+load round 136
+
+audit_metric round=136 elapsed_us=40782132 cpu_us=12406250 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=63573 p50_us=117761 p95_us=232753 p99_us=249048
+
+load_sample round=136 elapsed_ms=40782 peak_rss_kib=16548
+
+load round 137
+
+audit_metric round=137 elapsed_us=41048265 cpu_us=12500000 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=64037 p50_us=116466 p95_us=232203 p99_us=245645
+
+load_sample round=137 elapsed_ms=41048 peak_rss_kib=16548
+
+load round 138
+
+audit_metric round=138 elapsed_us=41303697 cpu_us=12578125 rss_kib=16520 pending=0 errors=0 wave_jobs=48 sql_operations=64501 p50_us=146985 p95_us=222452 p99_us=222491
+
+load_sample round=138 elapsed_ms=41303 peak_rss_kib=16548
+
+load round 139
+
+audit_metric round=139 elapsed_us=41595836 cpu_us=12687500 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=64965 p50_us=128001 p95_us=241546 p99_us=274500
+
+load_sample round=139 elapsed_ms=41595 peak_rss_kib=16548
+
+load round 140
+
+audit_metric round=140 elapsed_us=41857990 cpu_us=12812500 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=65429 p50_us=116552 p95_us=216513 p99_us=225533
+
+load_sample round=140 elapsed_ms=41858 peak_rss_kib=16548
+
+load round 141
+
+audit_metric round=141 elapsed_us=42133065 cpu_us=12875000 rss_kib=16536 pending=0 errors=0 wave_jobs=48 sql_operations=65893 p50_us=122472 p95_us=245158 p99_us=245234
+
+load_sample round=141 elapsed_ms=42133 peak_rss_kib=16548
+
+load round 142
+
+audit_metric round=142 elapsed_us=42412304 cpu_us=12984375 rss_kib=16536 pending=0 errors=0 wave_jobs=48 sql_operations=66357 p50_us=148513 p95_us=255361 p99_us=260605
+
+load_sample round=142 elapsed_ms=42412 peak_rss_kib=16548
+
+load round 143
+
+audit_metric round=143 elapsed_us=42699198 cpu_us=13109375 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=66821 p50_us=134779 p95_us=248029 p99_us=269517
+
+load_sample round=143 elapsed_ms=42699 peak_rss_kib=16548
+
+load round 144
+
+audit_metric round=144 elapsed_us=42995447 cpu_us=13203125 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=67285 p50_us=116799 p95_us=277381 p99_us=277414
+
+load_sample round=144 elapsed_ms=43045 peak_rss_kib=16548
+
+load round 145
+
+audit_metric round=145 elapsed_us=43328101 cpu_us=13218750 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=67749 p50_us=136107 p95_us=263323 p99_us=263336
+
+load_sample round=145 elapsed_ms=43328 peak_rss_kib=16548
+
+load round 146
+
+audit_metric round=146 elapsed_us=43615872 cpu_us=13281250 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=68213 p50_us=125235 p95_us=246667 p99_us=262887
+
+load_sample round=146 elapsed_ms=43615 peak_rss_kib=16548
+
+load round 147
+
+audit_metric round=147 elapsed_us=43884711 cpu_us=13343750 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=68677 p50_us=113874 p95_us=228214 p99_us=230848
+
+load_sample round=147 elapsed_ms=43884 peak_rss_kib=16548
+
+load round 148
+
+audit_metric round=148 elapsed_us=44166973 cpu_us=13421875 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=69141 p50_us=131848 p95_us=246769 p99_us=260426
+
+load_sample round=148 elapsed_ms=44167 peak_rss_kib=16548
+
+load round 149
+
+audit_metric round=149 elapsed_us=44444736 cpu_us=13468750 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=69605 p50_us=146344 p95_us=224268 p99_us=240880
+
+load_sample round=149 elapsed_ms=44445 peak_rss_kib=16548
+
+load round 150
+
+audit_metric round=150 elapsed_us=44740658 cpu_us=13640625 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=70069 p50_us=166548 p95_us=265922 p99_us=266343
+
+load_sample round=150 elapsed_ms=44740 peak_rss_kib=16548
+
+load round 151
+
+audit_metric round=151 elapsed_us=45029852 cpu_us=13703125 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=70533 p50_us=156163 p95_us=255403 p99_us=260667
+
+load_sample round=151 elapsed_ms=45029 peak_rss_kib=16548
+
+load round 152
+
+audit_metric round=152 elapsed_us=45280034 cpu_us=13828125 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=70997 p50_us=129487 p95_us=227671 p99_us=227696
+
+load_sample round=152 elapsed_ms=45280 peak_rss_kib=16548
+
+load round 153
+
+audit_metric round=153 elapsed_us=45528912 cpu_us=13890625 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=71461 p50_us=124944 p95_us=205019 p99_us=221286
+
+load_sample round=153 elapsed_ms=45528 peak_rss_kib=16548
+
+load round 154
+
+audit_metric round=154 elapsed_us=45775229 cpu_us=13921875 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=71925 p50_us=101129 p95_us=221667 p99_us=231956
+
+load_sample round=154 elapsed_ms=45775 peak_rss_kib=16548
+
+load round 155
+
+audit_metric round=155 elapsed_us=46045431 cpu_us=13968750 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=72389 p50_us=146585 p95_us=253170 p99_us=253201
+
+load_sample round=155 elapsed_ms=46045 peak_rss_kib=16548
+
+load round 156
+
+audit_metric round=156 elapsed_us=46296439 cpu_us=14062500 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=72853 p50_us=123287 p95_us=222194 p99_us=222225
+
+load_sample round=156 elapsed_ms=46296 peak_rss_kib=16548
+
+load round 157
+
+audit_metric round=157 elapsed_us=46525737 cpu_us=14125000 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=73317 p50_us=111631 p95_us=207053 p99_us=212242
+
+load_sample round=157 elapsed_ms=46525 peak_rss_kib=16548
+
+load round 158
+
+audit_metric round=158 elapsed_us=46781905 cpu_us=14265625 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=73781 p50_us=151727 p95_us=217097 p99_us=227376
+
+load_sample round=158 elapsed_ms=46781 peak_rss_kib=16548
+
+load round 159
+
+audit_metric round=159 elapsed_us=47046270 cpu_us=14375000 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=74245 p50_us=132339 p95_us=232167 p99_us=246011
+
+load_sample round=159 elapsed_ms=47046 peak_rss_kib=16548
+
+load round 160
+
+audit_metric round=160 elapsed_us=47312702 cpu_us=14437500 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=74709 p50_us=153455 p95_us=219921 p99_us=234390
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=160 elapsed_ms=47763 peak_rss_kib=16556
+
+load round 161
+
+audit_metric round=161 elapsed_us=48096656 cpu_us=14500000 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=75174 p50_us=131777 p95_us=294198 p99_us=303812
+
+load_sample round=161 elapsed_ms=48096 peak_rss_kib=16556
+
+load round 162
+
+audit_metric round=162 elapsed_us=48380580 cpu_us=14593750 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=75638 p50_us=133525 p95_us=250620 p99_us=264691
+
+load_sample round=162 elapsed_ms=48380 peak_rss_kib=16556
+
+load round 163
+
+audit_metric round=163 elapsed_us=48645719 cpu_us=14687500 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=76102 p50_us=113424 p95_us=214163 p99_us=228791
+
+load_sample round=163 elapsed_ms=48645 peak_rss_kib=16556
+
+load round 164
+
+audit_metric round=164 elapsed_us=48929039 cpu_us=14796875 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=76566 p50_us=133660 p95_us=249008 p99_us=249157
+
+load_sample round=164 elapsed_ms=48929 peak_rss_kib=16556
+
+load round 165
+
+audit_metric round=165 elapsed_us=49179119 cpu_us=14890625 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=77030 p50_us=119790 p95_us=216572 p99_us=236125
+
+load_sample round=165 elapsed_ms=49179 peak_rss_kib=16556
+
+load round 166
+
+audit_metric round=166 elapsed_us=49464288 cpu_us=15015625 rss_kib=16472 pending=0 errors=0 wave_jobs=48 sql_operations=77494 p50_us=110080 p95_us=263308 p99_us=263445
+
+load_sample round=166 elapsed_ms=49464 peak_rss_kib=16556
+
+load round 167
+
+audit_metric round=167 elapsed_us=49773320 cpu_us=15203125 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=77958 p50_us=153405 p95_us=259974 p99_us=260017
+
+load_sample round=167 elapsed_ms=49773 peak_rss_kib=16556
+
+load round 168
+
+audit_metric round=168 elapsed_us=50063563 cpu_us=15281250 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=78422 p50_us=116050 p95_us=235978 p99_us=249827
+
+load_sample round=168 elapsed_ms=50063 peak_rss_kib=16556
+
+load round 169
+
+audit_metric round=169 elapsed_us=50404644 cpu_us=15343750 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=78886 p50_us=129835 p95_us=263704 p99_us=312941
+
+load_sample round=169 elapsed_ms=50404 peak_rss_kib=16556
+
+load round 170
+
+audit_metric round=170 elapsed_us=50748586 cpu_us=15421875 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=79350 p50_us=143266 p95_us=278183 p99_us=294283
+
+load_sample round=170 elapsed_ms=50748 peak_rss_kib=16556
+
+load round 171
+
+audit_metric round=171 elapsed_us=51045609 cpu_us=15484375 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=79814 p50_us=134594 p95_us=259752 p99_us=259864
+
+load_sample round=171 elapsed_ms=51045 peak_rss_kib=16556
+
+load round 172
+
+audit_metric round=172 elapsed_us=51412162 cpu_us=15609375 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=80278 p50_us=171864 p95_us=316457 p99_us=316496
+
+load_sample round=172 elapsed_ms=51412 peak_rss_kib=16556
+
+load round 173
+
+audit_metric round=173 elapsed_us=51746812 cpu_us=15734375 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=80742 p50_us=135435 p95_us=250559 p99_us=292983
+
+load_sample round=173 elapsed_ms=51746 peak_rss_kib=16556
+
+load round 174
+
+audit_metric round=174 elapsed_us=52096039 cpu_us=15828125 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=81206 p50_us=164566 p95_us=280647 p99_us=314658
+
+load_sample round=174 elapsed_ms=52096 peak_rss_kib=16556
+
+load round 175
+
+audit_metric round=175 elapsed_us=52460417 cpu_us=15906250 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=81670 p50_us=115399 p95_us=298227 p99_us=330770
+
+load_sample round=175 elapsed_ms=52460 peak_rss_kib=16556
+
+load round 176
+
+audit_metric round=176 elapsed_us=52795812 cpu_us=16000000 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=82134 p50_us=151521 p95_us=270484 p99_us=283119
+
+load_sample round=176 elapsed_ms=52861 peak_rss_kib=16556
+
+load round 177
+
+audit_metric round=177 elapsed_us=53182085 cpu_us=16109375 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=82598 p50_us=115690 p95_us=249890 p99_us=265737
+
+load_sample round=177 elapsed_ms=53182 peak_rss_kib=16556
+
+load round 178
+
+audit_metric round=178 elapsed_us=53479424 cpu_us=16250000 rss_kib=16472 pending=0 errors=0 wave_jobs=48 sql_operations=83062 p50_us=145092 p95_us=261664 p99_us=261679
+
+load_sample round=178 elapsed_ms=53479 peak_rss_kib=16556
+
+load round 179
+
+audit_metric round=179 elapsed_us=53812353 cpu_us=16406250 rss_kib=16452 pending=0 errors=0 wave_jobs=48 sql_operations=83526 p50_us=163825 p95_us=248385 p99_us=280378
+
+load_sample round=179 elapsed_ms=53812 peak_rss_kib=16556
+
+load round 180
+
+audit_metric round=180 elapsed_us=54129289 cpu_us=16531250 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=83990 p50_us=154119 p95_us=264849 p99_us=264972
+
+load_sample round=180 elapsed_ms=54129 peak_rss_kib=16556
+
+load round 181
+
+audit_metric round=181 elapsed_us=54462211 cpu_us=16578125 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=84454 p50_us=147814 p95_us=263640 p99_us=279443
+
+load_sample round=181 elapsed_ms=54462 peak_rss_kib=16556
+
+load round 182
+
+audit_metric round=182 elapsed_us=54793883 cpu_us=16687500 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=84918 p50_us=134827 p95_us=281806 p99_us=281859
+
+load_sample round=182 elapsed_ms=54793 peak_rss_kib=16556
+
+load round 183
+
+audit_metric round=183 elapsed_us=55129554 cpu_us=16765625 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=85382 p50_us=152523 p95_us=268235 p99_us=285739
+
+load_sample round=183 elapsed_ms=55129 peak_rss_kib=16556
+
+load round 184
+
+audit_metric round=184 elapsed_us=55446822 cpu_us=16812500 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=85846 p50_us=139999 p95_us=249315 p99_us=266188
+
+load_sample round=184 elapsed_ms=55446 peak_rss_kib=16556
+
+load round 185
+
+audit_metric round=185 elapsed_us=55795381 cpu_us=16937500 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=86310 p50_us=145766 p95_us=262261 p99_us=296055
+
+load_sample round=185 elapsed_ms=55795 peak_rss_kib=16556
+
+load round 186
+
+audit_metric round=186 elapsed_us=56128776 cpu_us=17031250 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=86774 p50_us=131343 p95_us=279500 p99_us=279583
+
+load_sample round=186 elapsed_ms=56128 peak_rss_kib=16556
+
+load round 187
+
+audit_metric round=187 elapsed_us=56430378 cpu_us=17171875 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=87238 p50_us=115526 p95_us=264638 p99_us=281503
+
+load_sample round=187 elapsed_ms=56430 peak_rss_kib=16556
+
+load round 188
+
+audit_metric round=188 elapsed_us=56728566 cpu_us=17265625 rss_kib=16456 pending=0 errors=0 wave_jobs=48 sql_operations=87702 p50_us=147259 p95_us=248968 p99_us=249013
+
+load_sample round=188 elapsed_ms=56728 peak_rss_kib=16556
+
+load round 189
+
+audit_metric round=189 elapsed_us=57071312 cpu_us=17375000 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=88166 p50_us=150335 p95_us=260730 p99_us=297491
+
+load_sample round=189 elapsed_ms=57071 peak_rss_kib=16556
+
+load round 190
+
+audit_metric round=190 elapsed_us=57496918 cpu_us=17453125 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=88630 p50_us=214119 p95_us=357873 p99_us=363249
+
+load_sample round=190 elapsed_ms=57497 peak_rss_kib=16556
+
+load round 191
+
+audit_metric round=191 elapsed_us=57814303 cpu_us=17531250 rss_kib=16464 pending=0 errors=0 wave_jobs=48 sql_operations=89094 p50_us=166685 p95_us=280310 p99_us=280359
+
+load_sample round=191 elapsed_ms=57814 peak_rss_kib=16556
+
+load round 192
+
+audit_metric round=192 elapsed_us=58163012 cpu_us=17609375 rss_kib=16468 pending=0 errors=0 wave_jobs=48 sql_operations=89558 p50_us=147376 p95_us=279792 p99_us=296771
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=192 elapsed_ms=58694 peak_rss_kib=16556
+
+load round 193
+
+audit_metric round=193 elapsed_us=58966768 cpu_us=17703125 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=90023 p50_us=150051 p95_us=248920 p99_us=249041
+
+load_sample round=193 elapsed_ms=58966 peak_rss_kib=16556
+
+load round 194
+
+audit_metric round=194 elapsed_us=59263459 cpu_us=17781250 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=90487 p50_us=129056 p95_us=260378 p99_us=260531
+
+load_sample round=194 elapsed_ms=59263 peak_rss_kib=16556
+
+load round 195
+
+audit_metric round=195 elapsed_us=59549029 cpu_us=17843750 rss_kib=16520 pending=0 errors=0 wave_jobs=48 sql_operations=90951 p50_us=150370 p95_us=251289 p99_us=254007
+
+load_sample round=195 elapsed_ms=59549 peak_rss_kib=16556
+
+load round 196
+
+audit_metric round=196 elapsed_us=59847508 cpu_us=17906250 rss_kib=16420 pending=0 errors=0 wave_jobs=48 sql_operations=91415 p50_us=162615 p95_us=263302 p99_us=279054
+
+load_sample round=196 elapsed_ms=59847 peak_rss_kib=16556
+
+load round 197
+
+audit_metric round=197 elapsed_us=60131519 cpu_us=18000000 rss_kib=16420 pending=0 errors=0 wave_jobs=48 sql_operations=91879 p50_us=133175 p95_us=261625 p99_us=261675
+
+load_sample round=197 elapsed_ms=60131 peak_rss_kib=16556
+
+load round 198
+
+audit_metric round=198 elapsed_us=60415182 cpu_us=18062500 rss_kib=16396 pending=0 errors=0 wave_jobs=48 sql_operations=92343 p50_us=130917 p95_us=252196 p99_us=265490
+
+load_sample round=198 elapsed_ms=60415 peak_rss_kib=16556
+
+load round 199
+
+audit_metric round=199 elapsed_us=60730299 cpu_us=18078125 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=92807 p50_us=136721 p95_us=265226 p99_us=279863
+
+load_sample round=199 elapsed_ms=60730 peak_rss_kib=16556
+
+load round 200
+
+audit_metric round=200 elapsed_us=61013288 cpu_us=18156250 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=93271 p50_us=134177 p95_us=250772 p99_us=250808
+
+load_sample round=200 elapsed_ms=61013 peak_rss_kib=16556
+
+load round 201
+
+audit_metric round=201 elapsed_us=61296022 cpu_us=18234375 rss_kib=16432 pending=0 errors=0 wave_jobs=48 sql_operations=93735 p50_us=124557 p95_us=262852 p99_us=262875
+
+load_sample round=201 elapsed_ms=61296 peak_rss_kib=16556
+
+load round 202
+
+audit_metric round=202 elapsed_us=61596457 cpu_us=18281250 rss_kib=16432 pending=0 errors=0 wave_jobs=48 sql_operations=94199 p50_us=115429 p95_us=250163 p99_us=265058
+
+load_sample round=202 elapsed_ms=61596 peak_rss_kib=16556
+
+load round 203
+
+audit_metric round=203 elapsed_us=61850028 cpu_us=18312500 rss_kib=16432 pending=0 errors=0 wave_jobs=48 sql_operations=94663 p50_us=117817 p95_us=230646 p99_us=233324
+
+load_sample round=203 elapsed_ms=61850 peak_rss_kib=16556
+
+load round 204
+
+audit_metric round=204 elapsed_us=62099071 cpu_us=18515625 rss_kib=16408 pending=0 errors=0 wave_jobs=48 sql_operations=95127 p50_us=123374 p95_us=232930 p99_us=232995
+
+load_sample round=204 elapsed_ms=62099 peak_rss_kib=16556
+
+load round 205
+
+audit_metric round=205 elapsed_us=62398611 cpu_us=18578125 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=95591 p50_us=112849 p95_us=260308 p99_us=275902
+
+load_sample round=205 elapsed_ms=62398 peak_rss_kib=16556
+
+load round 206
+
+audit_metric round=206 elapsed_us=62662086 cpu_us=18640625 rss_kib=16440 pending=0 errors=0 wave_jobs=48 sql_operations=96055 p50_us=114514 p95_us=230256 p99_us=235388
+
+load_sample round=206 elapsed_ms=62662 peak_rss_kib=16556
+
+load round 207
+
+audit_metric round=207 elapsed_us=62931527 cpu_us=18703125 rss_kib=16440 pending=0 errors=0 wave_jobs=48 sql_operations=96519 p50_us=100251 p95_us=215895 p99_us=249544
+
+load_sample round=207 elapsed_ms=62931 peak_rss_kib=16556
+
+load round 208
+
+audit_metric round=208 elapsed_us=63270730 cpu_us=18828125 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=96983 p50_us=132350 p95_us=268670 p99_us=285749
+
+load_sample round=208 elapsed_ms=63335 peak_rss_kib=16556
+
+load round 209
+
+audit_metric round=209 elapsed_us=63628657 cpu_us=18890625 rss_kib=16440 pending=0 errors=0 wave_jobs=48 sql_operations=97447 p50_us=164139 p95_us=241904 p99_us=261264
+
+load_sample round=209 elapsed_ms=63628 peak_rss_kib=16556
+
+load round 210
+
+audit_metric round=210 elapsed_us=63930193 cpu_us=19000000 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=97911 p50_us=147284 p95_us=249749 p99_us=267316
+
+load_sample round=210 elapsed_ms=63930 peak_rss_kib=16556
+
+load round 211
+
+audit_metric round=211 elapsed_us=64229788 cpu_us=19078125 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=98375 p50_us=130755 p95_us=250728 p99_us=263154
+
+load_sample round=211 elapsed_ms=64229 peak_rss_kib=16556
+
+load round 212
+
+audit_metric round=212 elapsed_us=64513867 cpu_us=19203125 rss_kib=16448 pending=0 errors=0 wave_jobs=48 sql_operations=98839 p50_us=129021 p95_us=245372 p99_us=257243
+
+load_sample round=212 elapsed_ms=64513 peak_rss_kib=16556
+
+load round 213
+
+audit_metric round=213 elapsed_us=64798340 cpu_us=19296875 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=99303 p50_us=134879 p95_us=234013 p99_us=248512
+
+load_sample round=213 elapsed_ms=64798 peak_rss_kib=16556
+
+load round 214
+
+audit_metric round=214 elapsed_us=65062511 cpu_us=19437500 rss_kib=16436 pending=0 errors=0 wave_jobs=48 sql_operations=99767 p50_us=113355 p95_us=213109 p99_us=228608
+
+load_sample round=214 elapsed_ms=65062 peak_rss_kib=16556
+
+load round 215
+
+audit_metric round=215 elapsed_us=65297783 cpu_us=19468750 rss_kib=16436 pending=0 errors=0 wave_jobs=48 sql_operations=100231 p50_us=115428 p95_us=202373 p99_us=224607
+
+load_sample round=215 elapsed_ms=65297 peak_rss_kib=16556
+
+load round 216
+
+audit_metric round=216 elapsed_us=65576073 cpu_us=19562500 rss_kib=16436 pending=0 errors=0 wave_jobs=48 sql_operations=100695 p50_us=132467 p95_us=233291 p99_us=250864
+
+load_sample round=216 elapsed_ms=65576 peak_rss_kib=16556
+
+load round 217
+
+audit_metric round=217 elapsed_us=65829948 cpu_us=19687500 rss_kib=16436 pending=0 errors=0 wave_jobs=48 sql_operations=101159 p50_us=116789 p95_us=218041 p99_us=227950
+
+load_sample round=217 elapsed_ms=65830 peak_rss_kib=16556
+
+load round 218
+
+audit_metric round=218 elapsed_us=66127701 cpu_us=19828125 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=101623 p50_us=133480 p95_us=231202 p99_us=252009
+
+load_sample round=218 elapsed_ms=66127 peak_rss_kib=16556
+
+load round 219
+
+audit_metric round=219 elapsed_us=66414525 cpu_us=19984375 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=102087 p50_us=117726 p95_us=232024 p99_us=253719
+
+load_sample round=219 elapsed_ms=66414 peak_rss_kib=16556
+
+load round 220
+
+audit_metric round=220 elapsed_us=66678740 cpu_us=20078125 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=102551 p50_us=112417 p95_us=214680 p99_us=229667
+
+load_sample round=220 elapsed_ms=66678 peak_rss_kib=16556
+
+load round 221
+
+audit_metric round=221 elapsed_us=66929378 cpu_us=20109375 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=103015 p50_us=137170 p95_us=218922 p99_us=232604
+
+load_sample round=221 elapsed_ms=66929 peak_rss_kib=16556
+
+load round 222
+
+audit_metric round=222 elapsed_us=67194783 cpu_us=20250000 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=103479 p50_us=144127 p95_us=236146 p99_us=248649
+
+load_sample round=222 elapsed_ms=67194 peak_rss_kib=16556
+
+load round 223
+
+audit_metric round=223 elapsed_us=67468870 cpu_us=20296875 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=103943 p50_us=117272 p95_us=218763 p99_us=247989
+
+load_sample round=223 elapsed_ms=67468 peak_rss_kib=16556
+
+load round 224
+
+audit_metric round=224 elapsed_us=67718140 cpu_us=20390625 rss_kib=16424 pending=0 errors=0 wave_jobs=48 sql_operations=104407 p50_us=110602 p95_us=213617 p99_us=224514
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=224 elapsed_ms=68162 peak_rss_kib=16556
+
+load round 225
+
+audit_metric round=225 elapsed_us=68462063 cpu_us=20500000 rss_kib=16436 pending=0 errors=0 wave_jobs=48 sql_operations=104872 p50_us=132537 p95_us=261937 p99_us=268829
+
+load_sample round=225 elapsed_ms=68462 peak_rss_kib=16556
+
+load round 226
+
+audit_metric round=226 elapsed_us=68712893 cpu_us=20546875 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=105336 p50_us=131979 p95_us=224862 p99_us=230413
+
+load_sample round=226 elapsed_ms=68712 peak_rss_kib=16556
+
+load round 227
+
+audit_metric round=227 elapsed_us=68978315 cpu_us=20640625 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=105800 p50_us=138279 p95_us=234515 p99_us=247609
+
+load_sample round=227 elapsed_ms=68978 peak_rss_kib=16556
+
+load round 228
+
+audit_metric round=228 elapsed_us=69246643 cpu_us=20734375 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=106264 p50_us=138935 p95_us=232974 p99_us=249426
+
+load_sample round=228 elapsed_ms=69246 peak_rss_kib=16556
+
+load round 229
+
+audit_metric round=229 elapsed_us=69518646 cpu_us=20828125 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=106728 p50_us=132385 p95_us=228782 p99_us=243577
+
+load_sample round=229 elapsed_ms=69518 peak_rss_kib=16556
+
+load round 230
+
+audit_metric round=230 elapsed_us=69812472 cpu_us=20968750 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=107192 p50_us=109272 p95_us=242908 p99_us=258038
+
+load_sample round=230 elapsed_ms=69812 peak_rss_kib=16556
+
+load round 231
+
+audit_metric round=231 elapsed_us=70079311 cpu_us=21078125 rss_kib=16444 pending=0 errors=0 wave_jobs=48 sql_operations=107656 p50_us=135628 p95_us=217872 p99_us=247686
+
+load_sample round=231 elapsed_ms=70079 peak_rss_kib=16556
+
+load round 232
+
+audit_metric round=232 elapsed_us=70362059 cpu_us=21203125 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=108120 p50_us=121909 p95_us=248209 p99_us=248277
+
+load_sample round=232 elapsed_ms=70362 peak_rss_kib=16556
+
+load round 233
+
+audit_metric round=233 elapsed_us=70644880 cpu_us=21312500 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=108584 p50_us=112201 p95_us=247411 p99_us=256800
+
+load_sample round=233 elapsed_ms=70645 peak_rss_kib=16556
+
+load round 234
+
+audit_metric round=234 elapsed_us=70945218 cpu_us=21390625 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=109048 p50_us=130981 p95_us=248407 p99_us=256753
+
+load_sample round=234 elapsed_ms=70945 peak_rss_kib=16556
+
+load round 235
+
+audit_metric round=235 elapsed_us=71232039 cpu_us=21453125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=109512 p50_us=150277 p95_us=243000 p99_us=266830
+
+load_sample round=235 elapsed_ms=71232 peak_rss_kib=16556
+
+load round 236
+
+audit_metric round=236 elapsed_us=71562822 cpu_us=21546875 rss_kib=16460 pending=0 errors=0 wave_jobs=48 sql_operations=109976 p50_us=153919 p95_us=282083 p99_us=296372
+
+load_sample round=236 elapsed_ms=71562 peak_rss_kib=16556
+
+load round 237
+
+audit_metric round=237 elapsed_us=71865379 cpu_us=21656250 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=110440 p50_us=150769 p95_us=273854 p99_us=290901
+
+load_sample round=237 elapsed_ms=71865 peak_rss_kib=16556
+
+load round 238
+
+audit_metric round=238 elapsed_us=72115538 cpu_us=21765625 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=110904 p50_us=115721 p95_us=217261 p99_us=225609
+
+load_sample round=238 elapsed_ms=72115 peak_rss_kib=16556
+
+load round 239
+
+audit_metric round=239 elapsed_us=72378471 cpu_us=21781250 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=111368 p50_us=124255 p95_us=209639 p99_us=225861
+
+load_sample round=239 elapsed_ms=72378 peak_rss_kib=16556
+
+load round 240
+
+audit_metric round=240 elapsed_us=72679560 cpu_us=21921875 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=111832 p50_us=112817 p95_us=248176 p99_us=282883
+
+load_sample round=240 elapsed_ms=72748 peak_rss_kib=16556
+
+load round 241
+
+audit_metric round=241 elapsed_us=73079059 cpu_us=21984375 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=112296 p50_us=131223 p95_us=283882 p99_us=298030
+
+load_sample round=241 elapsed_ms=73079 peak_rss_kib=16556
+
+load round 242
+
+audit_metric round=242 elapsed_us=73325809 cpu_us=22062500 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=112760 p50_us=145095 p95_us=216687 p99_us=221631
+
+load_sample round=242 elapsed_ms=73325 peak_rss_kib=16556
+
+load round 243
+
+audit_metric round=243 elapsed_us=73587498 cpu_us=22156250 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=113224 p50_us=118609 p95_us=216583 p99_us=233383
+
+load_sample round=243 elapsed_ms=73587 peak_rss_kib=16556
+
+load round 244
+
+audit_metric round=244 elapsed_us=73862038 cpu_us=22218750 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=113688 p50_us=124864 p95_us=205833 p99_us=223296
+
+load_sample round=244 elapsed_ms=73862 peak_rss_kib=16556
+
+load round 245
+
+audit_metric round=245 elapsed_us=74147954 cpu_us=22265625 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=114152 p50_us=134382 p95_us=240472 p99_us=257082
+
+load_sample round=245 elapsed_ms=74148 peak_rss_kib=16556
+
+load round 246
+
+audit_metric round=246 elapsed_us=74458728 cpu_us=22312500 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=114616 p50_us=130497 p95_us=245585 p99_us=278656
+
+load_sample round=246 elapsed_ms=74458 peak_rss_kib=16556
+
+load round 247
+
+audit_metric round=247 elapsed_us=74799840 cpu_us=22406250 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=115080 p50_us=119760 p95_us=302260 p99_us=317452
+
+load_sample round=247 elapsed_ms=74799 peak_rss_kib=16556
+
+load round 248
+
+audit_metric round=248 elapsed_us=75085417 cpu_us=22562500 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=115544 p50_us=143620 p95_us=226864 p99_us=261246
+
+load_sample round=248 elapsed_ms=75085 peak_rss_kib=16556
+
+load round 249
+
+audit_metric round=249 elapsed_us=75367384 cpu_us=22671875 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=116008 p50_us=125766 p95_us=227380 p99_us=258006
+
+load_sample round=249 elapsed_ms=75367 peak_rss_kib=16556
+
+load round 250
+
+audit_metric round=250 elapsed_us=75628240 cpu_us=22734375 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=116472 p50_us=122395 p95_us=243899 p99_us=243980
+
+load_sample round=250 elapsed_ms=75628 peak_rss_kib=16556
+
+load round 251
+
+audit_metric round=251 elapsed_us=75881477 cpu_us=22828125 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=116936 p50_us=131171 p95_us=232150 p99_us=232214
+
+load_sample round=251 elapsed_ms=75881 peak_rss_kib=16556
+
+load round 252
+
+audit_metric round=252 elapsed_us=76151431 cpu_us=22890625 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=117400 p50_us=147117 p95_us=244564 p99_us=257808
+
+load_sample round=252 elapsed_ms=76151 peak_rss_kib=16556
+
+load round 253
+
+audit_metric round=253 elapsed_us=76429630 cpu_us=23000000 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=117864 p50_us=127558 p95_us=232556 p99_us=242929
+
+load_sample round=253 elapsed_ms=76429 peak_rss_kib=16556
+
+load round 254
+
+audit_metric round=254 elapsed_us=76681444 cpu_us=23046875 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=118328 p50_us=129770 p95_us=215976 p99_us=229636
+
+load_sample round=254 elapsed_ms=76681 peak_rss_kib=16556
+
+load round 255
+
+audit_metric round=255 elapsed_us=76962745 cpu_us=23125000 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=118792 p50_us=129722 p95_us=231514 p99_us=262327
+
+load_sample round=255 elapsed_ms=76962 peak_rss_kib=16556
+
+load round 256
+
+audit_metric round=256 elapsed_us=77259906 cpu_us=23265625 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=119256 p50_us=92252 p95_us=232026 p99_us=249874
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=256 elapsed_ms=77794 peak_rss_kib=16556
+
+load round 257
+
+audit_metric round=257 elapsed_us=78050466 cpu_us=23453125 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=119721 p50_us=116690 p95_us=222052 p99_us=231532
+
+load_sample round=257 elapsed_ms=78050 peak_rss_kib=16556
+
+load round 258
+
+audit_metric round=258 elapsed_us=78337628 cpu_us=23531250 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=120185 p50_us=111280 p95_us=243631 p99_us=263375
+
+load_sample round=258 elapsed_ms=78337 peak_rss_kib=16556
+
+load round 259
+
+audit_metric round=259 elapsed_us=78648932 cpu_us=23625000 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=120649 p50_us=118361 p95_us=290043 p99_us=290153
+
+load_sample round=259 elapsed_ms=78649 peak_rss_kib=16556
+
+load round 260
+
+audit_metric round=260 elapsed_us=78962136 cpu_us=23718750 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=121113 p50_us=139944 p95_us=258219 p99_us=271978
+
+load_sample round=260 elapsed_ms=78962 peak_rss_kib=16556
+
+load round 261
+
+audit_metric round=261 elapsed_us=79284155 cpu_us=23875000 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=121577 p50_us=152736 p95_us=266488 p99_us=284150
+
+load_sample round=261 elapsed_ms=79284 peak_rss_kib=16556
+
+load round 262
+
+audit_metric round=262 elapsed_us=79540342 cpu_us=23937500 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=122041 p50_us=114925 p95_us=228653 p99_us=243597
+
+load_sample round=262 elapsed_ms=79540 peak_rss_kib=16556
+
+load round 263
+
+audit_metric round=263 elapsed_us=79795779 cpu_us=24031250 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=122505 p50_us=122302 p95_us=230804 p99_us=236116
+
+load_sample round=263 elapsed_ms=79795 peak_rss_kib=16556
+
+load round 264
+
+audit_metric round=264 elapsed_us=80031876 cpu_us=24109375 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=122969 p50_us=115785 p95_us=212625 p99_us=214277
+
+load_sample round=264 elapsed_ms=80031 peak_rss_kib=16556
+
+load round 265
+
+audit_metric round=265 elapsed_us=80310700 cpu_us=24203125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=123433 p50_us=127173 p95_us=229197 p99_us=229324
+
+load_sample round=265 elapsed_ms=80310 peak_rss_kib=16556
+
+load round 266
+
+audit_metric round=266 elapsed_us=80547391 cpu_us=24312500 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=123897 p50_us=101630 p95_us=214900 p99_us=218556
+
+load_sample round=266 elapsed_ms=80547 peak_rss_kib=16556
+
+load round 267
+
+audit_metric round=267 elapsed_us=80804430 cpu_us=24421875 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=124361 p50_us=131118 p95_us=213074 p99_us=230463
+
+load_sample round=267 elapsed_ms=80804 peak_rss_kib=16556
+
+load round 268
+
+audit_metric round=268 elapsed_us=81062848 cpu_us=24546875 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=124825 p50_us=121549 p95_us=221132 p99_us=228284
+
+load_sample round=268 elapsed_ms=81062 peak_rss_kib=16556
+
+load round 269
+
+audit_metric round=269 elapsed_us=81330535 cpu_us=24640625 rss_kib=16488 pending=0 errors=0 wave_jobs=48 sql_operations=125289 p50_us=132661 p95_us=232946 p99_us=248527
+
+load_sample round=269 elapsed_ms=81330 peak_rss_kib=16556
+
+load round 270
+
+audit_metric round=270 elapsed_us=81584738 cpu_us=24765625 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=125753 p50_us=100083 p95_us=215536 p99_us=231313
+
+load_sample round=270 elapsed_ms=81584 peak_rss_kib=16556
+
+load round 271
+
+audit_metric round=271 elapsed_us=81866157 cpu_us=24875000 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=126217 p50_us=127464 p95_us=226532 p99_us=258938
+
+load_sample round=271 elapsed_ms=81866 peak_rss_kib=16556
+
+load round 272
+
+audit_metric round=272 elapsed_us=82162189 cpu_us=24937500 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=126681 p50_us=128165 p95_us=235765 p99_us=248933
+
+load_sample round=272 elapsed_ms=82230 peak_rss_kib=16556
+
+load round 273
+
+audit_metric round=273 elapsed_us=82568007 cpu_us=25093750 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=127145 p50_us=152161 p95_us=296122 p99_us=315452
+
+load_sample round=273 elapsed_ms=82568 peak_rss_kib=16556
+
+load round 274
+
+audit_metric round=274 elapsed_us=82861710 cpu_us=25171875 rss_kib=16480 pending=0 errors=0 wave_jobs=48 sql_operations=127609 p50_us=142733 p95_us=241230 p99_us=257039
+
+load_sample round=274 elapsed_ms=82861 peak_rss_kib=16556
+
+load round 275
+
+audit_metric round=275 elapsed_us=83162432 cpu_us=25265625 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=128073 p50_us=152124 p95_us=248128 p99_us=248215
+
+load_sample round=275 elapsed_ms=83162 peak_rss_kib=16556
+
+load round 276
+
+audit_metric round=276 elapsed_us=83429100 cpu_us=25296875 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=128537 p50_us=129395 p95_us=213750 p99_us=230808
+
+load_sample round=276 elapsed_ms=83429 peak_rss_kib=16556
+
+load round 277
+
+audit_metric round=277 elapsed_us=83696425 cpu_us=25375000 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=129001 p50_us=131761 p95_us=230818 p99_us=231133
+
+load_sample round=277 elapsed_ms=83696 peak_rss_kib=16556
+
+load round 278
+
+audit_metric round=278 elapsed_us=83961480 cpu_us=25468750 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=129465 p50_us=114750 p95_us=227247 p99_us=227285
+
+load_sample round=278 elapsed_ms=83961 peak_rss_kib=16556
+
+load round 279
+
+audit_metric round=279 elapsed_us=84236507 cpu_us=25546875 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=129929 p50_us=136148 p95_us=248897 p99_us=248960
+
+load_sample round=279 elapsed_ms=84236 peak_rss_kib=16556
+
+load round 280
+
+audit_metric round=280 elapsed_us=84547027 cpu_us=25656250 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=130393 p50_us=123017 p95_us=255424 p99_us=272345
+
+load_sample round=280 elapsed_ms=84547 peak_rss_kib=16556
+
+load round 281
+
+audit_metric round=281 elapsed_us=84845112 cpu_us=25750000 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=130857 p50_us=131341 p95_us=230476 p99_us=246115
+
+load_sample round=281 elapsed_ms=84845 peak_rss_kib=16556
+
+load round 282
+
+audit_metric round=282 elapsed_us=85128185 cpu_us=25843750 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=131321 p50_us=134069 p95_us=248842 p99_us=248897
+
+load_sample round=282 elapsed_ms=85128 peak_rss_kib=16556
+
+load round 283
+
+audit_metric round=283 elapsed_us=85444816 cpu_us=25937500 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=131785 p50_us=114761 p95_us=268859 p99_us=271789
+
+load_sample round=283 elapsed_ms=85444 peak_rss_kib=16556
+
+load round 284
+
+audit_metric round=284 elapsed_us=85761803 cpu_us=26015625 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=132249 p50_us=164371 p95_us=262920 p99_us=262939
+
+load_sample round=284 elapsed_ms=85761 peak_rss_kib=16556
+
+load round 285
+
+audit_metric round=285 elapsed_us=86096324 cpu_us=26125000 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=132713 p50_us=115887 p95_us=265800 p99_us=281838
+
+load_sample round=285 elapsed_ms=86096 peak_rss_kib=16556
+
+load round 286
+
+audit_metric round=286 elapsed_us=86428728 cpu_us=26218750 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=133177 p50_us=128033 p95_us=244855 p99_us=277848
+
+load_sample round=286 elapsed_ms=86428 peak_rss_kib=16556
+
+load round 287
+
+audit_metric round=287 elapsed_us=86760703 cpu_us=26296875 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=133641 p50_us=147800 p95_us=263536 p99_us=278578
+
+load_sample round=287 elapsed_ms=86760 peak_rss_kib=16556
+
+load round 288
+
+audit_metric round=288 elapsed_us=87079978 cpu_us=26375000 rss_kib=16492 pending=0 errors=0 wave_jobs=48 sql_operations=134105 p50_us=118288 p95_us=279633 p99_us=296745
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=288 elapsed_ms=87677 peak_rss_kib=16556
+
+load round 289
+
+audit_metric round=289 elapsed_us=88145290 cpu_us=26515625 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=134570 p50_us=267310 p95_us=413454 p99_us=429638
+
+load_sample round=289 elapsed_ms=88145 peak_rss_kib=16556
+
+load round 290
+
+audit_metric round=290 elapsed_us=88544789 cpu_us=26671875 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=135034 p50_us=165072 p95_us=330193 p99_us=347265
+
+load_sample round=290 elapsed_ms=88544 peak_rss_kib=16556
+
+load round 291
+
+audit_metric round=291 elapsed_us=88929820 cpu_us=26671875 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=135498 p50_us=133446 p95_us=314472 p99_us=330849
+
+load_sample round=291 elapsed_ms=88929 peak_rss_kib=16556
+
+load round 292
+
+audit_metric round=292 elapsed_us=89244726 cpu_us=26796875 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=135962 p50_us=165555 p95_us=262735 p99_us=279445
+
+load_sample round=292 elapsed_ms=89244 peak_rss_kib=16556
+
+load round 293
+
+audit_metric round=293 elapsed_us=89562717 cpu_us=26968750 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=136426 p50_us=136945 p95_us=281547 p99_us=281580
+
+load_sample round=293 elapsed_ms=89562 peak_rss_kib=16556
+
+load round 294
+
+audit_metric round=294 elapsed_us=89878304 cpu_us=27093750 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=136890 p50_us=164044 p95_us=278988 p99_us=279273
+
+load_sample round=294 elapsed_ms=89878 peak_rss_kib=16556
+
+load round 295
+
+audit_metric round=295 elapsed_us=90178332 cpu_us=27203125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=137354 p50_us=148727 p95_us=247751 p99_us=264041
+
+load_sample round=295 elapsed_ms=90178 peak_rss_kib=16556
+
+load round 296
+
+audit_metric round=296 elapsed_us=90461406 cpu_us=27312500 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=137818 p50_us=130512 p95_us=230233 p99_us=247737
+
+load_sample round=296 elapsed_ms=90461 peak_rss_kib=16556
+
+load round 297
+
+audit_metric round=297 elapsed_us=90728108 cpu_us=27390625 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=138282 p50_us=132909 p95_us=199183 p99_us=231953
+
+load_sample round=297 elapsed_ms=90728 peak_rss_kib=16556
+
+load round 298
+
+audit_metric round=298 elapsed_us=91061526 cpu_us=27500000 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=138746 p50_us=149452 p95_us=265401 p99_us=282022
+
+load_sample round=298 elapsed_ms=91061 peak_rss_kib=16556
+
+load round 299
+
+audit_metric round=299 elapsed_us=91361658 cpu_us=27625000 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=139210 p50_us=149413 p95_us=232095 p99_us=249192
+
+load_sample round=299 elapsed_ms=91361 peak_rss_kib=16556
+
+load round 300
+
+audit_metric round=300 elapsed_us=91706755 cpu_us=27687500 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=139674 p50_us=148529 p95_us=282217 p99_us=315743
+
+load_sample round=300 elapsed_ms=91706 peak_rss_kib=16556
+
+load round 301
+
+audit_metric round=301 elapsed_us=92027971 cpu_us=27781250 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=140138 p50_us=168340 p95_us=252147 p99_us=270483
+
+load_sample round=301 elapsed_ms=92028 peak_rss_kib=16556
+
+load round 302
+
+audit_metric round=302 elapsed_us=92393557 cpu_us=27843750 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=140602 p50_us=149336 p95_us=281913 p99_us=314362
+
+load_sample round=302 elapsed_ms=92393 peak_rss_kib=16556
+
+load round 303
+
+audit_metric round=303 elapsed_us=92728415 cpu_us=27953125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=141066 p50_us=166709 p95_us=282470 p99_us=282593
+
+load_sample round=303 elapsed_ms=92728 peak_rss_kib=16556
+
+load round 304
+
+audit_metric round=304 elapsed_us=93094019 cpu_us=28078125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=141530 p50_us=147226 p95_us=299499 p99_us=332132
+
+load_sample round=304 elapsed_ms=93195 peak_rss_kib=16556
+
+load round 305
+
+audit_metric round=305 elapsed_us=93528224 cpu_us=28156250 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=141994 p50_us=137682 p95_us=281141 p99_us=281307
+
+load_sample round=305 elapsed_ms=93528 peak_rss_kib=16556
+
+load round 306
+
+audit_metric round=306 elapsed_us=93827987 cpu_us=28265625 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=142458 p50_us=132498 p95_us=248215 p99_us=264881
+
+load_sample round=306 elapsed_ms=93828 peak_rss_kib=16556
+
+load round 307
+
+audit_metric round=307 elapsed_us=94195083 cpu_us=28343750 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=142922 p50_us=170109 p95_us=299635 p99_us=315646
+
+load_sample round=307 elapsed_ms=94195 peak_rss_kib=16556
+
+load round 308
+
+audit_metric round=308 elapsed_us=94528938 cpu_us=28453125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=143386 p50_us=197716 p95_us=321325 p99_us=321437
+
+load_sample round=308 elapsed_ms=94529 peak_rss_kib=16556
+
+load round 309
+
+audit_metric round=309 elapsed_us=94793675 cpu_us=28578125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=143850 p50_us=115759 p95_us=215212 p99_us=232344
+
+load_sample round=309 elapsed_ms=94793 peak_rss_kib=16556
+
+load round 310
+
+audit_metric round=310 elapsed_us=95073206 cpu_us=28640625 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=144314 p50_us=133430 p95_us=233889 p99_us=250264
+
+load_sample round=310 elapsed_ms=95073 peak_rss_kib=16556
+
+load round 311
+
+audit_metric round=311 elapsed_us=95315271 cpu_us=28718750 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=144778 p50_us=121665 p95_us=205335 p99_us=220688
+
+load_sample round=311 elapsed_ms=95315 peak_rss_kib=16556
+
+load round 312
+
+audit_metric round=312 elapsed_us=95581353 cpu_us=28812500 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=145242 p50_us=145227 p95_us=244705 p99_us=244733
+
+load_sample round=312 elapsed_ms=95581 peak_rss_kib=16556
+
+load round 313
+
+audit_metric round=313 elapsed_us=95830919 cpu_us=28968750 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=145706 p50_us=115327 p95_us=213261 p99_us=228296
+
+load_sample round=313 elapsed_ms=95831 peak_rss_kib=16556
+
+load round 314
+
+audit_metric round=314 elapsed_us=96095817 cpu_us=29062500 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=146170 p50_us=131339 p95_us=230109 p99_us=245232
+
+load_sample round=314 elapsed_ms=96095 peak_rss_kib=16556
+
+load round 315
+
+audit_metric round=315 elapsed_us=96394572 cpu_us=29156250 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=146634 p50_us=163319 p95_us=265720 p99_us=280945
+
+load_sample round=315 elapsed_ms=96394 peak_rss_kib=16556
+
+load round 316
+
+audit_metric round=316 elapsed_us=96707136 cpu_us=29187500 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=147098 p50_us=149568 p95_us=251848 p99_us=282977
+
+load_sample round=316 elapsed_ms=96707 peak_rss_kib=16556
+
+load round 317
+
+audit_metric round=317 elapsed_us=96964012 cpu_us=29312500 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=147562 p50_us=111441 p95_us=219536 p99_us=237168
+
+load_sample round=317 elapsed_ms=96964 peak_rss_kib=16556
+
+load round 318
+
+audit_metric round=318 elapsed_us=97240264 cpu_us=29359375 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=148026 p50_us=150038 p95_us=244822 p99_us=251977
+
+load_sample round=318 elapsed_ms=97240 peak_rss_kib=16556
+
+load round 319
+
+audit_metric round=319 elapsed_us=97510442 cpu_us=29468750 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=148490 p50_us=122317 p95_us=227318 p99_us=233811
+
+load_sample round=319 elapsed_ms=97510 peak_rss_kib=16556
+
+load round 320
+
+audit_metric round=320 elapsed_us=97797888 cpu_us=29578125 rss_kib=16500 pending=0 errors=0 wave_jobs=48 sql_operations=148954 p50_us=133125 p95_us=246953 p99_us=266157
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=320 elapsed_ms=98279 peak_rss_kib=16556
+
+load round 321
+
+audit_metric round=321 elapsed_us=98594055 cpu_us=29640625 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=149419 p50_us=132511 p95_us=283389 p99_us=297241
+
+load_sample round=321 elapsed_ms=98594 peak_rss_kib=16556
+
+load round 322
+
+audit_metric round=322 elapsed_us=98863271 cpu_us=29734375 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=149883 p50_us=143628 p95_us=242841 p99_us=242875
+
+load_sample round=322 elapsed_ms=98863 peak_rss_kib=16556
+
+load round 323
+
+audit_metric round=323 elapsed_us=99165304 cpu_us=29859375 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=150347 p50_us=148977 p95_us=264797 p99_us=266292
+
+load_sample round=323 elapsed_ms=99165 peak_rss_kib=16556
+
+load round 324
+
+audit_metric round=324 elapsed_us=99412522 cpu_us=30000000 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=150811 p50_us=112739 p95_us=212384 p99_us=224723
+
+load_sample round=324 elapsed_ms=99412 peak_rss_kib=16556
+
+load round 325
+
+audit_metric round=325 elapsed_us=99713297 cpu_us=30093750 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=151275 p50_us=138624 p95_us=265071 p99_us=278663
+
+load_sample round=325 elapsed_ms=99713 peak_rss_kib=16556
+
+load round 326
+
+audit_metric round=326 elapsed_us=100029908 cpu_us=30156250 rss_kib=16508 pending=0 errors=0 wave_jobs=48 sql_operations=151739 p50_us=147380 p95_us=265273 p99_us=296833
+
+load_sample round=326 elapsed_ms=100030 peak_rss_kib=16556
+
+load round 327
+
+audit_metric round=327 elapsed_us=100344830 cpu_us=30296875 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=152203 p50_us=146797 p95_us=263433 p99_us=280287
+
+load_sample round=327 elapsed_ms=100344 peak_rss_kib=16556
+
+load round 328
+
+audit_metric round=328 elapsed_us=100696948 cpu_us=30406250 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=152667 p50_us=183207 p95_us=298004 p99_us=314721
+
+load_sample round=328 elapsed_ms=100697 peak_rss_kib=16556
+
+load round 329
+
+audit_metric round=329 elapsed_us=101018559 cpu_us=30546875 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=153131 p50_us=150272 p95_us=281770 p99_us=297249
+
+load_sample round=329 elapsed_ms=101018 peak_rss_kib=16556
+
+load round 330
+
+audit_metric round=330 elapsed_us=101319729 cpu_us=30625000 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=153595 p50_us=127446 p95_us=270945 p99_us=290183
+
+load_sample round=330 elapsed_ms=101319 peak_rss_kib=16556
+
+load round 331
+
+audit_metric round=331 elapsed_us=101631459 cpu_us=30671875 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=154059 p50_us=143092 p95_us=258509 p99_us=291916
+
+load_sample round=331 elapsed_ms=101631 peak_rss_kib=16556
+
+load round 332
+
+audit_metric round=332 elapsed_us=101905475 cpu_us=30734375 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=154523 p50_us=163521 p95_us=241951 p99_us=258402
+
+load_sample round=332 elapsed_ms=101905 peak_rss_kib=16556
+
+load round 333
+
+audit_metric round=333 elapsed_us=102211444 cpu_us=30828125 rss_kib=16520 pending=0 errors=0 wave_jobs=48 sql_operations=154987 p50_us=139142 p95_us=256423 p99_us=270436
+
+load_sample round=333 elapsed_ms=102211 peak_rss_kib=16556
+
+load round 334
+
+audit_metric round=334 elapsed_us=102512210 cpu_us=30921875 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=155451 p50_us=150026 p95_us=248588 p99_us=280664
+
+load_sample round=334 elapsed_ms=102512 peak_rss_kib=16556
+
+load round 335
+
+audit_metric round=335 elapsed_us=102796911 cpu_us=31031250 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=155915 p50_us=115936 p95_us=230023 p99_us=255209
+
+load_sample round=335 elapsed_ms=102796 peak_rss_kib=16556
+
+load round 336
+
+audit_metric round=336 elapsed_us=103079237 cpu_us=31078125 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=156379 p50_us=128087 p95_us=211745 p99_us=246368
+
+load_sample round=336 elapsed_ms=103156 peak_rss_kib=16556
+
+load round 337
+
+audit_metric round=337 elapsed_us=103445371 cpu_us=31187500 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=156843 p50_us=104670 p95_us=251051 p99_us=251084
+
+load_sample round=337 elapsed_ms=103445 peak_rss_kib=16556
+
+load round 338
+
+audit_metric round=338 elapsed_us=103712810 cpu_us=31328125 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=157307 p50_us=118952 p95_us=248770 p99_us=248782
+
+load_sample round=338 elapsed_ms=103712 peak_rss_kib=16556
+
+load round 339
+
+audit_metric round=339 elapsed_us=103980467 cpu_us=31437500 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=157771 p50_us=133420 p95_us=248217 p99_us=248257
+
+load_sample round=339 elapsed_ms=103980 peak_rss_kib=16556
+
+load round 340
+
+audit_metric round=340 elapsed_us=104295395 cpu_us=31484375 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=158235 p50_us=186213 p95_us=280327 p99_us=280363
+
+load_sample round=340 elapsed_ms=104295 peak_rss_kib=16556
+
+load round 341
+
+audit_metric round=341 elapsed_us=104562518 cpu_us=31578125 rss_kib=16528 pending=0 errors=0 wave_jobs=48 sql_operations=158699 p50_us=108830 p95_us=227372 p99_us=242868
+
+load_sample round=341 elapsed_ms=104562 peak_rss_kib=16556
+
+load round 342
+
+audit_metric round=342 elapsed_us=104845508 cpu_us=31656250 rss_kib=16532 pending=0 errors=0 wave_jobs=48 sql_operations=159163 p50_us=131219 p95_us=231341 p99_us=247261
+
+load_sample round=342 elapsed_ms=104845 peak_rss_kib=16556
+
+load round 343
+
+audit_metric round=343 elapsed_us=105115165 cpu_us=31750000 rss_kib=16544 pending=0 errors=0 wave_jobs=48 sql_operations=159627 p50_us=109571 p95_us=221456 p99_us=241347
+
+load_sample round=343 elapsed_ms=105115 peak_rss_kib=16556
+
+load round 344
+
+audit_metric round=344 elapsed_us=105395705 cpu_us=31828125 rss_kib=16544 pending=0 errors=0 wave_jobs=48 sql_operations=160091 p50_us=125781 p95_us=245277 p99_us=260115
+
+load_sample round=344 elapsed_ms=105395 peak_rss_kib=16556
+
+load round 345
+
+audit_metric round=345 elapsed_us=105662118 cpu_us=31875000 rss_kib=16512 pending=0 errors=0 wave_jobs=48 sql_operations=160555 p50_us=133409 p95_us=230509 p99_us=249597
+
+load_sample round=345 elapsed_ms=105662 peak_rss_kib=16556
+
+load round 346
+
+audit_metric round=346 elapsed_us=105934363 cpu_us=31953125 rss_kib=16532 pending=0 errors=0 wave_jobs=48 sql_operations=161019 p50_us=130776 p95_us=233912 p99_us=248762
+
+load_sample round=346 elapsed_ms=105934 peak_rss_kib=16556
+
+load round 347
+
+audit_metric round=347 elapsed_us=106229551 cpu_us=32062500 rss_kib=16544 pending=0 errors=0 wave_jobs=48 sql_operations=161483 p50_us=120167 p95_us=260668 p99_us=273391
+
+load_sample round=347 elapsed_ms=106229 peak_rss_kib=16556
+
+load round 348
+
+audit_metric round=348 elapsed_us=106544266 cpu_us=32203125 rss_kib=16544 pending=0 errors=0 wave_jobs=48 sql_operations=161947 p50_us=116613 p95_us=267096 p99_us=281177
+
+load_sample round=348 elapsed_ms=106544 peak_rss_kib=16556
+
+load round 349
+
+audit_metric round=349 elapsed_us=106818694 cpu_us=32265625 rss_kib=16544 pending=0 errors=0 wave_jobs=48 sql_operations=162411 p50_us=119407 p95_us=249926 p99_us=265223
+
+load_sample round=349 elapsed_ms=106818 peak_rss_kib=16556
+
+load round 350
+
+audit_metric round=350 elapsed_us=107122210 cpu_us=32375000 rss_kib=16544 pending=0 errors=0 wave_jobs=48 sql_operations=162875 p50_us=131282 p95_us=268265 p99_us=287346
+
+load_sample round=350 elapsed_ms=107122 peak_rss_kib=16556
+
+load round 351
+
+audit_metric round=351 elapsed_us=107411111 cpu_us=32484375 rss_kib=16544 pending=0 errors=0 wave_jobs=48 sql_operations=163339 p50_us=139736 p95_us=241677 p99_us=264022
+
+load_sample round=351 elapsed_ms=107411 peak_rss_kib=16556
+
+load round 352
+
+audit_metric round=352 elapsed_us=107728545 cpu_us=32625000 rss_kib=16544 pending=0 errors=0 wave_jobs=48 sql_operations=163803 p50_us=121593 p95_us=275839 p99_us=299526
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=352 elapsed_ms=108149 peak_rss_kib=16608
+
+load round 353
+
+audit_metric round=353 elapsed_us=108429599 cpu_us=32750000 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=164268 p50_us=145170 p95_us=242119 p99_us=259265
+
+load_sample round=353 elapsed_ms=108429 peak_rss_kib=16608
+
+load round 354
+
+audit_metric round=354 elapsed_us=108727720 cpu_us=32859375 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=164732 p50_us=139043 p95_us=263308 p99_us=274554
+
+load_sample round=354 elapsed_ms=108727 peak_rss_kib=16608
+
+load round 355
+
+audit_metric round=355 elapsed_us=109011306 cpu_us=32937500 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=165196 p50_us=132957 p95_us=233713 p99_us=251737
+
+load_sample round=355 elapsed_ms=109011 peak_rss_kib=16608
+
+load round 356
+
+audit_metric round=356 elapsed_us=109311632 cpu_us=33000000 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=165660 p50_us=158400 p95_us=252069 p99_us=265787
+
+load_sample round=356 elapsed_ms=109311 peak_rss_kib=16608
+
+load round 357
+
+audit_metric round=357 elapsed_us=109699936 cpu_us=33109375 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=166124 p50_us=120289 p95_us=306563 p99_us=333878
+
+load_sample round=357 elapsed_ms=109700 peak_rss_kib=16608
+
+load round 358
+
+audit_metric round=358 elapsed_us=109974318 cpu_us=33187500 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=166588 p50_us=163154 p95_us=247838 p99_us=260022
+
+load_sample round=358 elapsed_ms=109974 peak_rss_kib=16608
+
+load round 359
+
+audit_metric round=359 elapsed_us=110228487 cpu_us=33281250 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=167052 p50_us=145577 p95_us=237432 p99_us=237498
+
+load_sample round=359 elapsed_ms=110228 peak_rss_kib=16608
+
+load round 360
+
+audit_metric round=360 elapsed_us=110482073 cpu_us=33375000 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=167516 p50_us=134483 p95_us=231907 p99_us=231952
+
+load_sample round=360 elapsed_ms=110482 peak_rss_kib=16608
+
+load round 361
+
+audit_metric round=361 elapsed_us=110764695 cpu_us=33500000 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=167980 p50_us=116086 p95_us=228656 p99_us=263060
+
+load_sample round=361 elapsed_ms=110764 peak_rss_kib=16608
+
+load round 362
+
+audit_metric round=362 elapsed_us=111039336 cpu_us=33562500 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=168444 p50_us=132791 p95_us=246549 p99_us=246604
+
+load_sample round=362 elapsed_ms=111039 peak_rss_kib=16608
+
+load round 363
+
+audit_metric round=363 elapsed_us=111312453 cpu_us=33625000 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=168908 p50_us=124382 p95_us=222787 p99_us=253520
+
+load_sample round=363 elapsed_ms=111312 peak_rss_kib=16608
+
+load round 364
+
+audit_metric round=364 elapsed_us=111597633 cpu_us=33656250 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=169372 p50_us=136588 p95_us=223280 p99_us=249536
+
+load_sample round=364 elapsed_ms=111597 peak_rss_kib=16608
+
+load round 365
+
+audit_metric round=365 elapsed_us=111865339 cpu_us=33781250 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=169836 p50_us=134541 p95_us=246490 p99_us=247386
+
+load_sample round=365 elapsed_ms=111865 peak_rss_kib=16608
+
+load round 366
+
+audit_metric round=366 elapsed_us=112129664 cpu_us=33859375 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=170300 p50_us=120758 p95_us=233826 p99_us=242166
+
+load_sample round=366 elapsed_ms=112129 peak_rss_kib=16608
+
+load round 367
+
+audit_metric round=367 elapsed_us=112397813 cpu_us=34031250 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=170764 p50_us=130276 p95_us=231478 p99_us=246302
+
+load_sample round=367 elapsed_ms=112397 peak_rss_kib=16608
+
+load round 368
+
+audit_metric round=368 elapsed_us=112697927 cpu_us=34156250 rss_kib=16484 pending=0 errors=0 wave_jobs=48 sql_operations=171228 p50_us=130264 p95_us=244654 p99_us=275049
+
+load_sample round=368 elapsed_ms=112795 peak_rss_kib=16608
+
+load round 369
+
+audit_metric round=369 elapsed_us=113083967 cpu_us=34265625 rss_kib=16532 pending=0 errors=0 wave_jobs=48 sql_operations=171692 p50_us=106549 p95_us=249568 p99_us=271673
+
+load_sample round=369 elapsed_ms=113084 peak_rss_kib=16608
+
+load round 370
+
+audit_metric round=370 elapsed_us=113363774 cpu_us=34312500 rss_kib=16532 pending=0 errors=0 wave_jobs=48 sql_operations=172156 p50_us=122921 p95_us=235546 p99_us=252993
+
+load_sample round=370 elapsed_ms=113363 peak_rss_kib=16608
+
+load round 371
+
+audit_metric round=371 elapsed_us=113662685 cpu_us=34421875 rss_kib=16532 pending=0 errors=0 wave_jobs=48 sql_operations=172620 p50_us=138842 p95_us=264158 p99_us=267779
+
+load_sample round=371 elapsed_ms=113662 peak_rss_kib=16608
+
+load round 372
+
+audit_metric round=372 elapsed_us=113933348 cpu_us=34531250 rss_kib=16532 pending=0 errors=0 wave_jobs=48 sql_operations=173084 p50_us=134088 p95_us=234042 p99_us=248899
+
+load_sample round=372 elapsed_ms=113933 peak_rss_kib=16608
+
+load round 373
+
+audit_metric round=373 elapsed_us=114227989 cpu_us=34656250 rss_kib=16532 pending=0 errors=0 wave_jobs=48 sql_operations=173548 p50_us=116101 p95_us=243664 p99_us=247511
+
+load_sample round=373 elapsed_ms=114228 peak_rss_kib=16608
+
+load round 374
+
+audit_metric round=374 elapsed_us=114511707 cpu_us=34765625 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=174012 p50_us=145392 p95_us=261013 p99_us=262491
+
+load_sample round=374 elapsed_ms=114511 peak_rss_kib=16608
+
+load round 375
+
+audit_metric round=375 elapsed_us=114757975 cpu_us=34906250 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=174476 p50_us=115555 p95_us=198937 p99_us=229958
+
+load_sample round=375 elapsed_ms=114758 peak_rss_kib=16608
+
+load round 376
+
+audit_metric round=376 elapsed_us=115081766 cpu_us=34968750 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=174940 p50_us=138237 p95_us=290016 p99_us=317437
+
+load_sample round=376 elapsed_ms=115081 peak_rss_kib=16608
+
+load round 377
+
+audit_metric round=377 elapsed_us=115394599 cpu_us=35078125 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=175404 p50_us=132408 p95_us=262789 p99_us=277948
+
+load_sample round=377 elapsed_ms=115394 peak_rss_kib=16608
+
+load round 378
+
+audit_metric round=378 elapsed_us=115661836 cpu_us=35234375 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=175868 p50_us=130949 p95_us=230818 p99_us=247694
+
+load_sample round=378 elapsed_ms=115661 peak_rss_kib=16608
+
+load round 379
+
+audit_metric round=379 elapsed_us=115950030 cpu_us=35359375 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=176332 p50_us=148907 p95_us=249803 p99_us=265934
+
+load_sample round=379 elapsed_ms=115950 peak_rss_kib=16608
+
+load round 380
+
+audit_metric round=380 elapsed_us=116213736 cpu_us=35453125 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=176796 p50_us=110901 p95_us=226296 p99_us=245131
+
+load_sample round=380 elapsed_ms=116213 peak_rss_kib=16608
+
+load round 381
+
+audit_metric round=381 elapsed_us=116479478 cpu_us=35609375 rss_kib=16496 pending=0 errors=0 wave_jobs=48 sql_operations=177260 p50_us=112689 p95_us=214588 p99_us=246192
+
+load_sample round=381 elapsed_ms=116479 peak_rss_kib=16608
+
+load round 382
+
+audit_metric round=382 elapsed_us=116773906 cpu_us=35687500 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=177724 p50_us=114332 p95_us=230882 p99_us=267518
+
+load_sample round=382 elapsed_ms=116773 peak_rss_kib=16608
+
+load round 383
+
+audit_metric round=383 elapsed_us=117057478 cpu_us=35750000 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=178188 p50_us=122367 p95_us=252136 p99_us=267057
+
+load_sample round=383 elapsed_ms=117057 peak_rss_kib=16608
+
+load round 384
+
+audit_metric round=384 elapsed_us=117396819 cpu_us=35843750 rss_kib=16504 pending=0 errors=0 wave_jobs=48 sql_operations=178652 p50_us=139252 p95_us=286887 p99_us=315422
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=384 elapsed_ms=117861 peak_rss_kib=16608
+
+load round 385
+
+audit_metric round=385 elapsed_us=118161373 cpu_us=35921875 rss_kib=16516 pending=0 errors=0 wave_jobs=48 sql_operations=179117 p50_us=116236 p95_us=247948 p99_us=263391
+
+load_sample round=385 elapsed_ms=118161 peak_rss_kib=16608
+
+load round 386
+
+audit_metric round=386 elapsed_us=118412547 cpu_us=36046875 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=179581 p50_us=123843 p95_us=234158 p99_us=234248
+
+load_sample round=386 elapsed_ms=118412 peak_rss_kib=16608
+
+load round 387
+
+audit_metric round=387 elapsed_us=118728355 cpu_us=36125000 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=180045 p50_us=149231 p95_us=281921 p99_us=298845
+
+load_sample round=387 elapsed_ms=118728 peak_rss_kib=16608
+
+load round 388
+
+audit_metric round=388 elapsed_us=119009517 cpu_us=36218750 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=180509 p50_us=117995 p95_us=216064 p99_us=247734
+
+load_sample round=388 elapsed_ms=119009 peak_rss_kib=16608
+
+load round 389
+
+audit_metric round=389 elapsed_us=119277764 cpu_us=36296875 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=180973 p50_us=135847 p95_us=249906 p99_us=249918
+
+load_sample round=389 elapsed_ms=119277 peak_rss_kib=16608
+
+load round 390
+
+audit_metric round=390 elapsed_us=119577992 cpu_us=36375000 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=181437 p50_us=135120 p95_us=251167 p99_us=266926
+
+load_sample round=390 elapsed_ms=119578 peak_rss_kib=16608
+
+load round 391
+
+audit_metric round=391 elapsed_us=119839636 cpu_us=36500000 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=181901 p50_us=115373 p95_us=214691 p99_us=230168
+
+load_sample round=391 elapsed_ms=119839 peak_rss_kib=16608
+
+load round 392
+
+audit_metric round=392 elapsed_us=120113289 cpu_us=36546875 rss_kib=16524 pending=0 errors=0 wave_jobs=48 sql_operations=182365 p50_us=123236 p95_us=237093 p99_us=255141
+
+load_sample round=392 elapsed_ms=120113 peak_rss_kib=16608
+
+load_sql_operations=182365 load_rounds=393 minimum_seconds=120 lanes=4 peak_rss_kib=16608
+
+lifecycle round 0 action 0 peak_rss_kib=16608
+
+lifecycle round 1 action 1 peak_rss_kib=17168
+
+lifecycle round 2 action 2 peak_rss_kib=17168
+
+lifecycle round 3 action 3 peak_rss_kib=17168
+
+lifecycle round 4 action 4 peak_rss_kib=17168
+
+lifecycle round 5 action 0 peak_rss_kib=17168
+
+lifecycle round 6 action 1 peak_rss_kib=17168
+
+lifecycle round 7 action 2 peak_rss_kib=17168
+
+lifecycle round 8 action 3 peak_rss_kib=17168
+
+lifecycle round 9 action 4 peak_rss_kib=17168
+
+245663 stress checks passed peak_rss_final_kib=17168
+
+<end of output>
+
+Test time = 130.41 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"stress_integration" end time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+"stress_integration" time elapsed: 00:02:10
+
+----------------------------------------------------------
+
+
+
+15/19 Testing: connection_lifecycle_integration
+
+15/19 Test: connection_lifecycle_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_connection_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"connection_lifecycle_integration" start time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+connection_rounds=10 lanes=8 libpq=170011 pointer_bytes=4
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+connection round 1 immediate create
+
+connection round 1 immediate destroy
+
+connection round 1 ready create
+
+connection round 1 ready destroy
+
+connection round 1 disconnect during startup
+
+connection round 1 disconnected destroy
+
+connection round 1 failed connection retry
+
+connection round 1 retry destroy
+
+connection round 1 complete
+
+connection round 2 immediate create
+
+connection round 2 immediate destroy
+
+connection round 2 ready create
+
+connection round 2 ready destroy
+
+connection round 2 disconnect during startup
+
+connection round 2 disconnected destroy
+
+connection round 2 failed connection retry
+
+connection round 2 retry destroy
+
+connection round 2 complete
+
+connection round 3 immediate create
+
+connection round 3 immediate destroy
+
+connection round 3 ready create
+
+connection round 3 ready destroy
+
+connection round 3 disconnect during startup
+
+connection round 3 disconnected destroy
+
+connection round 3 failed connection retry
+
+connection round 3 retry destroy
+
+connection round 3 complete
+
+connection round 4 immediate create
+
+connection round 4 immediate destroy
+
+connection round 4 ready create
+
+connection round 4 ready destroy
+
+connection round 4 disconnect during startup
+
+connection round 4 disconnected destroy
+
+connection round 4 failed connection retry
+
+connection round 4 retry destroy
+
+connection round 4 complete
+
+connection round 5 immediate create
+
+connection round 5 immediate destroy
+
+connection round 5 ready create
+
+connection round 5 ready destroy
+
+connection round 5 disconnect during startup
+
+connection round 5 disconnected destroy
+
+connection round 5 failed connection retry
+
+connection round 5 retry destroy
+
+connection round 5 complete
+
+connection round 6 immediate create
+
+connection round 6 immediate destroy
+
+connection round 6 ready create
+
+connection round 6 ready destroy
+
+connection round 6 disconnect during startup
+
+connection round 6 disconnected destroy
+
+connection round 6 failed connection retry
+
+connection round 6 retry destroy
+
+connection round 6 complete
+
+connection round 7 immediate create
+
+connection round 7 immediate destroy
+
+connection round 7 ready create
+
+connection round 7 ready destroy
+
+connection round 7 disconnect during startup
+
+connection round 7 disconnected destroy
+
+connection round 7 failed connection retry
+
+connection round 7 retry destroy
+
+connection round 7 complete
+
+connection round 8 immediate create
+
+connection round 8 immediate destroy
+
+connection round 8 ready create
+
+connection round 8 ready destroy
+
+connection round 8 disconnect during startup
+
+connection round 8 disconnected destroy
+
+connection round 8 failed connection retry
+
+connection round 8 retry destroy
+
+connection round 8 complete
+
+connection round 9 immediate create
+
+connection round 9 immediate destroy
+
+connection round 9 ready create
+
+connection round 9 ready destroy
+
+connection round 9 disconnect during startup
+
+connection round 9 disconnected destroy
+
+connection round 9 failed connection retry
+
+connection round 9 retry destroy
+
+connection round 9 complete
+
+340 connection lifecycle checks passed
+
+<end of output>
+
+Test time =   3.40 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"connection_lifecycle_integration" end time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+"connection_lifecycle_integration" time elapsed: 00:00:03
+
+----------------------------------------------------------
+
+
+
+16/19 Testing: connection_stalls_integration
+
+16/19 Test: connection_stalls_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_connection_stall_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"connection_stalls_integration" start time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+stall_lanes=4 libpq=170011 pointer_bytes=4
+
+stall ssl timeout start
+
+stall ssl timeout destroy
+
+stall ssl timeout complete
+
+stall ssl disconnect start
+
+stall ssl disconnect destroy
+
+stall ssl disconnect complete
+
+stall ssl unload start
+
+stall ssl unload destroy
+
+stall ssl unload complete
+
+stall ssl destroy start
+
+stall ssl destroy destroy
+
+stall ssl destroy complete
+
+stall tls timeout start
+
+stall tls timeout destroy
+
+stall tls timeout complete
+
+stall tls disconnect start
+
+stall tls disconnect destroy
+
+stall tls disconnect complete
+
+stall tls unload start
+
+stall tls unload destroy
+
+stall tls unload complete
+
+stall tls destroy start
+
+stall tls destroy destroy
+
+stall tls destroy complete
+
+stall startup timeout start
+
+stall startup timeout destroy
+
+stall startup timeout complete
+
+stall startup disconnect start
+
+stall startup disconnect destroy
+
+stall startup disconnect complete
+
+stall startup unload start
+
+stall startup unload destroy
+
+stall startup unload complete
+
+stall startup destroy start
+
+stall startup destroy destroy
+
+stall startup destroy complete
+
+192 stalled connection checks passed
+
+<end of output>
+
+Test time =   8.51 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"connection_stalls_integration" end time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+"connection_stalls_integration" time elapsed: 00:00:08
+
+----------------------------------------------------------
+
+
+
+17/19 Testing: sql_sections_unit
+
+17/19 Test: sql_sections_unit
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_sql_section_tests.exe"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"sql_sections_unit" start time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+accounts.sql:3:1: Duplicate SQL section 'save'; first declared at line 1
+
+accounts.sql:3:3: Duplicate SQL section 'save'; first declared at line 1
+
+accounts.sql:2:4: Malformed SQL section declaration; expected '-- name: identifier' (also '--name:identifier')
+
+accounts.sql:1:1: Empty SQL section 'empty'; add one SQL statement after the declaration
+
+accounts.sql:4:11: SQL section must contain exactly one statement in section 'other'; remove the extra statement or semicolon
+
+accounts.sql:2:14: SQL section must contain exactly one statement in section 'x'; remove the extra statement or semicolon
+
+accounts.sql:2:8: Unterminated SQL quoted string in section 'x'; close the opening quote
+
+accounts.sql:2:9: Unterminated SQL quoted string in section 'x'; close the opening quote
+
+accounts.sql:2:8: Unterminated SQL quoted identifier in section 'x'; close the opening quote
+
+accounts.sql:2:8: Unterminated SQL dollar quote in section 'x'; close with the matching dollar delimiter
+
+accounts.sql:2:11: Unterminated SQL block comment in section 'x'; close with '*/'
+
+accounts.sql:1:3: SQL content before first section; add '-- name: identifier' before SQL
+
+4283 SQL section checks passed
+
+<end of output>
+
+Test time =   0.29 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"sql_sections_unit" end time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+"sql_sections_unit" time elapsed: 00:00:00
+
+----------------------------------------------------------
+
+
+
+18/19 Testing: sql_sections_integration
+
+18/19 Test: sql_sections_integration
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_sql_section_tests.exe" "--integration"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"sql_sections_integration" start time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+453 SQL section checks passed
+
+<end of output>
+
+Test time =   2.70 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"sql_sections_integration" end time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+"sql_sections_integration" time elapsed: 00:00:02
+
+----------------------------------------------------------
+
+
+
+19/19 Testing: engine_benchmark_smoke
+
+19/19 Test: engine_benchmark_smoke
+
+Command: "AUDIT_WORKSPACE/work/omp-postgresql/build-audit32/Release/pg_engine_benchmark.exe" "41" "2"
+
+Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit32
+
+"engine_benchmark_smoke" start time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+Output:
+
+----------------------------------------------------------
+
+# commit=6cf0c05893c79cb8dbdb0b54f2eeacf585ac3f91 source_tree=clean configuration=Release compiler=MSVC-19.51.36248.0 sanitize=OFF pointer_bits=32 os=Windows libpq=170011 PostgreSQL=17.11 ssl=true tls=TLSv1.3 pool=4 window=32 group=20 stream_rows=128 warmup=1 order_seed=902 network=service-defined RTT=unmeasured
+
+mode,repetition,rows,sql_commands,jobs,sql_text_bytes,parameter_value_bytes,total_us,rows_per_second,job_p50_us,job_p95_us,job_p99_us,queue_p50_us,queue_p95_us,queue_p99_us,execution_p50_us,execution_p95_us,execution_p99_us,process_cpu_us,process_peak_kib
+
+section1024_snapshots20,1,41,41,3,4018,73,62849,652.36,62618,62619,62619,38560,51583,51583,13017,38540,38540,0,16316
+
+section128,1,41,41,41,4018,73,99176,413.41,60278,80282,85378,51135,70581,75350,2235,3420,5513,46875,16316
+
+individual,1,41,41,41,3936,73,29401,1394.51,15232,29270,29271,8248,16301,17261,442,810,2407,0,16316
+
+individual4,1,41,41,41,3936,73,30920,1326.00,15490,15511,15532,3072,5390,5981,604,1745,1970,0,16316
+
+section1,1,41,41,41,4018,73,83642,490.18,43883,67345,67347,38147,62627,65848,1683,2755,10198,31250,16316
+
+unnest20,1,41,3,3,390,117,12470,3287.89,12394,12410,12410,3492,5172,5172,1678,3438,3438,0,16316
+
+snapshots20,1,41,41,3,3936,73,30048,1364.48,29965,29966,29966,12922,19604,19604,6677,12871,12871,15625,16316
+
+buffered,1,41,1,1,68,0,12714,3224.79,12672,12672,12672,53,53,53,1327,1327,1327,0,16316
+
+heterogeneous20,1,41,41,3,3936,73,47151,869.55,47006,47008,47008,25438,43396,43396,17956,25408,25408,0,16316
+
+streaming,1,41,1,1,68,0,4425,9265.54,4395,4395,4395,61,61,61,1527,1527,1527,0,16316
+
+file,1,41,41,41,3936,73,80208,511.17,37479,59464,59465,33864,50496,53195,1496,2276,4746,15625,16316
+
+section1024,1,41,41,41,4018,73,194275,211.04,110087,147494,160460,101964,141326,150133,3810,5719,24198,140625,16392
+
+file_snapshots20,1,41,41,3,3936,73,34871,1175.76,34787,34787,34787,14750,23790,23790,9036,14750,14750,0,16392
+
+snapshots20,2,41,41,3,3936,73,31188,1314.61,29487,31093,31093,16148,28913,28913,12763,16119,16119,15625,16392
+
+individual,2,41,41,41,3936,73,32441,1263.83,15428,32329,32330,10964,18683,20221,469,1217,2208,0,16392
+
+buffered,2,41,1,1,68,0,11509,3562.43,11412,11412,11412,42,42,42,1484,1484,1484,0,16392
+
+file,2,41,41,41,3936,73,60301,679.92,32001,60209,60210,29558,45558,48463,1340,2341,4834,15625,16392
+
+section1,2,41,41,41,4018,73,80199,511.23,45910,62810,66145,40809,57893,60752,1768,2503,7930,31250,16392
+
+heterogeneous20,2,41,41,3,3936,73,48517,845.06,48125,48128,48128,23018,41656,41656,18638,23307,23307,31250,16392
+
+section128,2,41,41,41,4018,73,117182,349.88,64637,98339,98341,60924,83730,88534,2544,3691,6185,78125,16392
+
+section1024,2,41,41,41,4018,73,211500,193.85,118911,164129,165539,114501,152899,161044,4419,4923,27925,125000,16424
+
+streaming,2,41,1,1,68,0,12728,3221.24,12681,12681,12681,40,40,40,1805,1805,1805,0,16424
+
+individual4,2,41,41,41,3936,73,19910,2059.27,15081,15125,15130,5960,10319,11322,1348,1932,1987,0,16424
+
+unnest20,2,41,3,3,390,117,12815,3199.38,12652,12689,12689,2810,4906,4906,2094,2784,2784,0,16424
+
+file_snapshots20,2,41,41,3,3936,73,62674,654.18,46841,62529,62529,25079,44492,44492,19413,25065,25065,31250,16424
+
+section1024_snapshots20,2,41,41,3,4018,73,75913,540.09,63692,75810,75810,41188,59360,59360,18173,41182,41182,0,16424
+
+<end of output>
+
+Test time =   4.02 sec
+
+----------------------------------------------------------
+
+Test Passed.
+
+"engine_benchmark_smoke" end time: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+"engine_benchmark_smoke" time elapsed: 00:00:04
+
+----------------------------------------------------------
+
+
+
+End testing: Oct 23 16:56 Hora est. Pac�fico, Sudam�rica
+
+
+
+audit =   8.38 sec*proc
+
+
+
+benchmark =  12.98 sec*proc
+
+
+
+fuzz =   0.83 sec*proc
+
+
+
+stress = 149.87 sec*proc

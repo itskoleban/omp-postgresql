@@ -1,0 +1,389 @@
+Derived from original CTest JUnit system-out records; not a raw LastTest.log
+
+natives_unit time=1.30558
+
+Native validation passed: 13927 checks; address seed=0x414d5801
+
+
+
+natives_integration time=2.64837
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,1191400,354500
+
+callback_benchmark,custom_ii,1,64,1331800,615400
+
+callback_benchmark,custom_s96,1,64,3824700,319000
+
+callback_benchmark,global_old_arity,1,64,1587400,317400
+
+callback_benchmark,custom_ii,2,64,1191300,593400
+
+callback_benchmark,custom_s96,2,64,2116100,657500
+
+callback_benchmark,global_old_arity,2,64,1084200,419000
+
+callback_benchmark,custom0,2,64,1085800,403000
+
+callback_benchmark,custom_s96,3,64,3624900,518300
+
+callback_benchmark,global_old_arity,3,64,848200,348200
+
+callback_benchmark,custom0,3,64,942000,431900
+
+callback_benchmark,custom_ii,3,64,1038900,558600
+
+callback_benchmark,global_old_arity,4,64,827400,312100
+
+callback_benchmark,custom0,4,64,863400,401400
+
+callback_benchmark,custom_ii,4,64,1183700,501500
+
+callback_benchmark,custom_s96,4,64,2093800,656500
+
+callback_...
+
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+
+
+
+logging_integration time=15.6326
+
+logging_benchmark,level,destination,mode,repetition,jobs,submission_ns,dispatch_with_drain_ns,dropped,output_bytes
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+
+callback_benchmark,custom0,1,64,806300,247800
+
+logging_benchmark,0,0,custom0,1,64,806300,247800,0,0
+
+callback_benchmark,custom_ii,1,64,1242100,485000
+
+logging_benchmark,0,0,custom_ii,1,64,1242100,485000,0,0
+
+callback_benchmark,custom_s96,1,64,1961200,407200
+
+logging_benchmark,0,0,custom_s96,1,64,1961200,407200,0,0
+
+callback_benchmark,global_old_arity,1,64,542300,446200
+
+logging_benchmark,0,0,global_old_arity,1,64,542300,446200,0,0
+
+callback_benchmark,custom_ii,2,64,1104200,495500
+
+logging_benchmark,0,0,custom_ii,2,64,1104200,495500,0,0
+
+callback_benchmark,custom_s96,2,64,2170900,754600
+
+logging_benchmark,0,0,custom_s96,2,64,2170900,754600,0,0
+
+callback_benchmark,global_old_arity,2,64,846400,430400
+
+log...
+
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+
+
+
+unit time=2.55731
+
+26 checks passed
+
+
+
+audit_semantic_fuzz time=2.19546
+
+semantic_fuzz seed=1592594996 cases=4096
+
+semantic_fuzz PASS cases=4096
+
+
+
+audit_faults_integration time=12.0296
+
+fault phase: ROLLBACK response loss
+
+fault phase: terminate during deferred COMMIT
+
+fault phase: cancellation category race rounds=32
+
+fault phase: timeout category rounds=8 query_ms=30
+
+audit_faults PASS
+
+
+
+diagnostics_unit time=2.03572
+
+Diagnostics filtering/privacy/bounds/flood/sink/reload passed; buffer_bytes=20624 record_bytes=80
+
+File output levels/destinations/paths/append/rotation/failure/recovery/links/injection/concurrency passed
+
+
+
+integration time=15.0718
+
+163 checks passed
+
+
+
+types_unit time=0.654531
+
+97 type checks passed
+
+
+
+types_integration time=2.85757
+
+532 type checks passed
+
+
+
+extensions_integration time=12.5342
+
+extension phase: batches
+
+extension phase: rejection
+
+extension phase: transactions
+
+extension phase: streaming
+
+extension phase: stream lifecycle
+
+606 extension checks passed
+
+
+
+stress_integration time=131.736
+
+seed=1592594996 rounds=10 libpq=180004 pointer_bytes=8 peak_rss_start_kib=8464
+
+load connecting
+
+load round 0
+
+audit_metric round=0 elapsed_us=323764 cpu_us=109375 rss_kib=17692 pending=0 errors=0 wave_jobs=48 sql_operations=464 p50_us=133590 p95_us=237868 p99_us=269327
+
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+
+load_sample round=0 elapsed_ms=1049 peak_rss_kib=17912
+
+load round 1
+
+audit_metric round=1 elapsed_us=1388414 cpu_us=250000 rss_kib=17928 pending=0 errors=0 wave_jobs=48 sql_operations=929 p50_us=171086 p95_us=268863 p99_us=285012
+
+load_sample round=1 elapsed_ms=1388 peak_rss_kib=17928
+
+load round 2
+
+audit_metric round=2 elapsed_us=1651466 cpu_us=390625 rss_kib=17976 pending=0 errors=0 wave_jobs=48 sql_operations=1393 p50_us=119292 p95_us=206876 p99_us=207277
+
+load_sample round=2 elapsed_ms=1651 peak_rss_kib=17976
+
+load round 3
+
+audit_metric round=3 elapsed_us=1928520 cpu_us=578125 rss_kib=17976 pending=0 errors=0 wave_jobs=48 sql_operations=1857 p50_us=120148 p95_us...
+
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+
+
+
+connection_lifecycle_integration time=4.31704
+
+connection_rounds=10 lanes=8 libpq=180004 pointer_bytes=8
+
+connection round 0 immediate create
+
+connection round 0 immediate destroy
+
+connection round 0 ready create
+
+connection round 0 ready destroy
+
+connection round 0 disconnect during startup
+
+connection round 0 disconnected destroy
+
+connection round 0 failed connection retry
+
+connection round 0 retry destroy
+
+connection round 0 complete
+
+connection round 1 immediate create
+
+connection round 1 immediate destroy
+
+connection round 1 ready create
+
+connection round 1 ready destroy
+
+connection round 1 disconnect during startup
+
+connection round 1 disconnected destroy
+
+connection round 1 failed connection retry
+
+connection round 1 retry destroy
+
+connection round 1 complete
+
+connection round 2 immediate create
+
+connection round 2 immediate destroy
+
+connection round 2 ready create
+
+connection round 2 ready destroy
+
+connection round 2 disconnect during startup
+
+connection round 2 disconnected destroy
+
+connection round 2 failed connection retry
+
+connection round 2 retry destroy
+
+connection ro...
+
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+
+
+
+connection_stalls_integration time=9.19307
+
+stall_lanes=4 libpq=180004 pointer_bytes=8
+
+stall ssl timeout start
+
+stall ssl timeout destroy
+
+stall ssl timeout complete
+
+stall ssl disconnect start
+
+stall ssl disconnect destroy
+
+stall ssl disconnect complete
+
+stall ssl unload start
+
+stall ssl unload destroy
+
+stall ssl unload complete
+
+stall ssl destroy start
+
+stall ssl destroy destroy
+
+stall ssl destroy complete
+
+stall tls timeout start
+
+stall tls timeout destroy
+
+stall tls timeout complete
+
+stall tls disconnect start
+
+stall tls disconnect destroy
+
+stall tls disconnect complete
+
+stall tls unload start
+
+stall tls unload destroy
+
+stall tls unload complete
+
+stall tls destroy start
+
+stall tls destroy destroy
+
+stall tls destroy complete
+
+stall startup timeout start
+
+stall startup timeout destroy
+
+stall startup timeout complete
+
+stall startup disconnect start
+
+stall startup disconnect destroy
+
+stall startup disconnect complete
+
+stall startup unload start
+
+stall startup unload destroy
+
+stall startup unload complete
+
+stall startup destroy start
+
+stall startup destroy destroy
+
+stall startup destroy ...
+
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+
+
+
+sql_sections_unit time=0.990082
+
+accounts.sql:3:1: Duplicate SQL section 'save'; first declared at line 1
+
+accounts.sql:3:3: Duplicate SQL section 'save'; first declared at line 1
+
+accounts.sql:2:4: Malformed SQL section declaration; expected '-- name: identifier' (also '--name:identifier')
+
+accounts.sql:1:1: Empty SQL section 'empty'; add one SQL statement after the declaration
+
+accounts.sql:4:11: SQL section must contain exactly one statement in section 'other'; remove the extra statement or semicolon
+
+accounts.sql:2:14: SQL section must contain exactly one statement in section 'x'; remove the extra statement or semicolon
+
+accounts.sql:2:8: Unterminated SQL quoted string in section 'x'; close the opening quote
+
+accounts.sql:2:9: Unterminated SQL quoted string in section 'x'; close the opening quote
+
+accounts.sql:2:8: Unterminated SQL quoted identifier in section 'x'; close the opening quote
+
+accounts.sql:2:8: Unterminated SQL dollar quote in section 'x'; close with the matching dollar delimiter
+
+accounts.sql:2:11: Unterminated SQL block comment in s...
+
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+
+
+
+sql_sections_integration time=3.71716
+
+367 SQL section checks passed
+
+
+
+engine_benchmark_smoke time=6.57442
+
+# commit=6cf0c05893c79cb8dbdb0b54f2eeacf585ac3f91 source_tree=clean configuration=Debug compiler=GNU-16.1.0 sanitize=OFF pointer_bits=64 os=Windows libpq=180004 PostgreSQL=17.11 ssl=true tls=TLSv1.3 pool=4 window=32 group=20 stream_rows=128 warmup=1 order_seed=902 network=service-defined RTT=unmeasured
+
+mode,repetition,rows,sql_commands,jobs,sql_text_bytes,parameter_value_bytes,total_us,rows_per_second,job_p50_us,job_p95_us,job_p99_us,queue_p50_us,queue_p95_us,queue_p99_us,execution_p50_us,execution_p95_us,execution_p99_us,process_cpu_us,process_peak_kib
+
+streaming,1,41,1,1,68,0,526,77946.77,509,509,509,51,51,51,431,431,431,0,18088
+
+individual4,1,41,41,41,3936,73,6242,6568.41,2620,3841,4138,2190,3357,3433,407,1121,1438,0,18088
+
+file_snapshots20,1,41,41,3,3936,73,33397,1227.66,29643,33259,33259,16147,29640,29640,13491,16141,16141,31250,18088
+
+unnest20,1,41,3,3,390,117,3787,10826.51,2897,3714,3714,1787,2889,2889,1106,1763,1763,31250,18088
+
+individual,1,41,41,41,3936,73,16662,2460.69,6173,13201,13336,5980,12783,12920,...
+
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]

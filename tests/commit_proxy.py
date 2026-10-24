@@ -8,7 +8,10 @@ import threading
 
 
 class CommitLossProxy:
-    def __init__(self, port):
+    def __init__(self, port, response_tag=b"COMMIT"):
+        if response_tag not in (b"COMMIT", b"ROLLBACK"):
+            raise ValueError("Only transaction finish response tags are supported")
+        self.response_tag = response_tag
         self.upstream_port = port
         self.listener = socket.socket()
         self.listener.bind(("127.0.0.1", 0))
@@ -54,7 +57,7 @@ class CommitLossProxy:
                     if len(buffer) < length + 1:
                         break
                     frame, buffer = buffer[: length + 1], buffer[length + 1 :]
-                    if frame[:1] == b"C" and frame[5:] == b"COMMIT\0":
+                    if frame[:1] == b"C" and frame[5:] == self.response_tag + b"\0":
                         self.dropped.set()
                         return  # Close both sockets before client receives confirmation.
                     target.sendall(frame)

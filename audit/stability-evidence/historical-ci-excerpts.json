@@ -1,0 +1,147 @@
+{
+  "commit": "3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f",
+  "run_id": 39666914034,
+  "scope": "Historical remote run: retrieved complete decoded job logs; preserve selected excerpts here, not a new execution of the audit branch.",
+  "jobs": [
+    {
+      "job_id": 119454856217,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034/job/119454856217",
+      "characters": 5509427,
+      "sanitizer_diagnostic_lines": [],
+      "excerpts": [
+        "2026-10-21T20:05:43.5726858Z 100% tests passed, 0 tests failed out of 18",
+        "2026-10-21T20:05:43.5727758Z CTest qualification: 18 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/qualification.xml",
+        "2026-10-21T20:06:23.4094418Z [2026-10-21T20:05:43+0000] [Info] PG SMOKE PASS",
+        "2026-10-21T20:06:23.4098141Z [2026-10-21T20:05:55+0000] [Info] PG SMOKE PASS",
+        "2026-10-21T20:06:23.4098392Z [2026-10-21T20:06:07+0000] [Info] PG SMOKE PASS",
+        "2026-10-21T20:06:23.4098637Z [2026-10-21T20:06:20+0000] [Info] PG SMOKE PASS",
+        "2026-10-21T20:06:23.9051714Z [2026-10-21T20:06:23+0000] [Info] PG CALLBACK PASS",
+        "2026-10-21T20:06:24.3006432Z [2026-10-21T20:06:24+0000] [Info] PG EXTENSION PASS",
+        "2026-10-21T20:06:24.5957149Z [2026-10-21T20:06:24+0000] [Info] PG BOOTSTRAP PASS: properties=2 vehicles=1 clans=2",
+        "2026-10-21T20:06:24.8907790Z [2026-10-21T20:06:24+0000] [Info] PG SECTION PASS",
+        "2026-10-21T20:06:25.1863766Z [2026-10-21T20:06:24+0000] [Info] PG LOGGING PASS",
+        "2026-10-21T20:06:45.4884168Z [2026-10-21T20:06:44+0000] [Info] PG PERFORMANCE PASS",
+        "2026-10-21T20:06:45.4888859Z [2026-10-21T20:06:45+0000] [Info] PG BASIC PASS",
+        "2026-10-21T20:06:45.7747954Z [2026-10-21T20:06:45+0000] [Info] PG VALUES PASS",
+        "2026-10-21T20:06:46.3701534Z [2026-10-21T20:06:46+0000] [Info] PG SAVING PASS",
+        "2026-10-21T20:06:46.6666511Z [2026-10-21T20:06:46+0000] [Info] PG TRANSFER PASS",
+        "2026-10-21T20:06:47.3207280Z Verified package: build-dist/omp-postgresql-0.1.0-rc.1.3cbf99849de5-linux-x86.zip",
+        "2026-10-21T20:06:47.5290726Z Verified package: build-dist-repeat/omp-postgresql-0.1.0-rc.1.3cbf99849de5-linux-x86.zip",
+        "2026-10-21T20:06:47.5766226Z Verified linux x86 package from 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f",
+        "2026-10-21T20:07:30.6228663Z [2026-10-21T20:06:50+0000] [Info] PG SMOKE PASS",
+        "2026-10-21T20:07:30.6231047Z [2026-10-21T20:07:03+0000] [Info] PG SMOKE PASS",
+        "2026-10-21T20:07:30.6231209Z [2026-10-21T20:07:15+0000] [Info] PG SMOKE PASS",
+        "2026-10-21T20:07:30.6231364Z [2026-10-21T20:07:27+0000] [Info] PG SMOKE PASS",
+        "2026-10-21T20:07:31.1206752Z [2026-10-21T20:07:30+0000] [Info] PG CALLBACK PASS",
+        "2026-10-21T20:07:31.5167410Z [2026-10-21T20:07:31+0000] [Info] PG EXTENSION PASS",
+        "2026-10-21T20:07:31.8134276Z [2026-10-21T20:07:31+0000] [Info] PG BOOTSTRAP PASS: properties=2 vehicles=1 clans=2",
+        "2026-10-21T20:07:32.1101346Z [2026-10-21T20:07:31+0000] [Info] PG SECTION PASS",
+        "2026-10-21T20:07:32.4063508Z [2026-10-21T20:07:32+0000] [Info] PG LOGGING PASS",
+        "2026-10-21T20:07:52.7055604Z [2026-10-21T20:07:52+0000] [Info] PG PERFORMANCE PASS",
+        "2026-10-21T20:07:52.7060489Z [2026-10-21T20:07:52+0000] [Info] PG BASIC PASS",
+        "2026-10-21T20:07:53.0015902Z [2026-10-21T20:07:52+0000] [Info] PG VALUES PASS",
+        "2026-10-21T20:07:53.5978742Z [2026-10-21T20:07:53+0000] [Info] PG SAVING PASS",
+        "2026-10-21T20:07:53.8934331Z [2026-10-21T20:07:53+0000] [Info] PG TRANSFER PASS"
+      ]
+    },
+    {
+      "job_id": 119454856498,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034/job/119454856498",
+      "characters": 94999,
+      "sanitizer_diagnostic_lines": [],
+      "excerpts": [
+        "2026-10-21T20:05:48.8339861Z 100% tests passed, 0 tests failed out of 18",
+        "2026-10-21T20:05:48.8341902Z CTest qualification: 18 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+        "2026-10-21T20:05:49.6769685Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-sb4f1us8/Testing/Temporary/qualification.xml",
+        "2026-10-21T20:05:50.7257353Z Ran 78 tests in 1.266s"
+      ]
+    },
+    {
+      "job_id": 119454856587,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034/job/119454856587",
+      "characters": 6515274,
+      "sanitizer_diagnostic_lines": [],
+      "excerpts": [
+        "2026-10-21T20:11:21.9794761Z 100% tests passed out of 17\r",
+        "2026-10-21T20:11:21.9926809Z CTest qualification: 17 tests executed successfully; report: D:\\a\\omp-postgresql\\omp-postgresql\\build-msvc32\\Testing\\Temporary\\qualification.xml\r",
+        "2026-10-21T20:12:02.6582024Z [2026-10-21T20:11:22+0000] [Info] PG SMOKE PASS\r",
+        "2026-10-21T20:12:02.6590417Z [2026-10-21T20:11:34+0000] [Info] PG SMOKE PASS\r",
+        "2026-10-21T20:12:02.6590970Z [2026-10-21T20:11:47+0000] [Info] PG SMOKE PASS\r",
+        "2026-10-21T20:12:02.6591580Z [2026-10-21T20:11:59+0000] [Info] PG SMOKE PASS\r",
+        "2026-10-21T20:12:03.3078752Z [2026-10-21T20:12:03+0000] [Info] PG CALLBACK PASS\r",
+        "2026-10-21T20:12:03.8532523Z [2026-10-21T20:12:03+0000] [Info] PG EXTENSION PASS\r",
+        "2026-10-21T20:12:04.2917949Z [2026-10-21T20:12:04+0000] [Info] PG BOOTSTRAP PASS: properties=2 vehicles=1 clans=2\r",
+        "2026-10-21T20:12:04.8367750Z [2026-10-21T20:12:04+0000] [Info] PG SECTION PASS\r",
+        "2026-10-21T20:12:05.2857125Z [2026-10-21T20:12:05+0000] [Info] PG LOGGING PASS\r",
+        "2026-10-21T20:12:27.1691923Z [2026-10-21T20:12:25+0000] [Info] PG PERFORMANCE PASS\r",
+        "2026-10-21T20:12:27.1700962Z [2026-10-21T20:12:26+0000] [Info] PG BASIC PASS\r",
+        "2026-10-21T20:12:27.3100292Z [2026-10-21T20:12:27+0000] [Info] PG VALUES PASS\r",
+        "2026-10-21T20:12:27.9542303Z [2026-10-21T20:12:27+0000] [Info] PG SAVING PASS\r",
+        "2026-10-21T20:12:28.3982483Z [2026-10-21T20:12:28+0000] [Info] PG TRANSFER PASS\r",
+        "2026-10-21T20:12:34.3110078Z Verified package: build-dist\\omp-postgresql-0.1.0-rc.1.3cbf99849de5-windows-x86.zip\r",
+        "2026-10-21T20:12:39.5764783Z Verified package: build-dist-repeat\\omp-postgresql-0.1.0-rc.1.3cbf99849de5-windows-x86.zip\r",
+        "2026-10-21T20:12:39.8710844Z Verified windows x86 package from 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f\r",
+        "2026-10-21T20:13:29.2366348Z [2026-10-21T20:12:49+0000] [Info] PG SMOKE PASS\r",
+        "2026-10-21T20:13:29.2375000Z [2026-10-21T20:13:01+0000] [Info] PG SMOKE PASS\r",
+        "2026-10-21T20:13:29.2375512Z [2026-10-21T20:13:13+0000] [Info] PG SMOKE PASS\r",
+        "2026-10-21T20:13:29.2375990Z [2026-10-21T20:13:25+0000] [Info] PG SMOKE PASS\r",
+        "2026-10-21T20:13:29.8799622Z [2026-10-21T20:13:29+0000] [Info] PG CALLBACK PASS\r",
+        "2026-10-21T20:13:30.4187794Z [2026-10-21T20:13:30+0000] [Info] PG EXTENSION PASS\r",
+        "2026-10-21T20:13:30.8617473Z [2026-10-21T20:13:30+0000] [Info] PG BOOTSTRAP PASS: properties=2 vehicles=1 clans=2\r",
+        "2026-10-21T20:13:31.3034682Z [2026-10-21T20:13:31+0000] [Info] PG SECTION PASS\r",
+        "2026-10-21T20:13:31.7487343Z [2026-10-21T20:13:31+0000] [Info] PG LOGGING PASS\r",
+        "2026-10-21T20:13:53.8194497Z [2026-10-21T20:13:52+0000] [Info] PG PERFORMANCE PASS\r",
+        "2026-10-21T20:13:53.8209049Z [2026-10-21T20:13:53+0000] [Info] PG BASIC PASS\r",
+        "2026-10-21T20:13:53.9027018Z [2026-10-21T20:13:53+0000] [Info] PG VALUES PASS\r",
+        "2026-10-21T20:13:54.5879139Z [2026-10-21T20:13:54+0000] [Info] PG SAVING PASS\r",
+        "2026-10-21T20:13:55.2391598Z [2026-10-21T20:13:54+0000] [Info] PG TRANSFER PASS\r"
+      ]
+    },
+    {
+      "job_id": 119454856781,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034/job/119454856781",
+      "characters": 66019,
+      "sanitizer_diagnostic_lines": [],
+      "excerpts": [
+        "2026-10-21T20:08:29.2487594Z 100% tests passed out of 15\r",
+        "2026-10-21T20:08:29.2489464Z CTest qualification: 15 tests executed successfully; report: D:/a/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml\r",
+        "2026-10-21T20:08:30.6381567Z CTest qualification: 2 tests executed successfully; report: D:/a/_temp/msys64/tmp/omp-pg-ctest-3xes9jvm/Testing/Temporary/qualification.xml\r",
+        "2026-10-21T20:08:30.6393940Z Ran 10 tests in 0.894s\r"
+      ]
+    },
+    {
+      "job_id": 119454856817,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034/job/119454856817",
+      "characters": 92388,
+      "sanitizer_diagnostic_lines": [],
+      "excerpts": [
+        "2026-10-21T20:05:36.3651628Z 100% tests passed, 0 tests failed out of 18",
+        "2026-10-21T20:05:36.3653418Z CTest qualification: 18 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+        "2026-10-21T20:05:37.2599417Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-8upv6c8e/Testing/Temporary/qualification.xml",
+        "2026-10-21T20:05:38.5053288Z Ran 78 tests in 1.545s"
+      ]
+    },
+    {
+      "job_id": 119459841255,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034/job/119459841255",
+      "characters": 18794,
+      "sanitizer_diagnostic_lines": [],
+      "excerpts": [
+        "2026-10-21T20:14:12.4298376Z Verified linux x86 package from 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f",
+        "2026-10-21T20:14:12.5385898Z Verified windows x86 package from 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f"
+      ]
+    },
+    {
+      "job_id": 119454856732,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/39666914034/job/119454856732",
+      "characters": 92384,
+      "sanitizer_diagnostic_lines": [],
+      "excerpts": [
+        "2026-10-21T20:05:52.3319908Z 100% tests passed, 0 tests failed out of 18",
+        "2026-10-21T20:05:52.3321640Z CTest qualification: 18 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+        "2026-10-21T20:05:53.1866563Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-8bu3__5a/Testing/Temporary/qualification.xml",
+        "2026-10-21T20:05:54.3627434Z Ran 78 tests in 1.443s"
+      ]
+    }
+  ]
+}

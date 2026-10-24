@@ -1,0 +1,9 @@
+case=transport_cancel exit=1
+transport_cancel observed sends=1 select=1 results=0 status=4 error=7
+socket_wait FAIL Wrong terminal cause/status
+case=transport_timeout exit=1
+transport_timeout observed sends=1 select=1 results=0 status=4 error=6
+socket_wait FAIL Wrong terminal cause/status
+case=eintr_retry exit=1
+eintr_retry observed sends=1 select=1 results=0 status=4 error=5
+socket_wait FAIL Wrong terminal cause/status

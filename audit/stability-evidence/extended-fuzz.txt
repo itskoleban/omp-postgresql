@@ -1,0 +1,29 @@
+UpdateCTestConfiguration  from :AUDIT_WORKSPACE/work/omp-postgresql/build-audit64/DartConfiguration.tcl
+Parse Config file:AUDIT_WORKSPACE/work/omp-postgresql/build-audit64/DartConfiguration.tcl
+Test project AUDIT_WORKSPACE/work/omp-postgresql/build-audit64
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 5
+    Start 5: audit_semantic_fuzz
+
+5: Test command: AUDIT_WORKSPACE\work\omp-postgresql\build-audit64\pg_audit_fuzz.exe
+5: Working Directory: AUDIT_WORKSPACE/work/omp-postgresql/build-audit64
+5: Test timeout computed to be: 60
+5: semantic_fuzz seed=1592594996 cases=100000
+5: semantic_fuzz PASS cases=100000
+1/1 Test #5: audit_semantic_fuzz ..............   Passed   46.85 sec
+
+The following tests passed:
+	audit_semantic_fuzz
+
+100% tests passed, 0 tests failed out of 1
+
+Label Time Summary:
+audit    =  46.85 sec*proc (1 test)
+fuzz     =  46.85 sec*proc (1 test)
+
+Total Test time (real) =  46.89 sec

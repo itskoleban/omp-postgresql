@@ -1,0 +1,56 @@
+name: dedicated stability audit
+on:
+    workflow_dispatch:
+        inputs:
+            seconds:
+                description: Sustained Engine load seconds (120..86400)
+                type: string
+                default: "86400"
+            seed:
+                description: Reproducible positive uint32 seed
+                type: string
+                default: "1592594996"
+permissions:
+    contents: read
+jobs:
+    isolated-linux:
+        # Manually provisioned, disposable, non-root Linux x64 runner only.
+        # No resources are provisioned or workflow dispatched by adding this file.
+        runs-on: [self-hosted, linux, x64, pg-audit-isolated]
+        timeout-minutes: 1500
+        env:
+            AUDIT_SECONDS: ${{ inputs.seconds }}
+            AUDIT_SEED: ${{ inputs.seed }}
+            ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+            UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+        steps:
+            - uses: actions/checkout@v4
+            - name: Validate duration and seed before configuring
+              run: |
+                  python3 - <<'PY'
+                  import os
+                  for name, low, high in [('AUDIT_SECONDS',120,86400),('AUDIT_SEED',1,4294967295)]:
+                      value = os.environ[name]
+                      assert value.isascii() and value.isdecimal() and low <= int(value) <= high, name
+                  PY
+            - name: Build with ASan and UBSan
+              run: |
+                  cmake -S . -B build-long -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+                    -DPG_SANITIZE=ON -DPG_BUILD_BENCHMARK=ON -DPG_STRESS_SECONDS="$AUDIT_SECONDS"
+                  cmake --build build-long --parallel 4
+            - name: Run disposable TLS integration, soak and semantic fuzz
+              run: |
+                  python3 scripts/audit_long.py --build build-long --config Debug \
+                    --output build-audit-evidence --seconds "$AUDIT_SECONDS" --seed "$AUDIT_SEED"
+            - name: Preserve evidence even after failure
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: stability-audit-${{ github.sha }}-${{ github.run_attempt }}
+                  path: |
+                      build-audit-evidence/*.json
+                      build-audit-evidence/*.log
+                      build-audit-evidence/temporary/**/*.log
+                      build-long/Testing/Temporary/
+                      build-long/audit-fuzz-failure.bin
+                  if-no-files-found: error

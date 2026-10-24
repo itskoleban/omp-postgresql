@@ -251,6 +251,7 @@ def restart_monitor():
 
 startup_attempted = False
 proxy = None
+rollback_proxy = None
 stall_servers = []
 monitor = None
 try:
@@ -262,6 +263,13 @@ try:
             f"\n[commit_loss]\nhost=127.0.0.1\nport={proxy.port}\ndbname=postgres\nuser=omp_test\nsslmode=disable\ngssencmode=disable\n"
         )
     env["OMP_PG_TEST_COMMIT_LOSS"] = "commit_loss"
+    rollback_proxy = CommitLossProxy(port, response_tag=b"ROLLBACK")
+    with service.open("a", encoding="utf8") as f:
+        f.write(
+            f"\n[rollback_loss]\nhost=127.0.0.1\nport={rollback_proxy.port}\n"
+            "dbname=postgres\nuser=omp_test\nsslmode=disable\ngssencmode=disable\n"
+        )
+    env["OMP_PG_TEST_ROLLBACK_LOSS"] = "rollback_loss"
     run(
         [
             "psql",
@@ -311,6 +319,8 @@ try:
             raise RuntimeError("PostgreSQL restart fixture failed") from restart_errors[0]
         if not proxy.dropped.is_set():
             raise RuntimeError("COMMIT response loss was not exercised")
+        if not rollback_proxy.dropped.is_set():
+            raise RuntimeError("ROLLBACK response loss was not exercised")
         for stalled in stall_servers:
             if stalled.errors or len(list(stalled.directory.glob("ready-*"))) != 20:
                 raise RuntimeError(f"Stalled {stalled.mode} handshakes were not fully exercised")
@@ -453,6 +463,8 @@ finally:
         monitor.join(timeout=15)
     if proxy:
         proxy.close()
+    if rollback_proxy:
+        rollback_proxy.close()
     for stalled in stall_servers:
         try:
             stalled.close()

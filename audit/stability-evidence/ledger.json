@@ -1,0 +1,56 @@
+[
+  {
+    "file": "windows-x64.xml",
+    "original_sha256": "7b9e9d3788954d92566bebc87f75a4ea853b980d3f9b18714369c62ac5967886",
+    "public_sha256": "928d9a05216347b0c77f034b8e6df1be5c47e3cc321d6faf7fc404cef31ffb73",
+    "note": "Original retained locally; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  },
+  {
+    "file": "windows-x86.xml",
+    "original_sha256": "be969796e1264703099699e24716b952f6bcc760c400b76720bff96d182fab3f",
+    "public_sha256": "27b8585fbcf0a89c0d5f774f63965c301831d14476fb76511b1a2ce450f7d05d",
+    "note": "Original retained locally; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  },
+  {
+    "file": "windows-x64-ctest.txt",
+    "original_sha256": "e3e395222acd80174159e69ca02ea22f8f81805fb8312dc223be7def888681c8",
+    "public_sha256": "d7e9d0764ffedbf99b0f397525fa2910cd55d30c349356c19f57cf5bb0ec6eaa",
+    "note": "JUnit stdout extraction; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  },
+  {
+    "file": "windows-x86-ctest.txt",
+    "original_sha256": "e73b713079d7f60538f3d735b04873cd5b221755685e030b6baaad4cea1a9b6f",
+    "public_sha256": "c41884b91b244b59b7f60cfdf37b7529455bff6bf2e489161e2f88c0a27b8629",
+    "note": "Original retained locally; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  },
+  {
+    "file": "python-final.txt",
+    "original_sha256": "e14960922a19e64401ba3cb6f8aeb2a27305b4f847bdcb003bf1b602cf495407",
+    "public_sha256": "579b508c7492119c81d9e3b4966c8d03398be668331297af718430adabfbf9c6",
+    "note": "Original retained locally; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  },
+  {
+    "file": "asan-ubsan-helpers.txt",
+    "original_sha256": "60a7f3fdf407f5b3a467fb22295bb49f5af922b6dd3df5136e9ae672c178c001",
+    "public_sha256": "d5e642bf190ae610f382ae6adfdce4cfa887ed55942679b16a41d950d381175e",
+    "note": "Original retained locally; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  },
+  {
+    "file": "extended-fuzz.txt",
+    "original_sha256": "a3f01566bea5b43392e46b79763d088abb50d8a264fc42dfb613203f8b57e255",
+    "public_sha256": "34b1f18815b9f30e040c3a101d9b37741b328302526af741a5e232bfca678548",
+    "note": "Original retained locally; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  },
+  {
+    "file": "cancel-before.txt",
+    "original_sha256": "9ee36eaa73ae9c2257a7de00af4497ddaf036ef475eaa4cc711a16bcb7693a17",
+    "public_sha256": "773a32eaa47cdbfb4185d08a8554c367839b5807854e65eb2a900fc5ef7b00c8",
+    "note": "Original retained locally; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  },
+  {
+    "file": "historical-ci-excerpts.json",
+    "original_sha256": "59131bcaa1bb35a48acc99698319a2ab83aa1deb57f09f4aca14a6eeb3523304",
+    "public_sha256": "59131bcaa1bb35a48acc99698319a2ab83aa1deb57f09f4aca14a6eeb3523304",
+    "note": "Original retained locally; public copy redacts workspace/user paths and normalizes LF/trailing blank lines."
+  }
+]

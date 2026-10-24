@@ -1,0 +1,44 @@
+[
+  {
+    "file": "windows-x64.xml",
+    "original_sha256": "d76e9d49770311a6cea95565ac0fb6ec3e76471ef60b77c1c06f7594b9959d28",
+    "public_sha256": "f5f9f8844b2f6b5c7002cab99e199d653bf5b279f9f25488a332856bc7496606",
+    "transform": "workspace paths and hostname redacted; UTF-8/LF normalized"
+  },
+  {
+    "file": "windows-x86.xml",
+    "original_sha256": "c328ef53a8dd7f632c1a22bf90daeb3509f4a11518a1c21261cf81a411cde846",
+    "public_sha256": "98b34e74428da4993a17624d77ad4e67aaf6c0e8d0370a3f462bad9c66f89e7e",
+    "transform": "workspace paths and hostname redacted; UTF-8/LF normalized"
+  },
+  {
+    "file": "python.txt",
+    "original_sha256": "4272c2d533a0f1a3dc76a206f3d2da5e2c54d0c3346d7723768e0767890d4330",
+    "public_sha256": "a5e83b50fc007ebbeb1854bae90bd5c2e104e841f8ee3770c513f2aeacb43181",
+    "transform": "workspace paths and hostname redacted; UTF-8/LF normalized"
+  },
+  {
+    "file": "mutation-original.txt",
+    "original_sha256": "b4d7a1148c013760e2e687a325965d5ed3a8a2010bd2cdc924668d5dbd4e57d8",
+    "public_sha256": "a92c5d75ecf9167e46f9bded3d3dc7a2fc992db574b282845d4088fdd4d447cd",
+    "transform": "workspace paths and hostname redacted; UTF-8/LF normalized"
+  },
+  {
+    "file": "mutation-audit-head.txt",
+    "original_sha256": "0e7e87d1ceb5ec11eb5493cf0efc9dc7cecf3b467c1e51a7c5a45d15b0bf4fca",
+    "public_sha256": "460492bf0feda985670342d49b7df52f60f8021cb075525f3a54122a3b07b44b",
+    "transform": "workspace paths and hostname redacted; UTF-8/LF normalized"
+  },
+  {
+    "file": "mutations.json",
+    "original_sha256": "a5e482178a6e3d8404a70fb6367014e50bf777cf1777a77460a647c24c86beb8",
+    "public_sha256": "70fd97e90c9d6d20b4fdf270dcf9fac4e5317fce13f4196d5a10f88b828abe4e",
+    "transform": "workspace paths and hostname redacted; UTF-8/LF normalized"
+  },
+  {
+    "file": "original-repro-after.txt",
+    "original_sha256": "95f46d9f446be88f54b741d11f7f6853202fb45c4136d7a71e968949cabcd682",
+    "public_sha256": "7a0bcfe0ac8c4261a339806ee6d7f290a14ee376ab418593dec18338eb445c24",
+    "transform": "workspace paths and hostname redacted; UTF-8/LF normalized"
+  }
+]

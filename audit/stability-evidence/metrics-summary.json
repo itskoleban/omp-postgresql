@@ -1,0 +1,43 @@
+{
+  "code_commit": "6cf0c05893c79cb8dbdb0b54f2eeacf585ac3f91",
+  "base_commit": "3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f",
+  "limits": "Finite 120-second minimum sustained phases. Per-wave percentiles, not global percentiles. Allocator bytes unavailable. RSS is not a leak bound.",
+  "x64": {
+    "cases": 17,
+    "ctest_seconds": 226.050513,
+    "stress_samples": 3,
+    "complete_metric_capture": false,
+    "load_sql_operations": null,
+    "load_rounds": null,
+    "requested_seconds": 120,
+    "last_sample_seconds": 1.651466,
+    "load_sql_ops_per_second": 843.4929934978982,
+    "rss_first_kib": 17692,
+    "rss_last_kib": 17976,
+    "rss_min_kib": 17692,
+    "rss_max_kib": 17976,
+    "cpu_seconds_at_last_sample": 0.390625,
+    "median_wave_p50_us": 133590,
+    "median_wave_p95_us": 237868,
+    "median_wave_p99_us": 269327
+  },
+  "x86": {
+    "cases": 19,
+    "ctest_seconds": 205.560936,
+    "stress_samples": 393,
+    "complete_metric_capture": true,
+    "load_sql_operations": 182365,
+    "load_rounds": 393,
+    "requested_seconds": 120,
+    "last_sample_seconds": 120.113289,
+    "load_sql_ops_per_second": 1518.2749678930197,
+    "rss_first_kib": 15908,
+    "rss_last_kib": 16524,
+    "rss_min_kib": 15908,
+    "rss_max_kib": 16544,
+    "cpu_seconds_at_last_sample": 36.546875,
+    "median_wave_p50_us": 131979,
+    "median_wave_p95_us": 246549,
+    "median_wave_p99_us": 258938
+  }
+}
