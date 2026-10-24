@@ -46,6 +46,13 @@ class QualificationTests(unittest.TestCase):
         self.qualify()
         self.assertEqual(verify_report(self.report, ["unit", "integration"]), 2)
 
+    def test_focused_inventory_is_explicit_and_still_rejects_skips(self):
+        self.add_case("other", "raise SystemExit(1)")
+        self.add_case("network", "raise SystemExit(77)", "SKIP_RETURN_CODE 77")
+        with self.assertRaisesRegex(RuntimeError, "unsuccessful tests: network"):
+            qualify_ctest(self.build, "Release", dict(os.environ), self.run_command, "^network$")
+        self.assertIn("-R", self.results[-1].args)
+
     def test_skip_return_code_is_rejected_despite_ctest_success(self):
         self.add_case("unit")
         self.add_case("integration", "raise SystemExit(77)", "SKIP_RETURN_CODE 77")

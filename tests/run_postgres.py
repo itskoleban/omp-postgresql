@@ -21,6 +21,7 @@ import time
 from commit_proxy import CommitLossProxy
 from ctest_qualification import qualify_ctest
 from stall_server import StallServer
+from wire_fault_proxy import WireFaultProxy
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--build", default="build")
@@ -41,6 +42,7 @@ parser.add_argument("--openmp-dir", help="Disposable extracted open.mp server fo
 parser.add_argument("--component")
 parser.add_argument("--real-sessions", help="JSON configuration for the optional real network client suite")
 parser.add_argument("--only-real-sessions", action="store_true")
+parser.add_argument("--network-only", action="store_true", help="Run only the bounded wire regression in a fresh cluster")
 parser.add_argument("--gamemode")
 parser.add_argument("--runtime", action="append", default=[])
 parser.add_argument("--unload-script")
@@ -260,6 +262,7 @@ startup_attempted = False
 proxy = None
 rollback_proxy = None
 stall_servers = []
+wire_proxies = []
 monitor = None
 try:
     startup_attempted = True
@@ -306,6 +309,32 @@ try:
             env=env,
         )
     if not args.only_openmp and not args.only_real_sessions:
+        wire_root = root / "wire"
+        env["OMP_PG_TEST_WIRE_ROOT"] = str(wire_root)
+        for name, mode, tag in (
+            ("begin", "lose", b"BEGIN"),
+            ("savepoint", "lose", b"SAVEPOINT"),
+            ("rollback_to", "lose", b"ROLLBACK"),
+            ("release", "lose", b"RELEASE"),
+            ("commit", "lose", b"COMMIT"),
+            ("rollback", "lose", b"ROLLBACK"),
+            ("insert", "lose", b"INSERT 0 1"),
+            ("hold", "hold", b"INSERT 0 1"),
+            ("partial_parse", "partial_parse", b"INSERT 0 1"),
+            ("batch", "lose", b"INSERT 0 1"),
+            ("fragment", "fragment", b"INSERT 0 1"),
+            ("tls_hold", "tls_hold", b"INSERT 0 1"),
+            ("tls_shutdown", "tls_hold", b"INSERT 0 1"),
+        ):
+            wire = WireFaultProxy(port, wire_root / name, mode, tag)
+            wire_proxies.append(wire)
+            transport = (
+                f"host=localhost\nhostaddr=127.0.0.1\nsslmode=verify-full\nsslrootcert={data / 'server.crt'}\n"
+                if mode == "tls_hold" else "host=127.0.0.1\nsslmode=disable\n"
+            )
+            with service.open("a", encoding="utf8") as f:
+                f.write(f"\n[wire_{name}]\n{transport}port={wire.port}\n"
+                        "dbname=postgres\nuser=omp_test\ngssencmode=disable\n")
         env["OMP_PG_TEST_STALL_ROOT"] = str(root)
         for mode in ("ssl", "tls", "startup"):
             stalled = StallServer(mode, root / mode)
@@ -321,14 +350,17 @@ try:
                 )
         monitor = threading.Thread(target=restart_monitor, daemon=True)
         monitor.start()
-        qualify_ctest(args.build, args.config, env, run)
+        qualify_ctest(args.build, args.config, env, run,
+                      test_regex="^network_recovery_integration$" if args.network_only else None)
+        if any(not wire.injected for wire in wire_proxies if wire.mode != "fragment"):
+            raise RuntimeError("Required wire fault was not exercised")
         if restart_errors:
             raise RuntimeError("PostgreSQL restart fixture failed") from restart_errors[0]
-        if not proxy.dropped.is_set():
+        if not args.network_only and not proxy.dropped.is_set():
             raise RuntimeError("COMMIT response loss was not exercised")
-        if not rollback_proxy.dropped.is_set():
+        if not args.network_only and not rollback_proxy.dropped.is_set():
             raise RuntimeError("ROLLBACK response loss was not exercised")
-        for stalled in stall_servers:
+        for stalled in ([] if args.network_only else stall_servers):
             if stalled.errors or len(list(stalled.directory.glob("ready-*"))) != 20:
                 raise RuntimeError(f"Stalled {stalled.mode} handshakes were not fully exercised")
     elif not args.openmp_dir and not args.only_real_sessions:
@@ -481,6 +513,17 @@ finally:
         proxy.close()
     if rollback_proxy:
         rollback_proxy.close()
+    wire_errors = []
+    for wire in wire_proxies:
+        try:
+            wire.close()
+        except Exception as error:
+            wire_errors.append(str(error))
+        finally:
+            log_directory = Path(args.build) / "Testing" / "Temporary"
+            log_directory.mkdir(parents=True, exist_ok=True)
+            if (wire.directory / "wire.jsonl").is_file():
+                shutil.copyfile(wire.directory / "wire.jsonl", log_directory / f"wire-{wire.directory.name}.log")
     for stalled in stall_servers:
         try:
             stalled.close()
@@ -502,5 +545,10 @@ finally:
             if not exception_in_flight:
                 raise
     print(f"Isolated test artifacts: {root}")
+    if wire_errors:
+        if exception_in_flight:
+            print("Wire cleanup errors: " + "; ".join(wire_errors), file=sys.stderr)
+        else:
+            raise RuntimeError("Wire cleanup failed: " + "; ".join(wire_errors))
     if not exception_in_flight and any(stalled.errors for stalled in stall_servers):
         raise RuntimeError("Stall fixture failed; inspect stall-*.log in the fixture directory")

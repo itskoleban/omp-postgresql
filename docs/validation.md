@@ -13,6 +13,16 @@ is separated below from the historical qualification records that follow.
 
 ## Development documentation checks
 
+### Phase 2 network, TLS and recovery
+
+The [Phase 2 report](../audit/network-recovery-qualification.md) defines thirteen
+bounded real Engine/PostgreSQL wire scenarios and two additional official open.mp
+session cases, preserving all nineteen existing cases. It distinguishes conservative
+uncertainty from confirmed PostgreSQL execution, physical transport recovery from
+logical transaction/session recovery, and proxy faults from physical partitions.
+See its source-specific evidence for current results; historical Windows startup
+failures remain unresolved and the 24-hour campaign remains BLOCKED.
+
 ### Real player sessions: October 24, 2026
 
 The follow-up within [PR #27](https://github.com/itskoleban/omp-postgresql/pull/27)

@@ -30,7 +30,7 @@ def verify_report(report, expected):
     return len(cases)
 
 
-def qualify_ctest(build, config, env, run):
+def qualify_ctest(build, config, env, run, test_regex=None):
     """Run CTest using the caller's logged subprocess runner and disposable environment."""
     build = Path(build).resolve()
     report = build / "Testing" / "Temporary" / "qualification.xml"
@@ -38,6 +38,8 @@ def qualify_ctest(build, config, env, run):
     # Never accept an earlier report if CTest fails before writing a new one.
     report.unlink(missing_ok=True)
     command = ["ctest", "--test-dir", str(build), "-C", config]
+    if test_regex is not None:
+        command.extend(("-R", test_regex))
     inventory = run([*command, "--show-only=json-v1"], env=env, stdout=subprocess.PIPE, text=True)
     expected = [test["name"] for test in json.loads(inventory.stdout)["tests"]]
     if not expected:
