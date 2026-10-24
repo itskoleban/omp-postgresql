@@ -95,11 +95,11 @@ class ReleaseTests(unittest.TestCase):
                     self.run, {"jobs": inventory}, self.repository, self.commit, self.tag, self.tag
                 )
 
-    def test_rc_and_explicit_exact_confirmation_are_required(self):
+    def test_canonical_release_tag_and_explicit_exact_confirmation_are_required(self):
         for tag, confirmation in (
             (self.tag, "yes"),
             (self.tag, ""),
-            ("v0.1.0", "v0.1.0"),
+            ("v0.1.0-experimental", "v0.1.0-experimental"),
             ("--help", "--help"),
             ("v0.1.0-rc.1; echo bad", self.tag),
         ):
