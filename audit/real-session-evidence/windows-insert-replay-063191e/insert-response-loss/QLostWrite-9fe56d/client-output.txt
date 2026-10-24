@@ -1,0 +1,14 @@
+ 
+* ===================================================== *
+  RakSAMP v0.8.6-0.3.7 initialized on 24/10/2026 08:15:22
+  Authors: jlfm, bartekdvd, P3ti
+* ===================================================== *
+ 
+Connecting to 127.0.0.1:51192..
+Connected. Joining the game...
+Connected to Isolated SQL session qualification
+
+Dialog response sent.
+[CMSG] Database unavailable. Log in again when it recovers.
+Disconnected.
+[RAKSAMP] Connection was closed by the server. Reconnecting in 2 seconds.

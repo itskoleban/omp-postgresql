@@ -104,3 +104,21 @@ format `"ii"`. It validates player bounds/connection, the exact PendingJob, and 
 before applying results; no player-array scan is needed at completion. Readiness-loss,
 disconnect, password-provider and uncertain-write behavior remain as documented above.
 Legacy completion examples remain available in the [catalogue](examples.md).
+
+## Bounded real-client qualification (October 24, 2026)
+
+The [real-session qualification PR](https://github.com/itskoleban/omp-postgresql/pull/27)
+preserves the exact input hashes, per-scenario matrix and server/client logs for
+official open.mp 1.5.8.3079 x86 on Linux and Windows. Ordinary-protocol external
+headless clients and the real samp-bcrypt 0.4.1 provider exercised registration,
+verification, disconnect/reuse during lookup/hash/verify/INSERT, concurrent requests,
+lost INSERT confirmation, readiness recovery and GMX. The complete local runs each
+passed 19 scenarios; the report binds each result to its own source and records
+earlier failed preparation/readiness observations separately.
+
+These fixtures include this tutorial rather than replacing its session logic.
+They explicitly label retained uncancellable work, discarded provider responses,
+slower real bcrypt costs and operator-driven failed-pool recreation. NPC creation
+is a separate result, never evidence of a real player connection. A rendered game,
+the encrypted official-client path and the external provider's multi-VM dispatch
+remain outside that result. This finite campaign is not the deferred 24-hour gate.

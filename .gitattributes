@@ -1,3 +1,4 @@
 * text=auto eol=lf
 /scripts/patches/*.patch -whitespace
 /audit/ export-ignore
+/audit/real-session-evidence/** -text

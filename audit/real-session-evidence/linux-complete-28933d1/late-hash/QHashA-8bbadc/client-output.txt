@@ -1,0 +1,12 @@
+]0;RakSAMP v0.8.6-0.3.7 
+* ===================================================== *
+  RakSAMP v0.8.6-0.3.7 initialized on 24/10/2026 12:57:43
+  Authors: jlfm, bartekdvd, P3ti
+* ===================================================== *
+ 
+Connecting to 127.0.0.1:33745..
+Connected. Joining the game...
+]0;QHashA (0) - Isolated SQL ses - RakSAMP v0.8.6-0.3.7Connected to Isolated SQL session qualification
+
+Dialog response sent.
+Disconnected.

@@ -1,0 +1,7 @@
+{
+  "client_commit": "f75af4cb97fed341cb45b49aff489f9f20665e99",
+  "luajit_commit": "a4c064539ea931274d407e1249b4bb575424a0f4",
+  "patch_sha256": "3b36ba5ebbabc572d7b6541854e8d9b31d811b0deeabb9a6ab4a3794588a5ef8",
+  "binary": "/tmp/client-repro-linux/build/RakSAMPClient",
+  "sha256": "39121cd31a536f75a9721ddcf60d6d56547831829380ae97b8f0bf65960b148a"
+}

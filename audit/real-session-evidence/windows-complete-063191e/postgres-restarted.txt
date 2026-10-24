@@ -1,0 +1,15 @@
+2026-10-24 08:21:16.967 -05 [19240] LOG:  starting PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit
+2026-10-24 08:21:16.970 -05 [19240] LOG:  listening on IPv4 address "127.0.0.1", port 51215
+2026-10-24 08:21:17.113 -05 [9620] LOG:  database system was interrupted; last known up at 2026-10-24 08:17:35 -05
+2026-10-24 08:21:17.646 -05 [9620] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-24 08:21:17.654 -05 [9620] LOG:  redo starts at 0/1574378
+2026-10-24 08:21:17.710 -05 [9620] LOG:  invalid record length at 0/15E2438: expected at least 24, got 0
+2026-10-24 08:21:17.711 -05 [9620] LOG:  redo done at 0/15E2400 system usage: CPU: user: 0.00 s, system: 0.04 s, elapsed: 0.05 s
+2026-10-24 08:21:17.720 -05 [13572] LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-10-24 08:21:17.811 -05 [13572] LOG:  checkpoint complete: wrote 97 buffers (0.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.037 s, sync=0.041 s, total=0.093 s; sync files=59, longest=0.003 s, average=0.001 s; distance=440 kB, estimate=440 kB; lsn=0/15E2438, redo lsn=0/15E2438
+2026-10-24 08:21:17.948 -05 [19240] LOG:  database system is ready to accept connections
+2026-10-24 08:22:22.095 -05 [18184] LOG:  could not receive data from client: unrecognized winsock error 10053
+2026-10-24 08:22:39.685 -05 [19284] FATAL:  terminating connection due to administrator command
+2026-10-24 08:22:51.222 -05 [19004] FATAL:  terminating connection due to administrator command
+2026-10-24 08:22:51.589 -05 [19240] LOG:  received immediate shutdown request
+2026-10-24 08:22:51.601 -05 [19240] LOG:  database system is shut down

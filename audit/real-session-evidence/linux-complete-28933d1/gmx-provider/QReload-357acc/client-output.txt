@@ -1,0 +1,16 @@
+]0;RakSAMP v0.8.6-0.3.7 
+* ===================================================== *
+  RakSAMP v0.8.6-0.3.7 initialized on 24/10/2026 13:00:05
+  Authors: jlfm, bartekdvd, P3ti
+* ===================================================== *
+ 
+Connecting to 127.0.0.1:43271..
+Connected. Joining the game...
+]0;QReload (0) - Isolated SQL ses - RakSAMP v0.8.6-0.3.7Connected to Isolated SQL session qualification
+
+Dialog response sent.
+]0;QReload (0) - Isolated SQL ses - RakSAMP v0.8.6-0.3.7Connected to Isolated SQL session qualification
+
+[CMSG] Waiting for the database.
+[CMSG] Database unavailable. Log in again when it recovers.
+Disconnected.
