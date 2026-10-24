@@ -8,7 +8,11 @@
 #include <thread>
 #include <array>
 
+#ifndef PG_TEST_ALLOCATIONS
+#define PG_TEST_ALLOCATIONS 1
+#endif
 thread_local bool deny_allocation = false;
+#if PG_TEST_ALLOCATIONS
 void *operator new(std::size_t n) {
     if (deny_allocation) throw std::bad_alloc();
     if (void *p = std::malloc(n ? n : 1)) return p;
@@ -19,6 +23,7 @@ void operator delete(void *p) noexcept { std::free(p); }
 void operator delete[](void *p) noexcept { std::free(p); }
 void operator delete(void *p, std::size_t) noexcept { std::free(p); }
 void operator delete[](void *p, std::size_t) noexcept { std::free(p); }
+#endif
 
 template<class Queue>
 void publish(Queue &queue, const std::shared_ptr<pg::Job> &job) {
@@ -123,5 +128,6 @@ int main() {
     concurrent_check(queue);
     for (auto &thread : threads) thread.join();
     if (failed.load() || !ordered || received != concurrent.size()) return 5;
-    std::printf("R1 PASS: %zu terminal publications without allocation; FIFO and ownership checked\n", count);
+    std::printf("terminal_queue PASS allocation_injection=%s publications=%zu FIFO=checked ownership=checked producers=4\n",
+                PG_TEST_ALLOCATIONS ? "ON" : "OFF(TSan)", count);
 }

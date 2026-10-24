@@ -10,14 +10,18 @@
 #include <unistd.h>
 #endif
 
+#ifndef PG_TEST_ALLOCATIONS
+#define PG_TEST_ALLOCATIONS 1
+#endif
 namespace {
+std::atomic<unsigned> denied_allocations{0};
 const auto main_thread = std::this_thread::get_id();
 std::atomic<bool> deny_worker{false};
 }
+#if PG_TEST_ALLOCATIONS
 void *operator new(std::size_t n) {
     if (deny_worker.load() && std::this_thread::get_id() != main_thread) {
-        static std::atomic<unsigned> denied{0};
-        if (denied.fetch_add(1) < 8) {
+        if (denied_allocations.fetch_add(1) < 8) {
             std::fprintf(stderr, "worker allocation denied bytes=%zu\n", n);
 #ifdef __linux__
             void *frames[32];
@@ -35,6 +39,7 @@ void operator delete(void *p) noexcept { std::free(p); }
 void operator delete[](void *p) noexcept { std::free(p); }
 void operator delete(void *p, std::size_t) noexcept { std::free(p); }
 void operator delete[](void *p, std::size_t) noexcept { std::free(p); }
+#endif
 
 namespace {
 constexpr pg::Owner owner = 908;
@@ -123,7 +128,8 @@ void run(const char *service, bool shutdown) {
     }
     deny_worker.store(false);
     check(e.poll().jobs.empty(),"late duplicated completion");
-    std::printf("worker_allocation PASS mode=%s active_status=%d queued_status=%d callbacks=2\n",
+    std::printf("worker_recovery PASS allocation_injection=%s mode=%s active_status=%d queued_status=%d callbacks=2\n",
+                PG_TEST_ALLOCATIONS ? "ON" : "OFF(TSan)",
                 shutdown?"shutdown":"recover",int(active->status.load()),int(queued->status.load()));
 }
 }
@@ -135,7 +141,13 @@ int main() {
 #endif
     auto service=std::getenv("OMP_PG_TEST_SERVICE");
     if(!service) return 77;
-    try {run(service,false);run(service,true);return 0;}
+    try {
+        run(service,false);run(service,true);
+        check(!PG_TEST_ALLOCATIONS || denied_allocations.load()>0,
+              "Allocator denial was configured but never exercised");
+        std::printf("worker denied_allocations=%u\n",denied_allocations.load());
+        return 0;
+    }
     catch(const std::exception &e) {
         deny_worker.store(false);
         std::fprintf(stderr,"worker_allocation FAIL %s\n",e.what());
