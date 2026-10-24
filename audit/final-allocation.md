@@ -94,3 +94,32 @@ allocation-failure scope. Incomplete/cancelled earlier attempts are not qualific
 passes. The dedicated 24-hour run was not dispatched and remains **BLOCKED**. Existing
 stable/RC preparation remains on the branch; no publication recommendation follows
 from this allocation fix.
+
+## Independent descriptor/sanitizer limitation (separate from R1)
+
+The exact-head run [40051203920](https://github.com/itskoleban/omp-postgresql/actions/runs/40051203920)
+at `4a84446f0642cda34e690469e87dc819cb97267b` failed the new
+resource_exhaustion_integration under ASan/UBSan: GCC 13.3 reported an invalid vptr
+in std::thread cleanup while the process had no free descriptors. Worker allocation
+and terminal allocation regressions passed in that same job. That CI result remains FAIL.
+
+Two independent controls were executed without component headers/objects or a database:
+- The simple thread control did not reproduce the warning; no absence claim follows.
+- The cold valid-object control in [run 40051890695](https://github.com/itskoleban/omp-postgresql/actions/runs/40051890695),
+  job 120746161268, at `fbf87000381c5ee79bef0a245621286815636c59`, emitted the same invalid-vptr
+  warnings for a valid external polymorphic object and std::thread under actual EMFILE.
+  It completed with exit 0 despite the warnings: **not counted as a sanitizer PASS**.
+  The uninstrumented control completed without that diagnostic. Full logs are preserved.
+
+The [GCC 13.3 runtime memory-access check](https://github.com/gcc-mirror/gcc/blob/releases/gcc-13.3.0/libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp#L250)
+returns false if it cannot create a pipe. The [vptr checker](https://github.com/gcc-mirror/gcc/blob/releases/gcc-13.3.0/libsanitizer/ubsan/ubsan_type_hash_itanium.cpp#L181)
+uses that check before accepting a vtable. Together with the independent reproduction,
+this identifies a sanitizer-runtime limitation under complete descriptor exhaustion;
+it does not establish that every possible vptr report is false.
+
+Real EMFILE and shutdown tests remain enabled on Linux normal and TSan configurations.
+The **ASan/UBSan plus complete-FD-exhaustion combination is NOT RUN** in the final matrix,
+with an explicit CMake message. No sanitizer is suppressed or disabled on component code.
+C++ worker allocation denial remains fully enabled in ASan/UBSan. The independent
+diagnostic control is retained for manual investigation; future control builds enforce
+nonrecovering diagnostics, but that future invocation has not been claimed as executed.

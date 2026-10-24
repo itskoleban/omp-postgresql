@@ -185,5 +185,20 @@
     "C++ ordinary allocations in Lane workers; not libpq/OpenSSL malloc or universal OS OOM.",
     "TSan runs worker/queue concurrency without global operator new replacement.",
     "No production services, local test workloads, tags, releases or changes to published RC artifacts."
-  ]
+  ],
+  "supplemental_descriptor_diagnostic": {
+    "component_run": 40051203920,
+    "component_commit": "4a84446f0642cda34e690469e87dc819cb97267b",
+    "component_job": 120744214075,
+    "result": "FAIL",
+    "diagnostic": "UBSan invalid vptr in std::thread at actual EMFILE",
+    "independent_run": 40051890695,
+    "independent_job": 120746161268,
+    "independent_commit": "fbf87000381c5ee79bef0a245621286815636c59",
+    "independent_exit_code": 0,
+    "independent_diagnostic_result": "FAIL (runtime diagnostic); not a sanitizer PASS",
+    "component_code_linked_in_control": false,
+    "classification": "Reproduced sanitizer runtime limitation at complete FD exhaustion",
+    "final_combination_status": "NOT RUN: ASan/UBSan with complete FD exhaustion; normal/TSan FD tests and ASan/UBSan worker allocation tests remain enabled"
+  }
 }
