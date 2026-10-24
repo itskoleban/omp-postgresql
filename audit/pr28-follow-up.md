@@ -110,6 +110,8 @@ An integrity-command exit zero means the recorded identities/outcomes verify; it
 does not convert the instrumented execution FAIL into a sanitizer PASS. The ledgers
 retain original digests separately from public-copy digests. Cluster directories,
 TLS private keys, service profiles, passwords and executables are excluded.
+The capture directory has a narrowly scoped Git attribute preserving exact bytes
+and original final blank lines; normal source whitespace checks remain enabled.
 
 ## Combined validation and remaining gates
 
