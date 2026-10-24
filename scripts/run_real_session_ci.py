@@ -76,6 +76,13 @@ def main():
             if client_manifest.is_file():
                 shutil.copy2(client_manifest, evidence / "client-build.json")
             publish(evidence, root / "sanitized-evidence")
+            ledger = json.loads((root/"sanitized-evidence/sha256.json").read_text(encoding="utf8"))
+            timeline = next((row for row in ledger if row["file"] == "timeline.jsonl"), None)
+            if (evidence/"timeline.jsonl").is_file():
+                if timeline is None:
+                    raise RuntimeError("Available timeline was omitted from public evidence")
+                events = len((root/"sanitized-evidence/timeline.jsonl").read_bytes().splitlines())
+                print(f"REAL SESSION TIMELINE events={events} original_sha256={timeline['original_sha256']} sha256={timeline['sha256']} observations_sha256={timeline['observations_sha256']}", flush=True)
             if (evidence / "results.json").is_file():
                 results = json.loads((evidence / "results.json").read_text(encoding="utf8"))
                 if os.environ.get("GITHUB_ACTIONS") == "true" and results["source_provenance"]["tracked_source_modified"]:
