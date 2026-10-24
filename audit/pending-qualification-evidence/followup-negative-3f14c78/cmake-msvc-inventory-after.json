@@ -1,0 +1,686 @@
+{
+  "backtraceGraph": {
+    "commands": [
+      "add_test"
+    ],
+    "files": [
+      "<WORKSPACE>/CMakeLists.txt"
+    ],
+    "nodes": [
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 192,
+        "parent": 0
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 195,
+        "parent": 2
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 225,
+        "parent": 4
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 226,
+        "parent": 6
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 227,
+        "parent": 8
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 284,
+        "parent": 10
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 294,
+        "parent": 12
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 328,
+        "parent": 14
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 329,
+        "parent": 16
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 330,
+        "parent": 18
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 333,
+        "parent": 20
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 335,
+        "parent": 22
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 349,
+        "parent": 24
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 350,
+        "parent": 26
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 351,
+        "parent": 28
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 352,
+        "parent": 30
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 353,
+        "parent": 32
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 354,
+        "parent": 34
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 355,
+        "parent": 36
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 356,
+        "parent": 38
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 357,
+        "parent": 40
+      }
+    ]
+  },
+  "kind": "ctestInfo",
+  "tests": [
+    {
+      "backtrace": 1,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_libpq_mutex_tests.exe"
+      ],
+      "config": "Release",
+      "name": "libpq_windows_mutex_unit",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 15.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 3,
+      "command": [
+        "<PYTHON_RUNTIME>/Python313/python.exe",
+        "<WORKSPACE>/tests/repeat_connection_startup.py",
+        "--binary",
+        "<WORKSPACE>/build-msvc32/Release/pg_connection_tests.exe"
+      ],
+      "config": "Release",
+      "name": "libpq_process_startup_integration",
+      "properties": [
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 120.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 5,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_native_tests.exe"
+      ],
+      "config": "Release",
+      "name": "natives_unit",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 7,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_native_tests.exe",
+        "--integration"
+      ],
+      "config": "Release",
+      "name": "natives_integration",
+      "properties": [
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 90.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 9,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_native_tests.exe",
+        "--logging-benchmark"
+      ],
+      "config": "Release",
+      "name": "logging_integration",
+      "properties": [
+        {
+          "name": "LABELS",
+          "value": [
+            "benchmark"
+          ]
+        },
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 90.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 11,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_worker_allocation.exe"
+      ],
+      "config": "Release",
+      "name": "worker_allocation_integration",
+      "properties": [
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 13,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_terminal_allocation.exe"
+      ],
+      "config": "Release",
+      "name": "terminal_allocation_unit",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 15,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_tests.exe"
+      ],
+      "config": "Release",
+      "name": "unit",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 17,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_audit_fuzz.exe"
+      ],
+      "config": "Release",
+      "name": "audit_semantic_fuzz",
+      "properties": [
+        {
+          "name": "LABELS",
+          "value": [
+            "audit",
+            "fuzz"
+          ]
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 60.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 19,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_socket_wait_tests.exe"
+      ],
+      "config": "Release",
+      "name": "socket_wait_unit",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 21,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_audit_faults.exe"
+      ],
+      "config": "Release",
+      "name": "audit_faults_integration",
+      "properties": [
+        {
+          "name": "LABELS",
+          "value": [
+            "audit",
+            "stress"
+          ]
+        },
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 60.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 23,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_diagnostics_tests.exe"
+      ],
+      "config": "Release",
+      "name": "diagnostics_unit",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 25,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_tests.exe",
+        "--integration"
+      ],
+      "config": "Release",
+      "name": "integration",
+      "properties": [
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 90.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 27,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_type_tests.exe"
+      ],
+      "config": "Release",
+      "name": "types_unit",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 29,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_type_tests.exe",
+        "--integration"
+      ],
+      "config": "Release",
+      "name": "types_integration",
+      "properties": [
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 90.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 31,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_extension_tests.exe"
+      ],
+      "config": "Release",
+      "name": "extensions_integration",
+      "properties": [
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 90.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 33,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_stress_tests.exe"
+      ],
+      "config": "Release",
+      "name": "stress_integration",
+      "properties": [
+        {
+          "name": "ENVIRONMENT",
+          "value": [
+            "OMP_PG_STRESS_SECONDS=0"
+          ]
+        },
+        {
+          "name": "LABELS",
+          "value": [
+            "stress"
+          ]
+        },
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 180.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 35,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_connection_tests.exe"
+      ],
+      "config": "Release",
+      "name": "connection_lifecycle_integration",
+      "properties": [
+        {
+          "name": "LABELS",
+          "value": [
+            "stress"
+          ]
+        },
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 90.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 37,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_connection_stall_tests.exe"
+      ],
+      "config": "Release",
+      "name": "connection_stalls_integration",
+      "properties": [
+        {
+          "name": "LABELS",
+          "value": [
+            "stress"
+          ]
+        },
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 90.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 39,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_sql_section_tests.exe"
+      ],
+      "config": "Release",
+      "name": "sql_sections_unit",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    },
+    {
+      "backtrace": 41,
+      "command": [
+        "<WORKSPACE>/build-msvc32/Release/pg_sql_section_tests.exe",
+        "--integration"
+      ],
+      "config": "Release",
+      "name": "sql_sections_integration",
+      "properties": [
+        {
+          "name": "SKIP_RETURN_CODE",
+          "value": 77
+        },
+        {
+          "name": "TIMEOUT",
+          "value": 90.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "<WORKSPACE>/build-msvc32"
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 1,
+    "minor": 0
+  }
+}

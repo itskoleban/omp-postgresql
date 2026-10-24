@@ -1,0 +1,78 @@
+[
+  {
+    "file": "cmake-msvc-inventory-after.json",
+    "bytes": 13541,
+    "sha256": "74618c54c4e08171521c4d295434096b07fd8cc95ceb427873fb3eb9f6671d37",
+    "original_bytes": 18440,
+    "original_sha256": "8557fec352fcd359b033ac328ae490c6e762af96e1d4f481e480e3486b9919dd",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "sanitized-copy",
+    "transformations": {
+      "windows-personal-path": 45
+    }
+  },
+  {
+    "file": "execution.json",
+    "bytes": 2409,
+    "sha256": "bb55694a47f73be7968d864dfc308834fb24278cebd7901b23b5214217fc865a",
+    "original_bytes": 2409,
+    "original_sha256": "bb55694a47f73be7968d864dfc308834fb24278cebd7901b23b5214217fc865a",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "unchanged-original",
+    "transformations": {}
+  },
+  {
+    "file": "LastTest.log",
+    "bytes": 115125,
+    "sha256": "770d5eee907ef09c3a772db5897c3e07501e61d3adaf5abc4e1b2d83f6330f1e",
+    "original_bytes": 115125,
+    "original_sha256": "770d5eee907ef09c3a772db5897c3e07501e61d3adaf5abc4e1b2d83f6330f1e",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "unchanged-original",
+    "transformations": {}
+  },
+  {
+    "file": "LastTestsFailed.log",
+    "bytes": 66,
+    "sha256": "20d98e1d81633dfd3ed85cfdfc77e5d595099e9610ff90e96fbbe8bd22708865",
+    "original_bytes": 66,
+    "original_sha256": "20d98e1d81633dfd3ed85cfdfc77e5d595099e9610ff90e96fbbe8bd22708865",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "unchanged-original",
+    "transformations": {}
+  },
+  {
+    "file": "qualification.xml",
+    "bytes": 17985,
+    "sha256": "1718e2bbca9f40fde4446fe8c54da4bfcc70d62479d94993fc6019acec8e0cf4",
+    "original_bytes": 17984,
+    "original_sha256": "e487ea0355dab21241727acdc4b426eeafd3e8ce29a20e674164c8a88e7421f8",
+    "observations_sha256": "7f3d5dad4ba9c9639536a9582a6fda9a4c62e5fbd87d26f9df0678f45f275665",
+    "representation": "sanitized-copy",
+    "transformations": {
+      "host-identity": 1
+    }
+  },
+  {
+    "file": "timeline-numeric-status-after-4149041.log",
+    "bytes": 1217,
+    "sha256": "a37dd6696a089b9f08fc29278401159269926bbbdcec12159e31cd3f95f4a8df",
+    "original_bytes": 1217,
+    "original_sha256": "a37dd6696a089b9f08fc29278401159269926bbbdcec12159e31cd3f95f4a8df",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "unchanged-original",
+    "transformations": {}
+  },
+  {
+    "file": "timeline-numeric-status-before.log",
+    "bytes": 2387,
+    "sha256": "35aaaa81d3d9f0b6b4e24e3e46d0be925adb22594765885aff43d09f4c483a3c",
+    "original_bytes": 2763,
+    "original_sha256": "8233e688f50395227784fc02ec66f82f6c85fb67115187b695a0377c69eee205",
+    "observations_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "representation": "sanitized-copy",
+    "transformations": {
+      "windows-personal-path": 4
+    }
+  }
+]

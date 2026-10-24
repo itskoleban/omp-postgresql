@@ -113,6 +113,30 @@ TLS private keys, service profiles, passwords and executables are excluded.
 The capture directory has a narrowly scoped Git attribute preserving exact bytes
 and original final blank lines; normal source whitespace checks remain enabled.
 
+## Follow-up failures preserved before final qualification
+
+The [negative archive](pending-qualification-evidence/followup-negative-3f14c78/execution.json)
+preserves two defects found while validating these changes. The Windows x86 job
+120957180483 in run 40122543704, at `3f14c78508fd57506752cf52b5d2a1016e50d926`,
+failed because the checkpoint omission controls were registered under the Windows
+libpq block. Its global-allocation-denial binary does not implement site omission.
+Full LastTest/JUnit/failure logs retain both failures and the skipped session scope.
+The downloaded artifact ZIP SHA-256 was independently verified as
+`11131ba1180ae444dd116e03c77674c8f712abf7cc63c7603850ba959b0f36b1`.
+Commit `41490411c196b3b032e753eb2642fc4e89e44a05` moves all three site controls into
+the TSan block, preserving the original Windows allocation regression. Local MSVC
+configuration confirms the corrected inventory; final CI independently checks TSan.
+
+A preserved real 294-event timeline exposed numeric PG status 4 in `event_observed`.
+The first validator wrongly required text for that field. A new regression failed
+before the correction, then six timeline tests passed at exact source
+`41490411c196b3b032e753eb2642fc4e89e44a05`. Numeric status values and textual case
+outcomes now preserve their original types/bytes; boolean and floating-point statuses
+remain invalid. The original real timeline was read without alteration. The archive
+records the old validator identity, newly added test hash and exact successful source,
+without assigning the new test retrospectively to an old commit. These are evidence
+publisher/test-registration corrections, not new component or Windows/TLS fixes.
+
 ## Combined validation and remaining gates
 
 Focused Python, publication, descriptor-integrity, Pawn VM-error and English-policy
