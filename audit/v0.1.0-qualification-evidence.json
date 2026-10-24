@@ -1,0 +1,749 @@
+{
+  "schema_version": 1,
+  "verified_at_utc": "2026-10-24T03:13:54.699972+00:00",
+  "repository": "https://github.com/itskoleban/omp-postgresql",
+  "evaluated_commit": "177c95fca74a16f921382551614007a97da79d5d",
+  "evaluated_tree": "cf5444dab4a4a8422d030dbe9d70f6f8aa06ce64",
+  "documentary_base_commit": "177c95fca74a16f921382551614007a97da79d5d",
+  "attribution": "Execution results belong only to evaluated_commit, not to this or future documentation commits.",
+  "verdict": "BLOCKED",
+  "qualification_scope": "Completed short/medium automated qualification within documented coverage; no production certification.",
+  "campaign_24h": {
+    "status": "BLOCKED",
+    "executed": false,
+    "workflow_dispatched": false,
+    "reason": "pendiente de infraestructura remota aislada y autorizada, congelación del código y finalización de las pruebas previas."
+  },
+  "counts": {
+    "ci_ctest_executions": 137,
+    "bounded_ctest_executions": 71,
+    "worker_probe_ctest_executions": 19,
+    "total_ctest_executions": 227,
+    "unique_test_count_claimed": false,
+    "additional_semantic_fuzz_cases": 300000,
+    "matrix_original_rows": 28,
+    "matrix_platform_detail_rows": 6,
+    "matrix_platform_detail_rows_additional_executions": 0
+  },
+  "runs": [
+    {
+      "id": 40054296984,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "attempt": 1,
+      "event": "push",
+      "head_sha": "177c95fca74a16f921382551614007a97da79d5d",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 120753724430,
+          "name": "windows",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724430"
+        },
+        {
+          "id": 120753724560,
+          "name": "Linux x86 and open.mp",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724560"
+        },
+        {
+          "id": 120753724588,
+          "name": "linux (ON)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724588"
+        },
+        {
+          "id": 120753724616,
+          "name": "linux (OFF)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724616"
+        },
+        {
+          "id": 120753724636,
+          "name": "Windows x86 MSVC and open.mp",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724636"
+        },
+        {
+          "id": 120753724663,
+          "name": "linux (THREAD)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724663"
+        },
+        {
+          "id": 120756368643,
+          "name": "Verify downloaded x86 distributions",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120756368643"
+        }
+      ]
+    },
+    {
+      "id": 40055213231,
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231",
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "head_sha": "177c95fca74a16f921382551614007a97da79d5d",
+      "status": "completed",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 120756598395,
+          "name": "bounded Linux THREAD (600s)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598395"
+        },
+        {
+          "id": 120756598571,
+          "name": "independent FD control ON",
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598571"
+        },
+        {
+          "id": 120756598581,
+          "name": "terminal-allocation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598581"
+        },
+        {
+          "id": 120756598603,
+          "name": "bounded Linux OFF (1200s)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598603"
+        },
+        {
+          "id": 120756598624,
+          "name": "bounded Linux ON (600s)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598624"
+        },
+        {
+          "id": 120756598635,
+          "name": "independent FD control OFF",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598635"
+        },
+        {
+          "id": 120756598664,
+          "name": "worker-allocation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598664"
+        }
+      ]
+    }
+  ],
+  "ci_configurations": [
+    {
+      "platform": "Linux x64 normal",
+      "configuration": "Debug / Ninja",
+      "toolchain": "GCC 13.3 / libpq 18.6",
+      "sanitize": "OFF",
+      "job_id": 120753724616,
+      "artifact_id": 12545205110,
+      "ctest_executions": 24,
+      "ctest_real_seconds": 146.6,
+      "status": "PASS",
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724616",
+      "junit_path_in_artifact": "home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml"
+    },
+    {
+      "platform": "Linux x64 ASan/UBSan",
+      "configuration": "Debug / Ninja",
+      "toolchain": "GCC 13.3 / libpq 18.6",
+      "sanitize": "ON",
+      "job_id": 120753724588,
+      "artifact_id": 12545145412,
+      "ctest_executions": 23,
+      "ctest_real_seconds": 157.95,
+      "status": "PASS",
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724588",
+      "junit_path_in_artifact": "home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml"
+    },
+    {
+      "platform": "Linux x64 TSan",
+      "configuration": "Debug / Ninja",
+      "toolchain": "Clang 19.1.1 / libpq 18.6",
+      "sanitize": "THREAD",
+      "job_id": 120753724663,
+      "artifact_id": 12544772517,
+      "ctest_executions": 24,
+      "ctest_real_seconds": 151.81,
+      "status": "PASS",
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724663",
+      "junit_path_in_artifact": "home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml"
+    },
+    {
+      "platform": "Linux x86 y open.mp",
+      "configuration": "Release / Ninja / -m32",
+      "toolchain": "GCC 13.3 / libpq 17.11 TLS",
+      "sanitize": "OFF",
+      "job_id": 120753724560,
+      "artifact_id": 12544842540,
+      "ctest_executions": 24,
+      "ctest_real_seconds": 145.68,
+      "status": "PASS",
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724560",
+      "junit_path_in_artifact": "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/qualification.xml"
+    },
+    {
+      "platform": "Windows x64 Engine",
+      "configuration": "Debug / Ninja",
+      "toolchain": "GCC 16.2 / libpq 18.6",
+      "sanitize": "OFF",
+      "job_id": 120753724430,
+      "artifact_id": 12545230328,
+      "ctest_executions": 20,
+      "ctest_real_seconds": 182.78,
+      "status": "PASS",
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724430",
+      "junit_path_in_artifact": "qualification.xml"
+    },
+    {
+      "platform": "Windows x86 y open.mp",
+      "configuration": "Release / MSBuild",
+      "toolchain": "MSVC 19.51.36260 / libpq 17.11 TLS patched mutex",
+      "sanitize": "OFF",
+      "job_id": 120753724636,
+      "artifact_id": 12544234197,
+      "ctest_executions": 22,
+      "ctest_real_seconds": 190.83,
+      "status": "PASS",
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984/job/120753724636",
+      "junit_path_in_artifact": "build-msvc32/Testing/Temporary/qualification.xml"
+    }
+  ],
+  "bounded_campaigns": [
+    {
+      "mode": "OFF",
+      "status": "PASS",
+      "configuration": "Linux x64 / Debug / Ninja / C++20",
+      "build_info": {
+        "version": "0.1.0",
+        "release_channel": "stable",
+        "commit": "177c95fca74a16f921382551614007a97da79d5d",
+        "configuration": "Debug",
+        "system": "Linux",
+        "pointer_bytes": 8,
+        "compiler": "GNU",
+        "compiler_version": "13.3.0",
+        "cxx_standard": 20,
+        "libpq_version": "18.6",
+        "sanitize": "OFF",
+        "sdk_commit": "473b732b2de159773b2e2908fd11aa99f07db284",
+        "pawn_commit": "29f1a8c7fd2e01929807cd8c50353fbc93bbd651"
+      },
+      "seed": 1592594996,
+      "job_id": 120756598603,
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598603",
+      "artifact_id": 12546155547,
+      "requested_seconds": 1200,
+      "measured_load_seconds": 1200.0087,
+      "integration_stage_seconds": 1233.8956503868103,
+      "extended_fuzz_cases": 100000,
+      "extended_fuzz_seconds": 9.08541464805603,
+      "supervisor_wall_seconds": 1243.2310245037079,
+      "ctest_executions": 24,
+      "metrics": {
+        "status": "PASS",
+        "requested_seconds": 1200,
+        "measured_load_seconds": 1200.0087,
+        "samples": 15058,
+        "load_sql_operations": 6987383,
+        "first_rss_kib": 15164,
+        "last_rss_kib": 15928,
+        "maximum_sampled_rss_kib": 15928,
+        "first_window_median_rss_kib": 15896,
+        "last_window_median_rss_kib": 15924,
+        "cpu_seconds_to_last_sample": 359.980073,
+        "threads_range": [
+          5,
+          5
+        ],
+        "descriptors_or_handles_range": [
+          8,
+          8
+        ],
+        "median_of_wave_percentiles_us": {
+          "p50": 34186.5,
+          "p95": 63976.5,
+          "p99": 66882.0
+        },
+        "resource_points": [
+          "audit_resource point=before_load cpu_us=3558 rss_kib=8824 peak_rss_kib=9032 descriptors_or_handles=4 threads=1",
+          "audit_resource point=after_load_engine_destroyed cpu_us=359997886 rss_kib=15860 peak_rss_kib=15384 descriptors_or_handles=4 threads=1",
+          "audit_resource point=after_lifecycle_engines_destroyed cpu_us=360340046 rss_kib=44004 peak_rss_kib=77616 descriptors_or_handles=4 threads=1"
+        ],
+        "limits": [
+          "Finite RSS observations do not establish absence of leaks.",
+          "Wave percentile medians are not global latency percentiles.",
+          "Primary lane counters exclude destroyed side connections; setup/observer SQL is separate.",
+          "Pending=0 is a quiescent wave observation, not continuous queue-depth sampling.",
+          "Terminal delivery checks are separate from real Pawn callback latency and player generation tests.",
+          "PASS means duration/log/invariant checks completed; trend interpretation requires review."
+        ]
+      },
+      "sanitizer_diagnostics_observed": [],
+      "manifest_path_in_artifact": "build-qualification-evidence/manifest.json",
+      "junit_path_in_artifact": "build-qualification-evidence/integration-qualification.xml",
+      "fallback_cleanup": []
+    },
+    {
+      "mode": "ON",
+      "status": "PASS",
+      "configuration": "Linux x64 / Debug / Ninja / C++20",
+      "build_info": {
+        "version": "0.1.0",
+        "release_channel": "stable",
+        "commit": "177c95fca74a16f921382551614007a97da79d5d",
+        "configuration": "Debug",
+        "system": "Linux",
+        "pointer_bytes": 8,
+        "compiler": "GNU",
+        "compiler_version": "13.3.0",
+        "cxx_standard": 20,
+        "libpq_version": "18.6",
+        "sanitize": "ON",
+        "sdk_commit": "473b732b2de159773b2e2908fd11aa99f07db284",
+        "pawn_commit": "29f1a8c7fd2e01929807cd8c50353fbc93bbd651"
+      },
+      "seed": 1592594997,
+      "job_id": 120756598624,
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598624",
+      "artifact_id": 12545147512,
+      "requested_seconds": 600,
+      "measured_load_seconds": 600.073852,
+      "integration_stage_seconds": 650.7017650604248,
+      "extended_fuzz_cases": 100000,
+      "extended_fuzz_seconds": 66.03899812698364,
+      "supervisor_wall_seconds": 716.8573658466339,
+      "ctest_executions": 23,
+      "metrics": {
+        "status": "PASS",
+        "requested_seconds": 600,
+        "measured_load_seconds": 600.073852,
+        "samples": 5189,
+        "load_sql_operations": 2407859,
+        "first_rss_kib": 87400,
+        "last_rss_kib": 479572,
+        "maximum_sampled_rss_kib": 481752,
+        "first_window_median_rss_kib": 470504,
+        "last_window_median_rss_kib": 479856,
+        "cpu_seconds_to_last_sample": 549.691995,
+        "threads_range": [
+          5,
+          5
+        ],
+        "descriptors_or_handles_range": [
+          8,
+          8
+        ],
+        "median_of_wave_percentiles_us": {
+          "p50": 45830,
+          "p95": 87454,
+          "p99": 92676
+        },
+        "resource_points": [
+          "audit_resource point=before_load cpu_us=12141 rss_kib=35528 peak_rss_kib=37836 descriptors_or_handles=4 threads=1",
+          "audit_resource point=after_load_engine_destroyed cpu_us=549762671 rss_kib=444456 peak_rss_kib=485724 descriptors_or_handles=4 threads=2",
+          "audit_resource point=after_lifecycle_engines_destroyed cpu_us=554280423 rss_kib=411580 peak_rss_kib=784176 descriptors_or_handles=4 threads=1"
+        ],
+        "limits": [
+          "Finite RSS observations do not establish absence of leaks.",
+          "Wave percentile medians are not global latency percentiles.",
+          "Primary lane counters exclude destroyed side connections; setup/observer SQL is separate.",
+          "Pending=0 is a quiescent wave observation, not continuous queue-depth sampling.",
+          "Terminal delivery checks are separate from real Pawn callback latency and player generation tests.",
+          "PASS means duration/log/invariant checks completed; trend interpretation requires review."
+        ]
+      },
+      "sanitizer_diagnostics_observed": [],
+      "manifest_path_in_artifact": "build-qualification-evidence/manifest.json",
+      "junit_path_in_artifact": "build-qualification-evidence/integration-qualification.xml",
+      "fallback_cleanup": []
+    },
+    {
+      "mode": "THREAD",
+      "status": "PASS",
+      "configuration": "Linux x64 / Debug / Ninja / C++20",
+      "build_info": {
+        "version": "0.1.0",
+        "release_channel": "stable",
+        "commit": "177c95fca74a16f921382551614007a97da79d5d",
+        "configuration": "Debug",
+        "system": "Linux",
+        "pointer_bytes": 8,
+        "compiler": "Clang",
+        "compiler_version": "19.1.1",
+        "cxx_standard": 20,
+        "libpq_version": "18.6",
+        "sanitize": "THREAD",
+        "sdk_commit": "473b732b2de159773b2e2908fd11aa99f07db284",
+        "pawn_commit": "29f1a8c7fd2e01929807cd8c50353fbc93bbd651"
+      },
+      "seed": 1592594998,
+      "job_id": 120756598395,
+      "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231/job/120756598395",
+      "artifact_id": 12545052864,
+      "requested_seconds": 600,
+      "measured_load_seconds": 600.060816,
+      "integration_stage_seconds": 646.9603807926178,
+      "extended_fuzz_cases": 100000,
+      "extended_fuzz_seconds": 13.39130425453186,
+      "supervisor_wall_seconds": 660.5059278011322,
+      "ctest_executions": 24,
+      "metrics": {
+        "status": "PASS",
+        "requested_seconds": 600,
+        "measured_load_seconds": 600.060816,
+        "samples": 5936,
+        "load_sql_operations": 2754490,
+        "first_rss_kib": 57496,
+        "last_rss_kib": 71044,
+        "maximum_sampled_rss_kib": 72532,
+        "first_window_median_rss_kib": 63108,
+        "last_window_median_rss_kib": 70768,
+        "cpu_seconds_to_last_sample": 342.964079,
+        "threads_range": [
+          6,
+          6
+        ],
+        "descriptors_or_handles_range": [
+          8,
+          8
+        ],
+        "median_of_wave_percentiles_us": {
+          "p50": 44439.0,
+          "p95": 84645.0,
+          "p99": 89167.0
+        },
+        "resource_points": [
+          "audit_resource point=before_load cpu_us=20684 rss_kib=37116 peak_rss_kib=37440 descriptors_or_handles=4 threads=1",
+          "audit_resource point=after_load_engine_destroyed cpu_us=343054386 rss_kib=71300 peak_rss_kib=72716 descriptors_or_handles=4 threads=2",
+          "audit_resource point=after_lifecycle_engines_destroyed cpu_us=357482065 rss_kib=74308 peak_rss_kib=475336 descriptors_or_handles=4 threads=2"
+        ],
+        "limits": [
+          "Finite RSS observations do not establish absence of leaks.",
+          "Wave percentile medians are not global latency percentiles.",
+          "Primary lane counters exclude destroyed side connections; setup/observer SQL is separate.",
+          "Pending=0 is a quiescent wave observation, not continuous queue-depth sampling.",
+          "Terminal delivery checks are separate from real Pawn callback latency and player generation tests.",
+          "PASS means duration/log/invariant checks completed; trend interpretation requires review."
+        ]
+      },
+      "sanitizer_diagnostics_observed": [],
+      "manifest_path_in_artifact": "build-qualification-evidence/manifest.json",
+      "junit_path_in_artifact": "build-qualification-evidence/integration-qualification.xml",
+      "fallback_cleanup": []
+    }
+  ],
+  "worker_probe": {
+    "run_id": 40055213231,
+    "job_id": 120756598664,
+    "artifact_id": 12545366042,
+    "status": "PASS",
+    "configuration": "Linux x64 normal Debug; PG_BUILD_COMPONENT=OFF",
+    "ctest_executions": 19,
+    "ctest_real_seconds": 22.34,
+    "junit_path_in_artifact": "home/runner/work/omp-postgresql/omp-postgresql/probe/Testing/Temporary/qualification.xml"
+  },
+  "terminal_probe": {
+    "run_id": 40055213231,
+    "job_id": 120756598581,
+    "artifact_id": 12544644075,
+    "status": "PASS",
+    "publications": 4096,
+    "producers": 4,
+    "allocation_injection": "ON"
+  },
+  "independent_fd_controls": [
+    {
+      "job_id": 120756598571,
+      "artifact_id": 12544569324,
+      "instrumentation": "ASan/UBSan",
+      "status": "FAIL",
+      "exit_code": 1,
+      "component_code_linked": false,
+      "database_used": false,
+      "observed": "runtime invalid-vptr diagnostic for a valid external polymorphic object at actual EMFILE; preserved as FAIL"
+    },
+    {
+      "job_id": 120756598635,
+      "artifact_id": 12545091534,
+      "instrumentation": "OFF",
+      "status": "PASS",
+      "component_code_linked": false,
+      "database_used": false
+    }
+  ],
+  "not_run": [
+    {
+      "combination": "ASan/UBSan plus complete FD exhaustion in component",
+      "status": "NOT RUN",
+      "reason": "independently reproduced sanitizer runtime descriptor limitation"
+    },
+    {
+      "combination": "global new/delete replacement under TSan",
+      "status": "NOT RUN",
+      "reason": "TSan strong interceptors retained; worker/queue concurrency runs with allocation_injection=OFF(TSan)"
+    }
+  ],
+  "interactive_scenarios": {
+    "status": "BLOCKED",
+    "scope": "real players, accounts/custom gameplay, external password provider, real disconnect/playerid reuse; compilation is not execution"
+  },
+  "original_local_deliverables": [
+    {
+      "name": "informe-calificacion-v0.1.0.md",
+      "size_bytes": 23647,
+      "sha256": "07d31c89acf9a63375d1d6c287271ce79809b49bf9e450fa5dc349721fdc29a0",
+      "availability": "local original verified; not added to Git"
+    },
+    {
+      "name": "matriz-calificacion.csv",
+      "size_bytes": 9291,
+      "sha256": "5c660238c23b162b31a349ab9f5ebc315174fea5e6974fc628566479026de4b5",
+      "availability": "local original verified; not added to Git"
+    },
+    {
+      "name": "evidencias-calificacion-177c95f.zip",
+      "size_bytes": 27832434,
+      "sha256": "1b9e968e10116c326347472beda4d85d4128445005388a9d5feb5cb405ffe7b8",
+      "availability": "local original verified; not added to Git"
+    }
+  ],
+  "artifacts": [
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12545230328,
+      "name": "windows-x64-test-logs",
+      "size_bytes": 50058,
+      "sha256": "ec8ed9ce5fbd30ae7c303424465932291606da1ed836a0fa2eb3cdde824d9935",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12545230328",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:34:32Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12545205110,
+      "name": "linux-x64-test-logs-OFF",
+      "size_bytes": 93909,
+      "sha256": "e7a17eb3010a788012a501606a696ef116f82680cbd9868c5bf2b2cde2359cbb",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12545205110",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:31:48Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12545145412,
+      "name": "linux-x64-test-logs-ON",
+      "size_bytes": 83352,
+      "sha256": "98e727f0ad9989eb51442970049adfa93fbfec01283cde56a0a136a96bfc71b0",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12545145412",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:32:18Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12544852136,
+      "name": "omp-postgresql-release-177c95fca74a16f921382551614007a97da79d5d",
+      "size_bytes": 4248124,
+      "sha256": "97151faad1aa933613e391632617fa65e226a1e9e9e6f57c8a44d8d728924db0",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12544852136",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:40:28Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12544842540,
+      "name": "linux-x86-test-logs",
+      "size_bytes": 707481,
+      "sha256": "e5a268a313faabbb1143ec1196eaaf149af4f5e9e78db7c7ce8752279bf9cd55",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12544842540",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:34:53Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12544772517,
+      "name": "linux-x64-test-logs-THREAD",
+      "size_bytes": 89438,
+      "sha256": "e8e49bb3402a3fc1b86ea4c9fd35bcc911aa84b8c5dff363987eeb53c99d2d20",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12544772517",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:32:25Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12544593439,
+      "name": "omp-postgresql-linux-x86-177c95fca74a16f921382551614007a97da79d5d",
+      "size_bytes": 633002,
+      "sha256": "f8122c9299cb391b70d68c806d1e5e022a77024cdbfc0d853e9fb6d1480459ae",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12544593439",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:34:51Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12544239089,
+      "name": "omp-postgresql-windows-x86-177c95fca74a16f921382551614007a97da79d5d",
+      "size_bytes": 3143849,
+      "sha256": "3102ee69127f54df351e380b0bef33268e29f326e4c37ddaf2460fed29181fb1",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12544239089",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:40:12Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40054296984,
+      "artifact_id": 12544234197,
+      "name": "windows-x86-test-logs",
+      "size_bytes": 500349,
+      "sha256": "bb52465695b6ac005d5987fd69afbb2fef6ab83092244da6a1f60a2e169dabda",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12544234197",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40054296984",
+      "created_at_utc": "2026-10-24T02:40:13Z",
+      "expires_at_utc": "2027-01-22T02:28:18Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40055213231,
+      "artifact_id": 12546155547,
+      "name": "bounded-OFF-177c95fca74a16f921382551614007a97da79d5d-1",
+      "size_bytes": 2047662,
+      "sha256": "a210997d5e29cb5b6ec21c697db3c89d7ac7ee64c40cdacdb8171065d7f85479",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12546155547",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231",
+      "created_at_utc": "2026-10-24T03:03:14Z",
+      "expires_at_utc": "2027-01-22T02:41:23Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40055213231,
+      "artifact_id": 12545366042,
+      "name": "worker-allocation-177c95fca74a16f921382551614007a97da79d5d",
+      "size_bytes": 14608,
+      "sha256": "ed52ab4c4041d7d45a59629aeb38c3b4a41d0f9a3e8d8cfcc02bc3c0f4cf4514",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12545366042",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231",
+      "created_at_utc": "2026-10-24T02:42:38Z",
+      "expires_at_utc": "2027-01-22T02:41:23Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40055213231,
+      "artifact_id": 12545147512,
+      "name": "bounded-ON-177c95fca74a16f921382551614007a97da79d5d-1",
+      "size_bytes": 790845,
+      "sha256": "dae0fd9c6a1b6582f74da85f43d02f772af0ae2c298904eb7efc4964ba1c9956",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12545147512",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231",
+      "created_at_utc": "2026-10-24T02:55:24Z",
+      "expires_at_utc": "2027-01-22T02:41:23Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40055213231,
+      "artifact_id": 12545091534,
+      "name": "descriptor-control-OFF-177c95fca74a16f921382551614007a97da79d5d",
+      "size_bytes": 286,
+      "sha256": "52431b43596577cd4403f1deefe28e4aef8af2ae9a9b996d4942ffd24b0afeed",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12545091534",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231",
+      "created_at_utc": "2026-10-24T02:41:32Z",
+      "expires_at_utc": "2027-01-22T02:41:23Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40055213231,
+      "artifact_id": 12545052864,
+      "name": "bounded-THREAD-177c95fca74a16f921382551614007a97da79d5d-1",
+      "size_bytes": 875467,
+      "sha256": "ff19139723ce023bbf7bc98be9e01af20ced57d65a612971516a19f785b49785",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12545052864",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231",
+      "created_at_utc": "2026-10-24T02:54:04Z",
+      "expires_at_utc": "2027-01-22T02:41:23Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40055213231,
+      "artifact_id": 12544644075,
+      "name": "terminal-allocation-177c95fca74a16f921382551614007a97da79d5d",
+      "size_bytes": 253,
+      "sha256": "77a23aae73efe14743f212c23f617bcf94871e147e07280eda28525749d2050a",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12544644075",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231",
+      "created_at_utc": "2026-10-24T02:41:39Z",
+      "expires_at_utc": "2027-01-22T02:41:23Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    },
+    {
+      "run_id": 40055213231,
+      "artifact_id": 12544569324,
+      "name": "descriptor-control-ON-177c95fca74a16f921382551614007a97da79d5d",
+      "size_bytes": 400,
+      "sha256": "a8a9503a753f3fc71d1b246a3efb60640ea8ee5374ece44d0df30669a593c635",
+      "metadata_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12544569324",
+      "run_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40055213231",
+      "created_at_utc": "2026-10-24T02:41:33Z",
+      "expires_at_utc": "2027-01-22T02:41:23Z",
+      "expired_at_check": false,
+      "verification": "local original ZIP bytes match freshly queried GitHub artifact digest"
+    }
+  ],
+  "matrix_import": {
+    "source_name": "matriz-calificacion.csv",
+    "original_fields_and_28_rows_preserved": true,
+    "format": "UTF-8 without BOM; LF CSV records",
+    "added_rows": "P01-P06: per-platform views of C01, not additional CTest executions"
+  },
+  "document_hashes": {
+    "audit/v0.1.0-qualification-matrix.csv": "f69cec38a0aa706274c5483c3e50f31f08a0e337be66daa31e4bf2239cb80850",
+    "audit/v0.1.0-pre-24h-qualification.md": "c6da2c229c7caac795c9e01491a180fab87a1c3c15482731079d77a542fb5b79"
+  }
+}
