@@ -162,11 +162,15 @@ jobs:
               run: |
                   python3 scripts/probe_sanitizer_descriptors.py --compiler "$CXX" \
                       --instrument "$INSTRUMENT" --output build-descriptor-control
+            - name: Verify and sanitize controls without changing negative outcomes
+              if: always()
+              run: |
+                  python3 scripts/probe_sanitizer_descriptors.py --publish build-descriptor-control \
+                      --destination build-descriptor-public
             - if: always()
               uses: actions/upload-artifact@v4
               with:
                   name: descriptor-control-${{ matrix.compiler }}-${{ matrix.instrument }}-${{ github.sha }}
                   path: |
-                      build-descriptor-control/*.log
-                      build-descriptor-control/*.json
+                      build-descriptor-public/
                   if-no-files-found: error

@@ -11,6 +11,7 @@ import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"tests"))
 from source_provenance import capture
+from real_session_evidence import publish as publish_copies, verify as verify_copies
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUTS = ("tests/sanitizer_descriptor_control.cpp", "tests/sanitizer_descriptor_factory.cpp",
@@ -36,23 +37,45 @@ def outcome(returncode, log):
 def verify(directory):
     directory = Path(directory)
     manifest = json.loads((directory/"manifest.json").read_text(encoding="utf8"))
-    if manifest["schema"] != 2 or len(manifest["results"]) != manifest["expected_records"]:
+    legacy = "schema" not in manifest
+    expected_records = 4 if legacy else manifest["expected_records"]
+    if (not legacy and manifest["schema"] != 2) or len(manifest["results"]) != expected_records:
         raise ValueError("Descriptor evidence inventory mismatch")
-    for name, expected in manifest["logs"].items():
+    ledger = {}
+    if (directory/"sanitization.json").is_file():
+        verify_copies(directory)
+        ledger = {row["file"]:row for row in json.loads((directory/"sha256.json").read_bytes())}
+    def original_digest(name):
+        if ledger:
+            return ledger[name]["original_sha256"]
+        return digest((directory/name).read_bytes())
+    logs = {row["log"]:row["sha256"] for row in manifest["results"]} if legacy else manifest["logs"]
+    for name, expected in logs.items():
         path = (directory/name).resolve()
-        if not path.is_relative_to(directory.resolve()) or digest(path.read_bytes()) != expected:
+        if not path.is_relative_to(directory.resolve()) or original_digest(name) != expected:
             raise ValueError("Descriptor log identity mismatch")
     for row in manifest["results"]:
         log = (directory/row["log"]).read_bytes()
-        if digest(log) != row["sha256"] or any(row[key] != value for key,value in outcome(row["returncode"],log).items()):
+        if original_digest(row["log"]) != row["sha256"] or any(row[key] != value for key,value in outcome(row["returncode"],log).items() if key in row):
             raise ValueError("Descriptor result or observed EMFILE changed")
-        if not row["compiler"] or not row["factory_command"] or not row["command"]:
+        if not row["compiler"] or (not legacy and not row["factory_command"]) or not row["command"]:
             raise ValueError("Descriptor compiler/build provenance missing")
         if row["instrumented"] and not {"-fsanitize=address,undefined", "-fno-sanitize-recover=all"} <= set(row["command"]):
             raise ValueError("Descriptor sanitizer flags were weakened")
-        if any(flag.startswith("-fno-sanitize=") for flag in row["command"]) or any("suppressions=" in value for value in row["environment"].values()):
+        if any(flag.startswith("-fno-sanitize=") for flag in row["command"]) or any("suppressions=" in value for value in row.get("environment",{}).values()):
             raise ValueError("Descriptor sanitizer checks must not be suppressed")
     return manifest
+
+
+def publish(directory, destination):
+    directory = Path(directory)
+    manifest = verify(directory)
+    paths = [directory/"manifest.json", *sorted(directory.glob("*.log"))]
+    ledger = [{"file":path.name,"bytes":path.stat().st_size,"sha256":digest(path.read_bytes())} for path in paths]
+    original = directory/"source-sha256.json"
+    original.write_bytes((json.dumps(ledger,indent=2)+"\n").encode())
+    publish_copies(directory,destination,original_commit=manifest["source_commit"],original_ledger=original)
+    verify(destination)
 
 
 def main():
@@ -61,7 +84,15 @@ def main():
     parser.add_argument("--output", type=Path)
     parser.add_argument("--instrument", choices=("OFF", "ON", "BOTH"), default="BOTH")
     parser.add_argument("--verify", type=Path, help="Verify identities only; does not relabel FAIL results")
+    parser.add_argument("--publish", type=Path, help="Publish verified, sanitized descriptor copies")
+    parser.add_argument("--destination", type=Path)
     args = parser.parse_args()
+    if args.publish:
+        if not args.destination:
+            parser.error("--publish requires --destination")
+        publish(args.publish,args.destination)
+        print("Published descriptor evidence; original identities and FAIL outcomes retained")
+        return 0
     if args.verify:
         manifest = verify(args.verify)
         print("Verified descriptor evidence integrity; outcomes retained:", [r["status"] for r in manifest["results"]])
