@@ -2,10 +2,19 @@
 
 import subprocess
 import unittest
-from check_tsan_control import accepted
+from unittest.mock import patch
+from check_tsan_control import accepted, mmap_entropy
 
 
 class TSanControlTests(unittest.TestCase):
+    def test_optional_proc_metadata_cannot_prevent_detector_execution(self):
+        with patch(
+            "check_tsan_control.Path.read_text", side_effect=PermissionError(13, "fixture denial")
+        ):
+            self.assertEqual(mmap_entropy(), "UNAVAILABLE errno=13")
+        with patch("check_tsan_control.Path.read_text", return_value="32\n"):
+            self.assertEqual(mmap_entropy(), "32")
+
     def test_only_real_diagnostic_and_expected_exit_qualify_race_detection(self):
         marker = "WARNING: ThreadSanitizer: data race"
         for code, stderr, expected in (

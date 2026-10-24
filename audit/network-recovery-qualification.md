@@ -187,6 +187,19 @@ missing markers, wrong exits and false race confirmation; they do not qualify TS
 No suppression, uninstrumented component path, ASLR change or unsupported non-PIE
 workaround is introduced. See the [upstream TSan limitations](https://clang.llvm.org/docs/ThreadSanitizer.html#limitations).
 
+At `4e579ae1e067c6f0bae7a7af49ecf88a566c4634`, the diagnostic wrapper itself failed
+before launching either control because the isolated runner denied reading
+`/proc/sys/vm/mmap_rnd_bits` (errno 13). This is a confirmed diagnostic preflight
+defect; the forty child executions are **NOT RUN**, not detection failures or passes.
+The other 28 TSan CTest cases, including the wire scenarios, passed. The exact
+[failed CI job](https://github.com/itskoleban/omp-postgresql/actions/runs/40140261736/job/121010637702)
+is preserved separately. The correction records optional proc metadata as
+`UNAVAILABLE errno=13` and still executes every required control. A focused regression
+injects the same PermissionError and also checks the readable metadata path. The
+detector criteria, repetition count and deadlines remain unchanged. Local complete
+Python at 4e579ae passed 128 methods; the added preflight regression increases that
+inventory by one.
+
 For the next phase, retain the current sanitizer/descriptor limitations, inject bounded
 allocations and storage failures independently, and carry uncertain/no-replay and
 session-generation oracles into those tests. Defer exhaustive fuzzing, prolonged

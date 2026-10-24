@@ -14,6 +14,13 @@ def accepted(result, race):
     return result.returncode == 0 and "TSan startup control entered main" in result.stdout
 
 
+def mmap_entropy():
+    try:
+        return Path("/proc/sys/vm/mmap_rnd_bits").read_text().strip()
+    except OSError as error:
+        return f"UNAVAILABLE errno={error.errno}"
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("binary", type=Path)
@@ -22,9 +29,7 @@ def main():
     args = parser.parse_args()
     if not 1 <= args.runs <= 20:
         parser.error("runs must be 1..20")
-    entropy = Path("/proc/sys/vm/mmap_rnd_bits")
-    if entropy.is_file():
-        print("TSan environment mmap_rnd_bits=" + entropy.read_text().strip(), flush=True)
+    print("TSan environment mmap_rnd_bits=" + mmap_entropy(), flush=True)
     failures = 0
     for binary, race in ((args.startup_probe, False), (args.binary, True)):
         if binary is None:

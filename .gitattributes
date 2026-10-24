@@ -8,3 +8,4 @@
 /audit/network-recovery-evidence/** -text whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
 /audit/network-recovery-evidence/**/client-output.txt whitespace=-blank-at-eol,cr-at-eol,-blank-at-eof
 /audit/network-recovery-evidence/ci-f8fbb3f/tsan-job.log whitespace=-blank-at-eol,cr-at-eol,-blank-at-eof
+/audit/network-recovery-evidence/ci-4e579ae/tsan-job.log whitespace=-blank-at-eol,cr-at-eol,-blank-at-eof
