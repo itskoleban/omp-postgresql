@@ -1,0 +1,276 @@
+network_recovery libpq=170011 pointer_bytes=4
+SCENARIO begin start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=17564 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_begin(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=16756 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=17564
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_begin
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_begin
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO begin PASS
+SCENARIO savepoint start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=15656 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_savepoint(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_savepoint(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+job=8 status=3 error=9 completed=0 error_index=-1 items=0, message=Transaction no longer owns this session
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=35196 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=15656
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_savepoint
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_savepoint_id_seq
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_savepoint
+job=16 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO savepoint PASS
+SCENARIO commit start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=24868 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_commit(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_commit(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=31972 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=24868
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_commit
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_commit_id_seq
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_commit
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO commit PASS
+SCENARIO rollback start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=21104 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_rollback(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_rollback(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=17808 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=21104
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_rollback
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_rollback_id_seq
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_rollback
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO rollback PASS
+SCENARIO insert start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=29596 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_insert(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 INSERT INTO phase2_insert(n) VALUES(1) /* phase2_fault */
+job=5 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=27092 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=29596
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_insert
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_insert_id_seq
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_insert
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO insert PASS
+SCENARIO hold start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=19236 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_hold(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 INSERT INTO phase2_hold(n) VALUES(1) /* phase2_fault */
+job=5 status=4 error=6 completed=0 error_index=0 items=3, message=Interrupted after dispatch; outcome may be unknown
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=26556 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=19236
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_hold
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_hold_id_seq
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_hold
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO hold PASS
+SCENARIO partial_parse start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=28812 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_partial_parse(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 INSERT INTO phase2_partial_parse(n) VALUES(1) /* phase2_fault */
+job=5 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=16136 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=28812
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_partial_parse
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_partial_parse_id_seq
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT is_called FROM phase2_partial_parse_id_seq
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=f affected=1
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_partial_parse
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO partial_parse PASS
+SCENARIO batch start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=8824 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_batch(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=9 status=4 error=5 completed=1 error_index=1 items=1,3,0, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=24840 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_batch WHERE n=1
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_batch WHERE n=2
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_batch_id_seq
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 DROP TABLE phase2_batch
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO batch PASS
+SCENARIO fragment start
+SQL connection=2 tx=0 SELECT repeat('abcdefg',1000)
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefg affected=1
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SCENARIO fragment PASS
+SCENARIO tls_hold start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=31404 affected=1
+SQL connection=1 tx=0 SELECT ssl FROM pg_stat_ssl WHERE pid=31404
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=t affected=1
+SQL connection=2 tx=0 SELECT pg_sleep(60) /* phase2_tls_tls_hold */
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=31404 AND state='active' AND wait_event='PgSleep' AND query='SELECT pg_sleep(60) /* phase2_tls_tls_hold */'
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=2 tx=0 SELECT 999 /* phase2_never_sent */
+SQL connection=1 tx=0 SELECT pg_cancel_backend(31404)
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=t affected=1
+job=5 status=4 error=6 completed=0 error_index=0 items=3, message=Interrupted after dispatch; outcome may be unknown
+job=7 status=3 error=5 completed=0 error_index=-1 items=0, message=Not dispatched: session interrupted
+FAIL tls_hold: Queued SQL failed before dispatch, separate from uncertain SQL
+network_recovery FAIL tls_hold Queued SQL failed before dispatch, separate from uncertain SQL

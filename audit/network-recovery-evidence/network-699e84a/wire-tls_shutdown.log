@@ -1,0 +1,5 @@
+{"event": "accepted", "monotonic_ns": 418180491344800, "utc": "2026-10-24T20:48:25.630546+00:00"}
+{"bytes": 171, "event": "opaque_tls_response_held", "monotonic_ns": 418180664986500, "utc": "2026-10-24T20:48:25.804197+00:00"}
+{"backend": false, "event": "relay_closed", "monotonic_ns": 418180697240300, "utc": "2026-10-24T20:48:25.836450+00:00"}
+{"backend": true, "event": "relay_closed", "monotonic_ns": 418180698347100, "utc": "2026-10-24T20:48:25.837552+00:00"}
+{"event": "fixture_closed", "injected": true, "monotonic_ns": 418181185973500, "utc": "2026-10-24T20:48:26.325179+00:00", "workers": 2}

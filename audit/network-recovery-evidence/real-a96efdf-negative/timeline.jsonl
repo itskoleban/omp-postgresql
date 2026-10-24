@@ -1,0 +1,324 @@
+{"event": "suite_started", "monotonic_ns": 418354926297500, "utc": "2026-10-24T20:51:20.065505+00:00"}
+{"case": "register", "event": "case_begin", "monotonic_ns": 418357666609600, "utc": "2026-10-24T20:51:22.805813+00:00"}
+{"event": "server_started", "monotonic_ns": 418358980233900, "pid": 33616, "server": "registration", "udp_port": 56716, "utc": "2026-10-24T20:51:24.119438+00:00"}
+{"event": "event_observed", "monotonic_ns": 418367620177700, "observed": "database", "pid": 33616, "ready": 1, "server": "registration", "utc": "2026-10-24T20:51:32.759388+00:00"}
+{"event": "event_observed", "monotonic_ns": 418368187934300, "name": "QSeed", "observed": "connect", "pid": 33616, "server": "registration", "utc": "2026-10-24T20:51:33.327139+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418368211487800, "npc": 0, "observed": "connected", "p": 0, "pid": 33616, "server": "registration", "utc": "2026-10-24T20:51:33.350688+00:00"}
+{"event": "event_observed", "monotonic_ns": 418368212820400, "observed": "sql_end", "p": 0, "pid": 33616, "server": "registration", "state": 2, "utc": "2026-10-24T20:51:33.352029+00:00"}
+{"event": "event_observed", "monotonic_ns": 418368262070300, "observed": "dialog", "p": 0, "pid": 33616, "server": "registration", "state": 4, "utc": "2026-10-24T20:51:33.401278+00:00"}
+{"event": "event_observed", "monotonic_ns": 418368753556000, "observed": "sql_end", "p": 0, "pid": 33616, "server": "registration", "state": 7, "utc": "2026-10-24T20:51:33.892767+00:00"}
+{"event": "event_observed", "monotonic_ns": 418368949461300, "observed": "sql_closed", "pid": 33616, "server": "registration", "utc": "2026-10-24T20:51:34.088672+00:00"}
+{"event": "event_observed", "monotonic_ns": 418369033768000, "observed": "disconnect_end", "p": 0, "pid": 33616, "server": "registration", "utc": "2026-10-24T20:51:34.172966+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418369096269300, "pid": 33616, "server": "registration", "utc": "2026-10-24T20:51:34.235473+00:00"}
+{"case": "register", "event": "case_end", "monotonic_ns": 418369123469500, "status": "PASS", "utc": "2026-10-24T20:51:34.262679+00:00"}
+{"case": "login_valid", "event": "case_begin", "monotonic_ns": 418369124017700, "utc": "2026-10-24T20:51:34.263231+00:00"}
+{"event": "server_started", "monotonic_ns": 418370318103500, "pid": 12632, "server": "login", "udp_port": 51249, "utc": "2026-10-24T20:51:35.457302+00:00"}
+{"event": "event_observed", "monotonic_ns": 418378961033400, "observed": "database", "pid": 12632, "ready": 1, "server": "login", "utc": "2026-10-24T20:51:44.100240+00:00"}
+{"event": "event_observed", "monotonic_ns": 418379311496300, "name": "QSeed", "observed": "connect", "pid": 12632, "server": "login", "utc": "2026-10-24T20:51:44.450664+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418379313130900, "npc": 0, "observed": "connected", "p": 0, "pid": 12632, "server": "login", "utc": "2026-10-24T20:51:44.452339+00:00"}
+{"event": "event_observed", "monotonic_ns": 418379314269100, "observed": "sql_end", "p": 0, "pid": 12632, "server": "login", "state": 3, "utc": "2026-10-24T20:51:44.453474+00:00"}
+{"event": "event_observed", "monotonic_ns": 418379362227400, "observed": "dialog", "p": 0, "pid": 12632, "server": "login", "state": 5, "utc": "2026-10-24T20:51:44.501437+00:00"}
+{"event": "event_observed", "monotonic_ns": 418379922018600, "observed": "verify_end", "p": 0, "pid": 12632, "server": "login", "state": 7, "utc": "2026-10-24T20:51:45.061220+00:00"}
+{"event": "event_observed", "monotonic_ns": 418380014983600, "observed": "disconnect_end", "p": 0, "pid": 12632, "server": "login", "utc": "2026-10-24T20:51:45.154179+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418380078948200, "pid": 12632, "server": "login", "utc": "2026-10-24T20:51:45.218146+00:00"}
+{"case": "login_valid", "event": "case_end", "monotonic_ns": 418380104941500, "status": "PASS", "utc": "2026-10-24T20:51:45.244139+00:00"}
+{"case": "login_wrong", "event": "case_begin", "monotonic_ns": 418380105891600, "utc": "2026-10-24T20:51:45.245099+00:00"}
+{"event": "server_started", "monotonic_ns": 418381264936800, "pid": 15200, "server": "wrong", "udp_port": 49216, "utc": "2026-10-24T20:51:46.404143+00:00"}
+{"event": "event_observed", "monotonic_ns": 418389736665600, "observed": "database", "pid": 15200, "ready": 1, "server": "wrong", "utc": "2026-10-24T20:51:54.875867+00:00"}
+{"event": "event_observed", "monotonic_ns": 418390060199700, "name": "QSeed", "observed": "connect", "pid": 15200, "server": "wrong", "utc": "2026-10-24T20:51:55.199400+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418390084726400, "npc": 0, "observed": "connected", "p": 0, "pid": 15200, "server": "wrong", "utc": "2026-10-24T20:51:55.223927+00:00"}
+{"event": "event_observed", "monotonic_ns": 418390086427000, "observed": "sql_end", "p": 0, "pid": 15200, "server": "wrong", "state": 3, "utc": "2026-10-24T20:51:55.225633+00:00"}
+{"event": "event_observed", "monotonic_ns": 418390135949500, "observed": "dialog", "p": 0, "pid": 15200, "server": "wrong", "state": 5, "utc": "2026-10-24T20:51:55.275151+00:00"}
+{"event": "event_observed", "monotonic_ns": 418390600533100, "observed": "verify_end", "p": 0, "pid": 15200, "server": "wrong", "state": 0, "token": 0, "utc": "2026-10-24T20:51:55.739737+00:00"}
+{"event": "event_observed", "monotonic_ns": 418390699655400, "observed": "disconnect_end", "p": 0, "pid": 15200, "server": "wrong", "utc": "2026-10-24T20:51:55.838857+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418390756414800, "pid": 15200, "server": "wrong", "utc": "2026-10-24T20:51:55.895608+00:00"}
+{"case": "login_wrong", "event": "case_end", "monotonic_ns": 418390778119300, "status": "PASS", "utc": "2026-10-24T20:51:55.917326+00:00"}
+{"case": "reuse_lookup_late", "event": "case_begin", "monotonic_ns": 418390778737200, "utc": "2026-10-24T20:51:55.917950+00:00"}
+{"event": "server_started", "monotonic_ns": 418392073442700, "pid": 17344, "server": "late-lookup", "udp_port": 52932, "utc": "2026-10-24T20:51:57.212649+00:00"}
+{"event": "event_observed", "monotonic_ns": 418400838579200, "observed": "database", "pid": 17344, "ready": 1, "server": "late-lookup", "utc": "2026-10-24T20:52:05.977752+00:00"}
+{"event": "event_observed", "monotonic_ns": 418401545125000, "name": "QLookA", "observed": "connect", "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:06.684334+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418401546102000, "npc": 0, "observed": "connected", "p": 0, "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:06.685315+00:00"}
+{"event": "event_observed", "monotonic_ns": 418401594414600, "observed": "control", "p": 0, "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:06.733614+00:00"}
+{"event": "event_observed", "monotonic_ns": 418401692320700, "observed": "disconnect_end", "p": 0, "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:06.831521+00:00"}
+{"event": "event_observed", "monotonic_ns": 418402048828400, "name": "QLookB", "observed": "connect", "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:07.188026+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418402051126800, "npc": 0, "observed": "connected", "p": 0, "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:07.190338+00:00"}
+{"callback_job": 3, "callback_token": 1, "event": "event_observed", "monotonic_ns": 418402275923900, "observed": "sql_begin", "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:07.415129+00:00"}
+{"event": "event_observed", "monotonic_ns": 418402277653200, "observed": "sql_owner", "p": 0, "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:07.416799+00:00"}
+{"event": "event_observed", "monotonic_ns": 418402280112700, "observed": "sql_end", "p": 0, "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:07.419312+00:00"}
+{"closed": 1, "event": "event_observed", "job": 3, "monotonic_ns": 418402281975700, "observed": "sql_closed", "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:07.421177+00:00"}
+{"event": "event_observed", "monotonic_ns": 418402283861100, "observed": "sql_end", "p": 0, "pid": 17344, "server": "late-lookup", "state": 2, "utc": "2026-10-24T20:52:07.423064+00:00"}
+{"event": "event_observed", "monotonic_ns": 418402411687800, "observed": "disconnect_end", "p": 0, "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:07.550887+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418402500763900, "pid": 17344, "server": "late-lookup", "utc": "2026-10-24T20:52:07.639959+00:00"}
+{"case": "reuse_lookup_late", "event": "case_end", "monotonic_ns": 418402549269500, "status": "PASS", "utc": "2026-10-24T20:52:07.688478+00:00"}
+{"case": "disconnect_lookup_cancel", "event": "case_begin", "monotonic_ns": 418402549787500, "utc": "2026-10-24T20:52:07.689001+00:00"}
+{"event": "server_started", "monotonic_ns": 418403729894800, "pid": 20052, "server": "cancel-lookup", "udp_port": 54423, "utc": "2026-10-24T20:52:08.869087+00:00"}
+{"event": "event_observed", "monotonic_ns": 418412368421600, "observed": "database", "pid": 20052, "ready": 1, "server": "cancel-lookup", "utc": "2026-10-24T20:52:17.507623+00:00"}
+{"event": "event_observed", "monotonic_ns": 418412897281300, "name": "QCancelA", "observed": "connect", "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.036492+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418412915516800, "npc": 0, "observed": "connected", "p": 0, "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.054718+00:00"}
+{"event": "event_observed", "monotonic_ns": 418413008896100, "observed": "disconnect_end", "p": 0, "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.148093+00:00"}
+{"event": "event_observed", "forwarded": 1, "job": 3, "monotonic_ns": 418413011341100, "observed": "cancel", "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.150531+00:00"}
+{"closed": 1, "event": "event_observed", "job": 3, "monotonic_ns": 418413212133300, "observed": "sql_closed", "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.351334+00:00"}
+{"event": "event_observed", "monotonic_ns": 418413547059600, "name": "QCancelB", "observed": "connect", "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.686261+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418413568140200, "npc": 0, "observed": "connected", "p": 0, "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.707341+00:00"}
+{"event": "event_observed", "monotonic_ns": 418413570038300, "observed": "sql_end", "p": 0, "pid": 20052, "server": "cancel-lookup", "state": 2, "utc": "2026-10-24T20:52:18.709244+00:00"}
+{"event": "event_observed", "monotonic_ns": 418413662992200, "observed": "disconnect_end", "p": 0, "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.802194+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418413724265200, "pid": 20052, "server": "cancel-lookup", "utc": "2026-10-24T20:52:18.863461+00:00"}
+{"case": "disconnect_lookup_cancel", "event": "case_end", "monotonic_ns": 418413748544400, "status": "PASS", "utc": "2026-10-24T20:52:18.887732+00:00"}
+{"case": "reuse_hash_late", "event": "case_begin", "monotonic_ns": 418413749174700, "utc": "2026-10-24T20:52:18.888388+00:00"}
+{"event": "server_started", "monotonic_ns": 418414929040900, "pid": 24988, "server": "late-hash", "udp_port": 51134, "utc": "2026-10-24T20:52:20.068248+00:00"}
+{"event": "event_observed", "monotonic_ns": 418423588751500, "observed": "database", "pid": 24988, "ready": 1, "server": "late-hash", "utc": "2026-10-24T20:52:28.727953+00:00"}
+{"event": "event_observed", "monotonic_ns": 418423941778500, "name": "QHashA", "observed": "connect", "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:29.080974+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418423962195300, "npc": 0, "observed": "connected", "p": 0, "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:29.101394+00:00"}
+{"event": "event_observed", "monotonic_ns": 418423963748100, "observed": "sql_end", "p": 0, "pid": 24988, "server": "late-hash", "state": 2, "utc": "2026-10-24T20:52:29.102958+00:00"}
+{"event": "event_observed", "monotonic_ns": 418424014594000, "observed": "control", "p": 0, "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:29.153789+00:00"}
+{"event": "event_observed", "monotonic_ns": 418424065771700, "observed": "dialog", "p": 0, "pid": 24988, "server": "late-hash", "state": 4, "utc": "2026-10-24T20:52:29.204980+00:00"}
+{"event": "event_observed", "monotonic_ns": 418424166182700, "observed": "disconnect_end", "p": 0, "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:29.305392+00:00"}
+{"event": "event_observed", "monotonic_ns": 418424506148800, "name": "QHashB", "observed": "connect", "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:29.645359+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418424507128500, "npc": 0, "observed": "connected", "p": 0, "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:29.646339+00:00"}
+{"callback_token": 1, "event": "event_observed", "monotonic_ns": 418431577461000, "observed": "hash_begin", "p": 0, "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:36.716664+00:00"}
+{"event": "event_observed", "monotonic_ns": 418431578709300, "observed": "hash_end", "p": 0, "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:36.717920+00:00"}
+{"event": "event_observed", "monotonic_ns": 418432161007000, "observed": "disconnect_end", "p": 0, "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:37.300206+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418432228346800, "pid": 24988, "server": "late-hash", "utc": "2026-10-24T20:52:37.367547+00:00"}
+{"case": "reuse_hash_late", "event": "case_end", "monotonic_ns": 418432254133600, "status": "PASS", "utc": "2026-10-24T20:52:37.393342+00:00"}
+{"case": "provider_slow_fixture", "event": "case_begin", "monotonic_ns": 418432254743900, "utc": "2026-10-24T20:52:37.393959+00:00"}
+{"event": "server_started", "monotonic_ns": 418433496344300, "pid": 18680, "server": "slow-seed", "udp_port": 57325, "utc": "2026-10-24T20:52:38.635546+00:00"}
+{"event": "event_observed", "monotonic_ns": 418442187797800, "observed": "database", "pid": 18680, "ready": 1, "server": "slow-seed", "utc": "2026-10-24T20:52:47.327000+00:00"}
+{"event": "event_observed", "monotonic_ns": 418442546745800, "name": "QSlow", "observed": "connect", "pid": 18680, "server": "slow-seed", "utc": "2026-10-24T20:52:47.685946+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418442571275300, "npc": 0, "observed": "connected", "p": 0, "pid": 18680, "server": "slow-seed", "utc": "2026-10-24T20:52:47.710482+00:00"}
+{"event": "event_observed", "monotonic_ns": 418442572194900, "observed": "sql_end", "p": 0, "pid": 18680, "server": "slow-seed", "state": 2, "utc": "2026-10-24T20:52:47.711409+00:00"}
+{"event": "event_observed", "monotonic_ns": 418442621800800, "observed": "control", "p": 0, "pid": 18680, "server": "slow-seed", "utc": "2026-10-24T20:52:47.761002+00:00"}
+{"event": "event_observed", "monotonic_ns": 418442670968000, "observed": "dialog", "p": 0, "pid": 18680, "server": "slow-seed", "state": 4, "utc": "2026-10-24T20:52:47.810168+00:00"}
+{"event": "event_observed", "monotonic_ns": 418449605753300, "observed": "sql_end", "p": 0, "pid": 18680, "server": "slow-seed", "state": 7, "utc": "2026-10-24T20:52:54.744965+00:00"}
+{"event": "event_observed", "monotonic_ns": 418449825652000, "observed": "disconnect_end", "p": 0, "pid": 18680, "server": "slow-seed", "utc": "2026-10-24T20:52:54.964854+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418449889800900, "pid": 18680, "server": "slow-seed", "utc": "2026-10-24T20:52:55.028993+00:00"}
+{"case": "provider_slow_fixture", "event": "case_end", "monotonic_ns": 418449916712600, "status": "PASS", "utc": "2026-10-24T20:52:55.055912+00:00"}
+{"case": "reuse_verify_late", "event": "case_begin", "monotonic_ns": 418449917716700, "utc": "2026-10-24T20:52:55.056922+00:00"}
+{"event": "server_started", "monotonic_ns": 418451282369900, "pid": 26460, "server": "late-verify", "udp_port": 64207, "utc": "2026-10-24T20:52:56.421579+00:00"}
+{"event": "event_observed", "monotonic_ns": 418460937582900, "observed": "database", "pid": 26460, "ready": 1, "server": "late-verify", "utc": "2026-10-24T20:53:06.076781+00:00"}
+{"event": "event_observed", "monotonic_ns": 418461337836700, "name": "QVerifyA", "observed": "connect", "pid": 26460, "server": "late-verify", "utc": "2026-10-24T20:53:06.477042+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418461358993600, "npc": 0, "observed": "connected", "p": 0, "pid": 26460, "server": "late-verify", "utc": "2026-10-24T20:53:06.498195+00:00"}
+{"event": "event_observed", "monotonic_ns": 418461360826200, "observed": "sql_end", "p": 0, "pid": 26460, "server": "late-verify", "state": 3, "utc": "2026-10-24T20:53:06.500037+00:00"}
+{"event": "event_observed", "monotonic_ns": 418461418149100, "observed": "dialog", "p": 0, "pid": 26460, "server": "late-verify", "state": 5, "utc": "2026-10-24T20:53:06.557354+00:00"}
+{"event": "event_observed", "monotonic_ns": 418461528067600, "observed": "disconnect_end", "p": 0, "pid": 26460, "server": "late-verify", "utc": "2026-10-24T20:53:06.667275+00:00"}
+{"event": "event_observed", "monotonic_ns": 418461868583200, "name": "QVerifyB", "observed": "connect", "pid": 26460, "server": "late-verify", "utc": "2026-10-24T20:53:07.007789+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418461869795200, "npc": 0, "observed": "connected", "p": 0, "pid": 26460, "server": "late-verify", "utc": "2026-10-24T20:53:07.009007+00:00"}
+{"callback_token": 1, "event": "event_observed", "monotonic_ns": 418469090764200, "observed": "verify_begin", "p": 0, "pid": 26460, "server": "late-verify", "success": 1, "utc": "2026-10-24T20:53:14.229966+00:00"}
+{"event": "event_observed", "monotonic_ns": 418469092571800, "observed": "verify_end", "p": 0, "pid": 26460, "server": "late-verify", "utc": "2026-10-24T20:53:14.231778+00:00"}
+{"event": "event_observed", "monotonic_ns": 418469184431800, "observed": "disconnect_end", "p": 0, "pid": 26460, "server": "late-verify", "utc": "2026-10-24T20:53:14.323640+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418469251982300, "pid": 26460, "server": "late-verify", "utc": "2026-10-24T20:53:14.391183+00:00"}
+{"case": "reuse_verify_late", "event": "case_end", "monotonic_ns": 418469283296000, "status": "PASS", "utc": "2026-10-24T20:53:14.422489+00:00"}
+{"case": "reuse_insert_late", "event": "case_begin", "monotonic_ns": 418469284473100, "utc": "2026-10-24T20:53:14.423674+00:00"}
+{"event": "server_started", "monotonic_ns": 418470564016800, "pid": 4312, "server": "late-insert", "udp_port": 55707, "utc": "2026-10-24T20:53:15.703198+00:00"}
+{"event": "event_observed", "monotonic_ns": 418481229788000, "observed": "database", "pid": 4312, "ready": 1, "server": "late-insert", "utc": "2026-10-24T20:53:26.368991+00:00"}
+{"event": "event_observed", "monotonic_ns": 418481598785500, "name": "QInsertA", "observed": "connect", "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:26.737991+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418481625172900, "npc": 0, "observed": "connected", "p": 0, "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:26.764375+00:00"}
+{"event": "event_observed", "monotonic_ns": 418481627004300, "observed": "sql_end", "p": 0, "pid": 4312, "server": "late-insert", "state": 2, "utc": "2026-10-24T20:53:26.766207+00:00"}
+{"event": "event_observed", "monotonic_ns": 418481686174100, "observed": "control", "p": 0, "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:26.825375+00:00"}
+{"event": "event_observed", "monotonic_ns": 418482157171600, "observed": "dialog", "p": 0, "pid": 4312, "server": "late-insert", "state": 4, "utc": "2026-10-24T20:53:27.296382+00:00"}
+{"event": "event_observed", "monotonic_ns": 418482520188100, "observed": "hash_end", "p": 0, "pid": 4312, "server": "late-insert", "state": 6, "utc": "2026-10-24T20:53:27.659389+00:00"}
+{"event": "event_observed", "monotonic_ns": 418482612596600, "observed": "disconnect_end", "p": 0, "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:27.751806+00:00"}
+{"event": "event_observed", "monotonic_ns": 418482968372400, "name": "QInsertB", "observed": "connect", "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:28.107575+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418482969909600, "npc": 0, "observed": "connected", "p": 0, "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:28.109118+00:00"}
+{"callback_job": 5, "callback_token": 1, "event": "event_observed", "monotonic_ns": 418483162512500, "observed": "sql_begin", "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:28.301718+00:00"}
+{"event": "event_observed", "monotonic_ns": 418483163937500, "observed": "sql_end", "p": 0, "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:28.303144+00:00"}
+{"closed": 1, "event": "event_observed", "job": 5, "monotonic_ns": 418483165526900, "observed": "sql_closed", "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:28.304734+00:00"}
+{"event": "event_observed", "monotonic_ns": 418484170996300, "observed": "disconnect_end", "p": 0, "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:29.310196+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418484230951400, "pid": 4312, "server": "late-insert", "utc": "2026-10-24T20:53:29.370155+00:00"}
+{"case": "reuse_insert_late", "event": "case_end", "monotonic_ns": 418484262319000, "status": "PASS", "utc": "2026-10-24T20:53:29.401518+00:00"}
+{"case": "concurrent_auth", "event": "case_begin", "monotonic_ns": 418484263473800, "utc": "2026-10-24T20:53:29.402681+00:00"}
+{"event": "server_started", "monotonic_ns": 418487532898900, "pid": 34464, "server": "concurrent-verify", "udp_port": 52114, "utc": "2026-10-24T20:53:32.672096+00:00"}
+{"event": "event_observed", "monotonic_ns": 418498592729200, "observed": "database", "pid": 34464, "ready": 1, "server": "concurrent-verify", "utc": "2026-10-24T20:53:43.731932+00:00"}
+{"event": "event_observed", "monotonic_ns": 418498916837500, "name": "QConcurrentA", "observed": "connect", "pid": 34464, "server": "concurrent-verify", "utc": "2026-10-24T20:53:44.056027+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418498949774600, "npc": 0, "observed": "connected", "p": 0, "pid": 34464, "server": "concurrent-verify", "utc": "2026-10-24T20:53:44.088974+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499310730800, "name": "QConcurrentB", "observed": "connect", "pid": 34464, "server": "concurrent-verify", "utc": "2026-10-24T20:53:44.449941+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418499311687700, "npc": 0, "observed": "connected", "p": 1, "pid": 34464, "server": "concurrent-verify", "utc": "2026-10-24T20:53:44.450902+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499312473200, "observed": "sql_end", "p": 0, "pid": 34464, "server": "concurrent-verify", "state": 3, "utc": "2026-10-24T20:53:44.451680+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499313825100, "observed": "sql_end", "p": 1, "pid": 34464, "server": "concurrent-verify", "state": 3, "utc": "2026-10-24T20:53:44.453040+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499361740300, "observed": "dialog", "p": 0, "pid": 34464, "server": "concurrent-verify", "state": 5, "utc": "2026-10-24T20:53:44.500947+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499407372900, "observed": "dialog", "p": 1, "pid": 34464, "server": "concurrent-verify", "state": 5, "utc": "2026-10-24T20:53:44.546575+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499793624800, "observed": "verify_end", "p": 0, "pid": 34464, "server": "concurrent-verify", "state": 7, "utc": "2026-10-24T20:53:44.932833+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499816338300, "observed": "verify_end", "p": 1, "pid": 34464, "server": "concurrent-verify", "state": 7, "utc": "2026-10-24T20:53:44.955537+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499904839700, "observed": "disconnect_end", "p": 0, "pid": 34464, "server": "concurrent-verify", "utc": "2026-10-24T20:53:45.044039+00:00"}
+{"event": "event_observed", "monotonic_ns": 418499987963700, "observed": "disconnect_end", "p": 1, "pid": 34464, "server": "concurrent-verify", "utc": "2026-10-24T20:53:45.127175+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418500039566800, "pid": 34464, "server": "concurrent-verify", "utc": "2026-10-24T20:53:45.178761+00:00"}
+{"case": "concurrent_auth", "event": "case_end", "monotonic_ns": 418500062199100, "status": "PASS", "utc": "2026-10-24T20:53:45.201396+00:00"}
+{"case": "duplicate_concurrent_registration", "event": "case_begin", "monotonic_ns": 418500063533100, "utc": "2026-10-24T20:53:45.202734+00:00"}
+{"event": "server_started", "monotonic_ns": 418501816496700, "pid": 34944, "server": "duplicate-one", "udp_port": 53292, "utc": "2026-10-24T20:53:46.955686+00:00"}
+{"event": "event_observed", "monotonic_ns": 418514015090800, "observed": "database", "pid": 34944, "ready": 1, "server": "duplicate-one", "utc": "2026-10-24T20:53:59.154293+00:00"}
+{"event": "server_started", "monotonic_ns": 418514760351300, "pid": 7604, "server": "duplicate-two", "udp_port": 54736, "utc": "2026-10-24T20:53:59.899535+00:00"}
+{"event": "event_observed", "monotonic_ns": 418523715279500, "observed": "database", "pid": 7604, "ready": 1, "server": "duplicate-two", "utc": "2026-10-24T20:54:08.854476+00:00"}
+{"event": "event_observed", "monotonic_ns": 418524476737400, "name": "QDuplicate", "observed": "connect", "pid": 34944, "server": "duplicate-one", "utc": "2026-10-24T20:54:09.615929+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418524478763300, "npc": 0, "observed": "connected", "p": 0, "pid": 34944, "server": "duplicate-one", "utc": "2026-10-24T20:54:09.617964+00:00"}
+{"event": "event_observed", "monotonic_ns": 418524865096200, "name": "QDuplicate", "observed": "connect", "pid": 7604, "server": "duplicate-two", "utc": "2026-10-24T20:54:10.004294+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418524897326700, "npc": 0, "observed": "connected", "p": 0, "pid": 7604, "server": "duplicate-two", "utc": "2026-10-24T20:54:10.036516+00:00"}
+{"event": "event_observed", "monotonic_ns": 418524899665900, "observed": "sql_end", "p": 0, "pid": 34944, "server": "duplicate-one", "state": 2, "utc": "2026-10-24T20:54:10.038866+00:00"}
+{"event": "event_observed", "monotonic_ns": 418524901552100, "observed": "sql_end", "p": 0, "pid": 7604, "server": "duplicate-two", "state": 2, "utc": "2026-10-24T20:54:10.040754+00:00"}
+{"event": "event_observed", "monotonic_ns": 418525351949000, "observed": "dialog", "p": 0, "pid": 34944, "server": "duplicate-one", "state": 4, "utc": "2026-10-24T20:54:10.491149+00:00"}
+{"event": "event_observed", "monotonic_ns": 418525398719400, "observed": "dialog", "p": 0, "pid": 7604, "server": "duplicate-two", "state": 4, "utc": "2026-10-24T20:54:10.537930+00:00"}
+{"event": "event_observed", "monotonic_ns": 418525738151700, "observed": "hash_end", "p": 0, "pid": 34944, "server": "duplicate-one", "state": 6, "utc": "2026-10-24T20:54:10.877351+00:00"}
+{"event": "event_observed", "monotonic_ns": 418525790236100, "observed": "hash_end", "p": 0, "pid": 7604, "server": "duplicate-two", "state": 6, "utc": "2026-10-24T20:54:10.929436+00:00"}
+{"event": "event_observed", "monotonic_ns": 418526010318400, "observed": "sql_end", "p": 0, "pid": 34944, "server": "duplicate-one", "utc": "2026-10-24T20:54:11.149521+00:00"}
+{"event": "event_observed", "monotonic_ns": 418526033298000, "observed": "sql_end", "p": 0, "pid": 7604, "server": "duplicate-two", "utc": "2026-10-24T20:54:11.172500+00:00"}
+{"event": "event_observed", "monotonic_ns": 418526593438500, "observed": "sql_begin", "pid": 7604, "server": "duplicate-two", "sqlstate": "23505", "utc": "2026-10-24T20:54:11.732646+00:00"}
+{"event": "event_observed", "monotonic_ns": 418526680262600, "observed": "disconnect_end", "p": 0, "pid": 34944, "server": "duplicate-one", "utc": "2026-10-24T20:54:11.819463+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418526759861100, "pid": 34944, "server": "duplicate-one", "utc": "2026-10-24T20:54:11.899049+00:00"}
+{"event": "event_observed", "monotonic_ns": 418526876988400, "observed": "disconnect_end", "p": 0, "pid": 7604, "server": "duplicate-two", "utc": "2026-10-24T20:54:12.016197+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418526931170500, "pid": 7604, "server": "duplicate-two", "utc": "2026-10-24T20:54:12.070369+00:00"}
+{"case": "duplicate_concurrent_registration", "event": "case_end", "monotonic_ns": 418526952392700, "status": "PASS", "utc": "2026-10-24T20:54:12.091599+00:00"}
+{"case": "provider_response_timeout", "event": "case_begin", "monotonic_ns": 418526952864600, "utc": "2026-10-24T20:54:12.092079+00:00"}
+{"event": "server_started", "monotonic_ns": 418528303505400, "pid": 21564, "server": "provider-timeout", "udp_port": 59552, "utc": "2026-10-24T20:54:13.442702+00:00"}
+{"event": "event_observed", "monotonic_ns": 418538865194700, "observed": "database", "pid": 21564, "ready": 1, "server": "provider-timeout", "utc": "2026-10-24T20:54:24.004398+00:00"}
+{"event": "event_observed", "monotonic_ns": 418539221066700, "name": "QTimeout", "observed": "connect", "pid": 21564, "server": "provider-timeout", "utc": "2026-10-24T20:54:24.360270+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418539222577300, "npc": 0, "observed": "connected", "p": 0, "pid": 21564, "server": "provider-timeout", "utc": "2026-10-24T20:54:24.361784+00:00"}
+{"event": "event_observed", "monotonic_ns": 418539223783900, "observed": "sql_end", "p": 0, "pid": 21564, "server": "provider-timeout", "state": 2, "utc": "2026-10-24T20:54:24.362993+00:00"}
+{"event": "event_observed", "monotonic_ns": 418539271152100, "observed": "control", "p": 0, "pid": 21564, "server": "provider-timeout", "utc": "2026-10-24T20:54:24.410352+00:00"}
+{"event": "event_observed", "monotonic_ns": 418539347853700, "observed": "dialog", "p": 0, "pid": 21564, "server": "provider-timeout", "state": 4, "utc": "2026-10-24T20:54:24.487054+00:00"}
+{"callback_token": 1, "event": "event_observed", "monotonic_ns": 418539814939600, "observed": "provider_suppressed", "pid": 21564, "server": "provider-timeout", "utc": "2026-10-24T20:54:24.954142+00:00"}
+{"event": "event_observed", "monotonic_ns": 418569330405200, "observed": "deadline_end", "p": 0, "pid": 21564, "server": "provider-timeout", "state": 0, "token": 0, "utc": "2026-10-24T20:54:54.469614+00:00"}
+{"event": "event_observed", "monotonic_ns": 418569584438600, "observed": "disconnect_end", "p": 0, "pid": 21564, "server": "provider-timeout", "utc": "2026-10-24T20:54:54.723642+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418569650708500, "pid": 21564, "server": "provider-timeout", "utc": "2026-10-24T20:54:54.789904+00:00"}
+{"case": "provider_response_timeout", "event": "case_end", "monotonic_ns": 418569676922600, "status": "PASS", "utc": "2026-10-24T20:54:54.816124+00:00"}
+{"case": "postgres_recovery", "event": "case_begin", "monotonic_ns": 418569677812900, "utc": "2026-10-24T20:54:54.817021+00:00"}
+{"event": "server_started", "monotonic_ns": 418570891486100, "pid": 2204, "server": "database-recovery", "udp_port": 50381, "utc": "2026-10-24T20:54:56.030693+00:00"}
+{"event": "event_observed", "monotonic_ns": 418579675590800, "observed": "database", "pid": 2204, "ready": 1, "server": "database-recovery", "utc": "2026-10-24T20:55:04.814797+00:00"}
+{"event": "event_observed", "monotonic_ns": 418580033171600, "name": "QSeed", "observed": "connect", "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:05.172371+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418580034945000, "npc": 0, "observed": "connected", "p": 0, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:05.174149+00:00"}
+{"event": "event_observed", "monotonic_ns": 418580036417400, "observed": "sql_end", "p": 0, "pid": 2204, "server": "database-recovery", "state": 3, "utc": "2026-10-24T20:55:05.175627+00:00"}
+{"event": "event_observed", "monotonic_ns": 418580088516000, "observed": "dialog", "p": 0, "pid": 2204, "server": "database-recovery", "state": 5, "utc": "2026-10-24T20:55:05.227716+00:00"}
+{"event": "event_observed", "monotonic_ns": 418580583950000, "observed": "verify_end", "p": 0, "pid": 2204, "server": "database-recovery", "state": 7, "utc": "2026-10-24T20:55:05.723149+00:00"}
+{"event": "event_observed", "monotonic_ns": 418580831416700, "observed": "control", "p": 0, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:05.970613+00:00"}
+{"event": "event_observed", "monotonic_ns": 418580855900000, "observed": "database", "pid": 2204, "ready": 0, "server": "database-recovery", "utc": "2026-10-24T20:55:05.995099+00:00"}
+{"event": "event_observed", "monotonic_ns": 418580929290100, "observed": "control", "p": 0, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:06.068494+00:00"}
+{"event": "event_observed", "monotonic_ns": 418580952802200, "observed": "snapshot", "p": 0, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:06.092003+00:00"}
+{"event": "event_observed", "monotonic_ns": 418581599481000, "observed": "database", "pid": 2204, "server": "database-recovery", "state": 4, "utc": "2026-10-24T20:55:06.738684+00:00"}
+{"event": "event_observed", "monotonic_ns": 418582987468400, "observed": "control", "p": 0, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:08.126668+00:00"}
+{"event": "event_observed", "monotonic_ns": 418583091010700, "observed": "database", "pid": 2204, "ready": 1, "server": "database-recovery", "utc": "2026-10-24T20:55:08.230220+00:00"}
+{"event": "event_observed", "monotonic_ns": 418583114558000, "observed": "sql_end", "p": 0, "pid": 2204, "server": "database-recovery", "state": 3, "utc": "2026-10-24T20:55:08.253764+00:00"}
+{"event": "event_observed", "monotonic_ns": 418583165597200, "observed": "control", "p": 0, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:08.304797+00:00"}
+{"event": "event_observed", "monotonic_ns": 418583167748300, "observed": "snapshot", "p": 0, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:08.306955+00:00"}
+{"event": "event_observed", "monotonic_ns": 418583216441900, "observed": "dialog", "p": 0, "pid": 2204, "server": "database-recovery", "state": 5, "utc": "2026-10-24T20:55:08.355649+00:00"}
+{"event": "event_observed", "monotonic_ns": 418583715382400, "observed": "verify_end", "p": 0, "pid": 2204, "server": "database-recovery", "state": 7, "utc": "2026-10-24T20:55:08.854582+00:00"}
+{"event": "event_observed", "monotonic_ns": 418584143716500, "observed": "disconnect_end", "p": 0, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:09.282924+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418584210121400, "pid": 2204, "server": "database-recovery", "utc": "2026-10-24T20:55:09.349324+00:00"}
+{"case": "postgres_recovery", "event": "case_end", "monotonic_ns": 418584239402900, "status": "PASS", "utc": "2026-10-24T20:55:09.378613+00:00"}
+{"case": "insert_confirmation_loss", "event": "case_begin", "monotonic_ns": 418584239789000, "utc": "2026-10-24T20:55:09.379006+00:00"}
+{"event": "server_started", "monotonic_ns": 418585355264900, "pid": 16432, "server": "insert-response-loss", "udp_port": 56335, "utc": "2026-10-24T20:55:10.494471+00:00"}
+{"event": "event_observed", "monotonic_ns": 418594037444300, "observed": "database", "pid": 16432, "ready": 1, "server": "insert-response-loss", "utc": "2026-10-24T20:55:19.176644+00:00"}
+{"event": "event_observed", "monotonic_ns": 418594408712900, "name": "QLostWrite", "observed": "connect", "pid": 16432, "server": "insert-response-loss", "utc": "2026-10-24T20:55:19.547915+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418594433840300, "npc": 0, "observed": "connected", "p": 0, "pid": 16432, "server": "insert-response-loss", "utc": "2026-10-24T20:55:19.573039+00:00"}
+{"event": "event_observed", "monotonic_ns": 418594435632000, "observed": "sql_end", "p": 0, "pid": 16432, "server": "insert-response-loss", "state": 2, "utc": "2026-10-24T20:55:19.574843+00:00"}
+{"event": "event_observed", "monotonic_ns": 418594740596600, "observed": "dialog", "p": 0, "pid": 16432, "server": "insert-response-loss", "state": 4, "utc": "2026-10-24T20:55:19.879793+00:00"}
+{"event": "event_observed", "monotonic_ns": 418595189252700, "observed": "sql_begin", "pid": 16432, "server": "insert-response-loss", "status": 4, "utc": "2026-10-24T20:55:20.328459+00:00"}
+{"event": "event_observed", "monotonic_ns": 418595663154200, "observed": "disconnect_end", "p": 0, "pid": 16432, "server": "insert-response-loss", "utc": "2026-10-24T20:55:20.802354+00:00"}
+{"event": "event_observed", "monotonic_ns": 418595998114700, "name": "QLostWrite", "observed": "connect", "pid": 16432, "server": "insert-response-loss", "utc": "2026-10-24T20:55:21.137324+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418595999201000, "npc": 0, "observed": "connected", "p": 0, "pid": 16432, "server": "insert-response-loss", "utc": "2026-10-24T20:55:21.138383+00:00"}
+{"event": "event_observed", "monotonic_ns": 418596001205400, "observed": "sql_end", "p": 0, "pid": 16432, "server": "insert-response-loss", "state": 3, "utc": "2026-10-24T20:55:21.140409+00:00"}
+{"event": "event_observed", "monotonic_ns": 418596055018500, "observed": "dialog", "p": 0, "pid": 16432, "server": "insert-response-loss", "state": 5, "utc": "2026-10-24T20:55:21.194230+00:00"}
+{"event": "event_observed", "monotonic_ns": 418596496379200, "observed": "verify_end", "p": 0, "pid": 16432, "server": "insert-response-loss", "state": 7, "utc": "2026-10-24T20:55:21.635583+00:00"}
+{"event": "event_observed", "monotonic_ns": 418596930058100, "observed": "disconnect_end", "p": 0, "pid": 16432, "server": "insert-response-loss", "utc": "2026-10-24T20:55:22.069257+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418596984247100, "pid": 16432, "server": "insert-response-loss", "utc": "2026-10-24T20:55:22.123449+00:00"}
+{"case": "insert_confirmation_loss", "event": "case_end", "monotonic_ns": 418597001844800, "status": "PASS", "utc": "2026-10-24T20:55:22.141056+00:00"}
+{"case": "gmx_pending_provider", "event": "case_begin", "monotonic_ns": 418597002405200, "utc": "2026-10-24T20:55:22.141621+00:00"}
+{"event": "server_started", "monotonic_ns": 418598127173100, "pid": 31296, "server": "gmx-provider", "udp_port": 49672, "utc": "2026-10-24T20:55:23.266382+00:00"}
+{"event": "event_observed", "monotonic_ns": 418606836183200, "observed": "database", "pid": 31296, "ready": 1, "server": "gmx-provider", "utc": "2026-10-24T20:55:31.975382+00:00"}
+{"event": "event_observed", "monotonic_ns": 418607217202000, "name": "QReload", "observed": "connect", "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:32.356405+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418607218669600, "npc": 0, "observed": "connected", "p": 0, "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:32.357875+00:00"}
+{"event": "event_observed", "monotonic_ns": 418607220516700, "observed": "sql_end", "p": 0, "pid": 31296, "server": "gmx-provider", "state": 2, "utc": "2026-10-24T20:55:32.359718+00:00"}
+{"event": "event_observed", "monotonic_ns": 418607272242100, "observed": "control", "p": 0, "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:32.411442+00:00"}
+{"event": "event_observed", "monotonic_ns": 418607323006000, "observed": "dialog", "p": 0, "pid": 31296, "server": "gmx-provider", "state": 4, "utc": "2026-10-24T20:55:32.462208+00:00"}
+{"event": "event_observed", "monotonic_ns": 418619363750600, "observed": "init", "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:44.502944+00:00"}
+{"event": "event_observed", "monotonic_ns": 418619460578800, "observed": "sql_end", "p": 0, "pid": 31296, "server": "gmx-provider", "state": 2, "utc": "2026-10-24T20:55:44.599788+00:00"}
+{"event": "event_observed", "monotonic_ns": 418619529537100, "observed": "control", "p": 0, "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:44.668737+00:00"}
+{"event": "event_observed", "monotonic_ns": 418619531531700, "observed": "snapshot", "p": 0, "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:44.670739+00:00"}
+{"callback_token": 1, "event": "event_observed", "monotonic_ns": 418634339131800, "observed": "hash_begin", "p": 0, "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:59.478335+00:00"}
+{"event": "event_observed", "monotonic_ns": 418634341012300, "observed": "hash_end", "p": 0, "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:59.480223+00:00"}
+{"event": "event_observed", "monotonic_ns": 418634582691900, "observed": "disconnect_end", "p": 0, "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:59.721896+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418634642557500, "pid": 31296, "server": "gmx-provider", "utc": "2026-10-24T20:55:59.781754+00:00"}
+{"case": "gmx_pending_provider", "event": "case_end", "monotonic_ns": 418634662496300, "status": "PASS", "utc": "2026-10-24T20:55:59.801699+00:00"}
+{"case": "shutdown_pending_sql", "event": "case_begin", "monotonic_ns": 418634663276500, "utc": "2026-10-24T20:55:59.802487+00:00"}
+{"event": "server_started", "monotonic_ns": 418635788091300, "pid": 260, "server": "shutdown", "udp_port": 62156, "utc": "2026-10-24T20:56:00.927291+00:00"}
+{"event": "event_observed", "monotonic_ns": 418644523963900, "observed": "database", "pid": 260, "ready": 1, "server": "shutdown", "utc": "2026-10-24T20:56:09.663159+00:00"}
+{"event": "event_observed", "monotonic_ns": 418644904337000, "name": "QShutdown", "observed": "connect", "pid": 260, "server": "shutdown", "utc": "2026-10-24T20:56:10.043541+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418644928255700, "npc": 0, "observed": "connected", "p": 0, "pid": 260, "server": "shutdown", "utc": "2026-10-24T20:56:10.067454+00:00"}
+{"event": "event_observed", "monotonic_ns": 418644929957200, "observed": "sql_end", "p": 0, "pid": 260, "server": "shutdown", "state": 2, "utc": "2026-10-24T20:56:10.069162+00:00"}
+{"event": "event_observed", "monotonic_ns": 418644981012900, "observed": "control", "p": 0, "pid": 260, "server": "shutdown", "utc": "2026-10-24T20:56:10.120216+00:00"}
+{"event": "event_observed", "monotonic_ns": 418644982489400, "observed": "shutdown_pending", "pid": 260, "server": "shutdown", "utc": "2026-10-24T20:56:10.121694+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418645127851800, "pid": 260, "server": "shutdown", "utc": "2026-10-24T20:56:10.267051+00:00"}
+{"case": "shutdown_pending_sql", "event": "case_end", "monotonic_ns": 418645130032900, "status": "PASS", "utc": "2026-10-24T20:56:10.269233+00:00"}
+{"case": "official_npc_scope", "event": "case_begin", "monotonic_ns": 418645130883200, "utc": "2026-10-24T20:56:10.270091+00:00"}
+{"event": "server_started", "monotonic_ns": 418646271808300, "pid": 14832, "server": "official-npc", "udp_port": 49727, "utc": "2026-10-24T20:56:11.411006+00:00"}
+{"event": "event_observed", "monotonic_ns": 418655174666600, "observed": "database", "pid": 14832, "ready": 1, "server": "official-npc", "utc": "2026-10-24T20:56:20.313877+00:00"}
+{"event": "event_observed", "monotonic_ns": 418655531824900, "name": "QNpcControl", "observed": "connect", "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.671022+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418655533735100, "npc": 0, "observed": "connected", "p": 0, "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.672930+00:00"}
+{"event": "event_observed", "monotonic_ns": 418655587944300, "observed": "control", "p": 0, "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.727136+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418655590960500, "npc": 1, "observed": "npc_created", "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.730162+00:00"}
+{"event": "event_observed", "monotonic_ns": 418655593151800, "observed": "npc_destroyed", "p": 7, "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.732343+00:00"}
+{"event": "event_observed", "monotonic_ns": 418655595193600, "observed": "disconnect_end", "p": 7, "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.734390+00:00"}
+{"connected": 0, "event": "event_observed", "monotonic_ns": 418655597347900, "observed": "sql_owner", "p": 7, "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.736544+00:00"}
+{"event": "event_observed", "monotonic_ns": 418655687495200, "observed": "disconnect_end", "p": 0, "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.826696+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418655749990100, "pid": 14832, "server": "official-npc", "utc": "2026-10-24T20:56:20.889192+00:00"}
+{"case": "official_npc_scope", "event": "case_end", "monotonic_ns": 418655773362200, "status": "PASS", "utc": "2026-10-24T20:56:20.912565+00:00"}
+{"case": "custom_reuse_load", "event": "case_begin", "monotonic_ns": 418656059180500, "utc": "2026-10-24T20:56:21.198374+00:00"}
+{"event": "server_started", "monotonic_ns": 418657230739000, "pid": 26144, "server": "custom-load", "udp_port": 49729, "utc": "2026-10-24T20:56:22.369946+00:00"}
+{"event": "event_observed", "monotonic_ns": 418666070137200, "observed": "database", "pid": 26144, "ready": 1, "server": "custom-load", "utc": "2026-10-24T20:56:31.209344+00:00"}
+{"event": "event_observed", "monotonic_ns": 418666434759700, "name": "QCustomA", "observed": "connect", "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:31.573961+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418666436286300, "npc": 0, "observed": "connected", "p": 0, "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:31.575492+00:00"}
+{"event": "event_observed", "monotonic_ns": 418666902025000, "observed": "submitted", "p": 0, "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.041226+00:00"}
+{"event": "event_observed", "monotonic_ns": 418666982279100, "observed": "disconnect_end", "p": 0, "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.121481+00:00"}
+{"event": "event_observed", "monotonic_ns": 418667315991700, "name": "QCustomB", "observed": "connect", "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.455199+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418667317777600, "npc": 0, "observed": "connected", "p": 0, "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.456982+00:00"}
+{"callback_job": 3, "callback_token": 1, "event": "event_observed", "monotonic_ns": 418667655196500, "observed": "load_begin", "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.794398+00:00"}
+{"closed": 1, "event": "event_observed", "job": 3, "monotonic_ns": 418667678989800, "observed": "sql_closed", "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.818190+00:00"}
+{"event": "event_observed", "monotonic_ns": 418667731025500, "observed": "control", "p": 0, "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.870223+00:00"}
+{"event": "event_observed", "monotonic_ns": 418667733015400, "observed": "snapshot", "p": 0, "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.872221+00:00"}
+{"event": "event_observed", "monotonic_ns": 418667818193100, "observed": "disconnect_end", "p": 0, "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:32.957393+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418667881309600, "pid": 26144, "server": "custom-load", "utc": "2026-10-24T20:56:33.020473+00:00"}
+{"case": "custom_reuse_load", "event": "case_end", "monotonic_ns": 418667903345400, "status": "PASS", "utc": "2026-10-24T20:56:33.042551+00:00"}
+{"case": "custom_reuse_save", "event": "case_begin", "monotonic_ns": 418667903936200, "utc": "2026-10-24T20:56:33.043149+00:00"}
+{"event": "server_started", "monotonic_ns": 418669094856300, "pid": 21788, "server": "custom-save", "udp_port": 62458, "utc": "2026-10-24T20:56:34.234065+00:00"}
+{"event": "event_observed", "monotonic_ns": 418677922296600, "observed": "database", "pid": 21788, "ready": 1, "server": "custom-save", "utc": "2026-10-24T20:56:43.061498+00:00"}
+{"event": "event_observed", "monotonic_ns": 418678288016800, "name": "QCustomA", "observed": "connect", "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:43.427219+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418678289460600, "npc": 0, "observed": "connected", "p": 0, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:43.428667+00:00"}
+{"account": 1, "event": "event_observed", "monotonic_ns": 418678335551000, "observed": "load_end", "p": 0, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:43.474754+00:00"}
+{"event": "event_observed", "monotonic_ns": 418678569149900, "observed": "submitted", "p": 0, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:43.708357+00:00"}
+{"event": "event_observed", "monotonic_ns": 418678658744100, "observed": "disconnect_end", "p": 0, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:43.797947+00:00"}
+{"event": "event_observed", "monotonic_ns": 418679014799000, "name": "QCustomB", "observed": "connect", "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.154000+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418679017335400, "npc": 0, "observed": "connected", "p": 0, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.156539+00:00"}
+{"callback_job": 7, "callback_token": 1, "event": "event_observed", "monotonic_ns": 418679284303500, "observed": "save_begin", "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.423507+00:00"}
+{"closed": 1, "event": "event_observed", "job": 7, "monotonic_ns": 418679286688000, "observed": "sql_closed", "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.425885+00:00"}
+{"callback_job": 9, "callback_token": 1, "event": "event_observed", "monotonic_ns": 418679289091300, "observed": "save_begin", "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.428289+00:00"}
+{"closed": 1, "event": "event_observed", "job": 9, "monotonic_ns": 418679291766300, "observed": "sql_closed", "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.430961+00:00"}
+{"event": "event_observed", "monotonic_ns": 418679355570800, "observed": "control", "p": 0, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.494766+00:00"}
+{"event": "event_observed", "monotonic_ns": 418679357792600, "observed": "snapshot", "p": 0, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.496993+00:00"}
+{"event": "event_observed", "monotonic_ns": 418679446850400, "observed": "disconnect_end", "p": 0, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.586052+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418679506615500, "pid": 21788, "server": "custom-save", "utc": "2026-10-24T20:56:44.645813+00:00"}
+{"case": "custom_reuse_save", "event": "case_end", "monotonic_ns": 418679531961200, "status": "PASS", "utc": "2026-10-24T20:56:44.671161+00:00"}
+{"case": "startup_exit_overlap", "event": "case_begin", "monotonic_ns": 418679532741600, "utc": "2026-10-24T20:56:44.671951+00:00"}
+{"event": "server_started", "monotonic_ns": 418680714019900, "pid": 18992, "server": "overlap-first-0", "udp_port": 62038, "utc": "2026-10-24T20:56:45.853224+00:00"}
+{"event": "event_observed", "monotonic_ns": 418689431450400, "observed": "database", "pid": 18992, "ready": 1, "server": "overlap-first-0", "utc": "2026-10-24T20:56:54.570647+00:00"}
+{"event": "server_started", "monotonic_ns": 418690620407500, "pid": 23172, "server": "overlap-second-0", "udp_port": 50806, "utc": "2026-10-24T20:56:55.759616+00:00"}
+{"event": "event_observed", "monotonic_ns": 418699340305600, "observed": "database", "pid": 23172, "ready": 1, "server": "overlap-second-0", "utc": "2026-10-24T20:57:04.479516+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418699341234500, "pid": 18992, "server": "overlap-first-0", "utc": "2026-10-24T20:57:04.480436+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418699431474600, "pid": 23172, "server": "overlap-second-0", "utc": "2026-10-24T20:57:04.570666+00:00"}
+{"event": "server_started", "monotonic_ns": 418700637890500, "pid": 19392, "server": "overlap-first-1", "udp_port": 59328, "utc": "2026-10-24T20:57:05.777090+00:00"}
+{"event": "event_observed", "monotonic_ns": 418709180739000, "observed": "database", "pid": 19392, "ready": 1, "server": "overlap-first-1", "utc": "2026-10-24T20:57:14.319943+00:00"}
+{"event": "server_started", "monotonic_ns": 418710314876500, "pid": 33856, "server": "overlap-second-1", "udp_port": 59654, "utc": "2026-10-24T20:57:15.454076+00:00"}
+{"event": "event_observed", "monotonic_ns": 418718927929500, "observed": "database", "pid": 33856, "ready": 1, "server": "overlap-second-1", "utc": "2026-10-24T20:57:24.067118+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418718929733700, "pid": 19392, "server": "overlap-first-1", "utc": "2026-10-24T20:57:24.068929+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418719015789300, "pid": 33856, "server": "overlap-second-1", "utc": "2026-10-24T20:57:24.154992+00:00"}
+{"event": "server_started", "monotonic_ns": 418720152649400, "pid": 23040, "server": "overlap-first-2", "udp_port": 59655, "utc": "2026-10-24T20:57:25.291850+00:00"}
+{"event": "event_observed", "monotonic_ns": 418728938398600, "observed": "database", "pid": 23040, "ready": 1, "server": "overlap-first-2", "utc": "2026-10-24T20:57:34.077602+00:00"}
+{"event": "server_started", "monotonic_ns": 418730169158800, "pid": 11180, "server": "overlap-second-2", "udp_port": 51493, "utc": "2026-10-24T20:57:35.308360+00:00"}
+{"event": "event_observed", "monotonic_ns": 418738794075400, "observed": "database", "pid": 11180, "ready": 1, "server": "overlap-second-2", "utc": "2026-10-24T20:57:43.933270+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418738795030100, "pid": 23040, "server": "overlap-first-2", "utc": "2026-10-24T20:57:43.934244+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418738876585100, "pid": 11180, "server": "overlap-second-2", "utc": "2026-10-24T20:57:44.015776+00:00"}
+{"case": "startup_exit_overlap", "event": "case_end", "monotonic_ns": 418738902648700, "status": "PASS", "utc": "2026-10-24T20:57:44.041848+00:00"}
+{"case": "postgres_recovery_playerid_reuse", "event": "case_begin", "monotonic_ns": 418738903877400, "utc": "2026-10-24T20:57:44.043083+00:00"}
+{"event": "server_started", "monotonic_ns": 418740012607800, "pid": 15760, "server": "recovery-reuse", "udp_port": 54383, "utc": "2026-10-24T20:57:45.151808+00:00"}
+{"event": "event_observed", "monotonic_ns": 418748666240600, "observed": "database", "pid": 15760, "ready": 1, "server": "recovery-reuse", "utc": "2026-10-24T20:57:53.805444+00:00"}
+{"event": "event_observed", "monotonic_ns": 418749209763400, "name": "QSeed", "observed": "connect", "pid": 15760, "server": "recovery-reuse", "utc": "2026-10-24T20:57:54.348965+00:00"}
+{"connected": 1, "event": "event_observed", "monotonic_ns": 418749211194900, "npc": 0, "observed": "connected", "p": 0, "pid": 15760, "server": "recovery-reuse", "utc": "2026-10-24T20:57:54.350402+00:00"}
+{"event": "event_observed", "monotonic_ns": 418749260086200, "observed": "control", "p": 0, "pid": 15760, "server": "recovery-reuse", "utc": "2026-10-24T20:57:54.399295+00:00"}
+{"event": "event_observed", "monotonic_ns": 418764775291800, "observed": "disconnect_end", "p": 0, "pid": 15760, "server": "recovery-reuse", "utc": "2026-10-24T20:58:09.914492+00:00"}
+{"event": "server_exited", "exit_code": 0, "monotonic_ns": 418764837033300, "pid": 15760, "server": "recovery-reuse", "utc": "2026-10-24T20:58:09.976226+00:00"}
+{"case": "postgres_recovery_playerid_reuse", "event": "case_end", "monotonic_ns": 418764862694700, "status": "FAIL", "utc": "2026-10-24T20:58:10.001891+00:00"}

@@ -1,0 +1,310 @@
+{
+  "schema": 1,
+  "scope": "Disposable loopback-only qualification; never production or physical network partition",
+  "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+  "postgresql": "EDB PostgreSQL 17.11 x64",
+  "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+  "openmp": "Not used by Engine-only cases; separate real-session inventory records open.mp 1.5.8.3079 x86",
+  "source_sha256": {
+    "tests/network_recovery.cpp": "c072ee86f34f494485835219ef6595040aeb096a70125a87a871b1fc1284863b",
+    "tests/wire_fault_proxy.py": "7ff249e6a2188c098299646ffeecd6304d29a00757ce73e7bece76c4f5117c99",
+    "tests/run_postgres.py": "c5b400ccdde58e050223b149b9811a9ab58ed1a8808088e2cb4ec4244d0996b2",
+    "tests/tests.cpp": "e24e7ca179067aa38470cb3240c2c54985628946d43000ee9d4b61eb02e486d6",
+    "CMakeLists.txt": "28d7f14670f2207cc674aa30b2db4c6a60699a8b24fe9456d7f00b68a91f5e8e"
+  },
+  "runs": [
+    {
+      "id": "development-oracle-1",
+      "status": "FAIL",
+      "commit": "95340017919b85d4c35ebe02ef25a63b6382922d",
+      "dirty": true,
+      "immutable_input_provenance": "INCOMPLETE",
+      "cause": "New oracle expected FAILED instead of NOT_EXECUTED for stale transaction finish; component unchanged"
+    },
+    {
+      "id": "development-oracle-2",
+      "status": "FAIL",
+      "commit": "95340017919b85d4c35ebe02ef25a63b6382922d",
+      "dirty": true,
+      "immutable_input_provenance": "INCOMPLETE",
+      "cause": "New oracle expected not_ready instead of connection for queued work settled after interruption; component unchanged"
+    },
+    {
+      "id": "network-699e84a",
+      "status": "PASS",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "dirty": false,
+      "scenarios": 13,
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "conditions": "One-shot framed response loss, incomplete Parse, seven-byte writes and opaque end-to-end TLS response holds",
+      "assertions": "See per-scenario stdout, wire event records and technical report; all thirteen SCENARIO PASS markers required",
+      "recovery": "Each failed transport accepts explicit new SQL; failed transactions require explicit finish/fresh BEGIN; all proxy workers and PostgreSQL stopped"
+    },
+    {
+      "id": "full-699e84a",
+      "status": "PASS",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "tests": 22,
+      "seconds": 90.98,
+      "command": "python tests/run_postgres.py --build build-msvc32 --doc-sql --postgres-bin <EDB-17.11-tools>",
+      "source_note": "Executable inputs were built from 699e84a; documentation-only a96efdf was committed while CTest ran. No runtime/test inputs changed.",
+      "recovery": "60/60 handshake peers closed; exact-PID/query cluster restart and complete CTest inventory passed; PostgreSQL stopped"
+    },
+    {
+      "id": "python-699e84a",
+      "status": "FAIL",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "tests": 126,
+      "cause": "New relative audit link was absent from exported package; existing documentation regression rejected it"
+    },
+    {
+      "id": "python-a96efdf",
+      "status": "PASS",
+      "commit": "a96efdf475908c511296273580f0f5e1b62766e6",
+      "tests": 126,
+      "command": "python -m unittest discover -s tests -p test_*.py -v",
+      "correction": "Use the public report URL; no assertion weakened"
+    },
+    {
+      "id": "real-a96efdf-negative",
+      "status": "FAIL",
+      "commit": "a96efdf475908c511296273580f0f5e1b62766e6",
+      "source_dirty": false,
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "Official 1.5.8.3079 x86; samp-bcrypt 0.4.1; external compatible client",
+      "command": "python tests/run_postgres.py --only-real-sessions --real-sessions <fixture-config.json> --postgres-bin <EDB-17.11-tools>",
+      "result": "Original 19 PASS; preliminary startup case PASS; new recovery-reuse case FAIL before database outage",
+      "cause": "New observer selected ineffective qa_game profile application_name; Lane supplies omp-postgresql explicitly",
+      "evidence": "real-a96efdf-negative/sha256.json",
+      "correction": "Use isolated qa_runtime role and actual application_name, with exact PID/query/active lock observation",
+      "cleanup": "Lock backend released, all official servers exited 0 and disposable PostgreSQL stopped"
+    }
+  ],
+  "capture_provenance": {
+    "development-oracle-1": {
+      "original_lasttest_sha256": "37668c993d9708e3f761b9436ad869e705e2b338f82b5f45ffb62a19206f9a74",
+      "excerpts": 1,
+      "path_transformations": {}
+    },
+    "development-oracle-2": {
+      "original_lasttest_sha256": "a7e85be4da82575012fa766e865567c84745774e28a2c5dddb9372a4d9fb1d12",
+      "excerpts": 1,
+      "path_transformations": {}
+    },
+    "network-699e84a": {
+      "original_lasttest_sha256": "42f70b4a406a3f0a35904c239ce6578e069ef00e9dd664a922ad5d7913331b6a",
+      "excerpts": 1,
+      "path_transformations": {}
+    },
+    "full-699e84a": {
+      "original_lasttest_sha256": "6431ad8cf9a1ece10fc37c8be5ba6c9cccdc99b29bc5ab438487eba3d9a32dff",
+      "excerpts": 22,
+      "path_transformations": {}
+    }
+  },
+  "limitations": [
+    "Development oracle negatives lack immutable uncommitted input snapshots; never exact-source component regressions",
+    "Original CTest headers contain localized external dates and personal paths; public stdout excerpts are labelled, original full-log hashes retained",
+    "No physical partition, OS short-write syscall, official graphical client or 24-hour execution claim",
+    "Sanitizer/total-FD and global-OOM limitations remain unchanged"
+  ],
+  "scenarios": [
+    {
+      "id": "begin",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-begin.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "savepoint",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-savepoint.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "rollback_to",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-rollback_to.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "release",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-release.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "commit",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-commit.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "rollback",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-rollback.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "insert",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-insert.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "hold",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-hold.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "partial_parse",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-partial_parse.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "batch",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-batch.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "fragment",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-fragment.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "tls_hold",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-tls_hold.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    },
+    {
+      "id": "tls_shutdown",
+      "status": "PASS",
+      "run": "network-699e84a",
+      "commit": "699e84a8e6f7415425453056375f18eed42b82d6",
+      "platform": "Microsoft Windows NT 10.0.26300.0; x64 host, x86 MSVC 19.51.36248 test binaries",
+      "postgresql": "EDB PostgreSQL 17.11 x64",
+      "libpq": "17.11 x86, patched Windows mutex; PQlibVersion=171100",
+      "openmp": "NOT USED: Engine integration",
+      "command": "python tests/run_postgres.py --build build-msvc32 --network-only --postgres-bin <EDB-17.11-tools>",
+      "fault_and_assertions": "See the same ID in the technical report and stdout",
+      "error_and_sql_results": "network-699e84a/stdout.txt",
+      "recovery_and_cleanup": "network-699e84a/wire-tls_shutdown.log",
+      "limitations": "Proxy simulation, not a physical partition or OS syscall fault"
+    }
+  ]
+}

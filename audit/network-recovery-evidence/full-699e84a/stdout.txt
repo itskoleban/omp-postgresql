@@ -1,0 +1,1651 @@
+libpq Windows mutex: deterministic stale claim and 80000 contended locks passed
+
+Fresh connection process 1/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 2/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 3/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 4/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 5/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 6/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 7/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 8/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 9/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 10/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 11/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 12/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 13/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 14/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 15/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 16/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 17/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 18/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 19/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+Fresh connection process 20/20
+connection_rounds=1 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+34 connection lifecycle checks passed
+
+native_adversarial PASS seed=4051312678 cases=16384; registered wrappers, SDK memory double
+Native validation passed: 46696 checks; address seed=0x414d5801
+
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,105100,78900
+callback_benchmark,custom_ii,1,64,169300,83800
+callback_benchmark,custom_s96,1,64,399300,81000
+callback_benchmark,global_old_arity,1,64,96600,64000
+callback_benchmark,custom_ii,2,64,166200,46100
+callback_benchmark,custom_s96,2,64,227900,221900
+callback_benchmark,global_old_arity,2,64,153100,80600
+callback_benchmark,custom0,2,64,987500,124400
+callback_benchmark,custom_s96,3,64,319800,108400
+callback_benchmark,global_old_arity,3,64,138700,104500
+callback_benchmark,custom0,3,64,129100,40800
+callback_benchmark,custom_ii,3,64,106300,64800
+callback_benchmark,global_old_arity,4,64,124300,42900
+callback_benchmark,custom0,4,64,105900,86900
+callback_benchmark,custom_ii,4,64,190400,280000
+callback_benchmark,custom_s96,4,64,433500,118600
+callback_benchmark,custom0,5,64,188100,78500
+callback_benchmark,custom_ii,5,64,298000,120300
+callback_benchmark,custom_s96,5,64,516900,406700
+callback_benchmark,global_old_arity,5,64,187300,76800
+callback_benchmark,custom_ii,6,64,159900,65400
+callback_benchmark,custom_s96,6,64,280300,107300
+callback_benchmark,global_old_arity,6,64,104900,81700
+callback_benchmark,custom0,6,64,155700,75900
+callback_benchmark,custom_s96,7,64,763900,200900
+callback_benchmark,global_old_arity,7,64,255600,90000
+callback_benchmark,custom0,7,64,362200,56800
+callback_benchmark,custom_ii,7,64,219900,61700
+Native validation passed: 6706 checks; address seed=0x414d5801
+
+logging_benchmark,level,destination,mode,repetition,jobs,submission_ns,dispatch_with_drain_ns,dropped,output_bytes
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,103800,35400
+logging_benchmark,0,0,custom0,1,64,103800,35400,0,0
+callback_benchmark,custom_ii,1,64,101200,64200
+logging_benchmark,0,0,custom_ii,1,64,101200,64200,0,0
+callback_benchmark,custom_s96,1,64,252700,71100
+logging_benchmark,0,0,custom_s96,1,64,252700,71100,0,0
+callback_benchmark,global_old_arity,1,64,83800,54100
+logging_benchmark,0,0,global_old_arity,1,64,83800,54100,0,0
+callback_benchmark,custom_ii,2,64,145900,65400
+logging_benchmark,0,0,custom_ii,2,64,145900,65400,0,0
+callback_benchmark,custom_s96,2,64,333300,57400
+logging_benchmark,0,0,custom_s96,2,64,333300,57400,0,0
+callback_benchmark,global_old_arity,2,64,82700,75800
+logging_benchmark,0,0,global_old_arity,2,64,82700,75800,0,0
+callback_benchmark,custom0,2,64,229600,106200
+logging_benchmark,0,0,custom0,2,64,229600,106200,0,0
+callback_benchmark,custom_s96,3,64,565600,258000
+logging_benchmark,0,0,custom_s96,3,64,565600,258000,0,0
+callback_benchmark,global_old_arity,3,64,365300,105300
+logging_benchmark,0,0,global_old_arity,3,64,365300,105300,0,0
+callback_benchmark,custom0,3,64,371300,110600
+logging_benchmark,0,0,custom0,3,64,371300,110600,0,0
+callback_benchmark,custom_ii,3,64,444900,165100
+logging_benchmark,0,0,custom_ii,3,64,444900,165100,0,0
+callback_benchmark,global_old_arity,4,64,264600,135900
+logging_benchmark,0,0,global_old_arity,4,64,264600,135900,0,0
+callback_benchmark,custom0,4,64,296500,116100
+logging_benchmark,0,0,custom0,4,64,296500,116100,0,0
+callback_benchmark,custom_ii,4,64,335100,140400
+logging_benchmark,0,0,custom_ii,4,64,335100,140400,0,0
+callback_benchmark,custom_s96,4,64,599000,126200
+logging_benchmark,0,0,custom_s96,4,64,599000,126200,0,0
+callback_benchmark,custom0,5,64,315600,148000
+logging_benchmark,0,0,custom0,5,64,315600,148000,0,0
+callback_benchmark,custom_ii,5,64,319100,147100
+logging_benchmark,0,0,custom_ii,5,64,319100,147100,0,0
+callback_benchmark,custom_s96,5,64,557700,138700
+logging_benchmark,0,0,custom_s96,5,64,557700,138700,0,0
+callback_benchmark,global_old_arity,5,64,162600,114400
+logging_benchmark,0,0,global_old_arity,5,64,162600,114400,0,0
+callback_benchmark,custom_ii,6,64,204800,92400
+logging_benchmark,0,0,custom_ii,6,64,204800,92400,0,0
+callback_benchmark,custom_s96,6,64,425500,107900
+logging_benchmark,0,0,custom_s96,6,64,425500,107900,0,0
+callback_benchmark,global_old_arity,6,64,138800,80300
+logging_benchmark,0,0,global_old_arity,6,64,138800,80300,0,0
+callback_benchmark,custom0,6,64,155700,42700
+logging_benchmark,0,0,custom0,6,64,155700,42700,0,0
+callback_benchmark,custom_s96,7,64,218800,134000
+logging_benchmark,0,0,custom_s96,7,64,218800,134000,0,0
+callback_benchmark,global_old_arity,7,64,267800,130200
+logging_benchmark,0,0,global_old_arity,7,64,267800,130200,0,0
+callback_benchmark,custom0,7,64,269100,47100
+logging_benchmark,0,0,custom0,7,64,269100,47100,0,0
+callback_benchmark,custom_ii,7,64,110500,72200
+logging_benchmark,0,0,custom_ii,7,64,110500,72200,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,308600,61100
+logging_benchmark,0,1,custom0,1,64,308600,61100,0,0
+callback_benchmark,custom_ii,1,64,164700,97700
+logging_benchmark,0,1,custom_ii,1,64,164700,97700,0,0
+callback_benchmark,custom_s96,1,64,391100,271000
+logging_benchmark,0,1,custom_s96,1,64,391100,271000,0,0
+callback_benchmark,global_old_arity,1,64,246600,85300
+logging_benchmark,0,1,global_old_arity,1,64,246600,85300,0,0
+callback_benchmark,custom_ii,2,64,249500,129600
+logging_benchmark,0,1,custom_ii,2,64,249500,129600,0,0
+callback_benchmark,custom_s96,2,64,371700,363800
+logging_benchmark,0,1,custom_s96,2,64,371700,363800,0,0
+callback_benchmark,global_old_arity,2,64,160500,114500
+logging_benchmark,0,1,global_old_arity,2,64,160500,114500,0,0
+callback_benchmark,custom0,2,64,341600,162600
+logging_benchmark,0,1,custom0,2,64,341600,162600,0,0
+callback_benchmark,custom_s96,3,64,274800,224800
+logging_benchmark,0,1,custom_s96,3,64,274800,224800,0,0
+callback_benchmark,global_old_arity,3,64,254700,117500
+logging_benchmark,0,1,global_old_arity,3,64,254700,117500,0,0
+callback_benchmark,custom0,3,64,352900,165700
+logging_benchmark,0,1,custom0,3,64,352900,165700,0,0
+callback_benchmark,custom_ii,3,64,182900,136100
+logging_benchmark,0,1,custom_ii,3,64,182900,136100,0,0
+callback_benchmark,global_old_arity,4,64,174700,120500
+logging_benchmark,0,1,global_old_arity,4,64,174700,120500,0,0
+callback_benchmark,custom0,4,64,249900,116000
+logging_benchmark,0,1,custom0,4,64,249900,116000,0,0
+callback_benchmark,custom_ii,4,64,258200,141200
+logging_benchmark,0,1,custom_ii,4,64,258200,141200,0,0
+callback_benchmark,custom_s96,4,64,363100,119200
+logging_benchmark,0,1,custom_s96,4,64,363100,119200,0,0
+callback_benchmark,custom0,5,64,125600,95000
+logging_benchmark,0,1,custom0,5,64,125600,95000,0,0
+callback_benchmark,custom_ii,5,64,231400,131000
+logging_benchmark,0,1,custom_ii,5,64,231400,131000,0,0
+callback_benchmark,custom_s96,5,64,310600,175600
+logging_benchmark,0,1,custom_s96,5,64,310600,175600,0,0
+callback_benchmark,global_old_arity,5,64,266100,46700
+logging_benchmark,0,1,global_old_arity,5,64,266100,46700,0,0
+callback_benchmark,custom_ii,6,64,148700,50100
+logging_benchmark,0,1,custom_ii,6,64,148700,50100,0,0
+callback_benchmark,custom_s96,6,64,270500,166600
+logging_benchmark,0,1,custom_s96,6,64,270500,166600,0,0
+callback_benchmark,global_old_arity,6,64,214600,54400
+logging_benchmark,0,1,global_old_arity,6,64,214600,54400,0,0
+callback_benchmark,custom0,6,64,153500,75800
+logging_benchmark,0,1,custom0,6,64,153500,75800,0,0
+callback_benchmark,custom_s96,7,64,521800,81400
+logging_benchmark,0,1,custom_s96,7,64,521800,81400,0,0
+callback_benchmark,global_old_arity,7,64,85600,125000
+logging_benchmark,0,1,global_old_arity,7,64,85600,125000,0,0
+callback_benchmark,custom0,7,64,330700,126100
+logging_benchmark,0,1,custom0,7,64,330700,126100,0,0
+callback_benchmark,custom_ii,7,64,155200,48500
+logging_benchmark,0,1,custom_ii,7,64,155200,48500,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,148900,62600
+logging_benchmark,0,2,custom0,1,64,148900,62600,0,0
+callback_benchmark,custom_ii,1,64,157500,63400
+logging_benchmark,0,2,custom_ii,1,64,157500,63400,0,0
+callback_benchmark,custom_s96,1,64,185600,77200
+logging_benchmark,0,2,custom_s96,1,64,185600,77200,0,0
+callback_benchmark,global_old_arity,1,64,107300,113700
+logging_benchmark,0,2,global_old_arity,1,64,107300,113700,0,0
+callback_benchmark,custom_ii,2,64,398200,125900
+logging_benchmark,0,2,custom_ii,2,64,398200,125900,0,0
+callback_benchmark,custom_s96,2,64,556800,142900
+logging_benchmark,0,2,custom_s96,2,64,556800,142900,0,0
+callback_benchmark,global_old_arity,2,64,87100,61600
+logging_benchmark,0,2,global_old_arity,2,64,87100,61600,0,0
+callback_benchmark,custom0,2,64,153800,86200
+logging_benchmark,0,2,custom0,2,64,153800,86200,0,0
+callback_benchmark,custom_s96,3,64,400000,185700
+logging_benchmark,0,2,custom_s96,3,64,400000,185700,0,0
+callback_benchmark,global_old_arity,3,64,239000,111700
+logging_benchmark,0,2,global_old_arity,3,64,239000,111700,0,0
+callback_benchmark,custom0,3,64,312100,63600
+logging_benchmark,0,2,custom0,3,64,312100,63600,0,0
+callback_benchmark,custom_ii,3,64,163200,99300
+logging_benchmark,0,2,custom_ii,3,64,163200,99300,0,0
+callback_benchmark,global_old_arity,4,64,185600,70500
+logging_benchmark,0,2,global_old_arity,4,64,185600,70500,0,0
+callback_benchmark,custom0,4,64,108400,63400
+logging_benchmark,0,2,custom0,4,64,108400,63400,0,0
+callback_benchmark,custom_ii,4,64,157900,53700
+logging_benchmark,0,2,custom_ii,4,64,157900,53700,0,0
+callback_benchmark,custom_s96,4,64,192300,107800
+logging_benchmark,0,2,custom_s96,4,64,192300,107800,0,0
+callback_benchmark,custom0,5,64,270700,121100
+logging_benchmark,0,2,custom0,5,64,270700,121100,0,0
+callback_benchmark,custom_ii,5,64,362600,134600
+logging_benchmark,0,2,custom_ii,5,64,362600,134600,0,0
+callback_benchmark,custom_s96,5,64,607300,135600
+logging_benchmark,0,2,custom_s96,5,64,607300,135600,0,0
+callback_benchmark,global_old_arity,5,64,275900,56800
+logging_benchmark,0,2,global_old_arity,5,64,275900,56800,0,0
+callback_benchmark,custom_ii,6,64,133100,143400
+logging_benchmark,0,2,custom_ii,6,64,133100,143400,0,0
+callback_benchmark,custom_s96,6,64,650600,103500
+logging_benchmark,0,2,custom_s96,6,64,650600,103500,0,0
+callback_benchmark,global_old_arity,6,64,125400,94300
+logging_benchmark,0,2,global_old_arity,6,64,125400,94300,0,0
+callback_benchmark,custom0,6,64,233900,146200
+logging_benchmark,0,2,custom0,6,64,233900,146200,0,0
+callback_benchmark,custom_s96,7,64,466100,131100
+logging_benchmark,0,2,custom_s96,7,64,466100,131100,0,0
+callback_benchmark,global_old_arity,7,64,197100,64100
+logging_benchmark,0,2,global_old_arity,7,64,197100,64100,0,0
+callback_benchmark,custom0,7,64,165500,74400
+logging_benchmark,0,2,custom0,7,64,165500,74400,0,0
+callback_benchmark,custom_ii,7,64,176700,66200
+logging_benchmark,0,2,custom_ii,7,64,176700,66200,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,122800,58800
+logging_benchmark,2,0,custom0,1,64,122800,58800,0,0
+callback_benchmark,custom_ii,1,64,151100,58200
+logging_benchmark,2,0,custom_ii,1,64,151100,58200,0,0
+callback_benchmark,custom_s96,1,64,244000,118100
+logging_benchmark,2,0,custom_s96,1,64,244000,118100,0,0
+callback_benchmark,global_old_arity,1,64,191200,48800
+logging_benchmark,2,0,global_old_arity,1,64,191200,48800,0,0
+callback_benchmark,custom_ii,2,64,127200,81100
+logging_benchmark,2,0,custom_ii,2,64,127200,81100,0,0
+callback_benchmark,custom_s96,2,64,225200,117100
+logging_benchmark,2,0,custom_s96,2,64,225200,117100,0,0
+callback_benchmark,global_old_arity,2,64,185700,87100
+logging_benchmark,2,0,global_old_arity,2,64,185700,87100,0,0
+callback_benchmark,custom0,2,64,165500,110200
+logging_benchmark,2,0,custom0,2,64,165500,110200,0,0
+callback_benchmark,custom_s96,3,64,506100,89100
+logging_benchmark,2,0,custom_s96,3,64,506100,89100,0,0
+callback_benchmark,global_old_arity,3,64,121900,54100
+logging_benchmark,2,0,global_old_arity,3,64,121900,54100,0,0
+callback_benchmark,custom0,3,64,142700,67200
+logging_benchmark,2,0,custom0,3,64,142700,67200,0,0
+callback_benchmark,custom_ii,3,64,169500,130700
+logging_benchmark,2,0,custom_ii,3,64,169500,130700,0,0
+callback_benchmark,global_old_arity,4,64,255500,63300
+logging_benchmark,2,0,global_old_arity,4,64,255500,63300,0,0
+callback_benchmark,custom0,4,64,211900,120000
+logging_benchmark,2,0,custom0,4,64,211900,120000,0,0
+callback_benchmark,custom_ii,4,64,316600,74600
+logging_benchmark,2,0,custom_ii,4,64,316600,74600,0,0
+callback_benchmark,custom_s96,4,64,211100,90800
+logging_benchmark,2,0,custom_s96,4,64,211100,90800,0,0
+callback_benchmark,custom0,5,64,114300,115800
+logging_benchmark,2,0,custom0,5,64,114300,115800,0,0
+callback_benchmark,custom_ii,5,64,344000,68700
+logging_benchmark,2,0,custom_ii,5,64,344000,68700,0,0
+callback_benchmark,custom_s96,5,64,281400,98600
+logging_benchmark,2,0,custom_s96,5,64,281400,98600,0,0
+callback_benchmark,global_old_arity,5,64,119600,81200
+logging_benchmark,2,0,global_old_arity,5,64,119600,81200,0,0
+callback_benchmark,custom_ii,6,64,131500,64500
+logging_benchmark,2,0,custom_ii,6,64,131500,64500,0,0
+callback_benchmark,custom_s96,6,64,213500,57600
+logging_benchmark,2,0,custom_s96,6,64,213500,57600,0,0
+callback_benchmark,global_old_arity,6,64,79400,74800
+logging_benchmark,2,0,global_old_arity,6,64,79400,74800,0,0
+callback_benchmark,custom0,6,64,195600,104300
+logging_benchmark,2,0,custom0,6,64,195600,104300,0,0
+callback_benchmark,custom_s96,7,64,253900,171700
+logging_benchmark,2,0,custom_s96,7,64,253900,171700,0,0
+callback_benchmark,global_old_arity,7,64,235100,116900
+logging_benchmark,2,0,global_old_arity,7,64,235100,116900,0,0
+callback_benchmark,custom0,7,64,220400,61400
+logging_benchmark,2,0,custom0,7,64,220400,61400,0,0
+callback_benchmark,custom_ii,7,64,159000,49400
+logging_benchmark,2,0,custom_ii,7,64,159000,49400,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,422800,75300
+logging_benchmark,2,1,custom0,1,64,422800,75300,0,0
+callback_benchmark,custom_ii,1,64,229100,47600
+logging_benchmark,2,1,custom_ii,1,64,229100,47600,0,0
+callback_benchmark,custom_s96,1,64,204100,90200
+logging_benchmark,2,1,custom_s96,1,64,204100,90200,0,0
+callback_benchmark,global_old_arity,1,64,126300,66400
+logging_benchmark,2,1,global_old_arity,1,64,126300,66400,0,0
+callback_benchmark,custom_ii,2,64,161700,98000
+logging_benchmark,2,1,custom_ii,2,64,161700,98000,0,0
+callback_benchmark,custom_s96,2,64,382800,168700
+logging_benchmark,2,1,custom_s96,2,64,382800,168700,0,0
+callback_benchmark,global_old_arity,2,64,334800,74700
+logging_benchmark,2,1,global_old_arity,2,64,334800,74700,0,0
+callback_benchmark,custom0,2,64,376900,119000
+logging_benchmark,2,1,custom0,2,64,376900,119000,0,0
+callback_benchmark,custom_s96,3,64,712900,78500
+logging_benchmark,2,1,custom_s96,3,64,712900,78500,0,0
+callback_benchmark,global_old_arity,3,64,91400,85300
+logging_benchmark,2,1,global_old_arity,3,64,91400,85300,0,0
+callback_benchmark,custom0,3,64,219300,113400
+logging_benchmark,2,1,custom0,3,64,219300,113400,0,0
+callback_benchmark,custom_ii,3,64,393100,228100
+logging_benchmark,2,1,custom_ii,3,64,393100,228100,0,0
+callback_benchmark,global_old_arity,4,64,238000,193100
+logging_benchmark,2,1,global_old_arity,4,64,238000,193100,0,0
+callback_benchmark,custom0,4,64,157000,85300
+logging_benchmark,2,1,custom0,4,64,157000,85300,0,0
+callback_benchmark,custom_ii,4,64,149200,59600
+logging_benchmark,2,1,custom_ii,4,64,149200,59600,0,0
+callback_benchmark,custom_s96,4,64,195200,181700
+logging_benchmark,2,1,custom_s96,4,64,195200,181700,0,0
+callback_benchmark,custom0,5,64,339900,141600
+logging_benchmark,2,1,custom0,5,64,339900,141600,0,0
+callback_benchmark,custom_ii,5,64,743700,128200
+logging_benchmark,2,1,custom_ii,5,64,743700,128200,0,0
+callback_benchmark,custom_s96,5,64,365700,70500
+logging_benchmark,2,1,custom_s96,5,64,365700,70500,0,0
+callback_benchmark,global_old_arity,5,64,85400,106800
+logging_benchmark,2,1,global_old_arity,5,64,85400,106800,0,0
+callback_benchmark,custom_ii,6,64,287100,91500
+logging_benchmark,2,1,custom_ii,6,64,287100,91500,0,0
+callback_benchmark,custom_s96,6,64,337600,79100
+logging_benchmark,2,1,custom_s96,6,64,337600,79100,0,0
+callback_benchmark,global_old_arity,6,64,121400,44100
+logging_benchmark,2,1,global_old_arity,6,64,121400,44100,0,0
+callback_benchmark,custom0,6,64,95800,41900
+logging_benchmark,2,1,custom0,6,64,95800,41900,0,0
+callback_benchmark,custom_s96,7,64,264200,173800
+logging_benchmark,2,1,custom_s96,7,64,264200,173800,0,0
+callback_benchmark,global_old_arity,7,64,339800,63600
+logging_benchmark,2,1,global_old_arity,7,64,339800,63600,0,0
+callback_benchmark,custom0,7,64,159500,97700
+logging_benchmark,2,1,custom0,7,64,159500,97700,0,0
+callback_benchmark,custom_ii,7,64,407000,52500
+logging_benchmark,2,1,custom_ii,7,64,407000,52500,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,308200,83600
+logging_benchmark,2,2,custom0,1,64,308200,83600,0,0
+callback_benchmark,custom_ii,1,64,414000,87200
+logging_benchmark,2,2,custom_ii,1,64,414000,87200,0,0
+callback_benchmark,custom_s96,1,64,443000,62700
+logging_benchmark,2,2,custom_s96,1,64,443000,62700,0,0
+callback_benchmark,global_old_arity,1,64,82800,57900
+logging_benchmark,2,2,global_old_arity,1,64,82800,57900,0,0
+callback_benchmark,custom_ii,2,64,174100,61600
+logging_benchmark,2,2,custom_ii,2,64,174100,61600,0,0
+callback_benchmark,custom_s96,2,64,257400,114400
+logging_benchmark,2,2,custom_s96,2,64,257400,114400,0,0
+callback_benchmark,global_old_arity,2,64,154600,53500
+logging_benchmark,2,2,global_old_arity,2,64,154600,53500,0,0
+callback_benchmark,custom0,2,64,126100,56300
+logging_benchmark,2,2,custom0,2,64,126100,56300,0,0
+callback_benchmark,custom_s96,3,64,259400,89200
+logging_benchmark,2,2,custom_s96,3,64,259400,89200,0,0
+callback_benchmark,global_old_arity,3,64,132200,43500
+logging_benchmark,2,2,global_old_arity,3,64,132200,43500,0,0
+callback_benchmark,custom0,3,64,96500,59900
+logging_benchmark,2,2,custom0,3,64,96500,59900,0,0
+callback_benchmark,custom_ii,3,64,194900,69700
+logging_benchmark,2,2,custom_ii,3,64,194900,69700,0,0
+callback_benchmark,global_old_arity,4,64,127700,65500
+logging_benchmark,2,2,global_old_arity,4,64,127700,65500,0,0
+callback_benchmark,custom0,4,64,140100,66200
+logging_benchmark,2,2,custom0,4,64,140100,66200,0,0
+callback_benchmark,custom_ii,4,64,201400,70300
+logging_benchmark,2,2,custom_ii,4,64,201400,70300,0,0
+callback_benchmark,custom_s96,4,64,248300,63300
+logging_benchmark,2,2,custom_s96,4,64,248300,63300,0,0
+callback_benchmark,custom0,5,64,128200,137600
+logging_benchmark,2,2,custom0,5,64,128200,137600,0,0
+callback_benchmark,custom_ii,5,64,384800,90000
+logging_benchmark,2,2,custom_ii,5,64,384800,90000,0,0
+callback_benchmark,custom_s96,5,64,298500,91500
+logging_benchmark,2,2,custom_s96,5,64,298500,91500,0,0
+callback_benchmark,global_old_arity,5,64,80400,72500
+logging_benchmark,2,2,global_old_arity,5,64,80400,72500,0,0
+callback_benchmark,custom_ii,6,64,183900,93600
+logging_benchmark,2,2,custom_ii,6,64,183900,93600,0,0
+callback_benchmark,custom_s96,6,64,705800,197900
+logging_benchmark,2,2,custom_s96,6,64,705800,197900,0,0
+callback_benchmark,global_old_arity,6,64,281000,89300
+logging_benchmark,2,2,global_old_arity,6,64,281000,89300,0,0
+callback_benchmark,custom0,6,64,394300,117800
+logging_benchmark,2,2,custom0,6,64,394300,117800,0,0
+callback_benchmark,custom_s96,7,64,488900,140200
+logging_benchmark,2,2,custom_s96,7,64,488900,140200,0,0
+callback_benchmark,global_old_arity,7,64,127500,100600
+logging_benchmark,2,2,global_old_arity,7,64,127500,100600,0,0
+callback_benchmark,custom0,7,64,174300,79900
+logging_benchmark,2,2,custom0,7,64,174300,79900,0,0
+callback_benchmark,custom_ii,7,64,225200,75800
+logging_benchmark,2,2,custom_ii,7,64,225200,75800,0,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,371600,383900
+logging_benchmark,4,0,custom0,1,64,371600,383900,128,9753
+callback_benchmark,custom_ii,1,64,264000,303200
+logging_benchmark,4,0,custom_ii,1,64,264000,303200,128,9754
+callback_benchmark,custom_s96,1,64,174900,230000
+logging_benchmark,4,0,custom_s96,1,64,174900,230000,128,9753
+callback_benchmark,global_old_arity,1,64,116500,399300
+logging_benchmark,4,0,global_old_arity,1,64,116500,399300,128,9752
+callback_benchmark,custom_ii,2,64,300800,131600
+logging_benchmark,4,0,custom_ii,2,64,300800,131600,128,9752
+callback_benchmark,custom_s96,2,64,212300,189400
+logging_benchmark,4,0,custom_s96,2,64,212300,189400,128,9753
+callback_benchmark,global_old_arity,2,64,85700,190600
+logging_benchmark,4,0,global_old_arity,2,64,85700,190600,128,9752
+callback_benchmark,custom0,2,64,153600,147900
+logging_benchmark,4,0,custom0,2,64,153600,147900,128,9752
+callback_benchmark,custom_s96,3,64,236000,182200
+logging_benchmark,4,0,custom_s96,3,64,236000,182200,128,9752
+callback_benchmark,global_old_arity,3,64,110600,162400
+logging_benchmark,4,0,global_old_arity,3,64,110600,162400,128,9753
+callback_benchmark,custom0,3,64,115200,134300
+logging_benchmark,4,0,custom0,3,64,115200,134300,128,9752
+callback_benchmark,custom_ii,3,64,106900,396700
+logging_benchmark,4,0,custom_ii,3,64,106900,396700,128,9775
+callback_benchmark,global_old_arity,4,64,198000,234500
+logging_benchmark,4,0,global_old_arity,4,64,198000,234500,128,9815
+callback_benchmark,custom0,4,64,261800,284300
+logging_benchmark,4,0,custom0,4,64,261800,284300,128,9815
+callback_benchmark,custom_ii,4,64,283600,196200
+logging_benchmark,4,0,custom_ii,4,64,283600,196200,128,9815
+callback_benchmark,custom_s96,4,64,289700,240500
+logging_benchmark,4,0,custom_s96,4,64,289700,240500,128,9815
+callback_benchmark,custom0,5,64,148000,201200
+logging_benchmark,4,0,custom0,5,64,148000,201200,128,9816
+callback_benchmark,custom_ii,5,64,145600,300300
+logging_benchmark,4,0,custom_ii,5,64,145600,300300,128,9815
+callback_benchmark,custom_s96,5,64,795500,270500
+logging_benchmark,4,0,custom_s96,5,64,795500,270500,128,9817
+callback_benchmark,global_old_arity,5,64,91000,364800
+logging_benchmark,4,0,global_old_arity,5,64,91000,364800,128,9815
+callback_benchmark,custom_ii,6,64,347400,183700
+logging_benchmark,4,0,custom_ii,6,64,347400,183700,128,9815
+callback_benchmark,custom_s96,6,64,190000,204000
+logging_benchmark,4,0,custom_s96,6,64,190000,204000,128,9815
+callback_benchmark,global_old_arity,6,64,257800,244600
+logging_benchmark,4,0,global_old_arity,6,64,257800,244600,128,9815
+callback_benchmark,custom0,6,64,259800,287600
+logging_benchmark,4,0,custom0,6,64,259800,287600,128,9815
+callback_benchmark,custom_s96,7,64,415700,288600
+logging_benchmark,4,0,custom_s96,7,64,415700,288600,128,9816
+callback_benchmark,global_old_arity,7,64,144100,283500
+logging_benchmark,4,0,global_old_arity,7,64,144100,283500,128,9815
+callback_benchmark,custom0,7,64,252800,321900
+logging_benchmark,4,0,custom0,7,64,252800,321900,128,9815
+callback_benchmark,custom_ii,7,64,349200,437600
+logging_benchmark,4,0,custom_ii,7,64,349200,437600,128,9815
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,139900,91800
+logging_benchmark,4,1,custom0,1,64,139900,91800,128,0
+callback_benchmark,custom_ii,1,64,158600,116200
+logging_benchmark,4,1,custom_ii,1,64,158600,116200,128,0
+callback_benchmark,custom_s96,1,64,265400,121800
+logging_benchmark,4,1,custom_s96,1,64,265400,121800,128,0
+callback_benchmark,global_old_arity,1,64,130100,105500
+logging_benchmark,4,1,global_old_arity,1,64,130100,105500,128,0
+callback_benchmark,custom_ii,2,64,899300,306500
+logging_benchmark,4,1,custom_ii,2,64,899300,306500,128,0
+callback_benchmark,custom_s96,2,64,364400,233900
+logging_benchmark,4,1,custom_s96,2,64,364400,233900,128,0
+callback_benchmark,global_old_arity,2,64,281700,106700
+logging_benchmark,4,1,global_old_arity,2,64,281700,106700,128,0
+callback_benchmark,custom0,2,64,144300,180100
+logging_benchmark,4,1,custom0,2,64,144300,180100,128,0
+callback_benchmark,custom_s96,3,64,744700,220000
+logging_benchmark,4,1,custom_s96,3,64,744700,220000,128,0
+callback_benchmark,global_old_arity,3,64,353200,172800
+logging_benchmark,4,1,global_old_arity,3,64,353200,172800,128,0
+callback_benchmark,custom0,3,64,342200,114300
+logging_benchmark,4,1,custom0,3,64,342200,114300,128,0
+callback_benchmark,custom_ii,3,64,283500,130600
+logging_benchmark,4,1,custom_ii,3,64,283500,130600,128,0
+callback_benchmark,global_old_arity,4,64,333600,92400
+logging_benchmark,4,1,global_old_arity,4,64,333600,92400,128,0
+callback_benchmark,custom0,4,64,243200,143500
+logging_benchmark,4,1,custom0,4,64,243200,143500,128,0
+callback_benchmark,custom_ii,4,64,357000,140500
+logging_benchmark,4,1,custom_ii,4,64,357000,140500,128,0
+callback_benchmark,custom_s96,4,64,475100,167700
+logging_benchmark,4,1,custom_s96,4,64,475100,167700,128,0
+callback_benchmark,custom0,5,64,108900,141300
+logging_benchmark,4,1,custom0,5,64,108900,141300,128,0
+callback_benchmark,custom_ii,5,64,288800,185800
+logging_benchmark,4,1,custom_ii,5,64,288800,185800,128,0
+callback_benchmark,custom_s96,5,64,291200,176200
+logging_benchmark,4,1,custom_s96,5,64,291200,176200,128,0
+callback_benchmark,global_old_arity,5,64,286400,144500
+logging_benchmark,4,1,global_old_arity,5,64,286400,144500,128,0
+callback_benchmark,custom_ii,6,64,401100,128900
+logging_benchmark,4,1,custom_ii,6,64,401100,128900,128,0
+callback_benchmark,custom_s96,6,64,463800,265400
+logging_benchmark,4,1,custom_s96,6,64,463800,265400,128,0
+callback_benchmark,global_old_arity,6,64,289900,92000
+logging_benchmark,4,1,global_old_arity,6,64,289900,92000,128,0
+callback_benchmark,custom0,6,64,140400,144300
+logging_benchmark,4,1,custom0,6,64,140400,144300,128,0
+callback_benchmark,custom_s96,7,64,390600,139800
+logging_benchmark,4,1,custom_s96,7,64,390600,139800,128,0
+callback_benchmark,global_old_arity,7,64,141600,77600
+logging_benchmark,4,1,global_old_arity,7,64,141600,77600,128,0
+callback_benchmark,custom0,7,64,125500,140400
+logging_benchmark,4,1,custom0,7,64,125500,140400,128,0
+callback_benchmark,custom_ii,7,64,252800,94800
+logging_benchmark,4,1,custom_ii,7,64,252800,94800,128,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,305700,274100
+logging_benchmark,4,2,custom0,1,64,305700,274100,129,9752
+callback_benchmark,custom_ii,1,64,297100,236400
+logging_benchmark,4,2,custom_ii,1,64,297100,236400,130,9752
+callback_benchmark,custom_s96,1,64,287700,300900
+logging_benchmark,4,2,custom_s96,1,64,287700,300900,130,9752
+callback_benchmark,global_old_arity,1,64,103300,146400
+logging_benchmark,4,2,global_old_arity,1,64,103300,146400,129,9752
+callback_benchmark,custom_ii,2,64,235200,215400
+logging_benchmark,4,2,custom_ii,2,64,235200,215400,129,9752
+callback_benchmark,custom_s96,2,64,204200,194500
+logging_benchmark,4,2,custom_s96,2,64,204200,194500,130,9752
+callback_benchmark,global_old_arity,2,64,101400,179700
+logging_benchmark,4,2,global_old_arity,2,64,101400,179700,130,9753
+callback_benchmark,custom0,2,64,167100,140000
+logging_benchmark,4,2,custom0,2,64,167100,140000,129,9752
+callback_benchmark,custom_s96,3,64,200200,159600
+logging_benchmark,4,2,custom_s96,3,64,200200,159600,130,9753
+callback_benchmark,global_old_arity,3,64,83200,191700
+logging_benchmark,4,2,global_old_arity,3,64,83200,191700,128,9753
+callback_benchmark,custom0,3,64,114600,290500
+logging_benchmark,4,2,custom0,3,64,114600,290500,130,9752
+callback_benchmark,custom_ii,3,64,340200,288000
+logging_benchmark,4,2,custom_ii,3,64,340200,288000,130,9775
+callback_benchmark,global_old_arity,4,64,247600,250400
+logging_benchmark,4,2,global_old_arity,4,64,247600,250400,129,9815
+callback_benchmark,custom0,4,64,98700,154300
+logging_benchmark,4,2,custom0,4,64,98700,154300,130,9815
+callback_benchmark,custom_ii,4,64,185900,245900
+logging_benchmark,4,2,custom_ii,4,64,185900,245900,129,9815
+callback_benchmark,custom_s96,4,64,526800,164000
+logging_benchmark,4,2,custom_s96,4,64,526800,164000,129,9817
+callback_benchmark,custom0,5,64,88100,191900
+logging_benchmark,4,2,custom0,5,64,88100,191900,128,9817
+callback_benchmark,custom_ii,5,64,211000,279900
+logging_benchmark,4,2,custom_ii,5,64,211000,279900,129,9817
+callback_benchmark,custom_s96,5,64,478400,232400
+logging_benchmark,4,2,custom_s96,5,64,478400,232400,130,9817
+callback_benchmark,global_old_arity,5,64,83100,147600
+logging_benchmark,4,2,global_old_arity,5,64,83100,147600,128,9816
+callback_benchmark,custom_ii,6,64,142600,162300
+logging_benchmark,4,2,custom_ii,6,64,142600,162300,128,9815
+callback_benchmark,custom_s96,6,64,245500,217100
+logging_benchmark,4,2,custom_s96,6,64,245500,217100,129,9815
+callback_benchmark,global_old_arity,6,64,256500,256500
+logging_benchmark,4,2,global_old_arity,6,64,256500,256500,130,9814
+callback_benchmark,custom0,6,64,200000,287200
+logging_benchmark,4,2,custom0,6,64,200000,287200,129,9816
+callback_benchmark,custom_s96,7,64,259300,377500
+logging_benchmark,4,2,custom_s96,7,64,259300,377500,129,9816
+callback_benchmark,global_old_arity,7,64,343100,284300
+logging_benchmark,4,2,global_old_arity,7,64,343100,284300,128,9815
+callback_benchmark,custom0,7,64,142700,216900
+logging_benchmark,4,2,custom0,7,64,142700,216900,128,9815
+callback_benchmark,custom_ii,7,64,137600,196000
+logging_benchmark,4,2,custom_ii,7,64,137600,196000,130,9815
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,304500,148900
+logging_benchmark,5,0,custom0,1,64,304500,148900,129,9752
+callback_benchmark,custom_ii,1,64,307400,146200
+logging_benchmark,5,0,custom_ii,1,64,307400,146200,129,9752
+callback_benchmark,custom_s96,1,64,277900,160100
+logging_benchmark,5,0,custom_s96,1,64,277900,160100,129,9752
+callback_benchmark,global_old_arity,1,64,88300,449900
+logging_benchmark,5,0,global_old_arity,1,64,88300,449900,129,9752
+callback_benchmark,custom_ii,2,64,157000,156000
+logging_benchmark,5,0,custom_ii,2,64,157000,156000,129,9752
+callback_benchmark,custom_s96,2,64,244700,445600
+logging_benchmark,5,0,custom_s96,2,64,244700,445600,129,9752
+callback_benchmark,global_old_arity,2,64,83900,147700
+logging_benchmark,5,0,global_old_arity,2,64,83900,147700,129,9752
+callback_benchmark,custom0,2,64,111600,191900
+logging_benchmark,5,0,custom0,2,64,111600,191900,129,9753
+callback_benchmark,custom_s96,3,64,413700,202200
+logging_benchmark,5,0,custom_s96,3,64,413700,202200,129,9753
+callback_benchmark,global_old_arity,3,64,88300,498100
+logging_benchmark,5,0,global_old_arity,3,64,88300,498100,129,9752
+callback_benchmark,custom0,3,64,323400,130300
+logging_benchmark,5,0,custom0,3,64,323400,130300,129,9752
+callback_benchmark,custom_ii,3,64,123900,272900
+logging_benchmark,5,0,custom_ii,3,64,123900,272900,129,9775
+callback_benchmark,global_old_arity,4,64,143100,191200
+logging_benchmark,5,0,global_old_arity,4,64,143100,191200,129,9815
+callback_benchmark,custom0,4,64,110600,174300
+logging_benchmark,5,0,custom0,4,64,110600,174300,129,9815
+callback_benchmark,custom_ii,4,64,130000,142200
+logging_benchmark,5,0,custom_ii,4,64,130000,142200,129,9815
+callback_benchmark,custom_s96,4,64,183500,211500
+logging_benchmark,5,0,custom_s96,4,64,183500,211500,129,9815
+callback_benchmark,custom0,5,64,158000,192200
+logging_benchmark,5,0,custom0,5,64,158000,192200,129,9815
+callback_benchmark,custom_ii,5,64,268600,375600
+logging_benchmark,5,0,custom_ii,5,64,268600,375600,129,9815
+callback_benchmark,custom_s96,5,64,195100,310600
+logging_benchmark,5,0,custom_s96,5,64,195100,310600,129,9815
+callback_benchmark,global_old_arity,5,64,254100,153100
+logging_benchmark,5,0,global_old_arity,5,64,254100,153100,129,9815
+callback_benchmark,custom_ii,6,64,206100,197900
+logging_benchmark,5,0,custom_ii,6,64,206100,197900,129,9815
+callback_benchmark,custom_s96,6,64,192500,253100
+logging_benchmark,5,0,custom_s96,6,64,192500,253100,129,9816
+callback_benchmark,global_old_arity,6,64,330200,154000
+logging_benchmark,5,0,global_old_arity,6,64,330200,154000,129,9815
+callback_benchmark,custom0,6,64,209800,142000
+logging_benchmark,5,0,custom0,6,64,209800,142000,129,9816
+callback_benchmark,custom_s96,7,64,441400,217100
+logging_benchmark,5,0,custom_s96,7,64,441400,217100,129,9815
+callback_benchmark,global_old_arity,7,64,86200,252100
+logging_benchmark,5,0,global_old_arity,7,64,86200,252100,129,9815
+callback_benchmark,custom0,7,64,201000,137300
+logging_benchmark,5,0,custom0,7,64,201000,137300,129,9815
+callback_benchmark,custom_ii,7,64,126000,492900
+logging_benchmark,5,0,custom_ii,7,64,126000,492900,129,9815
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,353500,83400
+logging_benchmark,5,1,custom0,1,64,353500,83400,129,0
+callback_benchmark,custom_ii,1,64,243900,101300
+logging_benchmark,5,1,custom_ii,1,64,243900,101300,129,0
+callback_benchmark,custom_s96,1,64,313800,205400
+logging_benchmark,5,1,custom_s96,1,64,313800,205400,129,0
+callback_benchmark,global_old_arity,1,64,342700,225100
+logging_benchmark,5,1,global_old_arity,1,64,342700,225100,129,0
+callback_benchmark,custom_ii,2,64,288100,190600
+logging_benchmark,5,1,custom_ii,2,64,288100,190600,129,0
+callback_benchmark,custom_s96,2,64,485700,127800
+logging_benchmark,5,1,custom_s96,2,64,485700,127800,129,0
+callback_benchmark,global_old_arity,2,64,126600,157000
+logging_benchmark,5,1,global_old_arity,2,64,126600,157000,129,0
+callback_benchmark,custom0,2,64,226300,165600
+logging_benchmark,5,1,custom0,2,64,226300,165600,129,0
+callback_benchmark,custom_s96,3,64,560400,250300
+logging_benchmark,5,1,custom_s96,3,64,560400,250300,129,0
+callback_benchmark,global_old_arity,3,64,272900,144500
+logging_benchmark,5,1,global_old_arity,3,64,272900,144500,129,0
+callback_benchmark,custom0,3,64,190800,107300
+logging_benchmark,5,1,custom0,3,64,190800,107300,129,0
+callback_benchmark,custom_ii,3,64,184700,155700
+logging_benchmark,5,1,custom_ii,3,64,184700,155700,129,0
+callback_benchmark,global_old_arity,4,64,478000,155000
+logging_benchmark,5,1,global_old_arity,4,64,478000,155000,129,0
+callback_benchmark,custom0,4,64,282900,181200
+logging_benchmark,5,1,custom0,4,64,282900,181200,129,0
+callback_benchmark,custom_ii,4,64,307800,93900
+logging_benchmark,5,1,custom_ii,4,64,307800,93900,129,0
+callback_benchmark,custom_s96,4,64,213300,115000
+logging_benchmark,5,1,custom_s96,4,64,213300,115000,129,0
+callback_benchmark,custom0,5,64,220100,86900
+logging_benchmark,5,1,custom0,5,64,220100,86900,129,0
+callback_benchmark,custom_ii,5,64,189200,116100
+logging_benchmark,5,1,custom_ii,5,64,189200,116100,129,0
+callback_benchmark,custom_s96,5,64,291300,121700
+logging_benchmark,5,1,custom_s96,5,64,291300,121700,129,0
+callback_benchmark,global_old_arity,5,64,112900,74400
+logging_benchmark,5,1,global_old_arity,5,64,112900,74400,129,0
+callback_benchmark,custom_ii,6,64,143700,98200
+logging_benchmark,5,1,custom_ii,6,64,143700,98200,129,0
+callback_benchmark,custom_s96,6,64,295700,227800
+logging_benchmark,5,1,custom_s96,6,64,295700,227800,129,0
+callback_benchmark,global_old_arity,6,64,130800,89300
+logging_benchmark,5,1,global_old_arity,6,64,130800,89300,129,0
+callback_benchmark,custom0,6,64,99300,106600
+logging_benchmark,5,1,custom0,6,64,99300,106600,129,0
+callback_benchmark,custom_s96,7,64,248200,141600
+logging_benchmark,5,1,custom_s96,7,64,248200,141600,129,0
+callback_benchmark,global_old_arity,7,64,136700,94500
+logging_benchmark,5,1,global_old_arity,7,64,136700,94500,129,0
+callback_benchmark,custom0,7,64,128000,83000
+logging_benchmark,5,1,custom0,7,64,128000,83000,129,0
+callback_benchmark,custom_ii,7,64,145900,79400
+logging_benchmark,5,1,custom_ii,7,64,145900,79400,129,0
+# Callback dispatch time sums actual tick/drain calls; publication-wait sleeps are excluded. Multiple calls may be needed after terminal status.
+callback_benchmark,mode,repetition,jobs,submission_ns,dispatch_ns
+callback_benchmark,custom0,1,64,102400,421100
+logging_benchmark,5,2,custom0,1,64,102400,421100,130,9753
+callback_benchmark,custom_ii,1,64,511500,451200
+logging_benchmark,5,2,custom_ii,1,64,511500,451200,129,9752
+callback_benchmark,custom_s96,1,64,425500,279700
+logging_benchmark,5,2,custom_s96,1,64,425500,279700,130,9752
+callback_benchmark,global_old_arity,1,64,174800,289900
+logging_benchmark,5,2,global_old_arity,1,64,174800,289900,131,9752
+callback_benchmark,custom_ii,2,64,126900,303600
+logging_benchmark,5,2,custom_ii,2,64,126900,303600,130,9753
+callback_benchmark,custom_s96,2,64,693800,320100
+logging_benchmark,5,2,custom_s96,2,64,693800,320100,130,9753
+callback_benchmark,global_old_arity,2,64,79400,259900
+logging_benchmark,5,2,global_old_arity,2,64,79400,259900,130,9752
+callback_benchmark,custom0,2,64,335000,743100
+logging_benchmark,5,2,custom0,2,64,335000,743100,129,9752
+callback_benchmark,custom_s96,3,64,334300,495500
+logging_benchmark,5,2,custom_s96,3,64,334300,495500,130,9752
+callback_benchmark,global_old_arity,3,64,136900,387100
+logging_benchmark,5,2,global_old_arity,3,64,136900,387100,130,9752
+callback_benchmark,custom0,3,64,308800,334300
+logging_benchmark,5,2,custom0,3,64,308800,334300,131,9753
+callback_benchmark,custom_ii,3,64,304600,189200
+logging_benchmark,5,2,custom_ii,3,64,304600,189200,130,9777
+callback_benchmark,global_old_arity,4,64,123200,402400
+logging_benchmark,5,2,global_old_arity,4,64,123200,402400,130,9817
+callback_benchmark,custom0,4,64,381500,240600
+logging_benchmark,5,2,custom0,4,64,381500,240600,130,9815
+callback_benchmark,custom_ii,4,64,145100,188900
+logging_benchmark,5,2,custom_ii,4,64,145100,188900,130,9815
+callback_benchmark,custom_s96,4,64,311800,296900
+logging_benchmark,5,2,custom_s96,4,64,311800,296900,131,9815
+callback_benchmark,custom0,5,64,248200,404200
+logging_benchmark,5,2,custom0,5,64,248200,404200,129,9815
+callback_benchmark,custom_ii,5,64,283000,218300
+logging_benchmark,5,2,custom_ii,5,64,283000,218300,130,9815
+callback_benchmark,custom_s96,5,64,251400,290600
+logging_benchmark,5,2,custom_s96,5,64,251400,290600,129,9815
+callback_benchmark,global_old_arity,5,64,92300,187000
+logging_benchmark,5,2,global_old_arity,5,64,92300,187000,130,9816
+callback_benchmark,custom_ii,6,64,186000,164900
+logging_benchmark,5,2,custom_ii,6,64,186000,164900,130,9815
+callback_benchmark,custom_s96,6,64,208100,199600
+logging_benchmark,5,2,custom_s96,6,64,208100,199600,129,9816
+callback_benchmark,global_old_arity,6,64,93800,229800
+logging_benchmark,5,2,global_old_arity,6,64,93800,229800,130,9816
+callback_benchmark,custom0,6,64,373100,140100
+logging_benchmark,5,2,custom0,6,64,373100,140100,132,9815
+callback_benchmark,custom_s96,7,64,199100,277400
+logging_benchmark,5,2,custom_s96,7,64,199100,277400,130,9815
+callback_benchmark,global_old_arity,7,64,127600,141300
+logging_benchmark,5,2,global_old_arity,7,64,127600,141300,131,9815
+callback_benchmark,custom0,7,64,98700,300700
+logging_benchmark,5,2,custom0,7,64,98700,300700,130,9816
+callback_benchmark,custom_ii,7,64,272400,359200
+logging_benchmark,5,2,custom_ii,7,64,272400,359200,131,9815
+Native validation passed: 76699 checks; address seed=0x414d5801
+
+worker allocation denied bytes=64
+worker allocation denied bytes=48
+worker allocation denied bytes=64
+worker allocation denied bytes=32
+worker_recovery PASS allocation_injection=ON mode=recover active_status=4 queued_status=3 callbacks=2
+worker_recovery PASS allocation_injection=ON mode=shutdown active_status=4 queued_status=5 callbacks=2
+worker denied_allocations=4
+
+terminal_queue PASS allocation_injection=ON publications=4096 FIFO=checked ownership=checked producers=4
+
+26 checks passed
+
+semantic_fuzz seed=1096107081 cases=4096
+semantic_fuzz PASS cases=4096
+
+cancel_entry observed sends=1 select=0 results=0 status=4 error=7
+cancel_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+timeout_entry observed sends=1 select=0 results=0 status=4 error=6
+timeout_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=6
+shutdown_entry observed sends=1 select=0 results=0 status=4 error=7
+shutdown_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+transport observed sends=1 select=1 results=0 status=4 error=5
+transport PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_cancel observed sends=1 select=1 results=0 status=4 error=5
+transport_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_timeout observed sends=1 select=1 results=0 status=4 error=5
+transport_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_both observed sends=1 select=1 results=0 status=4 error=5
+transport_both PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+invalid_socket_cancel observed sends=1 select=0 results=0 status=4 error=5
+invalid_socket_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+eintr_retry observed sends=1 select=1 results=2 status=2 error=0
+eintr_retry PASS sends=1 select=1 results=2 callbacks=1 status=2 error=0
+eintr_cancel observed sends=1 select=1 results=0 status=4 error=7
+eintr_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=7
+eintr_timeout observed sends=1 select=1 results=0 status=4 error=6
+eintr_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+ready_cancel observed sends=1 select=1 results=0 status=4 error=7
+ready_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=7
+ready_timeout observed sends=1 select=1 results=0 status=4 error=6
+ready_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+poll_timeout observed sends=1 select=1 results=0 status=4 error=6
+poll_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+response_cancel observed sends=1 select=0 results=1 status=4 error=7
+response_cancel PASS sends=1 select=0 results=1 callbacks=1 status=4 error=7
+completed_cancel observed sends=1 select=0 results=2 status=2 error=0
+completed_cancel PASS sends=1 select=0 results=2 callbacks=1 status=2 error=0
+completed_timeout observed sends=1 select=0 results=2 status=2 error=0
+completed_timeout PASS sends=1 select=0 results=2 callbacks=1 status=2 error=0
+predispatch_cancel observed sends=0 select=0 results=0 status=5 error=7
+predispatch_cancel PASS sends=0 select=0 results=0 callbacks=1 status=5 error=7
+flush_cancel observed sends=1 select=0 results=0 status=4 error=5
+flush_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+consume_cancel observed sends=1 select=0 results=0 status=4 error=5
+consume_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+socket_wait PASS cases=20
+
+fault phase: ROLLBACK response loss
+fault phase: terminate during deferred COMMIT
+fault phase: terminate exact blocked INSERT
+fault phase: terminate exact blocked UPDATE
+fault phase: cancellation category race rounds=32
+fault phase: timeout category rounds=8 query_ms=30
+audit_faults PASS
+
+network_recovery libpq=170011 pointer_bytes=4
+SCENARIO begin start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=30500 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_begin(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=21212 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=30500
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_begin
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_begin
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO begin PASS
+SCENARIO savepoint start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=2964 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_savepoint(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_savepoint(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+job=8 status=3 error=9 completed=0 error_index=-1 items=0, message=Transaction no longer owns this session
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=35676 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=2964
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_savepoint
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_savepoint_id_seq
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_savepoint
+job=16 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO savepoint PASS
+SCENARIO rollback_to start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=20440 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_rollback_to(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_rollback_to(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=8 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+job=9 status=3 error=9 completed=0 error_index=-1 items=0, message=Transaction no longer owns this session
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=32804 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=20440
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_rollback_to
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_rollback_to_id_seq
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=16 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_rollback_to
+job=17 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO rollback_to PASS
+SCENARIO release start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=34868 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_release(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_release(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=8 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+job=9 status=3 error=9 completed=0 error_index=-1 items=0, message=Transaction no longer owns this session
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=16616 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=34868
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_release
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_release_id_seq
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=16 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_release
+job=17 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO release PASS
+SCENARIO commit start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=16168 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_commit(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_commit(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=3292 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=16168
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_commit
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_commit_id_seq
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_commit
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO commit PASS
+SCENARIO rollback start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=32164 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_rollback(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_rollback(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=14160 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=32164
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_rollback
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_rollback_id_seq
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_rollback
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO rollback PASS
+SCENARIO insert start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=16596 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_insert(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 INSERT INTO phase2_insert(n) VALUES(1) /* phase2_fault */
+job=5 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=14184 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=16596
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_insert
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_insert_id_seq
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_insert
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO insert PASS
+SCENARIO hold start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=12952 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_hold(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 INSERT INTO phase2_hold(n) VALUES(1) /* phase2_fault */
+job=5 status=4 error=6 completed=0 error_index=0 items=3, message=Interrupted after dispatch; outcome may be unknown
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=35248 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=12952
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_hold
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_hold_id_seq
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_hold
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO hold PASS
+SCENARIO partial_parse start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=30772 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_partial_parse(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 INSERT INTO phase2_partial_parse(n) VALUES(1) /* phase2_fault */
+job=5 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=31816 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=30772
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_partial_parse
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_partial_parse_id_seq
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT is_called FROM phase2_partial_parse_id_seq
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=f affected=1
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_partial_parse
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO partial_parse PASS
+SCENARIO batch start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=16032 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_batch(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=9 status=4 error=5 completed=1 error_index=1 items=1,3,0, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=9168 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_batch WHERE n=1
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_batch WHERE n=2
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_batch_id_seq
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 DROP TABLE phase2_batch
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO batch PASS
+SCENARIO fragment start
+SQL connection=2 tx=0 SELECT repeat('abcdefg',1000)
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefg affected=1
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SCENARIO fragment PASS
+SCENARIO tls_hold start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=19504 affected=1
+SQL connection=1 tx=0 SELECT ssl FROM pg_stat_ssl WHERE pid=19504
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=t affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_tls_hold_queued(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 SELECT pg_sleep(60) /* phase2_tls_tls_hold */
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=19504 AND state='active' AND wait_event='PgSleep' AND query='SELECT pg_sleep(60) /* phase2_tls_tls_hold */'
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=2 tx=0 INSERT INTO phase2_tls_hold_queued(n) VALUES(999) /* phase2_never_sent */
+SQL connection=1 tx=0 SELECT pg_cancel_backend(19504)
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=t affected=1
+job=6 status=4 error=6 completed=0 error_index=0 items=3, message=Interrupted after dispatch; outcome may be unknown
+job=8 status=3 error=5 completed=0 error_index=-1 items=0, message=Not dispatched: session interrupted
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=14804 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_tls_hold_queued
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT is_called FROM phase2_tls_hold_queued_id_seq
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=f affected=1
+SQL connection=1 tx=0 DROP TABLE phase2_tls_hold_queued
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO tls_hold PASS
+SCENARIO tls_shutdown start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=656 affected=1
+SQL connection=1 tx=0 SELECT ssl FROM pg_stat_ssl WHERE pid=656
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=t affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_tls_shutdown_queued(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 SELECT pg_sleep(60) /* phase2_tls_tls_shutdown */
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=656 AND state='active' AND wait_event='PgSleep' AND query='SELECT pg_sleep(60) /* phase2_tls_tls_shutdown */'
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=2 tx=0 INSERT INTO phase2_tls_shutdown_queued(n) VALUES(999) /* phase2_never_sent */
+SQL connection=1 tx=0 SELECT pg_cancel_backend(656)
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=t affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=656
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_tls_shutdown_queued
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT is_called FROM phase2_tls_shutdown_queued_id_seq
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=f affected=1
+SQL connection=1 tx=0 DROP TABLE phase2_tls_shutdown_queued
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO tls_shutdown PASS
+network_recovery PASS checks=1075
+
+Diagnostics filtering/privacy/bounds/flood/sink/reload passed; buffer_bytes=20632 record_bytes=80
+File output levels/destinations/paths/append/rotation/failure/recovery/links/injection/concurrency passed
+
+restart observed pid=34236 query=SELECT pg_sleep(5) /* phase2_restart */
+164 checks passed
+
+97 type checks passed
+
+532 type checks passed
+
+extension phase: batches
+extension phase: rejection
+extension phase: transactions
+extension phase: streaming
+extension phase: stream lifecycle
+606 extension checks passed
+
+seed=1592594996 rounds=10 libpq=170011 pointer_bytes=4 peak_rss_start_kib=8840
+audit_resource point=before_load cpu_us=31250 rss_kib=8860 peak_rss_kib=10200 descriptors_or_handles=117 threads=4
+load connecting
+load round 0
+audit_metric round=0 elapsed_us=285280 cpu_us=78125 rss_kib=16368 pending=0 errors=0 wave_jobs=48 sql_operations=464 p50_us=85097 p95_us=163124 p99_us=179914 descriptors_or_handles=201 threads=9 peak_rss_kib=17064 primary_sql_commands=467 primary_confirmed_jobs=51 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+mixed_cancel status=4 error=7 message=Interrupted after dispatch; outcome may be unknown
+load_sample round=0 elapsed_ms=765 peak_rss_kib=17064
+load round 1
+audit_metric round=1 elapsed_us=1019301 cpu_us=187500 rss_kib=16556 pending=0 errors=0 wave_jobs=48 sql_operations=929 p50_us=115251 p95_us=165322 p99_us=165333 descriptors_or_handles=201 threads=9 peak_rss_kib=17212 primary_sql_commands=939 primary_confirmed_jobs=107 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=1 elapsed_ms=1019 peak_rss_kib=17212
+load round 2
+audit_metric round=2 elapsed_us=1208357 cpu_us=296875 rss_kib=16552 pending=0 errors=0 wave_jobs=48 sql_operations=1393 p50_us=63627 p95_us=80410 p99_us=80434 descriptors_or_handles=201 threads=9 peak_rss_kib=17212 primary_sql_commands=1404 primary_confirmed_jobs=156 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=2 elapsed_ms=1208 peak_rss_kib=17212
+load round 3
+audit_metric round=3 elapsed_us=1520144 cpu_us=406250 rss_kib=16596 pending=0 errors=0 wave_jobs=48 sql_operations=1857 p50_us=105968 p95_us=156055 p99_us=156217 descriptors_or_handles=201 threads=9 peak_rss_kib=17252 primary_sql_commands=1869 primary_confirmed_jobs=205 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=3 elapsed_ms=1520 peak_rss_kib=17252
+load round 4
+audit_metric round=4 elapsed_us=1758849 cpu_us=546875 rss_kib=16600 pending=0 errors=0 wave_jobs=48 sql_operations=2321 p50_us=43819 p95_us=92567 p99_us=93975 descriptors_or_handles=201 threads=9 peak_rss_kib=17256 primary_sql_commands=2334 primary_confirmed_jobs=254 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=4 elapsed_ms=1758 peak_rss_kib=17256
+load round 5
+audit_metric round=5 elapsed_us=2020401 cpu_us=703125 rss_kib=16616 pending=0 errors=0 wave_jobs=48 sql_operations=2785 p50_us=73282 p95_us=105003 p99_us=122147 descriptors_or_handles=201 threads=9 peak_rss_kib=17280 primary_sql_commands=2799 primary_confirmed_jobs=303 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=5 elapsed_ms=2020 peak_rss_kib=17280
+load round 6
+audit_metric round=6 elapsed_us=2286505 cpu_us=906250 rss_kib=16616 pending=0 errors=0 wave_jobs=48 sql_operations=3249 p50_us=45569 p95_us=93713 p99_us=111547 descriptors_or_handles=201 threads=9 peak_rss_kib=17280 primary_sql_commands=3264 primary_confirmed_jobs=352 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=6 elapsed_ms=2286 peak_rss_kib=17280
+load round 7
+audit_metric round=7 elapsed_us=2610376 cpu_us=1093750 rss_kib=16624 pending=0 errors=0 wave_jobs=48 sql_operations=3713 p50_us=111533 p95_us=165223 p99_us=180864 descriptors_or_handles=201 threads=9 peak_rss_kib=17280 primary_sql_commands=3729 primary_confirmed_jobs=401 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=7 elapsed_ms=2610 peak_rss_kib=17280
+load round 8
+audit_metric round=8 elapsed_us=2879339 cpu_us=1234375 rss_kib=16668 pending=0 errors=0 wave_jobs=48 sql_operations=4177 p50_us=73076 p95_us=117957 p99_us=119753 descriptors_or_handles=201 threads=9 peak_rss_kib=17324 primary_sql_commands=4194 primary_confirmed_jobs=450 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=8 elapsed_ms=2879 peak_rss_kib=17324
+load round 9
+audit_metric round=9 elapsed_us=3124240 cpu_us=1421875 rss_kib=16716 pending=0 errors=0 wave_jobs=48 sql_operations=4641 p50_us=69668 p95_us=117975 p99_us=136384 descriptors_or_handles=201 threads=9 peak_rss_kib=17372 primary_sql_commands=4659 primary_confirmed_jobs=499 primary_failed_jobs=0 primary_cancelled_jobs=0 primary_uncertain_jobs=0 primary_reconnects=0
+load_sample round=9 elapsed_ms=3124 peak_rss_kib=17372
+load_sql_operations=4641 load_rounds=10 minimum_seconds=0 load_elapsed_us=3124324 lanes=4 peak_rss_kib=17372
+audit_resource point=after_load_engine_destroyed cpu_us=1687500 rss_kib=16356 peak_rss_kib=17372 descriptors_or_handles=183 threads=5
+lifecycle round 0 action 0 peak_rss_kib=17372
+lifecycle round 1 action 1 peak_rss_kib=17372
+lifecycle round 2 action 2 peak_rss_kib=17372
+lifecycle round 3 action 3 peak_rss_kib=17372
+lifecycle round 4 action 4 peak_rss_kib=17372
+lifecycle round 5 action 0 peak_rss_kib=17372
+lifecycle round 6 action 1 peak_rss_kib=17372
+lifecycle round 7 action 2 peak_rss_kib=17440
+lifecycle round 8 action 3 peak_rss_kib=17536
+lifecycle round 9 action 4 peak_rss_kib=17536
+audit_resource point=after_lifecycle_engines_destroyed cpu_us=2031250 rss_kib=16600 peak_rss_kib=17584 descriptors_or_handles=183 threads=5
+7262 stress checks passed peak_rss_final_kib=17584
+
+connection_rounds=10 lanes=8 libpq=170011 pointer_bytes=4
+connection round 0 immediate create
+connection round 0 immediate destroy
+connection round 0 ready create
+connection round 0 ready destroy
+connection round 0 disconnect during startup
+connection round 0 disconnected destroy
+connection round 0 failed connection retry
+connection round 0 retry destroy
+connection round 0 complete
+connection round 1 immediate create
+connection round 1 immediate destroy
+connection round 1 ready create
+connection round 1 ready destroy
+connection round 1 disconnect during startup
+connection round 1 disconnected destroy
+connection round 1 failed connection retry
+connection round 1 retry destroy
+connection round 1 complete
+connection round 2 immediate create
+connection round 2 immediate destroy
+connection round 2 ready create
+connection round 2 ready destroy
+connection round 2 disconnect during startup
+connection round 2 disconnected destroy
+connection round 2 failed connection retry
+connection round 2 retry destroy
+connection round 2 complete
+connection round 3 immediate create
+connection round 3 immediate destroy
+connection round 3 ready create
+connection round 3 ready destroy
+connection round 3 disconnect during startup
+connection round 3 disconnected destroy
+connection round 3 failed connection retry
+connection round 3 retry destroy
+connection round 3 complete
+connection round 4 immediate create
+connection round 4 immediate destroy
+connection round 4 ready create
+connection round 4 ready destroy
+connection round 4 disconnect during startup
+connection round 4 disconnected destroy
+connection round 4 failed connection retry
+connection round 4 retry destroy
+connection round 4 complete
+connection round 5 immediate create
+connection round 5 immediate destroy
+connection round 5 ready create
+connection round 5 ready destroy
+connection round 5 disconnect during startup
+connection round 5 disconnected destroy
+connection round 5 failed connection retry
+connection round 5 retry destroy
+connection round 5 complete
+connection round 6 immediate create
+connection round 6 immediate destroy
+connection round 6 ready create
+connection round 6 ready destroy
+connection round 6 disconnect during startup
+connection round 6 disconnected destroy
+connection round 6 failed connection retry
+connection round 6 retry destroy
+connection round 6 complete
+connection round 7 immediate create
+connection round 7 immediate destroy
+connection round 7 ready create
+connection round 7 ready destroy
+connection round 7 disconnect during startup
+connection round 7 disconnected destroy
+connection round 7 failed connection retry
+connection round 7 retry destroy
+connection round 7 complete
+connection round 8 immediate create
+connection round 8 immediate destroy
+connection round 8 ready create
+connection round 8 ready destroy
+connection round 8 disconnect during startup
+connection round 8 disconnected destroy
+connection round 8 failed connection retry
+connection round 8 retry destroy
+connection round 8 complete
+connection round 9 immediate create
+connection round 9 immediate destroy
+connection round 9 ready create
+connection round 9 ready destroy
+connection round 9 disconnect during startup
+connection round 9 disconnected destroy
+connection round 9 failed connection retry
+connection round 9 retry destroy
+connection round 9 complete
+340 connection lifecycle checks passed
+
+stall_lanes=4 libpq=170011 pointer_bytes=4
+stall ssl timeout start
+stall ssl timeout destroy
+stall ssl timeout complete
+stall ssl disconnect start
+stall ssl disconnect destroy
+stall ssl disconnect complete
+stall ssl unload start
+stall ssl unload destroy
+stall ssl unload complete
+stall ssl destroy start
+stall ssl destroy destroy
+stall ssl destroy complete
+stall tls timeout start
+stall tls timeout destroy
+stall tls timeout complete
+stall tls disconnect start
+stall tls disconnect destroy
+stall tls disconnect complete
+stall tls unload start
+stall tls unload destroy
+stall tls unload complete
+stall tls destroy start
+stall tls destroy destroy
+stall tls destroy complete
+stall startup timeout start
+stall startup timeout destroy
+stall startup timeout complete
+stall startup disconnect start
+stall startup disconnect destroy
+stall startup disconnect complete
+stall startup unload start
+stall startup unload destroy
+stall startup unload complete
+stall startup destroy start
+stall startup destroy destroy
+stall startup destroy complete
+193 stalled connection checks passed
+
+accounts.sql:3:1: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:3:3: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:2:4: Malformed SQL section declaration; expected '-- name: identifier' (also '--name:identifier')
+accounts.sql:1:1: Empty SQL section 'empty'; add one SQL statement after the declaration
+accounts.sql:4:11: SQL section must contain exactly one statement in section 'other'; remove the extra statement or semicolon
+accounts.sql:2:14: SQL section must contain exactly one statement in section 'x'; remove the extra statement or semicolon
+accounts.sql:2:8: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql:2:9: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql:2:8: Unterminated SQL quoted identifier in section 'x'; close the opening quote
+accounts.sql:2:8: Unterminated SQL dollar quote in section 'x'; close with the matching dollar delimiter
+accounts.sql:2:11: Unterminated SQL block comment in section 'x'; close with '*/'
+accounts.sql:1:3: SQL content before first section; add '-- name: identifier' before SQL
+4283 SQL section checks passed
+
+401 SQL section checks passed

@@ -65,8 +65,9 @@ in `pg_stat_activity`, replacing its weaker RUNNING-plus-sleep precondition.
 
 Two additional real-session cases retain all nineteen original scenarios:
 
-- `startup_exit_overlap`: three rounds, six official open.mp x86 processes; launch
-  the second after requesting the first's exit, require real TLS readiness and exit 0.
+- `startup_exit_overlap`: three rounds, six official open.mp x86 processes; verify
+  both processes are live, request the first's exit while the second starts, then
+  require the second's real TLS readiness and both clean exits.
 - `postgres_recovery_playerid_reuse`: observe A's database lock wait, connect B on
   the same playerid before stopping PostgreSQL, retain the old completion, verify
   its disposal without transferring A's identity/score, exhaust recovery, start a
@@ -124,9 +125,31 @@ they must not be presented as exact-commit component regressions.
 
 ## Qualification status
 
-The draft is in progress. Final source-specific local, CI, artifact identities,
-negative evidence, residual risk and verdict are recorded after execution. No green
-result is inherited from PR #28 or from a previous source version.
+Local source `699e84a8e6f7415425453056375f18eed42b82d6` passed all thirteen wire
+scenarios (8.04 seconds), 22 configured Windows x86 CTest cases (90.98 seconds) and
+the documented SQL checks. PostgreSQL/libpq 17.11, MSVC 19.51.36248 and an x64 Windows
+NT 10.0.26300 host were used. The executable inputs remained unchanged while the
+documentation-only a96efdf correction was committed during the complete CTest run.
+The original Python run at 699e84a failed the existing packaged-document link check;
+source `a96efdf475908c511296273580f0f5e1b62766e6` passed all 126 Python methods.
+See the [capture manifest](network-recovery-evidence/execution.json) and its explicit
+original/public hashes. Each run retains its own source and scope.
+
+The complete Windows real-session run at a96efdf passed the original nineteen cases
+and the initial three-round startup case, then **FAIL**ed the new recovery-reuse case
+before introducing the database outage. The new observer incorrectly searched for
+`application_name='qa_game'`; `Lane::connect` deliberately supplies `omp-postgresql`
+and overrides that service-profile value. The query remained lock-blocked while
+the observer found zero matches. This is a test-fixture selection error, not a
+transport or component defect. The [complete negative public inventory](network-recovery-evidence/real-a96efdf-negative/sha256.json)
+retains the failed result, process logs, timeline, SQL observations and original hashes.
+The correction selects the disposable role plus the actual application name and
+requires the exact query, PID and active lock wait. No timeout is increased. The
+startup case is also strengthened to observe two live processes before requesting exit.
+
+Final source-specific CI, both x86 packages, corrected real sessions and the verdict
+are reported in [PR #29](https://github.com/itskoleban/omp-postgresql/pull/29).
+No green result is inherited from PR #28, a cancelled run or an earlier source.
 
 For the next phase, retain the current sanitizer/descriptor limitations, inject bounded
 allocations and storage failures independently, and carry uncertain/no-replay and

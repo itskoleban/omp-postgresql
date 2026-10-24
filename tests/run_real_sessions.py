@@ -680,12 +680,14 @@ def run_cases(s):
         s.case("custom_reuse_save", lambda: custom_reuse(True))
 
     def startup_overlap():
-        # Three rounds, two servers per round. Send exit before starting the
-        # second process, then require both readiness and clean termination.
+        # Three rounds, two live processes per round. Start the second without
+        # waiting for readiness, then stop the first during the startup window.
         for iteration in range(3):
             first = s.server(f"overlap-first-{iteration}")
+            second = s.server(f"overlap-second-{iteration}", wait_ready=False)
+            assert first.proc.poll() is None and second.proc.poll() is None
             first.command("exit")
-            second = s.server(f"overlap-second-{iteration}")
+            second.wait("database", ready=1)
             first.close()
             second.close()
         return ["three bounded start/exit overlap rounds", "six real TLS readiness transitions",
@@ -701,7 +703,12 @@ def run_cases(s):
             a.control("retain")
             old = a.initial
             # Observe a real backend blocked by our fixture, rather than RUNNING.
-            s.until(lambda: s.sql("SELECT count(*) FROM pg_stat_activity WHERE application_name='qa_game' AND wait_event_type='Lock'") == "1")
+            # Lane::connect explicitly sets application_name, overriding the profile.
+            backend = "usename='qa_runtime' AND application_name='omp-postgresql' AND wait_event_type='Lock'"
+            s.until(lambda: s.sql("SELECT count(*) FROM pg_stat_activity WHERE " + backend) == "1")
+            observed = s.sql("SELECT pid,query,state,wait_event FROM pg_stat_activity WHERE " + backend)
+            fields = observed.split("|")
+            assert len(fields) == 4 and fields[0].isdigit() and fields[1] == "SELECT id,password_hash,score FROM tutorial_accounts WHERE username=$1" and fields[2] == "active"
             a.close()
             b = server.client("QRecoveryNew")
             assert a.p == b.p and old["token"] != b.initial["token"]

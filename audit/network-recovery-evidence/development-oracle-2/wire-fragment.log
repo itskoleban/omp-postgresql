@@ -1,0 +1,5 @@
+{"event": "accepted", "monotonic_ns": 417821557181600, "utc": "2026-10-24T20:42:26.696385+00:00"}
+{"event": "backend_identity", "monotonic_ns": 417821737845300, "pid": 12308, "utc": "2026-10-24T20:42:26.877056+00:00"}
+{"backend": false, "event": "relay_closed", "monotonic_ns": 417821855768300, "utc": "2026-10-24T20:42:26.994979+00:00"}
+{"backend": true, "event": "relay_closed", "monotonic_ns": 417821856579800, "utc": "2026-10-24T20:42:26.995784+00:00"}
+{"event": "fixture_closed", "injected": false, "monotonic_ns": 417823709217400, "utc": "2026-10-24T20:42:28.848430+00:00", "workers": 2}
