@@ -104,7 +104,11 @@ in std::thread cleanup while the process had no free descriptors. Worker allocat
 and terminal allocation regressions passed in that same job. That CI result remains FAIL.
 
 Two independent controls were executed without component headers/objects or a database:
-- The simple thread control did not reproduce the warning; no absence claim follows.
+- The simple thread control in [run 40051733934](https://github.com/itskoleban/omp-postgresql/actions/runs/40051733934),
+  job 120745671252, at `c832833446d031a4ea73afc1708794309f7dab53`, also emitted the
+  std::thread invalid-vptr warning at EMFILE and completed with exit 0. The initial
+  job-summary reading missed stderr; the complete log corrects that observation.
+  This control is **not counted as a sanitizer PASS**.
 - The cold valid-object control in [run 40051890695](https://github.com/itskoleban/omp-postgresql/actions/runs/40051890695),
   job 120746161268, at `fbf87000381c5ee79bef0a245621286815636c59`, emitted the same invalid-vptr
   warnings for a valid external polymorphic object and std::thread under actual EMFILE.

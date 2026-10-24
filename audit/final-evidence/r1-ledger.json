@@ -199,6 +199,15 @@
     "independent_diagnostic_result": "FAIL (runtime diagnostic); not a sanitizer PASS",
     "component_code_linked_in_control": false,
     "classification": "Reproduced sanitizer runtime limitation at complete FD exhaustion",
-    "final_combination_status": "NOT RUN: ASan/UBSan with complete FD exhaustion; normal/TSan FD tests and ASan/UBSan worker allocation tests remain enabled"
+    "final_combination_status": "NOT RUN: ASan/UBSan with complete FD exhaustion; normal/TSan FD tests and ASan/UBSan worker allocation tests remain enabled",
+    "simple_control": {
+      "run_id": 40051733934,
+      "job_id": 120745671252,
+      "commit": "c832833446d031a4ea73afc1708794309f7dab53",
+      "exit_code": 0,
+      "diagnostic": "std::thread invalid vptr under EMFILE",
+      "result": "FAIL (runtime diagnostic); not a sanitizer PASS",
+      "correction": "The initial summary incorrectly treated the job's successful exit as no reproduction. Full stderr reproduces the diagnostic."
+    }
   }
 }
