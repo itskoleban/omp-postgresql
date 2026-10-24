@@ -39,7 +39,7 @@ def verify(directory):
     manifest = json.loads((directory/"manifest.json").read_text(encoding="utf8"))
     legacy = "schema" not in manifest
     expected_records = 4 if legacy else manifest["expected_records"]
-    if (not legacy and manifest["schema"] != 2) or len(manifest["results"]) != expected_records:
+    if (not legacy and manifest["schema"] != 2) or expected_records < 1 or len(manifest["results"]) != expected_records:
         raise ValueError("Descriptor evidence inventory mismatch")
     ledger = {}
     if (directory/"sanitization.json").is_file():
@@ -55,6 +55,8 @@ def verify(directory):
         if not path.is_relative_to(directory.resolve()) or original_digest(name) != expected:
             raise ValueError("Descriptor log identity mismatch")
     for row in manifest["results"]:
+        if row["log"] not in logs:
+            raise ValueError("Descriptor result refers to an uninventoried log")
         log = (directory/row["log"]).read_bytes()
         if original_digest(row["log"]) != row["sha256"] or any(row[key] != value for key,value in outcome(row["returncode"],log).items() if key in row):
             raise ValueError("Descriptor result or observed EMFILE changed")

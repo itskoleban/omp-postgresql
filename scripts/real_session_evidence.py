@@ -58,6 +58,8 @@ def timeline_records(data):
                 raise ValueError("Timeline numeric identity has an invalid type")
         if record["monotonic_ns"] < 0:
             raise ValueError("Invalid monotonic timeline clock")
+        if PRIVATE_MARKERS.search(json.dumps(record,ensure_ascii=False).encode("utf8")):
+            raise ValueError("Sensitive timeline content")
         records.append(record)
     return records
 
