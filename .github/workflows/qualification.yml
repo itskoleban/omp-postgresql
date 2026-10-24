@@ -54,6 +54,8 @@ jobs:
                       /tmp/omp-pg-integration-*/server.log
                   if-no-files-found: error
     bounded-linux:
+        # Optional general qualification; immediate allocation regression work uses the two probes above.
+        if: github.event_name == 'workflow_dispatch'
         name: bounded Linux ${{ matrix.sanitize }} (${{ matrix.seconds }}s)
         runs-on: ubuntu-24.04
         timeout-minutes: 60

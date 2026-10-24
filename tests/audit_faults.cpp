@@ -133,7 +133,7 @@ void terminate_statement(const char *service, bool update) {
     ready(e, writer);
     ready(e, observer);
     const auto table = "audit_transport_" + std::to_string(pg::Clock::now().time_since_epoch().count());
-    sql(e, observer, "CREATE TABLE " + table + "(n integer)");
+    sql(e, observer, "CREATE TABLE " + table + "(n integer PRIMARY KEY)");
     sql(e, observer, "INSERT INTO " + table + " VALUES(1)");
     const auto pid = sql(e, writer, "SELECT pg_backend_pid()");
     auto lock = begin(e, observer);
