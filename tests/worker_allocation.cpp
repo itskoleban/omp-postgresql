@@ -5,13 +5,28 @@
 #include <cstdlib>
 #include <new>
 #include <thread>
+#ifdef __linux__
+#include <execinfo.h>
+#include <unistd.h>
+#endif
 
 namespace {
 const auto main_thread = std::this_thread::get_id();
 std::atomic<bool> deny_worker{false};
 }
 void *operator new(std::size_t n) {
-    if (deny_worker.load() && std::this_thread::get_id() != main_thread) throw std::bad_alloc();
+    if (deny_worker.load() && std::this_thread::get_id() != main_thread) {
+        static std::atomic<unsigned> denied{0};
+        if (denied.fetch_add(1) < 8) {
+            std::fprintf(stderr, "worker allocation denied bytes=%zu\n", n);
+#ifdef __linux__
+            void *frames[32];
+            auto count = ::backtrace(frames, 32);
+            ::backtrace_symbols_fd(frames, count, STDERR_FILENO);
+#endif
+        }
+        throw std::bad_alloc();
+    }
     if (void *p = std::malloc(n ? n : 1)) return p;
     throw std::bad_alloc();
 }
@@ -95,6 +110,11 @@ void run(const char *service, bool shutdown) {
 }
 }
 int main() {
+#ifdef __linux__
+    // Warm the unwinder before denying allocations; trace emission uses no C++ allocation.
+    void *frames[1];
+    ::backtrace(frames, 1);
+#endif
     auto service=std::getenv("OMP_PG_TEST_SERVICE");
     if(!service) return 77;
     try {run(service,false);run(service,true);return 0;}
