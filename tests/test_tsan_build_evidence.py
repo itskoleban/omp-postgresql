@@ -58,6 +58,21 @@ class TSanBuildEvidenceTests(unittest.TestCase):
             self.assertEqual(recorder.manifest["commands"][0]["returncode"], 1)
             self.assertEqual((recorder.output / "commands/fixture.stderr.txt").read_bytes(), b"missing symbols")
 
+    def test_hidden_capture_paths_fail_before_upload_can_omit_them(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source"
+            workflow = source / ".github/workflows/ci.yml"
+            workflow.parent.mkdir(parents=True)
+            workflow.write_bytes(b"name: fixture\n")
+            recorder = Recorder(source, source / "build")
+            with self.assertRaises(EvidenceError):
+                recorder.copy_input(workflow, Path("source/.github/workflows/ci.yml"), "source-input")
+            row = recorder.copy_input(workflow, Path("source/github-workflows/ci.yml"), "source-input")
+            self.assertTrue(row["copy_is_byte_identical"])
+            self.assertEqual(row["sha256"], hashlib.sha256(workflow.read_bytes()).hexdigest())
+            self.assertIn(".github/workflows/ci.yml", row["input_path"].replace("\\", "/"))
+            self.assertNotIn("/.github/", row["copy_path"])
+
 
 if __name__ == "__main__":
     unittest.main()

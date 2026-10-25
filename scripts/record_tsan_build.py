@@ -110,6 +110,8 @@ class Recorder:
         return result.stdout.decode("utf-8", errors="backslashreplace")
 
     def copy_input(self, path, relative, role):
+        if any(part.startswith(".") for part in Path(relative).parts):
+            raise EvidenceError("Hidden evidence paths are excluded by the CI artifact uploader")
         data = path.read_bytes()
         destination = self.output / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -185,7 +187,9 @@ class Recorder:
         targets = ["pg_tsan_race_control", "pg_tsan_startup_control"]
         if re.search(r"^build pg_tsan_ordered_control:", build_rules, re.MULTILINE):
             targets.append("pg_tsan_ordered_control")
-        source_files = {Path("CMakeLists.txt"), Path(".github/workflows/ci.yml"), Path("tests/check_tsan_control.py")}
+        source_files = {Path("CMakeLists.txt"), Path(".github/workflows/ci.yml"),
+                        Path("tests/check_tsan_control.py"), Path("tests/check_tsan_ordering.py"),
+                        Path("scripts/record_tsan_build.py")}
         for target in targets:
             commands = self.command("ninja-" + target, [ninja, "-C", str(self.build), "-t", "commands", target])
             invocations = [compiler_argv(line, compiler) for line in commands.splitlines() if line.strip()]
@@ -218,7 +222,11 @@ class Recorder:
                 "required_undefined_symbols": required_symbols,
             })
         for relative in sorted(source_files):
-            self.copy_input(self.source / relative, Path("source") / relative, "source-input")
+            # upload-artifact excludes hidden directories by default. Retain the
+            # workflow's exact bytes under a public path without enabling broad
+            # hidden-file publication for the entire artifact.
+            public = Path("github-workflows/ci.yml") if relative == Path(".github/workflows/ci.yml") else relative
+            self.copy_input(self.source / relative, Path("source") / public, "source-input")
         if tracked.strip():
             raise EvidenceError("Tracked source modifications prevent exact-commit build qualification")
         self.manifest["status"] = "PASS"

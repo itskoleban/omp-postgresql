@@ -1,0 +1,1336 @@
+{
+  "source_sha": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+  "workflow_id": 40146291384,
+  "check_suite_status": "PASS: all seven jobs, all 154 CTest cases, no mandatory skips",
+  "artifact_publication_status": "INCOMPLETE: one hidden workflow source omitted; recovered independently from exact Git source",
+  "jobs": [
+    {
+      "id": 121028454323,
+      "name": "linux (OFF)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121028454456,
+      "name": "linux (ON)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121028454533,
+      "name": "windows",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121028454538,
+      "name": "Linux x86 and open.mp",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121028454539,
+      "name": "Windows x86 MSVC and open.mp",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121028454545,
+      "name": "linux (THREAD)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121031289928,
+      "name": "Verify downloaded x86 distributions",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12581292375,
+      "name": "linux-x86-test-logs",
+      "sha256": "1a101ffb80f0f140d29f2cb811a35d47db767c31f50c4fa8bda8a504a1c749e5",
+      "status": "DOWNLOADED AND VERIFIED"
+    },
+    {
+      "id": 12581148337,
+      "name": "omp-postgresql-release-194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+      "digest": "sha256:c1c07940eff38e8a9b5efeab89083b79b83d5dedd34805763b49a2944e6cc198",
+      "status": "METADATA ONLY"
+    },
+    {
+      "id": 12580947470,
+      "name": "linux-x64-test-logs-ON",
+      "sha256": "bf72125dc6881f24de0a25ffa0cc138f750f44ec0f343e9241019d9a45bdf8d5",
+      "status": "DOWNLOADED AND VERIFIED"
+    },
+    {
+      "id": 12580733295,
+      "name": "omp-postgresql-linux-x86-194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+      "sha256": "c7b7604bbe79ae1c04c7ea0f016cbf07c674277c3f50e654453fcd600535cc0a",
+      "status": "DOWNLOADED AND VERIFIED"
+    },
+    {
+      "id": 12580557651,
+      "name": "linux-x64-test-logs-OFF",
+      "sha256": "54773cd26fec1b97e65e7da45f421bae0cfcf4040c55a165300686a77e53a014",
+      "status": "DOWNLOADED AND VERIFIED"
+    },
+    {
+      "id": 12580528529,
+      "name": "omp-postgresql-windows-x86-194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+      "sha256": "b3f7f1f8a7b0fcd9f3001eed32e2c4cbcce155500376c0a3899b94939b24d213",
+      "status": "DOWNLOADED AND VERIFIED"
+    },
+    {
+      "id": 12580353236,
+      "name": "windows-x64-test-logs",
+      "sha256": "902271a31c0f1e1a352714110a2a1beaa0a8360b79f6716c94f1e298dbc9d902",
+      "status": "DOWNLOADED AND VERIFIED"
+    },
+    {
+      "id": 12580184173,
+      "name": "windows-x86-test-logs",
+      "sha256": "d7a97f0525a5b46cca7c7039196076c5638aa686b5055c2f7659dc9bfba16833",
+      "status": "DOWNLOADED AND VERIFIED"
+    },
+    {
+      "id": 12580138605,
+      "name": "linux-x64-test-logs-THREAD",
+      "sha256": "2f7c9e766af72b4c18947797036d7b4e083c69f30bc92aaf01c0369f19dceb59",
+      "status": "DOWNLOADED AND VERIFIED"
+    }
+  ],
+  "junit": [
+    {
+      "artifact": "linux-x86-test-logs",
+      "tests": 26,
+      "status": "PASS",
+      "cases": [
+        "natives_unit",
+        "natives_integration",
+        "logging_integration",
+        "resource_exhaustion_integration",
+        "worker_allocation_integration",
+        "poll_allocation_integration",
+        "terminal_allocation_unit",
+        "unit",
+        "audit_semantic_fuzz",
+        "socket_wait_unit",
+        "audit_faults_integration",
+        "network_recovery_integration",
+        "diagnostics_unit",
+        "diagnostics_short_write",
+        "diagnostics_permission",
+        "diagnostics_enospc",
+        "integration",
+        "types_unit",
+        "types_integration",
+        "extensions_integration",
+        "stress_integration",
+        "connection_lifecycle_integration",
+        "connection_stalls_integration",
+        "sql_sections_unit",
+        "sql_sections_integration",
+        "engine_benchmark_smoke"
+      ]
+    },
+    {
+      "artifact": "linux-x64-test-logs-ON",
+      "tests": 25,
+      "status": "PASS",
+      "cases": [
+        "natives_unit",
+        "natives_integration",
+        "logging_integration",
+        "worker_allocation_integration",
+        "poll_allocation_integration",
+        "terminal_allocation_unit",
+        "unit",
+        "audit_semantic_fuzz",
+        "socket_wait_unit",
+        "audit_faults_integration",
+        "network_recovery_integration",
+        "diagnostics_unit",
+        "diagnostics_short_write",
+        "diagnostics_permission",
+        "diagnostics_enospc",
+        "integration",
+        "types_unit",
+        "types_integration",
+        "extensions_integration",
+        "stress_integration",
+        "connection_lifecycle_integration",
+        "connection_stalls_integration",
+        "sql_sections_unit",
+        "sql_sections_integration",
+        "engine_benchmark_smoke"
+      ]
+    },
+    {
+      "artifact": "linux-x64-test-logs-OFF",
+      "tests": 26,
+      "status": "PASS",
+      "cases": [
+        "natives_unit",
+        "natives_integration",
+        "logging_integration",
+        "resource_exhaustion_integration",
+        "worker_allocation_integration",
+        "poll_allocation_integration",
+        "terminal_allocation_unit",
+        "unit",
+        "audit_semantic_fuzz",
+        "socket_wait_unit",
+        "audit_faults_integration",
+        "network_recovery_integration",
+        "diagnostics_unit",
+        "diagnostics_short_write",
+        "diagnostics_permission",
+        "diagnostics_enospc",
+        "integration",
+        "types_unit",
+        "types_integration",
+        "extensions_integration",
+        "stress_integration",
+        "connection_lifecycle_integration",
+        "connection_stalls_integration",
+        "sql_sections_unit",
+        "sql_sections_integration",
+        "engine_benchmark_smoke"
+      ]
+    },
+    {
+      "artifact": "windows-x64-test-logs",
+      "tests": 22,
+      "status": "PASS",
+      "cases": [
+        "natives_unit",
+        "natives_integration",
+        "logging_integration",
+        "worker_allocation_integration",
+        "poll_allocation_integration",
+        "terminal_allocation_unit",
+        "unit",
+        "audit_semantic_fuzz",
+        "socket_wait_unit",
+        "audit_faults_integration",
+        "network_recovery_integration",
+        "diagnostics_unit",
+        "integration",
+        "types_unit",
+        "types_integration",
+        "extensions_integration",
+        "stress_integration",
+        "connection_lifecycle_integration",
+        "connection_stalls_integration",
+        "sql_sections_unit",
+        "sql_sections_integration",
+        "engine_benchmark_smoke"
+      ]
+    },
+    {
+      "artifact": "windows-x86-test-logs",
+      "tests": 24,
+      "status": "PASS",
+      "cases": [
+        "libpq_windows_mutex_unit",
+        "libpq_process_startup_integration",
+        "natives_unit",
+        "natives_integration",
+        "logging_integration",
+        "worker_allocation_integration",
+        "poll_allocation_integration",
+        "terminal_allocation_unit",
+        "unit",
+        "audit_semantic_fuzz",
+        "socket_wait_unit",
+        "audit_faults_integration",
+        "network_recovery_integration",
+        "diagnostics_unit",
+        "integration",
+        "types_unit",
+        "types_integration",
+        "extensions_integration",
+        "stress_integration",
+        "connection_lifecycle_integration",
+        "connection_stalls_integration",
+        "sql_sections_unit",
+        "sql_sections_integration",
+        "engine_benchmark_smoke"
+      ]
+    },
+    {
+      "artifact": "linux-x64-test-logs-THREAD",
+      "tests": 31,
+      "status": "PASS",
+      "cases": [
+        "natives_unit",
+        "natives_integration",
+        "logging_integration",
+        "resource_exhaustion_integration",
+        "worker_site_allocation_integration",
+        "worker_site_counter_isolation",
+        "worker_site_requires_recovery",
+        "worker_site_requires_shutdown",
+        "tsan_ordering_control",
+        "tsan_detector_control",
+        "poll_site_allocation_integration",
+        "terminal_queue_unit",
+        "unit",
+        "audit_semantic_fuzz",
+        "socket_wait_unit",
+        "audit_faults_integration",
+        "network_recovery_integration",
+        "diagnostics_unit",
+        "diagnostics_short_write",
+        "diagnostics_permission",
+        "diagnostics_enospc",
+        "integration",
+        "types_unit",
+        "types_integration",
+        "extensions_integration",
+        "stress_integration",
+        "connection_lifecycle_integration",
+        "connection_stalls_integration",
+        "sql_sections_unit",
+        "sql_sections_integration",
+        "engine_benchmark_smoke"
+      ]
+    }
+  ],
+  "tsan": {
+    "status": "PASS",
+    "race": 20,
+    "startup": 20,
+    "ordered": 20,
+    "archive_files_verified": 72,
+    "source_recovered_separately": [
+      {
+        "path": "source/.github/workflows/ci.yml",
+        "status": "MISSING FROM ARTIFACT; RECOVERED FROM EXACT GIT SOURCE"
+      }
+    ],
+    "manifest_sha256": "bebfbbd770830fae3d2298920de9beb3118f1f1813c6e1ea05840a3d1aa655e0",
+    "binaries": [
+      {
+        "role": "executable",
+        "input_path": "<BUILD>/pg_tsan_race_control",
+        "copy_path": "binaries/pg_tsan_race_control",
+        "sha256": "296b3301cb8fe6e30ed51ebdca8add8a15df524750f12f64a54cfdf1cfa515f0",
+        "bytes": 1610048,
+        "copy_is_byte_identical": true
+      },
+      {
+        "role": "executable",
+        "input_path": "<BUILD>/pg_tsan_startup_control",
+        "copy_path": "binaries/pg_tsan_startup_control",
+        "sha256": "00439497091f9cbbe60bbadfbb42c0b070046c5db4e3e0f300df52a15d23e66c",
+        "bytes": 1558376,
+        "copy_is_byte_identical": true
+      },
+      {
+        "role": "executable",
+        "input_path": "<BUILD>/pg_tsan_ordered_control",
+        "copy_path": "binaries/pg_tsan_ordered_control",
+        "sha256": "a136073354dfaffb4ba545fa9798de4e2d586cc9768cb506556d46ccd56d061a",
+        "bytes": 1610048,
+        "copy_is_byte_identical": true
+      }
+    ],
+    "poll_and_worker_output": [
+      "poll_allocation reserve=0 injection=SITE(TSan) denied=1 threw=0 unchanged=1 recovered_jobs=2 recovered_connections=1",
+      "poll_allocation reserve=1 injection=SITE(TSan) denied=1 threw=0 unchanged=1 recovered_jobs=2 recovered_connections=1",
+      "poll_allocation reserve=2 injection=SITE(TSan) denied=1 threw=0 unchanged=1 recovered_jobs=2 recovered_connections=1",
+      "poll_allocation PASS independent_reserves=3 terminal_FIFO=preserved connection_event=preserved"
+    ]
+  },
+  "session_and_package_validation": {
+    "source_sha": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+    "workflow_id": 40146291384,
+    "status": "PASS",
+    "sessions": [
+      {
+        "platform": "linux-x86",
+        "artifact_id": 12581292375,
+        "artifact_sha256": "1a101ffb80f0f140d29f2cb811a35d47db767c31f50c4fa8bda8a504a1c749e5",
+        "inventory_files_verified": 67,
+        "source_commit": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+        "source_dirty": true,
+        "source_provenance": {
+          "schema": 1,
+          "source_commit": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+          "head_tree": "1fd827857ac5e6b4fada40c250fb2fbcc17dd209",
+          "source_dirty": true,
+          "tracked_source_modified": false,
+          "tracked_changes": [],
+          "untracked_entries": [
+            {
+              "path": "libpq32/",
+              "classification": "expected-ci-generated"
+            },
+            {
+              "path": "openmp-linux-dynssl.tar.gz",
+              "classification": "expected-ci-generated"
+            },
+            {
+              "path": "postgresql-17.11.tar.gz",
+              "classification": "expected-ci-generated"
+            },
+            {
+              "path": "postgresql-17.11/",
+              "classification": "expected-ci-generated"
+            }
+          ],
+          "untracked_count": 4,
+          "source_state": "generated-files-only",
+          "tracked_patch_sha256": null,
+          "status_sha256": "997f5246e5e98362e85fab3786768b81690ad96b24c3b91f74d0e6fabc7b8382",
+          "generated_classification_basis": "Exact roots created by .github/workflows/ci.yml; all other entries remain unclassified"
+        },
+        "cases": [
+          {
+            "id": "register",
+            "status": "PASS",
+            "assertions": [
+              "real non-NPC connection",
+              "real bcrypt cost 12",
+              "INSERT confirmed",
+              "one account",
+              "job closed"
+            ],
+            "seconds": 0.598
+          },
+          {
+            "id": "login_valid",
+            "status": "PASS",
+            "assertions": [
+              "provider verification succeeded",
+              "authenticated only after provider callback"
+            ],
+            "seconds": 0.584
+          },
+          {
+            "id": "login_wrong",
+            "status": "PASS",
+            "assertions": [
+              "real bcrypt rejection",
+              "token invalidated",
+              "no score applied"
+            ],
+            "seconds": 0.583
+          },
+          {
+            "id": "reuse_lookup_late",
+            "status": "PASS",
+            "assertions": [
+              "observed playerid reuse 0",
+              "old callback after new connect",
+              "different generation and pending job",
+              "no old account/score/auth",
+              "old job closed",
+              "explicit retain-work fault variant"
+            ],
+            "seconds": 0.511
+          },
+          {
+            "id": "disconnect_lookup_cancel",
+            "status": "PASS",
+            "assertions": [
+              "default cancellation forwarded",
+              "completed job closed",
+              "observed reuse 0",
+              "no claim callback arrived after B"
+            ],
+            "seconds": 0.446
+          },
+          {
+            "id": "reuse_hash_late",
+            "status": "PASS",
+            "assertions": [
+              "observed reuse 0",
+              "actual cost-16 provider callback after B",
+              "stale generation ignored",
+              "neither account inserted"
+            ],
+            "seconds": 5.231
+          },
+          {
+            "id": "provider_slow_fixture",
+            "status": "PASS",
+            "assertions": [
+              "real cost-16 account prepared for slow verification"
+            ],
+            "seconds": 5.222
+          },
+          {
+            "id": "reuse_verify_late",
+            "status": "PASS",
+            "assertions": [
+              "observed reuse 0",
+              "real successful verification for A after B",
+              "B received no account, score or authentication"
+            ],
+            "seconds": 5.192
+          },
+          {
+            "id": "reuse_insert_late",
+            "status": "PASS",
+            "assertions": [
+              "observed reuse 0",
+              "A INSERT confirmed after B",
+              "old job closed",
+              "no A state applied to B",
+              "one write; retain-work variant"
+            ],
+            "seconds": 0.853
+          },
+          {
+            "id": "concurrent_auth",
+            "status": "PASS",
+            "assertions": [
+              "two connected players",
+              "overlapping real provider work",
+              "distinct tokens and accounts"
+            ],
+            "seconds": 0.765
+          },
+          {
+            "id": "duplicate_concurrent_registration",
+            "status": "PASS",
+            "assertions": [
+              "same account name on two real servers",
+              "two overlapping INSERT jobs",
+              "one winner",
+              "23505 loser remains unauthenticated",
+              "one row"
+            ],
+            "seconds": 0.932
+          },
+          {
+            "id": "provider_response_timeout",
+            "status": "PASS",
+            "assertions": [
+              "actual provider executed; response discarded by named fault adapter",
+              "real 30-second deadline",
+              "fail closed",
+              "no INSERT"
+            ],
+            "seconds": 30.322
+          },
+          {
+            "id": "postgres_recovery",
+            "status": "PASS",
+            "assertions": [
+              "real PostgreSQL process stopped/restarted",
+              "readiness loss invalidated authentication",
+              "explicit failed-pool recreation",
+              "fresh lookup and real reauthentication",
+              "no registration replay"
+            ],
+            "seconds": 2.093
+          },
+          {
+            "id": "insert_confirmation_loss",
+            "status": "PASS",
+            "assertions": [
+              "real INSERT committed",
+              "wire CommandComplete discarded",
+              "PG_UNCERTAIN observed",
+              "no automatic authentication",
+              "explicit reconnect/lookup/provider verification",
+              "one row before/after reconciliation",
+              "identity sequence advanced once: no replayed INSERT attempt"
+            ],
+            "seconds": 1.436
+          },
+          {
+            "id": "gmx_pending_provider",
+            "status": "PASS",
+            "assertions": [
+              "actual GMX with real provider work pending",
+              "SVar generation survived reload",
+              "old provider callback rejected by new VM"
+            ],
+            "seconds": 19.909
+          },
+          {
+            "id": "shutdown_pending_sql",
+            "status": "PASS",
+            "assertions": [
+              "official server exit with SQL pending",
+              "exit 0",
+              "no callback after owner unload"
+            ],
+            "seconds": 0.344
+          },
+          {
+            "id": "official_npc_scope",
+            "status": "PASS",
+            "assertions": [
+              "official NPC_Create/NPC_Destroy executed",
+              "NPC flagged npc=1; real network client npc=0",
+              "NPC evidence does not qualify client protocol or real-player reuse"
+            ],
+            "seconds": 0.28
+          },
+          {
+            "id": "custom_reuse_load",
+            "status": "PASS",
+            "assertions": [
+              "actual custom.pwn callbacks",
+              "observed reuse 0",
+              "generation/request ownership rejected stale results",
+              "all retained jobs closed",
+              "RCON gate bypass and retain-work explicitly confined to fixture"
+            ],
+            "seconds": 0.499
+          },
+          {
+            "id": "custom_reuse_save",
+            "status": "PASS",
+            "assertions": [
+              "actual custom.pwn callbacks",
+              "observed reuse 0",
+              "generation/request ownership rejected stale results",
+              "all retained jobs closed",
+              "RCON gate bypass and retain-work explicitly confined to fixture"
+            ],
+            "seconds": 0.55
+          },
+          {
+            "id": "startup_exit_overlap",
+            "status": "PASS",
+            "assertions": [
+              "three bounded start/exit overlap rounds",
+              "six real TLS readiness transitions",
+              "six official open.mp processes exited 0",
+              "no timeout or retry changes"
+            ],
+            "seconds": 0.888
+          },
+          {
+            "id": "postgres_recovery_playerid_reuse",
+            "status": "PASS",
+            "assertions": [
+              "PostgreSQL observed A's blocked query",
+              "real A/B playerid reuse before database stop",
+              "old SQL completion delivered after B connected and job closed",
+              "B never inherited A's account or score",
+              "second server started during PostgreSQL outage and exhausted its policy",
+              "both failed pools recreated explicitly",
+              "fresh B lookup remains unauthenticated",
+              "no registration replay"
+            ],
+            "seconds": 2.516
+          }
+        ],
+        "timeline_events": 347,
+        "timeline_original_sha256": "9a9078c66a269a05879b30b39e154f00eb473603a439ead7f49ee78697d00726",
+        "timeline_public_sha256": "9a9078c66a269a05879b30b39e154f00eb473603a439ead7f49ee78697d00726",
+        "timeline_observations_sha256": "40ba3e27a8234de8d09de550120acaf266aee5ba7123bf7e076f94d769326e17",
+        "runtime": [
+          {
+            "file": "libpq.so.5.17",
+            "sha256": "b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241"
+          }
+        ],
+        "inputs": {
+          "component": {
+            "path": "<RUNNER_WORKSPACE>/build-linux32/omp-postgresql.so",
+            "sha256": "2fbb7d3457879d308049ea39dadad920a7540b2136a32b914feac04074a0933b"
+          },
+          "gamemode": {
+            "path": "<RUNNER_WORKSPACE>/build-real-sessions/real_sessions.amx",
+            "sha256": "c433ac294aeb383b581381dc6f4f082c11b451b48c440b79719e69dec614dfac"
+          },
+          "client": {
+            "path": "<RUNNER_WORKSPACE>/build-real-sessions/client/build/RakSAMPClient",
+            "sha256": "698ade9d27e198cb85d99abf03dddc0880ca84ce5f5912d6597a704745af0723"
+          },
+          "provider": {
+            "path": "<RUNNER_WORKSPACE>/build-real-sessions/provider/plugins/samp_bcrypt.so",
+            "sha256": "8b5c9024b20b55e8eb031ab7a3ba126653b41f45d4e11e835a6d481643883d14"
+          },
+          "server": {
+            "sha256": "e678e82961c58e561f473a00112ee040b2899bc28312dc6282faaca11bf045ad",
+            "version": "1.5.8.3079 (supplied distribution; verify archive separately)"
+          },
+          "custom_gamemode": {
+            "path": "<RUNNER_WORKSPACE>/build-real-sessions/real_custom_sessions.amx",
+            "sha256": "873f72f8ceb2f020a5ce0cb6017d2184558cf9505d8d9aa26f2ed777f661fc05"
+          }
+        }
+      },
+      {
+        "platform": "windows-x86",
+        "artifact_id": 12580184173,
+        "artifact_sha256": "d7a97f0525a5b46cca7c7039196076c5638aa686b5055c2f7659dc9bfba16833",
+        "inventory_files_verified": 67,
+        "source_commit": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+        "source_dirty": true,
+        "source_provenance": {
+          "schema": 1,
+          "source_commit": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+          "head_tree": "1fd827857ac5e6b4fada40c250fb2fbcc17dd209",
+          "source_dirty": true,
+          "tracked_source_modified": false,
+          "tracked_changes": [],
+          "untracked_entries": [
+            {
+              "path": "libpq32/",
+              "classification": "expected-ci-generated"
+            },
+            {
+              "path": "openmp.zip",
+              "classification": "expected-ci-generated"
+            },
+            {
+              "path": "postgres.zip",
+              "classification": "expected-ci-generated"
+            },
+            {
+              "path": "postgresql-17.11.tar.bz2",
+              "classification": "expected-ci-generated"
+            },
+            {
+              "path": "postgresql-17.11/",
+              "classification": "expected-ci-generated"
+            }
+          ],
+          "untracked_count": 5,
+          "source_state": "generated-files-only",
+          "tracked_patch_sha256": null,
+          "status_sha256": "9740d27b26930ee2ea314d42dfbbc35d878fb712b045a35b74d82796914b93a7",
+          "generated_classification_basis": "Exact roots created by .github/workflows/ci.yml; all other entries remain unclassified"
+        },
+        "cases": [
+          {
+            "id": "register",
+            "status": "PASS",
+            "assertions": [
+              "real non-NPC connection",
+              "real bcrypt cost 12",
+              "INSERT confirmed",
+              "one account",
+              "job closed"
+            ],
+            "seconds": 1.392
+          },
+          {
+            "id": "login_valid",
+            "status": "PASS",
+            "assertions": [
+              "provider verification succeeded",
+              "authenticated only after provider callback"
+            ],
+            "seconds": 1.347
+          },
+          {
+            "id": "login_wrong",
+            "status": "PASS",
+            "assertions": [
+              "real bcrypt rejection",
+              "token invalidated",
+              "no score applied"
+            ],
+            "seconds": 1.358
+          },
+          {
+            "id": "reuse_lookup_late",
+            "status": "PASS",
+            "assertions": [
+              "observed playerid reuse 0",
+              "old callback after new connect",
+              "different generation and pending job",
+              "no old account/score/auth",
+              "old job closed",
+              "explicit retain-work fault variant"
+            ],
+            "seconds": 1.614
+          },
+          {
+            "id": "disconnect_lookup_cancel",
+            "status": "PASS",
+            "assertions": [
+              "default cancellation forwarded",
+              "completed job closed",
+              "observed reuse 0",
+              "no claim callback arrived after B"
+            ],
+            "seconds": 0.891
+          },
+          {
+            "id": "reuse_hash_late",
+            "status": "PASS",
+            "assertions": [
+              "observed reuse 0",
+              "actual cost-16 provider callback after B",
+              "stale generation ignored",
+              "neither account inserted"
+            ],
+            "seconds": 5.736
+          },
+          {
+            "id": "provider_slow_fixture",
+            "status": "PASS",
+            "assertions": [
+              "real cost-16 account prepared for slow verification"
+            ],
+            "seconds": 5.714
+          },
+          {
+            "id": "reuse_verify_late",
+            "status": "PASS",
+            "assertions": [
+              "observed reuse 0",
+              "real successful verification for A after B",
+              "B received no account, score or authentication"
+            ],
+            "seconds": 5.772
+          },
+          {
+            "id": "reuse_insert_late",
+            "status": "PASS",
+            "assertions": [
+              "observed reuse 0",
+              "A INSERT confirmed after B",
+              "old job closed",
+              "no A state applied to B",
+              "one write; retain-work variant"
+            ],
+            "seconds": 1.411
+          },
+          {
+            "id": "concurrent_auth",
+            "status": "PASS",
+            "assertions": [
+              "two connected players",
+              "overlapping real provider work",
+              "distinct tokens and accounts"
+            ],
+            "seconds": 1.183
+          },
+          {
+            "id": "duplicate_concurrent_registration",
+            "status": "PASS",
+            "assertions": [
+              "same account name on two real servers",
+              "two overlapping INSERT jobs",
+              "one winner",
+              "23505 loser remains unauthenticated",
+              "one row"
+            ],
+            "seconds": 1.749
+          },
+          {
+            "id": "provider_response_timeout",
+            "status": "PASS",
+            "assertions": [
+              "actual provider executed; response discarded by named fault adapter",
+              "real 30-second deadline",
+              "fail closed",
+              "no INSERT"
+            ],
+            "seconds": 30.66
+          },
+          {
+            "id": "postgres_recovery",
+            "status": "PASS",
+            "assertions": [
+              "real PostgreSQL process stopped/restarted",
+              "readiness loss invalidated authentication",
+              "explicit failed-pool recreation",
+              "fresh lookup and real reauthentication",
+              "no registration replay"
+            ],
+            "seconds": 3.221
+          },
+          {
+            "id": "insert_confirmation_loss",
+            "status": "PASS",
+            "assertions": [
+              "real INSERT committed",
+              "wire CommandComplete discarded",
+              "PG_UNCERTAIN observed",
+              "no automatic authentication",
+              "explicit reconnect/lookup/provider verification",
+              "one row before/after reconciliation",
+              "identity sequence advanced once: no replayed INSERT attempt"
+            ],
+            "seconds": 1.988
+          },
+          {
+            "id": "gmx_pending_provider",
+            "status": "PASS",
+            "assertions": [
+              "actual GMX with real provider work pending",
+              "SVar generation survived reload",
+              "old provider callback rejected by new VM"
+            ],
+            "seconds": 20.867
+          },
+          {
+            "id": "shutdown_pending_sql",
+            "status": "PASS",
+            "assertions": [
+              "official server exit with SQL pending",
+              "exit 0",
+              "no callback after owner unload"
+            ],
+            "seconds": 0.625
+          },
+          {
+            "id": "official_npc_scope",
+            "status": "PASS",
+            "assertions": [
+              "official NPC_Create/NPC_Destroy executed",
+              "NPC flagged npc=1; real network client npc=0",
+              "NPC evidence does not qualify client protocol or real-player reuse"
+            ],
+            "seconds": 0.562
+          },
+          {
+            "id": "custom_reuse_load",
+            "status": "PASS",
+            "assertions": [
+              "actual custom.pwn callbacks",
+              "observed reuse 0",
+              "generation/request ownership rejected stale results",
+              "all retained jobs closed",
+              "RCON gate bypass and retain-work explicitly confined to fixture"
+            ],
+            "seconds": 1.017
+          },
+          {
+            "id": "custom_reuse_save",
+            "status": "PASS",
+            "assertions": [
+              "actual custom.pwn callbacks",
+              "observed reuse 0",
+              "generation/request ownership rejected stale results",
+              "all retained jobs closed",
+              "RCON gate bypass and retain-work explicitly confined to fixture"
+            ],
+            "seconds": 1.105
+          },
+          {
+            "id": "startup_exit_overlap",
+            "status": "PASS",
+            "assertions": [
+              "three bounded start/exit overlap rounds",
+              "six real TLS readiness transitions",
+              "six official open.mp processes exited 0",
+              "no timeout or retry changes"
+            ],
+            "seconds": 2.659
+          },
+          {
+            "id": "postgres_recovery_playerid_reuse",
+            "status": "PASS",
+            "assertions": [
+              "PostgreSQL observed A's blocked query",
+              "real A/B playerid reuse before database stop",
+              "old SQL completion delivered after B connected and job closed",
+              "B never inherited A's account or score",
+              "second server started during PostgreSQL outage and exhausted its policy",
+              "both failed pools recreated explicitly",
+              "fresh B lookup remains unauthenticated",
+              "no registration replay"
+            ],
+            "seconds": 4.204
+          }
+        ],
+        "timeline_events": 347,
+        "timeline_original_sha256": "c5b16ef0756f4a3e37f2d299a755e67760ff35c6f332ab5a0f22fb83d2aa574b",
+        "timeline_public_sha256": "c5b16ef0756f4a3e37f2d299a755e67760ff35c6f332ab5a0f22fb83d2aa574b",
+        "timeline_observations_sha256": "18ebc4ede6d75c0cd5c24227229611c305ff8cd02f3c1a5ec32ab98a996ab556",
+        "runtime": [
+          {
+            "file": "libpq.dll",
+            "sha256": "31e946130cfeb55c3faadf628468abf396448b6a0b65f021ea1872e98dbf1671"
+          },
+          {
+            "file": "libssl-3.dll",
+            "sha256": "b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab"
+          },
+          {
+            "file": "libcrypto-3.dll",
+            "sha256": "2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f"
+          }
+        ],
+        "inputs": {
+          "component": {
+            "path": "D:\\a\\omp-postgresql\\omp-postgresql\\build-msvc32\\Release\\omp-postgresql.dll",
+            "sha256": "4aac47f8db555534212e5351f6086d7d30fdd0676b166765488c78b67dfbbdf4"
+          },
+          "gamemode": {
+            "path": "D:\\a\\omp-postgresql\\omp-postgresql\\build-real-sessions\\real_sessions.amx",
+            "sha256": "c433ac294aeb383b581381dc6f4f082c11b451b48c440b79719e69dec614dfac"
+          },
+          "client": {
+            "path": "D:\\a\\omp-postgresql\\omp-postgresql\\build-real-sessions\\client\\build\\RakSAMPClient.exe",
+            "sha256": "6bd68b6bddfb031fc85d46baf142d6151e9ab3520e258e0854ecbd60b359db47"
+          },
+          "provider": {
+            "path": "D:\\a\\omp-postgresql\\omp-postgresql\\build-real-sessions\\provider\\plugins\\samp_bcrypt.dll",
+            "sha256": "42ff95d26a586e51ea964e80bc747498dc64f3015d29a1c5a2d790c8906944a5"
+          },
+          "server": {
+            "sha256": "690363cc8d4708685eb2bfcfdc117abfc1293c5606fe5f8a4bbb3d53591c2829",
+            "version": "1.5.8.3079 (supplied distribution; verify archive separately)"
+          },
+          "custom_gamemode": {
+            "path": "D:\\a\\omp-postgresql\\omp-postgresql\\build-real-sessions\\real_custom_sessions.amx",
+            "sha256": "873f72f8ceb2f020a5ce0cb6017d2184558cf9505d8d9aa26f2ed777f661fc05"
+          }
+        }
+      }
+    ],
+    "packages": [
+      {
+        "platform": "linux-x86",
+        "artifact_id": 12580733295,
+        "package": "omp-postgresql-0.1.0.194ae7f5b27d-linux-x86.zip",
+        "package_sha256": "31039002ea7d6c20287d41909526339a1dea5e732531dfe156bf218cc754af1d",
+        "manifest": {
+          "architecture": "x86",
+          "archive": "omp-postgresql-0.1.0.194ae7f5b27d-linux-x86.zip",
+          "build": {
+            "commit": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+            "compiler": "GNU",
+            "compiler_version": "13.3.0",
+            "configuration": "Release",
+            "cxx_standard": 20,
+            "libpq_version": "17.11",
+            "pawn_commit": "29f1a8c7fd2e01929807cd8c50353fbc93bbd651",
+            "pointer_bytes": 4,
+            "release_channel": "stable",
+            "sanitize": "OFF",
+            "sdk_commit": "473b732b2de159773b2e2908fd11aa99f07db284",
+            "system": "Linux",
+            "version": "0.1.0"
+          },
+          "commit": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+          "dependencies": {
+            "components/omp-postgresql.so": {
+              "imports": [
+                "libc.so.6",
+                "libgcc_s.so.1",
+                "libpq.so.5",
+                "libstdc++.so.6"
+              ],
+              "symbol_versions": [
+                "CXXABI_1.3",
+                "CXXABI_1.3.9",
+                "GCC_3.0",
+                "GCC_7.0.0",
+                "GLIBCXX_3.4",
+                "GLIBCXX_3.4.11",
+                "GLIBCXX_3.4.18",
+                "GLIBCXX_3.4.19",
+                "GLIBCXX_3.4.20",
+                "GLIBCXX_3.4.21",
+                "GLIBCXX_3.4.22",
+                "GLIBCXX_3.4.26",
+                "GLIBCXX_3.4.29",
+                "GLIBCXX_3.4.30",
+                "GLIBCXX_3.4.31",
+                "GLIBC_2.0",
+                "GLIBC_2.1.3",
+                "GLIBC_2.15",
+                "GLIBC_2.3.4",
+                "GLIBC_2.32",
+                "GLIBC_2.33",
+                "GLIBC_2.34",
+                "GLIBC_2.4"
+              ]
+            },
+            "lib/libpq.so.5": {
+              "imports": [
+                "libc.so.6",
+                "libcrypto.so.3",
+                "libm.so.6",
+                "libssl.so.3"
+              ],
+              "symbol_versions": [
+                "GLIBC_2.0",
+                "GLIBC_2.1",
+                "GLIBC_2.1.1",
+                "GLIBC_2.1.2",
+                "GLIBC_2.1.3",
+                "GLIBC_2.25",
+                "GLIBC_2.29",
+                "GLIBC_2.3",
+                "GLIBC_2.3.4",
+                "GLIBC_2.32",
+                "GLIBC_2.33",
+                "GLIBC_2.38",
+                "GLIBC_2.4",
+                "OPENSSL_3.0.0"
+              ]
+            }
+          },
+          "files": {
+            "DEPENDENCIES.md": "b6dfadd2003020c814b9c4a5404baedd849a27fbd9f5bb882244261b9776605d",
+            "LICENSE": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "NOTICE.md": "723346aa2cf9ddd777bf3d2ba73289eb4dfe09ede5b641c9d076302bd118ccc1",
+            "README.md": "f1e9dce4c728f09c9c6ba1fb0be5a338fc1cfdabd9889d72809a2a71bd49f20f",
+            "components/omp-postgresql.so": "b76eec0967424f6f801e7f2f2ab1156fb5f46577a4591ebc97df3bb6bc7c4c69",
+            "docs/accounts.md": "2007abfad5ff940d9d17b2b1943cb2809268d0580b2658107a168e45fc14cc17",
+            "docs/api-modernization.md": "ddb101c3415fd31f0c95ef2be81549723de4e1cb506b119e94d120421e2cea28",
+            "docs/api.md": "c514b7fcb597430960aabc2c56c7ab3cbb62a83a5f14d0c366e51c7827782e7b",
+            "docs/build-linux.md": "1c25362485b0c207555203b83c94e3951120f4cf11d6a9fd1b02bd0c986739bd",
+            "docs/build-windows.md": "7f507f4f6e3ed16eb50e630c9956edc8053da68fb22837c4506c420dc86a40a0",
+            "docs/callbacks.md": "30325c8e1d573f1df2b9c759aec9c0e235e898a7301056198bed888d4b8209c7",
+            "docs/debugging.md": "b6fce366150f6bca1e62449dd5428424dfaac4436bf72ab0d5f60ff1cac8993d",
+            "docs/design.md": "f868f5a9c735308351475a16a5533a02abb106aa61bfe5b25a7d623dfea33be8",
+            "docs/documentation-audit.md": "3009ba5cabe84bad75c1529bbbe853bf59bceda5ad3277e453e76e537297c21b",
+            "docs/examples.md": "308601d19869c9c2fff6faf845d8dc58c9ded6ae7c71df8df3afc677716abb36",
+            "docs/extension-audit.md": "130ec7cfb210dc46d69f04966cb2aaa4cb6e0ec65e761c9d71b41e1df90d9b00",
+            "docs/getting-started.md": "af4822617d3588df0e71088ff61f7905294ac5a59e9ec2c6652e7f77038ebee4",
+            "docs/independent-audit.md": "fcfd3f85fe1858c9c85d95dc5e0f00cef540bd714f15a507735d5f4d8734ba27",
+            "docs/installation.md": "6cb06ae37e8b6b9d35614f8f3ff1d8f2a667f06a37fe5d727425d2bf2f8c0835",
+            "docs/language-policy.md": "4d36239c801691d1ed9c5e5860cd4b1ecbee9826677661c9b6c82460fb955d52",
+            "docs/log-output-design.md": "ce7b04d8b9fcc842d4ac8416571523504cab4bf06c36e554652d3c1d5c6b2068",
+            "docs/logging-qualification.md": "5b9c3c45cef8d56ef0724d8fc82f58addc694bdd6f410b5fbf6d5c4aafc576de",
+            "docs/native-reference.md": "08c4fd5b58ed7f09a3dafe59a0a8d998334be55756653a6f380ef30a7f7cc990",
+            "docs/packaging.md": "7c0ca1bd412c1af2326edcb274f1ccee657fa616824bcb8fa6c73e93c627702d",
+            "docs/performance.md": "36a6e07b35c12ab015ea129b4471c7cd48eafb14d9e9c86095904112ed8d8ef9",
+            "docs/prestable-cleanup.md": "3a99123eeac7c34b55d1dc360f0d635481dab437d61733c79c7a59f3ebea31c9",
+            "docs/quick-reference.md": "d5d5010647003af5c8a219823d3aa51df4fde23993ad21610e3c0fa3c1fc0200",
+            "docs/rc-readiness.md": "12426d62f31da79fa70b2acbd14fa1c85047d63c3dbd628255ae2b2e0736f37c",
+            "docs/release-notes.md": "a7b7d6822d545fb05cc7833c18d542190d987d5dd301da94d239a309243bf422",
+            "docs/releasing.md": "823abb929d4710af838e540e220b568269bfd40899baf2985c76fb088d512323",
+            "docs/saving.md": "ca040ca5a1e2fdc5cd2c1b46da3b7a4cd6170fb3eb3b9421eb52f603bd6aa931",
+            "docs/security.md": "1e1fc67ba48f0160444c08684b9362eba317f178dce4259d5e59dfd8f8ff7668",
+            "docs/sql-sections.md": "13739485f3f78bc3c04bd7f46a82796ff7c4f72498c70d7efdcda4f837e02b67",
+            "docs/transactions.md": "d97dcd901a6b0159aeafd32148fad77f0b270e5a1047c02ace27e8b47dfd7b7f",
+            "docs/troubleshooting.md": "ee2fd4721db08b77212fed889ceccb79498c889b07752e0bab61058de304ee15",
+            "docs/types.md": "3f845d5fa96c012a2c0186837299187e10eb7269999d039fda2a43c37f114995",
+            "docs/validation.md": "7bed53249bc5d8818a25712be7efb273ae4e7cfc8ad2e07ef299bbf21f4bfee6",
+            "examples/accounts.pwn": "67b5734a346d47f181b08604f0ab31b11e537b380d3818427d128ba8177beba1",
+            "examples/basic.pwn": "daa196c61dc4697564bc16087fe5753c5cb0b1cc2dcc737fbcacd34f1b1c6517",
+            "examples/bootstrap.pwn": "dc5e9eeac871000abef13c5ca223dc3b223e6a7d3aab34ad527fd8ffc1f6da17",
+            "examples/callbacks.pwn": "d35f0d497fa654848c6f52394622d69ff722cf86f4382f51fde344c886e3a776",
+            "examples/custom.pwn": "f534acbf69df6b5a922ac28dae305fcf95b78522b7a271b12fb39eec4b625e14",
+            "examples/extensions.pwn": "3f75aa129bf8618a63921b2982f8d614e55b674765ef2d2d30dab1f67b228c47",
+            "examples/logging.pwn": "fa1140b2495f5ea12c6347ffd2e282baa6a3c151dadf5162744d2552455b72ee",
+            "examples/pg_hba.conf": "7d09896a279fbebea8c41b1eb482cf8ad5de8b927d8e69b3845e1050f10aea49",
+            "examples/pg_service.conf": "e24f37b1196fe65e9baf5c027becc06185973348dd1cf639a348645fc0d8377d",
+            "examples/postgresql.sql": "00da3d3eccd30e09396a3bc75054aa7473490b8e26878c5802bf198f51f2790d",
+            "examples/saving.pwn": "bf90897f0d6f98b08b1f95670c7ef22bac053b73bedb42e73f247560e07e9d21",
+            "examples/sections.pwn": "af119245a2f18186dac8c754cf3af3c29cd6c9f86ed98c48250b92fc3ea3db6a",
+            "examples/smoke.pwn": "7a6155adddf6883d97bc9fc216781a60dd0ab9f4c23a1cc1f301a6a72a18ee52",
+            "examples/sql/accounts.sql": "513c4813123e301e933f32e652fd0fcf32427e1754117f09c4c14f245055428a",
+            "examples/sql/tutorial-auth.sql": "0c41a1dd4c9b64eba5cf9d814f70f81ff7f662be6aa2b1c24ef8486e4e113c03",
+            "examples/sql/tutorial-select.sql": "e543c6b401ae217d48a6c20bf9b76a6b5329459c103562f2ec2851b75e52c1af",
+            "examples/transfer.pwn": "e2c49b47b7386b9e0426c9a75f0fbf79f0e6cba696dc26f1cc083cf1234e2bb8",
+            "examples/unload.pwn": "91421d98600ec389620326be6aab4762a8653f80a8aaf4ce79af2be87e8b85f2",
+            "examples/values.pwn": "6ef98c420baa855ee5e36f573039aef4ba94891fc739e891ab75c8062f73c5ac",
+            "lib/libpq.so.5": "b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241",
+            "licenses/libpq/COPYRIGHT": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+            "qawno/include/omp-postgresql.inc": "00cd9369e2451b04daeb1b5b82ee0077ec21fe9a20f1760fb12e86f976280a81",
+            "share/omp-postgresql/LICENSE": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "share/omp-postgresql/NOTICE.md": "723346aa2cf9ddd777bf3d2ba73289eb4dfe09ede5b641c9d076302bd118ccc1",
+            "share/omp-postgresql/licenses/glm/copying.txt": "62d2d642c7d054d4fb4c9b42faad617d6c88fcd91e317f8035aa9f277cc159c3",
+            "share/omp-postgresql/licenses/open.mp-sdk/LICENSE.md": "8c07c05e3ec753715d6173c0abe0f5d5c29436c852596734e59bcbabd183fb8f",
+            "share/omp-postgresql/licenses/pawn/license.txt": "7d369f6749a91220e5ee6ec03175dd3799f6ac83e23eb382c8474eefcedec726",
+            "share/omp-postgresql/licenses/robin-hood-hashing/LICENSE": "686cf8d62cc44fecff4be967238aba89665f9b6acf8a728987801ffc3a626bc7",
+            "share/omp-postgresql/licenses/span-lite/LICENSE.txt": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+            "share/omp-postgresql/licenses/string-view-lite/LICENSE.txt": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+            "share/omp-postgresql/patches/README.md": "026640835bf46d8fd5acf81d04a99924046b0a07fa2964eb8ceef2b38ee0671f",
+            "share/omp-postgresql/patches/libpq-windows-mutex.patch": "3a754699a4424e77303325d25866ceeab64ca617a6a16691c9b587853cf40508"
+          },
+          "platform": "linux",
+          "release_channel": "stable",
+          "source_epoch": 1792887556,
+          "version": "0.1.0"
+        },
+        "manifest_files_verified": 69
+      },
+      {
+        "platform": "windows-x86",
+        "artifact_id": 12580528529,
+        "package": "omp-postgresql-0.1.0.194ae7f5b27d-windows-x86.zip",
+        "package_sha256": "d3634bcdf8eda737cc6414de8f33d573baaf8a30988f65e6a648355ebbe1ba2a",
+        "manifest": {
+          "architecture": "x86",
+          "archive": "omp-postgresql-0.1.0.194ae7f5b27d-windows-x86.zip",
+          "build": {
+            "commit": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+            "compiler": "MSVC",
+            "compiler_version": "19.51.36260.0",
+            "configuration": "Release",
+            "cxx_standard": 20,
+            "libpq_version": "17.11",
+            "pawn_commit": "29f1a8c7fd2e01929807cd8c50353fbc93bbd651",
+            "pointer_bytes": 4,
+            "release_channel": "stable",
+            "sanitize": "OFF",
+            "sdk_commit": "473b732b2de159773b2e2908fd11aa99f07db284",
+            "system": "Windows",
+            "version": "0.1.0"
+          },
+          "commit": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+          "dependencies": {
+            "components/omp-postgresql.dll": {
+              "imports": [
+                "api-ms-win-crt-environment-l1-1-0.dll",
+                "api-ms-win-crt-filesystem-l1-1-0.dll",
+                "api-ms-win-crt-heap-l1-1-0.dll",
+                "api-ms-win-crt-locale-l1-1-0.dll",
+                "api-ms-win-crt-math-l1-1-0.dll",
+                "api-ms-win-crt-runtime-l1-1-0.dll",
+                "api-ms-win-crt-stdio-l1-1-0.dll",
+                "api-ms-win-crt-string-l1-1-0.dll",
+                "api-ms-win-crt-time-l1-1-0.dll",
+                "kernel32.dll",
+                "libpq.dll",
+                "msvcp140.dll",
+                "vcruntime140.dll",
+                "ws2_32.dll"
+              ],
+              "symbol_versions": []
+            },
+            "libcrypto-3.dll": {
+              "imports": [
+                "advapi32.dll",
+                "crypt32.dll",
+                "kernel32.dll",
+                "msvcrt.dll",
+                "user32.dll",
+                "ws2_32.dll"
+              ],
+              "symbol_versions": []
+            },
+            "libpq.dll": {
+              "imports": [
+                "advapi32.dll",
+                "kernel32.dll",
+                "libcrypto-3.dll",
+                "libssl-3.dll",
+                "msvcrt.dll",
+                "secur32.dll",
+                "shell32.dll",
+                "ws2_32.dll"
+              ],
+              "symbol_versions": []
+            },
+            "libssl-3.dll": {
+              "imports": [
+                "kernel32.dll",
+                "libcrypto-3.dll",
+                "msvcrt.dll",
+                "ws2_32.dll"
+              ],
+              "symbol_versions": []
+            }
+          },
+          "files": {
+            "DEPENDENCIES.md": "b6dfadd2003020c814b9c4a5404baedd849a27fbd9f5bb882244261b9776605d",
+            "LICENSE": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "NOTICE.md": "723346aa2cf9ddd777bf3d2ba73289eb4dfe09ede5b641c9d076302bd118ccc1",
+            "README.md": "f1e9dce4c728f09c9c6ba1fb0be5a338fc1cfdabd9889d72809a2a71bd49f20f",
+            "components/omp-postgresql.dll": "4aac47f8db555534212e5351f6086d7d30fdd0676b166765488c78b67dfbbdf4",
+            "docs/accounts.md": "2007abfad5ff940d9d17b2b1943cb2809268d0580b2658107a168e45fc14cc17",
+            "docs/api-modernization.md": "ddb101c3415fd31f0c95ef2be81549723de4e1cb506b119e94d120421e2cea28",
+            "docs/api.md": "c514b7fcb597430960aabc2c56c7ab3cbb62a83a5f14d0c366e51c7827782e7b",
+            "docs/build-linux.md": "1c25362485b0c207555203b83c94e3951120f4cf11d6a9fd1b02bd0c986739bd",
+            "docs/build-windows.md": "7f507f4f6e3ed16eb50e630c9956edc8053da68fb22837c4506c420dc86a40a0",
+            "docs/callbacks.md": "30325c8e1d573f1df2b9c759aec9c0e235e898a7301056198bed888d4b8209c7",
+            "docs/debugging.md": "b6fce366150f6bca1e62449dd5428424dfaac4436bf72ab0d5f60ff1cac8993d",
+            "docs/design.md": "f868f5a9c735308351475a16a5533a02abb106aa61bfe5b25a7d623dfea33be8",
+            "docs/documentation-audit.md": "3009ba5cabe84bad75c1529bbbe853bf59bceda5ad3277e453e76e537297c21b",
+            "docs/examples.md": "308601d19869c9c2fff6faf845d8dc58c9ded6ae7c71df8df3afc677716abb36",
+            "docs/extension-audit.md": "130ec7cfb210dc46d69f04966cb2aaa4cb6e0ec65e761c9d71b41e1df90d9b00",
+            "docs/getting-started.md": "af4822617d3588df0e71088ff61f7905294ac5a59e9ec2c6652e7f77038ebee4",
+            "docs/independent-audit.md": "fcfd3f85fe1858c9c85d95dc5e0f00cef540bd714f15a507735d5f4d8734ba27",
+            "docs/installation.md": "6cb06ae37e8b6b9d35614f8f3ff1d8f2a667f06a37fe5d727425d2bf2f8c0835",
+            "docs/language-policy.md": "4d36239c801691d1ed9c5e5860cd4b1ecbee9826677661c9b6c82460fb955d52",
+            "docs/log-output-design.md": "ce7b04d8b9fcc842d4ac8416571523504cab4bf06c36e554652d3c1d5c6b2068",
+            "docs/logging-qualification.md": "5b9c3c45cef8d56ef0724d8fc82f58addc694bdd6f410b5fbf6d5c4aafc576de",
+            "docs/native-reference.md": "08c4fd5b58ed7f09a3dafe59a0a8d998334be55756653a6f380ef30a7f7cc990",
+            "docs/packaging.md": "7c0ca1bd412c1af2326edcb274f1ccee657fa616824bcb8fa6c73e93c627702d",
+            "docs/performance.md": "36a6e07b35c12ab015ea129b4471c7cd48eafb14d9e9c86095904112ed8d8ef9",
+            "docs/prestable-cleanup.md": "3a99123eeac7c34b55d1dc360f0d635481dab437d61733c79c7a59f3ebea31c9",
+            "docs/quick-reference.md": "d5d5010647003af5c8a219823d3aa51df4fde23993ad21610e3c0fa3c1fc0200",
+            "docs/rc-readiness.md": "12426d62f31da79fa70b2acbd14fa1c85047d63c3dbd628255ae2b2e0736f37c",
+            "docs/release-notes.md": "a7b7d6822d545fb05cc7833c18d542190d987d5dd301da94d239a309243bf422",
+            "docs/releasing.md": "823abb929d4710af838e540e220b568269bfd40899baf2985c76fb088d512323",
+            "docs/saving.md": "ca040ca5a1e2fdc5cd2c1b46da3b7a4cd6170fb3eb3b9421eb52f603bd6aa931",
+            "docs/security.md": "1e1fc67ba48f0160444c08684b9362eba317f178dce4259d5e59dfd8f8ff7668",
+            "docs/sql-sections.md": "13739485f3f78bc3c04bd7f46a82796ff7c4f72498c70d7efdcda4f837e02b67",
+            "docs/transactions.md": "d97dcd901a6b0159aeafd32148fad77f0b270e5a1047c02ace27e8b47dfd7b7f",
+            "docs/troubleshooting.md": "ee2fd4721db08b77212fed889ceccb79498c889b07752e0bab61058de304ee15",
+            "docs/types.md": "3f845d5fa96c012a2c0186837299187e10eb7269999d039fda2a43c37f114995",
+            "docs/validation.md": "7bed53249bc5d8818a25712be7efb273ae4e7cfc8ad2e07ef299bbf21f4bfee6",
+            "examples/accounts.pwn": "67b5734a346d47f181b08604f0ab31b11e537b380d3818427d128ba8177beba1",
+            "examples/basic.pwn": "daa196c61dc4697564bc16087fe5753c5cb0b1cc2dcc737fbcacd34f1b1c6517",
+            "examples/bootstrap.pwn": "dc5e9eeac871000abef13c5ca223dc3b223e6a7d3aab34ad527fd8ffc1f6da17",
+            "examples/callbacks.pwn": "d35f0d497fa654848c6f52394622d69ff722cf86f4382f51fde344c886e3a776",
+            "examples/custom.pwn": "f534acbf69df6b5a922ac28dae305fcf95b78522b7a271b12fb39eec4b625e14",
+            "examples/extensions.pwn": "3f75aa129bf8618a63921b2982f8d614e55b674765ef2d2d30dab1f67b228c47",
+            "examples/logging.pwn": "fa1140b2495f5ea12c6347ffd2e282baa6a3c151dadf5162744d2552455b72ee",
+            "examples/pg_hba.conf": "7d09896a279fbebea8c41b1eb482cf8ad5de8b927d8e69b3845e1050f10aea49",
+            "examples/pg_service.conf": "e24f37b1196fe65e9baf5c027becc06185973348dd1cf639a348645fc0d8377d",
+            "examples/postgresql.sql": "00da3d3eccd30e09396a3bc75054aa7473490b8e26878c5802bf198f51f2790d",
+            "examples/saving.pwn": "bf90897f0d6f98b08b1f95670c7ef22bac053b73bedb42e73f247560e07e9d21",
+            "examples/sections.pwn": "af119245a2f18186dac8c754cf3af3c29cd6c9f86ed98c48250b92fc3ea3db6a",
+            "examples/smoke.pwn": "7a6155adddf6883d97bc9fc216781a60dd0ab9f4c23a1cc1f301a6a72a18ee52",
+            "examples/sql/accounts.sql": "513c4813123e301e933f32e652fd0fcf32427e1754117f09c4c14f245055428a",
+            "examples/sql/tutorial-auth.sql": "0c41a1dd4c9b64eba5cf9d814f70f81ff7f662be6aa2b1c24ef8486e4e113c03",
+            "examples/sql/tutorial-select.sql": "e543c6b401ae217d48a6c20bf9b76a6b5329459c103562f2ec2851b75e52c1af",
+            "examples/transfer.pwn": "e2c49b47b7386b9e0426c9a75f0fbf79f0e6cba696dc26f1cc083cf1234e2bb8",
+            "examples/unload.pwn": "91421d98600ec389620326be6aab4762a8653f80a8aaf4ce79af2be87e8b85f2",
+            "examples/values.pwn": "6ef98c420baa855ee5e36f573039aef4ba94891fc739e891ab75c8062f73c5ac",
+            "libcrypto-3.dll": "2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f",
+            "libpq.dll": "31e946130cfeb55c3faadf628468abf396448b6a0b65f021ea1872e98dbf1671",
+            "libssl-3.dll": "b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab",
+            "licenses/libpq/COPYRIGHT": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+            "licenses/openssl/LICENSE": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a",
+            "qawno/include/omp-postgresql.inc": "00cd9369e2451b04daeb1b5b82ee0077ec21fe9a20f1760fb12e86f976280a81",
+            "share/omp-postgresql/LICENSE": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "share/omp-postgresql/NOTICE.md": "723346aa2cf9ddd777bf3d2ba73289eb4dfe09ede5b641c9d076302bd118ccc1",
+            "share/omp-postgresql/licenses/glm/copying.txt": "62d2d642c7d054d4fb4c9b42faad617d6c88fcd91e317f8035aa9f277cc159c3",
+            "share/omp-postgresql/licenses/open.mp-sdk/LICENSE.md": "8c07c05e3ec753715d6173c0abe0f5d5c29436c852596734e59bcbabd183fb8f",
+            "share/omp-postgresql/licenses/pawn/license.txt": "0382068c1107d168a2cbcf593951fab168bccdd36b89553f1193c47662b7bc19",
+            "share/omp-postgresql/licenses/robin-hood-hashing/LICENSE": "686cf8d62cc44fecff4be967238aba89665f9b6acf8a728987801ffc3a626bc7",
+            "share/omp-postgresql/licenses/span-lite/LICENSE.txt": "beb8e42e9d6b4284e03304d05a81a0755200a965fc8d0a5e0aea1e84cf805d6e",
+            "share/omp-postgresql/licenses/string-view-lite/LICENSE.txt": "beb8e42e9d6b4284e03304d05a81a0755200a965fc8d0a5e0aea1e84cf805d6e",
+            "share/omp-postgresql/patches/README.md": "026640835bf46d8fd5acf81d04a99924046b0a07fa2964eb8ceef2b38ee0671f",
+            "share/omp-postgresql/patches/libpq-windows-mutex.patch": "3a754699a4424e77303325d25866ceeab64ca617a6a16691c9b587853cf40508"
+          },
+          "libpq_build": {
+            "dll_sha256": "31e946130cfeb55c3faadf628468abf396448b6a0b65f021ea1872e98dbf1671",
+            "mutex_patch_sha256": "3a754699a4424e77303325d25866ceeab64ca617a6a16691c9b587853cf40508",
+            "source_version": "17.11"
+          },
+          "platform": "windows",
+          "release_channel": "stable",
+          "source_epoch": 1792887556,
+          "version": "0.1.0"
+        },
+        "manifest_files_verified": 72
+      }
+    ],
+    "limitations": [
+      "Real-session results are bounded official-server qualification, not graphical/encrypted-client protocol certification.",
+      "source_dirty=true records disclosed generated build inputs; tracked source modification is independently false.",
+      "Windows long-path extraction omitted files; direct ZIP extraction to short workspace paths verified the full original inventories.",
+      "No extended or 24-hour campaign was run; remaining memory/resource, storage and fuzzing qualification remains separate."
+    ]
+  },
+  "later_discovery": {
+    "callback_error_allocation": "FAIL: deterministic completion loss reproduced after this otherwise successful CI",
+    "impact": "This checkpoint does not qualify subsequent source or resolve the newly demonstrated callback path"
+  },
+  "limitations": [
+    "The exact historical master missed-detection schedule remains ROOT CAUSE UNKNOWN.",
+    "A later passing run cannot relabel an earlier failure.",
+    "The push-triggered duplicate workflow 40146257630 was automatically cancelled; it is not PASS.",
+    "The 24-hour campaign remains BLOCKED."
+  ]
+}
