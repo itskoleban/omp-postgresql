@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Linux-c++"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="2"
+	hostname="422ab1ac90d2"
+	time="0"
+	timestamp="2026-10-25T15:46:15"
+	>
+	<testcase name="sql_file_permission" classname="sql_file_permission" time="0.00150173" status="notrun">
+		<skipped message="SKIP_RETURN_CODE=77"/>
+		<properties/>
+		<system-out>NOT RUN: root can bypass SQL file permissions
+</system-out>
+	</testcase>
+	<testcase name="sql_file_permission_integration" classname="sql_file_permission_integration" time="0.00274479" status="notrun">
+		<skipped message="SKIP_RETURN_CODE=77"/>
+		<properties/>
+		<system-out>NOT RUN: OMP_PG_TEST_SERVICE required for SQL permission integration
+</system-out>
+	</testcase>
+</testsuite>

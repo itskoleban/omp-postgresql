@@ -1,0 +1,1 @@
+FAIL: SQL file failure returned content instead of rejecting it
