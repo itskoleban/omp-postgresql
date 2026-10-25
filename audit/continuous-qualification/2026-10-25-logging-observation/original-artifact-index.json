@@ -1,0 +1,154 @@
+{
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/LastTest.log": {
+    "bytes": 765663,
+    "sha256": "ff64d8794c1e469ecb5e653c6cfbae25fbfda6574d9cd1d8752f4298ef34fbae"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/qualification.xml": {
+    "bytes": 18837,
+    "sha256": "b3442650b97e1a6c45f53311c018f9809d9a3d2002647ec3e1bce3ada0d1ddff"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/stall-startup.log": {
+    "bytes": 44,
+    "sha256": "74da683ef00f2e8131adb0dc5b7e7611a2e28c7a23f6c8aa77dcdf105d557381"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/stall-ssl.log": {
+    "bytes": 40,
+    "sha256": "196c153fabe1ddb79bcd34f3514b623f1aba3c3fd671163f4891df745985baf4"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/stall-tls.log": {
+    "bytes": 40,
+    "sha256": "867492203f749d3c063464a3be3a94151d0f6b527adaae5121de5a2b4be978a4"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-batch.log": {
+    "bytes": 1176,
+    "sha256": "60ccfd971c5a2eef9cad3fe5e8b7540b36802a385c2823b455b030289bfdcd84"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-begin.log": {
+    "bytes": 1171,
+    "sha256": "60afe27aedb30e5d2b4be5368b64d616241926e31f6e4eceb4ba9c7508a340e2"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-commit.log": {
+    "bytes": 1172,
+    "sha256": "97c6f472f92dd39c04d7cbc7a6d0f78b2fd2754f462cecb38d4e61351deeb9e9"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-fragment.log": {
+    "bytes": 579,
+    "sha256": "136abb4b1af52b1cfecc5c25c7b4c303d5f27244a68357b162391f62a699fcb6"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-hold.log": {
+    "bytes": 1176,
+    "sha256": "3491a0414cde5b1605046da3f9d24aa81cadd107fb9cdbd06c2f3c810952f9ab"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-insert.log": {
+    "bytes": 1176,
+    "sha256": "2acfecb63dc78bd826578e82ff7ec35182359f30d0c9dbe95ba85cb04a5719fc"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-partial_parse.log": {
+    "bytes": 1148,
+    "sha256": "02d8d33dac0b7dd1373cb8f2d12d04715a2131afa14245c9c3c47012ebce43f6"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-release.log": {
+    "bytes": 1173,
+    "sha256": "7282c42b5a5de8a227abe9b5d55cdbf82129a486539dcc40b74d020e8867096e"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-rollback.log": {
+    "bytes": 1174,
+    "sha256": "849c2dcd939a0f5d9867041d94cd8fa1f360c3e071727ef67d7dc567f0d3ee78"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-rollback_to.log": {
+    "bytes": 1174,
+    "sha256": "4c36369e8fa15aa4378ceaedbf93f6976ed67162e643763115034039db3f279c"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-savepoint.log": {
+    "bytes": 1175,
+    "sha256": "cde7daf94efdeb35eee0c07a014b372268810c6000f6ac17843ad6c51f474474"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-tls_hold.log": {
+    "bytes": 914,
+    "sha256": "a6d4f30142e2270a270e6e456d1a5c0bdbc0cbef46ce4b88d24923f41ec32fe3"
+  },
+  "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/wire-tls_shutdown.log": {
+    "bytes": 586,
+    "sha256": "a359de0c3c1795c85bd1056fb617a9694ab9f0e9246b2ec948d2a1524d74e3c0"
+  },
+  "home/runner/work/_temp/openmp/Server/pg-bootstrap-output.log": {
+    "bytes": 2908,
+    "sha256": "30a652bd9506bb9afed14ca8e066aff24bd997bfc1e080627adfff742ee4db78"
+  },
+  "home/runner/work/_temp/openmp/Server/pg-callback-output.log": {
+    "bytes": 4023,
+    "sha256": "100b97c0e4a95e6aa5ddf09b15ab0fa54414f181372715c7eb3515396038c368"
+  },
+  "home/runner/work/_temp/openmp/Server/pg-extension-output.log": {
+    "bytes": 3062,
+    "sha256": "e0e65719a2ec5d766c295dadac5998f19d7357fe54a666a4334ce2fba66aabc6"
+  },
+  "home/runner/work/_temp/openmp/Server/pg-logging-output.log": {
+    "bytes": 5196,
+    "sha256": "06f0b53d9871b27ab77755d9740e0f87b42a6e1a5045702a2af9db3100755ad6"
+  },
+  "home/runner/work/_temp/openmp/Server/pg-section-output.log": {
+    "bytes": 2873,
+    "sha256": "45961733ab5a76ffbdccccac6f78b8cdb9ec59e1aa174f6d14b8bf354b3fbec7"
+  },
+  "home/runner/work/_temp/openmp/Server/pg-smoke-output.log": {
+    "bytes": 3751,
+    "sha256": "82384421569aba5f199190acde53ecf640f5b4392132aef5b3a7aa1f42dc4c25"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-1.log": {
+    "bytes": 830,
+    "sha256": "c1c811fab0fc322a3095b5d04911573c83a9d3a9d7ceaae7f68daf81eb354be6"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-10.log": {
+    "bytes": 2952,
+    "sha256": "32e3de1a72bbe91044a6a4410e5d50aed10fca25604577679e3f07f285ba396b"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-11.log": {
+    "bytes": 2917,
+    "sha256": "fc98fc62bd63c28a73528424bb3b9dc38861cf796b5cebc48afd4e5fa0c986c7"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-12.log": {
+    "bytes": 5303,
+    "sha256": "a7db3022353dc4724c350cef6378553b20d675857e19838f552f50ea245bdcd6"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-13.log": {
+    "bytes": 56,
+    "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-2.log": {
+    "bytes": 52,
+    "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-3.log": {
+    "bytes": 24,
+    "sha256": "d2d23e415f4db3128a67a2014f650f560e0648fb6f7b972daf20606a65d35af5"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-4.log": {
+    "bytes": 3544,
+    "sha256": "3f89b4e5f907faab54e1d62872883429bb4efa6b24b404de0e6ef3462aab9abf"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-5.log": {
+    "bytes": 56,
+    "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-7.log": {
+    "bytes": 3795,
+    "sha256": "2274943458a60e8576895cc330607cc396382713b88e15ae699152f3ad768b83"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-6.log": {
+    "bytes": 52,
+    "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-8.log": {
+    "bytes": 4067,
+    "sha256": "b35ed9257839955ccef45299cf939efec4012b054174edcecd4dc1a9d5e88fcd"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/command-9.log": {
+    "bytes": 3106,
+    "sha256": "44f3099ffc7ad08431ada46211b29aedd5095ef5497930cf50f22aee1fcfd0bc"
+  },
+  "tmp/omp-pg-integration-l44y8a8z/server.log": {
+    "bytes": 379073,
+    "sha256": "66ed24c5392735b2acca4973cca80c65f58f7361124367cd49232e42da94d672"
+  }
+}

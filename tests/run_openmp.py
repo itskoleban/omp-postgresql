@@ -7,6 +7,7 @@ smoke.amx, component and explicitly supplied runtime DLLs. PostgreSQL profile
 
 import argparse
 import codecs
+import hashlib
 import json
 import os
 import re
@@ -186,7 +187,10 @@ if args.performance_csv:
     print(f"Captured {count} real Pawn measurement rows: {Path(args.performance_csv).resolve()}")
 if args.success_marker == "PG LOGGING PASS":
     destination = root / "logs" / "postgresql.log"
-    output = destination.read_text(encoding="utf8")
+    raw = destination.read_bytes()
+    print(f"Component-owned log evidence: bytes={len(raw)} "
+          f"terminal_events={raw.count(b'job_terminal')} sha256={hashlib.sha256(raw).hexdigest()}")
+    output = raw.decode("utf8")
     if "Z [omp-pg][" not in output or "job_terminal" not in output:
         raise SystemExit("Component-owned log did not contain timestamped numeric events")
     if any(
