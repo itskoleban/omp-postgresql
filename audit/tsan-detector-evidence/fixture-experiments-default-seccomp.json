@@ -1,0 +1,1935 @@
+{
+  "started_utc": "2026-10-25T00:01:55.856141+00:00",
+  "source_sha": "d0494d2bf45c03757864af0f5dfa2c7b868f4810",
+  "scope": "Independent fixture experiments, not complete component qualification",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "uname": {
+    "argv": [
+      "uname",
+      "-a"
+    ],
+    "returncode": 0,
+    "stdout": "Linux ffffd6aa3374 6.6.87.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux\n",
+    "stderr": ""
+  },
+  "os_release": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+  "compiler": {
+    "argv": [
+      "clang++-19",
+      "--version"
+    ],
+    "returncode": 0,
+    "stdout": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n",
+    "stderr": ""
+  },
+  "packages": {
+    "argv": [
+      "dpkg-query",
+      "-W",
+      "clang-19",
+      "libclang-rt-19-dev",
+      "libstdc++6",
+      "libc6"
+    ],
+    "returncode": 0,
+    "stdout": "clang-19\t1:19.1.1-1ubuntu1~24.04.2\nlibc6:amd64\t2.39-0ubuntu8.9\nlibclang-rt-19-dev:amd64\t1:19.1.1-1ubuntu1~24.04.2\nlibstdc++6:amd64\t14.2.0-4ubuntu2~24.04.1\n",
+    "stderr": ""
+  },
+  "mmap_rnd_bits": "32",
+  "options": "halt_on_error=1:exitcode=66",
+  "runs_per_variant": 20,
+  "variants": [
+    {
+      "name": "original",
+      "source": "original.cpp",
+      "source_sha256": "59b6d6c3ebb3ee1ab156d932e4ab26157f6e9855845a51c4d6ac652ae277dd41",
+      "expect_race": true,
+      "executions": [
+        {
+          "iteration": 1,
+          "started_utc": "2026-10-25T00:02:08.669395+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-01.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-01.stderr.log",
+            "bytes": 176,
+            "sha256": "7d450664ab950c52ef9f46c73ac063cc5b04256f1091f233ffa9cb750ba078b9"
+          },
+          "duration_seconds": 1.3499063219999812
+        },
+        {
+          "iteration": 2,
+          "started_utc": "2026-10-25T00:02:10.019372+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-02.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-02.stderr.log",
+            "bytes": 176,
+            "sha256": "f72f3f809c04d5d18e81089d5f534dd25c902deb402b643cb85aff748b83efcd"
+          },
+          "duration_seconds": 1.6925255820000302
+        },
+        {
+          "iteration": 3,
+          "started_utc": "2026-10-25T00:02:11.712038+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-03.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-03.stderr.log",
+            "bytes": 176,
+            "sha256": "df980d84ab0f3210f1249ff0e847eafcf14a250c6410902a82b0e825266055c2"
+          },
+          "duration_seconds": 0.7548288689999936
+        },
+        {
+          "iteration": 4,
+          "started_utc": "2026-10-25T00:02:12.466905+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-04.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-04.stderr.log",
+            "bytes": 176,
+            "sha256": "57c72906460c0c1ea82314392a92514f93f213dd177be2a75249219faf19a40b"
+          },
+          "duration_seconds": 1.3822328640000023
+        },
+        {
+          "iteration": 5,
+          "started_utc": "2026-10-25T00:02:13.849185+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-05.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-05.stderr.log",
+            "bytes": 176,
+            "sha256": "c46cd6ef7c6768772445e0da05ca68a2bd23f34b552c14008bc7561161f251e3"
+          },
+          "duration_seconds": 0.4503904430000034
+        },
+        {
+          "iteration": 6,
+          "started_utc": "2026-10-25T00:02:14.299635+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-06.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-06.stderr.log",
+            "bytes": 176,
+            "sha256": "27871639d70664f89caef0e37836194953f9532c15d1b210f1cb55f18d6e89a8"
+          },
+          "duration_seconds": 0.8404301649999866
+        },
+        {
+          "iteration": 7,
+          "started_utc": "2026-10-25T00:02:15.140147+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-07.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-07.stderr.log",
+            "bytes": 176,
+            "sha256": "c7e1b090f29c55368d28b8af5a48bab13804c9eec27af33ee9719004065b6fcc"
+          },
+          "duration_seconds": 0.563719840000033
+        },
+        {
+          "iteration": 8,
+          "started_utc": "2026-10-25T00:02:15.703895+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-08.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-08.stderr.log",
+            "bytes": 176,
+            "sha256": "191f00b7a881b21810dee2bfcba300307c076728b69688d3ed49d3fa7c378c81"
+          },
+          "duration_seconds": 0.5003033769999661
+        },
+        {
+          "iteration": 9,
+          "started_utc": "2026-10-25T00:02:16.204274+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-09.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-09.stderr.log",
+            "bytes": 176,
+            "sha256": "11cc91549cfd7db1ab0e21ab6b1e6573ab8fb4e418571e0d753be70daf259488"
+          },
+          "duration_seconds": 0.4644168799999875
+        },
+        {
+          "iteration": 10,
+          "started_utc": "2026-10-25T00:02:16.668764+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-10.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-10.stderr.log",
+            "bytes": 176,
+            "sha256": "e16e3c9a8481616c13ae44b89e28d47d693392cae9cac6a071927689c2551308"
+          },
+          "duration_seconds": 0.4878549619999717
+        },
+        {
+          "iteration": 11,
+          "started_utc": "2026-10-25T00:02:17.156703+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-11.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-11.stderr.log",
+            "bytes": 176,
+            "sha256": "50c2365fa6dcd32abd029fe77907d7b0ad2671bce7d7b1aba1521f8e2c73c204"
+          },
+          "duration_seconds": 0.42343469600001526
+        },
+        {
+          "iteration": 12,
+          "started_utc": "2026-10-25T00:02:17.580222+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-12.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-12.stderr.log",
+            "bytes": 176,
+            "sha256": "9281112478debdcb4f77eb878ef427db1ebc9cf9f4217fd374bfde8e6ddd6253"
+          },
+          "duration_seconds": 0.43234733900004585
+        },
+        {
+          "iteration": 13,
+          "started_utc": "2026-10-25T00:02:18.012652+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-13.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-13.stderr.log",
+            "bytes": 176,
+            "sha256": "a7a648d55080cae5acec324344802f5c0f15ce4166dad21b0324eca1427d1ad1"
+          },
+          "duration_seconds": 1.1886022900000057
+        },
+        {
+          "iteration": 14,
+          "started_utc": "2026-10-25T00:02:19.201293+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-14.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-14.stderr.log",
+            "bytes": 176,
+            "sha256": "5ad25ae9b2b5feeb49efaf479df0e8116fbe6893c94b442fe08077e90475b121"
+          },
+          "duration_seconds": 0.5443634490000022
+        },
+        {
+          "iteration": 15,
+          "started_utc": "2026-10-25T00:02:19.745775+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-15.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-15.stderr.log",
+            "bytes": 176,
+            "sha256": "629281f0df86b7981fc88de9ff70aef01f2e527d0421964c0a1e28c67ed67385"
+          },
+          "duration_seconds": 0.4816802179999513
+        },
+        {
+          "iteration": 16,
+          "started_utc": "2026-10-25T00:02:20.227549+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-16.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-16.stderr.log",
+            "bytes": 176,
+            "sha256": "a7d01192ffdad8505d4a1c660c2649cc0f4aa5a1333d1a9db54325e4fc24843f"
+          },
+          "duration_seconds": 0.5645944299999996
+        },
+        {
+          "iteration": 17,
+          "started_utc": "2026-10-25T00:02:20.792228+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-17.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-17.stderr.log",
+            "bytes": 176,
+            "sha256": "a6912f70436fd9c200135f8570137190f561f8f4b4d9590a6763b1894b2fd829"
+          },
+          "duration_seconds": 0.4546534280000287
+        },
+        {
+          "iteration": 18,
+          "started_utc": "2026-10-25T00:02:21.246959+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-18.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-18.stderr.log",
+            "bytes": 176,
+            "sha256": "df05b8d2aef7058f6c3bbcd32433072cf4196a02bc2c657d2ad284ac861b3084"
+          },
+          "duration_seconds": 0.5701402870000152
+        },
+        {
+          "iteration": 19,
+          "started_utc": "2026-10-25T00:02:21.817135+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-19.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-19.stderr.log",
+            "bytes": 176,
+            "sha256": "aa344083e8acfd7244c4df24587382f8b37b7edeecf054ec872592316508baf3"
+          },
+          "duration_seconds": 0.5175353930000028
+        },
+        {
+          "iteration": 20,
+          "started_utc": "2026-10-25T00:02:22.334710+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "original-20.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "original-20.stderr.log",
+            "bytes": 176,
+            "sha256": "ea6aa7d8bdc80d19404e034ddbe26e479b6287000796bef39cb72bac6c457b13"
+          },
+          "duration_seconds": 0.501929935000021
+        }
+      ],
+      "compile": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-c",
+          "original.cpp",
+          "-o",
+          "original.o"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "compile_driver": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-c",
+          "original.cpp",
+          "-o",
+          "original.o",
+          "-###"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n (in-process)\n \"/usr/lib/llvm-19/bin/clang\" \"-cc1\" \"-triple\" \"x86_64-pc-linux-gnu\" \"-emit-obj\" \"-disable-free\" \"-clear-ast-before-backend\" \"-disable-llvm-verifier\" \"-discard-value-names\" \"-main-file-name\" \"original.cpp\" \"-mrelocation-model\" \"pic\" \"-pic-level\" \"2\" \"-pic-is-pie\" \"-mframe-pointer=none\" \"-fmath-errno\" \"-ffp-contract=on\" \"-fno-rounding-math\" \"-mconstructor-aliases\" \"-funwind-tables=2\" \"-target-cpu\" \"x86-64\" \"-tune-cpu\" \"generic\" \"-debug-info-kind=constructor\" \"-dwarf-version=5\" \"-debugger-tuning=gdb\" \"-fdebug-compilation-dir=/investigation/fixture-experiments\" \"-fcoverage-compilation-dir=/investigation/fixture-experiments\" \"-resource-dir\" \"/usr/lib/llvm-19/lib/clang/19\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/x86_64-linux-gnu/c++/13\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/backward\" \"-internal-isystem\" \"/usr/lib/llvm-19/lib/clang/19/include\" \"-internal-isystem\" \"/usr/local/include\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../x86_64-linux-gnu/include\" \"-internal-externc-isystem\" \"/usr/include/x86_64-linux-gnu\" \"-internal-externc-isystem\" \"/include\" \"-internal-externc-isystem\" \"/usr/include\" \"-O1\" \"-std=c++20\" \"-fdeprecated-macro\" \"-ferror-limit\" \"19\" \"-fsanitize=thread\" \"-fno-sanitize-memory-param-retval\" \"-fno-sanitize-address-use-odr-indicator\" \"-fgnuc-version=4.2.1\" \"-fno-implicit-modules\" \"-fskip-odr-check-in-gmf\" \"-fcxx-exceptions\" \"-fexceptions\" \"-faddrsig\" \"-D__GCC_HAVE_DWARF2_CFI_ASM=1\" \"-o\" \"original.o\" \"-x\" \"c++\" \"original.cpp\"\n"
+      },
+      "link": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "original.o",
+          "-o",
+          "original"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_driver": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "original.o",
+          "-o",
+          "original",
+          "-###"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n \"/usr/bin/ld\" \"-z\" \"relro\" \"--hash-style=gnu\" \"--build-id\" \"--eh-frame-hdr\" \"-m\" \"elf_x86_64\" \"-pie\" \"-dynamic-linker\" \"/lib64/ld-linux-x86-64.so.2\" \"-o\" \"original\" \"/lib/x86_64-linux-gnu/Scrt1.o\" \"/lib/x86_64-linux-gnu/crti.o\" \"/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o\" \"-L/usr/lib/gcc/x86_64-linux-gnu/13\" \"-L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib64\" \"-L/lib/x86_64-linux-gnu\" \"-L/lib/../lib64\" \"-L/usr/lib/x86_64-linux-gnu\" \"-L/usr/lib/../lib64\" \"-L/lib\" \"-L/usr/lib\" \"--whole-archive\" \"/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a\" \"--no-whole-archive\" \"--dynamic-list=/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a.syms\" \"--whole-archive\" \"/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan_cxx-x86_64.a\" \"--no-whole-archive\" \"--dynamic-list=/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan_cxx-x86_64.a.syms\" \"original.o\" \"-lstdc++\" \"-lm\" \"--no-as-needed\" \"-lpthread\" \"-lrt\" \"-lm\" \"-ldl\" \"-lresolv\" \"-lgcc_s\" \"-lgcc\" \"-lc\" \"-lgcc_s\" \"-lgcc\" \"/usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o\" \"/lib/x86_64-linux-gnu/crtn.o\"\n"
+      },
+      "binary_sha256": "b83df09d1cd835f8884fc865c448c7bed5d1a45cfc5114cd7c6a558cbfcf8596",
+      "object_sha256": "c869d8786ea8db5b2d3169590cd51110c7248936dab7cecc883832eebf4bc581",
+      "ldd": {
+        "argv": [
+          "ldd",
+          "original"
+        ],
+        "returncode": 0,
+        "stdout": "\tlinux-vdso.so.1 (0x00007ffeb61f3000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007c2f774b8000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007c2f773cf000)\n\tlibresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x00007c2f773bd000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007c2f7738f000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007c2f7717c000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007c2f78c51000)\n",
+        "stderr": ""
+      },
+      "llvm_ir": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-S",
+          "-emit-llvm",
+          "original.cpp",
+          "-o",
+          "original.ll"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "disassembly": {
+        "argv": [
+          "objdump",
+          "-d",
+          "original"
+        ],
+        "returncode": 0,
+        "stderr": ""
+      },
+      "attempted": 20,
+      "detections": 0,
+      "status": "FAIL"
+    },
+    {
+      "name": "volatile_loop",
+      "source": "volatile_loop.cpp",
+      "source_sha256": "dc110fb35c269c2bb036202d1959b62242a7081b9bd275af584bf87731813e22",
+      "expect_race": true,
+      "executions": [
+        {
+          "iteration": 1,
+          "started_utc": "2026-10-25T00:02:30.547341+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-01.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-01.stderr.log",
+            "bytes": 176,
+            "sha256": "7b9b62a6df6196d0882f186f6a559207252f7861a3983bf79ad00e32012a89be"
+          },
+          "duration_seconds": 0.5264565379999908
+        },
+        {
+          "iteration": 2,
+          "started_utc": "2026-10-25T00:02:31.073835+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-02.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-02.stderr.log",
+            "bytes": 176,
+            "sha256": "64e54f58e222ef6614c080e23dd01c1cf87bd0f0730fdf86828b12effd05af20"
+          },
+          "duration_seconds": 0.5122361919999889
+        },
+        {
+          "iteration": 3,
+          "started_utc": "2026-10-25T00:02:31.586162+00:00",
+          "returncode": 66,
+          "race_diagnostic": true,
+          "status": "PASS",
+          "stdout": {
+            "path": "volatile_loop-03.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-03.stderr.log",
+            "bytes": 3880,
+            "sha256": "6f7198e27a4e2530d7dd6ba286cfe59c715674fd9bd739f96f613da72f538329"
+          },
+          "duration_seconds": 0.2254362600000377
+        },
+        {
+          "iteration": 4,
+          "started_utc": "2026-10-25T00:02:31.811692+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-04.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-04.stderr.log",
+            "bytes": 176,
+            "sha256": "95a49a9acaf2b53d8786420406262140cc9656f5ffdc44e45a00b991e7410973"
+          },
+          "duration_seconds": 0.47547048199999153
+        },
+        {
+          "iteration": 5,
+          "started_utc": "2026-10-25T00:02:32.284698+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-05.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-05.stderr.log",
+            "bytes": 176,
+            "sha256": "4a984957e12ebae8fcf5c4b5b04bc9434972c86497d78e7aed91d0f9fc7d51b5"
+          },
+          "duration_seconds": 0.4501848839999525
+        },
+        {
+          "iteration": 6,
+          "started_utc": "2026-10-25T00:02:32.734942+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-06.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-06.stderr.log",
+            "bytes": 176,
+            "sha256": "8643be2f930d8806f18476436887494a601fae2ab27d962f24a2501d0b40437d"
+          },
+          "duration_seconds": 0.3872216030000004
+        },
+        {
+          "iteration": 7,
+          "started_utc": "2026-10-25T00:02:33.122222+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-07.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-07.stderr.log",
+            "bytes": 176,
+            "sha256": "e8b000144446bcb1e0abb6541cae8644be2fcbe107318662d7b01a5487584016"
+          },
+          "duration_seconds": 0.440548739999997
+        },
+        {
+          "iteration": 8,
+          "started_utc": "2026-10-25T00:02:33.562810+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-08.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-08.stderr.log",
+            "bytes": 176,
+            "sha256": "9c1d1ef9a947b0a792dcb1e1f428885b57d4ef4c2317504721b85786250db53d"
+          },
+          "duration_seconds": 0.39999030199999197
+        },
+        {
+          "iteration": 9,
+          "started_utc": "2026-10-25T00:02:33.962865+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-09.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-09.stderr.log",
+            "bytes": 176,
+            "sha256": "97e0185d1a1278db129018239437ae92b2a309194670513b8044b13011da425e"
+          },
+          "duration_seconds": 0.497406318000003
+        },
+        {
+          "iteration": 10,
+          "started_utc": "2026-10-25T00:02:34.460328+00:00",
+          "returncode": 66,
+          "race_diagnostic": true,
+          "status": "PASS",
+          "stdout": {
+            "path": "volatile_loop-10.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-10.stderr.log",
+            "bytes": 3880,
+            "sha256": "87f36e84ff5659d4915ac78b268a9aed5388f908ea7dc4a2c87432ccc27cfeb5"
+          },
+          "duration_seconds": 0.2235226469999816
+        },
+        {
+          "iteration": 11,
+          "started_utc": "2026-10-25T00:02:34.683885+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-11.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-11.stderr.log",
+            "bytes": 176,
+            "sha256": "49085521298f83a14e840e16f2479513a67a8111f4c27f001b675507724618f9"
+          },
+          "duration_seconds": 0.36257625100000723
+        },
+        {
+          "iteration": 12,
+          "started_utc": "2026-10-25T00:02:35.046539+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-12.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-12.stderr.log",
+            "bytes": 176,
+            "sha256": "330c45ee61f0109cf4f24f6b4a1606ebb7b6c0df4a0ab466fb662d355cf550ba"
+          },
+          "duration_seconds": 0.4860633839999764
+        },
+        {
+          "iteration": 13,
+          "started_utc": "2026-10-25T00:02:35.532661+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-13.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-13.stderr.log",
+            "bytes": 176,
+            "sha256": "f1c777b36ac5c2f60bda51ab7a4a719e9a81ab0947a7176e43360f56ea437a64"
+          },
+          "duration_seconds": 0.5609719290000044
+        },
+        {
+          "iteration": 14,
+          "started_utc": "2026-10-25T00:02:36.093712+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-14.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-14.stderr.log",
+            "bytes": 176,
+            "sha256": "62ca658a12710cf1e3e0cf76138ec977aa3c3beb39566da96ce8c35acd113a0b"
+          },
+          "duration_seconds": 0.6023432669999806
+        },
+        {
+          "iteration": 15,
+          "started_utc": "2026-10-25T00:02:36.696090+00:00",
+          "returncode": 66,
+          "race_diagnostic": true,
+          "status": "PASS",
+          "stdout": {
+            "path": "volatile_loop-15.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-15.stderr.log",
+            "bytes": 3880,
+            "sha256": "0135b6d40497ea03ac0871405bdd89c4060e148641fd918f92d4a90f17cd7e61"
+          },
+          "duration_seconds": 0.262040705000004
+        },
+        {
+          "iteration": 16,
+          "started_utc": "2026-10-25T00:02:36.958682+00:00",
+          "returncode": 66,
+          "race_diagnostic": true,
+          "status": "PASS",
+          "stdout": {
+            "path": "volatile_loop-16.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-16.stderr.log",
+            "bytes": 3880,
+            "sha256": "448b7deefc912b5f5f34c1ef785f976b9b66765240ac1f58198097642ad843d9"
+          },
+          "duration_seconds": 0.26184401099999377
+        },
+        {
+          "iteration": 17,
+          "started_utc": "2026-10-25T00:02:37.220569+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-17.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-17.stderr.log",
+            "bytes": 176,
+            "sha256": "7ce461a4946311be3eeb5a82f42739083a73a6da46ee9662d0a661f12af12c13"
+          },
+          "duration_seconds": 0.39574157300000934
+        },
+        {
+          "iteration": 18,
+          "started_utc": "2026-10-25T00:02:37.616376+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-18.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-18.stderr.log",
+            "bytes": 176,
+            "sha256": "4c43983f2c13574983e09bcacbe4cff50db52811352f0d7791349e346c0eabab"
+          },
+          "duration_seconds": 0.44568013399998563
+        },
+        {
+          "iteration": 19,
+          "started_utc": "2026-10-25T00:02:38.062119+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-19.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-19.stderr.log",
+            "bytes": 176,
+            "sha256": "1bcc09385c3b0c988998364ce68aeabdc0ec76615a66517b851eb4a836174ca1"
+          },
+          "duration_seconds": 0.45333797299997514
+        },
+        {
+          "iteration": 20,
+          "started_utc": "2026-10-25T00:02:38.515499+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "volatile_loop-20.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "volatile_loop-20.stderr.log",
+            "bytes": 176,
+            "sha256": "4cd1fbae19ab7795d24a6c1f2a2a09cf43763e85b6912ae000d64a30b61b4e3b"
+          },
+          "duration_seconds": 0.37306914200001984
+        }
+      ],
+      "compile": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-c",
+          "volatile_loop.cpp",
+          "-o",
+          "volatile_loop.o"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "compile_driver": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-c",
+          "volatile_loop.cpp",
+          "-o",
+          "volatile_loop.o",
+          "-###"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n (in-process)\n \"/usr/lib/llvm-19/bin/clang\" \"-cc1\" \"-triple\" \"x86_64-pc-linux-gnu\" \"-emit-obj\" \"-disable-free\" \"-clear-ast-before-backend\" \"-disable-llvm-verifier\" \"-discard-value-names\" \"-main-file-name\" \"volatile_loop.cpp\" \"-mrelocation-model\" \"pic\" \"-pic-level\" \"2\" \"-pic-is-pie\" \"-mframe-pointer=none\" \"-fmath-errno\" \"-ffp-contract=on\" \"-fno-rounding-math\" \"-mconstructor-aliases\" \"-funwind-tables=2\" \"-target-cpu\" \"x86-64\" \"-tune-cpu\" \"generic\" \"-debug-info-kind=constructor\" \"-dwarf-version=5\" \"-debugger-tuning=gdb\" \"-fdebug-compilation-dir=/investigation/fixture-experiments\" \"-fcoverage-compilation-dir=/investigation/fixture-experiments\" \"-resource-dir\" \"/usr/lib/llvm-19/lib/clang/19\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/x86_64-linux-gnu/c++/13\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/backward\" \"-internal-isystem\" \"/usr/lib/llvm-19/lib/clang/19/include\" \"-internal-isystem\" \"/usr/local/include\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../x86_64-linux-gnu/include\" \"-internal-externc-isystem\" \"/usr/include/x86_64-linux-gnu\" \"-internal-externc-isystem\" \"/include\" \"-internal-externc-isystem\" \"/usr/include\" \"-O1\" \"-std=c++20\" \"-fdeprecated-macro\" \"-ferror-limit\" \"19\" \"-fsanitize=thread\" \"-fno-sanitize-memory-param-retval\" \"-fno-sanitize-address-use-odr-indicator\" \"-fgnuc-version=4.2.1\" \"-fno-implicit-modules\" \"-fskip-odr-check-in-gmf\" \"-fcxx-exceptions\" \"-fexceptions\" \"-faddrsig\" \"-D__GCC_HAVE_DWARF2_CFI_ASM=1\" \"-o\" \"volatile_loop.o\" \"-x\" \"c++\" \"volatile_loop.cpp\"\n"
+      },
+      "link": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "volatile_loop.o",
+          "-o",
+          "volatile_loop"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_driver": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "volatile_loop.o",
+          "-o",
+          "volatile_loop",
+          "-###"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n \"/usr/bin/ld\" \"-z\" \"relro\" \"--hash-style=gnu\" \"--build-id\" \"--eh-frame-hdr\" \"-m\" \"elf_x86_64\" \"-pie\" \"-dynamic-linker\" \"/lib64/ld-linux-x86-64.so.2\" \"-o\" \"volatile_loop\" \"/lib/x86_64-linux-gnu/Scrt1.o\" \"/lib/x86_64-linux-gnu/crti.o\" \"/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o\" \"-L/usr/lib/gcc/x86_64-linux-gnu/13\" \"-L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib64\" \"-L/lib/x86_64-linux-gnu\" \"-L/lib/../lib64\" \"-L/usr/lib/x86_64-linux-gnu\" \"-L/usr/lib/../lib64\" \"-L/lib\" \"-L/usr/lib\" \"--whole-archive\" \"/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a\" \"--no-whole-archive\" \"--dynamic-list=/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a.syms\" \"--whole-archive\" \"/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan_cxx-x86_64.a\" \"--no-whole-archive\" \"--dynamic-list=/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan_cxx-x86_64.a.syms\" \"volatile_loop.o\" \"-lstdc++\" \"-lm\" \"--no-as-needed\" \"-lpthread\" \"-lrt\" \"-lm\" \"-ldl\" \"-lresolv\" \"-lgcc_s\" \"-lgcc\" \"-lc\" \"-lgcc_s\" \"-lgcc\" \"/usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o\" \"/lib/x86_64-linux-gnu/crtn.o\"\n"
+      },
+      "binary_sha256": "9c0728c4b195b90b96b1e41aca2b2a02d7dfb0ffc78027287b9334b820486534",
+      "object_sha256": "20bf2cfd25e34684f5322e6e2d6456ba12f0b979d7d8c8b356fe449fd10bacbf",
+      "ldd": {
+        "argv": [
+          "ldd",
+          "volatile_loop"
+        ],
+        "returncode": 0,
+        "stdout": "\tlinux-vdso.so.1 (0x00007ffd0c1dd000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007c4411666000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007c441157d000)\n\tlibresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x00007c441156b000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007c441153d000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007c441132a000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007c4412e01000)\n",
+        "stderr": ""
+      },
+      "llvm_ir": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-S",
+          "-emit-llvm",
+          "volatile_loop.cpp",
+          "-o",
+          "volatile_loop.ll"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "disassembly": {
+        "argv": [
+          "objdump",
+          "-d",
+          "volatile_loop"
+        ],
+        "returncode": 0,
+        "stderr": ""
+      },
+      "attempted": 20,
+      "detections": 4,
+      "status": "FAIL"
+    },
+    {
+      "name": "relaxed_handoff",
+      "source": "handoff.cpp",
+      "source_sha256": "57b9c63eddd6d28aeaf76a70f447a92260628d62b768d7a1febf34f948fb9143",
+      "expect_race": true,
+      "executions": [
+        {
+          "iteration": 1,
+          "started_utc": "2026-10-25T00:02:44.208623+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-01.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-01.stderr.log",
+            "bytes": 176,
+            "sha256": "499d776e2b9aba8c46f782379d36a1d5516319e83fbff6383403ae78c0b4195e"
+          },
+          "duration_seconds": 0.5155461550000382
+        },
+        {
+          "iteration": 2,
+          "started_utc": "2026-10-25T00:02:44.724231+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-02.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-02.stderr.log",
+            "bytes": 176,
+            "sha256": "ebdd33f30542336d0c459a28509e37c21eab4e9142e0988229a10a48bb44e7c6"
+          },
+          "duration_seconds": 0.5564107360000321
+        },
+        {
+          "iteration": 3,
+          "started_utc": "2026-10-25T00:02:45.280709+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-03.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-03.stderr.log",
+            "bytes": 176,
+            "sha256": "0eb2328d308b57171096b51d6b7dc2f7a10f803dc68128171e6adffbda6b6407"
+          },
+          "duration_seconds": 0.5213507169999616
+        },
+        {
+          "iteration": 4,
+          "started_utc": "2026-10-25T00:02:45.802128+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-04.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-04.stderr.log",
+            "bytes": 176,
+            "sha256": "c61a65f301527a8e25c7da7c3f13692adb5022f2d65cc6377993783ac6004e6e"
+          },
+          "duration_seconds": 0.528689227999962
+        },
+        {
+          "iteration": 5,
+          "started_utc": "2026-10-25T00:02:46.330870+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-05.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-05.stderr.log",
+            "bytes": 176,
+            "sha256": "00b21938c1949ec589025fecfdd29b741109e20b2680712eeda7c2b6150abf54"
+          },
+          "duration_seconds": 0.41555376899998464
+        },
+        {
+          "iteration": 6,
+          "started_utc": "2026-10-25T00:02:46.746490+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-06.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-06.stderr.log",
+            "bytes": 176,
+            "sha256": "2b3b2ffdaffdd4b3638537787fcad9f35ece814faf602aa642fc8616eeea0c2a"
+          },
+          "duration_seconds": 0.43928832000000284
+        },
+        {
+          "iteration": 7,
+          "started_utc": "2026-10-25T00:02:47.185970+00:00",
+          "returncode": 66,
+          "race_diagnostic": true,
+          "status": "PASS",
+          "stdout": {
+            "path": "relaxed_handoff-07.stdout.log",
+            "bytes": 35,
+            "sha256": "51179ddc039ba43c050ca8f4876f5fbcbea277d61e981ded446715d3da862266"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-07.stderr.log",
+            "bytes": 3890,
+            "sha256": "26eaabef11fd2a3985941d6d696ae98c1a7f8966fad71c5c0ab0f76ad6ce4b93"
+          },
+          "duration_seconds": 0.2616457540000283
+        },
+        {
+          "iteration": 8,
+          "started_utc": "2026-10-25T00:02:47.447616+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-08.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-08.stderr.log",
+            "bytes": 176,
+            "sha256": "3562aa683acb64da92f6549e0646ab1a787f3170dfc3574b93d69ffd95826889"
+          },
+          "duration_seconds": 0.3881878770000071
+        },
+        {
+          "iteration": 9,
+          "started_utc": "2026-10-25T00:02:47.835850+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-09.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-09.stderr.log",
+            "bytes": 176,
+            "sha256": "61858547cead162d40ff77b750b459f1efb5906528dc4e8f24663e55ef4f75a6"
+          },
+          "duration_seconds": 0.43112052600002926
+        },
+        {
+          "iteration": 10,
+          "started_utc": "2026-10-25T00:02:48.267056+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-10.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-10.stderr.log",
+            "bytes": 176,
+            "sha256": "5e08db478caa2ae9e662c4d73e156ab0f6905d8100376823a005a08de6175845"
+          },
+          "duration_seconds": 0.44189939400001776
+        },
+        {
+          "iteration": 11,
+          "started_utc": "2026-10-25T00:02:48.709054+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-11.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-11.stderr.log",
+            "bytes": 176,
+            "sha256": "4a28f78db25af323ce8536e390112bc622418fd0ffff6dee8efe239a67539484"
+          },
+          "duration_seconds": 0.4456872719999865
+        },
+        {
+          "iteration": 12,
+          "started_utc": "2026-10-25T00:02:49.154807+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-12.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-12.stderr.log",
+            "bytes": 176,
+            "sha256": "4b69f7b2ec736f39a2c066740e97d2f062c11e897c72fbd645fe5cfc3e6c37aa"
+          },
+          "duration_seconds": 0.41716328199999
+        },
+        {
+          "iteration": 13,
+          "started_utc": "2026-10-25T00:02:49.572068+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-13.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-13.stderr.log",
+            "bytes": 176,
+            "sha256": "1627b656ca207e9183679c4094d6ba49aeaef930aeb4cdad6429ad77ace226d3"
+          },
+          "duration_seconds": 0.4400411479999775
+        },
+        {
+          "iteration": 14,
+          "started_utc": "2026-10-25T00:02:50.012178+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-14.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-14.stderr.log",
+            "bytes": 176,
+            "sha256": "e2c4edefd3c3f0c5c41ca0d762af313da7ca8513cd83ab21389c9b84bfeb9f83"
+          },
+          "duration_seconds": 0.42131348399999524
+        },
+        {
+          "iteration": 15,
+          "started_utc": "2026-10-25T00:02:50.433566+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-15.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-15.stderr.log",
+            "bytes": 176,
+            "sha256": "09c95958f966069a6b97d349870c2d9e153cf4f981e9400a84eee7943332a81f"
+          },
+          "duration_seconds": 0.2607388889999811
+        },
+        {
+          "iteration": 16,
+          "started_utc": "2026-10-25T00:02:50.694343+00:00",
+          "returncode": 66,
+          "race_diagnostic": true,
+          "status": "PASS",
+          "stdout": {
+            "path": "relaxed_handoff-16.stdout.log",
+            "bytes": 35,
+            "sha256": "51179ddc039ba43c050ca8f4876f5fbcbea277d61e981ded446715d3da862266"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-16.stderr.log",
+            "bytes": 3890,
+            "sha256": "5ae07d6003553c52c03cffb3175094facd42c19bbbc0ee1cd696162fa5fa3930"
+          },
+          "duration_seconds": 0.2218829029999938
+        },
+        {
+          "iteration": 17,
+          "started_utc": "2026-10-25T00:02:50.916297+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-17.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-17.stderr.log",
+            "bytes": 176,
+            "sha256": "5c98c69a7c0b2ee92e15377fc688ef13300e353418dbbaf13972b40cd4df0d14"
+          },
+          "duration_seconds": 0.5325037360000238
+        },
+        {
+          "iteration": 18,
+          "started_utc": "2026-10-25T00:02:51.448882+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-18.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-18.stderr.log",
+            "bytes": 176,
+            "sha256": "180a68a968fead5770b96355b1c68c82f1290219bbed09a6e2644c4186a3552c"
+          },
+          "duration_seconds": 0.571762308000018
+        },
+        {
+          "iteration": 19,
+          "started_utc": "2026-10-25T00:02:52.020698+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-19.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-19.stderr.log",
+            "bytes": 176,
+            "sha256": "1c1027040ad104ade257b7355ff9244d8f6a35fbdc027fa51cd97e1573551b83"
+          },
+          "duration_seconds": 0.6786380540000323
+        },
+        {
+          "iteration": 20,
+          "started_utc": "2026-10-25T00:02:52.699390+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "relaxed_handoff-20.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "relaxed_handoff-20.stderr.log",
+            "bytes": 176,
+            "sha256": "8a476e37338e6d9e466c1f95511de5af249281a598b0eb59ec21cfa57a155399"
+          },
+          "duration_seconds": 0.5510140210000145
+        }
+      ],
+      "compile": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-c",
+          "handoff.cpp",
+          "-o",
+          "relaxed_handoff.o"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "compile_driver": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-c",
+          "handoff.cpp",
+          "-o",
+          "relaxed_handoff.o",
+          "-###"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n (in-process)\n \"/usr/lib/llvm-19/bin/clang\" \"-cc1\" \"-triple\" \"x86_64-pc-linux-gnu\" \"-emit-obj\" \"-disable-free\" \"-clear-ast-before-backend\" \"-disable-llvm-verifier\" \"-discard-value-names\" \"-main-file-name\" \"handoff.cpp\" \"-mrelocation-model\" \"pic\" \"-pic-level\" \"2\" \"-pic-is-pie\" \"-mframe-pointer=none\" \"-fmath-errno\" \"-ffp-contract=on\" \"-fno-rounding-math\" \"-mconstructor-aliases\" \"-funwind-tables=2\" \"-target-cpu\" \"x86-64\" \"-tune-cpu\" \"generic\" \"-debug-info-kind=constructor\" \"-dwarf-version=5\" \"-debugger-tuning=gdb\" \"-fdebug-compilation-dir=/investigation/fixture-experiments\" \"-fcoverage-compilation-dir=/investigation/fixture-experiments\" \"-resource-dir\" \"/usr/lib/llvm-19/lib/clang/19\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/x86_64-linux-gnu/c++/13\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/backward\" \"-internal-isystem\" \"/usr/lib/llvm-19/lib/clang/19/include\" \"-internal-isystem\" \"/usr/local/include\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../x86_64-linux-gnu/include\" \"-internal-externc-isystem\" \"/usr/include/x86_64-linux-gnu\" \"-internal-externc-isystem\" \"/include\" \"-internal-externc-isystem\" \"/usr/include\" \"-O1\" \"-std=c++20\" \"-fdeprecated-macro\" \"-ferror-limit\" \"19\" \"-fsanitize=thread\" \"-fno-sanitize-memory-param-retval\" \"-fno-sanitize-address-use-odr-indicator\" \"-fgnuc-version=4.2.1\" \"-fno-implicit-modules\" \"-fskip-odr-check-in-gmf\" \"-fcxx-exceptions\" \"-fexceptions\" \"-faddrsig\" \"-D__GCC_HAVE_DWARF2_CFI_ASM=1\" \"-o\" \"relaxed_handoff.o\" \"-x\" \"c++\" \"handoff.cpp\"\n"
+      },
+      "link": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "relaxed_handoff.o",
+          "-o",
+          "relaxed_handoff"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_driver": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "relaxed_handoff.o",
+          "-o",
+          "relaxed_handoff",
+          "-###"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n \"/usr/bin/ld\" \"-z\" \"relro\" \"--hash-style=gnu\" \"--build-id\" \"--eh-frame-hdr\" \"-m\" \"elf_x86_64\" \"-pie\" \"-dynamic-linker\" \"/lib64/ld-linux-x86-64.so.2\" \"-o\" \"relaxed_handoff\" \"/lib/x86_64-linux-gnu/Scrt1.o\" \"/lib/x86_64-linux-gnu/crti.o\" \"/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o\" \"-L/usr/lib/gcc/x86_64-linux-gnu/13\" \"-L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib64\" \"-L/lib/x86_64-linux-gnu\" \"-L/lib/../lib64\" \"-L/usr/lib/x86_64-linux-gnu\" \"-L/usr/lib/../lib64\" \"-L/lib\" \"-L/usr/lib\" \"--whole-archive\" \"/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a\" \"--no-whole-archive\" \"--dynamic-list=/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a.syms\" \"--whole-archive\" \"/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan_cxx-x86_64.a\" \"--no-whole-archive\" \"--dynamic-list=/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan_cxx-x86_64.a.syms\" \"relaxed_handoff.o\" \"-lstdc++\" \"-lm\" \"--no-as-needed\" \"-lpthread\" \"-lrt\" \"-lm\" \"-ldl\" \"-lresolv\" \"-lgcc_s\" \"-lgcc\" \"-lc\" \"-lgcc_s\" \"-lgcc\" \"/usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o\" \"/lib/x86_64-linux-gnu/crtn.o\"\n"
+      },
+      "binary_sha256": "0b97813c09b3cfb9c4153dcb004b1ca5d1395984f6c5b532b210952e8faace68",
+      "object_sha256": "098c3fe2f74e3fc1e37e81bbc6fa1d97e52ab0c5e6871e0934ac7a72d80046cf",
+      "ldd": {
+        "argv": [
+          "ldd",
+          "relaxed_handoff"
+        ],
+        "returncode": 0,
+        "stdout": "\tlinux-vdso.so.1 (0x00007fffb63b0000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007a2d026a8000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007a2d025bf000)\n\tlibresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x00007a2d025ad000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007a2d0257f000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007a2d0236c000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007a2d03e43000)\n",
+        "stderr": ""
+      },
+      "llvm_ir": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-S",
+          "-emit-llvm",
+          "handoff.cpp",
+          "-o",
+          "relaxed_handoff.ll"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "disassembly": {
+        "argv": [
+          "objdump",
+          "-d",
+          "relaxed_handoff"
+        ],
+        "returncode": 0,
+        "stderr": ""
+      },
+      "attempted": 20,
+      "detections": 2,
+      "status": "FAIL"
+    },
+    {
+      "name": "ordered_handoff",
+      "source": "handoff.cpp",
+      "source_sha256": "57b9c63eddd6d28aeaf76a70f447a92260628d62b768d7a1febf34f948fb9143",
+      "expect_race": false,
+      "executions": [
+        {
+          "iteration": 1,
+          "started_utc": "2026-10-25T00:02:59.112523+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-01.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-01.stderr.log",
+            "bytes": 176,
+            "sha256": "c62443e2c0fe74a7d973fd290fba645e58e33c688e3d46fc5c6aecc145055d20"
+          },
+          "duration_seconds": 0.4609959050000043
+        },
+        {
+          "iteration": 2,
+          "started_utc": "2026-10-25T00:02:59.573593+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-02.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-02.stderr.log",
+            "bytes": 176,
+            "sha256": "6c5c1bd6763de1ce6a5ba5a105a8a9ae6c06fd3d15170702857b2957729d8b21"
+          },
+          "duration_seconds": 0.6530876709999802
+        },
+        {
+          "iteration": 3,
+          "started_utc": "2026-10-25T00:03:00.226775+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-03.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-03.stderr.log",
+            "bytes": 176,
+            "sha256": "6ebce7c2e0957d30e85d373618b4acc37f7bf659539b05ee621ee7f42d8aca04"
+          },
+          "duration_seconds": 0.42185539199999766
+        },
+        {
+          "iteration": 4,
+          "started_utc": "2026-10-25T00:03:00.648709+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-04.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-04.stderr.log",
+            "bytes": 176,
+            "sha256": "1f5fbccf15e420bff369299c49801bcdc5d6df187e26b06fcf4d31349e87ac5f"
+          },
+          "duration_seconds": 0.5049677599999995
+        },
+        {
+          "iteration": 5,
+          "started_utc": "2026-10-25T00:03:01.153740+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-05.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-05.stderr.log",
+            "bytes": 176,
+            "sha256": "11d44b55d6a31a8b47693599278fc0910a88ff3fc4a61e69facd6d83c8e62014"
+          },
+          "duration_seconds": 0.4138995850000242
+        },
+        {
+          "iteration": 6,
+          "started_utc": "2026-10-25T00:03:01.567705+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-06.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-06.stderr.log",
+            "bytes": 176,
+            "sha256": "c390607df1d581df2595b96bc66969af32706deaf813eaa3279eec49de3d0864"
+          },
+          "duration_seconds": 0.47893244600004437
+        },
+        {
+          "iteration": 7,
+          "started_utc": "2026-10-25T00:03:02.045352+00:00",
+          "returncode": 0,
+          "race_diagnostic": false,
+          "status": "PASS",
+          "stdout": {
+            "path": "ordered_handoff-07.stdout.log",
+            "bytes": 74,
+            "sha256": "97dea6ed5b56706641189ab87357ba30829deb1352b2576b8ae3622b458b6ac7"
+          },
+          "stderr": {
+            "path": "ordered_handoff-07.stderr.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "duration_seconds": 0.08466093399999863
+        },
+        {
+          "iteration": 8,
+          "started_utc": "2026-10-25T00:03:02.130112+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-08.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-08.stderr.log",
+            "bytes": 176,
+            "sha256": "5b7a480e5b87e6e46f2aa432b3b7f25c6ab445ef282d6c05cf5ca828422b6a3c"
+          },
+          "duration_seconds": 0.599192544999994
+        },
+        {
+          "iteration": 9,
+          "started_utc": "2026-10-25T00:03:02.729397+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-09.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-09.stderr.log",
+            "bytes": 176,
+            "sha256": "d9541f75be5cd007b0af7d36f5f53c37f4f36c9286230af3d3a4221b8e3d5789"
+          },
+          "duration_seconds": 0.4734508359999836
+        },
+        {
+          "iteration": 10,
+          "started_utc": "2026-10-25T00:03:03.202882+00:00",
+          "returncode": 0,
+          "race_diagnostic": false,
+          "status": "PASS",
+          "stdout": {
+            "path": "ordered_handoff-10.stdout.log",
+            "bytes": 74,
+            "sha256": "97dea6ed5b56706641189ab87357ba30829deb1352b2576b8ae3622b458b6ac7"
+          },
+          "stderr": {
+            "path": "ordered_handoff-10.stderr.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "duration_seconds": 0.05304645699999355
+        },
+        {
+          "iteration": 11,
+          "started_utc": "2026-10-25T00:03:03.255993+00:00",
+          "returncode": 0,
+          "race_diagnostic": false,
+          "status": "PASS",
+          "stdout": {
+            "path": "ordered_handoff-11.stdout.log",
+            "bytes": 74,
+            "sha256": "97dea6ed5b56706641189ab87357ba30829deb1352b2576b8ae3622b458b6ac7"
+          },
+          "stderr": {
+            "path": "ordered_handoff-11.stderr.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "duration_seconds": 0.09111100699999497
+        },
+        {
+          "iteration": 12,
+          "started_utc": "2026-10-25T00:03:03.347182+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-12.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-12.stderr.log",
+            "bytes": 176,
+            "sha256": "f96ad8ddb452900c3db29bc7ecc319e40c80b148cd24c7d284a0c6c5b22c8649"
+          },
+          "duration_seconds": 0.6041978330000006
+        },
+        {
+          "iteration": 13,
+          "started_utc": "2026-10-25T00:03:03.951426+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-13.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-13.stderr.log",
+            "bytes": 176,
+            "sha256": "604e5d2902fd3dc68b6689547276691b945a99a66291fef2a54a8a6c0474bf91"
+          },
+          "duration_seconds": 0.43167513600002394
+        },
+        {
+          "iteration": 14,
+          "started_utc": "2026-10-25T00:03:04.383203+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-14.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-14.stderr.log",
+            "bytes": 176,
+            "sha256": "b5cd3abc9470bad5fe5f51d611930b434bce2a3918af5763ea86b956988a3070"
+          },
+          "duration_seconds": 0.4967661129999783
+        },
+        {
+          "iteration": 15,
+          "started_utc": "2026-10-25T00:03:04.880034+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-15.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-15.stderr.log",
+            "bytes": 176,
+            "sha256": "a214fbea591cfed97bab639a5bcdb2999836480d36e6c3dc0e21b4c7a29e2ff5"
+          },
+          "duration_seconds": 0.4746746150000263
+        },
+        {
+          "iteration": 16,
+          "started_utc": "2026-10-25T00:03:05.354754+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-16.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-16.stderr.log",
+            "bytes": 176,
+            "sha256": "cc55fb1b7c14634aa7e32be676605016a9956ff430dba1ab93bc00042fb8faf8"
+          },
+          "duration_seconds": 0.3922813670000096
+        },
+        {
+          "iteration": 17,
+          "started_utc": "2026-10-25T00:03:05.747079+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-17.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-17.stderr.log",
+            "bytes": 176,
+            "sha256": "06195198c855d1c3866c69429abc7bda64e666b03c41bc3db0319191f9ae9480"
+          },
+          "duration_seconds": 0.41840306900002133
+        },
+        {
+          "iteration": 18,
+          "started_utc": "2026-10-25T00:03:06.165578+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-18.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-18.stderr.log",
+            "bytes": 176,
+            "sha256": "d43d2ca45f18d2d3473da4098645b8a2eda843b1f98ece345f5f3eeba4617c30"
+          },
+          "duration_seconds": 0.5012876040000265
+        },
+        {
+          "iteration": 19,
+          "started_utc": "2026-10-25T00:03:06.666953+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-19.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-19.stderr.log",
+            "bytes": 176,
+            "sha256": "9f329a8da1bd202d65634c97e42f105fcad33e61541e0c4aef1d3385e2af7475"
+          },
+          "duration_seconds": 0.37670456099999683
+        },
+        {
+          "iteration": 20,
+          "started_utc": "2026-10-25T00:03:07.043736+00:00",
+          "returncode": -11,
+          "race_diagnostic": false,
+          "status": "FAIL",
+          "stdout": {
+            "path": "ordered_handoff-20.stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "ordered_handoff-20.stderr.log",
+            "bytes": 176,
+            "sha256": "d909328a6a40c7a491314c317f8c23bc2cd234d12a87c7435e9f3cd471aca56f"
+          },
+          "duration_seconds": 0.43315909699998656
+        }
+      ],
+      "compile": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-DORDERED_CONTROL=1",
+          "-c",
+          "handoff.cpp",
+          "-o",
+          "ordered_handoff.o"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "compile_driver": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-DORDERED_CONTROL=1",
+          "-c",
+          "handoff.cpp",
+          "-o",
+          "ordered_handoff.o",
+          "-###"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n (in-process)\n \"/usr/lib/llvm-19/bin/clang\" \"-cc1\" \"-triple\" \"x86_64-pc-linux-gnu\" \"-emit-obj\" \"-disable-free\" \"-clear-ast-before-backend\" \"-disable-llvm-verifier\" \"-discard-value-names\" \"-main-file-name\" \"handoff.cpp\" \"-mrelocation-model\" \"pic\" \"-pic-level\" \"2\" \"-pic-is-pie\" \"-mframe-pointer=none\" \"-fmath-errno\" \"-ffp-contract=on\" \"-fno-rounding-math\" \"-mconstructor-aliases\" \"-funwind-tables=2\" \"-target-cpu\" \"x86-64\" \"-tune-cpu\" \"generic\" \"-debug-info-kind=constructor\" \"-dwarf-version=5\" \"-debugger-tuning=gdb\" \"-fdebug-compilation-dir=/investigation/fixture-experiments\" \"-fcoverage-compilation-dir=/investigation/fixture-experiments\" \"-resource-dir\" \"/usr/lib/llvm-19/lib/clang/19\" \"-D\" \"ORDERED_CONTROL=1\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/x86_64-linux-gnu/c++/13\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/backward\" \"-internal-isystem\" \"/usr/lib/llvm-19/lib/clang/19/include\" \"-internal-isystem\" \"/usr/local/include\" \"-internal-isystem\" \"/usr/lib/gcc/x86_64-linux-gnu/13/../../../../x86_64-linux-gnu/include\" \"-internal-externc-isystem\" \"/usr/include/x86_64-linux-gnu\" \"-internal-externc-isystem\" \"/include\" \"-internal-externc-isystem\" \"/usr/include\" \"-O1\" \"-std=c++20\" \"-fdeprecated-macro\" \"-ferror-limit\" \"19\" \"-fsanitize=thread\" \"-fno-sanitize-memory-param-retval\" \"-fno-sanitize-address-use-odr-indicator\" \"-fgnuc-version=4.2.1\" \"-fno-implicit-modules\" \"-fskip-odr-check-in-gmf\" \"-fcxx-exceptions\" \"-fexceptions\" \"-faddrsig\" \"-D__GCC_HAVE_DWARF2_CFI_ASM=1\" \"-o\" \"ordered_handoff.o\" \"-x\" \"c++\" \"handoff.cpp\"\n"
+      },
+      "link": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "ordered_handoff.o",
+          "-o",
+          "ordered_handoff"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_driver": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "ordered_handoff.o",
+          "-o",
+          "ordered_handoff",
+          "-###"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "Ubuntu clang version 19.1.1 (1ubuntu1~24.04.2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-19/bin\n \"/usr/bin/ld\" \"-z\" \"relro\" \"--hash-style=gnu\" \"--build-id\" \"--eh-frame-hdr\" \"-m\" \"elf_x86_64\" \"-pie\" \"-dynamic-linker\" \"/lib64/ld-linux-x86-64.so.2\" \"-o\" \"ordered_handoff\" \"/lib/x86_64-linux-gnu/Scrt1.o\" \"/lib/x86_64-linux-gnu/crti.o\" \"/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o\" \"-L/usr/lib/gcc/x86_64-linux-gnu/13\" \"-L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib64\" \"-L/lib/x86_64-linux-gnu\" \"-L/lib/../lib64\" \"-L/usr/lib/x86_64-linux-gnu\" \"-L/usr/lib/../lib64\" \"-L/lib\" \"-L/usr/lib\" \"--whole-archive\" \"/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a\" \"--no-whole-archive\" \"--dynamic-list=/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a.syms\" \"--whole-archive\" \"/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan_cxx-x86_64.a\" \"--no-whole-archive\" \"--dynamic-list=/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan_cxx-x86_64.a.syms\" \"ordered_handoff.o\" \"-lstdc++\" \"-lm\" \"--no-as-needed\" \"-lpthread\" \"-lrt\" \"-lm\" \"-ldl\" \"-lresolv\" \"-lgcc_s\" \"-lgcc\" \"-lc\" \"-lgcc_s\" \"-lgcc\" \"/usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o\" \"/lib/x86_64-linux-gnu/crtn.o\"\n"
+      },
+      "binary_sha256": "47c307ecb9bd3024b3a9b52a689b54cf88e3c40e553bb8924f8a4de991909880",
+      "object_sha256": "d2de27c11c6cbfc3dcc9eac5419176fc62d714eb404feb099066bada8392a686",
+      "ldd": {
+        "argv": [
+          "ldd",
+          "ordered_handoff"
+        ],
+        "returncode": 0,
+        "stdout": "\tlinux-vdso.so.1 (0x00007ffc6a9ee000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x000079f6c4f53000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000079f6c4e6a000)\n\tlibresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x000079f6c4e58000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000079f6c4e2a000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000079f6c4c17000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000079f6c66ee000)\n",
+        "stderr": ""
+      },
+      "llvm_ir": {
+        "argv": [
+          "clang++-19",
+          "-g",
+          "-fsanitize=thread",
+          "-g",
+          "-O1",
+          "-std=c++20",
+          "-DORDERED_CONTROL=1",
+          "-S",
+          "-emit-llvm",
+          "handoff.cpp",
+          "-o",
+          "ordered_handoff.ll"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "disassembly": {
+        "argv": [
+          "objdump",
+          "-d",
+          "ordered_handoff"
+        ],
+        "returncode": 0,
+        "stderr": ""
+      },
+      "attempted": 20,
+      "detections": 0,
+      "status": "FAIL"
+    }
+  ],
+  "runtime": {
+    "path": "/usr/lib/llvm-19/lib/clang/19/lib/linux/libclang_rt.tsan-x86_64.a",
+    "sha256": "bf92e52f36539006b2d53ea6f0587d7bbddc9b7119f42bb47b6a4d322af8b63f"
+  },
+  "ended_utc": "2026-10-25T00:03:07.486355+00:00"
+}

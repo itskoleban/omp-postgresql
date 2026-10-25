@@ -1,0 +1,17 @@
+[
+  {
+    "binary": "poll-allocation-baseline.exe",
+    "sha256": "ae60c3b48c9714a8685ea1ec2e356198806818a79c1c24c393081fb91873f10a",
+    "exit": 1,
+    "stdout": "poll_allocation reserve=0 injection=MAIN_THREAD denied=1 threw=1 unchanged=0 recovered_jobs=1 recovered_connections=1\r\n",
+    "stderr": "poll_allocation FAIL Dispatch allocation failure escaped Engine::poll\r\n"
+  },
+  {
+    "binary": "poll-allocation-fixed.exe",
+    "sha256": "47bde7fc1ace396548c25c57ab6a50ea308f25e68010a63a5784bba1ccd8d1f3",
+    "exit": 0,
+    "stdout": "poll_allocation reserve=0 injection=MAIN_THREAD denied=1 threw=0 unchanged=1 recovered_jobs=2 recovered_connections=1\r\npoll_allocation reserve=1 injection=MAIN_THREAD denied=1 threw=0 unchanged=1 recovered_jobs=2 recovered_connections=1\r\npoll_allocation reserve=2 injection=MAIN_THREAD denied=1 threw=0 unchanged=1 recovered_jobs=2 recovered_connections=1\r\npoll_allocation PASS independent_reserves=3 terminal_FIFO=preserved connection_event=preserved\r\n",
+    "stderr": ""
+  }
+]
+Evidence: <WORKSPACE>\work\poll-runtime-qlhzjwak\results.json

@@ -1,5 +1,14 @@
 #include "pg/component.hpp"
 #include <array>
+#include <new>
+
+// Focused tests throw only at internal error-storage/validation boundaries.
+#ifndef PG_CALLBACK_ERROR_CHECKPOINT
+#define PG_CALLBACK_ERROR_CHECKPOINT() ((void)0)
+#endif
+#ifndef PG_CALLBACK_LOOKUP_CHECKPOINT
+#define PG_CALLBACK_LOOKUP_CHECKPOINT() ((void)0)
+#endif
 
 namespace pg {
 
@@ -72,11 +81,23 @@ void Component::callback(Owner owner, const char *name, cell a,
 		engine.diagnostics().emit({LogEvent::owner_missing, owner});
 		return;
 	}
+	auto record_error = [&](AMX *amx, std::string_view message) noexcept {
+		auto entry = scripts.find(amx);
+		if (entry == scripts.end() || entry->second.owner != owner) return;
+		try {
+			PG_CALLBACK_ERROR_CHECKPOINT();
+			entry->second.error.assign(message);
+		} catch (...) {
+			// Match the native boundary: a diagnostic allocation cannot abort
+			// other accepted deliveries. The callback event is submitted separately.
+			entry->second.error.clear();
+		}
+	};
 	int index;
 	if (script->FindPublic(name, &index)) {
 		log(LogEvent::callback_missing, custom ? 1 : 0);
 		if (custom) {
-			scripts.at(script->GetAMX()).error = "Completion callback public no longer exists";
+			record_error(script->GetAMX(), "Completion callback public no longer exists");
 		}
 		return;
 	}
@@ -119,7 +140,7 @@ void Component::callback(Owner owner, const char *name, cell a,
 		log(LogEvent::callback_failed, static_cast<unsigned>(err));
 		restore();
 		if (custom) {
-			scripts.at(amx).error = "Completion callback argument push failed";
+			record_error(amx, "Completion callback argument push failed");
 		}
 		script->PrintError(err);
 		return;
@@ -137,7 +158,7 @@ void Component::callback(Owner owner, const char *name, cell a,
 	if (err) {
 		log(LogEvent::callback_failed, static_cast<unsigned>(err));
 		if (custom) {
-			scripts.at(amx).error = "Completion callback execution failed; continuation discarded";
+			record_error(amx, "Completion callback execution failed; continuation discarded");
 		}
 		script->PrintError(err);
 	}
@@ -150,8 +171,13 @@ void Component::onTick(Microseconds, TimePoint) {
 	}
 	for (auto &j : dispatch.streams) {
 		try {
+			PG_CALLBACK_LOOKUP_CHECKPOINT();
 			engine.job(j->owner, j->id);
 		} catch (const Failure &) {
+			continue;
+		} catch (const std::bad_alloc &) {
+			// Valid lookups allocate nothing; only the stale-handle Failure's
+			// diagnostic can allocate after an earlier callback released a job.
 			continue;
 		}
 		callback(j->owner, "OnPgRows", j->id, j->context);
@@ -161,8 +187,11 @@ void Component::onTick(Microseconds, TimePoint) {
 		// An earlier callback can explicitly release another completed job.
 		// Never dispatch that later callback with an already-invalid handle.
 		try {
+			PG_CALLBACK_LOOKUP_CHECKPOINT();
 			engine.job(j->owner, j->id);
 		} catch (const Failure &) {
+			continue;
+		} catch (const std::bad_alloc &) {
 			continue;
 		}
 		// Move before invoking Pawn: close/reentry cannot destroy the active arguments.

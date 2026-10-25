@@ -1,0 +1,75 @@
+Breakpoint 1 at 0xe96f9: file /investigation/omp-postgresql/tests/tsan_race_control.cpp, line 12.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+process 1174 is executing new program: /investigation/build-tsan/pg_tsan_race_control
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at /investigation/omp-postgresql/tests/tsan_race_control.cpp:12
+12	    alignas(64) volatile int value = 0;
+HANDOFF_SNAPSHOT target_value=0x7fffffffeb00 phase=0x7fffffffeb40
+Breakpoint 2 at 0x555555627dec
+[New Thread 0x7ffff4fff6c0 (LWP 1177)]
+[New Thread 0x7ffff47fe6c0 (LWP 1178)]
+[New Thread 0x7ffff3ffd6c0 (LWP 1179)]
+TSan race control workers_ready=2
+[Switching to Thread 0x7ffff47fe6c0 (LWP 1178)]
+
+Thread 3 "pg_tsan_race_co" hit Breakpoint 2, 0x0000555555627dec in __tsan_write4 ()
+HANDOFF_SNAPSHOT first_thread=3 phase=0
+rax            0x7fffffffeb00      140737488349952
+r8             0xfffffffeb00       17592186039040
+r9             0x100000000000      17592186044416
+xmm0           {v8_bfloat16 = {0xf, 0xd, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, v8_half = {0xf, 0xd, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, v4_float = {0xd000f, 0x0, 0x0, 0x0}, v2_double = {0xd000f, 0x0}, v16_int8 = {0xf, 0x0, 0xd, 0x0 <repeats 13 times>}, v8_int16 = {0xf, 0xd, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, v4_int32 = {0xd000f, 0x0, 0x0, 0x0}, v2_int64 = {0xd000f, 0x0}, uint128 = 0xd000f}
+HANDOFF_SNAPSHOT second writer cannot reach value while phase remains zero
+[Thread 0x7ffff47fe6c0 (LWP 1178) exited]
+[Switching to Thread 0x7ffff3ffd6c0 (LWP 1179)]
+
+Thread 4 "pg_tsan_race_co" hit Breakpoint 2, 0x0000555555627dec in __tsan_write4 ()
+HANDOFF_SNAPSHOT second_thread=4 phase=1
+rax            0x7fffffffeb00      140737488349952
+r8             0xfffffffeb00       17592186039040
+r9             0x100000000000      17592186044416
+xmm0           {v8_bfloat16 = {0xf, 0xd, 0x10f, 0x1, 0x0, 0x0, 0x0, 0x0}, v8_half = {0xf, 0xd, 0x10f, 0x1, 0x0, 0x0, 0x0, 0x0}, v4_float = {0xd000f, 0x1010f, 0x0, 0x0}, v2_double = {0x1010f000d000f, 0x0}, v16_int8 = {0xf, 0x0, 0xd, 0x0, 0xf, 0x1, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, v8_int16 = {0xf, 0xd, 0x10f, 0x1, 0x0, 0x0, 0x0, 0x0}, v4_int32 = {0xd000f, 0x1010f, 0x0, 0x0}, v2_int64 = {0x1010f000d000f, 0x0}, uint128 = 0x1010f000d000f}
+HANDOFF_SNAPSHOT resumed second callback must detect first worker shadow
+[Detaching after fork from child process 1180]
+/usr/bin/llvm-symbolizer-19: error: '[stack]': No such file or directory
+==================
+WARNING: ThreadSanitizer: data race (pid=1174)
+  Write of size 4 at 0x7fffffffeb00 by thread T2:
+    #0 main::$_2::operator()() const /investigation/omp-postgresql/tests/tsan_race_control.cpp:33:15 (pg_tsan_race_control+0xe9ca8) (BuildId: 2347b0dba9d159cb217f434fbc3a869531252029)
+    #1 void std::__invoke_impl<void, main::$_2>(std::__invoke_other, main::$_2&&) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:61:14 (pg_tsan_race_control+0xe9ca8)
+    #2 std::__invoke_result<main::$_2>::type std::__invoke<main::$_2>(main::$_2&&) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:96:14 (pg_tsan_race_control+0xe9ca8)
+    #3 void std::thread::_Invoker<std::tuple<main::$_2>>::_M_invoke<0ul>(std::_Index_tuple<0ul>) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:292:13 (pg_tsan_race_control+0xe9ca8)
+    #4 std::thread::_Invoker<std::tuple<main::$_2>>::operator()() /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:299:11 (pg_tsan_race_control+0xe9ca8)
+    #5 std::thread::_State_impl<std::thread::_Invoker<std::tuple<main::$_2>>>::_M_run() /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:244:13 (pg_tsan_race_control+0xe9ca8)
+    #6 <null> <null> (libstdc++.so.6+0xecdb3) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+
+  Previous write of size 4 at 0x7fffffffeb00 by thread T1:
+    #0 main::$_1::operator()() const /investigation/omp-postgresql/tests/tsan_race_control.cpp:22:15 (pg_tsan_race_control+0xe9b7b) (BuildId: 2347b0dba9d159cb217f434fbc3a869531252029)
+    #1 void std::__invoke_impl<void, main::$_1>(std::__invoke_other, main::$_1&&) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:61:14 (pg_tsan_race_control+0xe9b7b)
+    #2 std::__invoke_result<main::$_1>::type std::__invoke<main::$_1>(main::$_1&&) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/invoke.h:96:14 (pg_tsan_race_control+0xe9b7b)
+    #3 void std::thread::_Invoker<std::tuple<main::$_1>>::_M_invoke<0ul>(std::_Index_tuple<0ul>) /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:292:13 (pg_tsan_race_control+0xe9b7b)
+    #4 std::thread::_Invoker<std::tuple<main::$_1>>::operator()() /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:299:11 (pg_tsan_race_control+0xe9b7b)
+    #5 std::thread::_State_impl<std::thread::_Invoker<std::tuple<main::$_1>>>::_M_run() /usr/lib/gcc/x86_64-linux-gnu/13/../../../../include/c++/13/bits/std_thread.h:244:13 (pg_tsan_race_control+0xe9b7b)
+    #6 <null> <null> (libstdc++.so.6+0xecdb3) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+
+  Location is stack of main thread.
+
+  Location is global '??' at 0x7ffffffde000 ([stack]+0x20b00)
+
+  Thread T2 (tid=1179, running) created by main thread at:
+    #0 pthread_create <null> (pg_tsan_race_control+0x63cc5) (BuildId: 2347b0dba9d159cb217f434fbc3a869531252029)
+    #1 std::thread::_M_start_thread(std::unique_ptr<std::thread::_State, std::default_delete<std::thread::_State>>, void (*)()) <null> (libstdc++.so.6+0xeceb0) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x2a1c9) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+
+  Thread T1 (tid=1178, finished) created by main thread at:
+    #0 pthread_create <null> (pg_tsan_race_control+0x63cc5) (BuildId: 2347b0dba9d159cb217f434fbc3a869531252029)
+    #1 std::thread::_M_start_thread(std::unique_ptr<std::thread::_State, std::default_delete<std::thread::_State>>, void (*)()) <null> (libstdc++.so.6+0xeceb0) (BuildId: 753c6c8608b61d4e67be8f0c890e03e0aa046b8b)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x2a1c9) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+
+SUMMARY: ThreadSanitizer: data race /investigation/omp-postgresql/tests/tsan_race_control.cpp:33:15 in main::$_2::operator()() const
+==================
+[Thread 0x7ffff3ffd6c0 (LWP 1179) exited]
+[Thread 0x7ffff4fff6c0 (LWP 1177) exited]
+[Inferior 1 (process 1174) exited with code 0102]

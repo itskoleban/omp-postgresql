@@ -21,6 +21,10 @@ set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 option(PG_BUILD_COMPONENT "Build the open.mp component" ON)
 option(PG_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 option(PG_THREAD_SANITIZE "Enable ThreadSanitizer (Linux x64 qualification only)" OFF)
+option(PG_NETWORK_DIAGNOSTICS "Capture one instrumented Linux ASan network qualification" OFF)
+if(PG_NETWORK_DIAGNOSTICS AND (NOT PG_SANITIZE OR NOT CMAKE_SYSTEM_NAME STREQUAL "Linux"))
+    message(FATAL_ERROR "PG_NETWORK_DIAGNOSTICS requires Linux ASan/UBSan")
+endif()
 set(PG_STRESS_SECONDS
     "0"
     CACHE STRING "Minimum sustained stress load duration (0..86400 seconds)"
@@ -71,6 +75,9 @@ add_library(
 )
 set_target_properties(pg_core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_include_directories(pg_core PUBLIC include)
+if(PG_NETWORK_DIAGNOSTICS)
+    target_compile_definitions(pg_core PUBLIC PG_NETWORK_DIAGNOSTICS=1)
+endif()
 target_compile_definitions(
     pg_core
     PUBLIC PG_VERSION_MAJOR=${PROJECT_VERSION_MAJOR} PG_VERSION_MINOR=${PROJECT_VERSION_MINOR}
@@ -218,9 +225,27 @@ if(BUILD_TESTING)
             target_compile_definitions(pg_native_tests PRIVATE HAVE_ALLOCA_H=0)
         endif()
         target_link_libraries(pg_native_tests PRIVATE pg_core OMP-SDK)
+        add_executable(pg_callback_allocation tests/callback_allocation.cpp src/natives.cpp)
+        target_include_directories(pg_callback_allocation PRIVATE ${pawn_SOURCE_DIR}/source ${pawn_SOURCE_DIR}/source/linux)
+        target_compile_definitions(pg_callback_allocation PRIVATE HAVE_STDINT_H=1 PAWN_CELL_SIZE=32)
+        target_link_libraries(pg_callback_allocation PRIVATE pg_core OMP-SDK)
+        if(WIN32)
+            target_compile_definitions(pg_callback_allocation PRIVATE HAVE_ALLOCA_H=0)
+        endif()
+        if(PG_THREAD_SANITIZE)
+            target_compile_definitions(pg_callback_allocation PRIVATE PG_TEST_ALLOCATIONS=2)
+            add_test(NAME callback_site_allocation_integration COMMAND pg_callback_allocation)
+            set_tests_properties(callback_site_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60)
+        else()
+            target_compile_definitions(pg_callback_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
+            add_test(NAME callback_allocation_integration COMMAND pg_callback_allocation)
+            set_tests_properties(callback_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60)
+        endif()
         if(PG_SANITIZE AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
             target_compile_options(pg_native_tests PRIVATE -fno-pie)
             target_link_options(pg_native_tests PRIVATE -no-pie)
+            target_compile_options(pg_callback_allocation PRIVATE -fno-pie)
+            target_link_options(pg_callback_allocation PRIVATE -no-pie)
         endif()
         add_test(NAME natives_unit COMMAND pg_native_tests)
         add_test(NAME natives_integration COMMAND pg_native_tests --integration)
@@ -279,6 +304,15 @@ if(BUILD_TESTING)
         add_executable(pg_tsan_startup_control tests/tsan_startup_control.cpp)
         target_compile_options(pg_tsan_startup_control PRIVATE -fsanitize=thread -g -O1)
         target_link_options(pg_tsan_startup_control PRIVATE -fsanitize=thread)
+        # The same conflicting accesses become ordered only in this negative control.
+        add_executable(pg_tsan_ordered_control tests/tsan_race_control.cpp)
+        target_compile_definitions(pg_tsan_ordered_control PRIVATE PG_TSAN_ORDERED_CONTROL=1)
+        target_compile_options(pg_tsan_ordered_control PRIVATE -fsanitize=thread -g -O1)
+        target_link_options(pg_tsan_ordered_control PRIVATE -fsanitize=thread)
+        add_test(NAME tsan_ordering_control COMMAND ${Python3_EXECUTABLE}
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_ordering.py
+                 $<TARGET_FILE:pg_tsan_ordered_control> --runs 20)
+        set_tests_properties(tsan_ordering_control PROPERTIES TIMEOUT 30)
         add_test(NAME tsan_detector_control COMMAND ${Python3_EXECUTABLE}
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_control.py $<TARGET_FILE:pg_tsan_race_control>
                  --startup-probe $<TARGET_FILE:pg_tsan_startup_control> --runs 20)
@@ -287,6 +321,16 @@ if(BUILD_TESTING)
         target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
         add_test(NAME worker_allocation_integration COMMAND pg_worker_allocation)
         set_tests_properties(worker_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    endif()
+    add_executable(pg_poll_allocation tests/poll_allocation.cpp)
+    if(PG_THREAD_SANITIZE)
+        target_compile_definitions(pg_poll_allocation PRIVATE PG_TEST_ALLOCATIONS=2)
+        add_test(NAME poll_site_allocation_integration COMMAND pg_poll_allocation)
+        set_tests_properties(poll_site_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    else()
+        target_compile_definitions(pg_poll_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
+        add_test(NAME poll_allocation_integration COMMAND pg_poll_allocation)
+        set_tests_properties(poll_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
     endif()
     add_executable(pg_terminal_allocation tests/terminal_allocation.cpp)
     if(PG_THREAD_SANITIZE)
@@ -320,6 +364,7 @@ if(BUILD_TESTING)
         pg_audit_faults
         pg_network_recovery
         pg_socket_wait_tests
+        pg_poll_allocation
         pg_terminal_allocation
         pg_worker_allocation
     )
@@ -340,6 +385,11 @@ if(BUILD_TESTING)
     set_tests_properties(audit_faults_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60 LABELS "audit;stress")
     add_test(NAME network_recovery_integration COMMAND pg_network_recovery)
     set_tests_properties(network_recovery_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS "network;recovery")
+    if(PG_NETWORK_DIAGNOSTICS)
+        set_property(TEST network_recovery_integration APPEND PROPERTY ENVIRONMENT
+            "OMP_PG_NETWORK_TRACE=${CMAKE_BINARY_DIR}/network-diagnostic/client.jsonl"
+            "PGOPTIONS=-c log_min_duration_statement=0 -c log_statement=all -c log_parameter_max_length=0 -c log_lock_waits=on")
+    endif()
     add_test(NAME diagnostics_unit COMMAND pg_diagnostics_tests)
     set_tests_properties(diagnostics_unit PROPERTIES TIMEOUT 30)
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")

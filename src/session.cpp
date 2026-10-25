@@ -2,6 +2,7 @@
 #include "pg/sql_sections.hpp"
 #include "pg/statement.hpp"
 #include "pg/stream.hpp"
+#include "network_trace.hpp"
 #include <algorithm>
 #include <cerrno>
 #include <limits>
@@ -161,7 +162,9 @@ void Lane::enqueue(std::shared_ptr<Job> job) {
 }
 
 void Lane::drop() {
+	PG_NETWORK_TRACE("drop_enter", nullptr, this, conn_.get());
 	conn_.reset();
+	PG_NETWORK_TRACE("drop_exit", nullptr, this);
 	prepared_sql_.clear();
 	prepared_types_.clear();
 	transaction_ = 0;
@@ -173,6 +176,7 @@ Error Lane::wait_socket(bool writing, Clock::time_point deadline, const Job *job
 		return Error::cancelled;
 	}
 	if (Clock::now() >= deadline) {
+		PG_NETWORK_TRACE("wait_expired", job, this, conn_.get(), deadline);
 		return Error::timeout;
 	}
 	int socket = PQsocket(conn_.get());
@@ -192,8 +196,11 @@ Error Lane::wait_socket(bool writing, Clock::time_point deadline, const Job *job
 	FD_SET(socket, &fds);
 #endif
 	timeval timeout{0, 10000};
+	PG_NETWORK_TRACE("select_enter", job, this, conn_.get(), deadline, writing);
 	int rc = PG_SOCKET_SELECT(socket + 1, writing ? nullptr : &fds, writing ? &fds : nullptr,
 	                          nullptr, &timeout);
+	PG_NETWORK_TRACE("select_exit", job, this, conn_.get(), deadline, rc,
+	                 (writing ? 2u : 0u) | (rc > 0 && FD_ISSET(socket, &fds) ? 1u : 0u));
 	if (rc < 0) {
 		// Capture the wait's result before inspecting any later cancel/deadline.
 		// A signal interruption is retryable; the caller rechecks its stop conditions.
@@ -207,6 +214,7 @@ Error Lane::wait_socket(bool writing, Clock::time_point deadline, const Job *job
 }
 
 bool Lane::connect() {
+	PG_NETWORK_TRACE("connect_enter", nullptr, this);
 	log(LogEvent::lane_connecting);
 	drop();
 	connection_attempts_.fetch_add(1, std::memory_order_relaxed);
@@ -237,6 +245,7 @@ bool Lane::connect() {
 			}
 			connected_once_ = true;
 			log(LogEvent::lane_ready);
+			PG_NETWORK_TRACE("connect_ready", nullptr, this, conn_.get());
 			return true;
 		}
 		if (status == PGRES_POLLING_FAILED) {
@@ -285,15 +294,28 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 	};
 	for (;;) {
 		if (stop_.load() || job.cancel.load() || Clock::now() >= deadline) {
+			PG_NETWORK_TRACE("receive_interrupted", &job, this, conn_.get(), deadline,
+			                 job.cancel.load() || stop_.load() ? int(Error::cancelled) : int(Error::timeout));
 			PG_ALLOCATION_CHECKPOINT("interrupted_failure");
 			throw Failure(job.cancel.load() || stop_.load() ? Error::cancelled : Error::timeout,
 			              "Interrupted after dispatch; outcome may be unknown");
 		}
+		PG_NETWORK_TRACE("flush_enter", &job, this, conn_.get(), deadline);
 		int flush = PQflush(conn_.get());
-		if (flush < 0 || !PQconsumeInput(conn_.get())) {
+		PG_NETWORK_TRACE("flush_exit", &job, this, conn_.get(), deadline, flush);
+		// Preserve short circuiting: a failed flush never consumes input.
+		int consumed = 0;
+		if (flush >= 0) {
+			PG_NETWORK_TRACE("consume_enter", &job, this, conn_.get(), deadline);
+			consumed = PQconsumeInput(conn_.get());
+			PG_NETWORK_TRACE("consume_exit", &job, this, conn_.get(), deadline, consumed);
+		}
+		if (flush < 0 || !consumed) {
 			throw Failure(Error::connection, "Connection lost after dispatch");
 		}
-		if (PQisBusy(conn_.get())) {
+		const int busy = PQisBusy(conn_.get());
+		PG_NETWORK_TRACE("busy", &job, this, conn_.get(), deadline, busy);
+		if (busy) {
 			const auto cause = wait_socket(flush == 1, deadline, &job);
 			if (cause != Error::none) {
 				PG_ALLOCATION_CHECKPOINT("interrupted_failure");
@@ -303,7 +325,10 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 			}
 			continue;
 		}
+		PG_NETWORK_TRACE("getresult_enter", &job, this, conn_.get(), deadline);
 		PgResult r(PQgetResult(conn_.get()));
+		PG_NETWORK_TRACE("getresult_exit", &job, this, conn_.get(), deadline,
+		                 r ? int(PQresultStatus(r.get())) : -1);
 		if (!r) {
 			break;
 		}
@@ -373,6 +398,7 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 	}
 	if (query_dispatched_ && out.message.empty()) {
 		sql_confirmed_ = true;
+		PG_NETWORK_TRACE("sql_confirmed", &job, this, conn_.get(), deadline);
 	}
 	if (stream_rows) {
 		if (out.message.empty() && !out.rows.empty()) {
@@ -392,6 +418,8 @@ Result Lane::command(Job &job, const std::string &sql, const Params &params, boo
 	if (transaction_) {
 		deadline = std::min(deadline, transaction_deadline_);
 	}
+	PG_NETWORK_TRACE("deadline", &job, this, conn_.get(), deadline, limits_.query_ms,
+	                 network_trace::hash(sql));
 	std::vector<Oid> types;
 	std::vector<const char *> values;
 	for (auto &p : params) {
@@ -416,10 +444,12 @@ Result Lane::command(Job &job, const std::string &sql, const Params &params, boo
 	auto n = static_cast<int>(params.size());
 	// Treat a failed dispatch conservatively: libpq may have flushed part of it.
 	query_dispatched_ = true;
+	PG_NETWORK_TRACE("dispatch_enter", &job, this, conn_.get(), deadline);
 	int sent = prepared
 	               ? PQsendQueryPrepared(conn_.get(), "", n, values.data(), nullptr, nullptr, 0)
 	               : PQsendQueryParams(conn_.get(), sql.c_str(), n, types.data(), values.data(),
 	                                   nullptr, nullptr, 0);
+	PG_NETWORK_TRACE("dispatch_exit", &job, this, conn_.get(), deadline, sent);
 	// An unnamed Parse from direct mode replaces the unnamed prepared statement.
 	if (!prepared) {
 		prepared_sql_.clear();
@@ -750,6 +780,7 @@ void Lane::run() {
 				queued_jobs_.fetch_sub(1, std::memory_order_relaxed);
 			}
 			auto start = Clock::now();
+			PG_NETWORK_TRACE("worker_start", job.get(), this, conn_.get(), {}, 0, 0, start);
 			job->queue_us =
 			    std::chrono::duration_cast<std::chrono::microseconds>(start - job->accepted_at)
 			        .count();
@@ -852,7 +883,11 @@ void Lane::run() {
 				state.store(State::reconnecting);
 			}
 			job->status.store(status);
+			PG_NETWORK_TRACE("terminal_status", job.get(), this, conn_.get(), {}, int(status),
+			                 (std::uint64_t(job->completed) << 32) | unsigned(job->error));
+			PG_NETWORK_TRACE("terminal_push_enter", job.get(), this, conn_.get());
 			completed_.push(job);
+			PG_NETWORK_TRACE("terminal_push_exit", job.get(), this, conn_.get());
 			if (!connected && !stop_.load()) {
 				state.store(State::reconnecting);
 				// Existing queued jobs must not silently execute in a new session.

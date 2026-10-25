@@ -1,0 +1,340 @@
+{
+  "baseline_source_sha": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+  "unmodified_component_before": {
+    "capture": "callback-baseline-run-console.log",
+    "original_sha256": "6c81c721fe1564f9290472c09a622a34931052c20c5bc2075890b31d0a017278",
+    "binary_sha256": "230c27ca2a52e6cb89d808d492b542ac49313bef0fdadfceec3726d484d6393d",
+    "exit": 1,
+    "executions": [
+      {
+        "argv": [
+          "/investigation/callback-allocation-baseline"
+        ],
+        "exit": 1,
+        "stdout": "callback_allocation denied=1 escaped=1 first_delivered=1 second_delivered=1 first_tick_calls=0 later_calls=0 second_metadata_retained=1\n",
+        "stderr": ""
+      }
+    ],
+    "disposable_cluster_stopped": true
+  },
+  "unchanged_regression_after": {
+    "capture": "callback-fixed-run-console.log",
+    "original_sha256": "bfc6dfbc5a585b6e5c8de9528aa114aec4c9f28a4467ed7c855ce8426338d68b",
+    "binary_sha256": "40a6da623f156d8b3a86b94c064d9250b4561a1ad9c839fe2887b869743d8e04",
+    "exit": 0,
+    "executions": [
+      {
+        "argv": [
+          "/investigation/callback-allocation-fixed"
+        ],
+        "exit": 0,
+        "stdout": "callback_allocation denied=1 escaped=0 first_delivered=1 second_delivered=1 first_tick_calls=1 later_calls=1 second_metadata_retained=0\n",
+        "stderr": ""
+      }
+    ],
+    "disposable_cluster_stopped": true
+  },
+  "before_independent_scenarios": {
+    "missing": {
+      "capture": "callback-before-missing.log",
+      "original_sha256": "3b9ef9bf2376ff66e88c44e5ea933b15b25b6eefda17642c676b4b0c4df5c749",
+      "binary_sha256": "8c7b822cd66cca4a9e6c8875c548822262609bc9b5ec27e991c974813d980e13",
+      "exit": 1,
+      "executions": [
+        {
+          "argv": [
+            "/investigation/callback-baseline-regression",
+            "--scenario",
+            "missing"
+          ],
+          "exit": 1,
+          "stdout": "callback_allocation mode=0 injection=MAIN_THREAD denied=1 escaped=1 later_calls=0 frame_restored=1\n",
+          "stderr": "callback_allocation FAIL Callback diagnostic allocation escaped onTick\n"
+        }
+      ],
+      "disposable_cluster_stopped": true
+    },
+    "push": {
+      "capture": "callback-before-push.log",
+      "original_sha256": "b09aa8522fb92db6758b546cd8ae6f2b4883a5cf5e938c325d61f8c657d27dd0",
+      "binary_sha256": "8c7b822cd66cca4a9e6c8875c548822262609bc9b5ec27e991c974813d980e13",
+      "exit": 1,
+      "executions": [
+        {
+          "argv": [
+            "/investigation/callback-baseline-regression",
+            "--scenario",
+            "push"
+          ],
+          "exit": 1,
+          "stdout": "callback_allocation mode=1 injection=MAIN_THREAD denied=1 escaped=1 later_calls=0 frame_restored=1\n",
+          "stderr": "callback_allocation FAIL Callback diagnostic allocation escaped onTick\n"
+        }
+      ],
+      "disposable_cluster_stopped": true
+    },
+    "exec": {
+      "capture": "callback-before-exec.log",
+      "original_sha256": "16c1f02673865e19b756a96af37b1aa80a0bccd93f88a7d7b49eeca0d6e455ae",
+      "binary_sha256": "8c7b822cd66cca4a9e6c8875c548822262609bc9b5ec27e991c974813d980e13",
+      "exit": 1,
+      "executions": [
+        {
+          "argv": [
+            "/investigation/callback-baseline-regression",
+            "--scenario",
+            "exec"
+          ],
+          "exit": 1,
+          "stdout": "callback_allocation mode=2 injection=MAIN_THREAD denied=1 escaped=1 later_calls=0 frame_restored=1\n",
+          "stderr": "callback_allocation FAIL Callback diagnostic allocation escaped onTick\n"
+        }
+      ],
+      "disposable_cluster_stopped": true
+    },
+    "stale": {
+      "capture": "callback-before-stale.log",
+      "original_sha256": "2bd42f9af34982012adc94ad427bf1be809f4c599c5bc60bf2e0b8573f7cde40",
+      "binary_sha256": "8c7b822cd66cca4a9e6c8875c548822262609bc9b5ec27e991c974813d980e13",
+      "exit": 1,
+      "executions": [
+        {
+          "argv": [
+            "/investigation/callback-baseline-regression",
+            "--scenario",
+            "stale"
+          ],
+          "exit": 1,
+          "stdout": "callback_allocation stale_handle injection=MAIN_THREAD denied=1 escaped=1 later_calls=0\n",
+          "stderr": "callback_allocation FAIL Stale-handle diagnostic allocation escaped\n"
+        }
+      ],
+      "disposable_cluster_stopped": true
+    }
+  },
+  "after_configurations": {
+    "normal": {
+      "capture": "callback-regression-normal.log",
+      "original_sha256": "9133453938da7e2e9249f52f1e0f0c5c6fc9221cf4b62e2a9e1f7f892b413d1c",
+      "binary_sha256": "e9456a6e53740d5abbeb5c84302aa07c85629b3f2ae1a8a31eb4dd2c81995a7c",
+      "exit": 0,
+      "executions": [
+        {
+          "argv": [
+            "/investigation/build-callback-review/pg_callback_allocation"
+          ],
+          "exit": 0,
+          "stdout": "callback_allocation mode=0 injection=MAIN_THREAD denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation mode=1 injection=MAIN_THREAD denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation mode=2 injection=MAIN_THREAD denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation stale_handle injection=MAIN_THREAD denied=1 escaped=0 later_calls=1\ncallback_allocation PASS independent_sites=4 later_delivery=preserved VM_frame=restored\n",
+          "stderr": ""
+        }
+      ],
+      "disposable_cluster_stopped": true
+    },
+    "tsan": {
+      "capture": "callback-regression-tsan.log",
+      "original_sha256": "733a04bee8aab6133ead43ea828815a39195b3a19e4713513d5901336c34979d",
+      "binary_sha256": "6e1390673b9e770b8dd304612b49252c7805ef140fde1e9fb794a9c47a7da979",
+      "exit": 0,
+      "executions": [
+        {
+          "argv": [
+            "/investigation/build-tsan/pg_callback_allocation"
+          ],
+          "exit": 0,
+          "stdout": "callback_allocation mode=0 injection=SITE(TSan) denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation mode=1 injection=SITE(TSan) denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation mode=2 injection=SITE(TSan) denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation stale_handle injection=SITE(TSan) denied=1 escaped=0 later_calls=1\ncallback_allocation PASS independent_sites=4 later_delivery=preserved VM_frame=restored\n",
+          "stderr": ""
+        }
+      ],
+      "disposable_cluster_stopped": true
+    },
+    "asan": {
+      "capture": "callback-regression-asan.log",
+      "original_sha256": "fab382053a0bcfcd11aa3d445215ede54e192729679b7af1cbaab932fa9726fc",
+      "binary_sha256": "252be054305105d42309fa5363768afcd1918b2c96514786de06e3b719a84461",
+      "exit": 0,
+      "executions": [
+        {
+          "argv": [
+            "/investigation/build-asan/pg_callback_allocation"
+          ],
+          "exit": 0,
+          "stdout": "callback_allocation mode=0 injection=MAIN_THREAD denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation mode=1 injection=MAIN_THREAD denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation mode=2 injection=MAIN_THREAD denied=1 escaped=0 later_calls=1 frame_restored=1\ncallback_allocation stale_handle injection=MAIN_THREAD denied=1 escaped=0 later_calls=1\ncallback_allocation PASS independent_sites=4 later_delivery=preserved VM_frame=restored\n",
+          "stderr": ""
+        }
+      ],
+      "disposable_cluster_stopped": true
+    }
+  },
+  "builds": {
+    "callback-baseline-build.json": {
+      "original_sha256": "b868a8bb0ab5f68e972eeca947527e1ca4c9f23ba2873b1e8077d1b26f91a75f",
+      "metadata": {
+        "source_sha": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+        "commands": [
+          {
+            "argv": [
+              "/usr/bin/c++",
+              "-DGLM_FORCE_QUAT_DATA_WXYZ",
+              "-DGLM_FORCE_SSE2",
+              "-DHAVE_STDINT_H=1",
+              "-DNOMINMAX",
+              "-DPAWN_CELL_SIZE=32",
+              "-DPG_PAWN_API_PATH=\"/investigation/omp-postgresql/pawn/omp-postgresql.inc\"",
+              "-DPG_VERSION_MAJOR=0",
+              "-DPG_VERSION_MINOR=1",
+              "-DPG_VERSION_PATCH=0",
+              "-DPG_VERSION_PRERELEASE=0",
+              "-DPG_VERSION_STRING=\"0.1.0\"",
+              "-Dnssv_CONFIG_SELECT_STRING_VIEW=nssv_STRING_VIEW_NONSTD",
+              "-Dspan_CONFIG_SELECT_SPAN=span_SPAN_NONSTD",
+              "-I/investigation/build-callback-review/_deps/pawn-src/source",
+              "-I/investigation/build-callback-review/_deps/pawn-src/source/linux",
+              "-I/investigation/omp-postgresql/include",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/include",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/lib/glm/glm/..",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/lib/robin-hood-hashing/src/include",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/lib/span-lite/include",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/lib/string-view-lite/include",
+              "-isystem",
+              "/usr/include/postgresql",
+              "-g",
+              "-std=c++20",
+              "-msse2",
+              "-mfpmath=sse",
+              "-Werror=format",
+              "-MD",
+              "-MT",
+              "CMakeFiles/pg_native_tests.dir/tests/native_tests.cpp.o",
+              "-MF",
+              "CMakeFiles/pg_native_tests.dir/tests/native_tests.cpp.o.d",
+              "-o",
+              "/investigation/callback-allocation-baseline.o",
+              "-c",
+              "/investigation/callback-allocation-repro.cpp"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": "In file included from /investigation/build-callback-review/_deps/omp_sdk-src/include/component.hpp:3,\n                 from /investigation/build-callback-review/_deps/omp_sdk-src/include/core.hpp:3,\n                 from /investigation/build-callback-review/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:3,\n                 from /investigation/omp-postgresql/include/pg/component.hpp:5,\n                 from /investigation/omp-postgresql/tests/pawn_memory.hpp:3,\n                 from /investigation/omp-postgresql/tests/native_tests.cpp:1,\n                 from /investigation/callback-allocation-repro.cpp:3:\n/investigation/build-callback-review/_deps/omp_sdk-src/include/types.hpp:373:34: warning: \u2018cdecl\u2019 attribute ignored [-Wattributes]\n  373 |         void(__CDECL* free)(void*); ///< The free function to use for deallocating the dynamic storage\n      |                                  ^\n/investigation/build-callback-review/_deps/omp_sdk-src/include/types.hpp:547:74: warning: \u2018cdecl\u2019 attribute ignored [-Wattributes]\n  547 |         void initMove(char* data, size_t len, void(__CDECL* freeFn)(void*))\n      |                                                                          ^\nIn file included from /investigation/build-callback-review/_deps/omp_sdk-src/include/Server/Components/Checkpoints/checkpoints.hpp:3,\n                 from /investigation/build-callback-review/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:10:\n/investigation/build-callback-review/_deps/omp_sdk-src/include/sdk.hpp:13:53: warning: \u2018cdecl\u2019 attribute ignored [-Wattributes]\n   13 | typedef IComponent*(__CDECL* ComponentEntryPoint_t)();\n      |                                                     ^\n"
+          },
+          {
+            "argv": [
+              "/usr/bin/c++",
+              "-g",
+              "/investigation/callback-allocation-baseline.o",
+              "CMakeFiles/pg_native_tests.dir/src/component.cpp.o",
+              "CMakeFiles/pg_native_tests.dir/src/natives.cpp.o",
+              "-o",
+              "/investigation/callback-allocation-baseline",
+              "libpg_core.a",
+              "/usr/lib/x86_64-linux-gnu/libpq.so"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        ],
+        "binary_sha256": "230c27ca2a52e6cb89d808d492b542ac49313bef0fdadfceec3726d484d6393d"
+      }
+    },
+    "callback-fixed-build.json": {
+      "original_sha256": "1e5357372d82b86a6720aeaff062c876cb0a7ed5ec9be6f30a35e747edfa49f6",
+      "metadata": {
+        "argv": [
+          "/usr/bin/c++",
+          "-g",
+          "/investigation/callback-allocation-baseline.o",
+          "CMakeFiles/pg_native_tests.dir/src/component.cpp.o",
+          "CMakeFiles/pg_native_tests.dir/src/natives.cpp.o",
+          "-o",
+          "/investigation/callback-allocation-fixed",
+          "libpg_core.a",
+          "/usr/lib/x86_64-linux-gnu/libpq.so"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "regression_source_sha256": "5e3e6f23dbbf2b2a98ae0605180d278ec67842be6a42abe32ac707fa815b349a",
+        "component_source_sha256": "d1c0dd4684f3fdbde37419875fbf41328d27cd3d88e41cfea4a03a12c6b17e5d",
+        "binary_sha256": "40a6da623f156d8b3a86b94c064d9250b4561a1ad9c839fe2887b869743d8e04"
+      }
+    },
+    "callback-instrumented-baseline-build.json": {
+      "original_sha256": "3629fb52c6d2659bdadf702763485277e62433d3252bb93b1f43b58e010afae3",
+      "metadata": {
+        "baseline_source_sha": "194ae7f5b27d8ffd9653f43ddfe877dfa67b8a84",
+        "scope": "Original Component plus allocation-arming seams only; no recovery correction",
+        "original_component_sha256": "4b3b5ed150d8630ef26c3862df43749ad0e22c9e22ef6cb6a111adc7470f38b1",
+        "instrumented_component_sha256": "f89d8cb14765d0236b10edbd068e74cc1617ab145006c5ba1b97f00ba4c88b20",
+        "regression_source_sha256": "61371afe0b3b4d498729bd95c551a9fbc6eefc33270c997cd636cd83f0850f18",
+        "commands": [
+          {
+            "argv": [
+              "/usr/bin/c++",
+              "-DGLM_FORCE_QUAT_DATA_WXYZ",
+              "-DGLM_FORCE_SSE2",
+              "-DHAVE_STDINT_H=1",
+              "-DNOMINMAX",
+              "-DPAWN_CELL_SIZE=32",
+              "-DPG_TEST_ALLOCATIONS=1",
+              "-DPG_VERSION_MAJOR=0",
+              "-DPG_VERSION_MINOR=1",
+              "-DPG_VERSION_PATCH=0",
+              "-DPG_VERSION_PRERELEASE=0",
+              "-DPG_VERSION_STRING=\"0.1.0\"",
+              "-Dnssv_CONFIG_SELECT_STRING_VIEW=nssv_STRING_VIEW_NONSTD",
+              "-Dspan_CONFIG_SELECT_SPAN=span_SPAN_NONSTD",
+              "-I/investigation/build-callback-review/_deps/pawn-src/source",
+              "-I/investigation/build-callback-review/_deps/pawn-src/source/linux",
+              "-I/investigation/omp-postgresql/include",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/include",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/lib/glm/glm/..",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/lib/robin-hood-hashing/src/include",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/lib/span-lite/include",
+              "-I/investigation/build-callback-review/_deps/omp_sdk-src/lib/string-view-lite/include",
+              "-isystem",
+              "/usr/include/postgresql",
+              "-g",
+              "-std=c++20",
+              "-msse2",
+              "-mfpmath=sse",
+              "-Werror=format",
+              "-o",
+              "/investigation/callback-baseline-regression.o",
+              "-c",
+              "/investigation/callback-baseline-regression.cpp",
+              "-I/investigation/omp-postgresql/tests"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": "In file included from /investigation/build-callback-review/_deps/omp_sdk-src/include/component.hpp:3,\n                 from /investigation/build-callback-review/_deps/omp_sdk-src/include/core.hpp:3,\n                 from /investigation/build-callback-review/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:3,\n                 from /investigation/omp-postgresql/include/pg/component.hpp:5,\n                 from /investigation/omp-postgresql/tests/pawn_memory.hpp:3,\n                 from /investigation/callback-baseline-regression.cpp:2:\n/investigation/build-callback-review/_deps/omp_sdk-src/include/types.hpp:373:34: warning: \u2018cdecl\u2019 attribute ignored [-Wattributes]\n  373 |         void(__CDECL* free)(void*); ///< The free function to use for deallocating the dynamic storage\n      |                                  ^\n/investigation/build-callback-review/_deps/omp_sdk-src/include/types.hpp:547:74: warning: \u2018cdecl\u2019 attribute ignored [-Wattributes]\n  547 |         void initMove(char* data, size_t len, void(__CDECL* freeFn)(void*))\n      |                                                                          ^\nIn file included from /investigation/build-callback-review/_deps/omp_sdk-src/include/Server/Components/Checkpoints/checkpoints.hpp:3,\n                 from /investigation/build-callback-review/_deps/omp_sdk-src/include/Server/Components/Pawn/pawn.hpp:10:\n/investigation/build-callback-review/_deps/omp_sdk-src/include/sdk.hpp:13:53: warning: \u2018cdecl\u2019 attribute ignored [-Wattributes]\n   13 | typedef IComponent*(__CDECL* ComponentEntryPoint_t)();\n      |                                                     ^\nIn file included from /investigation/callback-baseline-regression.cpp:50:\n/investigation/component-baseline-with-test-seams.cpp:226:23: warning: \u2018cdecl\u2019 attribute ignored [-Wattributes]\n  226 | COMPONENT_ENTRY_POINT() {\n      |                       ^\n"
+          },
+          {
+            "argv": [
+              "/usr/bin/c++",
+              "-g",
+              "/investigation/callback-baseline-regression.o",
+              "CMakeFiles/pg_callback_allocation.dir/src/natives.cpp.o",
+              "-o",
+              "/investigation/callback-baseline-regression",
+              "libpg_core.a",
+              "/usr/lib/x86_64-linux-gnu/libpq.so"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        ],
+        "binary_sha256": "8c7b822cd66cca4a9e6c8875c548822262609bc9b5ec27e991c974813d980e13"
+      }
+    }
+  },
+  "scope": [
+    "The original Component failed with actual main-thread allocation failure and no Component test hooks.",
+    "Four independent pre-correction regression cases add only allocation-arming seams to the original Component, without recovery changes.",
+    "Normal/ASan regressions deny one actual main-thread allocation at each selected internal boundary.",
+    "TSan regressions throw at named checkpoints and preserve all global allocator interceptors.",
+    "Detailed callback error text clears if its storage cannot allocate, following the existing native policy.",
+    "External SDK C++ exceptions, persistent global OOM, and the separate stale-stream boundary remain outside the runtime proof.",
+    "The 24-hour campaign remains BLOCKED."
+  ]
+}

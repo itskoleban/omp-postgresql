@@ -1,0 +1,38 @@
+Breakpoint 1 at 0xe96ed: file volatile_loop.cpp, line 5.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+process 729 is executing new program: /investigation/fixture-experiments/volatile_loop
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at volatile_loop.cpp:5
+5	    volatile int value = 0;
+SHADOW_COLLISION target_value=0x7fffffffebc0 main_thread=1
+Breakpoint 2 at 0x555555627dec
+[New Thread 0x7ffff4dff6c0 (LWP 732)]
+[New Thread 0x7ffff45fe6c0 (LWP 733)]
+[New Thread 0x7ffff3dfd6c0 (LWP 734)]
+[Switching to Thread 0x7ffff45fe6c0 (LWP 733)]
+
+Thread 3 "volatile_loop" hit Breakpoint 2, 0x0000555555627dec in __tsan_write4 ()
+SHADOW_COLLISION first_snapshot_thread=3
+rax            0x7fffffffebc0      140737488350144
+r8             0xfffffffebc0       17592186039232
+r9             0x100000000000      17592186044416
+xmm0           {v8_bfloat16 = {0xf, 0xd, 0x2f0, 0x8001, 0x1f0, 0x8001, 0x1f0, 0xc002}, v8_half = {0xf, 0xd, 0x2f0, 0x8001, 0x1f0, 0x8001, 0x1f0, 0xc002}, v4_float = {0xd000f, 0x800102f0, 0x800101f0, 0xc00201f0}, v2_double = {0x800102f0000d000f, 0xc00201f0800101f0}, v16_int8 = {0xf, 0x0, 0xd, 0x0, 0xf0, 0x2, 0x1, 0x80, 0xf0, 0x1, 0x1, 0x80, 0xf0, 0x1, 0x2, 0xc0}, v8_int16 = {0xf, 0xd, 0x2f0, 0x8001, 0x1f0, 0x8001, 0x1f0, 0xc002}, v4_int32 = {0xd000f, 0x800102f0, 0x800101f0, 0xc00201f0}, v2_int64 = {0x800102f0000d000f, 0xc00201f0800101f0}, uint128 = 0xc00201f0800101f0800102f0000d000f}
+0x2fffffffd780:	0xc00202f0	0x800102f0	0x800101f0	0xc00201f0
+SHADOW_COLLISION candidate_thread=4 frames=['__tsan_write4', 'main::$_0::operator()', 'std::__invoke_impl<void, main::$_0>', 'std::__invoke<main::$_0>', 'std::thread::_Invoker<std::tuple<main::$_0> >::_M_invoke<0ul>', 'std::thread::_Invoker<std::tuple<main::$_0> >::operator()', 'std::thread::_State_impl<std::thread::_Invoker<std::tuple<main::$_0> > >::_M_run', '', '__tsan_thread_start_func', 'start_thread', 'clone']
+SHADOW_COLLISION candidate_thread=2 frames=['__sanitizer::internal_usleep(unsigned long long)', '__tsan::BackgroundThread(void*)', 'start_thread', 'clone']
+
+Thread 4 "volatile_loop" hit Breakpoint 2, 0x0000555555627dec in __tsan_write4 ()
+SHADOW_COLLISION second_snapshot_thread=4
+rax            0x7fffffffebc0      140737488350144
+r8             0xfffffffebc0       17592186039232
+r9             0x100000000000      17592186044416
+xmm0           {v8_bfloat16 = {0x2f0, 0xc002, 0x2f0, 0x8001, 0x1f0, 0x8001, 0x1f0, 0xc002}, v8_half = {0x2f0, 0xc002, 0x2f0, 0x8001, 0x1f0, 0x8001, 0x1f0, 0xc002}, v4_float = {0xc00202f0, 0x800102f0, 0x800101f0, 0xc00201f0}, v2_double = {0x800102f0c00202f0, 0xc00201f0800101f0}, v16_int8 = {0xf0, 0x2, 0x2, 0xc0, 0xf0, 0x2, 0x1, 0x80, 0xf0, 0x1, 0x1, 0x80, 0xf0, 0x1, 0x2, 0xc0}, v8_int16 = {0x2f0, 0xc002, 0x2f0, 0x8001, 0x1f0, 0x8001, 0x1f0, 0xc002}, v4_int32 = {0xc00202f0, 0x800102f0, 0x800101f0, 0xc00201f0}, v2_int64 = {0x800102f0c00202f0, 0xc00201f0800101f0}, uint128 = 0xc00201f0800101f0800102f0c00202f0}
+0x2fffffffd780:	0xc00202f0	0x800102f0	0x800101f0	0xc00201f0
+SHADOW_COLLISION both_callbacks_hold_old_shadow_snapshot; resume original program
+[Thread 0x7ffff3dfd6c0 (LWP 734) exited]
+[Thread 0x7ffff45fe6c0 (LWP 733) exited]
+[Thread 0x7ffff4dff6c0 (LWP 732) exited]
+[Inferior 1 (process 729) exited normally]

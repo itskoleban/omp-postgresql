@@ -1,5 +1,6 @@
 // Real Engine/libpq with disposable PostgreSQL and bounded loopback wire faults.
 #include "pg/engine.hpp"
+#include "../src/network_trace.hpp"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -127,6 +128,7 @@ struct Test {
 
 void response_loss(const char *service, const std::string &name) {
 	scenario = name;
+	PG_NETWORK_SCENARIO(scenario);
 	std::cout << "SCENARIO " << scenario << " start" << std::endl;
 	Test t(service, "wire_" + name);
 	const auto pid = t.sql(t.writer, "SELECT pg_backend_pid()");
@@ -204,6 +206,7 @@ void response_loss(const char *service, const std::string &name) {
 
 void batch_loss(const char *service) {
 	scenario = "batch";
+	PG_NETWORK_SCENARIO(scenario);
 	std::cout << "SCENARIO batch start" << std::endl;
 	Test t(service, "wire_batch");
 	const auto pid = t.sql(t.writer, "SELECT pg_backend_pid()");
@@ -236,6 +239,7 @@ void batch_loss(const char *service) {
 
 void fragment(const char *service) {
 	scenario = "fragment";
+	PG_NETWORK_SCENARIO(scenario);
 	std::cout << "SCENARIO fragment start" << std::endl;
 	Test t(service, "wire_fragment");
 	// Multiple frontend and backend protocol frames, not OS short-write injection.
@@ -264,6 +268,7 @@ void fragment(const char *service) {
 
 void tls_hold(const char *service, const std::filesystem::path &root, bool shutdown) {
 	scenario = shutdown ? "tls_shutdown" : "tls_hold";
+	PG_NETWORK_SCENARIO(scenario);
 	std::cout << "SCENARIO " << scenario << " start" << std::endl;
 	auto t = std::make_unique<Test>(service, "wire_" + scenario);
 	const auto pid = t->sql(t->writer, "SELECT pg_backend_pid()");
@@ -343,6 +348,11 @@ int main() {
 		std::cout << "Disposable wire fixture required\n";
 		return 77;
 	}
+	pg::network_trace::Capture capture;
+	if (!capture.valid()) {
+		std::cerr << "Network diagnostic capture initialization failed" << std::endl;
+		return 1;
+	}
 	try {
 		std::cout << "network_recovery libpq=" << PQlibVersion()
 		          << " pointer_bytes=" << sizeof(void *) << std::endl;
@@ -355,7 +365,7 @@ int main() {
 		tls_hold(service, root, false);
 		tls_hold(service, root, true);
 		std::cout << "network_recovery PASS checks=" << checks << std::endl;
-		return 0;
+		return capture.finish() ? 0 : 1;
 	} catch (const std::exception &e) {
 		std::cerr << "network_recovery FAIL " << scenario << " " << e.what() << std::endl;
 		return 1;

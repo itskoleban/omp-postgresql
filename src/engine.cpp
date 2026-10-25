@@ -1,8 +1,15 @@
 #include "pg/engine.hpp"
 #include "pg/sql_sections.hpp"
 #include "pg/stream.hpp"
+#include "network_trace.hpp"
 #include <algorithm>
 #include <limits>
+#include <new>
+
+// Only the focused allocation regression replaces these reserve checkpoints.
+#ifndef PG_POLL_ALLOCATION_CHECKPOINT
+#define PG_POLL_ALLOCATION_CHECKPOINT() ((void)0)
+#endif
 
 namespace pg {
 
@@ -214,6 +221,7 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	}
 	j->id = id();
 	j->accepted_at = Clock::now();
+	PG_NETWORK_TRACE("submit", j.get(), c.lanes[j->lane].get(), nullptr, {}, 0, 0, j->accepted_at);
 	j->items_status.assign(j->kind == Kind::execute
 	                           ? (j->operations.empty() ? j->batch.size() : j->operations.size())
 							   : 1,
@@ -288,6 +296,7 @@ Id Engine::execute_statement(Owner owner, Id handle, int lane, Id tx, int contex
 
 Id Engine::query(Owner owner, Id conn, std::string sql, int lane, Id tx, int context, bool notify,
                  std::unique_ptr<CallbackDescriptor> callback) {
+	PG_NETWORK_TRACE("query_enter", nullptr, nullptr, nullptr, {}, int(conn), network_trace::hash(sql));
 	if (sql.size() > limits_.sql_bytes) {
 		throw Failure(Error::limit, "SQL exceeds size limit");
 	}
@@ -474,6 +483,20 @@ void Engine::unload(Owner owner) {
 
 Dispatch Engine::poll() {
 	Dispatch out;
+	// Registries are main-thread owned. These bounds cover every completion or
+	// stream that workers can publish during this poll, and every connection event.
+	// Reserve before popping terminal jobs or changing delivery/connection state;
+	// an allocation failure leaves all events available for the next tick.
+	try {
+		PG_POLL_ALLOCATION_CHECKPOINT();
+		out.jobs.reserve(jobs_.size());
+		PG_POLL_ALLOCATION_CHECKPOINT();
+		out.streams.reserve(jobs_.size());
+		PG_POLL_ALLOCATION_CHECKPOINT();
+		out.connections.reserve(connections_.size());
+	} catch (const std::bad_alloc &) {
+		return {};
+	}
 	// Keep a closed handle through its final callback. Reap it on the next tick.
 	std::erase_if(connections_, [](auto &item) {
 		return item.second->close_delivered && item.second->state() == State::disconnected;
@@ -485,6 +508,7 @@ Dispatch Engine::poll() {
 		}
 		auto &j = it->second;
 		j->delivered = true;
+		PG_NETWORK_TRACE("poll_delivered", j.get());
 		j->delivery_us =
 		    std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - j->accepted_at)
 		        .count();
