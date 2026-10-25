@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Linux-c++"
+	tests="3"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="7e388327e386"
+	time="0"
+	timestamp="2026-10-26T03:44:08"
+	>
+	<testcase name="natives_unit" classname="natives_unit" time="0.165912" status="run">
+		<properties/>
+		<system-out>native_adversarial PASS seed=4051312678 cases=16384; registered wrappers, SDK memory double
+Native validation passed: 46696 checks; address seed=0x414d5801
+</system-out>
+	</testcase>
+	<testcase name="diagnostics_short_write" classname="diagnostics_short_write" time="0.00980743" status="run">
+		<properties/>
+		<system-out>Actual RLIMIT_FSIZE short write: one byte, disabled once, accounted, recovered
+</system-out>
+	</testcase>
+	<testcase name="types_unit" classname="types_unit" time="0.00248728" status="run">
+		<properties/>
+		<system-out>97 type checks passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Linux-c++"
+	tests="9"
+	failures="9"
+	disabled="0"
+	skipped="0"
+	hostname="7e388327e386"
+	time="3"
+	timestamp="2026-10-26T03:45:43"
+	>
+	<testcase name="natives_unit" classname="natives_unit" time="0.794372" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>==270==Can't open /proc/269/task for reading.
+==269==LeakSanitizer has encountered a fatal error.
+==269==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==269==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+</system-out>
+	</testcase>
+	<testcase name="terminal_allocation_unit" classname="terminal_allocation_unit" time="0.0284893" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>==276==Can't open /proc/271/task for reading.
+==271==LeakSanitizer has encountered a fatal error.
+==271==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==271==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+</system-out>
+	</testcase>
+	<testcase name="unit" classname="unit" time="0.00980195" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>==278==Can't open /proc/277/task for reading.
+==277==LeakSanitizer has encountered a fatal error.
+==277==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==277==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+</system-out>
+	</testcase>
+	<testcase name="audit_semantic_fuzz" classname="audit_semantic_fuzz" time="2.43871" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="audit;fuzz"/>
+		</properties>
+		<system-out>semantic_fuzz seed=1096107081 cases=4096
+semantic_fuzz PASS cases=4096
+==280==Can't open /proc/279/task for reading.
+==279==LeakSanitizer has encountered a fatal error.
+==279==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==279==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+</system-out>
+	</testcase>
+	<testcase name="socket_wait_unit" classname="socket_wait_unit" time="0.034997" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>cancel_entry observed sends=1 select=0 results=0 status=4 error=7
+cancel_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+timeout_entry observed sends=1 select=0 results=0 status=4 error=6
+timeout_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=6
+shutdown_entry observed sends=1 select=0 results=0 status=4 error=7
+shutdown_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+transport observed sends=1 select=1 results=0 status=4 error=5
+transport PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_cancel observed sends=1 select=1 results=0 status=4 error=5
+transport_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_timeout observed sends=1 select=1 results=0 status=4 error=5
+transport_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_both observed sends=1 select=1 results=0 status=4 error=5
+transport_both PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+invalid_socket_cancel observed sends=1 select=0 results=0 status=4 error=5
+invalid_socket_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+fd_limit_cancel observed sends=1 select=0 results=0 status=4 error=5
+fd_limit_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+eintr_retry observed sends=1 select=1 results=2 status=2 error=0
+eintr_retry PASS sends=1 select=1 results=2 callbacks=1 status=2 error=0
+eintr_cancel observed sends=1 select=1 results=0 status=4 error=7
+eintr_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=7
+eintr_timeout observed sends=1 select=1 results=0 status=4 error=6
+eintr_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+ready_cancel observed sends=1 select=1 results=0 status=4 error=7
+ready_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=7
+ready_timeout observed sends=1 select=1 results=0 status=4 error=6
+ready_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+poll_timeout observed sends=1 select=1 results=0 status=4 error=6
+poll_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+response_cancel observed sends=1 select=0 results=1 status=4 error=7
+response_cancel PASS sends=1 select=0 results=1 callbacks=1 status=4 error=7
+completed_cancel observed sends=1 select=0 results=2 status=2 error=0
+completed_cancel PASS sends=1 select=0 results=2 callbacks=1 status=2 error=0
+completed_timeout observed sends=1 select=0 results=2 status=2 error=0
+completed_timeout PASS sends=1 select=0 results=2 callbacks=1 status=2 error=0
+predispatch_cancel observed sends=0 select=0 results=0 status=5 error=7
+predispatch_cancel PASS sends=0 select=0 results=0 callbacks=1 status=5 error=7
+flush_cancel observed sends=1 select=0 results=0 status=4 error=5
+flush_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+consume_cancel observed sends=1 select=0 results=0 status=4 error=5
+==303==Can't open /proc/281/task for reading.
+==281==LeakSanitizer has encountered a fatal error.
+==281==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==281==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+</system-out>
+	</testcase>
+	<testcase name="diagnostics_unit" classname="diagnostics_unit" time="0.342407" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>==445==Can't open /proc/304/task for reading.
+==304==LeakSanitizer has encountered a fatal error.
+==304==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==304==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+</system-out>
+	</testcase>
+	<testcase name="diagnostics_short_write" classname="diagnostics_short_write" time="0.0154879" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>==448==Can't open /proc/446/task for reading.
+==446==LeakSanitizer has encountered a fatal error.
+==446==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==446==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+</system-out>
+	</testcase>
+	<testcase name="types_unit" classname="types_unit" time="0" status="fail">
+		<failure message="BAD_COMMAND"/>
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="sql_sections_unit" classname="sql_sections_unit" time="0.203831" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>==451==Can't open /proc/450/task for reading.
+==450==LeakSanitizer has encountered a fatal error.
+==450==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==450==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+</system-out>
+	</testcase>
+</testsuite>

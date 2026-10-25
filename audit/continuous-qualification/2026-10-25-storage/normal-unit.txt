@@ -1,0 +1,21 @@
+Test project /workspace/scratch/a125d4d1260a/omp-postgresql/build-normal
+    Start  8: terminal_allocation_unit
+1/6 Test  #8: terminal_allocation_unit .........   Passed    0.01 sec
+    Start  9: unit
+2/6 Test  #9: unit .............................   Passed    0.00 sec
+    Start 10: audit_semantic_fuzz
+3/6 Test #10: audit_semantic_fuzz ..............   Passed    0.58 sec
+    Start 11: socket_wait_unit
+4/6 Test #11: socket_wait_unit .................   Passed    0.01 sec
+    Start 14: diagnostics_unit
+5/6 Test #14: diagnostics_unit .................   Passed    0.16 sec
+    Start 24: sql_sections_unit
+6/6 Test #24: sql_sections_unit ................   Passed    0.06 sec
+
+100% tests passed out of 6
+
+Label Time Summary:
+audit    =   0.58 sec*proc (1 test)
+fuzz     =   0.58 sec*proc (1 test)
+
+Total Test time (real) =   0.81 sec
