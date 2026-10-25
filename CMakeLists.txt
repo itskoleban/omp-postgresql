@@ -21,6 +21,10 @@ set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 option(PG_BUILD_COMPONENT "Build the open.mp component" ON)
 option(PG_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 option(PG_THREAD_SANITIZE "Enable ThreadSanitizer (Linux x64 qualification only)" OFF)
+option(PG_NETWORK_DIAGNOSTICS "Capture one instrumented Linux ASan network qualification" OFF)
+if(PG_NETWORK_DIAGNOSTICS AND (NOT PG_SANITIZE OR NOT CMAKE_SYSTEM_NAME STREQUAL "Linux"))
+    message(FATAL_ERROR "PG_NETWORK_DIAGNOSTICS requires Linux ASan/UBSan")
+endif()
 set(PG_STRESS_SECONDS
     "0"
     CACHE STRING "Minimum sustained stress load duration (0..86400 seconds)"
@@ -71,6 +75,9 @@ add_library(
 )
 set_target_properties(pg_core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_include_directories(pg_core PUBLIC include)
+if(PG_NETWORK_DIAGNOSTICS)
+    target_compile_definitions(pg_core PUBLIC PG_NETWORK_DIAGNOSTICS=1)
+endif()
 target_compile_definitions(
     pg_core
     PUBLIC PG_VERSION_MAJOR=${PROJECT_VERSION_MAJOR} PG_VERSION_MINOR=${PROJECT_VERSION_MINOR}
@@ -378,6 +385,11 @@ if(BUILD_TESTING)
     set_tests_properties(audit_faults_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60 LABELS "audit;stress")
     add_test(NAME network_recovery_integration COMMAND pg_network_recovery)
     set_tests_properties(network_recovery_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS "network;recovery")
+    if(PG_NETWORK_DIAGNOSTICS)
+        set_property(TEST network_recovery_integration APPEND PROPERTY ENVIRONMENT
+            "OMP_PG_NETWORK_TRACE=${CMAKE_BINARY_DIR}/network-diagnostic/client.jsonl"
+            "PGOPTIONS=-c log_min_duration_statement=0 -c log_statement=all -c log_parameter_max_length=0 -c log_lock_waits=on")
+    endif()
     add_test(NAME diagnostics_unit COMMAND pg_diagnostics_tests)
     set_tests_properties(diagnostics_unit PROPERTIES TIMEOUT 30)
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")

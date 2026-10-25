@@ -22,9 +22,12 @@ from commit_proxy import CommitLossProxy
 from ctest_qualification import qualify_ctest
 from stall_server import StallServer
 from wire_fault_proxy import WireFaultProxy
+from network_diagnostic import Collector as NetworkDiagnostic
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--build", default="build")
+parser.add_argument("--network-diagnostics", action="store_true",
+                    help="Observe one configured Linux ASan network case without retries")
 parser.add_argument(
     "--openssl", default="openssl", help="OpenSSL tool path; no change to DLL search PATH"
 )
@@ -264,6 +267,7 @@ rollback_proxy = None
 stall_servers = []
 wire_proxies = []
 monitor = None
+network_diagnostic = None
 try:
     startup_attempted = True
     run(["pg_ctl", "-D", str(data), "-l", str(root / "server.log"), "-w", "start"])
@@ -350,6 +354,9 @@ try:
                 )
         monitor = threading.Thread(target=restart_monitor, daemon=True)
         monitor.start()
+        if args.network_diagnostics:
+            network_diagnostic = NetworkDiagnostic(args.build, env, root / "server.log")
+            network_diagnostic.start()
         qualify_ctest(args.build, args.config, env, run,
                       test_regex="^network_recovery_integration$" if args.network_only else None)
         if any(not wire.injected for wire in wire_proxies if wire.mode != "fragment"):
@@ -506,6 +513,9 @@ try:
                 run(command, env=env)
 finally:
     exception_in_flight = sys.exc_info()[0] is not None
+    network_diagnostic_ok = True
+    if network_diagnostic:
+        network_diagnostic_ok = network_diagnostic.finish()
     stop_monitor.set()
     if monitor:
         monitor.join(timeout=15)
@@ -545,6 +555,11 @@ finally:
             if not exception_in_flight:
                 raise
     print(f"Isolated test artifacts: {root}")
+    if not network_diagnostic_ok:
+        if exception_in_flight:
+            print("Network diagnostic collection failed; original test failure retained", file=sys.stderr)
+        else:
+            raise RuntimeError("Network diagnostic collection failed; inspect collection.json")
     if wire_errors:
         if exception_in_flight:
             print("Wire cleanup errors: " + "; ".join(wire_errors), file=sys.stderr)

@@ -1,6 +1,7 @@
 #include "pg/engine.hpp"
 #include "pg/sql_sections.hpp"
 #include "pg/stream.hpp"
+#include "network_trace.hpp"
 #include <algorithm>
 #include <limits>
 #include <new>
@@ -220,6 +221,7 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	}
 	j->id = id();
 	j->accepted_at = Clock::now();
+	PG_NETWORK_TRACE("submit", j.get(), c.lanes[j->lane].get(), nullptr, {}, 0, 0, j->accepted_at);
 	j->items_status.assign(j->kind == Kind::execute
 	                           ? (j->operations.empty() ? j->batch.size() : j->operations.size())
 							   : 1,
@@ -294,6 +296,7 @@ Id Engine::execute_statement(Owner owner, Id handle, int lane, Id tx, int contex
 
 Id Engine::query(Owner owner, Id conn, std::string sql, int lane, Id tx, int context, bool notify,
                  std::unique_ptr<CallbackDescriptor> callback) {
+	PG_NETWORK_TRACE("query_enter", nullptr, nullptr, nullptr, {}, int(conn), network_trace::hash(sql));
 	if (sql.size() > limits_.sql_bytes) {
 		throw Failure(Error::limit, "SQL exceeds size limit");
 	}
@@ -505,6 +508,7 @@ Dispatch Engine::poll() {
 		}
 		auto &j = it->second;
 		j->delivered = true;
+		PG_NETWORK_TRACE("poll_delivered", j.get());
 		j->delivery_us =
 		    std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - j->accepted_at)
 		        .count();

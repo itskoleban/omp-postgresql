@@ -61,6 +61,7 @@ jobs:
                   cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
                       -DPG_SANITIZE=${{ matrix.sanitize == 'ON' && 'ON' || 'OFF' }} \
                       -DPG_THREAD_SANITIZE=${{ matrix.sanitize == 'THREAD' && 'ON' || 'OFF' }} \
+                      -DPG_NETWORK_DIAGNOSTICS=${{ matrix.sanitize == 'ON' && github.event_name == 'pull_request' && github.event.pull_request.number == 30 && 'ON' || 'OFF' }} \
                       -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS" -DPG_BUILD_BENCHMARK=ON \
                       -DPG_LOG_ENOSPC_BASE="$PG_LOG_ENOSPC_BASE"
             - run: |
@@ -69,7 +70,11 @@ jobs:
               if: matrix.sanitize == 'THREAD'
               run: python3 scripts/record_tsan_build.py --build build
             - run: |
-                  python3 tests/run_postgres.py --build build --doc-sql
+                  diagnostic_args=()
+                  if [[ "${{ matrix.sanitize }}" == ON && "${{ github.event_name }}" == pull_request && "${{ github.event.pull_request.number }}" == 30 ]]; then
+                      diagnostic_args+=(--network-diagnostics)
+                  fi
+                  python3 tests/run_postgres.py --build build --doc-sql "${diagnostic_args[@]}"
             - name: Verify package, fault fixture, and CTest qualification regressions
               run: python3 -m unittest discover -s tests -p 'test_*.py' -v
             - name: Enforce English maintenance and preserve historical exceptions
@@ -93,6 +98,7 @@ jobs:
                       build/Testing/Temporary/*.log
                       build/Testing/Temporary/qualification.xml
                       build/tsan-evidence/**
+                      build/network-diagnostic/**
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
             - name: Unmount the isolated log filesystem
