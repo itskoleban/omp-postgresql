@@ -35,9 +35,11 @@ forward bool:FixtureCancel(job);
 #include "lane_diagnostics.inc"
 
 stock Snapshot(const event[], playerid) {
-	printf("QA event=%s p=%d connected=%d npc=%d token=%d account=%d score=%d ready=%d",
+	new pending;
+	for (new i = 0; i < REQUESTS; i++) if (Pending[playerid][i]) pending++;
+	printf("QA event=%s p=%d connected=%d npc=%d token=%d account=%d score=%d ready=%d counter=%d pending=%d",
 		event, playerid, IsPlayerConnected(playerid), IsPlayerNPC(playerid), Session[playerid],
-		Account[playerid], GetPlayerScore(playerid), Ready);
+		Account[playerid], GetPlayerScore(playerid), Ready, GetSVarInt(CUSTOM_TOKEN), pending);
 }
 public OnGameModeInit() {
 	pg_log_config(PG_LOG_DEBUG);
@@ -65,6 +67,9 @@ public OnPlayerDisconnect(playerid, reason) {
 }
 public OnPlayerCommandText(playerid, cmdtext[]) {
 	if (!strcmp(cmdtext, "/qa state")) { Snapshot("snapshot", playerid); printf("QA event=control p=%d", playerid); return 1; }
+	// Counter mutation is confined to this test gamemode, never the tutorial.
+	if (!strcmp(cmdtext, "/qa tokenlast")) { SetSVarInt(CUSTOM_TOKEN, 2147483646); printf("QA event=control p=%d", playerid); return 1; }
+	if (!strcmp(cmdtext, "/qa tokennegative")) { SetSVarInt(CUSTOM_TOKEN, -1); printf("QA event=control p=%d", playerid); return 1; }
 	new result = CustomCommand(playerid, cmdtext);
 	printf("QA event=submitted p=%d load=%d clan=%d save=%d property=%d", playerid,
 		Pending[playerid][ACCOUNT_LOAD], Pending[playerid][CLAN_LOAD], Pending[playerid][ACCOUNT_SAVE], Pending[playerid][PROPERTY_SAVE]);

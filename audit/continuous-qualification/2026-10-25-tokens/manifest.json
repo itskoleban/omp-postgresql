@@ -1,0 +1,16 @@
+{
+  "parent": "6aeb8774f50abfb666ebb9ecf3abda4fd5666efc",
+  "source_sha256": {
+    "tests/real_sessions.pwn": "f63f101e59ede13980b277c784ebcd66cd51952914ab811fa136033e008d08f8",
+    "tests/real_custom_sessions.pwn": "500918dd47415a6cc10e81e62b801777dc38b0ac79f913b0f08d418f1c209092",
+    "tests/run_real_sessions.py": "9978ca60ee326d00a54b8fd3a9bc8df2fb3b9b075b49f75fe68e60b1481dcc1a"
+  },
+  "artifacts": {
+    "README.md": "235dfa0a805b942b7ccc955df5a379d672a420bcfa913f0acd8deafa9cd7e36e",
+    "fuzz-300000.txt": "ec4b8699a7ecb0af0518d841bb7d8a4ba429e48b72fa6b75773400d15bb890ad",
+    "pawn-stdout.zip": "29a04ddd87d8b0d32a998bc545c32e9852175b3c439e54a3dc3ebc52a1ce5d28",
+    "python-with-skip.txt": "4a8870a09ddcf05b560305c9845f25d4a44b39610896bbd406d236e059f68638",
+    "sampler-focused.txt": "36360b40ba8bbce03eac40c87751e59846b27c80e3e56aa816a489617be781d4"
+  },
+  "runtime_network_result": "PENDING"
+}

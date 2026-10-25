@@ -1,0 +1,40 @@
+.............CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-0yosw_fz/Testing/Temporary/qualification.xml
+................................Fixture compiler version 1 instrumented=False PASS exit=0
+Fixture compiler version 1 instrumented=True FAIL exit=1
+Fixture compiler version 1 instrumented=False PASS exit=0
+Fixture compiler version 1 instrumented=True FAIL exit=1
+Fixture compiler version 1 instrumented=False PASS exit=0
+Fixture compiler version 1 instrumented=True FAIL exit=1
+Fixture compiler version 1 instrumented=False PASS exit=0
+Fixture compiler version 1 instrumented=True FAIL exit=1
+Fixture compiler version 1 instrumented=False PASS exit=0
+Fixture compiler version 1 instrumented=True FAIL exit=1
+Fixture compiler version 1 instrumented=False PASS exit=0
+Fixture compiler version 1 instrumented=True FAIL exit=1
+Compiled 1 Markdown Pawn examples and 0 declaration fences; 0 explicitly incomplete fragment(s). Compilation is not runtime validation.
+DOCUMENTATION SQL PASS: parameterized CRUD/zero rows, individual/snapshot/UNNEST updates, affected counts, savepoint rollback, array padding and section queries. No Pawn runtime claim.
+Compiled 2 examples with warnings treated as errors
+...............s................../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py:1625: UserWarning: Duplicate name: 'omp-postgresql/README.md'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+........................HEAD is now at 363c96b Candidate
+HEAD is now at 363c96b Candidate
+..........Documentation checked: 69 natives, 3 callbacks, links and example/SQL inventory
+English maintenance check: 1 maintained text files; 1 exact historical/license identities verified
+English maintenance check: 427 maintained text files; 173 exact historical/license identities verified
+English maintenance check: 2 maintained text files; 0 exact historical/license identities verified
+Approved publication inputs: v0.1.0-rc.1 at 363c96bef3418d2ee26c638e3d6fa1f5fa296582
+Prepared 0.1.0-rc.1 from 363c96bef3418d2ee26c638e3d6fa1f5fa296582: /tmp/tmpuyicavd6/first
+Prepared 0.1.0-rc.1 from 363c96bef3418d2ee26c638e3d6fa1f5fa296582: /tmp/tmpuyicavd6/second
+Prepared 0.1.0 from 32f1de1adf2a822d5b554780f54e853b339f2d3b: /tmp/tmpt2ta20y8/first
+Prepared 0.1.0 from 32f1de1adf2a822d5b554780f54e853b339f2d3b: /tmp/tmpt2ta20y8/second
+mode=startup accepted=1 ready=0 closed=1
+.mode=ssl accepted=1 ready=0 closed=1
+.mode=ssl accepted=1 ready=1 closed=1
+.mode=startup accepted=1 ready=1 closed=1
+mode=startup accepted=1 ready=1 closed=1
+.mode=tls accepted=1 ready=1 closed=1
+..........................
+----------------------------------------------------------------------
+Ran 143 tests in 2.965s
+
+OK (skipped=1)

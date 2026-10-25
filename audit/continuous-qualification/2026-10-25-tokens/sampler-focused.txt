@@ -1,0 +1,6 @@
+test_live_process_sampler_is_bounded_and_monotonic (test_openmp_performance.PerformanceTests.test_live_process_sampler_is_bounded_and_monotonic) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
