@@ -3,7 +3,6 @@
 #include "pg/stream.hpp"
 #include "network_trace.hpp"
 #include <algorithm>
-#include <limits>
 #include <new>
 
 // Only the focused allocation regression replaces these reserve checkpoints.
@@ -83,10 +82,7 @@ Engine::~Engine() {
 }
 
 Id Engine::id() {
-	if (next_ == std::numeric_limits<Id>::max()) {
-		throw Failure(Error::limit, "Handle space exhausted");
-	}
-	return next_++;
+	return detail::take_handle(next_);
 }
 
 Id Engine::connect(Owner owner, std::string profile, int size) {
