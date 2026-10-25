@@ -249,8 +249,8 @@ class Server:
         self.proc.stdin.write((text+"\n").encode("utf-16le" if os.name == "nt" else "utf8"))
         self.proc.stdin.flush()
 
-    def client(self, name):
-        client = Client(self, name)
+    def client(self, name, *, expect_kick=False):
+        client = Client(self, name, expect_kick=expect_kick)
         return client
 
     def close(self):
@@ -279,8 +279,9 @@ class Server:
 
 
 class Client:
-    def __init__(self, server, name):
+    def __init__(self, server, name, *, expect_kick=False):
         self.server = server
+        self.server_disconnected = False
         assert re.fullmatch(r"Q[A-Za-z0-9_]{1,18}", name)
         self.name = name
         self.root = server.root / (name+"-"+secrets.token_hex(3))
@@ -293,7 +294,11 @@ class Client:
                                      cwd=self.root, stdin=subprocess.PIPE, stdout=self.log, stderr=subprocess.STDOUT, creationflags=FLAGS)
         server.clients.append(self)
         self.p = server.wait("connect", since=mark, name=name)["p"]
-        self.initial = server.wait("connected", since=mark, p=self.p, npc=0, connected=1)
+        fields = {} if expect_kick else {"connected": 1}
+        self.initial = server.wait("connected", since=mark, p=self.p, npc=0, **fields)
+        if expect_kick:
+            server.wait("disconnect_end", since=mark, p=self.p)
+            self.server_disconnected = True
 
     def send(self, text):
         self.proc.stdin.write((text+"\n").encode("utf8"))
@@ -329,12 +334,45 @@ class Client:
             except subprocess.TimeoutExpired:
                 self.proc.kill()
                 self.proc.wait(timeout=3)
-            if self.server.proc.poll() is None and hasattr(self, "p"):
+            if self.server.proc.poll() is None and hasattr(self, "p") and not self.server_disconnected:
                 self.server.wait("disconnect_end", since=mark, p=self.p)
         self.log.close()
 
 
 def run_cases(s):
+    def token_boundary(custom=False):
+        server = s.server("custom-token-boundary" if custom else "account-token-boundary",
+                          s.config["custom_gamemode"] if custom else None)
+        control = server.client("QTokenControl")
+        if not custom:
+            control.prompt(2)
+        control.control("tokenlast")
+        assert control.state()["counter"] == 2147483646
+        last = server.client("QTokenLast")
+        assert last.initial["token"] == 2147483647 and last.initial["counter"] == 2147483647
+        if not custom:
+            last.prompt(2)
+        last.close()
+        for name in ("QTokenDenied", "QTokenDeniedAgain"):
+            rejected = server.client(name, expect_kick=True)
+            state = rejected.initial
+            assert rejected.p == last.p and state["counter"] == 2147483647
+            assert state["token"] == 0 and state["account"] == 0 and state["score"] == 0
+            assert state["pending" if custom else "job"] == 0
+            rejected.close()
+        control.control("tokennegative")
+        rejected = server.client("QTokenNegative", expect_kick=True)
+        assert rejected.initial["counter"] == -1 and rejected.initial["token"] == 0
+        assert rejected.initial["pending" if custom else "job"] == 0
+        rejected.close()
+        assert control.state()["counter"] == -1
+        return ["actual tutorial code with fixture-only counter seeding", "last signed 32-bit token issued once",
+                "two real reused-playerid connections rejected at exhaustion", "counter did not wrap or change",
+                "negative cursor rejected", "no inherited identity, score or pending work"]
+    s.case("account_token_boundary", token_boundary)
+    if s.config.get("custom_gamemode"):
+        s.case("custom_token_boundary", lambda: token_boundary(True))
+
     def registration():
         server = s.server("registration")
         a = server.client("QSeed")

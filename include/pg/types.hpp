@@ -3,6 +3,7 @@
 #include <atomic>
 #include <chrono>
 #include <cstdint>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <string>
@@ -135,5 +136,18 @@ struct Failure : std::exception {
 		return detail.c_str();
 	}
 };
+
+namespace detail {
+
+// A handle is a positive Pawn cell. Never wrap or recycle an issued identifier.
+// Keeping the advancing step here lets unit tests reach the boundary in constant time.
+inline Id take_handle(Id &next) {
+	if (next <= 0 || next >= std::numeric_limits<Id>::max()) {
+		throw Failure(Error::limit, "Handle space exhausted");
+	}
+	return next++;
+}
+
+} // namespace detail
 
 } // namespace pg

@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <random>
 #include <thread>
 #include <tuple>
@@ -304,6 +305,34 @@ void unit() {
 		    pg::read_sql_contents(files.root, "../sections.sql", 4096);
 	    },
 	    pg::Error::file, "SQL file not found");
+
+	// Large budgets must not overflow or allocate the entire configured capacity.
+	files.write("SELECT 42;", "bounded.sql");
+	for (const auto budget : {std::numeric_limits<std::size_t>::max(),
+	                          std::numeric_limits<std::size_t>::max() - 1}) {
+		check(pg::read_sql_contents(files.root, "bounded.sql", budget) == "SELECT 42;",
+		      "Large SQL byte budget changed file contents");
+	}
+	// Exercise EOF and the one-byte overflow probe on both sides of block boundaries.
+	for (const std::size_t size : {0, 1, 4095, 4096, 4097, 8192, 8193}) {
+		std::string bytes(size, '\0');
+		for (std::size_t i = 0; i < size; ++i) bytes[i] = static_cast<char>(i % 256);
+		files.write(bytes, "bounded.sql");
+		check(pg::read_sql_contents(files.root, "bounded.sql", size) == bytes &&
+		          pg::read_sql_contents(files.root, "bounded.sql", size + 1) == bytes,
+		      "Exact SQL file boundary lost bytes");
+		if (size) {
+			rejects([&] { pg::read_sql_contents(files.root, "bounded.sql", size - 1); },
+			        pg::Error::file, "bounded.sql: SQL file exceeds size limit");
+		}
+	}
+	std::filesystem::create_directory(files.root / "directory.sql");
+	rejects([&] { pg::read_sql_contents(files.root, "directory.sql", 4096); },
+	        pg::Error::file, "SQL is not a regular file");
+	// Oversize rejection must not poison a subsequent read of a repaired file.
+	files.write("SELECT 7;", "bounded.sql");
+	check(pg::read_sql(files.root, "bounded.sql", 9) == "SELECT 7;",
+	      "SQL file read did not recover after an oversized file");
 }
 
 void ready(pg::Engine &engine, pg::Id connection) {
@@ -655,6 +684,46 @@ void integration(const char *profile) {
 	engine.close_job(owner, id);
 }
 
+void storage_boundaries(const char *profile) {
+	Files files;
+	pg::Limits limits;
+	limits.sql_bytes = 4096;
+	pg::Engine engine(limits, files.root);
+	auto connection = engine.connect(owner, profile, 1);
+	ready(engine, connection);
+	auto setup = wait(engine, engine.query(owner, connection,
+	    "CREATE TEMP TABLE sql_file_guard(value integer)", 0, 0, 0, false));
+	engine.close_job(owner, setup->id);
+	for (const bool named : {false, true}) {
+		const std::string sql = (named ? "-- name: selected\n" : "") +
+		    std::string("INSERT INTO sql_file_guard VALUES(1);");
+		files.write(sql + std::string(limits.sql_bytes + 1 - sql.size(), ' '));
+		auto statement = engine.prepare_file(owner, connection, "sections.sql", 0, true,
+		                                     named ? "selected" : "");
+		auto before = engine.connection(owner, connection).lanes[0]->snapshot().sql_commands;
+		auto rejected = wait(engine, run(engine, statement), false);
+		check(rejected->status == pg::Status::failed && rejected->error == pg::Error::file &&
+		          rejected->completed == 0 && rejected->results.empty() &&
+		          engine.connection(owner, connection).lanes[0]->snapshot().sql_commands == before,
+		      "Oversized SQL file dispatched a valid prefix");
+
+		// Reuse the same statement after repairing the file at the exact byte limit.
+		files.write(sql + std::string(limits.sql_bytes - sql.size(), ' '));
+		auto repaired = wait(engine, run(engine, statement));
+		check(repaired->completed == 1 && repaired->results.at(0).affected == "1" &&
+		          rejected->error == pg::Error::file && rejected->completed == 0 &&
+		          rejected->results.empty(), "Repair lost a retained rejection or INSERT result");
+		engine.close_job(owner, repaired->id);
+		engine.close_job(owner, rejected->id);
+		engine.close_statement(owner, statement);
+	}
+	auto count = wait(engine, engine.query(owner, connection,
+	    "SELECT count(*) FROM sql_file_guard", 0, 0, 0, false));
+	check(count->results.at(0).rows.at(0).at(0) == "2",
+	      "SQL file rejection or repair duplicated an INSERT");
+	engine.close_job(owner, count->id);
+}
+
 void lifecycle_and_limits(const char *profile) {
 	Files files;
 	files.write("-- name: selected\nSELECT pg_sleep(1);\n-- name: last\nSELECT 2;");
@@ -723,6 +792,7 @@ int main(int argc, char **argv) {
 				return 77;
 			}
 			integration(profile);
+			storage_boundaries(profile);
 			lifecycle_and_limits(profile);
 		} else {
 			unit();

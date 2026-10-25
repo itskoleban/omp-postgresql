@@ -1,0 +1,62 @@
+{
+  "base_master": "7a7ff79bb5e1dacaf2bcb33cf3ad44e5225fed1b",
+  "previous_pr_head": "a3435d0c8b24d5289dbf2508570dac33c3d8179f",
+  "previous_pr_ci": {
+    "run_id": 40226099070,
+    "status": "PASS",
+    "jobs": 7,
+    "scope": "previous PR head only"
+  },
+  "source_sha256": {
+    "src/statement.cpp": "bdb70a2a6a817016b6afc58571a5d57ec6f9557d6c42dab58d2b553bc06d7e09",
+    "tests/sql_sections.cpp": "563b78c015f4286dcb2e9fbeb4e1d78db733f1888c72483acc7681f4e6c52e5a"
+  },
+  "local": {
+    "normal_ctest": {
+      "passed": 9,
+      "skipped": 0
+    },
+    "semantic_fuzz": {
+      "cases": 4096,
+      "seed": 1096107081
+    },
+    "python_initial": {
+      "tests": 143,
+      "errors": 8,
+      "cause": "ctest absent from PATH"
+    },
+    "python_with_ctest_on_path": {
+      "tests": 143,
+      "status": "PASS"
+    },
+    "asan_ubsan": {
+      "status": "FAIL",
+      "ctest_cases": 9,
+      "runtime_fatal_cases": 8,
+      "not_run_cases": 1,
+      "runtime_control": "FAIL with same /proc/task inspection error"
+    },
+    "postgres_integration": "NOT RUN locally: UID/GID map exposes only root; normal PostgreSQL unprivileged startup unavailable"
+  },
+  "new_head_ci": "PENDING: inspect exact published PR head; do not inherit previous CI",
+  "release_gates": {
+    "issue_31": "OPEN; ROOT CAUSE UNKNOWN; original FAIL preserved",
+    "first_astra_audit": "PENDING",
+    "24_hour_campaign": "BLOCKED; owner authorization required",
+    "stable_release": "BLOCKED; final owner approval required"
+  },
+  "artifacts": {
+    "asan-runtime-control.cpp": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
+    "asan-runtime-control.txt": "f62b0f6ed1474e6aac6a1a5fffd1f978c20f883d61fb685855ccd4327d891ed4",
+    "asan-unit-failed.txt": "75c30b808791b7a6cb60d1d2780642278c7876bbe22f66ac314e40b519dd75dd",
+    "asan-unit-failed.xml": "a263ea126be527f400a53e451453b3d6e73690bce221d746f09cd4a93816e375",
+    "normal-additional.txt": "1c1d3a912b0076762a2edea283937a4e155822a19664348ebda4bf1c44ecb970",
+    "normal-additional.xml": "b6ecda5f333177175e30d7e551d82dcd7a9ee34071ea936670d31a4268b067f9",
+    "normal-unit.txt": "53929da180f63bfd3217c786f549d0b132e99545a07e260c26bc0faa599420b5",
+    "normal-unit.xml": "90851e10b5f607072ebc57dc60e3bb8c5d8361c4f41e23c56195eca6d5414344",
+    "python-missing-ctest.txt": "e6c7af542732b8aaf1f50e74816bdd28c4d6e4350a2e164eb147ae98a1086dee",
+    "python-with-tools.txt": "bf811efdf2bef6fc1749922ad3ffa9445ea3cc2b9911f96a6d13603772f5e8a9",
+    "storage-after-unit.txt": "5e8e16fde720afeef310af0558f65d6311a10607f034f1bb47d52e0fadfc189a",
+    "storage-before.txt": "b2e5a85cdd5bfc124c37a538dfe47157aa455cc40b33968dfe2b701d5aa01a74"
+  }
+}

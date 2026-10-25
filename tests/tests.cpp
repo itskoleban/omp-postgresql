@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <thread>
 
 namespace {
@@ -76,6 +77,40 @@ std::shared_ptr<pg::Job> success(pg::Engine &e, pg::Id id) {
 }
 
 void unit() {
+	// Exercise the production allocator directly; no billions of allocations needed.
+	{
+		constexpr auto maximum = std::numeric_limits<pg::Id>::max();
+		pg::Id next = maximum - 2;
+		const auto first = pg::detail::take_handle(next);
+		const auto second = pg::detail::take_handle(next);
+		check(first == maximum - 2 && second == maximum - 1 && first != second &&
+		          next == maximum,
+		      "Last valid handles are unique and do not wrap");
+
+		for (int attempt = 0; attempt < 2; ++attempt) {
+			bool limited = false;
+			try {
+				(void)pg::detail::take_handle(next);
+			} catch (const pg::Failure &failure) {
+				limited = failure.code == pg::Error::limit;
+			}
+			check(limited && next == maximum,
+			      "Exhausted handle space remains rejected without counter mutation");
+		}
+		for (pg::Id invalid : {pg::Id{0}, pg::Id{-1}}) {
+			auto cursor = invalid;
+			bool limited = false;
+			try {
+				(void)pg::detail::take_handle(cursor);
+			} catch (const pg::Failure &failure) {
+				limited = failure.code == pg::Error::limit;
+			}
+			check(limited && cursor == invalid, "Invalid handle cursor cannot issue an ID");
+		}
+		pg::Id initial = 1;
+		check(pg::detail::take_handle(initial) == 1 && initial == 2,
+		      "New engines allocate the first positive handle");
+	}
 	check(pg::integer64("9223372036854775807").value == "9223372036854775807", "BIGINT maximum");
 	rejects([] {
 		pg::integer64("9223372036854775808");

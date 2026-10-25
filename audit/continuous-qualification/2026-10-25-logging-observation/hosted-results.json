@@ -1,0 +1,55 @@
+{
+  "source": "201ef37c5691ff8f095a9f7b8ff401cbe35e2cbd",
+  "run_id": 40228419561,
+  "overall": "FAIL",
+  "jobs": [
+    {
+      "id": 121274971545,
+      "name": "Windows x86 MSVC and open.mp",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121274971649,
+      "name": "linux (THREAD)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121274971689,
+      "name": "windows",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121274971695,
+      "name": "Linux x86 and open.mp",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 121274971773,
+      "name": "linux (OFF)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121274971825,
+      "name": "linux (ON)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121277777475,
+      "name": "Verify downloaded x86 distributions",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "windows_real_sessions": {
+    "passed": 23,
+    "failed": 0,
+    "token_cases": "PASS account_token_boundary; PASS custom_token_boundary",
+    "job_id": 121274971545
+  }
+}

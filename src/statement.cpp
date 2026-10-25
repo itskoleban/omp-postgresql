@@ -2,6 +2,7 @@
 #include "pg/parameters.hpp"
 #include "pg/sql_sections.hpp"
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cerrno>
 #include <fstream>
@@ -126,14 +127,23 @@ static std::string read_sql_contents_raw(const std::filesystem::path &root, cons
 			}
 			throw Failure(Error::file, "SQL file cannot be opened");
 		}
-		std::string sql(max + 1, '\0');
-		f.read(sql.data(), static_cast<std::streamsize>(sql.size()));
-		if (f.bad()) {
-			throw Failure(Error::file, "SQL file read failed");
-		}
-		sql.resize(static_cast<std::size_t>(f.gcount()));
-		if (sql.size() > max) {
-			throw Failure(Error::file, "SQL file exceeds size limit");
+		std::string sql;
+		std::array<char, 4096> buffer;
+		for (;;) {
+			// Probe at most one byte beyond the budget, without computing max + 1
+			// or allocating the configured capacity for a small file.
+			const auto remaining = max - sql.size();
+			const auto request = remaining >= buffer.size() ? buffer.size() : remaining + 1;
+			f.read(buffer.data(), static_cast<std::streamsize>(request));
+			if (f.bad() || (f.fail() && !f.eof())) {
+				throw Failure(Error::file, "SQL file read failed");
+			}
+			const auto received = static_cast<std::size_t>(f.gcount());
+			if (received > remaining) {
+				throw Failure(Error::file, "SQL file exceeds size limit");
+			}
+			sql.append(buffer.data(), received);
+			if (f.eof()) break;
 		}
 		return sql;
 	} catch (const std::filesystem::filesystem_error &error) {

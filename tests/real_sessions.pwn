@@ -50,9 +50,9 @@ forward bool:FixtureCancel(job);
 #include "lane_diagnostics.inc"
 
 stock Snapshot(const event[], playerid) {
-	printf("QA event=%s p=%d connected=%d npc=%d token=%d state=%d job=%d account=%d score=%d ready=%d",
+	printf("QA event=%s p=%d connected=%d npc=%d token=%d state=%d job=%d account=%d score=%d ready=%d counter=%d",
 		event, playerid, IsPlayerConnected(playerid), IsPlayerNPC(playerid), Token[playerid],
-		AccountState[playerid], PendingJob[playerid], AccountID[playerid], GetPlayerScore(playerid), Ready);
+		AccountState[playerid], PendingJob[playerid], AccountID[playerid], GetPlayerScore(playerid), Ready, GetSVarInt(TOKEN_COUNTER));
 }
 
 public OnGameModeInit() {
@@ -147,6 +147,9 @@ public OnPlayerCommandText(playerid, cmdtext[]) {
 	else if (!strcmp(cmdtext, "/qa normal")) ProviderCost = 12;
 	else if (!strcmp(cmdtext, "/qa drop")) DropProvider = true;
 	else if (!strcmp(cmdtext, "/qa deliver")) DropProvider = false;
+	// Deliberately seed the real tutorial's counter in this disposable fixture only.
+	else if (!strcmp(cmdtext, "/qa tokenlast")) SetSVarInt(TOKEN_COUNTER, 2147483646);
+	else if (!strcmp(cmdtext, "/qa tokennegative")) SetSVarInt(TOKEN_COUNTER, -1);
 	else if (!strcmp(cmdtext, "/qa lookup") && !PendingJob[playerid]) Lookup(playerid);
 	else if (!strcmp(cmdtext, "/qa recover") && !Ready) {
 		if (Database) pg_connection_close(Database);

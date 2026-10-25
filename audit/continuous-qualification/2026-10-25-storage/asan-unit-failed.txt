@@ -1,0 +1,125 @@
+Test project /workspace/scratch/a125d4d1260a/omp-postgresql/build-asan
+    Start  2: natives_unit
+1/9 Test  #2: natives_unit .....................***Failed    0.79 sec
+==270==Can't open /proc/269/task for reading.
+==269==LeakSanitizer has encountered a fatal error.
+==269==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==269==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+    Start  7: terminal_allocation_unit
+2/9 Test  #7: terminal_allocation_unit .........***Failed    0.03 sec
+==276==Can't open /proc/271/task for reading.
+==271==LeakSanitizer has encountered a fatal error.
+==271==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==271==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+    Start  8: unit
+3/9 Test  #8: unit .............................***Failed    0.01 sec
+==278==Can't open /proc/277/task for reading.
+==277==LeakSanitizer has encountered a fatal error.
+==277==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==277==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+    Start  9: audit_semantic_fuzz
+4/9 Test  #9: audit_semantic_fuzz ..............***Failed    2.44 sec
+semantic_fuzz seed=1096107081 cases=4096
+semantic_fuzz PASS cases=4096
+==280==Can't open /proc/279/task for reading.
+==279==LeakSanitizer has encountered a fatal error.
+==279==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==279==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+    Start 10: socket_wait_unit
+5/9 Test #10: socket_wait_unit .................***Failed    0.03 sec
+cancel_entry observed sends=1 select=0 results=0 status=4 error=7
+cancel_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+timeout_entry observed sends=1 select=0 results=0 status=4 error=6
+timeout_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=6
+shutdown_entry observed sends=1 select=0 results=0 status=4 error=7
+shutdown_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+transport observed sends=1 select=1 results=0 status=4 error=5
+transport PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_cancel observed sends=1 select=1 results=0 status=4 error=5
+transport_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_timeout observed sends=1 select=1 results=0 status=4 error=5
+transport_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_both observed sends=1 select=1 results=0 status=4 error=5
+transport_both PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+invalid_socket_cancel observed sends=1 select=0 results=0 status=4 error=5
+invalid_socket_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+fd_limit_cancel observed sends=1 select=0 results=0 status=4 error=5
+fd_limit_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+eintr_retry observed sends=1 select=1 results=2 status=2 error=0
+eintr_retry PASS sends=1 select=1 results=2 callbacks=1 status=2 error=0
+eintr_cancel observed sends=1 select=1 results=0 status=4 error=7
+eintr_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=7
+eintr_timeout observed sends=1 select=1 results=0 status=4 error=6
+eintr_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+ready_cancel observed sends=1 select=1 results=0 status=4 error=7
+ready_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=7
+ready_timeout observed sends=1 select=1 results=0 status=4 error=6
+ready_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+poll_timeout observed sends=1 select=1 results=0 status=4 error=6
+poll_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=6
+response_cancel observed sends=1 select=0 results=1 status=4 error=7
+response_cancel PASS sends=1 select=0 results=1 callbacks=1 status=4 error=7
+completed_cancel observed sends=1 select=0 results=2 status=2 error=0
+completed_cancel PASS sends=1 select=0 results=2 callbacks=1 status=2 error=0
+completed_timeout observed sends=1 select=0 results=2 status=2 error=0
+completed_timeout PASS sends=1 select=0 results=2 callbacks=1 status=2 error=0
+predispatch_cancel observed sends=0 select=0 results=0 status=5 error=7
+predispatch_cancel PASS sends=0 select=0 results=0 callbacks=1 status=5 error=7
+flush_cancel observed sends=1 select=0 results=0 status=4 error=5
+flush_cancel PASS sends=1 select=0 results=0 callbacks=1 status=4 error=5
+consume_cancel observed sends=1 select=0 results=0 status=4 error=5
+==303==Can't open /proc/281/task for reading.
+==281==LeakSanitizer has encountered a fatal error.
+==281==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==281==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+    Start 13: diagnostics_unit
+6/9 Test #13: diagnostics_unit .................***Failed    0.34 sec
+==445==Can't open /proc/304/task for reading.
+==304==LeakSanitizer has encountered a fatal error.
+==304==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==304==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+    Start 14: diagnostics_short_write
+7/9 Test #14: diagnostics_short_write ..........***Failed    0.02 sec
+==448==Can't open /proc/446/task for reading.
+==446==LeakSanitizer has encountered a fatal error.
+==446==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==446==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+    Start 17: types_unit
+Process not started
+ /workspace/scratch/a125d4d1260a/omp-postgresql/build-asan/pg_type_tests
+[permission denied]
+8/9 Test #17: types_unit .......................***Not Run   0.00 sec
+    Start 23: sql_sections_unit
+9/9 Test #23: sql_sections_unit ................***Failed    0.20 sec
+==451==Can't open /proc/450/task for reading.
+==450==LeakSanitizer has encountered a fatal error.
+==450==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==450==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+
+0% tests passed, 9 tests failed out of 9
+
+Label Time Summary:
+audit    =   2.44 sec*proc (1 test)
+fuzz     =   2.44 sec*proc (1 test)
+
+Total Test time (real) =   3.87 sec
+
+The following tests FAILED:
+	  2 - natives_unit (Failed)
+	  7 - terminal_allocation_unit (Failed)
+	  8 - unit (Failed)
+	  9 - audit_semantic_fuzz (Failed)                      audit fuzz
+	 10 - socket_wait_unit (Failed)
+	 13 - diagnostics_unit (Failed)
+	 14 - diagnostics_short_write (Failed)
+	 17 - types_unit (BAD_COMMAND)
+	 23 - sql_sections_unit (Failed)
+Errors while running CTest

@@ -134,6 +134,7 @@ jobs:
                   bash scripts/build-libpq-linux32.sh postgresql-17.11 "$PWD/libpq32"
                   echo "LD_LIBRARY_PATH=$PWD/libpq32/lib" >> "$GITHUB_ENV"
             - name: Build the x86 component
+              id: x86_build
               run: |
                   logfs=$(mktemp -d "$RUNNER_TEMP/omp-pg-logfs.XXXXXX")
                   sudo mount -t tmpfs -o "size=1m,mode=0700,uid=$(id -u),gid=$(id -g),nosuid,nodev,noexec" tmpfs "$logfs"
@@ -145,6 +146,7 @@ jobs:
                   	"-DPostgreSQL_LIBRARY=$PWD/libpq32/lib/libpq.so"
                   cmake --build build-linux32 --parallel 4
             - name: Build Pawn32 and compile the server regression scripts
+              id: x86_pawn
               run: |
                   cmake -S build-linux32/_deps/pawn-src/source/compiler -B build-pawn32 -G Ninja \
                   	-DCMAKE_POLICY_VERSION_MINIMUM=3.5 '-DCMAKE_C_FLAGS=-m32 -DPAWN_CELL_SIZE=32 -std=gnu17' \
@@ -158,6 +160,7 @@ jobs:
                   build-pawn32/pawncc tests/logging_performance.pwn -E -ipawn -ibuild-stdlib \
                       -ibuild-linux32/_deps/pawn-src/include -obuild-linux32/logging-performance.amx
             - name: Obtain the fixed open.mp distribution with dynamic OpenSSL
+              id: x86_server
               run: |
                   curl --fail --location --retry 3 \
                   	https://github.com/openmultiplayer/open.mp/releases/download/v1.5.8.3079/open.mp-linux-x86-dynssl.tar.gz \
@@ -177,6 +180,7 @@ jobs:
                       --logging-performance-gamemode build-linux32/logging-performance.amx \
                       --logging-performance-csv build-linux32/Testing/Temporary/openmp-source-performance.csv
             - name: Qualify real player sessions with the external bcrypt provider
+              if: ${{ !cancelled() && steps.x86_build.outcome == 'success' && steps.x86_pawn.outcome == 'success' && steps.x86_server.outcome == 'success' }}
               run: |
                   python3 scripts/run_real_session_ci.py --output build-real-sessions \
                       --component build-linux32/omp-postgresql.so --server "$OPENMP_DIR" \
@@ -237,6 +241,8 @@ jobs:
                       ${{ runner.temp }}/openmp-package/Server/pg-*-output.log
                       ${{ runner.temp }}/openmp/Server/logs/pg-perf-*.log*
                       ${{ runner.temp }}/openmp-package/Server/logs/pg-perf-*.log*
+                      ${{ runner.temp }}/openmp/Server/logs/postgresql.log*
+                      ${{ runner.temp }}/openmp-package/Server/logs/postgresql.log*
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
                       build-real-sessions/sanitized-evidence/**
@@ -324,6 +330,7 @@ jobs:
                   cygpath -w "$PWD/libpq32/bin" >> "$GITHUB_PATH"
                   echo "MINGW32_ROOT=$(cygpath -m /mingw32)" >> "$GITHUB_ENV"
             - name: Generate the MSVC import library and build the x86 component
+              id: x86_build
               shell: pwsh
               run: |
                   $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
@@ -354,6 +361,7 @@ jobs:
                   	throw 'MSVC x86 component build failed'
                   }
             - name: Build Pawn32 and compile the server regression scripts
+              id: x86_pawn
               shell: pwsh
               run: |
                   cmake -S build-msvc32/_deps/pawn-src/source/compiler -B build-pawn32 -A Win32 `
@@ -383,6 +391,7 @@ jobs:
                       '-ibuild-msvc32/_deps/pawn-src/include' '-obuild-msvc32/logging-performance.amx'
                   if ($LASTEXITCODE -ne 0) { throw 'Pawn performance fixture compilation failed' }
             - name: Obtain the fixed PostgreSQL server and open.mp distributions
+              id: x86_server
               shell: pwsh
               run: |
                   Invoke-WebRequest `
@@ -416,6 +425,7 @@ jobs:
                   	throw 'MSVC x86 PostgreSQL/open.mp integration failed'
                   }
             - name: Qualify real player sessions with the external bcrypt provider
+              if: ${{ !cancelled() && steps.x86_build.outcome == 'success' && steps.x86_pawn.outcome == 'success' && steps.x86_server.outcome == 'success' }}
               shell: pwsh
               run: |
                   python scripts/run_real_session_ci.py --output build-real-sessions `
@@ -500,6 +510,8 @@ jobs:
                       build-openmp-package/Server/pg-*-output.log
                       build-openmp/Server/logs/pg-perf-*.log*
                       build-openmp-package/Server/logs/pg-perf-*.log*
+                      build-openmp/Server/logs/postgresql.log*
+                      build-openmp-package/Server/logs/postgresql.log*
                       ${{ runner.temp }}/omp-pg-integration-*/server.log
                       ${{ runner.temp }}/omp-pg-integration-*/command-*.log
                       build-real-sessions/sanitized-evidence/**
