@@ -1,6 +1,7 @@
 #include "pg/statement.hpp"
 #include "pg/parameters.hpp"
 #include "pg/sql_sections.hpp"
+#include "sql_reader.hpp"
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -95,6 +96,28 @@ void validate_sql(const std::string &sql) {
 	}
 }
 
+std::string detail::read_sql_stream(std::istream &input, std::size_t max) {
+	std::string sql;
+	std::array<char, 4096> buffer;
+	for (;;) {
+		// Probe at most one byte beyond the budget, without computing max + 1
+		// or allocating the configured capacity for a small file.
+		const auto remaining = max - sql.size();
+		const auto request = remaining >= buffer.size() ? buffer.size() : remaining + 1;
+		input.read(buffer.data(), static_cast<std::streamsize>(request));
+		if (input.bad() || (input.fail() && !input.eof())) {
+			throw Failure(Error::file, "SQL file read failed");
+		}
+		const auto received = static_cast<std::size_t>(input.gcount());
+		if (received > remaining) {
+			throw Failure(Error::file, "SQL file exceeds size limit");
+		}
+		sql.append(buffer.data(), received);
+		if (input.eof()) break;
+	}
+	return sql;
+}
+
 static std::string read_sql_contents_raw(const std::filesystem::path &root, const std::string &name,
                                          std::size_t max) {
 	try {
@@ -127,25 +150,7 @@ static std::string read_sql_contents_raw(const std::filesystem::path &root, cons
 			}
 			throw Failure(Error::file, "SQL file cannot be opened");
 		}
-		std::string sql;
-		std::array<char, 4096> buffer;
-		for (;;) {
-			// Probe at most one byte beyond the budget, without computing max + 1
-			// or allocating the configured capacity for a small file.
-			const auto remaining = max - sql.size();
-			const auto request = remaining >= buffer.size() ? buffer.size() : remaining + 1;
-			f.read(buffer.data(), static_cast<std::streamsize>(request));
-			if (f.bad() || (f.fail() && !f.eof())) {
-				throw Failure(Error::file, "SQL file read failed");
-			}
-			const auto received = static_cast<std::size_t>(f.gcount());
-			if (received > remaining) {
-				throw Failure(Error::file, "SQL file exceeds size limit");
-			}
-			sql.append(buffer.data(), received);
-			if (f.eof()) break;
-		}
-		return sql;
+		return detail::read_sql_stream(f, max);
 	} catch (const std::filesystem::filesystem_error &error) {
 		if (error.code() == std::errc::permission_denied ||
 		    error.code() == std::errc::operation_not_permitted) {

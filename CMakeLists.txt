@@ -264,6 +264,7 @@ if(BUILD_TESTING)
     add_executable(pg_connection_tests tests/connection_lifecycle.cpp)
     add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
     add_executable(pg_sql_section_tests tests/sql_sections.cpp)
+    add_executable(pg_sql_file_fault_tests tests/sql_file_faults.cpp)
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND NOT PG_SANITIZE)
         add_executable(pg_resource_exhaustion tests/resource_exhaustion.cpp)
         target_link_libraries(pg_resource_exhaustion PRIVATE pg_core)
@@ -359,6 +360,7 @@ if(BUILD_TESTING)
         pg_connection_tests
         pg_connection_stall_tests
         pg_sql_section_tests
+        pg_sql_file_fault_tests
         pg_diagnostics_tests
         pg_audit_fuzz
         pg_audit_faults
@@ -412,6 +414,18 @@ if(BUILD_TESTING)
     add_test(NAME connection_lifecycle_integration COMMAND pg_connection_tests)
     add_test(NAME connection_stalls_integration COMMAND pg_connection_stall_tests)
     add_test(NAME sql_sections_unit COMMAND pg_sql_section_tests)
+    add_test(NAME sql_file_stream_faults COMMAND pg_sql_file_fault_tests)
+    set_tests_properties(sql_file_stream_faults PROPERTIES TIMEOUT 15)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        add_test(NAME sql_file_permission COMMAND pg_sql_file_fault_tests --permission)
+        set_tests_properties(sql_file_permission PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 15)
+        add_test(NAME sql_file_permission_integration COMMAND pg_sql_section_tests --permission-integration)
+        set_tests_properties(sql_file_permission_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60)
+        if(NOT PG_SANITIZE AND NOT PG_THREAD_SANITIZE)
+            add_test(NAME sql_file_descriptor_exhaustion COMMAND pg_sql_file_fault_tests --descriptors)
+            set_tests_properties(sql_file_descriptor_exhaustion PROPERTIES TIMEOUT 15)
+        endif()
+    endif()
     add_test(NAME sql_sections_integration COMMAND pg_sql_section_tests --integration)
     set_tests_properties(sql_sections_unit PROPERTIES TIMEOUT 30)
     set_tests_properties(sql_sections_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90)
