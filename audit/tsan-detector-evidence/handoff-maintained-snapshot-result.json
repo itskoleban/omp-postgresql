@@ -1,0 +1,11 @@
+{
+  "exit_code": 66,
+  "binary": "/investigation/build-tsan/pg_tsan_race_control",
+  "binary_sha256": "e4a509c94d0e41a99f47f6b3dd1081959d7c2b7c37cd256bba65496c6b6cadcd",
+  "gdb_version": "15.1",
+  "phase_at_first_snapshot": 0,
+  "phase_at_second_snapshot": 1,
+  "first_thread": 3,
+  "second_thread": 4,
+  "scope": "Debugger schedule verification, not full component qualification"
+}

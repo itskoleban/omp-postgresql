@@ -3,6 +3,12 @@
 #include "pg/stream.hpp"
 #include <algorithm>
 #include <limits>
+#include <new>
+
+// Only the focused allocation regression replaces these reserve checkpoints.
+#ifndef PG_POLL_ALLOCATION_CHECKPOINT
+#define PG_POLL_ALLOCATION_CHECKPOINT() ((void)0)
+#endif
 
 namespace pg {
 
@@ -474,6 +480,20 @@ void Engine::unload(Owner owner) {
 
 Dispatch Engine::poll() {
 	Dispatch out;
+	// Registries are main-thread owned. These bounds cover every completion or
+	// stream that workers can publish during this poll, and every connection event.
+	// Reserve before popping terminal jobs or changing delivery/connection state;
+	// an allocation failure leaves all events available for the next tick.
+	try {
+		PG_POLL_ALLOCATION_CHECKPOINT();
+		out.jobs.reserve(jobs_.size());
+		PG_POLL_ALLOCATION_CHECKPOINT();
+		out.streams.reserve(jobs_.size());
+		PG_POLL_ALLOCATION_CHECKPOINT();
+		out.connections.reserve(connections_.size());
+	} catch (const std::bad_alloc &) {
+		return {};
+	}
 	// Keep a closed handle through its final callback. Reap it on the next tick.
 	std::erase_if(connections_, [](auto &item) {
 		return item.second->close_delivered && item.second->state() == State::disconnected;

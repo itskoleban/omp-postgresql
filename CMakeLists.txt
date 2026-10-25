@@ -279,6 +279,15 @@ if(BUILD_TESTING)
         add_executable(pg_tsan_startup_control tests/tsan_startup_control.cpp)
         target_compile_options(pg_tsan_startup_control PRIVATE -fsanitize=thread -g -O1)
         target_link_options(pg_tsan_startup_control PRIVATE -fsanitize=thread)
+        # The same conflicting accesses become ordered only in this negative control.
+        add_executable(pg_tsan_ordered_control tests/tsan_race_control.cpp)
+        target_compile_definitions(pg_tsan_ordered_control PRIVATE PG_TSAN_ORDERED_CONTROL=1)
+        target_compile_options(pg_tsan_ordered_control PRIVATE -fsanitize=thread -g -O1)
+        target_link_options(pg_tsan_ordered_control PRIVATE -fsanitize=thread)
+        add_test(NAME tsan_ordering_control COMMAND ${Python3_EXECUTABLE}
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_ordering.py
+                 $<TARGET_FILE:pg_tsan_ordered_control> --runs 20)
+        set_tests_properties(tsan_ordering_control PROPERTIES TIMEOUT 30)
         add_test(NAME tsan_detector_control COMMAND ${Python3_EXECUTABLE}
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_tsan_control.py $<TARGET_FILE:pg_tsan_race_control>
                  --startup-probe $<TARGET_FILE:pg_tsan_startup_control> --runs 20)
@@ -287,6 +296,16 @@ if(BUILD_TESTING)
         target_compile_definitions(pg_worker_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
         add_test(NAME worker_allocation_integration COMMAND pg_worker_allocation)
         set_tests_properties(worker_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    endif()
+    add_executable(pg_poll_allocation tests/poll_allocation.cpp)
+    if(PG_THREAD_SANITIZE)
+        target_compile_definitions(pg_poll_allocation PRIVATE PG_TEST_ALLOCATIONS=2)
+        add_test(NAME poll_site_allocation_integration COMMAND pg_poll_allocation)
+        set_tests_properties(poll_site_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    else()
+        target_compile_definitions(pg_poll_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
+        add_test(NAME poll_allocation_integration COMMAND pg_poll_allocation)
+        set_tests_properties(poll_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
     endif()
     add_executable(pg_terminal_allocation tests/terminal_allocation.cpp)
     if(PG_THREAD_SANITIZE)
@@ -320,6 +339,7 @@ if(BUILD_TESTING)
         pg_audit_faults
         pg_network_recovery
         pg_socket_wait_tests
+        pg_poll_allocation
         pg_terminal_allocation
         pg_worker_allocation
     )

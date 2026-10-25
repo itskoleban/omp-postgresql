@@ -65,6 +65,9 @@ jobs:
                       -DPG_LOG_ENOSPC_BASE="$PG_LOG_ENOSPC_BASE"
             - run: |
                   cmake --build build --parallel 4
+            - name: Record TSan binaries, instrumentation and build provenance
+              if: matrix.sanitize == 'THREAD'
+              run: python3 scripts/record_tsan_build.py --build build
             - run: |
                   python3 tests/run_postgres.py --build build --doc-sql
             - name: Verify package, fault fixture, and CTest qualification regressions
@@ -89,6 +92,7 @@ jobs:
                   path: |
                       build/Testing/Temporary/*.log
                       build/Testing/Temporary/qualification.xml
+                      build/tsan-evidence/**
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
             - name: Unmount the isolated log filesystem

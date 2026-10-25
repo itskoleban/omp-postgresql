@@ -1,0 +1,13 @@
+test_fake_fixture_diagnostic_is_rejected_by_command (test_tsan_control.TSanControlTests.test_fake_fixture_diagnostic_is_rejected_by_command) ... ok
+test_launch_error_is_an_independent_failure (test_tsan_control.TSanControlTests.test_launch_error_is_an_independent_failure) ... ok
+test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) ... ok
+test_optional_proc_metadata_cannot_prevent_detector_execution (test_tsan_control.TSanControlTests.test_optional_proc_metadata_cannot_prevent_detector_execution) ... ok
+test_process_emitting_fake_warning_and_exit_66_does_not_qualify (test_tsan_control.TSanControlTests.test_process_emitting_fake_warning_and_exit_66_does_not_qualify) ... ok
+test_startup_rejects_sanitizer_failure_despite_main_marker (test_tsan_control.TSanControlTests.test_startup_rejects_sanitizer_failure_despite_main_marker) ... ok
+test_startup_requires_main_marker_and_zero_exit (test_tsan_control.TSanControlTests.test_startup_requires_main_marker_and_zero_exit) ... ok
+test_timeout_preserves_partial_streams_and_next_required_attempt (test_tsan_control.TSanControlTests.test_timeout_preserves_partial_streams_and_next_required_attempt) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.131s
+
+OK

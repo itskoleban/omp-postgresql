@@ -1,0 +1,36 @@
+Breakpoint 1 at 0xe96f9: file handoff.cpp, line 11.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+process 773 is executing new program: /investigation/fixture-experiments/relaxed_handoff
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at handoff.cpp:11
+11	    alignas(64) volatile int value = 0;
+HANDOFF_SNAPSHOT target_value=0x7fffffffeac0 phase=0x7fffffffeb00
+Breakpoint 2 at 0x555555627dec
+[New Thread 0x7ffff4dff6c0 (LWP 776)]
+[New Thread 0x7ffff45fe6c0 (LWP 777)]
+[New Thread 0x7ffff3dfd6c0 (LWP 778)]
+TSan investigation workers_ready=2
+[Switching to Thread 0x7ffff45fe6c0 (LWP 777)]
+
+Thread 3 "relaxed_handoff" hit Breakpoint 2, 0x0000555555627dec in __tsan_write4 ()
+HANDOFF_SNAPSHOT first_thread=3 phase=0
+rax            0x7fffffffeac0      140737488349888
+r8             0xfffffffeac0       17592186038976
+r9             0x100000000000      17592186044416
+xmm0           {v8_bfloat16 = {0xf, 0xd, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, v8_half = {0xf, 0xd, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, v4_float = {0xd000f, 0x0, 0x0, 0x0}, v2_double = {0xd000f, 0x0}, v16_int8 = {0xf, 0x0, 0xd, 0x0 <repeats 13 times>}, v8_int16 = {0xf, 0xd, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, v4_int32 = {0xd000f, 0x0, 0x0, 0x0}, v2_int64 = {0xd000f, 0x0}, uint128 = 0xd000f}
+HANDOFF_SNAPSHOT second writer cannot reach value while phase remains zero
+[Thread 0x7ffff45fe6c0 (LWP 777) exited]
+[Switching to Thread 0x7ffff3dfd6c0 (LWP 778)]
+
+Thread 4 "relaxed_handoff" hit Breakpoint 2, 0x0000555555627dec in __tsan_write4 ()
+HANDOFF_SNAPSHOT second_thread=4 phase=1
+rax            0x7fffffffeac0      140737488349888
+r8             0xfffffffeac0       17592186038976
+r9             0x100000000000      17592186044416
+xmm0           {v8_bfloat16 = {0xf, 0xd, 0x10f, 0x1, 0x0, 0x0, 0x0, 0x0}, v8_half = {0xf, 0xd, 0x10f, 0x1, 0x0, 0x0, 0x0, 0x0}, v4_float = {0xd000f, 0x1010f, 0x0, 0x0}, v2_double = {0x1010f000d000f, 0x0}, v16_int8 = {0xf, 0x0, 0xd, 0x0, 0xf, 0x1, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, v8_int16 = {0xf, 0xd, 0x10f, 0x1, 0x0, 0x0, 0x0, 0x0}, v4_int32 = {0xd000f, 0x1010f, 0x0, 0x0}, v2_int64 = {0x1010f000d000f, 0x0}, uint128 = 0x1010f000d000f}
+Python Exception <class 'RuntimeError'>: Thread no longer exists.
+/investigation/fixture-experiments/handoff_snapshot.gdb:50: Error in sourced command file:
+Error occurred in Python: Thread no longer exists.

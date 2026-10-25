@@ -1,0 +1,170 @@
+test_fake_fixture_diagnostic_is_rejected_by_command (test_tsan_control.TSanControlTests.test_fake_fixture_diagnostic_is_rejected_by_command) ... FAIL
+test_launch_error_is_an_independent_failure (test_tsan_control.TSanControlTests.test_launch_error_is_an_independent_failure) ... ERROR
+test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) ... 
+  test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='WARNING: ThreadSanitizer: data race') ... FAIL
+  test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous write of size 4 at 0x1234 by thread T1:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/tsan_race_control.cpp:12:9 in writer\n==================\nFATAL: ThreadSanitizer: unexpected memory mapping') ... FAIL
+  test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/tsan_race_control.cpp:12:9 in writer\n==================\n') ... FAIL
+  test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous write of size 4 at 0x5678 by thread T1:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/tsan_race_control.cpp:12:9 in writer\n==================\n') ... FAIL
+  test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/unrelated.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous write of size 4 at 0x1234 by thread T1:\n    #0 writer /isolated/tests/unrelated.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/unrelated.cpp:12:9 in writer\n==================\n') ... FAIL
+  test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Read of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous read of size 4 at 0x1234 by thread T1:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/tsan_race_control.cpp:12:9 in writer\n==================\n') ... FAIL
+test_optional_proc_metadata_cannot_prevent_detector_execution (test_tsan_control.TSanControlTests.test_optional_proc_metadata_cannot_prevent_detector_execution) ... ok
+test_process_emitting_fake_warning_and_exit_66_does_not_qualify (test_tsan_control.TSanControlTests.test_process_emitting_fake_warning_and_exit_66_does_not_qualify) ... FAIL
+test_startup_rejects_sanitizer_failure_despite_main_marker (test_tsan_control.TSanControlTests.test_startup_rejects_sanitizer_failure_despite_main_marker) ... FAIL
+test_startup_requires_main_marker_and_zero_exit (test_tsan_control.TSanControlTests.test_startup_requires_main_marker_and_zero_exit) ... ok
+test_timeout_preserves_partial_streams_and_next_required_attempt (test_tsan_control.TSanControlTests.test_timeout_preserves_partial_streams_and_next_required_attempt) ... ERROR
+
+======================================================================
+ERROR: test_launch_error_is_an_independent_failure (test_tsan_control.TSanControlTests.test_launch_error_is_an_independent_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 121, in test_launch_error_is_an_independent_failure
+    main()
+    ~~~~^^
+  File "<WORKSPACE>\work\omp-postgresql\../tsan-check-before.py", line 42, in main
+    result = subprocess.run(
+        [str(binary)],
+    ...<3 lines>...
+        timeout=15,
+    )
+  File "<USER>\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "<USER>\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "<USER>\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py", line 1234, in _execute_mock_call
+    raise effect
+OSError: [Errno 8] fixture format
+
+======================================================================
+ERROR: test_timeout_preserves_partial_streams_and_next_required_attempt (test_tsan_control.TSanControlTests.test_timeout_preserves_partial_streams_and_next_required_attempt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 82, in test_timeout_preserves_partial_streams_and_next_required_attempt
+    main()
+    ~~~~^^
+  File "<WORKSPACE>\work\omp-postgresql\../tsan-check-before.py", line 42, in main
+    result = subprocess.run(
+        [str(binary)],
+    ...<3 lines>...
+        timeout=15,
+    )
+  File "<USER>\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "<USER>\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "<USER>\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py", line 1238, in _execute_mock_call
+    raise result
+subprocess.TimeoutExpired: Command '['fixture']' timed out after 15 seconds
+
+======================================================================
+FAIL: test_fake_fixture_diagnostic_is_rejected_by_command (test_tsan_control.TSanControlTests.test_fake_fixture_diagnostic_is_rejected_by_command)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 66, in test_fake_fixture_diagnostic_is_rejected_by_command
+    with self.assertRaises(SystemExit) as failure:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: SystemExit not raised
+
+======================================================================
+FAIL: test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='WARNING: ThreadSanitizer: data race')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 55, in test_only_real_diagnostic_and_expected_exit_qualify_race_detection
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        accepted(subprocess.CompletedProcess([], code, "", stderr), True), expected
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous write of size 4 at 0x1234 by thread T1:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/tsan_race_control.cpp:12:9 in writer\n==================\nFATAL: ThreadSanitizer: unexpected memory mapping')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 55, in test_only_real_diagnostic_and_expected_exit_qualify_race_detection
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        accepted(subprocess.CompletedProcess([], code, "", stderr), True), expected
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/tsan_race_control.cpp:12:9 in writer\n==================\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 55, in test_only_real_diagnostic_and_expected_exit_qualify_race_detection
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        accepted(subprocess.CompletedProcess([], code, "", stderr), True), expected
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous write of size 4 at 0x5678 by thread T1:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/tsan_race_control.cpp:12:9 in writer\n==================\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 55, in test_only_real_diagnostic_and_expected_exit_qualify_race_detection
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        accepted(subprocess.CompletedProcess([], code, "", stderr), True), expected
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Write of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/unrelated.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous write of size 4 at 0x1234 by thread T1:\n    #0 writer /isolated/tests/unrelated.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/unrelated.cpp:12:9 in writer\n==================\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 55, in test_only_real_diagnostic_and_expected_exit_qualify_race_detection
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        accepted(subprocess.CompletedProcess([], code, "", stderr), True), expected
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_only_real_diagnostic_and_expected_exit_qualify_race_detection (test_tsan_control.TSanControlTests.test_only_real_diagnostic_and_expected_exit_qualify_race_detection) (code=66, stderr='==================\nWARNING: ThreadSanitizer: data race (pid=123)\n  Read of size 4 at 0x1234 by thread T2:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\n  Previous read of size 4 at 0x1234 by thread T1:\n    #0 writer /isolated/tests/tsan_race_control.cpp:12:9 (pg_tsan_race_control+0x123)\n\nSUMMARY: ThreadSanitizer: data race /isolated/tests/tsan_race_control.cpp:12:9 in writer\n==================\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 55, in test_only_real_diagnostic_and_expected_exit_qualify_race_detection
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        accepted(subprocess.CompletedProcess([], code, "", stderr), True), expected
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_process_emitting_fake_warning_and_exit_66_does_not_qualify (test_tsan_control.TSanControlTests.test_process_emitting_fake_warning_and_exit_66_does_not_qualify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 108, in test_process_emitting_fake_warning_and_exit_66_does_not_qualify
+    with self.assertRaises(SystemExit) as failure:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: SystemExit not raised
+
+======================================================================
+FAIL: test_startup_rejects_sanitizer_failure_despite_main_marker (test_tsan_control.TSanControlTests.test_startup_rejects_sanitizer_failure_despite_main_marker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<WORKSPACE>\work\omp-postgresql\tests\test_tsan_control.py", line 142, in test_startup_rejects_sanitizer_failure_despite_main_marker
+    self.assertFalse(accepted(result, False))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.140s
+
+FAILED (failures=9, errors=2)
