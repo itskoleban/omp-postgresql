@@ -1,0 +1,6 @@
+transaction_retirement FAIL kind=2 state=0 Retired finish marker leaked
+transaction_retirement FAIL kind=2 state=1 Retired finish marker leaked
+transaction_retirement FAIL kind=2 state=2 Retired finish marker leaked
+transaction_retirement FAIL kind=3 state=0 Retired finish marker leaked
+transaction_retirement FAIL kind=3 state=1 Retired finish marker leaked
+transaction_retirement FAIL kind=3 state=2 Retired finish marker leaked

@@ -1,0 +1,115 @@
+{
+  "source_candidate": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+  "status": "PREPARATION_ONLY; CAMPAIGN_NOT_AUTHORIZED",
+  "first_independent_review": {
+    "model": "gpt-6-astra",
+    "completed_on": "2026-10-26",
+    "report": "astra-first-review.md",
+    "disposition": "No new confirmed blocker; preparation may proceed within recorded limits"
+  },
+  "qualification": {
+    "run_id": 40255510980,
+    "jobs_passed": 7,
+    "ctest_executions_passed": 194,
+    "ctest_skips": 0,
+    "real_sessions_per_x86_platform": 23
+  },
+  "candidate_package_identities": [
+    {
+      "platform": "linux",
+      "artifact": {
+        "id": 12622342559,
+        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622342559",
+        "sha256": "54ce077f3dcea75c981bfff6a947cae0e5f679136948df5a391c1d4274e76e89",
+        "bytes": 636187,
+        "metadata_digest_and_size_verified": true
+      },
+      "candidate_archive": {
+        "name": "omp-postgresql-0.1.0.c612e9f1ed25-linux-x86.zip",
+        "sha256": "2d4b0ff3dcde152c246924dd73d8b1d8c0ca8a32643f35aac32c820ec899ea87",
+        "bytes": 644503,
+        "checksum_sidecar_sha256": "0f7f1569641a0e1b067f455d27c687090e67a3a9e19a04d183e930ff3737aa42",
+        "checksum_sidecar_matches": true
+      },
+      "component_sha256": "b5401c4bf443deded624fb0a0e71a6dad69e466630459c14350b99572391f82a"
+    },
+    {
+      "platform": "windows",
+      "artifact": {
+        "id": 12622462845,
+        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622462845",
+        "sha256": "c3887982b615f5c2d287154929e1326452e1bdff85a18728f0d91619af6f4a41",
+        "bytes": 3147016,
+        "metadata_digest_and_size_verified": true
+      },
+      "candidate_archive": {
+        "name": "omp-postgresql-0.1.0.c612e9f1ed25-windows-x86.zip",
+        "sha256": "7bc422b66b31d737fc420a94476e08bf656043fd5c65b3136169f5b8f7222706",
+        "bytes": 3157440,
+        "checksum_sidecar_sha256": "a409178f646131c0191ae16057b8e2be378ab34732a6bfdcb5da78472e1aba5d",
+        "checksum_sidecar_matches": true
+      },
+      "component_sha256": "fa9ddd3612e9f53e78cb02062469ecf969b90c576163c4bce770b94bd84c7e7f"
+    }
+  ],
+  "dependency_packet": "candidate-dependencies.json",
+  "integration_gate": {
+    "pull_request": 36,
+    "state": "OPEN_DRAFT; NOT_MERGED",
+    "master_changed_by_this_task": false
+  },
+  "campaign": {
+    "seconds": 86400,
+    "seed": 1592594996,
+    "authorized": false,
+    "started": false,
+    "workflow": ".github/workflows/audit-long.yml",
+    "runner_labels": [
+      "self-hosted",
+      "linux",
+      "x64",
+      "pg-audit-isolated"
+    ],
+    "runner_provisioned_or_verified": false,
+    "campaign_binary": "NOT_BUILT_ON_TARGET_RUNNER",
+    "campaign_dependencies": "TARGET_FREEZE_PENDING",
+    "packaged_binary_identity_note": "Linux build-tree and installed component hashes differ. Select and verify exact deployed bytes; perform matching real-session preflight before an approved campaign."
+  },
+  "resource_defaults": {
+    "connections": 8,
+    "lanes_per_connection": 8,
+    "statements_and_batches": 64,
+    "jobs": 128,
+    "sql_bytes": 262144,
+    "parameter_bytes": 262144,
+    "batch_bytes": 1048576,
+    "batch_count": 1024,
+    "result_bytes": 2097152,
+    "result_rows": 10000,
+    "connect_ms": 10000,
+    "query_ms": 30000,
+    "transaction_ms": 60000
+  },
+  "resource_limits_scope": "Accounting defaults are not hard process-RSS bounds; libpq messages, allocator capacity and external runtimes add memory. Record selected limits and target resource thresholds before authorization.",
+  "result_and_sql_invariants": [
+    "Explicitly close delivered jobs and retained results; unload cancels and retires abandoned owner resources.",
+    "Never replay uncertain SQL automatically. Preserve terminal/item metadata and independently verify database effects.",
+    "A local failure can lack a payload despite a known confirmed item; preserve that distinction.",
+    "Verify callback uniqueness, player generation checks, transaction ownership and shutdown under the selected campaign workload."
+  ],
+  "pending_before_campaign": [
+    "Owner review/integration disposition of PR36; no merge performed by this task.",
+    "Verify a disposable non-root isolated runner with no production data or credentials.",
+    "Freeze exact campaign binary, source, dependencies, fixtures and seeds on that runner; do not reuse another binary hash as qualification.",
+    "Run bounded infrastructure and exact deployed-binary preflight, including applicable real-session checks, before requesting campaign approval.",
+    "Record resource/queue/result limits, database invariants, latency metrics, capture/retention, stop conditions and acceptable resource thresholds for the target host.",
+    "Obtain express owner authorization before any 24-hour execution."
+  ],
+  "after_authorized_campaign": [
+    "Preserve complete results, original failures, restarts and hashes.",
+    "Perform the second independent Astra review.",
+    "Fix and regress any confirmed defects, then decide required requalification.",
+    "Record a technically justified pre-release disposition for issue31 and other residual risks.",
+    "Obtain final owner approval before stable publication."
+  ]
+}

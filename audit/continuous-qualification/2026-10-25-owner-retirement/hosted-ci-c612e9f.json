@@ -1,0 +1,447 @@
+{
+  "schema": 1,
+  "purpose": "Exact-source hosted qualification evidence for the first independent current-candidate audit",
+  "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+  "source_tree": "7f66c25144b4ed5b8d8136e39e1dbca6361e89e9",
+  "pr": 36,
+  "pr_url": "https://github.com/itskoleban/omp-postgresql/pull/36",
+  "workflow_run": {
+    "id": 40255510980,
+    "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980",
+    "attempt": 1,
+    "event": "pull_request",
+    "workflow": ".github/workflows/ci.yml",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_completed": 7,
+    "jobs_successful": 7
+  },
+  "jobs": [
+    {
+      "id": 121356607340,
+      "name": "Linux x86 and open.mp",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980/job/121356607340",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_verified": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "ctest": {
+        "tests": 34,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0,
+        "elapsed_seconds": 154.81
+      },
+      "log_or_output_artifact_id": 12622532143,
+      "real_sessions": {
+        "executed": 23,
+        "passed": 23,
+        "failed": 0,
+        "includes": [
+          "account_token_boundary",
+          "custom_token_boundary",
+          "startup_exit_overlap",
+          "postgres_recovery_playerid_reuse"
+        ]
+      },
+      "pawn": {
+        "source_and_extracted_package": {
+          "public_examples": 13,
+          "warnings_as_errors": true,
+          "markdown_examples": 29,
+          "declaration_fences": 70,
+          "explicitly_incomplete_fragments": 1
+        }
+      },
+      "package": {
+        "assembly_verified": true,
+        "repeat_assembly_verified": true,
+        "fresh_official_server_checks": "PASS"
+      }
+    },
+    {
+      "id": 121356607536,
+      "name": "linux (ON)",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980/job/121356607536",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_verified": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "ctest": {
+        "tests": 32,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0,
+        "elapsed_seconds": 169.1
+      },
+      "log_or_output_artifact_id": 12622469007,
+      "python": {
+        "tests": 143,
+        "result": "PASS"
+      },
+      "pawn": {
+        "public_examples": 13,
+        "markdown_examples": 29,
+        "declaration_fences": 70,
+        "explicitly_incomplete_fragments": 1,
+        "warnings_as_errors": true
+      }
+    },
+    {
+      "id": 121356607566,
+      "name": "Windows x86 MSVC and open.mp",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980/job/121356607566",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_verified": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "ctest": {
+        "tests": 29,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0,
+        "elapsed_seconds": 200.75
+      },
+      "log_or_output_artifact_id": 12622243274,
+      "real_sessions": {
+        "executed": 23,
+        "passed": 23,
+        "failed": 0,
+        "includes": [
+          "account_token_boundary",
+          "custom_token_boundary",
+          "startup_exit_overlap",
+          "postgres_recovery_playerid_reuse"
+        ]
+      },
+      "pawn": {
+        "source_and_extracted_package": {
+          "public_examples": 13,
+          "warnings_as_errors": true,
+          "markdown_examples": 29,
+          "declaration_fences": 70,
+          "explicitly_incomplete_fragments": 1
+        }
+      },
+      "package": {
+        "assembly_verified": true,
+        "repeat_assembly_verified": true,
+        "fresh_official_server_checks": "PASS"
+      }
+    },
+    {
+      "id": 121356607568,
+      "name": "linux (OFF)",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980/job/121356607568",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_verified": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "ctest": {
+        "tests": 34,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0,
+        "elapsed_seconds": 156.86
+      },
+      "log_or_output_artifact_id": 12622685999,
+      "python": {
+        "tests": 143,
+        "result": "PASS"
+      },
+      "pawn": {
+        "public_examples": 13,
+        "markdown_examples": 29,
+        "declaration_fences": 70,
+        "explicitly_incomplete_fragments": 1,
+        "warnings_as_errors": true
+      }
+    },
+    {
+      "id": 121356607612,
+      "name": "linux (THREAD)",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980/job/121356607612",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_verified": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "ctest": {
+        "tests": 38,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0,
+        "elapsed_seconds": 164.12
+      },
+      "log_or_output_artifact_id": 12622850441,
+      "python": {
+        "tests": 143,
+        "result": "PASS"
+      },
+      "pawn": {
+        "public_examples": 13,
+        "markdown_examples": 29,
+        "declaration_fences": 70,
+        "explicitly_incomplete_fragments": 1,
+        "warnings_as_errors": true
+      },
+      "tsan": {
+        "build_evidence": "PASS",
+        "ordering_control": "PASS",
+        "detector_control": "PASS",
+        "owner_unload_allocator": "TSAN_RETAINED; no global allocator denial claimed"
+      }
+    },
+    {
+      "id": 121356607636,
+      "name": "windows",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980/job/121356607636",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_verified": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "ctest": {
+        "tests": 27,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0,
+        "elapsed_seconds": 191.29
+      },
+      "log_or_output_artifact_id": 12622094518,
+      "python_qualification_regressions": {
+        "tests": 11,
+        "result": "PASS"
+      }
+    },
+    {
+      "id": 121359817203,
+      "name": "Verify downloaded x86 distributions",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980/job/121359817203",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_verified": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "log_or_output_artifact_id": 12623380133
+    }
+  ],
+  "ctest_total": {
+    "executions": 194,
+    "failures": 0,
+    "disabled": 0,
+    "skipped": 0,
+    "note": "Executions across six configurations; not 194 unique test definitions."
+  },
+  "artifacts": [
+    {
+      "id": 12623380133,
+      "name": "omp-postgresql-release-c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12623380133",
+      "bytes": 4359618,
+      "github_digest": "sha256:f8c857cfe035cac88d7dc49ae227ee5729a082ea485934a8d64ce36d230dcca9",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": "Not separately downloaded by this inspector; package artifacts were independently downloaded and verified by distribution job 121359817203."
+    },
+    {
+      "id": 12622850441,
+      "name": "linux-x64-test-logs-THREAD",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622850441",
+      "bytes": 1834704,
+      "github_digest": "sha256:3704552710eeb5f06386d7af8c1a0ff52788561814d0c88b0d2e408bf445685d",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": {
+        "local_file": "work/tsan-c612e9f.zip",
+        "archive_bytes_match_metadata": true,
+        "archive_sha256_match_metadata": true,
+        "junit_read_directly_from_zip": true
+      }
+    },
+    {
+      "id": 12622685999,
+      "name": "linux-x64-test-logs-OFF",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622685999",
+      "bytes": 114794,
+      "github_digest": "sha256:8dd713daa8204423091c28e05b8770c7864fe640f766dd77681d8b9ce972a9a1",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": {
+        "local_file": "work/linux-off-c612e9f.zip",
+        "archive_bytes_match_metadata": true,
+        "archive_sha256_match_metadata": true,
+        "junit_read_directly_from_zip": true
+      }
+    },
+    {
+      "id": 12622532143,
+      "name": "linux-x86-test-logs",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622532143",
+      "bytes": 897725,
+      "github_digest": "sha256:d99371165bde699092e42ccf2d29fb9c3c7388df7b11a1a1d1c4517282e9a5c2",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": {
+        "local_file": "work/linux-x86-c612e9f.zip",
+        "archive_bytes_match_metadata": true,
+        "archive_sha256_match_metadata": true,
+        "junit_read_directly_from_zip": true
+      }
+    },
+    {
+      "id": 12622469007,
+      "name": "linux-x64-test-logs-ON",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622469007",
+      "bytes": 114362,
+      "github_digest": "sha256:84316a4419685d31f677916b60bb440dc6b840c834e335172c9068778d442023",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": {
+        "local_file": "work/linux-on-c612e9f.zip",
+        "archive_bytes_match_metadata": true,
+        "archive_sha256_match_metadata": true,
+        "junit_read_directly_from_zip": true
+      }
+    },
+    {
+      "id": 12622462845,
+      "name": "omp-postgresql-windows-x86-c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622462845",
+      "bytes": 3147016,
+      "github_digest": "sha256:c3887982b615f5c2d287154929e1326452e1bdff85a18728f0d91619af6f4a41",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": "Not separately downloaded by this inspector; package artifacts were independently downloaded and verified by distribution job 121359817203."
+    },
+    {
+      "id": 12622342559,
+      "name": "omp-postgresql-linux-x86-c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622342559",
+      "bytes": 636187,
+      "github_digest": "sha256:54ce077f3dcea75c981bfff6a947cae0e5f679136948df5a391c1d4274e76e89",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": "Not separately downloaded by this inspector; package artifacts were independently downloaded and verified by distribution job 121359817203."
+    },
+    {
+      "id": 12622243274,
+      "name": "windows-x86-test-logs",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622243274",
+      "bytes": 570038,
+      "github_digest": "sha256:0ac927217291fe22b9b2f31b4cd427c215b31e594b6eee0044f86c6b9470d98d",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": {
+        "local_file": "work/windows-x86-c612e9f.zip",
+        "archive_bytes_match_metadata": true,
+        "archive_sha256_match_metadata": true,
+        "junit_read_directly_from_zip": true
+      }
+    },
+    {
+      "id": 12622094518,
+      "name": "windows-x64-test-logs",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622094518",
+      "bytes": 64748,
+      "github_digest": "sha256:5f11229693402e2cc056c23e1e0cb846c84d7dbdc7c32a24d0347b3a76b87f91",
+      "expired": false,
+      "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+      "direct_download_verification": {
+        "local_file": "work/windows-x64-c612e9f.zip",
+        "archive_bytes_match_metadata": true,
+        "archive_sha256_match_metadata": true,
+        "junit_read_directly_from_zip": true
+      }
+    }
+  ],
+  "direct_archive_contents": [
+    {
+      "artifact_id": 12622850441,
+      "manifest": "tsan-evidence/manifest.json",
+      "status": "PASS",
+      "entries_checked": 75,
+      "checks": [
+        "Every public_files entry exists with exact byte count and SHA-256",
+        "source/github-workflows/ci.yml is present",
+        "source_sha matches candidate",
+        "tracked_source_modified=false"
+      ],
+      "junit": {
+        "tests": 38,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "artifact_id": 12622532143,
+      "session_results": "sanitized-evidence/results.json",
+      "status": "PASS",
+      "session_cases": 23,
+      "all_case_statuses": "PASS",
+      "inventory_entries_checked": 79,
+      "inventory_byte_and_hash_mismatches": 0,
+      "provenance": {
+        "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+        "tracked_source_modified": false,
+        "source_state": "generated-files-only",
+        "source_dirty": true,
+        "untracked_count": 4,
+        "untracked_classification": "Explicit expected CI-generated roots"
+      },
+      "junit": {
+        "tests": 34,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "artifact_id": 12622243274,
+      "session_results": "sanitized-evidence/results.json",
+      "status": "PASS",
+      "session_cases": 23,
+      "all_case_statuses": "PASS",
+      "inventory_entries_checked": 79,
+      "inventory_byte_and_hash_mismatches": 0,
+      "provenance": {
+        "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+        "tracked_source_modified": false,
+        "source_state": "generated-files-only",
+        "source_dirty": true,
+        "untracked_count": 5,
+        "untracked_classification": "Explicit expected CI-generated roots"
+      },
+      "junit": {
+        "tests": 29,
+        "failures": 0,
+        "disabled": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "distribution_verification": {
+    "job_id": 121359817203,
+    "status": "PASS",
+    "independently_downloaded_artifact_ids": [
+      12622342559,
+      12622462845
+    ],
+    "downloaded_archive_digests_match": true,
+    "prepared_version": "0.1.0",
+    "prepared_source": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+    "strict_sha256sum_check": "PASS",
+    "checked_files": [
+      "RELEASE-NOTES.md",
+      "omp-postgresql-0.1.0.c612e9f1ed25-linux-x86.zip",
+      "omp-postgresql-0.1.0.c612e9f1ed25-linux-x86.zip.sha256",
+      "omp-postgresql-0.1.0.c612e9f1ed25-source.zip",
+      "omp-postgresql-0.1.0.c612e9f1ed25-windows-x86.zip",
+      "omp-postgresql-0.1.0.c612e9f1ed25-windows-x86.zip.sha256",
+      "release-inventory.json"
+    ],
+    "published_release": false
+  },
+  "limitations": [
+    "Results belong only to the full source_commit above; a later documentation or evidence commit needs its own attribution and checks.",
+    "Real-session source_dirty=true records explicit expected generated CI roots; tracked source was unmodified. It is not described as a completely clean directory.",
+    "Byte/hash checks verify the published sanitized session files, not private original bytes unavailable in the ZIP.",
+    "Archive digests verify content identity, not signed supply-chain attestation or perpetual artifact availability.",
+    "Only finite configured suites and their recorded fault models were executed; third-party libraries are not fully instrumented.",
+    "Global new/delete denial is not claimed under TSan; ASan/UBSan plus complete descriptor exhaustion remains outside the configured matrix.",
+    "Existing historical negative observations and issue 31 remain unresolved; this successful run does not identify their causes.",
+    "This is PR code qualification, not evidence that the changes are merged or authorization to publish stable v0.1.0.",
+    "No 24-hour campaign was started or authorized by these checks."
+  ]
+}

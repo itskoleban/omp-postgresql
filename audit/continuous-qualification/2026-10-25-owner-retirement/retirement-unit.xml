@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LAPTOP-KN020K8M"
+	time="1"
+	timestamp="2026-10-25T20:38:21"
+	>
+	<testcase name="transaction_retirement_unit" classname="transaction_retirement_unit" time="0.547822" status="run">
+		<properties/>
+		<system-out>transaction_retirement PASS scenarios=6 unrelated_markers=preserved
+</system-out>
+	</testcase>
+	<testcase name="owner_unload_allocation_unit" classname="owner_unload_allocation_unit" time="0.50883" status="run">
+		<properties/>
+		<system-out>owner_unload owner=1011 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1011 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1012 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1012 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1013 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1013 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1014 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1014 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1015 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1015 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1016 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1016 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1017 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1017 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1018 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1018 allocator=DENIED denied=0 escaped=0
+owner_unload owner=1019 allocator=DENIED denied=0 escaped=0
+owne...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

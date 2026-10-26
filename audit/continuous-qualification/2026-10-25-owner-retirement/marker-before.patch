@@ -1,0 +1,21 @@
+--- a/src/engine.cpp
++++ b/src/engine.cpp
+@@ -501,5 +500,0 @@
+-		// A closing connection or unloaded job may already have been reaped.
+-		// Finish bookkeeping belongs to the completion, independently of either registry.
+-		if (completed->kind == Kind::commit || completed->kind == Kind::rollback) {
+-			ending_.erase(completed->transaction);
+-		}
+@@ -532,0 +528 @@
++			ending_.erase(j->transaction);
+@@ -554,8 +550,2 @@
+-	std::erase_if(jobs_, [&](auto &item) {
+-		const auto &job = item.second;
+-		if (!terminal(job->status.load()) || !job->owner_unloaded) return false;
+-		// Terminal status can become visible before its queue publication.
+-		if (job->kind == Kind::commit || job->kind == Kind::rollback) {
+-			ending_.erase(job->transaction);
+-		}
+-		return true;
++	std::erase_if(jobs_, [](auto &item) {
++		return terminal(item.second->status.load()) && item.second->owner_unloaded;
