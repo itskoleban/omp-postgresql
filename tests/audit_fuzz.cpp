@@ -55,7 +55,56 @@ void scalar(std::string &s, unsigned c) {
 		s += char(128 | (c & 63));
 	}
 }
+void batch_atomicity(std::mt19937 &rng) {
+	pg::Limits limits;
+	limits.batch_count = 3;
+	const std::string first(rng() % 129, 'a');
+	const std::string second(1 + rng() % 129, 'b');
+	const auto first_cost = 2 * sizeof(pg::Param) + first.size();
+	const auto second_cost = 2 * sizeof(pg::Param) + second.size();
+	limits.batch_bytes = first_cost + second_cost;
+	pg::Statement s{};
+	s.bindings.resize(2);
+	s.bind(1, pg::text(first), limits);
+	// A missing trailing parameter must not commit the partially copied row.
+	rejects([&] { s.add(limits); }, pg::Error::invalid);
+	check(s.batch.empty() && s.types.empty() && s.bytes == 0 &&
+	          s.bindings[0]->value == first && !s.bindings[1],
+	      "Missing parameter changed partial batch state");
+	s.bind(2, pg::null(23), limits);
+	s.add(limits);
+	check(s.bytes == first_cost && !s.bindings[0] && !s.bindings[1],
+	      "Accepted batch did not consume bindings exactly once");
+	s.bind(1, pg::text(second), limits);
+	s.bind(2, pg::boolean(true), limits);
+	rejects([&] { s.add(limits); }, pg::Error::invalid);
+	check(s.batch.size() == 1 && s.bytes == first_cost &&
+	          s.types == std::vector<std::uint32_t>{25, 23} &&
+	          s.bindings[0]->value == second && s.bindings[1]->oid == 16,
+	      "Type rejection changed retained state or consumed bindings");
+	s.bind(2, pg::null(23), limits);
+	// One extra byte exceeds the exact remaining budget without hitting row count.
+	s.bind(1, pg::text(second + "x"), limits);
+	rejects([&] { s.add(limits); }, pg::Error::limit);
+	check(s.batch.size() == 1 && s.bytes == first_cost &&
+	          s.bindings[0]->value == second + "x" && s.bindings[1]->oid == 23,
+	      "Byte limit rejection consumed bindings or changed accounting");
+	s.bind(1, pg::text(second), limits);
+	s.add(limits);
+	check(s.batch.size() == 2 && s.bytes == limits.batch_bytes &&
+	          s.batch[0][0].value == first && s.batch[1][0].value == second &&
+	          !s.batch[0][1].value && !s.batch[1][1].value &&
+	          !s.bindings[0] && !s.bindings[1],
+	      "Repair after rejection changed snapshots or exact-boundary admission");
+	limits.parameter_bytes = second.size() - 1;
+	s.bind(1, pg::text(""), limits);
+	rejects([&] { s.bind(1, pg::text(second), limits); }, pg::Error::limit);
+	check(s.bindings[0]->value == "" && s.batch[0][0].value == first &&
+	          s.batch[1][0].value == second && s.bytes == limits.batch_bytes,
+	      "Oversized rebind destroyed previous binding or snapshots");
+}
 void exercise(std::mt19937 &rng) {
+	batch_atomicity(rng);
 	// Generate valid documents with independently known section names and exact slices.
 	const std::string nl = (rng() & 1) ? "\r\n" : "\n";
 	const std::string tag = "q" + std::to_string(rng());
