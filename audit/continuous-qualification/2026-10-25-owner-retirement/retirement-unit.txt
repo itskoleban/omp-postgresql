@@ -1,0 +1,9 @@
+Test project C:/Users/esteb/Documents/Codex/2026-10-25/omp-postgresql-v0-1-0-continuous/work/build-core
+    Start 1: transaction_retirement_unit
+1/2 Test #1: transaction_retirement_unit ......   Passed    0.55 sec
+    Start 2: owner_unload_allocation_unit
+2/2 Test #2: owner_unload_allocation_unit .....   Passed    0.51 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   1.09 sec

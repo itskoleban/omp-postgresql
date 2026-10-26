@@ -265,6 +265,24 @@ if(BUILD_TESTING)
     add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
     add_executable(pg_sql_section_tests tests/sql_sections.cpp)
     add_executable(pg_sql_file_fault_tests tests/sql_file_faults.cpp)
+    add_executable(pg_transaction_retirement tests/transaction_retirement.cpp)
+    add_test(NAME transaction_retirement_unit COMMAND pg_transaction_retirement)
+    set_tests_properties(transaction_retirement_unit PROPERTIES TIMEOUT 30)
+    add_executable(pg_unload_allocation tests/unload_allocation.cpp)
+    if(PG_THREAD_SANITIZE)
+        # Retain TSan's allocator interceptors; qualify lifecycle without global denial.
+        target_compile_definitions(pg_unload_allocation PRIVATE PG_TEST_ALLOCATIONS=0)
+        add_test(NAME owner_unload_unit COMMAND pg_unload_allocation --unit)
+        add_test(NAME owner_unload_integration COMMAND pg_unload_allocation)
+        set_tests_properties(owner_unload_unit PROPERTIES TIMEOUT 30)
+        set_tests_properties(owner_unload_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    else()
+        target_compile_definitions(pg_unload_allocation PRIVATE PG_TEST_ALLOCATIONS=1)
+        add_test(NAME owner_unload_allocation_unit COMMAND pg_unload_allocation --unit)
+        add_test(NAME owner_unload_allocation_integration COMMAND pg_unload_allocation)
+        set_tests_properties(owner_unload_allocation_unit PROPERTIES TIMEOUT 30)
+        set_tests_properties(owner_unload_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+    endif()
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND NOT PG_SANITIZE)
         add_executable(pg_resource_exhaustion tests/resource_exhaustion.cpp)
         target_link_libraries(pg_resource_exhaustion PRIVATE pg_core)
@@ -361,6 +379,8 @@ if(BUILD_TESTING)
         pg_connection_stall_tests
         pg_sql_section_tests
         pg_sql_file_fault_tests
+        pg_transaction_retirement
+        pg_unload_allocation
         pg_diagnostics_tests
         pg_audit_fuzz
         pg_audit_faults

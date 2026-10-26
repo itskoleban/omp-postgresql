@@ -1,0 +1,12 @@
+{
+  "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+  "run_id": 40255510980,
+  "job_id": 121356607340,
+  "job_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40255510980/job/121356607340",
+  "observed_installation_log_lines": [
+    "2026-10-26T01:50:44.4252251Z -- Set non-toolchain portion of runtime path of \"/tmp/omp-pg-package-ulu_ksan/omp-postgresql/components/omp-postgresql.so\" to \"\"",
+    "2026-10-26T01:50:44.8012647Z -- Set non-toolchain portion of runtime path of \"/tmp/omp-pg-package-9qa23d_n/omp-postgresql/components/omp-postgresql.so\" to \"\""
+  ],
+  "conclusion": "Installation reports clearing the non-toolchain runtime path for both deterministic assemblies. Preserve distinct build-tree and installed binary hashes; this observation is not a byte-for-byte proof that every difference is solely RPATH.",
+  "coverage": "The 23 real-session scenarios use the recorded build-tree component; the installed package has separately passing fresh-server checks. Select and preflight exact deployed binary bytes for a future authorized campaign."
+}

@@ -11,3 +11,6 @@
 /audit/network-recovery-evidence/ci-4e579ae/tsan-job.log whitespace=-blank-at-eol,cr-at-eol,-blank-at-eof
 # Detector investigation captures preserve independently recorded byte identities.
 /audit/tsan-detector-evidence/** -text whitespace=-blank-at-eol,cr-at-eol,-blank-at-eof
+# Owner-retirement captures retain original Windows bytes for their recorded hashes.
+/audit/continuous-qualification/2026-10-25-owner-retirement/*.txt -text whitespace=cr-at-eol
+/audit/continuous-qualification/2026-10-25-owner-retirement/*.xml -text whitespace=cr-at-eol

@@ -456,7 +456,6 @@ void Engine::close_job(Owner owner, Id handle) {
 
 void Engine::unload(Owner owner) {
 	diagnostics_.emit({LogEvent::owner_unloaded, owner});
-	unloaded_.push_back(owner);
 	for (auto &[id, c] : connections_) {
 		if (c->owner == owner) {
 			disconnect(owner, id);
@@ -470,6 +469,7 @@ void Engine::unload(Owner owner) {
 	});
 	for (auto &[id, j] : jobs_) {
 		if (j->owner == owner) {
+			j->owner_unloaded = true;
 			j->cancel.store(true);
 			j->notify = false;
 			j->callback.reset();
@@ -498,6 +498,11 @@ Dispatch Engine::poll() {
 		return item.second->close_delivered && item.second->state() == State::disconnected;
 	});
 	for (auto completed = completed_.pop(); completed; completed = completed_.pop()) {
+		// A closing connection or unloaded job may already have been reaped.
+		// Finish bookkeeping belongs to the completion, independently of either registry.
+		if (completed->kind == Kind::commit || completed->kind == Kind::rollback) {
+			ending_.erase(completed->transaction);
+		}
 		auto it = jobs_.find(completed->id);
 		if (it == jobs_.end()) {
 			continue;
@@ -525,7 +530,6 @@ Dispatch Engine::poll() {
 		    ((j->kind == Kind::begin && j->status.load() != Status::confirmed) ||
 		     j->kind == Kind::commit || j->kind == Kind::rollback)) {
 			c->second->reservations[j->lane] = 0;
-			ending_.erase(j->transaction);
 		}
 		if (j->notify) {
 			out.jobs.push_back(j);
@@ -548,18 +552,13 @@ Dispatch Engine::poll() {
 		}
 	}
 	std::erase_if(jobs_, [&](auto &item) {
-		return terminal(item.second->status.load()) &&
-		       std::find(unloaded_.begin(), unloaded_.end(), item.second->owner) != unloaded_.end();
-	});
-	// Owner generations never repeat. Remove tombstones once every resource is gone.
-	std::erase_if(unloaded_, [&](Owner owner) {
-		return std::none_of(jobs_.begin(), jobs_.end(),
-		                    [=](auto &p) {
-			                    return p.second->owner == owner;
-		                    }) &&
-		       std::none_of(connections_.begin(), connections_.end(), [=](auto &p) {
-			       return p.second->owner == owner;
-		       });
+		const auto &job = item.second;
+		if (!terminal(job->status.load()) || !job->owner_unloaded) return false;
+		// Terminal status can become visible before its queue publication.
+		if (job->kind == Kind::commit || job->kind == Kind::rollback) {
+			ending_.erase(job->transaction);
+		}
+		return true;
 	});
 	return out;
 }

@@ -75,6 +75,8 @@ public:
 	}
 
 private:
+	// Controlled lifecycle tests seed publication/reaping snapshots without timing hooks.
+	friend struct EngineTestAccess;
 	Limits limits_;
 	std::filesystem::path root_;
 	Id next_ = 1;
@@ -85,7 +87,6 @@ private:
 	std::unordered_map<Id, Batch> batches_;
 	std::unordered_map<Id, std::shared_ptr<Job>> jobs_;
 	std::unordered_map<Id, bool> ending_;
-	std::vector<Owner> unloaded_;
 	Id id();
 	Id submit(std::shared_ptr<Job> job);
 	Batch &batch(Owner owner, Id id);

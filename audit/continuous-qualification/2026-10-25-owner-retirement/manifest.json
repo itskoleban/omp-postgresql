@@ -1,0 +1,92 @@
+{
+  "base_commit": "e371ccb3a0dd01cca5dc92b197250de7f55226f2",
+  "code_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+  "toolchain": "GCC 16.1.0 / MinGW UCRT64 / PostgreSQL and libpq 18.4 / C++20 / Debug / Windows x64",
+  "component_built": false,
+  "source_sha256": {
+    "CMakeLists.txt": "8a2a39e849d2d702bd355a9712e8d88006e53c89368c335859ec51fadb8924c7",
+    "include/pg/engine.hpp": "24a22bca5e1a372cee411dcc0cdd5db6c86e5016f33c7b2f37e17d1ac7f054a4",
+    "include/pg/types.hpp": "bcaef2dc88eab7d1f42b4ecee0ab2dc1741141245478399e3f2af52ad9fe23a1",
+    "src/engine.cpp": "27694d432a17848cc9bb3d5da37319149dbb2d1a175301e5d8d15715c54cdf2a",
+    "tests/transaction_retirement.cpp": "dc8657366691a0057d9c9d3e4ac6fad2d3e390074a923d23eeaeef5ac480e571",
+    "tests/unload_allocation.cpp": "cfb54416da01c12793be67ca286eee498d954dbf3dfc5b128b8f0c5c02d58b8c"
+  },
+  "negative_baseline": {
+    "outcome": "FAIL",
+    "passed": 16,
+    "total": 19,
+    "skipped": 0,
+    "failed": [
+      "integration",
+      "types_integration",
+      "extensions_integration"
+    ]
+  },
+  "corrected_source": {
+    "outcome": "FAIL",
+    "passed": 20,
+    "total": 22,
+    "skipped": 0,
+    "failed": [
+      "integration",
+      "types_integration"
+    ],
+    "new_tests": "PASS 3/3"
+  },
+  "files_sha256": {
+    "astra-first-review.md": "c2a185d1943dd7c8043fe9d16aa136edf8210857c26eadf905120593ec9ad160",
+    "astra-handoff.md": "fa9ef7e4b55062b842380e7cddd7224216d1c2725910f7f15f94d77bc012b5e1",
+    "baseline-negative-sha256.json": "72443eded432598d311a1f11b4f3083015bf7e0b7b377a998efc3f2a173ceb46",
+    "baseline-negative.zip": "cd91783ddfef35aab99ebdd3e75b71733d36dcdb35c57dad0faaf7c5d5af2705",
+    "candidate-dependencies.json": "4ba46488fda3d6e7fee0d5121e5e5c85f2b6752fefb3161cb7389ef4a4abc9ad",
+    "direct-libpq-stacked-control.zip": "113846a1d0f6d486bb6c004076ca3f25ac2c9c5777e9c99538ff06d675b544f5",
+    "hosted-ci-c612e9f.json": "56a620f8ae7bc453e67a73dcf98083b910cb44b4acb5a91ba1e13def20aefd12",
+    "installation-transformation.json": "0e695f2259a4cedcf0346e0bc57a57e68c97ef733332e0e6fe51e1146f5bc3ba",
+    "marker-before.patch": "d9cde26f8acebc55fc12706753a568dacd9a667fe835be7041d9dca764599145",
+    "python-tests.txt": "bb31acd54b71c97a9c5b57680c8077047ab653a37af90cfefd009dd471ced636",
+    "README.md": "323cc905fd7267e41dc050e2d324fc0c33980e9e0f0b8c1fd6286067b8402533",
+    "retirement-negative-sha256.json": "05ac4bdeb5e474b2694ccf6505a09856cdabde346f18635549fe333c344ebbfd",
+    "retirement-negative.zip": "b761273634702bc6b2b54085a0fe8e31d457aeb61053e3ecc718dc259bc80e4e",
+    "retirement-unit.txt": "4966961cd3bfb3da1af69884b88fbbac46de2971a70db52c3db7c968fc2435c1",
+    "retirement-unit.xml": "237b32e5c78682d1581cecf25be9255613287b36024c00acfb18c01e501cfbcc",
+    "stability-preparation.json": "6178f62d6101cb396ccc6264bae829f4eb139601b417c449d16370e4d9f813d9",
+    "transaction-retirement-after.txt": "ddf1f57bc44f6c8f118bb8b55f217b9f7246c84f7d97f37bad1f9a6b22668355",
+    "transaction-retirement-before.txt": "9f7e85e10823646c5233fa8806eabc32a041f71dc5cc1d316a1b4135144e7865",
+    "unload-before.txt": "7011a9b2625b23da315bab90906de81056673596dfc0d9e9f9c3c017deb2761b"
+  },
+  "direct_control": {
+    "outcome": "REPRODUCED_WITHOUT_COMPONENT",
+    "expected_sqlstate": "42601",
+    "stacked_exit": 2,
+    "fresh_select_exit": 0,
+    "stop_exit": 0,
+    "backend_exception": "0xC0000028",
+    "underlying_external_cause": "UNKNOWN",
+    "postgres_sha256": "5d7673288449ab8d272320cf5b20fe827abcb483e3234d24579958ea719241bf",
+    "libpq_sha256": "17a3dd4991aceed4ef3bca8109be6e7e755c01eec918956d58d6c7cc9c055e4c"
+  },
+  "hosted_qualification": {
+    "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+    "run_id": 40255510980,
+    "attempt": 1,
+    "outcome": "PASS",
+    "jobs": 7,
+    "ctest_executions": 194,
+    "skips": 0,
+    "real_sessions_per_x86_platform": 23,
+    "evidence": "hosted-ci-c612e9f.json"
+  },
+  "first_independent_audit": {
+    "model": "gpt-6-astra",
+    "task": "astra_independent_audit",
+    "reviewed_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+    "completed_on": "2026-10-26",
+    "status": "COMPLETED",
+    "report": "astra-first-review.md",
+    "new_confirmed_blocking_defects": 0,
+    "disposition": "Ready to prepare a separately authorized stability campaign within recorded limits; not stability certification or execution approval.",
+    "initial_attempt": "Interrupted by usage limit; resumed to complete the report and dependency-identity addendum."
+  },
+  "dependencies": "candidate-dependencies.json",
+  "stability_preparation": "stability-preparation.json"
+}

@@ -1,0 +1,480 @@
+{
+  "schema": 1,
+  "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+  "workflow_run_id": 40255510980,
+  "purpose": "Exact package build manifests and dependency identities for audit and future authorized stability preparation",
+  "packages": [
+    {
+      "platform": "linux",
+      "architecture": "x86",
+      "artifact": {
+        "id": 12622342559,
+        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622342559",
+        "sha256": "54ce077f3dcea75c981bfff6a947cae0e5f679136948df5a391c1d4274e76e89",
+        "bytes": 636187,
+        "metadata_digest_and_size_verified": true
+      },
+      "candidate_archive": {
+        "name": "omp-postgresql-0.1.0.c612e9f1ed25-linux-x86.zip",
+        "sha256": "2d4b0ff3dcde152c246924dd73d8b1d8c0ca8a32643f35aac32c820ec899ea87",
+        "bytes": 644503,
+        "checksum_sidecar_sha256": "0f7f1569641a0e1b067f455d27c687090e67a3a9e19a04d183e930ff3737aa42",
+        "checksum_sidecar_matches": true
+      },
+      "manifest": {
+        "path": "omp-postgresql/manifest.json",
+        "sha256": "4810f3c1e0fb48fcb35fd23e70db8d8ba6b51ee05a728cadc36ad593d5c405c8",
+        "bytes": 9679,
+        "exact_content": {
+          "architecture": "x86",
+          "archive": "omp-postgresql-0.1.0.c612e9f1ed25-linux-x86.zip",
+          "build": {
+            "commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+            "compiler": "GNU",
+            "compiler_version": "13.3.0",
+            "configuration": "Release",
+            "cxx_standard": 20,
+            "libpq_version": "17.11",
+            "pawn_commit": "29f1a8c7fd2e01929807cd8c50353fbc93bbd651",
+            "pointer_bytes": 4,
+            "release_channel": "stable",
+            "sanitize": "OFF",
+            "sdk_commit": "473b732b2de159773b2e2908fd11aa99f07db284",
+            "system": "Linux",
+            "version": "0.1.0"
+          },
+          "commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+          "dependencies": {
+            "components/omp-postgresql.so": {
+              "imports": [
+                "libc.so.6",
+                "libgcc_s.so.1",
+                "libpq.so.5",
+                "libstdc++.so.6"
+              ],
+              "symbol_versions": [
+                "CXXABI_1.3",
+                "CXXABI_1.3.9",
+                "GCC_3.0",
+                "GCC_7.0.0",
+                "GLIBCXX_3.4",
+                "GLIBCXX_3.4.11",
+                "GLIBCXX_3.4.18",
+                "GLIBCXX_3.4.19",
+                "GLIBCXX_3.4.20",
+                "GLIBCXX_3.4.21",
+                "GLIBCXX_3.4.22",
+                "GLIBCXX_3.4.26",
+                "GLIBCXX_3.4.29",
+                "GLIBCXX_3.4.30",
+                "GLIBCXX_3.4.31",
+                "GLIBC_2.0",
+                "GLIBC_2.1.3",
+                "GLIBC_2.15",
+                "GLIBC_2.3.4",
+                "GLIBC_2.32",
+                "GLIBC_2.33",
+                "GLIBC_2.34",
+                "GLIBC_2.4"
+              ]
+            },
+            "lib/libpq.so.5": {
+              "imports": [
+                "libc.so.6",
+                "libcrypto.so.3",
+                "libm.so.6",
+                "libssl.so.3"
+              ],
+              "symbol_versions": [
+                "GLIBC_2.0",
+                "GLIBC_2.1",
+                "GLIBC_2.1.1",
+                "GLIBC_2.1.2",
+                "GLIBC_2.1.3",
+                "GLIBC_2.25",
+                "GLIBC_2.29",
+                "GLIBC_2.3",
+                "GLIBC_2.3.4",
+                "GLIBC_2.32",
+                "GLIBC_2.33",
+                "GLIBC_2.38",
+                "GLIBC_2.4",
+                "OPENSSL_3.0.0"
+              ]
+            }
+          },
+          "files": {
+            "DEPENDENCIES.md": "b6dfadd2003020c814b9c4a5404baedd849a27fbd9f5bb882244261b9776605d",
+            "LICENSE": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "NOTICE.md": "723346aa2cf9ddd777bf3d2ba73289eb4dfe09ede5b641c9d076302bd118ccc1",
+            "README.md": "f1e9dce4c728f09c9c6ba1fb0be5a338fc1cfdabd9889d72809a2a71bd49f20f",
+            "components/omp-postgresql.so": "b5401c4bf443deded624fb0a0e71a6dad69e466630459c14350b99572391f82a",
+            "docs/accounts.md": "2007abfad5ff940d9d17b2b1943cb2809268d0580b2658107a168e45fc14cc17",
+            "docs/api-modernization.md": "ddb101c3415fd31f0c95ef2be81549723de4e1cb506b119e94d120421e2cea28",
+            "docs/api.md": "c514b7fcb597430960aabc2c56c7ab3cbb62a83a5f14d0c366e51c7827782e7b",
+            "docs/build-linux.md": "1c25362485b0c207555203b83c94e3951120f4cf11d6a9fd1b02bd0c986739bd",
+            "docs/build-windows.md": "7f507f4f6e3ed16eb50e630c9956edc8053da68fb22837c4506c420dc86a40a0",
+            "docs/callbacks.md": "30325c8e1d573f1df2b9c759aec9c0e235e898a7301056198bed888d4b8209c7",
+            "docs/debugging.md": "b6fce366150f6bca1e62449dd5428424dfaac4436bf72ab0d5f60ff1cac8993d",
+            "docs/design.md": "f868f5a9c735308351475a16a5533a02abb106aa61bfe5b25a7d623dfea33be8",
+            "docs/documentation-audit.md": "3009ba5cabe84bad75c1529bbbe853bf59bceda5ad3277e453e76e537297c21b",
+            "docs/examples.md": "308601d19869c9c2fff6faf845d8dc58c9ded6ae7c71df8df3afc677716abb36",
+            "docs/extension-audit.md": "130ec7cfb210dc46d69f04966cb2aaa4cb6e0ec65e761c9d71b41e1df90d9b00",
+            "docs/getting-started.md": "af4822617d3588df0e71088ff61f7905294ac5a59e9ec2c6652e7f77038ebee4",
+            "docs/independent-audit.md": "fcfd3f85fe1858c9c85d95dc5e0f00cef540bd714f15a507735d5f4d8734ba27",
+            "docs/installation.md": "6cb06ae37e8b6b9d35614f8f3ff1d8f2a667f06a37fe5d727425d2bf2f8c0835",
+            "docs/language-policy.md": "4d36239c801691d1ed9c5e5860cd4b1ecbee9826677661c9b6c82460fb955d52",
+            "docs/log-output-design.md": "ce7b04d8b9fcc842d4ac8416571523504cab4bf06c36e554652d3c1d5c6b2068",
+            "docs/logging-qualification.md": "5b9c3c45cef8d56ef0724d8fc82f58addc694bdd6f410b5fbf6d5c4aafc576de",
+            "docs/native-reference.md": "08c4fd5b58ed7f09a3dafe59a0a8d998334be55756653a6f380ef30a7f7cc990",
+            "docs/packaging.md": "7c0ca1bd412c1af2326edcb274f1ccee657fa616824bcb8fa6c73e93c627702d",
+            "docs/performance.md": "36a6e07b35c12ab015ea129b4471c7cd48eafb14d9e9c86095904112ed8d8ef9",
+            "docs/prestable-cleanup.md": "3a99123eeac7c34b55d1dc360f0d635481dab437d61733c79c7a59f3ebea31c9",
+            "docs/quick-reference.md": "d5d5010647003af5c8a219823d3aa51df4fde23993ad21610e3c0fa3c1fc0200",
+            "docs/rc-readiness.md": "12426d62f31da79fa70b2acbd14fa1c85047d63c3dbd628255ae2b2e0736f37c",
+            "docs/release-notes.md": "a7b7d6822d545fb05cc7833c18d542190d987d5dd301da94d239a309243bf422",
+            "docs/releasing.md": "823abb929d4710af838e540e220b568269bfd40899baf2985c76fb088d512323",
+            "docs/saving.md": "ca040ca5a1e2fdc5cd2c1b46da3b7a4cd6170fb3eb3b9421eb52f603bd6aa931",
+            "docs/security.md": "1e1fc67ba48f0160444c08684b9362eba317f178dce4259d5e59dfd8f8ff7668",
+            "docs/sql-sections.md": "13739485f3f78bc3c04bd7f46a82796ff7c4f72498c70d7efdcda4f837e02b67",
+            "docs/transactions.md": "d97dcd901a6b0159aeafd32148fad77f0b270e5a1047c02ace27e8b47dfd7b7f",
+            "docs/troubleshooting.md": "ee2fd4721db08b77212fed889ceccb79498c889b07752e0bab61058de304ee15",
+            "docs/types.md": "3f845d5fa96c012a2c0186837299187e10eb7269999d039fda2a43c37f114995",
+            "docs/validation.md": "7bed53249bc5d8818a25712be7efb273ae4e7cfc8ad2e07ef299bbf21f4bfee6",
+            "examples/accounts.pwn": "67b5734a346d47f181b08604f0ab31b11e537b380d3818427d128ba8177beba1",
+            "examples/basic.pwn": "daa196c61dc4697564bc16087fe5753c5cb0b1cc2dcc737fbcacd34f1b1c6517",
+            "examples/bootstrap.pwn": "dc5e9eeac871000abef13c5ca223dc3b223e6a7d3aab34ad527fd8ffc1f6da17",
+            "examples/callbacks.pwn": "d35f0d497fa654848c6f52394622d69ff722cf86f4382f51fde344c886e3a776",
+            "examples/custom.pwn": "f534acbf69df6b5a922ac28dae305fcf95b78522b7a271b12fb39eec4b625e14",
+            "examples/extensions.pwn": "3f75aa129bf8618a63921b2982f8d614e55b674765ef2d2d30dab1f67b228c47",
+            "examples/logging.pwn": "fa1140b2495f5ea12c6347ffd2e282baa6a3c151dadf5162744d2552455b72ee",
+            "examples/pg_hba.conf": "7d09896a279fbebea8c41b1eb482cf8ad5de8b927d8e69b3845e1050f10aea49",
+            "examples/pg_service.conf": "e24f37b1196fe65e9baf5c027becc06185973348dd1cf639a348645fc0d8377d",
+            "examples/postgresql.sql": "00da3d3eccd30e09396a3bc75054aa7473490b8e26878c5802bf198f51f2790d",
+            "examples/saving.pwn": "bf90897f0d6f98b08b1f95670c7ef22bac053b73bedb42e73f247560e07e9d21",
+            "examples/sections.pwn": "af119245a2f18186dac8c754cf3af3c29cd6c9f86ed98c48250b92fc3ea3db6a",
+            "examples/smoke.pwn": "7a6155adddf6883d97bc9fc216781a60dd0ab9f4c23a1cc1f301a6a72a18ee52",
+            "examples/sql/accounts.sql": "513c4813123e301e933f32e652fd0fcf32427e1754117f09c4c14f245055428a",
+            "examples/sql/tutorial-auth.sql": "0c41a1dd4c9b64eba5cf9d814f70f81ff7f662be6aa2b1c24ef8486e4e113c03",
+            "examples/sql/tutorial-select.sql": "e543c6b401ae217d48a6c20bf9b76a6b5329459c103562f2ec2851b75e52c1af",
+            "examples/transfer.pwn": "e2c49b47b7386b9e0426c9a75f0fbf79f0e6cba696dc26f1cc083cf1234e2bb8",
+            "examples/unload.pwn": "91421d98600ec389620326be6aab4762a8653f80a8aaf4ce79af2be87e8b85f2",
+            "examples/values.pwn": "6ef98c420baa855ee5e36f573039aef4ba94891fc739e891ab75c8062f73c5ac",
+            "lib/libpq.so.5": "b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241",
+            "licenses/libpq/COPYRIGHT": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+            "qawno/include/omp-postgresql.inc": "00cd9369e2451b04daeb1b5b82ee0077ec21fe9a20f1760fb12e86f976280a81",
+            "share/omp-postgresql/LICENSE": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "share/omp-postgresql/NOTICE.md": "723346aa2cf9ddd777bf3d2ba73289eb4dfe09ede5b641c9d076302bd118ccc1",
+            "share/omp-postgresql/licenses/glm/copying.txt": "62d2d642c7d054d4fb4c9b42faad617d6c88fcd91e317f8035aa9f277cc159c3",
+            "share/omp-postgresql/licenses/open.mp-sdk/LICENSE.md": "8c07c05e3ec753715d6173c0abe0f5d5c29436c852596734e59bcbabd183fb8f",
+            "share/omp-postgresql/licenses/pawn/license.txt": "7d369f6749a91220e5ee6ec03175dd3799f6ac83e23eb382c8474eefcedec726",
+            "share/omp-postgresql/licenses/robin-hood-hashing/LICENSE": "686cf8d62cc44fecff4be967238aba89665f9b6acf8a728987801ffc3a626bc7",
+            "share/omp-postgresql/licenses/span-lite/LICENSE.txt": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+            "share/omp-postgresql/licenses/string-view-lite/LICENSE.txt": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+            "share/omp-postgresql/patches/README.md": "026640835bf46d8fd5acf81d04a99924046b0a07fa2964eb8ceef2b38ee0671f",
+            "share/omp-postgresql/patches/libpq-windows-mutex.patch": "3a754699a4424e77303325d25866ceeab64ca617a6a16691c9b587853cf40508"
+          },
+          "platform": "linux",
+          "release_channel": "stable",
+          "source_epoch": 1792978703,
+          "version": "0.1.0"
+        }
+      },
+      "payload_verification": {
+        "files_checked": 69,
+        "mismatches": []
+      },
+      "real_session_build_tree_inputs": {
+        "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+        "inputs": {
+          "component": {
+            "sha256": "4587cafba171caf98389740ad613ee6b4906f62a2b259a18b725e11d31b1b92f"
+          },
+          "gamemode": {
+            "sha256": "8b0f667ab9827336b1aa906a618722988a6e67088c3ea8cca7e3d933f1489273"
+          },
+          "client": {
+            "sha256": "698ade9d27e198cb85d99abf03dddc0880ca84ce5f5912d6597a704745af0723"
+          },
+          "provider": {
+            "sha256": "8b5c9024b20b55e8eb031ab7a3ba126653b41f45d4e11e835a6d481643883d14"
+          },
+          "server": {
+            "sha256": "e678e82961c58e561f473a00112ee040b2899bc28312dc6282faaca11bf045ad",
+            "version": "1.5.8.3079 (supplied distribution; verify archive separately)"
+          },
+          "custom_gamemode": {
+            "sha256": "20b1756b9f921bc0683af678cc6b1d98a58bc06f74ea4014f2860719ed37d391"
+          }
+        },
+        "runtime": [
+          {
+            "file": "libpq.so.5.17",
+            "sha256": "b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241"
+          }
+        ],
+        "harness_sha256": "9978ca60ee326d00a54b8fd3a9bc8df2fb3b9b075b49f75fe68e60b1481dcc1a",
+        "tracked_source_modified": false,
+        "source_state": "generated-files-only"
+      }
+    },
+    {
+      "platform": "windows",
+      "architecture": "x86",
+      "artifact": {
+        "id": 12622462845,
+        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12622462845",
+        "sha256": "c3887982b615f5c2d287154929e1326452e1bdff85a18728f0d91619af6f4a41",
+        "bytes": 3147016,
+        "metadata_digest_and_size_verified": true
+      },
+      "candidate_archive": {
+        "name": "omp-postgresql-0.1.0.c612e9f1ed25-windows-x86.zip",
+        "sha256": "7bc422b66b31d737fc420a94476e08bf656043fd5c65b3136169f5b8f7222706",
+        "bytes": 3157440,
+        "checksum_sidecar_sha256": "a409178f646131c0191ae16057b8e2be378ab34732a6bfdcb5da78472e1aba5d",
+        "checksum_sidecar_matches": true
+      },
+      "manifest": {
+        "path": "omp-postgresql/manifest.json",
+        "sha256": "d062d9d139a44bd22156db2828777cbca3da3594766c4b75fee432907ceee44b",
+        "bytes": 10219,
+        "exact_content": {
+          "architecture": "x86",
+          "archive": "omp-postgresql-0.1.0.c612e9f1ed25-windows-x86.zip",
+          "build": {
+            "commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+            "compiler": "MSVC",
+            "compiler_version": "19.51.36260.0",
+            "configuration": "Release",
+            "cxx_standard": 20,
+            "libpq_version": "17.11",
+            "pawn_commit": "29f1a8c7fd2e01929807cd8c50353fbc93bbd651",
+            "pointer_bytes": 4,
+            "release_channel": "stable",
+            "sanitize": "OFF",
+            "sdk_commit": "473b732b2de159773b2e2908fd11aa99f07db284",
+            "system": "Windows",
+            "version": "0.1.0"
+          },
+          "commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+          "dependencies": {
+            "components/omp-postgresql.dll": {
+              "imports": [
+                "api-ms-win-crt-environment-l1-1-0.dll",
+                "api-ms-win-crt-filesystem-l1-1-0.dll",
+                "api-ms-win-crt-heap-l1-1-0.dll",
+                "api-ms-win-crt-locale-l1-1-0.dll",
+                "api-ms-win-crt-math-l1-1-0.dll",
+                "api-ms-win-crt-runtime-l1-1-0.dll",
+                "api-ms-win-crt-stdio-l1-1-0.dll",
+                "api-ms-win-crt-string-l1-1-0.dll",
+                "api-ms-win-crt-time-l1-1-0.dll",
+                "kernel32.dll",
+                "libpq.dll",
+                "msvcp140.dll",
+                "vcruntime140.dll",
+                "ws2_32.dll"
+              ],
+              "symbol_versions": []
+            },
+            "libcrypto-3.dll": {
+              "imports": [
+                "advapi32.dll",
+                "crypt32.dll",
+                "kernel32.dll",
+                "msvcrt.dll",
+                "user32.dll",
+                "ws2_32.dll"
+              ],
+              "symbol_versions": []
+            },
+            "libpq.dll": {
+              "imports": [
+                "advapi32.dll",
+                "kernel32.dll",
+                "libcrypto-3.dll",
+                "libssl-3.dll",
+                "msvcrt.dll",
+                "secur32.dll",
+                "shell32.dll",
+                "ws2_32.dll"
+              ],
+              "symbol_versions": []
+            },
+            "libssl-3.dll": {
+              "imports": [
+                "kernel32.dll",
+                "libcrypto-3.dll",
+                "msvcrt.dll",
+                "ws2_32.dll"
+              ],
+              "symbol_versions": []
+            }
+          },
+          "files": {
+            "DEPENDENCIES.md": "b6dfadd2003020c814b9c4a5404baedd849a27fbd9f5bb882244261b9776605d",
+            "LICENSE": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "NOTICE.md": "723346aa2cf9ddd777bf3d2ba73289eb4dfe09ede5b641c9d076302bd118ccc1",
+            "README.md": "f1e9dce4c728f09c9c6ba1fb0be5a338fc1cfdabd9889d72809a2a71bd49f20f",
+            "components/omp-postgresql.dll": "fa9ddd3612e9f53e78cb02062469ecf969b90c576163c4bce770b94bd84c7e7f",
+            "docs/accounts.md": "2007abfad5ff940d9d17b2b1943cb2809268d0580b2658107a168e45fc14cc17",
+            "docs/api-modernization.md": "ddb101c3415fd31f0c95ef2be81549723de4e1cb506b119e94d120421e2cea28",
+            "docs/api.md": "c514b7fcb597430960aabc2c56c7ab3cbb62a83a5f14d0c366e51c7827782e7b",
+            "docs/build-linux.md": "1c25362485b0c207555203b83c94e3951120f4cf11d6a9fd1b02bd0c986739bd",
+            "docs/build-windows.md": "7f507f4f6e3ed16eb50e630c9956edc8053da68fb22837c4506c420dc86a40a0",
+            "docs/callbacks.md": "30325c8e1d573f1df2b9c759aec9c0e235e898a7301056198bed888d4b8209c7",
+            "docs/debugging.md": "b6fce366150f6bca1e62449dd5428424dfaac4436bf72ab0d5f60ff1cac8993d",
+            "docs/design.md": "f868f5a9c735308351475a16a5533a02abb106aa61bfe5b25a7d623dfea33be8",
+            "docs/documentation-audit.md": "3009ba5cabe84bad75c1529bbbe853bf59bceda5ad3277e453e76e537297c21b",
+            "docs/examples.md": "308601d19869c9c2fff6faf845d8dc58c9ded6ae7c71df8df3afc677716abb36",
+            "docs/extension-audit.md": "130ec7cfb210dc46d69f04966cb2aaa4cb6e0ec65e761c9d71b41e1df90d9b00",
+            "docs/getting-started.md": "af4822617d3588df0e71088ff61f7905294ac5a59e9ec2c6652e7f77038ebee4",
+            "docs/independent-audit.md": "fcfd3f85fe1858c9c85d95dc5e0f00cef540bd714f15a507735d5f4d8734ba27",
+            "docs/installation.md": "6cb06ae37e8b6b9d35614f8f3ff1d8f2a667f06a37fe5d727425d2bf2f8c0835",
+            "docs/language-policy.md": "4d36239c801691d1ed9c5e5860cd4b1ecbee9826677661c9b6c82460fb955d52",
+            "docs/log-output-design.md": "ce7b04d8b9fcc842d4ac8416571523504cab4bf06c36e554652d3c1d5c6b2068",
+            "docs/logging-qualification.md": "5b9c3c45cef8d56ef0724d8fc82f58addc694bdd6f410b5fbf6d5c4aafc576de",
+            "docs/native-reference.md": "08c4fd5b58ed7f09a3dafe59a0a8d998334be55756653a6f380ef30a7f7cc990",
+            "docs/packaging.md": "7c0ca1bd412c1af2326edcb274f1ccee657fa616824bcb8fa6c73e93c627702d",
+            "docs/performance.md": "36a6e07b35c12ab015ea129b4471c7cd48eafb14d9e9c86095904112ed8d8ef9",
+            "docs/prestable-cleanup.md": "3a99123eeac7c34b55d1dc360f0d635481dab437d61733c79c7a59f3ebea31c9",
+            "docs/quick-reference.md": "d5d5010647003af5c8a219823d3aa51df4fde23993ad21610e3c0fa3c1fc0200",
+            "docs/rc-readiness.md": "12426d62f31da79fa70b2acbd14fa1c85047d63c3dbd628255ae2b2e0736f37c",
+            "docs/release-notes.md": "a7b7d6822d545fb05cc7833c18d542190d987d5dd301da94d239a309243bf422",
+            "docs/releasing.md": "823abb929d4710af838e540e220b568269bfd40899baf2985c76fb088d512323",
+            "docs/saving.md": "ca040ca5a1e2fdc5cd2c1b46da3b7a4cd6170fb3eb3b9421eb52f603bd6aa931",
+            "docs/security.md": "1e1fc67ba48f0160444c08684b9362eba317f178dce4259d5e59dfd8f8ff7668",
+            "docs/sql-sections.md": "13739485f3f78bc3c04bd7f46a82796ff7c4f72498c70d7efdcda4f837e02b67",
+            "docs/transactions.md": "d97dcd901a6b0159aeafd32148fad77f0b270e5a1047c02ace27e8b47dfd7b7f",
+            "docs/troubleshooting.md": "ee2fd4721db08b77212fed889ceccb79498c889b07752e0bab61058de304ee15",
+            "docs/types.md": "3f845d5fa96c012a2c0186837299187e10eb7269999d039fda2a43c37f114995",
+            "docs/validation.md": "7bed53249bc5d8818a25712be7efb273ae4e7cfc8ad2e07ef299bbf21f4bfee6",
+            "examples/accounts.pwn": "67b5734a346d47f181b08604f0ab31b11e537b380d3818427d128ba8177beba1",
+            "examples/basic.pwn": "daa196c61dc4697564bc16087fe5753c5cb0b1cc2dcc737fbcacd34f1b1c6517",
+            "examples/bootstrap.pwn": "dc5e9eeac871000abef13c5ca223dc3b223e6a7d3aab34ad527fd8ffc1f6da17",
+            "examples/callbacks.pwn": "d35f0d497fa654848c6f52394622d69ff722cf86f4382f51fde344c886e3a776",
+            "examples/custom.pwn": "f534acbf69df6b5a922ac28dae305fcf95b78522b7a271b12fb39eec4b625e14",
+            "examples/extensions.pwn": "3f75aa129bf8618a63921b2982f8d614e55b674765ef2d2d30dab1f67b228c47",
+            "examples/logging.pwn": "fa1140b2495f5ea12c6347ffd2e282baa6a3c151dadf5162744d2552455b72ee",
+            "examples/pg_hba.conf": "7d09896a279fbebea8c41b1eb482cf8ad5de8b927d8e69b3845e1050f10aea49",
+            "examples/pg_service.conf": "e24f37b1196fe65e9baf5c027becc06185973348dd1cf639a348645fc0d8377d",
+            "examples/postgresql.sql": "00da3d3eccd30e09396a3bc75054aa7473490b8e26878c5802bf198f51f2790d",
+            "examples/saving.pwn": "bf90897f0d6f98b08b1f95670c7ef22bac053b73bedb42e73f247560e07e9d21",
+            "examples/sections.pwn": "af119245a2f18186dac8c754cf3af3c29cd6c9f86ed98c48250b92fc3ea3db6a",
+            "examples/smoke.pwn": "7a6155adddf6883d97bc9fc216781a60dd0ab9f4c23a1cc1f301a6a72a18ee52",
+            "examples/sql/accounts.sql": "513c4813123e301e933f32e652fd0fcf32427e1754117f09c4c14f245055428a",
+            "examples/sql/tutorial-auth.sql": "0c41a1dd4c9b64eba5cf9d814f70f81ff7f662be6aa2b1c24ef8486e4e113c03",
+            "examples/sql/tutorial-select.sql": "e543c6b401ae217d48a6c20bf9b76a6b5329459c103562f2ec2851b75e52c1af",
+            "examples/transfer.pwn": "e2c49b47b7386b9e0426c9a75f0fbf79f0e6cba696dc26f1cc083cf1234e2bb8",
+            "examples/unload.pwn": "91421d98600ec389620326be6aab4762a8653f80a8aaf4ce79af2be87e8b85f2",
+            "examples/values.pwn": "6ef98c420baa855ee5e36f573039aef4ba94891fc739e891ab75c8062f73c5ac",
+            "libcrypto-3.dll": "2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f",
+            "libpq.dll": "38daac2222d5908fdc8f7dd5054f927fea6025fd33f215377c8a5c3b74e758bc",
+            "libssl-3.dll": "b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab",
+            "licenses/libpq/COPYRIGHT": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+            "licenses/openssl/LICENSE": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a",
+            "qawno/include/omp-postgresql.inc": "00cd9369e2451b04daeb1b5b82ee0077ec21fe9a20f1760fb12e86f976280a81",
+            "share/omp-postgresql/LICENSE": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "share/omp-postgresql/NOTICE.md": "723346aa2cf9ddd777bf3d2ba73289eb4dfe09ede5b641c9d076302bd118ccc1",
+            "share/omp-postgresql/licenses/glm/copying.txt": "62d2d642c7d054d4fb4c9b42faad617d6c88fcd91e317f8035aa9f277cc159c3",
+            "share/omp-postgresql/licenses/open.mp-sdk/LICENSE.md": "8c07c05e3ec753715d6173c0abe0f5d5c29436c852596734e59bcbabd183fb8f",
+            "share/omp-postgresql/licenses/pawn/license.txt": "0382068c1107d168a2cbcf593951fab168bccdd36b89553f1193c47662b7bc19",
+            "share/omp-postgresql/licenses/robin-hood-hashing/LICENSE": "686cf8d62cc44fecff4be967238aba89665f9b6acf8a728987801ffc3a626bc7",
+            "share/omp-postgresql/licenses/span-lite/LICENSE.txt": "beb8e42e9d6b4284e03304d05a81a0755200a965fc8d0a5e0aea1e84cf805d6e",
+            "share/omp-postgresql/licenses/string-view-lite/LICENSE.txt": "beb8e42e9d6b4284e03304d05a81a0755200a965fc8d0a5e0aea1e84cf805d6e",
+            "share/omp-postgresql/patches/README.md": "026640835bf46d8fd5acf81d04a99924046b0a07fa2964eb8ceef2b38ee0671f",
+            "share/omp-postgresql/patches/libpq-windows-mutex.patch": "3a754699a4424e77303325d25866ceeab64ca617a6a16691c9b587853cf40508"
+          },
+          "libpq_build": {
+            "dll_sha256": "38daac2222d5908fdc8f7dd5054f927fea6025fd33f215377c8a5c3b74e758bc",
+            "mutex_patch_sha256": "3a754699a4424e77303325d25866ceeab64ca617a6a16691c9b587853cf40508",
+            "source_version": "17.11"
+          },
+          "platform": "windows",
+          "release_channel": "stable",
+          "source_epoch": 1792978703,
+          "version": "0.1.0"
+        }
+      },
+      "payload_verification": {
+        "files_checked": 72,
+        "mismatches": []
+      },
+      "real_session_build_tree_inputs": {
+        "source_commit": "c612e9f1ed258d081d91fd929c5333bf77b78d28",
+        "inputs": {
+          "component": {
+            "sha256": "fa9ddd3612e9f53e78cb02062469ecf969b90c576163c4bce770b94bd84c7e7f"
+          },
+          "gamemode": {
+            "sha256": "8b0f667ab9827336b1aa906a618722988a6e67088c3ea8cca7e3d933f1489273"
+          },
+          "client": {
+            "sha256": "3217a3e46fc30cac00bd9671d0c4b63da63fc1ec0009970373455e16f01dc81d"
+          },
+          "provider": {
+            "sha256": "42ff95d26a586e51ea964e80bc747498dc64f3015d29a1c5a2d790c8906944a5"
+          },
+          "server": {
+            "sha256": "690363cc8d4708685eb2bfcfdc117abfc1293c5606fe5f8a4bbb3d53591c2829",
+            "version": "1.5.8.3079 (supplied distribution; verify archive separately)"
+          },
+          "custom_gamemode": {
+            "sha256": "20b1756b9f921bc0683af678cc6b1d98a58bc06f74ea4014f2860719ed37d391"
+          }
+        },
+        "runtime": [
+          {
+            "file": "libpq.dll",
+            "sha256": "38daac2222d5908fdc8f7dd5054f927fea6025fd33f215377c8a5c3b74e758bc"
+          },
+          {
+            "file": "libssl-3.dll",
+            "sha256": "b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab"
+          },
+          {
+            "file": "libcrypto-3.dll",
+            "sha256": "2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f"
+          }
+        ],
+        "harness_sha256": "9978ca60ee326d00a54b8fd3a9bc8df2fb3b9b075b49f75fe68e60b1481dcc1a",
+        "tracked_source_modified": false,
+        "source_state": "generated-files-only"
+      }
+    }
+  ],
+  "fixture_dependency_pins": {
+    "openmp_version": "1.5.8.3079",
+    "openmp_archive_sha256": {
+      "linux_dynssl": "2be12550e3aaff0e60510ae8823e18b9759990eca3f02c101a49bcb3c985d222",
+      "windows": "d1b5ea1d09e7de0f144bf0055183e3ceaad5ff8a0a8e791021141e8973f84e03"
+    },
+    "omp_stdlib_commit": "46a5d1d7ac8985e4104f745c462a247a0c2eb6a0",
+    "raksamp_client_commit": "f75af4cb97fed341cb45b49aff489f9f20665e99",
+    "luajit_commit": "a4c064539ea931274d407e1249b4bb575424a0f4",
+    "bcrypt_version": "0.4.1",
+    "bcrypt_archive_sha256": {
+      "linux": "ebf76b12d799046a605e3063bb7b64b08e1fad9bdb3c299b357ec215a0793b5d",
+      "windows": "673e7511699a8e92452a323d4e35567e2c990c0779e1ef2d20b298940cd031c3"
+    },
+    "libpq_source_version": "17.11",
+    "libpq_archive_sha256": {
+      "linux_tar_gz": "5367f6fb2ec97efe1eb2e0c7926bb33438e51b0bd3a9733b88498056a7dc9a7e",
+      "windows_tar_bz2": "dd27f2b3c59e73ed14aa3324901242bf69a032a6347805f274e6260322d42979"
+    },
+    "windows_postgres_fixture_version": "17.11-3",
+    "windows_postgres_archive_sha256": "4b8db0930c38f6ef845db919551dedda3b6b845aeb0927b3d79a6e8e9e4537cf",
+    "pins_evidence": "Exact-source ci.yml, prepare_real_clients.py and run_real_session_ci.py at source_commit; previously verified hosted job logs."
+  },
+  "limitations": [
+    "The source-controlled stable release_channel describes build metadata, not owner authorization to publish.",
+    "Package payload and real-session build-tree binary hashes are preserved separately. Linux component hashes differ; no identical-byte claim or unproven cause is assigned. The package has its own fresh-server smoke checks.",
+    "Linux host OpenSSL, glibc, libstdc++ and libgcc are external. Manifest import and symbol-version requirements are exact; unrecorded host binary identities are not invented.",
+    "Windows system DLLs, Universal CRT and Visual C++ v14 x86 Redistributable remain external. Bundled non-system DLL hashes are exact.",
+    "Deterministic archive assembly does not imply bit-for-bit compiler rebuild reproducibility from moving runner packages.",
+    "Fixture/client/provider identities describe test dependencies, not bundled package payloads.",
+    "No binary payload was copied into the repository; extraction and checks used ZIP bytes in memory.",
+    "No 24-hour campaign or stable publication is authorized or initiated by this packet."
+  ]
+}
