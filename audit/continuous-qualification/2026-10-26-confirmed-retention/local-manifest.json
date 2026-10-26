@@ -1,0 +1,67 @@
+{
+  "base_master": "7104e76b3a278b5a45c1f4df6088c2a2cbf4aba8",
+  "source_candidate": "ea44502e8e3539b572e114d713831bb4e6098f49",
+  "before_binary_sha256": "b530c4570a033b66bf67bd45159f9c953e4855a91af76de7d8a962485c5d9de5",
+  "after_binary_sha256": "44b3511ad918b4a3953636e246ac823c9f9c88e5fa20d9a676c124c5d8af7661",
+  "archive": {
+    "file": "local-before-after.zip",
+    "bytes": 59806,
+    "sha256": "10e4dd5904fceea1e1a086430d30e74b3e003917bac7a3226219c0ae4b78ba32"
+  },
+  "members_sha256": {
+    "confirmed-after-console.txt": "e0be99658355e645f54181025281b4310ff3b4618429988ff80246c7b5c17853",
+    "confirmed-after/command-1.log": "a05ffeed2dc261f2b2d377d0ec255194280b00a0d37bc5c640bd29f8a6288aa5",
+    "confirmed-after/command-2.log": "6fd4ba5287f5579e9105480abc3643159515033d44f273d98cbad9d3bf70a434",
+    "confirmed-after/command-3.log": "46038efb813fbca18a92272496901190638dea3f97b51f7af0daa1ca2eb13818",
+    "confirmed-after/command-4.log": "3589d2bd01f8295cc7c9ec3f5e07625fcd347ccb6f33f2d80edafe5f5217c1fb",
+    "confirmed-after/observation.json": "7ba741631305998b80f9a247fbc82e49ad4adf30587ce7157562336d30477709",
+    "confirmed-after/server.log": "018df0f2bb2ee89f3d13088c4703c5ea7c726ec78283357845b00f1279bad561",
+    "confirmed-after/test-output.txt": "8dae6a2bd30f68ea27f5c00c5d192f8adb7a9d29f9433ba733830df80d4607d1",
+    "confirmed-allocation-first.cpp": "0657f62b82bac4415cb6d9d74251b8ac97b9c024e057b3d92e7d410330bb3d57",
+    "confirmed-before-console.txt": "8721e4ab27ea5a33c5febb6bf50b8f3d091885b6c0f0668679c4848e93cad2d5",
+    "confirmed-before/command-1.log": "716051135680f432700be65832812e17353475954a2f7d81959a8067d84bfab8",
+    "confirmed-before/command-2.log": "0cd4663f604102b7f1c0340d44654a500e4f417aa10df48436cc3b5ed7a9697c",
+    "confirmed-before/command-3.log": "46038efb813fbca18a92272496901190638dea3f97b51f7af0daa1ca2eb13818",
+    "confirmed-before/command-4.log": "3589d2bd01f8295cc7c9ec3f5e07625fcd347ccb6f33f2d80edafe5f5217c1fb",
+    "confirmed-before/observation.json": "4e7734fd3932b87169cde639167abda8f85beaea0593527a40b5c28eb099c0f0",
+    "confirmed-before/server.log": "4324324d04dfed6d468ef3d1e21bd6df2c6131b09d8630b402ba221786c2bde0",
+    "confirmed-before/test-output.txt": "140a8cc5f31fd209d3baa89957b30a0a7e3e22008ba8b603d206f06456f1751d",
+    "confirmed-build-after.txt": "88f97fb8246741433ff04394ef2f0755fdb7b1dbcdce4100f2b3a8987f7e1cee",
+    "confirmed-build-before.txt": "e35eeacba4516eb650a95b49194d5d5963f918dd018671f4cf14b7aba70789f1",
+    "corrected-source/CMakeLists.txt": "499d9840b0f79d905ab4f642f6cb51aa31f670008a3fb4a12daa3bc8b3af2eee",
+    "corrected-source/src/session.cpp": "ec95b0ff4c4629bc79c72875faa4d39eacc9833ea03b500d6c2dc5b8ecf57e61",
+    "corrected-source/tests/confirmed_allocation.cpp": "2656770bc89b6698cb154ca4f08499b13f244a52f91e00df03c80b6a9a1f291f",
+    "python-baseline.txt": "cf0f3edaaf78c86cb772b8a0c69aa4a67131527d75feed1b6cbf005f7cc64677",
+    "python-current.txt": "67e428206314cabccf3f57bc7fbb0609d59e4e8334514499bc831241e57bdfc3",
+    "rejected-commit-before-console.txt": "c640e140f1233d0d109b5c0c9574a72821a0c8854f619e4993234b2c63bcdf96",
+    "rejected-commit-before/command-1.log": "110931c416553fc4b93a101767f8d7de408928db4a7cf56e9911281e522e2744",
+    "rejected-commit-before/command-2.log": "bde1496cb61a11083aea9780fa8c29ba8a07b47fd97346cf000805dc9ea2e9c9",
+    "rejected-commit-before/command-3.log": "46038efb813fbca18a92272496901190638dea3f97b51f7af0daa1ca2eb13818",
+    "rejected-commit-before/command-4.log": "c1ceea82d00f4e179fcfcf98fa6a9ca20ede7d6ff15c40369484f65bb18796a5",
+    "rejected-commit-before/observation.json": "5f49e2b77e92b9c07b517fe040dee8b971d6a02c7531963e159c3ff45b05def6",
+    "rejected-commit-before/server.log": "cdf6d2c2fa0524a089b76117d4daba10fa00eb01d98c9998dc1f147ec9566e54",
+    "rejected-commit-before/test-output.txt": "e56cad9775b8fe1126c3ca2c811ffa6ed06ade55531030468cf7ba72ee782a48",
+    "run_confirmed_fixture.py": "7370fbb1d46946e041aabde87739932e9d459b7a5d55fe7696b2e49b5b5bb96d",
+    "session-before-confirmed-fix.cpp": "6b0fa638801747b8eb8951b0796a448f2beb3bad524da403ef8e8831ea2390c8",
+    "unit-qualification.xml": "390fc8e7e07dfc05c99a0d83248d77af648119296142fb3cfb9d045878a9d20f"
+  },
+  "outcomes": {
+    "first_harness_attempt": "FAIL: query passed; test setup used zero-based bind index and failed before stream dispatch",
+    "isolated_original_rejected_commit": "FAIL: completed=1 / confirmed item for COMMIT that was never dispatched",
+    "corrected_seven_scenarios": "PASS; rejected COMMIT completed=0 / failed item; six other metadata cases preserve confirmation",
+    "python_baseline": "PASS 143/143",
+    "python_current": "PASS 148/148",
+    "selected_existing_unit_tests": "PASS 8/8; not a full integration or sanitizer qualification"
+  },
+  "fixture_shutdown": {
+    "confirmed-before": true,
+    "rejected-commit-before": true,
+    "confirmed-after": true
+  },
+  "scope": "Named exceptions in actual Lane code; not global OOM. Disposable loopback verified-TLS PostgreSQL only. No production credentials/data or private keys archived.",
+  "preserved_prior_risks": [
+    "Issue #31 remains OPEN / ROOT CAUSE UNKNOWN",
+    "Historical logging failure unresolved",
+    "Prior local full-suite server failures remain FAIL; not rerun or reclassified"
+  ]
+}
