@@ -106,6 +106,7 @@ struct Job {
 	std::unique_ptr<CallbackDescriptor> callback; // Main thread only; freed after delivery/unload.
 	std::string section;
 	bool delivered = false; // Main-thread bookkeeping only.
+	bool owner_unloaded = false; // Main thread retires terminal jobs without an allocating owner list.
 	std::vector<Params> batch;
 	std::vector<Operation> operations;
 	std::vector<ItemStatus> items_status;
