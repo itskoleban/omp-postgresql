@@ -1,0 +1,12 @@
+--- a/src/session.cpp
++++ b/src/session.cpp
+@@ -663,6 +662,0 @@
+-		if (reject_commit && !failed) {
+-			// The physical ROLLBACK never confirms the requested COMMIT, even if
+-			// retaining its result subsequently fails with an allocation exception.
+-			sql_confirmed_ = false;
+-			query_dispatched_ = false;
+-		}
+@@ -697,0 +692,2 @@
++			sql_confirmed_ = false;
++			query_dispatched_ = false;

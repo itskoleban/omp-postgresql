@@ -281,6 +281,7 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 		if (!job.stream->publish(std::move(block), job.cancel, stop_, deadline)) {
 			const bool cancelled = job.cancel.load() || stop_.load();
 			if (sql_confirmed_) {
+				PG_ALLOCATION_CHECKPOINT("stream_delivery_result");
 				job.results.push_back(std::move(next));
 			}
 			throw Failure(
@@ -558,6 +559,7 @@ void Lane::execute(Job &job) {
 			validate_sql(sql);
 			auto r = command(job, sql, params, prepared, bytes);
 			bool failed = !r.message.empty();
+			PG_ALLOCATION_CHECKPOINT("execute_result");
 			job.results.push_back(std::move(r));
 			if (failed) {
 				transaction_failed_ = transaction_ != 0;
@@ -658,6 +660,13 @@ void Lane::execute(Job &job) {
 		}
 		auto r = command(job, sql, {}, false, bytes);
 		bool failed = !r.message.empty();
+		if (reject_commit && !failed) {
+			// The physical ROLLBACK never confirms the requested COMMIT, even if
+			// retaining its result subsequently fails with an allocation exception.
+			sql_confirmed_ = false;
+			query_dispatched_ = false;
+		}
+		PG_ALLOCATION_CHECKPOINT("transaction_result");
 		job.results.push_back(std::move(r));
 		if (failed) {
 			if (job.kind == Kind::commit || job.kind == Kind::rollback) {
@@ -686,8 +695,6 @@ void Lane::execute(Job &job) {
 		}
 		if (reject_commit) {
 			// The confirmed ROLLBACK does not confirm the requested COMMIT.
-			sql_confirmed_ = false;
-			query_dispatched_ = false;
 			throw Failure(Error::transaction, "Failed transaction rolled back; COMMIT not sent");
 		}
 		if (transaction_ && PQtransactionStatus(conn_.get()) != PQTRANS_INTRANS) {
