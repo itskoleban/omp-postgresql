@@ -2,7 +2,9 @@
 #include "pg/parameters.hpp"
 #include "pg/sql_sections.hpp"
 #include "pg/statement.hpp"
+#include <bit>
 #include <charconv>
+#include <cmath>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -123,12 +125,40 @@ void exercise(std::mt19937 &rng) {
 	const auto encoded = pg::byte_array(bytes);
 	input = *encoded.value;
 	check(pg::decode_bytea(input) == bytes, "BYTEA roundtrip changed bytes");
+	// Keep an even number of digits: rejection must inspect content, not length.
+	input = *pg::byte_array(std::vector<std::int32_t>{0, 255}).value;
+	input[2 + rng() % 4] = 'g';
+	rejects([&] { pg::decode_bytea(input); }, pg::Error::invalid);
+	input = *encoded.value;
 	input += 'z';
 	rejects(
 	    [&] {
 		    pg::decode_bytea(input);
 	    },
 	    pg::Error::invalid);
+	// Generate all float classes by representation, including signed zero and
+	// subnormals. Parse independently and require exact finite bit preservation.
+	const auto bits = static_cast<std::uint32_t>(rng());
+	const auto value = std::bit_cast<float>(bits);
+	if (std::isfinite(value)) {
+		auto parameter = pg::floating(value);
+		input = *parameter.value;
+		float decoded = 0;
+		const auto result = std::from_chars(input.data(), input.data()+input.size(), decoded);
+		check(parameter.oid == 700 && result.ec == std::errc{} &&
+		          result.ptr == input.data()+input.size() &&
+		          std::bit_cast<std::uint32_t>(decoded) == bits,
+		      "FLOAT4 encoding changed its finite representation");
+	} else {
+		rejects([&] { pg::floating(value); }, pg::Error::invalid);
+	}
+	const auto wide_bits = (std::uint64_t(rng()) << 32) | rng();
+	const auto wide = std::bit_cast<std::int64_t>(wide_bits);
+	input = std::to_string(wide);
+	const auto bigint = pg::integer64(input);
+	check(bigint.oid == 20 && bigint.value == input, "BIGINT transport changed digits");
+	input += 'x';
+	rejects([&] { pg::integer64(input); }, pg::Error::invalid);
 	pg::Limits limits;
 	limits.batch_count = 1;
 	pg::Statement statement{};
@@ -156,6 +186,26 @@ int main() {
 		const auto count = setting("OMP_PG_FUZZ_CASES", 4096, 10000000);
 		std::cout << "semantic_fuzz seed=" << seed << " cases=" << count << std::endl;
 		std::mt19937 rng(seed);
+		// Fixed boundary corpus complements randomly generated representations.
+		for (const auto &s : {"-9223372036854775808", "9223372036854775807", "0", "-0"}) {
+			input = s;
+			check(pg::integer64(input).value == input, "BIGINT boundary digits changed");
+		}
+		for (const auto &s : {"9223372036854775808", "-9223372036854775809", "",
+		                       "+1", " 1", "1 ", "--1"}) {
+			input = s;
+			rejects([&] { pg::integer64(input); }, pg::Error::invalid);
+		}
+		for (auto bits : {0u, 0x80000000u, 1u, 0x007fffffu, 0x00800000u,
+		                  0x7f7fffffu, 0xff7fffffu}) {
+			const auto parameter = pg::floating(std::bit_cast<float>(bits));
+			input = *parameter.value;
+			float decoded = 0;
+			const auto result = std::from_chars(input.data(), input.data()+input.size(), decoded);
+			check(result.ec == std::errc{} && result.ptr == input.data()+input.size() &&
+			          std::bit_cast<std::uint32_t>(decoded) == bits,
+			      "FLOAT4 boundary representation changed");
+		}
 		for (; iteration != count; ++iteration) {
 			exercise(rng);
 		}
