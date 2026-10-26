@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Linux-c++"
+	tests="10"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="422ab1ac90d2"
+	time="0"
+	timestamp="2026-10-25T15:45:03"
+	>
+	<testcase name="terminal_allocation_unit" classname="terminal_allocation_unit" time="0.0099246" status="run">
+		<properties/>
+		<system-out>terminal_queue PASS allocation_injection=ON publications=4096 FIFO=checked ownership=checked producers=4
+</system-out>
+	</testcase>
+	<testcase name="unit" classname="unit" time="0.00344775" status="run">
+		<properties/>
+		<system-out>32 checks passed
+</system-out>
+	</testcase>
+	<testcase name="audit_semantic_fuzz" classname="audit_semantic_fuzz" time="0.553586" status="run">
+		<properties>
+			<property name="cmake_labels" value="audit;fuzz"/>
+		</properties>
+		<system-out>semantic_fuzz seed=1096107081 cases=4096
+semantic_fuzz PASS cases=4096
+</system-out>
+	</testcase>
+	<testcase name="socket_wait_unit" classname="socket_wait_unit" time="0.00674143" status="run">
+		<properties/>
+		<system-out>cancel_entry observed sends=1 select=0 results=0 status=4 error=7
+cancel_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+timeout_entry observed sends=1 select=0 results=0 status=4 error=6
+timeout_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=6
+shutdown_entry observed sends=1 select=0 results=0 status=4 error=7
+shutdown_entry PASS sends=1 select=0 results=0 callbacks=1 status=4 error=7
+transport observed sends=1 select=1 results=0 status=4 error=5
+transport PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_cancel observed sends=1 select=1 results=0 status=4 error=5
+transport_cancel PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_timeout observed sends=1 select=1 results=0 status=4 error=5
+transport_timeout PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+transport_both observed sends=1 select=1 results=0 status=4 error=5
+transport_both PASS sends=1 select=1 results=0 callbacks=1 status=4 error=5
+invalid_socket_cancel ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="diagnostics_unit" classname="diagnostics_unit" time="0.148599" status="run">
+		<properties/>
+		<system-out>Diagnostics filtering/privacy/bounds/flood/sink/reload passed; buffer_bytes=20656 record_bytes=80
+File output levels/destinations/paths/append/rotation/failure/recovery/links/injection/concurrency passed
+</system-out>
+	</testcase>
+	<testcase name="diagnostics_short_write" classname="diagnostics_short_write" time="0.00914552" status="run">
+		<properties/>
+		<system-out>Actual RLIMIT_FSIZE short write: one byte, disabled once, accounted, recovered
+</system-out>
+	</testcase>
+	<testcase name="types_unit" classname="types_unit" time="0.00243661" status="run">
+		<properties/>
+		<system-out>97 type checks passed
+</system-out>
+	</testcase>
+	<testcase name="sql_sections_unit" classname="sql_sections_unit" time="0.0555294" status="run">
+		<properties/>
+		<system-out>accounts.sql:3:1: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:3:3: Duplicate SQL section 'save'; first declared at line 1
+accounts.sql:2:4: Malformed SQL section declaration; expected '-- name: identifier' (also '--name:identifier')
+accounts.sql:1:1: Empty SQL section 'empty'; add one SQL statement after the declaration
+accounts.sql:4:11: SQL section must contain exactly one statement in section 'other'; remove the extra statement or semicolon
+accounts.sql:2:14: SQL section must contain exactly one statement in section 'x'; remove the extra statement or semicolon
+accounts.sql:2:8: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql:2:9: Unterminated SQL quoted string in section 'x'; close the opening quote
+accounts.sql:2:8: Unterminated SQL quoted identifier in section 'x'; close the opening quote
+accounts.sql:2:8: Unterminated SQL dollar quote in section 'x'; close with the matching dollar delimiter
+accounts.sql:2:11: Unterminated SQL block comment in s...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="sql_file_stream_faults" classname="sql_file_stream_faults" time="0.0018903" status="run">
+		<properties/>
+		<system-out>PASS: six interrupted reads, recovery, stream states and EOF boundaries
+</system-out>
+	</testcase>
+	<testcase name="sql_file_descriptor_exhaustion" classname="sql_file_descriptor_exhaustion" time="0.00179206" status="run">
+		<properties/>
+		<system-out>PASS: actual descriptor exhaustion, both readers, restored-limit recovery
+</system-out>
+	</testcase>
+</testsuite>

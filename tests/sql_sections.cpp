@@ -9,6 +9,11 @@
 #include <random>
 #include <thread>
 #include <tuple>
+#ifdef __linux__
+#include <cerrno>
+#include <fcntl.h>
+#include <unistd.h>
+#endif
 
 namespace {
 
@@ -724,6 +729,71 @@ void storage_boundaries(const char *profile) {
 	engine.close_job(owner, count->id);
 }
 
+#ifdef __linux__
+int storage_permissions(const char *profile) {
+	if (geteuid() == 0) {
+		std::cout << "NOT RUN: SQL permission integration requires an unprivileged identity\n";
+		return 77;
+	}
+	Files files;
+	pg::Engine engine({}, files.root);
+	auto connection = engine.connect(owner, profile, 1);
+	ready(engine, connection);
+	auto setup = wait(engine, engine.query(owner, connection,
+	    "CREATE TEMP TABLE sql_permission_guard(value integer)", 0, 0, 0, false));
+	engine.close_job(owner, setup->id);
+	auto retained = wait(engine, engine.query(owner, connection, "SELECT 73", 0, 0, 0, false));
+	for (const bool named : {false, true}) {
+		files.write((named ? std::string("-- name: selected\n") : std::string{}) +
+		            "INSERT INTO sql_permission_guard VALUES(1);");
+		auto statement = engine.prepare_file(owner, connection, "sections.sql", 0, true,
+		                                     named ? "selected" : "");
+		for (const auto &denied : {files.root / "sections.sql", files.root}) {
+			struct Restore {
+				std::filesystem::path path;
+				std::filesystem::perms permissions;
+				~Restore() {
+					std::error_code ignored;
+					std::filesystem::permissions(path, permissions, ignored);
+				}
+			} restore{denied, std::filesystem::status(denied).permissions()};
+			std::filesystem::permissions(denied, std::filesystem::perms::none);
+			errno = 0;
+			const int descriptor = open((files.root / "sections.sql").c_str(), O_RDONLY);
+			const int error = errno;
+			if (descriptor >= 0) close(descriptor);
+			check(descriptor < 0 && error == EACCES, "Fixture did not produce actual EACCES");
+			const auto before = engine.connection(owner, connection).lanes[0]->snapshot().sql_commands;
+			auto rejected = wait(engine, run(engine, statement), false);
+			check(rejected->status == pg::Status::failed && rejected->error == pg::Error::file &&
+			          rejected->message == "sections.sql: SQL file permission denied" &&
+			          rejected->completed == 0 && rejected->results.empty() &&
+			          engine.connection(owner, connection).lanes[0]->snapshot().sql_commands == before,
+			      "Permission-denied SQL file dispatched SQL or lost its explicit failure");
+			std::filesystem::permissions(denied, restore.permissions);
+			auto repaired = wait(engine, run(engine, statement));
+			check(repaired->completed == 1 && repaired->results.at(0).affected == "1" &&
+			          rejected->status == pg::Status::failed && rejected->error == pg::Error::file &&
+			          rejected->completed == 0 && rejected->results.empty() &&
+			          retained->results.at(0).rows.at(0).at(0) == "73",
+			      "Permission recovery altered retained results or failures");
+			engine.close_job(owner, repaired->id);
+			engine.close_job(owner, rejected->id);
+		}
+		engine.close_statement(owner, statement);
+	}
+	auto count = wait(engine, engine.query(owner, connection,
+	    "SELECT count(*) FROM sql_permission_guard", 0, 0, 0, false));
+	check(count->results.at(0).rows.at(0).at(0) == "4",
+	      "Permission failures or recovery duplicated an INSERT");
+	engine.close_job(owner, count->id);
+	engine.close_job(owner, retained->id);
+	std::cout << "SQL permission integration: four real EACCES rejections, zero dispatch, "
+	             "four repaired INSERTs, retained results unchanged\n";
+	return 0;
+}
+#endif
+
 void lifecycle_and_limits(const char *profile) {
 	Files files;
 	files.write("-- name: selected\nSELECT pg_sleep(1);\n-- name: last\nSELECT 2;");
@@ -785,6 +855,16 @@ void lifecycle_and_limits(const char *profile) {
 
 int main(int argc, char **argv) {
 	try {
+#ifdef __linux__
+		if (argc == 2 && std::string_view(argv[1]) == "--permission-integration") {
+			const auto profile = std::getenv("OMP_PG_TEST_SERVICE");
+			if (!profile) {
+				std::cout << "NOT RUN: OMP_PG_TEST_SERVICE required for SQL permission integration\n";
+				return 77;
+			}
+			return storage_permissions(profile);
+		}
+#endif
 		if (argc == 2 && std::string(argv[1]) == "--integration") {
 			const auto profile = std::getenv("OMP_PG_TEST_SERVICE");
 			if (!profile) {

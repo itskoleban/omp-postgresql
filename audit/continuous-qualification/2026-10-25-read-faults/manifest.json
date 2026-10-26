@@ -1,0 +1,34 @@
+{
+  "source_commit": "bccc29112a7b3b7664f1b7eb3adc5ab29b7787f4",
+  "source_tree": "7f8b0fc0519963d5a676c9ac6ffd654385b384b6",
+  "base_commit": "6fe5a4b1a56489c12ff5aa148a7979d98ececeac",
+  "sources": {
+    "CMakeLists.txt": "86bbff5eeec3a855bd55a4d7e42957b7447502a51be0944f86c5e8deda7a24d1",
+    "src/statement.cpp": "b2a591383dce51c529c6095434cf2f52af096d8a08bb1ad24ae0c986a8e79573",
+    "src/sql_reader.hpp": "b851bfd68637f87d0140c098abeaa2977c2020ba727337894a53598f4291ad28",
+    "tests/sql_file_faults.cpp": "a01576051356c0bf34f74b963f88ba87decf3026c09ce80c121132d56ae67cad",
+    "tests/sql_sections.cpp": "4f117808bd565bbffab549ccfc8740173fd61c0c7397fde5abe7a4e4eb6fd0d3"
+  },
+  "captures": {
+    "core-tests.txt": "4981baa0f8f3e178724d9c6601df174b227d0c7f6506c2932ba2e283b3511db9",
+    "core-tests.xml": "81d3be578bd479df92da61a716e71c449e3cf790c36ac3f15b704ab7ab4aad5b",
+    "mutation.txt": "51112572bce0a025ab2646844d29ee068d86d4f381ab00ab4fd71560ffa5d412",
+    "permissions-local.txt": "4d8cc55476073258a9d8631a7b05a4ae6ce49250c0c4b3a150451b840cf313c0",
+    "permissions-local.xml": "fd85853aa925f125208824c6b16f0fe2b7352575b16ad11e3ec93eee8ad5e0ac",
+    "python-tests.txt": "18a4d213008438341712eabe5c7b1d22f1314abddca7de9f93ac62b00540cd1a",
+    "ubsan-streams.txt": "77f8ae319332cde34400c2e9d827cb6c0024f6ec6016bd4438c0b915ed8b4960"
+  },
+  "local_results": {
+    "core_build": "PASS; PG_BUILD_COMPONENT=OFF, Debug, GCC 13.3, libpq 17.11",
+    "focused_ctest": "PASS 10/10, zero skips",
+    "python": "PASS 143/143",
+    "ubsan_streams": "PASS; undefined sanitizer only, halt_on_error=1",
+    "mutation": "EXPECTED FAIL, exit 1; deliberately returns partial SQL on read failure",
+    "actual_permissions": "NOT RUN locally: CTest recorded two SKIP cases; root and absent service profile",
+    "postgresql": "NOT RUN locally",
+    "openmp": "NOT RUN locally",
+    "windows": "NOT RUN locally",
+    "asan_tsan": "PENDING hosted exact-head CI; previous local runtime limitation unchanged"
+  },
+  "release_status": "BLOCKED; phase coverage incomplete; Astra pending; 24-hour campaign requires express approval"
+}

@@ -1,0 +1,13 @@
+Test project /workspace/scratch/d123b6457271/omp-postgresql/build
+    Start 22: sql_file_permission
+1/2 Test #22: sql_file_permission ...............***Skipped   0.00 sec
+    Start 23: sql_file_permission_integration
+2/2 Test #23: sql_file_permission_integration ...***Skipped   0.00 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   0.01 sec
+
+The following tests did not run:
+	 22 - sql_file_permission (Skipped)
+	 23 - sql_file_permission_integration (Skipped)

@@ -129,16 +129,32 @@ void run(const char *service, bool shutdown) {
     if(shutdown) e.disconnect(owner,c);
     else active->cancel.store(true);
     unsigned active_deliveries=0, queued_deliveries=0;
-    auto terminal_deadline=pg::Clock::now()+std::chrono::seconds(10);
-    while(!active->delivered || !queued->delivered) {
+    unsigned close_deliveries=0;
+    std::uint64_t closed_sql_commands=0;
+    auto collect = [&] {
         auto d=e.poll();
+        for(const auto &event:d.connections) {
+            if(event.connection==c && event.state==pg::State::disconnected) {
+                // The handle is valid during its final event, then poll may reap it.
+                closed_sql_commands=e.connection(owner,c).lanes.at(0)->snapshot().sql_commands;
+                ++close_deliveries;
+            }
+        }
         for(const auto &job:d.jobs) {
             if(job->id==id) ++active_deliveries;
             if(job->id==queued_id) ++queued_deliveries;
         }
+        return d.jobs.empty();
+    };
+    auto terminal_deadline=pg::Clock::now()+std::chrono::seconds(10);
+    while(!active->delivered || !queued->delivered || (shutdown && !close_deliveries)) {
+        collect();
         check(pg::Clock::now()<terminal_deadline,"accepted job was stranded during worker OOM");
         std::this_thread::yield();
     }
+    // Force retirement before inspecting retained jobs. This covers a close event
+    // arriving before the last terminal is consumed, independently of scheduling.
+    if(shutdown) collect();
     check(active->status.load()==pg::Status::uncertain && active->completed==0,
           "OOM/cancel after dispatch falsely confirmed SQL");
     check(active->items_status == std::vector{pg::ItemStatus::uncertain},
@@ -149,7 +165,8 @@ void run(const char *service, bool shutdown) {
     check(queued->status.load()!=(pg::Status::confirmed) && queued->completed==0,
           "Queued SQL was dispatched or replayed after the interrupted session");
     check(active_deliveries==1 && queued_deliveries==1,"missing or duplicate terminal callback");
-    check(e.connection(owner,c).lanes.at(0)->snapshot().sql_commands==2,
+    check((shutdown ? closed_sql_commands :
+           e.connection(owner,c).lanes.at(0)->snapshot().sql_commands)==2,
           "Queued SQL was replayed during allocation failure");
     if(!shutdown) {
         deny_worker.store(false);
@@ -164,12 +181,19 @@ void run(const char *service, bool shutdown) {
         e.disconnect(owner,c);
     }
     auto stopped_deadline=pg::Clock::now()+std::chrono::seconds(10);
-    while(!e.connection(owner,c).lanes.at(0)->stopped.load()) {
+    while(!close_deliveries) {
+        collect();
         check(pg::Clock::now()<stopped_deadline,"worker shutdown under OOM stalled");
         std::this_thread::yield();
     }
     deny_worker.store(false);
-    check(e.poll().jobs.empty(),"late duplicated completion");
+    check(collect(),"late duplicated completion");
+    check(close_deliveries==1 && active_deliveries==1 && queued_deliveries==1,
+          "missing or duplicated shutdown delivery");
+    bool retired=false;
+    try { (void)e.connection(owner,c); }
+    catch(const pg::Failure &failure) { retired=failure.code==pg::Error::invalid; }
+    check(retired,"closed connection survived its final callback tick");
 #if PG_TEST_ALLOCATIONS == 2
     const auto after = fault_counts();
     std::printf("site_faults scenario=%s interrupted=%u terminal_message=%u denied=%u\n",
