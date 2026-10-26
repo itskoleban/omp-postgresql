@@ -222,6 +222,14 @@ jobs:
                       --tutorial-sql-dir build-package-check/omp-postgresql/examples/sql \
                       --logging-performance-gamemode build-linux32/logging-performance.amx \
                       --logging-performance-csv build-linux32/Testing/Temporary/openmp-package-performance.csv
+            - name: Qualify full real player sessions against the extracted Linux package
+              run: |
+                  export LD_LIBRARY_PATH="$PWD/build-package-check/omp-postgresql/lib"
+                  python3 scripts/run_real_session_ci.py --output build-package-real-sessions \
+                      --package-root build-package-check/omp-postgresql --server "$RUNNER_TEMP/openmp-package/Server" \
+                      --compiler build-pawn32/pawncc --stdlib build-stdlib \
+                      --pawn-include build-linux32/_deps/pawn-src/include \
+                      --client build-real-sessions/client/build/RakSAMPClient
             - name: Upload the validated Linux x86 package and SHA-256
               uses: actions/upload-artifact@v4
               with:
@@ -246,6 +254,7 @@ jobs:
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
                       build-real-sessions/sanitized-evidence/**
+                      build-package-real-sessions/sanitized-evidence/**
             - name: Unmount the isolated log filesystem
               if: always() && env.PG_LOG_ENOSPC_BASE != ''
               run: |
@@ -491,6 +500,19 @@ jobs:
                       --logging-performance-gamemode build-msvc32/logging-performance.amx `
                       --logging-performance-csv build-msvc32/Testing/Temporary/openmp-package-performance.csv
                   if ($LASTEXITCODE -ne 0) { throw 'Packaged open.mp integration failed' }
+            - name: Qualify full real player sessions against the extracted Windows package
+              shell: pwsh
+              run: |
+                  $cmakeBin = Split-Path -Parent (Get-Command cmake).Source
+                  $gitBin = Split-Path -Parent (Get-Command git).Source
+                  $env:PATH = "$cmakeBin;$gitBin;$env:SystemRoot/System32;$env:SystemRoot"
+                  & "$env:pythonLocation/python.exe" scripts/run_real_session_ci.py --output build-package-real-sessions `
+                      --package-root build-package-check/omp-postgresql --server build-openmp-package/Server `
+                      --compiler build-pawn32/Release/pawncc.exe --stdlib build-stdlib `
+                      --pawn-include build-msvc32/_deps/pawn-src/include --postgres-bin build-server/pgsql/bin `
+                      --openssl "$env:MINGW32_ROOT/bin/openssl.exe" `
+                      --client build-real-sessions/client/build/RakSAMPClient.exe
+                  if ($LASTEXITCODE -ne 0) { throw 'Packaged real player session qualification failed' }
             - name: Upload the validated Windows x86 package and SHA-256
               uses: actions/upload-artifact@v4
               with:
@@ -515,6 +537,7 @@ jobs:
                       ${{ runner.temp }}/omp-pg-integration-*/server.log
                       ${{ runner.temp }}/omp-pg-integration-*/command-*.log
                       build-real-sessions/sanitized-evidence/**
+                      build-package-real-sessions/sanitized-evidence/**
     verify-distribution-artifacts:
         name: Verify downloaded x86 distributions
         needs: [linux-x86, windows-x86]

@@ -268,6 +268,10 @@ if(BUILD_TESTING)
     add_executable(pg_transaction_retirement tests/transaction_retirement.cpp)
     add_test(NAME transaction_retirement_unit COMMAND pg_transaction_retirement)
     set_tests_properties(transaction_retirement_unit PROPERTIES TIMEOUT 30)
+    # Named result-insertion exceptions retain every sanitizer allocator interceptor.
+    add_executable(pg_confirmed_allocation tests/confirmed_allocation.cpp)
+    add_test(NAME confirmed_result_allocation_integration COMMAND pg_confirmed_allocation)
+    set_tests_properties(confirmed_result_allocation_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60)
     add_executable(pg_unload_allocation tests/unload_allocation.cpp)
     if(PG_THREAD_SANITIZE)
         # Retain TSan's allocator interceptors; qualify lifecycle without global denial.
@@ -380,6 +384,7 @@ if(BUILD_TESTING)
         pg_sql_section_tests
         pg_sql_file_fault_tests
         pg_transaction_retirement
+        pg_confirmed_allocation
         pg_unload_allocation
         pg_diagnostics_tests
         pg_audit_fuzz

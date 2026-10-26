@@ -176,6 +176,14 @@ class Suite:
             if self.config.get(key):
                 manifest["inputs"][key] = {"path": self.config[key], "sha256": digest(self.config[key])}
         manifest["runtime"] = [{"file": Path(p).name, "sha256": digest(p)} for p in self.config.get("runtime", [])]
+        if self.config.get("package"):
+            package = self.config["package"]
+            observed_runtime = {row["file"]: row["sha256"] for row in manifest["runtime"]}
+            if (package["commit"] != source["source_commit"] or
+                    package["component_sha256"] != manifest["inputs"]["component"]["sha256"] or
+                    package["runtime_sha256"] != observed_runtime):
+                raise ValueError("Installed package identity changed before session qualification")
+            manifest["package"] = dict(package)
         manifest["harness_sha256"] = digest(__file__)
         self.provenance = dict(manifest)
         self.write_manifest(manifest)
