@@ -1,16 +1,17 @@
-# Candidate versioning and owner-controlled publication
+# Versioning and owner-controlled publication
 
-The configured candidate identity is **v0.1.0-rc.1**, already published as a
-[testing Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1).
-Its tag, assets and source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc` remain historical
-references. Later development CI can prepare bundles with the same version string and a
-different commit; those bundles do not update the published release.
-CMake's numeric `PROJECT_VERSION` remains
-`0.1.0`; the tracked, non-cache `PG_RELEASE_CANDIDATE` value supplies `rc.1` to package
-metadata and names. The component's SDK `SemanticVersion` receives those same numeric
-major/minor/patch/prerelease values from CMake. No Pawn signature changes. Historical
-experimental packages retain their original identity. A future candidate changes the
-tracked candidate number, release notes and qualification evidence together.
+The source is configured for **v0.1.0 stable**, with CMake's numeric `PROJECT_VERSION`
+set to `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` set to zero. A positive
+candidate number selects `0.1.0-rc.N` and the prerelease channel instead. Package names,
+manifests and the component's SDK `SemanticVersion` derive from those same source values.
+Preparing stable assets does not authorize publication or establish readiness; final
+qualification and explicit owner approval remain required. No Pawn signature changes.
+
+The public [v0.1.0-rc.1 testing Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
+retains its tag, assets and source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc` unchanged.
+Later development bundles do not replace that release. Historical experimental packages
+also retain their original identities. Any new stable or RC source identity requires
+matching release notes and exact-commit qualification.
 
 ## Read-only preparation
 
@@ -23,7 +24,7 @@ python3 scripts/release.py prepare --packages build-dist-download --output build
 ```
 
 Preparation requires both platform ZIPs and their checksum files, a clean source
-checkout, matching full commits/candidate versions, successful package verification
+checkout, matching full commits/versions/channels, successful package verification
 and matching release notes. It refuses to overwrite an existing output directory.
 It adds the tracked source export via `git archive`, honors `.gitattributes` export exclusions
 (including internal `/audit/` records), excludes untracked/ignored local files, and produces:
@@ -35,7 +36,9 @@ It adds the tracked source export via `git archive`, honors `.gitattributes` exp
   manifests, archive hashes, source hash, exact commit and intended tag.
 - `RELEASE-NOTES.md` and `SHA256SUMS` covering every other release asset.
 
-Identical source and package inputs yield identical bundle bytes. The inventory is
+Source ZIP timestamps use UTC independently of the operator's local timezone.
+Identical source and package inputs with the same Git/archive toolchain yield identical
+bundle bytes; this does not establish reproducible compilation. The inventory is
 unsigned; integrity hashes alone are not authenticated provenance. Dependency build
 records are included in package manifests, but complete dependency sources/toolchains
 and signed attestations are not bundled. Compiler updates can change binary inputs.
@@ -58,12 +61,12 @@ scenarios on each platform, the separate real Pawn measurement fixture, dependen
 inventories, remaining limits and the completed independent audit. The owner then
 creates the corresponding tag on that exact tested commit.
 
-Manually dispatch `release-candidate` from master with:
+Manually dispatch **manual release** (`.github/workflows/release.yml`) from master with:
 
 - `ci_run`: the successful main CI run ID.
-- `tag`: the existing approved tag, such as `v0.1.0-rc.1`.
+- `tag`: the existing approved new tag, such as `v0.1.0` or a separately qualified `v0.1.0-rc.2`.
 - `confirmation`: that identical tag, acknowledging the selected release action.
-- `action`: `draft` (default) or `publish` (explicit public prerelease authorization).
+- `action`: `draft` (default) or `publish` (explicit public stable/RC publication authorization).
 
 The read-only job rejects branch/PR/fork/failed/incomplete CI, wrong workflows, missing
 or unsuccessful jobs, unmerged commits, tags targeting another commit, source-version
@@ -72,10 +75,12 @@ from that run, rechecks all package gates and assembles the release assets anew 
 the tagged source. It never uses a preview-merge package for publication.
 
 A separate job alone has `contents: write`. It downloads the immutable artifact from
-that same workflow execution, verifies `SHA256SUMS`, and creates a **draft prerelease**
-with all assets using GitHub CLI's `--verify-tag`. `publish` then makes that draft public;
-ordinary pushes, tag pushes and successful CI never trigger this workflow. It never
-marks the candidate as latest/stable or modifies an existing release. If upload fails,
+that same workflow execution, verifies `SHA256SUMS`, and creates a **draft** with all
+assets using GitHub CLI's `--verify-tag`. The canonical stable tag selects
+`--prerelease=false`; an RC tag selects `--prerelease=true`. `publish` then makes that
+draft public with the same channel. Ordinary pushes, tag pushes and successful CI never
+trigger this workflow. Both channels use `--latest=false`; publication does not select
+the repository's latest release. The workflow does not modify an existing release. If upload fails,
 the draft remains unpublished; inspect it and obtain authorization before cleanup or
 any retry that would change existing release state. A default draft run deliberately
 leaves publication to a later explicit owner action in GitHub's release UI.
