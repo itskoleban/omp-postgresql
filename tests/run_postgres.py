@@ -23,6 +23,7 @@ from ctest_qualification import qualify_ctest
 from stall_server import StallServer
 from wire_fault_proxy import WireFaultProxy
 from network_diagnostic import Collector as NetworkDiagnostic
+from postgres_tls import create_certificates
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--build", default="build")
@@ -147,68 +148,7 @@ with socket.socket() as sock:
     sock.bind(("127.0.0.1", 0))
     port = sock.getsockname()[1]
 run(["initdb", "-D", str(data), "-U", "omp_test", "-A", "trust", "--encoding=UTF8", "--no-locale"])
-run(
-    [
-        "openssl",
-        "req",
-        "-x509",
-        "-newkey",
-        "rsa:2048",
-        "-noenc",
-        "-days",
-        "1",
-        "-subj",
-        "/CN=localhost",
-        "-addext",
-        "subjectAltName=DNS:localhost",
-        "-keyout",
-        str(data / "server.key"),
-        "-out",
-        str(data / "server.crt"),
-    ],
-    stdout=subprocess.DEVNULL,
-    stderr=subprocess.DEVNULL,
-)
-os.chmod(data / "server.key", 0o600)
-run(
-    [
-        "openssl",
-        "req",
-        "-new",
-        "-newkey",
-        "rsa:2048",
-        "-noenc",
-        "-subj",
-        "/CN=omp_cert",
-        "-keyout",
-        str(root / "client.key"),
-        "-out",
-        str(root / "client.csr"),
-    ],
-    stdout=subprocess.DEVNULL,
-    stderr=subprocess.DEVNULL,
-)
-run(
-    [
-        "openssl",
-        "x509",
-        "-req",
-        "-in",
-        str(root / "client.csr"),
-        "-CA",
-        str(data / "server.crt"),
-        "-CAkey",
-        str(data / "server.key"),
-        "-CAcreateserial",
-        "-days",
-        "1",
-        "-out",
-        str(root / "client.crt"),
-    ],
-    stdout=subprocess.DEVNULL,
-    stderr=subprocess.DEVNULL,
-)
-os.chmod(root / "client.key", 0o600)
+create_certificates(run, root, data)
 (data / "pg_hba.conf").write_text(
     "hostssl all omp_cert 127.0.0.1/32 cert\nhost all omp_password 127.0.0.1/32 scram-sha-256\nhost all all 127.0.0.1/32 trust\n",
     encoding="utf8",
