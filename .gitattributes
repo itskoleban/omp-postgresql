@@ -14,3 +14,6 @@
 # Owner-retirement captures retain original Windows bytes for their recorded hashes.
 /audit/continuous-qualification/2026-10-25-owner-retirement/*.txt -text whitespace=cr-at-eol
 /audit/continuous-qualification/2026-10-25-owner-retirement/*.xml -text whitespace=cr-at-eol
+# Completed CI packet ledgers identify the original captured bytes.
+/audit/continuous-qualification/2026-10-26-independent-review/pr37-qualification/** -text whitespace=cr-at-eol
+/audit/continuous-qualification/2026-10-26-independent-review/master-qualification/** -text whitespace=cr-at-eol

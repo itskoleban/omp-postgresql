@@ -1,0 +1,47 @@
+{
+  "scope": "Selected exact lines from completed jobs, each with downloaded original log identity; not a new local test run",
+  "jobs": [
+    {
+      "job_id": 121709743747,
+      "job_name": "linux (ON)",
+      "raw_log_sha256": "36b76fb6cf956c18e93c512f276c5e15b0d5fc146031df4c3e924d3a34cb0f3c",
+      "raw_log_bytes": 121798,
+      "lines": [
+        "2026-10-26T16:48:44.1061973Z CTest qualification: 33 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+        "2026-10-26T16:48:46.0666887Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-da8zc4t0/Testing/Temporary/qualification.xml",
+        "2026-10-26T16:48:48.7711251Z Ran 148 tests in 3.211s",
+        "2026-10-26T16:48:48.7711953Z OK",
+        "2026-10-26T16:48:53.1989123Z Compiled 13 examples with warnings treated as errors",
+        "2026-10-26T16:48:54.0887666Z Compiled 29 Markdown Pawn examples and 70 declaration fences; 1 explicitly incomplete fragment(s). Compilation is not runtime validation."
+      ]
+    },
+    {
+      "job_id": 121709743996,
+      "job_name": "linux (THREAD)",
+      "raw_log_sha256": "f68d7a3ecaebabd0f746a189b02aa419300cafba02ea9ae17f66404ce8d1c50f",
+      "raw_log_bytes": 125973,
+      "lines": [
+        "2026-10-26T16:49:09.1813164Z CTest qualification: 39 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+        "2026-10-26T16:49:11.0111367Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-9fqkes95/Testing/Temporary/qualification.xml",
+        "2026-10-26T16:49:13.9607006Z Ran 148 tests in 3.484s",
+        "2026-10-26T16:49:13.9607390Z OK",
+        "2026-10-26T16:49:18.4898066Z Compiled 13 examples with warnings treated as errors",
+        "2026-10-26T16:49:19.4703719Z Compiled 29 Markdown Pawn examples and 70 declaration fences; 1 explicitly incomplete fragment(s). Compilation is not runtime validation."
+      ]
+    },
+    {
+      "job_id": 121709744161,
+      "job_name": "linux (OFF)",
+      "raw_log_sha256": "1414690f1b663ecb77fa8634368d10dbd9e59ed264cc81f5e2add0a14ce6dd14",
+      "raw_log_bytes": 122239,
+      "lines": [
+        "2026-10-26T16:48:40.2137310Z CTest qualification: 35 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+        "2026-10-26T16:48:42.3199287Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-_0zva6a7/Testing/Temporary/qualification.xml",
+        "2026-10-26T16:48:45.3167958Z Ran 148 tests in 3.553s",
+        "2026-10-26T16:48:45.3168347Z OK",
+        "2026-10-26T16:48:49.7570040Z Compiled 13 examples with warnings treated as errors",
+        "2026-10-26T16:48:50.6606162Z Compiled 29 Markdown Pawn examples and 70 declaration fences; 1 explicitly incomplete fragment(s). Compilation is not runtime validation."
+      ]
+    }
+  ]
+}

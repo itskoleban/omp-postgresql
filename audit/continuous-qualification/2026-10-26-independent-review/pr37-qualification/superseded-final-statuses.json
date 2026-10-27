@@ -1,0 +1,35 @@
+{
+  "scope": "Superseded/cancelled runs are not qualification passes",
+  "runs": [
+    {
+      "id": 40331045630,
+      "source": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "run_attempt": 1,
+      "updated_at": "2026-10-26T13:29:44Z",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331045630"
+    },
+    {
+      "id": 40330581541,
+      "source": "ea44502e8e3539b572e114d713831bb4e6098f49",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "run_attempt": 1,
+      "updated_at": "2026-10-26T13:30:40Z",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40330581541"
+    },
+    {
+      "id": 40330541563,
+      "source": "ea44502e8e3539b572e114d713831bb4e6098f49",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "run_attempt": 1,
+      "updated_at": "2026-10-26T13:27:49Z",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40330541563"
+    }
+  ]
+}
