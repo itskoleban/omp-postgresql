@@ -3,6 +3,7 @@
 import copy
 import importlib.util
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -237,8 +238,10 @@ class ReleaseTests(unittest.TestCase):
             # Untracked files outside install scopes must never enter the source archive.
             (source / "private.txt").write_text("FAKE_PRIVATE_SENTINEL", encoding="utf8")
             first, second = root / "first", root / "second"
-            inventory = release.prepare(inputs, first, source)
-            release.prepare(inputs, second, source)
+            with patch.dict(os.environ, {"TZ": "UTC+5"}):
+                inventory = release.prepare(inputs, first, source)
+            with patch.dict(os.environ, {"TZ": "UTC-9"}):
+                release.prepare(inputs, second, source)
             self.assertEqual(inventory["commit"], commit)
             self.assertEqual(set(inventory["distributions"]), {"windows", "linux"})
             notes = (first / "RELEASE-NOTES.md").read_text(encoding="utf8")
