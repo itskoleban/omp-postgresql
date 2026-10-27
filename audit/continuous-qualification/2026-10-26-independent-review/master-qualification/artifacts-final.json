@@ -1,0 +1,185 @@
+{
+  "total_count": 9,
+  "artifacts": [
+    {
+      "id": 12669677413,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2OTY3NzQxMw==",
+      "name": "omp-postgresql-release-4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "size_in_bytes": 4368164,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12669677413",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12669677413/zip",
+      "expired": false,
+      "digest": "sha256:40137fd2e55eda22df01a0c27234124a6de3728e2544aa08189199e62b216242",
+      "created_at": "2026-10-26T17:01:20Z",
+      "updated_at": "2026-10-26T17:01:20Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    },
+    {
+      "id": 12669026434,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2OTAyNjQzNA==",
+      "name": "linux-x64-test-logs-THREAD",
+      "size_in_bytes": 1834192,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12669026434",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12669026434/zip",
+      "expired": false,
+      "digest": "sha256:4e071fae964bee70d63c7ee40b691e768b9fa032ec8e9456631f2db0a67fc4b9",
+      "created_at": "2026-10-26T16:49:20Z",
+      "updated_at": "2026-10-26T16:49:20Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    },
+    {
+      "id": 12668958289,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2ODk1ODI4OQ==",
+      "name": "omp-postgresql-windows-x86-4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "size_in_bytes": 3147096,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668958289",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668958289/zip",
+      "expired": false,
+      "digest": "sha256:d658c21bc57c9f4d242057b6c62d5cb122262ac95c4ba0693bc2af726e1dda71",
+      "created_at": "2026-10-26T17:01:03Z",
+      "updated_at": "2026-10-26T17:01:03Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    },
+    {
+      "id": 12668917187,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2ODkxNzE4Nw==",
+      "name": "linux-x64-test-logs-OFF",
+      "size_in_bytes": 115185,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668917187",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668917187/zip",
+      "expired": false,
+      "digest": "sha256:b35467361c6722d2f39c02acdd882080d040aa17872d889e508fbf87c49ff278",
+      "created_at": "2026-10-26T16:48:51Z",
+      "updated_at": "2026-10-26T16:48:51Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    },
+    {
+      "id": 12668908412,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2ODkwODQxMg==",
+      "name": "linux-x86-test-logs",
+      "size_in_bytes": 1023509,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668908412",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668908412/zip",
+      "expired": false,
+      "digest": "sha256:9d3b2af0217b23c97c511f65b760b399188c2b23af64dacd34295dd701720b32",
+      "created_at": "2026-10-26T16:54:50Z",
+      "updated_at": "2026-10-26T16:54:50Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    },
+    {
+      "id": 12668782242,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2ODc4MjI0Mg==",
+      "name": "omp-postgresql-linux-x86-4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "size_in_bytes": 636275,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668782242",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668782242/zip",
+      "expired": false,
+      "digest": "sha256:0b7ea81ab59e3cde4e1a76862dcb9b63bad424f85c42e9739c1aa3d9a5d1b415",
+      "created_at": "2026-10-26T16:54:48Z",
+      "updated_at": "2026-10-26T16:54:48Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    },
+    {
+      "id": 12668764189,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2ODc2NDE4OQ==",
+      "name": "windows-x86-test-logs",
+      "size_in_bytes": 723681,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668764189",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668764189/zip",
+      "expired": false,
+      "digest": "sha256:1cf9513f94bd83fcbd83118fcaeb88663c136fff0da0b47abe7281d731e8fad5",
+      "created_at": "2026-10-26T17:01:04Z",
+      "updated_at": "2026-10-26T17:01:04Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    },
+    {
+      "id": 12668568440,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2ODU2ODQ0MA==",
+      "name": "windows-x64-test-logs",
+      "size_in_bytes": 56406,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668568440",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12668568440/zip",
+      "expired": false,
+      "digest": "sha256:5459c90b80d0112359cbd5677a9aa48228ceb2b14706caf2ceeadc2b2891b99a",
+      "created_at": "2026-10-26T16:51:54Z",
+      "updated_at": "2026-10-26T16:51:54Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    },
+    {
+      "id": 12667599681,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY2NzU5OTY4MQ==",
+      "name": "linux-x64-test-logs-ON",
+      "size_in_bytes": 134420,
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12667599681",
+      "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12667599681/zip",
+      "expired": false,
+      "digest": "sha256:492fb923062f0d594d9da5eb3ae300921c50be760757ff83fea86d5efe4f65cf",
+      "created_at": "2026-10-26T16:48:55Z",
+      "updated_at": "2026-10-26T16:48:55Z",
+      "expires_at": "2027-01-24T16:44:40Z",
+      "workflow_run": {
+        "id": 40362033043,
+        "repository_id": 1415992262,
+        "head_repository_id": 1415992262,
+        "head_branch": "master",
+        "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "scope": "Local checkpoint verifier development; not a new component test execution",
+  "first_attempt": {
+    "status": "FAIL",
+    "diagnostic": "AssertionError at assert len(pair)==2 while matching platform names",
+    "observed_cause": "The initial packet verifier compared package platform windows with Python session platform win32. Both original records were retained unchanged.",
+    "correction": "Use the explicit package-to-session mapping linux -> linux and windows -> win32."
+  },
+  "corrected_attempt": {
+    "status": "PASS",
+    "exit_code": 0,
+    "observed_output": "PASS: archived evidence verifies 7 jobs, 200 CTest cases without failures or skips, TSan provenance, and four 23-case real-session suites with installed-package identities."
+  },
+  "raw_evidence_modified": false
+}

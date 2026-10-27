@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_ONLY; CAMPAIGN_NOT_AUTHORIZED",
+  "audited_commit": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+  "audited_tree": "b754267919c2fb6a4f0af188f671cfa772434e10",
+  "package_source_commit": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+  "integration": "PR37 owner-merged; all tracked source identical to qualified package source",
+  "first_independent_review": {
+    "model": "gpt-6-astra",
+    "report": "astra-review.md",
+    "disposition": "No new confirmed blocker; prepare infrastructure within recorded limits"
+  },
+  "qualification": {
+    "run_id": 40362033043,
+    "attempt": 1,
+    "jobs_passed": 7,
+    "ctest_executions": 200,
+    "ctest_skips": 0,
+    "real_session_suites": 4,
+    "scenarios_per_suite": 23
+  },
+  "candidate_dependencies": "candidate-dependencies.json",
+  "campaign": {
+    "seconds": 86400,
+    "seed": 1592594996,
+    "authorized": false,
+    "started": false,
+    "workflow": ".github/workflows/audit-long.yml",
+    "runner_labels": [
+      "self-hosted",
+      "linux",
+      "x64",
+      "pg-audit-isolated"
+    ],
+    "runner_state": "OWNER_CONFIRMED_ABSENT",
+    "runner_provisioned_or_verified": false,
+    "campaign_binary": "NOT_BUILT_ON_TARGET",
+    "deployment_and_fixture_freeze": "PENDING",
+    "bounded_target_preflight": "NOT_RUN",
+    "acceptance_thresholds": "PENDING_TARGET_MEASUREMENTS"
+  },
+  "resource_defaults": {
+    "connections": 8,
+    "lanes_per_connection": 8,
+    "statements_and_batches": 64,
+    "jobs": 128,
+    "sql_bytes": 262144,
+    "parameter_bytes": 262144,
+    "batch_bytes": 1048576,
+    "batch_count": 1024,
+    "result_bytes": 2097152,
+    "result_rows": 10000,
+    "connect_ms": 10000,
+    "query_ms": 30000,
+    "transaction_ms": 60000,
+    "reconnect_attempts": 3,
+    "reconnect_base_ms": 100
+  },
+  "resource_scope": "Accounting defaults are not hard RSS bounds; establish measured target thresholds before campaign authorization.",
+  "sql_and_result_invariants": [
+    "Never replay uncertain SQL automatically.",
+    "Preserve per-item confirmation independently from local payload retention failure.",
+    "Deliver terminal results once and retire owner resources after unload.",
+    "Do not let stale player-session results change a reused player slot.",
+    "Verify database effects independently and preserve failures, cancellations and restarts."
+  ],
+  "preserved_risks": [
+    "Issue31 OPEN; original network run40164306733 FAIL / ROOT CAUSE UNKNOWN.",
+    "Historical Linux logging observation remains unresolved.",
+    "Previous local MinGW/PostgreSQL full-suite failures remain FAIL.",
+    "TSan does not instrument all dependency internals; named-site failures do not model arbitrary global OOM.",
+    "Shutdown and filesystem operations retain documented OS/library limitations."
+  ],
+  "next_actions": [
+    "Provision and verify disposable isolated non-root infrastructure without production data or credentials.",
+    "Freeze exact deployed source, binaries, dependency/loader identities, fixtures, TLS settings and seeds.",
+    "Run bounded target preflight; define measured memory/resource/queue/result and latency thresholds, database invariants, shutdown deadlines, failure capture and retention.",
+    "Obtain express owner authorization before starting any 24-hour campaign.",
+    "Preserve complete campaign results and obtain the second independent Astra review.",
+    "Fix confirmed defects and requalify; record justified issue31 disposition; obtain final owner approval before stable publication."
+  ]
+}

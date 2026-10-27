@@ -1,0 +1,700 @@
+{
+  "schema": 1,
+  "verification": "PASS",
+  "source_sha": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+  "source_tree": "b754267919c2fb6a4f0af188f671cfa772434e10",
+  "master_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+  "master_tree": "b754267919c2fb6a4f0af188f671cfa772434e10",
+  "master_tree_identical": true,
+  "master_run_observed": {
+    "id": 40362033043,
+    "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+    "status": "in_progress",
+    "conclusion": null,
+    "run_attempt": 1,
+    "updated_at": "2026-10-26T16:44:45Z"
+  },
+  "run_id": 40331053180,
+  "run_attempt": 1,
+  "jobs": [
+    {
+      "id": 121600752515,
+      "name": "Windows x86 MSVC and open.mp",
+      "conclusion": "success",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331053180/job/121600752515"
+    },
+    {
+      "id": 121600752645,
+      "name": "linux (OFF)",
+      "conclusion": "success",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331053180/job/121600752645"
+    },
+    {
+      "id": 121600752733,
+      "name": "Linux x86 and open.mp",
+      "conclusion": "success",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331053180/job/121600752733"
+    },
+    {
+      "id": 121600752923,
+      "name": "linux (ON)",
+      "conclusion": "success",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331053180/job/121600752923"
+    },
+    {
+      "id": 121600753032,
+      "name": "windows",
+      "conclusion": "success",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331053180/job/121600753032"
+    },
+    {
+      "id": 121600753117,
+      "name": "linux (THREAD)",
+      "conclusion": "success",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331053180/job/121600753117"
+    },
+    {
+      "id": 121607437126,
+      "name": "Verify downloaded x86 distributions",
+      "conclusion": "success",
+      "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331053180/job/121607437126"
+    }
+  ],
+  "ctest": {
+    "executions": 200,
+    "failures": 0,
+    "errors": 0,
+    "disabled": 0,
+    "skipped": 0,
+    "configurations": [
+      {
+        "artifact_id": 12653744856,
+        "name": "linux-x86-test-logs",
+        "sha256": "49fe427e0245854b0dbe0778277a1c050f0eac327448745839632996e6244d12",
+        "bytes": 1004173,
+        "junit": {
+          "path": "home/runner/work/omp-postgresql/omp-postgresql/build-linux32/Testing/Temporary/qualification.xml",
+          "sha256": "b05ad8d3115241b9fd3ec0e9639373966514f3db3ccc3e083a54ae0ea7827175",
+          "tests": 35,
+          "failures": 0,
+          "errors": 0,
+          "disabled": 0,
+          "skipped": 0,
+          "new_regression_scenarios_passed": 7
+        }
+      },
+      {
+        "artifact_id": 12654758351,
+        "name": "linux-x64-test-logs-ON",
+        "sha256": "ff41ab39fc221101bf152d023deec2b7ddeee29735f53c02ddc16ea4166f4f05",
+        "bytes": 122735,
+        "junit": {
+          "path": "home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+          "sha256": "52e5f82c2d3e5b46e10d86651b161149eca05f3e22df216b3b42a18bdff928c2",
+          "tests": 33,
+          "failures": 0,
+          "errors": 0,
+          "disabled": 0,
+          "skipped": 0,
+          "new_regression_scenarios_passed": 7
+        }
+      },
+      {
+        "artifact_id": 12655237445,
+        "name": "linux-x64-test-logs-OFF",
+        "sha256": "2484b721ee05a0fd7ba277a816de76fd45e577c5393d3780043b423583c139f3",
+        "bytes": 99476,
+        "junit": {
+          "path": "home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+          "sha256": "3eec3824f137042cf025eff63919331f26725d0100ce6e3d48614bda007c71df",
+          "tests": 35,
+          "failures": 0,
+          "errors": 0,
+          "disabled": 0,
+          "skipped": 0,
+          "new_regression_scenarios_passed": 7
+        }
+      },
+      {
+        "artifact_id": 12655465078,
+        "name": "windows-x64-test-logs",
+        "sha256": "fb1994bccae5b2690bfc53b3b1272d66bbcece3c124a1e58fe09117dafdf4b12",
+        "bytes": 55578,
+        "junit": {
+          "path": "qualification.xml",
+          "sha256": "00f8fabe3751b545708f80a3c6380f721457112903d85572304f0a6110d0bfcf",
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "disabled": 0,
+          "skipped": 0,
+          "new_regression_scenarios_passed": 7
+        }
+      },
+      {
+        "artifact_id": 12655821605,
+        "name": "windows-x86-test-logs",
+        "sha256": "22753fd529532d0e0928f0b410d6f6ef839bfb3951e4beac36dbaef9f279f372",
+        "bytes": 662688,
+        "junit": {
+          "path": "omp-postgresql/omp-postgresql/build-msvc32/Testing/Temporary/qualification.xml",
+          "sha256": "4ee2ba124295c582c62a5e2f99903f4761c0cabefa260953e21f3f0d112efdff",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "disabled": 0,
+          "skipped": 0,
+          "new_regression_scenarios_passed": 7
+        }
+      },
+      {
+        "artifact_id": 12656889252,
+        "name": "linux-x64-test-logs-THREAD",
+        "sha256": "8ffab13f50bc31993d04930dc066f71b5987ca4801e38316c14f1349c38a5d5c",
+        "bytes": 1834889,
+        "junit": {
+          "path": "home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+          "sha256": "8aeeed027c90f7ff4dabbd999402472a0dbce239c6c0d3381cb7c0703fa0a1f9",
+          "tests": 39,
+          "failures": 0,
+          "errors": 0,
+          "disabled": 0,
+          "skipped": 0,
+          "new_regression_scenarios_passed": 7
+        }
+      }
+    ]
+  },
+  "tsan": {
+    "artifact_id": 12656889252,
+    "archive_sha256": "8ffab13f50bc31993d04930dc066f71b5987ca4801e38316c14f1349c38a5d5c",
+    "archive_bytes": 1834889,
+    "junit": {
+      "path": "home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+      "sha256": "8aeeed027c90f7ff4dabbd999402472a0dbce239c6c0d3381cb7c0703fa0a1f9",
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "disabled": 0,
+      "skipped": 0,
+      "new_regression_scenarios_passed": 7
+    },
+    "manifest_path": "home/runner/work/omp-postgresql/omp-postgresql/build/tsan-evidence/manifest.json",
+    "manifest_sha256": "a0cbd42094ecad571f9ab19dd5f48c69d3183a28241bedf952aa5ee914ea5d1e",
+    "source_sha": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+    "tracked_source_modified": false,
+    "status": "PASS",
+    "public_files_hash_verified": 75,
+    "targets": [
+      "pg_tsan_race_control",
+      "pg_tsan_startup_control",
+      "pg_tsan_ordered_control"
+    ],
+    "compiler": "/usr/bin/clang++-19",
+    "thread_sanitize": "ON",
+    "tsan_options": "halt_on_error=1:second_deadlock_stack=1",
+    "environment_github_sha": "1a3551615e3b85ea2574f72071f0b39206ce64ab",
+    "environment_github_sha_note": "The PR event merge reference differs from the actual clean source checkout; source-sha command and tracked-status evidence bind the latter."
+  },
+  "real_sessions": {
+    "suites": 4,
+    "scenarios_per_suite": 23,
+    "executions": 92,
+    "suites_evidence": [
+      {
+        "artifact_id": 12653744856,
+        "sessions": [
+          {
+            "path": "home/runner/work/omp-postgresql/omp-postgresql/build-real-sessions/sanitized-evidence/results.json",
+            "sha256": "b395b690cac00179b64dd89836a4873de57395e381cf379657f69c4e65352a0f",
+            "tests": 23,
+            "scenario_ids": [
+              "account_token_boundary",
+              "custom_token_boundary",
+              "register",
+              "login_valid",
+              "login_wrong",
+              "reuse_lookup_late",
+              "disconnect_lookup_cancel",
+              "reuse_hash_late",
+              "provider_slow_fixture",
+              "reuse_verify_late",
+              "reuse_insert_late",
+              "concurrent_auth",
+              "duplicate_concurrent_registration",
+              "provider_response_timeout",
+              "postgres_recovery",
+              "insert_confirmation_loss",
+              "gmx_pending_provider",
+              "shutdown_pending_sql",
+              "official_npc_scope",
+              "custom_reuse_load",
+              "custom_reuse_save",
+              "startup_exit_overlap",
+              "postgres_recovery_playerid_reuse"
+            ],
+            "statuses": [
+              "PASS"
+            ],
+            "platform": "linux",
+            "component": {
+              "path": "<RUNNER_WORKSPACE>/build-linux32/omp-postgresql.so",
+              "sha256": "17bcd3821df97929bae7a7bd51685028fc2509c392094017fb3bb71b837f865b"
+            },
+            "runtime": [
+              {
+                "file": "libpq.so.5.17",
+                "sha256": "b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241"
+              }
+            ],
+            "package": null,
+            "source_provenance": {
+              "schema": 1,
+              "source_commit": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+              "head_tree": "b754267919c2fb6a4f0af188f671cfa772434e10",
+              "source_dirty": true,
+              "tracked_source_modified": false,
+              "tracked_changes": [],
+              "untracked_entries": [
+                {
+                  "path": "libpq32/",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "openmp-linux-dynssl.tar.gz",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgresql-17.11.tar.gz",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgresql-17.11/",
+                  "classification": "expected-ci-generated"
+                }
+              ],
+              "untracked_count": 4,
+              "source_state": "generated-files-only",
+              "tracked_patch_sha256": null,
+              "status_sha256": "997f5246e5e98362e85fab3786768b81690ad96b24c3b91f74d0e6fabc7b8382",
+              "generated_classification_basis": "Exact roots created by .github/workflows/ci.yml; all other entries remain unclassified"
+            },
+            "sanitized_inventory_entries_verified": 79
+          },
+          {
+            "path": "home/runner/work/omp-postgresql/omp-postgresql/build-package-real-sessions/sanitized-evidence/results.json",
+            "sha256": "34bac722f034ff733ff8ec8d32a72f8eb54d2727401ed5e6585cebad931c60eb",
+            "tests": 23,
+            "scenario_ids": [
+              "account_token_boundary",
+              "custom_token_boundary",
+              "register",
+              "login_valid",
+              "login_wrong",
+              "reuse_lookup_late",
+              "disconnect_lookup_cancel",
+              "reuse_hash_late",
+              "provider_slow_fixture",
+              "reuse_verify_late",
+              "reuse_insert_late",
+              "concurrent_auth",
+              "duplicate_concurrent_registration",
+              "provider_response_timeout",
+              "postgres_recovery",
+              "insert_confirmation_loss",
+              "gmx_pending_provider",
+              "shutdown_pending_sql",
+              "official_npc_scope",
+              "custom_reuse_load",
+              "custom_reuse_save",
+              "startup_exit_overlap",
+              "postgres_recovery_playerid_reuse"
+            ],
+            "statuses": [
+              "PASS"
+            ],
+            "platform": "linux",
+            "component": {
+              "path": "<RUNNER_WORKSPACE>/build-package-check/omp-postgresql/components/omp-postgresql.so",
+              "sha256": "89b231247efef0e6e99a8b607ce50e59b8f6bd74eaea9355c4b89ffd8f262d09"
+            },
+            "runtime": [
+              {
+                "file": "libpq.so.5",
+                "sha256": "b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241"
+              }
+            ],
+            "package": {
+              "archive": "omp-postgresql-0.1.0.0a65609d115b-linux-x86.zip",
+              "commit": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+              "manifest_sha256": "cd32103014d96a756d9dc0d8a1636355cf6a3cd5e984ddfd41bad927dab6df88",
+              "component_sha256": "89b231247efef0e6e99a8b607ce50e59b8f6bd74eaea9355c4b89ffd8f262d09",
+              "runtime_sha256": {
+                "libpq.so.5": "b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241"
+              }
+            },
+            "source_provenance": {
+              "schema": 1,
+              "source_commit": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+              "head_tree": "b754267919c2fb6a4f0af188f671cfa772434e10",
+              "source_dirty": true,
+              "tracked_source_modified": false,
+              "tracked_changes": [],
+              "untracked_entries": [
+                {
+                  "path": "libpq32/",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "openmp-linux-dynssl.tar.gz",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgresql-17.11.tar.gz",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgresql-17.11/",
+                  "classification": "expected-ci-generated"
+                }
+              ],
+              "untracked_count": 4,
+              "source_state": "generated-files-only",
+              "tracked_patch_sha256": null,
+              "status_sha256": "997f5246e5e98362e85fab3786768b81690ad96b24c3b91f74d0e6fabc7b8382",
+              "generated_classification_basis": "Exact roots created by .github/workflows/ci.yml; all other entries remain unclassified"
+            },
+            "sanitized_inventory_entries_verified": 79
+          }
+        ]
+      },
+      {
+        "artifact_id": 12655821605,
+        "sessions": [
+          {
+            "path": "omp-postgresql/omp-postgresql/build-real-sessions/sanitized-evidence/results.json",
+            "sha256": "0b059cdbe3247fe31fa04b072a70063924eebf45c69bfc32c56bc43abd5f4101",
+            "tests": 23,
+            "scenario_ids": [
+              "account_token_boundary",
+              "custom_token_boundary",
+              "register",
+              "login_valid",
+              "login_wrong",
+              "reuse_lookup_late",
+              "disconnect_lookup_cancel",
+              "reuse_hash_late",
+              "provider_slow_fixture",
+              "reuse_verify_late",
+              "reuse_insert_late",
+              "concurrent_auth",
+              "duplicate_concurrent_registration",
+              "provider_response_timeout",
+              "postgres_recovery",
+              "insert_confirmation_loss",
+              "gmx_pending_provider",
+              "shutdown_pending_sql",
+              "official_npc_scope",
+              "custom_reuse_load",
+              "custom_reuse_save",
+              "startup_exit_overlap",
+              "postgres_recovery_playerid_reuse"
+            ],
+            "statuses": [
+              "PASS"
+            ],
+            "platform": "win32",
+            "component": {
+              "path": "D:\\a\\omp-postgresql\\omp-postgresql\\build-msvc32\\Release\\omp-postgresql.dll",
+              "sha256": "de8f2e4b5a2a3dd79cafc3792d14887db3870bcb6e3c92ecfd161d24b6fcdf24"
+            },
+            "runtime": [
+              {
+                "file": "libpq.dll",
+                "sha256": "bbf87317b60f724b02237ed9036fbf6b8bb480cc2c52b798218f658c688db2cb"
+              },
+              {
+                "file": "libssl-3.dll",
+                "sha256": "b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab"
+              },
+              {
+                "file": "libcrypto-3.dll",
+                "sha256": "2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f"
+              }
+            ],
+            "package": null,
+            "source_provenance": {
+              "schema": 1,
+              "source_commit": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+              "head_tree": "b754267919c2fb6a4f0af188f671cfa772434e10",
+              "source_dirty": true,
+              "tracked_source_modified": false,
+              "tracked_changes": [],
+              "untracked_entries": [
+                {
+                  "path": "libpq32/",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "openmp.zip",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgres.zip",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgresql-17.11.tar.bz2",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgresql-17.11/",
+                  "classification": "expected-ci-generated"
+                }
+              ],
+              "untracked_count": 5,
+              "source_state": "generated-files-only",
+              "tracked_patch_sha256": null,
+              "status_sha256": "9740d27b26930ee2ea314d42dfbbc35d878fb712b045a35b74d82796914b93a7",
+              "generated_classification_basis": "Exact roots created by .github/workflows/ci.yml; all other entries remain unclassified"
+            },
+            "sanitized_inventory_entries_verified": 79
+          },
+          {
+            "path": "omp-postgresql/omp-postgresql/build-package-real-sessions/sanitized-evidence/results.json",
+            "sha256": "8b1f6d04c84d4cb52ba5a455e10ac527ecd229a45cfd511db4bbf40a214132f7",
+            "tests": 23,
+            "scenario_ids": [
+              "account_token_boundary",
+              "custom_token_boundary",
+              "register",
+              "login_valid",
+              "login_wrong",
+              "reuse_lookup_late",
+              "disconnect_lookup_cancel",
+              "reuse_hash_late",
+              "provider_slow_fixture",
+              "reuse_verify_late",
+              "reuse_insert_late",
+              "concurrent_auth",
+              "duplicate_concurrent_registration",
+              "provider_response_timeout",
+              "postgres_recovery",
+              "insert_confirmation_loss",
+              "gmx_pending_provider",
+              "shutdown_pending_sql",
+              "official_npc_scope",
+              "custom_reuse_load",
+              "custom_reuse_save",
+              "startup_exit_overlap",
+              "postgres_recovery_playerid_reuse"
+            ],
+            "statuses": [
+              "PASS"
+            ],
+            "platform": "win32",
+            "component": {
+              "path": "D:\\a\\omp-postgresql\\omp-postgresql\\build-package-check\\omp-postgresql\\components\\omp-postgresql.dll",
+              "sha256": "de8f2e4b5a2a3dd79cafc3792d14887db3870bcb6e3c92ecfd161d24b6fcdf24"
+            },
+            "runtime": [
+              {
+                "file": "libcrypto-3.dll",
+                "sha256": "2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f"
+              },
+              {
+                "file": "libpq.dll",
+                "sha256": "bbf87317b60f724b02237ed9036fbf6b8bb480cc2c52b798218f658c688db2cb"
+              },
+              {
+                "file": "libssl-3.dll",
+                "sha256": "b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab"
+              }
+            ],
+            "package": {
+              "archive": "omp-postgresql-0.1.0.0a65609d115b-windows-x86.zip",
+              "commit": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+              "manifest_sha256": "acd1166598c5be59725f1ac83df55cdf3e6f69a1e3db17166ad7d0225d59442e",
+              "component_sha256": "de8f2e4b5a2a3dd79cafc3792d14887db3870bcb6e3c92ecfd161d24b6fcdf24",
+              "runtime_sha256": {
+                "libcrypto-3.dll": "2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f",
+                "libpq.dll": "bbf87317b60f724b02237ed9036fbf6b8bb480cc2c52b798218f658c688db2cb",
+                "libssl-3.dll": "b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab"
+              }
+            },
+            "source_provenance": {
+              "schema": 1,
+              "source_commit": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+              "head_tree": "b754267919c2fb6a4f0af188f671cfa772434e10",
+              "source_dirty": true,
+              "tracked_source_modified": false,
+              "tracked_changes": [],
+              "untracked_entries": [
+                {
+                  "path": "libpq32/",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "openmp.zip",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgres.zip",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgresql-17.11.tar.bz2",
+                  "classification": "expected-ci-generated"
+                },
+                {
+                  "path": "postgresql-17.11/",
+                  "classification": "expected-ci-generated"
+                }
+              ],
+              "untracked_count": 5,
+              "source_state": "generated-files-only",
+              "tracked_patch_sha256": null,
+              "status_sha256": "9740d27b26930ee2ea314d42dfbbc35d878fb712b045a35b74d82796914b93a7",
+              "generated_classification_basis": "Exact roots created by .github/workflows/ci.yml; all other entries remain unclassified"
+            },
+            "sanitized_inventory_entries_verified": 79
+          }
+        ]
+      }
+    ]
+  },
+  "packages": {
+    "linux": {
+      "artifact": {
+        "id": 12653799838,
+        "name": "omp-postgresql-linux-x86-0a65609d115b8fb8eed82022dbc030d5f594b79e",
+        "sha256": "d622a13e1ac05922220999a7dc7721eb4e3ad562a8b3b67a88b28fb550f13a26",
+        "bytes": 636283,
+        "metadata_size_digest_match": true
+      },
+      "archive": "omp-postgresql-0.1.0.0a65609d115b-linux-x86.zip",
+      "archive_sha256": "c87098c2114423598a0d745188cae2e762a54d84affcdafe5b20b701f2c2aeba",
+      "archive_bytes": 644533,
+      "checksum_sidecar_matches": true,
+      "manifest_sha256": "cd32103014d96a756d9dc0d8a1636355cf6a3cd5e984ddfd41bad927dab6df88",
+      "component_sha256": "89b231247efef0e6e99a8b607ce50e59b8f6bd74eaea9355c4b89ffd8f262d09",
+      "runtime_sha256": {
+        "libpq.so.5": "b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241"
+      },
+      "payload_files_verified": 69
+    },
+    "windows": {
+      "artifact": {
+        "id": 12655263348,
+        "name": "omp-postgresql-windows-x86-0a65609d115b8fb8eed82022dbc030d5f594b79e",
+        "sha256": "41fc8c4317ccf42af15a9620daf611f4fc052354af05f573edaabf2d1a2a8e3a",
+        "bytes": 3147140,
+        "metadata_size_digest_match": true
+      },
+      "archive": "omp-postgresql-0.1.0.0a65609d115b-windows-x86.zip",
+      "archive_sha256": "cd348f96248a4758631e9ab646ae4d7f8e5bf4308d0c17ec33106b438744a063",
+      "archive_bytes": 3157470,
+      "checksum_sidecar_matches": true,
+      "manifest_sha256": "acd1166598c5be59725f1ac83df55cdf3e6f69a1e3db17166ad7d0225d59442e",
+      "component_sha256": "de8f2e4b5a2a3dd79cafc3792d14887db3870bcb6e3c92ecfd161d24b6fcdf24",
+      "runtime_sha256": {
+        "libcrypto-3.dll": "2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f",
+        "libpq.dll": "bbf87317b60f724b02237ed9036fbf6b8bb480cc2c52b798218f658c688db2cb",
+        "libssl-3.dll": "b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab"
+      },
+      "payload_files_verified": 72
+    }
+  },
+  "python_and_pawn_log_evidence": {
+    "scope": "Selected exact log lines from completed final-head jobs; not full raw logs",
+    "jobs": [
+      {
+        "job_id": 121600752645,
+        "lines": [
+          "2026-10-26T13:34:20.3045001Z CTest qualification: 35 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+          "2026-10-26T13:34:22.1305021Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-suhn4sop/Testing/Temporary/qualification.xml",
+          "2026-10-26T13:34:24.7259141Z Ran 148 tests in 3.097s",
+          "2026-10-26T13:34:24.7259387Z OK",
+          "2026-10-26T13:34:28.0050810Z Compiled 13 examples with warnings treated as errors",
+          "2026-10-26T13:34:28.7280616Z Compiled 29 Markdown Pawn examples and 70 declaration fences; 1 explicitly incomplete fragment(s). Compilation is not runtime validation."
+        ]
+      },
+      {
+        "job_id": 121600752923,
+        "lines": [
+          "2026-10-26T13:34:36.7453840Z CTest qualification: 33 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+          "2026-10-26T13:34:38.5841552Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-d5nolrfx/Testing/Temporary/qualification.xml",
+          "2026-10-26T13:34:41.1126748Z Ran 148 tests in 3.031s",
+          "2026-10-26T13:34:41.1126993Z OK",
+          "2026-10-26T13:34:44.9234874Z Compiled 13 examples with warnings treated as errors",
+          "2026-10-26T13:34:45.6420450Z Compiled 29 Markdown Pawn examples and 70 declaration fences; 1 explicitly incomplete fragment(s). Compilation is not runtime validation."
+        ]
+      }
+    ]
+  },
+  "superseded_runs": {
+    "scope": "Superseded/cancelled runs are not qualification passes",
+    "runs": [
+      {
+        "id": 40331045630,
+        "source": "0a65609d115b8fb8eed82022dbc030d5f594b79e",
+        "event": "push",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "run_attempt": 1,
+        "updated_at": "2026-10-26T13:29:44Z",
+        "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40331045630"
+      },
+      {
+        "id": 40330581541,
+        "source": "ea44502e8e3539b572e114d713831bb4e6098f49",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "run_attempt": 1,
+        "updated_at": "2026-10-26T13:30:40Z",
+        "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40330581541"
+      },
+      {
+        "id": 40330541563,
+        "source": "ea44502e8e3539b572e114d713831bb4e6098f49",
+        "event": "push",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "run_attempt": 1,
+        "updated_at": "2026-10-26T13:27:49Z",
+        "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40330541563"
+      }
+    ]
+  },
+  "raw_metadata": [
+    {
+      "path": "run-final.json",
+      "bytes": 14472,
+      "sha256": "b682bc525d8a13715b8fe501e2ae14f07495e0539187df31f8cea6046a6bd3e1"
+    },
+    {
+      "path": "jobs-final.json",
+      "bytes": 36420,
+      "sha256": "61eeb18b2ae8f83b35fec72a2f3373d5b94fa87244f9347ac29da190a604c7ef"
+    },
+    {
+      "path": "artifacts-final.json",
+      "bytes": 8284,
+      "sha256": "3c7d6e305dd9119779b415ddfd2bb66ae4481453054aa1e138bdefeacf4d6409"
+    },
+    {
+      "path": "master-run-observed.json",
+      "bytes": 14494,
+      "sha256": "2cbba59d5bfa6c009ccfcb856f061434756d215a629e2f4dab10afb8302c95ff"
+    }
+  ],
+  "limitations": [
+    "Finite qualification does not establish prolonged stability or resolve historical failures.",
+    "No 24-hour campaign authorized or started by this verifier.",
+    "Package payload hashes and sidecars checked independently; binary provenance is not a hermetic-build proof.",
+    "The owner confirmed no isolated long-run runner exists yet. Inventory access limits alone do not establish absence. No runner was provisioned and no 24-hour campaign was authorized or started.",
+    "The master commit has identical source-tree content but the verified PR packages continue to identify 0a65609; they are not relabeled as master-built artifacts.",
+    "This verification checks stored evidence and identities; it does not rerun CTest, create a runner, conduct prolonged stability or resolve issue #31."
+  ]
+}

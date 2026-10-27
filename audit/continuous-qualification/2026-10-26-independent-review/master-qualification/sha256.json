@@ -1,0 +1,62 @@
+[
+  {
+    "path": "artifacts-final.json",
+    "bytes": 7970,
+    "sha256": "e80721d1bcb97e0d672348c720d59dba702e39fbc48a875f86a8698f2e03e75a"
+  },
+  {
+    "path": "candidate-final-summary.json",
+    "bytes": 49687,
+    "sha256": "44b486d715c2bbf93d65777de0c5796a406c56437aa56993a057b9b4f90285d8"
+  },
+  {
+    "path": "jobs-final.json",
+    "bytes": 36175,
+    "sha256": "458abea087c2047d254d2e80bf231a70e38e97d5f44053db02585bf4b83fa4e3"
+  },
+  {
+    "path": "linux-python-pawn-observed.json",
+    "bytes": 3058,
+    "sha256": "5ba6e6498450678aea9accf3f48f1c4d20979344d9efae773cc2300f39ecb15e"
+  },
+  {
+    "path": "master-run-observed.json",
+    "bytes": 14497,
+    "sha256": "e49a97f3c64a24d0e6ee82632a01b328e0edbd92035ecff50dc9d25c088917c8"
+  },
+  {
+    "path": "raw-evidence.zip",
+    "bytes": 1770047,
+    "sha256": "428ca2097ef6baebf5e6bcc3abcf1b0a150dc9e99c9e9370a6d6460b8af2162f"
+  },
+  {
+    "path": "raw-index.json",
+    "bytes": 72205,
+    "sha256": "9a72a4eac8ab466e9a0ac0920e8131f327dc1a59d37a114061cd1b90250241c3"
+  },
+  {
+    "path": "README.md",
+    "bytes": 3382,
+    "sha256": "039c4a34cee9371ab8d444c36c63465b39e8fc6b696e628eeacb0c75b7d4188f"
+  },
+  {
+    "path": "run-final.json",
+    "bytes": 14497,
+    "sha256": "e49a97f3c64a24d0e6ee82632a01b328e0edbd92035ecff50dc9d25c088917c8"
+  },
+  {
+    "path": "superseded-final-statuses.json",
+    "bytes": 3,
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  {
+    "path": "verification.json",
+    "bytes": 31830,
+    "sha256": "688b5ea084eecd0e198032ccb18bc609096f601e4eabdb8e494f6e6113aed859"
+  },
+  {
+    "path": "verify_checkpoint.py",
+    "bytes": 6253,
+    "sha256": "ea43de5d58a912ed396c3f8c9940aa9c0d8ee0ce5020e98835deab36eba97825"
+  }
+]

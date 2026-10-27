@@ -1,0 +1,27 @@
+{
+  "scope": "Selected exact log lines from completed final-head jobs; not full raw logs",
+  "jobs": [
+    {
+      "job_id": 121600752645,
+      "lines": [
+        "2026-10-26T13:34:20.3045001Z CTest qualification: 35 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+        "2026-10-26T13:34:22.1305021Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-suhn4sop/Testing/Temporary/qualification.xml",
+        "2026-10-26T13:34:24.7259141Z Ran 148 tests in 3.097s",
+        "2026-10-26T13:34:24.7259387Z OK",
+        "2026-10-26T13:34:28.0050810Z Compiled 13 examples with warnings treated as errors",
+        "2026-10-26T13:34:28.7280616Z Compiled 29 Markdown Pawn examples and 70 declaration fences; 1 explicitly incomplete fragment(s). Compilation is not runtime validation."
+      ]
+    },
+    {
+      "job_id": 121600752923,
+      "lines": [
+        "2026-10-26T13:34:36.7453840Z CTest qualification: 33 tests executed successfully; report: /home/runner/work/omp-postgresql/omp-postgresql/build/Testing/Temporary/qualification.xml",
+        "2026-10-26T13:34:38.5841552Z CTest qualification: 2 tests executed successfully; report: /tmp/omp-pg-ctest-d5nolrfx/Testing/Temporary/qualification.xml",
+        "2026-10-26T13:34:41.1126748Z Ran 148 tests in 3.031s",
+        "2026-10-26T13:34:41.1126993Z OK",
+        "2026-10-26T13:34:44.9234874Z Compiled 13 examples with warnings treated as errors",
+        "2026-10-26T13:34:45.6420450Z Compiled 29 Markdown Pawn examples and 70 declaration fences; 1 explicitly incomplete fragment(s). Compilation is not runtime validation."
+      ]
+    }
+  ]
+}

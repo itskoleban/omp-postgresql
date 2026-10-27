@@ -1,0 +1,1033 @@
+{
+  "total_count": 7,
+  "jobs": [
+    {
+      "id": 121709743043,
+      "run_id": 40362033043,
+      "workflow_name": "build-and-test",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/runs/40362033043",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVGZTxs8AAAAcVndLww",
+      "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/jobs/121709743043",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40362033043/job/121709743043",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T16:44:41Z",
+      "started_at": "2026-10-26T16:44:44Z",
+      "completed_at": "2026-10-26T16:54:54Z",
+      "name": "Linux x86 and open.mp",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T16:44:45Z",
+          "completed_at": "2026-10-26T16:44:46Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T16:44:46Z",
+          "completed_at": "2026-10-26T16:44:47Z"
+        },
+        {
+          "name": "Install multilib, 32-bit TLS and the PostgreSQL server tools",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T16:44:47Z",
+          "completed_at": "2026-10-26T16:45:10Z"
+        },
+        {
+          "name": "Build PostgreSQL 17.11 libpq with 32-bit TLS",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-26T16:45:10Z",
+          "completed_at": "2026-10-26T16:45:31Z"
+        },
+        {
+          "name": "Build the x86 component",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-26T16:45:31Z",
+          "completed_at": "2026-10-26T16:46:37Z"
+        },
+        {
+          "name": "Build Pawn32 and compile the server regression scripts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-26T16:46:37Z",
+          "completed_at": "2026-10-26T16:46:41Z"
+        },
+        {
+          "name": "Obtain the fixed open.mp distribution with dynamic OpenSSL",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-26T16:46:41Z",
+          "completed_at": "2026-10-26T16:46:42Z"
+        },
+        {
+          "name": "Test the x86 core, real server, VM unload and callback regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-26T16:46:42Z",
+          "completed_at": "2026-10-26T16:50:27Z"
+        },
+        {
+          "name": "Qualify real player sessions with the external bcrypt provider",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-26T16:50:27Z",
+          "completed_at": "2026-10-26T16:52:10Z"
+        },
+        {
+          "name": "Assemble and verify the Linux x86 package",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-26T16:52:10Z",
+          "completed_at": "2026-10-26T16:52:11Z"
+        },
+        {
+          "name": "Compile examples from the extracted package",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-26T16:52:11Z",
+          "completed_at": "2026-10-26T16:52:14Z"
+        },
+        {
+          "name": "Test the package in a fresh Linux server",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-26T16:52:14Z",
+          "completed_at": "2026-10-26T16:53:20Z"
+        },
+        {
+          "name": "Qualify full real player sessions against the extracted Linux package",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-26T16:53:20Z",
+          "completed_at": "2026-10-26T16:54:47Z"
+        },
+        {
+          "name": "Upload the validated Linux x86 package and SHA-256",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-26T16:54:47Z",
+          "completed_at": "2026-10-26T16:54:48Z"
+        },
+        {
+          "name": "Retain the x86 test logs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-26T16:54:48Z",
+          "completed_at": "2026-10-26T16:54:50Z"
+        },
+        {
+          "name": "Unmount the isolated log filesystem",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-26T16:54:50Z",
+          "completed_at": "2026-10-26T16:54:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 32,
+          "started_at": "2026-10-26T16:54:51Z",
+          "completed_at": "2026-10-26T16:54:52Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 33,
+          "started_at": "2026-10-26T16:54:52Z",
+          "completed_at": "2026-10-26T16:54:52Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/check-runs/121709743043",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000001655,
+      "runner_name": "GitHub Actions 1000001655",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 121709743670,
+      "run_id": 40362033043,
+      "workflow_name": "build-and-test",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/runs/40362033043",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVGZTxs8AAAAcVndONg",
+      "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/jobs/121709743670",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40362033043/job/121709743670",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T16:44:41Z",
+      "started_at": "2026-10-26T16:44:43Z",
+      "completed_at": "2026-10-26T17:01:12Z",
+      "name": "Windows x86 MSVC and open.mp",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T16:44:44Z",
+          "completed_at": "2026-10-26T16:44:45Z"
+        },
+        {
+          "name": "Preserve LF in the source build scripts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T16:44:45Z",
+          "completed_at": "2026-10-26T16:44:46Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T16:44:46Z",
+          "completed_at": "2026-10-26T16:44:53Z"
+        },
+        {
+          "name": "Run actions/setup-python@v6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-26T16:44:53Z",
+          "completed_at": "2026-10-26T16:44:53Z"
+        },
+        {
+          "name": "Run msys2/setup-msys2@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-26T16:44:53Z",
+          "completed_at": "2026-10-26T16:45:54Z"
+        },
+        {
+          "name": "Build PostgreSQL 17.11 libpq with 32-bit TLS",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-26T16:45:54Z",
+          "completed_at": "2026-10-26T16:47:58Z"
+        },
+        {
+          "name": "Generate the MSVC import library and build the x86 component",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-26T16:47:58Z",
+          "completed_at": "2026-10-26T16:49:58Z"
+        },
+        {
+          "name": "Build Pawn32 and compile the server regression scripts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-26T16:49:58Z",
+          "completed_at": "2026-10-26T16:50:14Z"
+        },
+        {
+          "name": "Obtain the fixed PostgreSQL server and open.mp distributions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-26T16:50:14Z",
+          "completed_at": "2026-10-26T16:50:54Z"
+        },
+        {
+          "name": "Test the x86 core, real server, VM unload and callback regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-26T16:50:54Z",
+          "completed_at": "2026-10-26T16:55:30Z"
+        },
+        {
+          "name": "Qualify real player sessions with the external bcrypt provider",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-26T16:55:30Z",
+          "completed_at": "2026-10-26T16:57:52Z"
+        },
+        {
+          "name": "Assemble and verify the Windows x86 package",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-26T16:57:52Z",
+          "completed_at": "2026-10-26T16:58:03Z"
+        },
+        {
+          "name": "Compile examples from the extracted package",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-26T16:58:03Z",
+          "completed_at": "2026-10-26T16:58:08Z"
+        },
+        {
+          "name": "Test the package in a fresh Windows server",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-26T16:58:08Z",
+          "completed_at": "2026-10-26T16:59:18Z"
+        },
+        {
+          "name": "Qualify full real player sessions against the extracted Windows package",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-26T16:59:18Z",
+          "completed_at": "2026-10-26T17:01:01Z"
+        },
+        {
+          "name": "Upload the validated Windows x86 package and SHA-256",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-26T17:01:01Z",
+          "completed_at": "2026-10-26T17:01:03Z"
+        },
+        {
+          "name": "Retain the x86 test logs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-26T17:01:03Z",
+          "completed_at": "2026-10-26T17:01:04Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 33,
+          "started_at": "2026-10-26T17:01:04Z",
+          "completed_at": "2026-10-26T17:01:05Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 34,
+          "started_at": "2026-10-26T17:01:05Z",
+          "completed_at": "2026-10-26T17:01:07Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 35,
+          "started_at": "2026-10-26T17:01:07Z",
+          "completed_at": "2026-10-26T17:01:07Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/check-runs/121709743670",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_id": 1000001657,
+      "runner_name": "GitHub Actions 1000001657",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 121709743747,
+      "run_id": 40362033043,
+      "workflow_name": "build-and-test",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/runs/40362033043",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVGZTxs8AAAAcVndOgw",
+      "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/jobs/121709743747",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40362033043/job/121709743747",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T16:44:41Z",
+      "started_at": "2026-10-26T16:44:44Z",
+      "completed_at": "2026-10-26T16:48:58Z",
+      "name": "linux (ON)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T16:44:45Z",
+          "completed_at": "2026-10-26T16:44:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T16:44:45Z",
+          "completed_at": "2026-10-26T16:44:47Z"
+        },
+        {
+          "name": "PostgreSQL 17 development tools",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T16:44:47Z",
+          "completed_at": "2026-10-26T16:45:02Z"
+        },
+        {
+          "name": "ThreadSanitizer toolchain",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4,
+          "started_at": "2026-10-26T16:45:02Z",
+          "completed_at": "2026-10-26T16:45:02Z"
+        },
+        {
+          "name": "Create a tiny isolated filesystem for real ENOSPC qualification",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-26T16:45:02Z",
+          "completed_at": "2026-10-26T16:45:02Z"
+        },
+        {
+          "name": "Run cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \\",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-26T16:45:02Z",
+          "completed_at": "2026-10-26T16:45:13Z"
+        },
+        {
+          "name": "Run cmake --build build --parallel 4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-26T16:45:13Z",
+          "completed_at": "2026-10-26T16:45:53Z"
+        },
+        {
+          "name": "Record TSan binaries, instrumentation and build provenance",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-10-26T16:45:53Z",
+          "completed_at": "2026-10-26T16:45:53Z"
+        },
+        {
+          "name": "Run diagnostic_args=()",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-26T16:45:53Z",
+          "completed_at": "2026-10-26T16:48:45Z"
+        },
+        {
+          "name": "Verify package, fault fixture, and CTest qualification regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-26T16:48:45Z",
+          "completed_at": "2026-10-26T16:48:48Z"
+        },
+        {
+          "name": "Enforce English maintenance and preserve historical exceptions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-26T16:48:48Z",
+          "completed_at": "2026-10-26T16:48:49Z"
+        },
+        {
+          "name": "Compile all Pawn examples with warnings treated as errors",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-26T16:48:49Z",
+          "completed_at": "2026-10-26T16:48:54Z"
+        },
+        {
+          "name": "Retain core test and sanitizer logs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-26T16:48:54Z",
+          "completed_at": "2026-10-26T16:48:55Z"
+        },
+        {
+          "name": "Unmount the isolated log filesystem",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-26T16:48:55Z",
+          "completed_at": "2026-10-26T16:48:55Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-10-26T16:48:55Z",
+          "completed_at": "2026-10-26T16:48:55Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-10-26T16:48:55Z",
+          "completed_at": "2026-10-26T16:48:55Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/check-runs/121709743747",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000001656,
+      "runner_name": "GitHub Actions 1000001656",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 121709743826,
+      "run_id": 40362033043,
+      "workflow_name": "build-and-test",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/runs/40362033043",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVGZTxs8AAAAcVndO0g",
+      "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/jobs/121709743826",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40362033043/job/121709743826",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T16:44:41Z",
+      "started_at": "2026-10-26T16:44:44Z",
+      "completed_at": "2026-10-26T16:52:03Z",
+      "name": "windows",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T16:44:45Z",
+          "completed_at": "2026-10-26T16:44:46Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T16:44:46Z",
+          "completed_at": "2026-10-26T16:44:55Z"
+        },
+        {
+          "name": "Run msys2/setup-msys2@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T16:44:55Z",
+          "completed_at": "2026-10-26T16:46:35Z"
+        },
+        {
+          "name": "Run cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_BUILD_BENCHMARK=ON -DPG_STRESS_SECONDS=\"$PG_STRESS_SECONDS\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-26T16:46:35Z",
+          "completed_at": "2026-10-26T16:47:45Z"
+        },
+        {
+          "name": "Obtain isolated PostgreSQL server tools",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-26T16:47:45Z",
+          "completed_at": "2026-10-26T16:48:30Z"
+        },
+        {
+          "name": "Run python tests/run_postgres.py --build build --postgres-bin build-server/pgsql/bin",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-26T16:48:30Z",
+          "completed_at": "2026-10-26T16:51:51Z"
+        },
+        {
+          "name": "Verify CTest qualification regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-26T16:51:51Z",
+          "completed_at": "2026-10-26T16:51:53Z"
+        },
+        {
+          "name": "Retain core test logs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-26T16:51:53Z",
+          "completed_at": "2026-10-26T16:51:54Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-26T16:51:54Z",
+          "completed_at": "2026-10-26T16:51:56Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-26T16:51:56Z",
+          "completed_at": "2026-10-26T16:51:57Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/check-runs/121709743826",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_id": 1000001658,
+      "runner_name": "GitHub Actions 1000001658",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 121709743996,
+      "run_id": 40362033043,
+      "workflow_name": "build-and-test",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/runs/40362033043",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVGZTxs8AAAAcVndPfA",
+      "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/jobs/121709743996",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40362033043/job/121709743996",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T16:44:41Z",
+      "started_at": "2026-10-26T16:44:45Z",
+      "completed_at": "2026-10-26T16:49:22Z",
+      "name": "linux (THREAD)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T16:44:46Z",
+          "completed_at": "2026-10-26T16:44:46Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T16:44:46Z",
+          "completed_at": "2026-10-26T16:44:47Z"
+        },
+        {
+          "name": "PostgreSQL 17 development tools",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T16:44:47Z",
+          "completed_at": "2026-10-26T16:45:00Z"
+        },
+        {
+          "name": "ThreadSanitizer toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-26T16:45:00Z",
+          "completed_at": "2026-10-26T16:45:06Z"
+        },
+        {
+          "name": "Create a tiny isolated filesystem for real ENOSPC qualification",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-26T16:45:06Z",
+          "completed_at": "2026-10-26T16:45:06Z"
+        },
+        {
+          "name": "Run cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \\",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-26T16:45:06Z",
+          "completed_at": "2026-10-26T16:45:17Z"
+        },
+        {
+          "name": "Run cmake --build build --parallel 4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-26T16:45:17Z",
+          "completed_at": "2026-10-26T16:46:20Z"
+        },
+        {
+          "name": "Record TSan binaries, instrumentation and build provenance",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-26T16:46:20Z",
+          "completed_at": "2026-10-26T16:46:22Z"
+        },
+        {
+          "name": "Run diagnostic_args=()",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-26T16:46:22Z",
+          "completed_at": "2026-10-26T16:49:10Z"
+        },
+        {
+          "name": "Verify package, fault fixture, and CTest qualification regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-26T16:49:10Z",
+          "completed_at": "2026-10-26T16:49:13Z"
+        },
+        {
+          "name": "Enforce English maintenance and preserve historical exceptions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-26T16:49:13Z",
+          "completed_at": "2026-10-26T16:49:14Z"
+        },
+        {
+          "name": "Compile all Pawn examples with warnings treated as errors",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-26T16:49:14Z",
+          "completed_at": "2026-10-26T16:49:19Z"
+        },
+        {
+          "name": "Retain core test and sanitizer logs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-26T16:49:19Z",
+          "completed_at": "2026-10-26T16:49:20Z"
+        },
+        {
+          "name": "Unmount the isolated log filesystem",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-26T16:49:20Z",
+          "completed_at": "2026-10-26T16:49:20Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-10-26T16:49:20Z",
+          "completed_at": "2026-10-26T16:49:20Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-10-26T16:49:20Z",
+          "completed_at": "2026-10-26T16:49:21Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/check-runs/121709743996",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000001659,
+      "runner_name": "GitHub Actions 1000001659",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 121709744161,
+      "run_id": 40362033043,
+      "workflow_name": "build-and-test",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/runs/40362033043",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVGZTxs8AAAAcVndQIQ",
+      "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/jobs/121709744161",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40362033043/job/121709744161",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T16:44:41Z",
+      "started_at": "2026-10-26T16:44:44Z",
+      "completed_at": "2026-10-26T16:48:53Z",
+      "name": "linux (OFF)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T16:44:45Z",
+          "completed_at": "2026-10-26T16:44:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T16:44:45Z",
+          "completed_at": "2026-10-26T16:44:47Z"
+        },
+        {
+          "name": "PostgreSQL 17 development tools",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T16:44:47Z",
+          "completed_at": "2026-10-26T16:45:12Z"
+        },
+        {
+          "name": "ThreadSanitizer toolchain",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4,
+          "started_at": "2026-10-26T16:45:12Z",
+          "completed_at": "2026-10-26T16:45:12Z"
+        },
+        {
+          "name": "Create a tiny isolated filesystem for real ENOSPC qualification",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-26T16:45:12Z",
+          "completed_at": "2026-10-26T16:45:12Z"
+        },
+        {
+          "name": "Run cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \\",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-26T16:45:12Z",
+          "completed_at": "2026-10-26T16:45:23Z"
+        },
+        {
+          "name": "Run cmake --build build --parallel 4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-26T16:45:23Z",
+          "completed_at": "2026-10-26T16:45:58Z"
+        },
+        {
+          "name": "Record TSan binaries, instrumentation and build provenance",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-10-26T16:45:58Z",
+          "completed_at": "2026-10-26T16:45:58Z"
+        },
+        {
+          "name": "Run diagnostic_args=()",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-26T16:45:58Z",
+          "completed_at": "2026-10-26T16:48:41Z"
+        },
+        {
+          "name": "Verify package, fault fixture, and CTest qualification regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-26T16:48:41Z",
+          "completed_at": "2026-10-26T16:48:45Z"
+        },
+        {
+          "name": "Enforce English maintenance and preserve historical exceptions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-26T16:48:45Z",
+          "completed_at": "2026-10-26T16:48:46Z"
+        },
+        {
+          "name": "Compile all Pawn examples with warnings treated as errors",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-26T16:48:46Z",
+          "completed_at": "2026-10-26T16:48:50Z"
+        },
+        {
+          "name": "Retain core test and sanitizer logs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-26T16:48:50Z",
+          "completed_at": "2026-10-26T16:48:51Z"
+        },
+        {
+          "name": "Unmount the isolated log filesystem",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-26T16:48:51Z",
+          "completed_at": "2026-10-26T16:48:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-10-26T16:48:51Z",
+          "completed_at": "2026-10-26T16:48:52Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-10-26T16:48:52Z",
+          "completed_at": "2026-10-26T16:48:52Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/check-runs/121709744161",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000001660,
+      "runner_name": "GitHub Actions 1000001660",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 121718984619,
+      "run_id": 40362033043,
+      "workflow_name": "build-and-test",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/runs/40362033043",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVGZTxs8AAAAcVwRPqw",
+      "head_sha": "4dd188bfb1ea1c6e56f3f4a275156bd2e489953d",
+      "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/jobs/121718984619",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/40362033043/job/121718984619",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T17:01:12Z",
+      "started_at": "2026-10-26T17:01:15Z",
+      "completed_at": "2026-10-26T17:01:22Z",
+      "name": "Verify downloaded x86 distributions",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T17:01:16Z",
+          "completed_at": "2026-10-26T17:01:17Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T17:01:17Z",
+          "completed_at": "2026-10-26T17:01:18Z"
+        },
+        {
+          "name": "Run actions/download-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T17:01:18Z",
+          "completed_at": "2026-10-26T17:01:18Z"
+        },
+        {
+          "name": "Verify and extract both uploaded packages",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-26T17:01:18Z",
+          "completed_at": "2026-10-26T17:01:19Z"
+        },
+        {
+          "name": "Prepare exact-source candidate inventory",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-26T17:01:19Z",
+          "completed_at": "2026-10-26T17:01:19Z"
+        },
+        {
+          "name": "Upload candidate sources, notes, dependency inventory and checksums",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-26T17:01:19Z",
+          "completed_at": "2026-10-26T17:01:20Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-26T17:01:20Z",
+          "completed_at": "2026-10-26T17:01:21Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-26T17:01:21Z",
+          "completed_at": "2026-10-26T17:01:21Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/itskoleban/omp-postgresql/check-runs/121718984619",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000001661,
+      "runner_name": "GitHub Actions 1000001661",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}
