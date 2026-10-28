@@ -76,16 +76,16 @@ Earlier cancelled workflow attempts retain their actual statuses.
 
 ## Phase continuity and remaining work
 
-| Phase | Current finite evidence | Remaining boundary |
-| --- | --- | --- |
-| 1: memory/resources | Integrated owner retirement, transaction-marker retirement, identifier/token boundaries and seven result-retention allocation scenarios | Named sites and accounting limits do not prove arbitrary OOM or hard RSS bounds |
-| 2: files/storage | Integrated bounded SQL reader and read/permission/descriptor faults; logger short-write, permission and actual ENOSPC cases | Filesystem/OS interruptions retain documented limits; historical logging observation remains unresolved |
-| 3: connections/concurrency | TLS, timeouts, cancellation, transactions, network recovery and instrumented project-code TSan | Issue #31 remains open; dependency internals and all schedules are not qualified |
-| 4: open.mp | Linux/Windows x86 source and installed full sessions, player-slot reuse, tokens, late SQL/provider callbacks and AMX lifecycle | The future deployed installation needs its own immutable freeze and applicable preflight |
-| 5: automated tests/fuzzing | Parameter/format and batch semantic regressions, resource lifecycle, fault controls and hosted sanitizer configurations | Finite seeds/configurations are not exhaustive fuzzing |
-| 6: platform qualification | Final PR-source and exact-master matrices independently verified; candidate selected from master-built packages | Evidence-checkpoint PR checks have their own source identity; target-host qualification remains pending |
-| First Astra review | Completed for integrated `4dd188b`; no new confirmed blocker | Preparation only; second review follows an actually authorized campaign |
-| Prolonged stability | Candidate/dependency packet prepared | Isolated runner absent; deployment freeze, target preflight and acceptance thresholds pending; 24 hours not authorized/not started |
+| Phase                      | Current finite evidence                                                                                                                 | Remaining boundary                                                                                                                 |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 1: memory/resources        | Integrated owner retirement, transaction-marker retirement, identifier/token boundaries and seven result-retention allocation scenarios | Named sites and accounting limits do not prove arbitrary OOM or hard RSS bounds                                                    |
+| 2: files/storage           | Integrated bounded SQL reader and read/permission/descriptor faults; logger short-write, permission and actual ENOSPC cases             | Filesystem/OS interruptions retain documented limits; historical logging observation remains unresolved                            |
+| 3: connections/concurrency | TLS, timeouts, cancellation, transactions, network recovery and instrumented project-code TSan                                          | Issue #31 remains open; dependency internals and all schedules are not qualified                                                   |
+| 4: open.mp                 | Linux/Windows x86 source and installed full sessions, player-slot reuse, tokens, late SQL/provider callbacks and AMX lifecycle          | The future deployed installation needs its own immutable freeze and applicable preflight                                           |
+| 5: automated tests/fuzzing | Parameter/format and batch semantic regressions, resource lifecycle, fault controls and hosted sanitizer configurations                 | Finite seeds/configurations are not exhaustive fuzzing                                                                             |
+| 6: platform qualification  | Final PR-source and exact-master matrices independently verified; candidate selected from master-built packages                         | Evidence-checkpoint PR checks have their own source identity; target-host qualification remains pending                            |
+| First Astra review         | Completed for integrated `4dd188b`; no new confirmed blocker                                                                            | Preparation only; second review follows an actually authorized campaign                                                            |
+| Prolonged stability        | Candidate/dependency packet prepared                                                                                                    | Isolated runner absent; deployment freeze, target preflight and acceptance thresholds pending; 24 hours not authorized/not started |
 
 The historical ASan cleanup run `40164306733` remains FAIL / ROOT CAUSE UNKNOWN
 under issue #31. The older Linux logging observation and prior local

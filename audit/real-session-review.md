@@ -36,11 +36,11 @@ future secret format can be recognized.
 The three historical failures remain FAIL in the original matrix and retain their
 original byte identities. Their sanitized views show:
 
-| Capture | Observed boundary | Comparison with successful final runs |
-| --- | --- | --- |
-| `development-failures/final-windows-custom-load.txt` | Components/provider loaded; last database event is state 1, readiness 0. No player or application SQL events follow. | Final `windows-complete-063191e/custom-load` reaches readiness 1, observes A/B on slot 0, rejects the stale load and closes its job. |
-| `development-failures/final-windows-custom-save.txt` | Startup did not produce the required readiness event before the harness deadline. | Final custom-save observes both old requests (2 and 3) after B connects; B keeps no account/score and both jobs close. |
-| `development-failures/qualified-windows-duplicate-two.txt` | The second server reaches database state 1/readiness 0 and then exits during cleanup. The concurrent registration phase was not reached. | Final duplicate run reaches both servers, submits both registrations and observes one winner, a 23505 loser and one database row. |
+| Capture                                                    | Observed boundary                                                                                                                        | Comparison with successful final runs                                                                                                |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `development-failures/final-windows-custom-load.txt`       | Components/provider loaded; last database event is state 1, readiness 0. No player or application SQL events follow.                     | Final `windows-complete-063191e/custom-load` reaches readiness 1, observes A/B on slot 0, rejects the stale load and closes its job. |
+| `development-failures/final-windows-custom-save.txt`       | Startup did not produce the required readiness event before the harness deadline.                                                        | Final custom-save observes both old requests (2 and 3) after B connects; B keeps no account/score and both jobs close.               |
+| `development-failures/qualified-windows-duplicate-two.txt` | The second server reaches database state 1/readiness 0 and then exits during cleanup. The concurrent registration phase was not reached. | Final duplicate run reaches both servers, submits both registrations and observes one winner, a 23505 loser and one database row.    |
 
 The retained `windows-tls-postgres.txt` contains five Winsock 10053 messages: one
 receive abort and four SSL-accept aborts. Four SSL messages occur at 08:03:04.271,

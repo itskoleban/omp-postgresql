@@ -1,4 +1,5 @@
 <a id="auditoría-de-estabilidad-v010--23-de-octubre-de-2026"></a>
+
 # v0.1.0 stability audit - October 23, 2026
 
 English translation of the maintained narrative at `c8528bf89068dfd33fd96bf7350ee59e599d278f`. Historical statements retain their original dates and scope; this translation does not rerun tests or change evidence. Numeric spelling and legacy heading IDs are preserved.
@@ -15,6 +16,7 @@ but final-revision Linux qualification, newly extracted packages and the remaini
 long/adverse campaigns are missing. This report does not authorize a stable release.
 
 <a id="identidad-y-alcance"></a>
+
 ## Identity and scope
 
 - Audited base: `3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f`.
@@ -28,24 +30,26 @@ long/adverse campaigns are missing. This report does not authorize a stable rele
   audit by the historical reviewer in `docs/independent-audit.md`.
 
 <a id="resultado-ejecutivo"></a>
+
 ## Executive results
 
-| Executed check | Result | Evidence |
-| --- | --- | --- |
-| Windows x64, GCC 16.1, libpq 18.4, official PostgreSQL 17.11/TLS server | **17/17 CTest**, zero failures/errors/skips; 226,20 s CTest | [JUnit](stability-evidence/windows-x64.xml) |
-| Windows x86, MSVC 19.51, project-patched libpq 17.11, PostgreSQL 17.11/TLS server | **19/19 CTest**, zero failures/errors/skips; approximately 205,7 s | [JUnit](stability-evidence/windows-x86.xml), [full log](stability-evidence/windows-x86-ctest.txt) |
-| Python | **81 methods**, 75,281 s | [Log](stability-evidence/python-final.txt) |
-| Official open.mp 1.5.8.3079 Windows x86, component built from source | Smoke and GMX/unload/reload, callbacks, extensions, bootstrap, sections, logging, performance and four tutorials: PASS | [Excerpts](stability-evidence/openmp-source-excerpts.txt) |
-| Pawn 3.10.11 | 13 public examples; 29 Markdown snippets and 70 declarations compiled; one explicitly incomplete snippet is not treated as executable | Local compilation with warnings as errors; does not replace Pawn execution |
-| Normal semantic fuzzing | 4.096 cases per suite and **100.000 additional cases** without sanitizers; extended seed 1592594996 | [Extended log](stability-evidence/extended-fuzz.txt) |
-| Helpers with Clang 22 ASan/UBSan Windows x64 | **4.096 cases**, seed 1096107081; no diagnostics, exit 0; 16,45 s | [Log](stability-evidence/asan-ubsan-helpers.txt) |
-| External supervisor, reduced execution | Completed integration/load and extended fuzzing, retains SHA and statuses; fallback cleanup unnecessary | [Summary](stability-evidence/external-runner-summary.json) |
+| Executed check                                                                    | Result                                                                                                                                | Evidence                                                                                          |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Windows x64, GCC 16.1, libpq 18.4, official PostgreSQL 17.11/TLS server           | **17/17 CTest**, zero failures/errors/skips; 226,20 s CTest                                                                           | [JUnit](stability-evidence/windows-x64.xml)                                                       |
+| Windows x86, MSVC 19.51, project-patched libpq 17.11, PostgreSQL 17.11/TLS server | **19/19 CTest**, zero failures/errors/skips; approximately 205,7 s                                                                    | [JUnit](stability-evidence/windows-x86.xml), [full log](stability-evidence/windows-x86-ctest.txt) |
+| Python                                                                            | **81 methods**, 75,281 s                                                                                                              | [Log](stability-evidence/python-final.txt)                                                        |
+| Official open.mp 1.5.8.3079 Windows x86, component built from source              | Smoke and GMX/unload/reload, callbacks, extensions, bootstrap, sections, logging, performance and four tutorials: PASS                | [Excerpts](stability-evidence/openmp-source-excerpts.txt)                                         |
+| Pawn 3.10.11                                                                      | 13 public examples; 29 Markdown snippets and 70 declarations compiled; one explicitly incomplete snippet is not treated as executable | Local compilation with warnings as errors; does not replace Pawn execution                        |
+| Normal semantic fuzzing                                                           | 4.096 cases per suite and **100.000 additional cases** without sanitizers; extended seed 1592594996                                   | [Extended log](stability-evidence/extended-fuzz.txt)                                              |
+| Helpers with Clang 22 ASan/UBSan Windows x64                                      | **4.096 cases**, seed 1096107081; no diagnostics, exit 0; 16,45 s                                                                     | [Log](stability-evidence/asan-ubsan-helpers.txt)                                                  |
+| External supervisor, reduced execution                                            | Completed integration/load and extended fuzzing, retains SHA and statuses; fallback cleanup unnecessary                               | [Summary](stability-evidence/external-runner-summary.json)                                        |
 
 Local ASan/UBSan instrumented `audit_fuzz.cpp`, `parameters.cpp`, `sql_sections.cpp`
 and `statement.cpp`: **not** the complete Engine, libpq, OpenSSL or AMX interpreter.
 There was no new local TSan execution. Engine x64 testing does not qualify an x64 server.
 
 <a id="cobertura-histórica-contrastada"></a>
+
 ## Historical coverage cross-check
 
 `docs/validation.md`, `docs/rc-readiness.md`, `docs/independent-audit.md`, the continuity
@@ -65,6 +69,7 @@ streaming/backpressure, limits, native boundaries, unload and logging. New tests
 complement those scenarios; existing suites were preserved.
 
 <a id="revisión-de-arquitectura-y-límites"></a>
+
 ## Architecture review and limits
 
 - **Engine and workers:** public registries belong to the owner thread; each worker
@@ -102,6 +107,7 @@ complement those scenarios; existing suites were preserved.
   limits are not a strict RSS bound.
 
 <a id="defecto-d1--medium--corregido"></a>
+
 ## D1 defect - Medium - corrected
 
 **Problem:** cancellation observed in `Lane::wait_socket()` could be published as
@@ -139,6 +145,7 @@ No new Critical/High component defect was confirmed in this work. This does not
 demonstrate absence of defects in every schedule or environment.
 
 <a id="carga-reducida-y-medición"></a>
+
 ## Reduced load and measurement
 
 Sustained phases of at least **120 seconds**, not 12 or 24 hours, used seed 1592594996.
@@ -165,6 +172,7 @@ samples. That partial capture is explicitly retained, **without inferring final 
 metrics**. The attached x64 text is derived from JUnit stdout and labelled accordingly.
 
 <a id="fallos-bloqueos-y-trabajo-no-ejecutado"></a>
+
 ## Failures, blockers and work not executed
 
 - **Earlier D1 failure:** retained and corrected; not erased from result history.
@@ -188,6 +196,7 @@ metrics**. The attached x64 text is derived from JUnit stdout and labelled accor
   qualified by this work. Limit tests and SDK doubles have narrower scope.
 
 <a id="automatización-y-criterios-pendientes"></a>
+
 ## Automation and pending criteria
 
 [Runbook](stability-runbook.md), [scenario matrix](stability-matrix.csv) and

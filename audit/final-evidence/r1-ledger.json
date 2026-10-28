@@ -1,213 +1,206 @@
 {
-  "scope": "R1 worker allocation investigation; no new general audit",
-  "base_master": "50418941453fa941ceb4821e268a004d747e8847",
-  "pr": 25,
-  "branch": "audit/v0.1.0-final-qualification",
-  "negative": [
-    {
-      "commit": "b6e2db1a46659d033160ba789b4e8e8b0c7057e1",
-      "run_id": 40047360530,
-      "job_id": 120732034299,
-      "result": "FAIL",
-      "exit_code": 1,
-      "reason": "bad_alloc after 127/4096 terminal queue publications"
-    },
-    {
-      "commit": "b9eb6706eb7df277bbae8e22b33062c23f5de27e",
-      "run_id": 40047842306,
-      "job_id": 120733515354,
-      "result": "FAIL",
-      "child_result": "Subprocess aborted (std::bad_alloc)",
-      "ctest_exit_code": 8,
-      "fixture_exit_code": 1,
-      "test_seconds": 0.14
-    },
-    {
-      "commit": "baafad0a85bf88f69783a664fe6da33e0388c585",
-      "run_id": 40048458262,
-      "job_id": 120735460054,
-      "result": "FAIL",
-      "child_result": "Subprocess aborted (std::bad_alloc)",
-      "test_seconds": 0.13,
-      "allocation_bytes": [
-        51,
-        64,
-        64
-      ],
-      "frames": [
-        "Lane::receive",
-        "Lane::run recovery deque",
-        "Lane::run final cleanup deque"
-      ]
-    }
-  ],
-  "positive": [
-    {
-      "commit": "93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122",
-      "run_id": 40048647471,
-      "job_ids": [
-        120736066781,
-        120736067034
-      ],
-      "result": "PASS",
-      "ctest_executed": 18,
-      "ctest_failed": 0
-    }
-  ],
-  "artifacts": {
+    "scope": "R1 worker allocation investigation; no new general audit",
+    "base_master": "50418941453fa941ceb4821e268a004d747e8847",
+    "pr": 25,
+    "branch": "audit/v0.1.0-final-qualification",
     "negative": [
-      {
-        "id": 12541892012,
-        "name": "terminal-allocation-b9eb6706eb7df277bbae8e22b33062c23f5de27e",
-        "size_in_bytes": 241,
-        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541892012",
-        "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541892012/zip",
-        "expired": false,
-        "created_at": "2026-10-24T01:01:33Z",
-        "expires_at": "2027-01-22T01:01:21Z",
-        "updated_at": "2026-10-24T01:01:33Z",
-        "digest": "sha256:222c36b07e10d9ee3786778a31c9187d330a373752ce6ec5c76e76a43eec2242",
-        "workflow_run": {
-          "id": 40047842306,
-          "repository_id": 1415992262,
-          "head_repository_id": 1415992262,
-          "head_branch": "audit/v0.1.0-final-qualification",
-          "head_sha": "b9eb6706eb7df277bbae8e22b33062c23f5de27e"
+        {
+            "commit": "b6e2db1a46659d033160ba789b4e8e8b0c7057e1",
+            "run_id": 40047360530,
+            "job_id": 120732034299,
+            "result": "FAIL",
+            "exit_code": 1,
+            "reason": "bad_alloc after 127/4096 terminal queue publications"
+        },
+        {
+            "commit": "b9eb6706eb7df277bbae8e22b33062c23f5de27e",
+            "run_id": 40047842306,
+            "job_id": 120733515354,
+            "result": "FAIL",
+            "child_result": "Subprocess aborted (std::bad_alloc)",
+            "ctest_exit_code": 8,
+            "fixture_exit_code": 1,
+            "test_seconds": 0.14
+        },
+        {
+            "commit": "baafad0a85bf88f69783a664fe6da33e0388c585",
+            "run_id": 40048458262,
+            "job_id": 120735460054,
+            "result": "FAIL",
+            "child_result": "Subprocess aborted (std::bad_alloc)",
+            "test_seconds": 0.13,
+            "allocation_bytes": [51, 64, 64],
+            "frames": [
+                "Lane::receive",
+                "Lane::run recovery deque",
+                "Lane::run final cleanup deque"
+            ]
         }
-      },
-      {
-        "id": 12541074577,
-        "name": "worker-allocation-b9eb6706eb7df277bbae8e22b33062c23f5de27e",
-        "size_in_bytes": 13399,
-        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541074577",
-        "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541074577/zip",
-        "expired": false,
-        "created_at": "2026-10-24T01:02:37Z",
-        "expires_at": "2027-01-22T01:01:21Z",
-        "updated_at": "2026-10-24T01:02:37Z",
-        "digest": "sha256:46b5ef88080f9da2f6962b813347aa3983160a89b94690372e85b48182e973c7",
-        "workflow_run": {
-          "id": 40047842306,
-          "repository_id": 1415992262,
-          "head_repository_id": 1415992262,
-          "head_branch": "audit/v0.1.0-final-qualification",
-          "head_sha": "b9eb6706eb7df277bbae8e22b33062c23f5de27e"
-        }
-      }
     ],
-    "trace": [
-      {
-        "id": 12542456427,
-        "name": "terminal-allocation-baafad0a85bf88f69783a664fe6da33e0388c585",
-        "size_in_bytes": 241,
-        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542456427",
-        "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542456427/zip",
-        "expired": false,
-        "created_at": "2026-10-24T01:09:14Z",
-        "expires_at": "2027-01-22T01:09:00Z",
-        "updated_at": "2026-10-24T01:09:14Z",
-        "digest": "sha256:6428defe84ad70fc052a0a311370fe92b57ddecb1badcde90a7e17c3b5100484",
-        "workflow_run": {
-          "id": 40048458262,
-          "repository_id": 1415992262,
-          "head_repository_id": 1415992262,
-          "head_branch": "audit/v0.1.0-final-qualification",
-          "head_sha": "baafad0a85bf88f69783a664fe6da33e0388c585"
+    "positive": [
+        {
+            "commit": "93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122",
+            "run_id": 40048647471,
+            "job_ids": [120736066781, 120736067034],
+            "result": "PASS",
+            "ctest_executed": 18,
+            "ctest_failed": 0
         }
-      },
-      {
-        "id": 12541509269,
-        "name": "worker-allocation-baafad0a85bf88f69783a664fe6da33e0388c585",
-        "size_in_bytes": 15373,
-        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541509269",
-        "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541509269/zip",
-        "expired": false,
-        "created_at": "2026-10-24T01:10:05Z",
-        "expires_at": "2027-01-22T01:09:00Z",
-        "updated_at": "2026-10-24T01:10:05Z",
-        "digest": "sha256:935f127e01bc9d354e96b205ac27e7315934e3da91c32cc9174b42bf234ea234",
-        "workflow_run": {
-          "id": 40048458262,
-          "repository_id": 1415992262,
-          "head_repository_id": 1415992262,
-          "head_branch": "audit/v0.1.0-final-qualification",
-          "head_sha": "baafad0a85bf88f69783a664fe6da33e0388c585"
-        }
-      }
     ],
-    "fixed": [
-      {
-        "id": 12542795977,
-        "name": "worker-allocation-93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122",
-        "size_in_bytes": 13671,
-        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542795977",
-        "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542795977/zip",
-        "expired": false,
-        "created_at": "2026-10-24T01:12:57Z",
-        "expires_at": "2027-01-22T01:11:31Z",
-        "updated_at": "2026-10-24T01:12:57Z",
-        "digest": "sha256:c4cd0c15a5a080b75e0809ec842e57bc4827f95ecfc56f54275af6642635daf5",
-        "workflow_run": {
-          "id": 40048647471,
-          "repository_id": 1415992262,
-          "head_repository_id": 1415992262,
-          "head_branch": "audit/v0.1.0-final-qualification",
-          "head_sha": "93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122"
+    "artifacts": {
+        "negative": [
+            {
+                "id": 12541892012,
+                "name": "terminal-allocation-b9eb6706eb7df277bbae8e22b33062c23f5de27e",
+                "size_in_bytes": 241,
+                "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541892012",
+                "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541892012/zip",
+                "expired": false,
+                "created_at": "2026-10-24T01:01:33Z",
+                "expires_at": "2027-01-22T01:01:21Z",
+                "updated_at": "2026-10-24T01:01:33Z",
+                "digest": "sha256:222c36b07e10d9ee3786778a31c9187d330a373752ce6ec5c76e76a43eec2242",
+                "workflow_run": {
+                    "id": 40047842306,
+                    "repository_id": 1415992262,
+                    "head_repository_id": 1415992262,
+                    "head_branch": "audit/v0.1.0-final-qualification",
+                    "head_sha": "b9eb6706eb7df277bbae8e22b33062c23f5de27e"
+                }
+            },
+            {
+                "id": 12541074577,
+                "name": "worker-allocation-b9eb6706eb7df277bbae8e22b33062c23f5de27e",
+                "size_in_bytes": 13399,
+                "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541074577",
+                "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541074577/zip",
+                "expired": false,
+                "created_at": "2026-10-24T01:02:37Z",
+                "expires_at": "2027-01-22T01:01:21Z",
+                "updated_at": "2026-10-24T01:02:37Z",
+                "digest": "sha256:46b5ef88080f9da2f6962b813347aa3983160a89b94690372e85b48182e973c7",
+                "workflow_run": {
+                    "id": 40047842306,
+                    "repository_id": 1415992262,
+                    "head_repository_id": 1415992262,
+                    "head_branch": "audit/v0.1.0-final-qualification",
+                    "head_sha": "b9eb6706eb7df277bbae8e22b33062c23f5de27e"
+                }
+            }
+        ],
+        "trace": [
+            {
+                "id": 12542456427,
+                "name": "terminal-allocation-baafad0a85bf88f69783a664fe6da33e0388c585",
+                "size_in_bytes": 241,
+                "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542456427",
+                "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542456427/zip",
+                "expired": false,
+                "created_at": "2026-10-24T01:09:14Z",
+                "expires_at": "2027-01-22T01:09:00Z",
+                "updated_at": "2026-10-24T01:09:14Z",
+                "digest": "sha256:6428defe84ad70fc052a0a311370fe92b57ddecb1badcde90a7e17c3b5100484",
+                "workflow_run": {
+                    "id": 40048458262,
+                    "repository_id": 1415992262,
+                    "head_repository_id": 1415992262,
+                    "head_branch": "audit/v0.1.0-final-qualification",
+                    "head_sha": "baafad0a85bf88f69783a664fe6da33e0388c585"
+                }
+            },
+            {
+                "id": 12541509269,
+                "name": "worker-allocation-baafad0a85bf88f69783a664fe6da33e0388c585",
+                "size_in_bytes": 15373,
+                "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541509269",
+                "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12541509269/zip",
+                "expired": false,
+                "created_at": "2026-10-24T01:10:05Z",
+                "expires_at": "2027-01-22T01:09:00Z",
+                "updated_at": "2026-10-24T01:10:05Z",
+                "digest": "sha256:935f127e01bc9d354e96b205ac27e7315934e3da91c32cc9174b42bf234ea234",
+                "workflow_run": {
+                    "id": 40048458262,
+                    "repository_id": 1415992262,
+                    "head_repository_id": 1415992262,
+                    "head_branch": "audit/v0.1.0-final-qualification",
+                    "head_sha": "baafad0a85bf88f69783a664fe6da33e0388c585"
+                }
+            }
+        ],
+        "fixed": [
+            {
+                "id": 12542795977,
+                "name": "worker-allocation-93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122",
+                "size_in_bytes": 13671,
+                "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542795977",
+                "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542795977/zip",
+                "expired": false,
+                "created_at": "2026-10-24T01:12:57Z",
+                "expires_at": "2027-01-22T01:11:31Z",
+                "updated_at": "2026-10-24T01:12:57Z",
+                "digest": "sha256:c4cd0c15a5a080b75e0809ec842e57bc4827f95ecfc56f54275af6642635daf5",
+                "workflow_run": {
+                    "id": 40048647471,
+                    "repository_id": 1415992262,
+                    "head_repository_id": 1415992262,
+                    "head_branch": "audit/v0.1.0-final-qualification",
+                    "head_sha": "93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122"
+                }
+            },
+            {
+                "id": 12542631267,
+                "name": "terminal-allocation-93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122",
+                "size_in_bytes": 241,
+                "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542631267",
+                "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542631267/zip",
+                "expired": false,
+                "created_at": "2026-10-24T01:11:46Z",
+                "expires_at": "2027-01-22T01:11:31Z",
+                "updated_at": "2026-10-24T01:11:46Z",
+                "digest": "sha256:8191ce634cb1e1f60d4c99595c6a8a427689eff31e4d9067dd23af87c219e542",
+                "workflow_run": {
+                    "id": 40048647471,
+                    "repository_id": 1415992262,
+                    "head_repository_id": 1415992262,
+                    "head_branch": "audit/v0.1.0-final-qualification",
+                    "head_sha": "93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122"
+                }
+            }
+        ]
+    },
+    "final_head": "See the current PR #25 qualification result; historical records above retain their own SHAs.",
+    "campaign_24h": {
+        "status": "BLOCKED",
+        "reason": "Registration, scope, isolation and availability of authorized pg-audit-isolated runner are unverified."
+    },
+    "limitations": [
+        "C++ ordinary allocations in Lane workers; not libpq/OpenSSL malloc or universal OS OOM.",
+        "TSan runs worker/queue concurrency without global operator new replacement.",
+        "No production services, local test workloads, tags, releases or changes to published RC artifacts."
+    ],
+    "supplemental_descriptor_diagnostic": {
+        "component_run": 40051203920,
+        "component_commit": "4a84446f0642cda34e690469e87dc819cb97267b",
+        "component_job": 120744214075,
+        "result": "FAIL",
+        "diagnostic": "UBSan invalid vptr in std::thread at actual EMFILE",
+        "independent_run": 40051890695,
+        "independent_job": 120746161268,
+        "independent_commit": "fbf87000381c5ee79bef0a245621286815636c59",
+        "independent_exit_code": 0,
+        "independent_diagnostic_result": "FAIL (runtime diagnostic); not a sanitizer PASS",
+        "component_code_linked_in_control": false,
+        "classification": "Reproduced sanitizer runtime limitation at complete FD exhaustion",
+        "final_combination_status": "NOT RUN: ASan/UBSan with complete FD exhaustion; normal/TSan FD tests and ASan/UBSan worker allocation tests remain enabled",
+        "simple_control": {
+            "run_id": 40051733934,
+            "job_id": 120745671252,
+            "commit": "c832833446d031a4ea73afc1708794309f7dab53",
+            "exit_code": 0,
+            "diagnostic": "std::thread invalid vptr under EMFILE",
+            "result": "FAIL (runtime diagnostic); not a sanitizer PASS",
+            "correction": "The initial summary incorrectly treated the job's successful exit as no reproduction. Full stderr reproduces the diagnostic."
         }
-      },
-      {
-        "id": 12542631267,
-        "name": "terminal-allocation-93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122",
-        "size_in_bytes": 241,
-        "url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542631267",
-        "archive_download_url": "https://api.github.com/repos/itskoleban/omp-postgresql/actions/artifacts/12542631267/zip",
-        "expired": false,
-        "created_at": "2026-10-24T01:11:46Z",
-        "expires_at": "2027-01-22T01:11:31Z",
-        "updated_at": "2026-10-24T01:11:46Z",
-        "digest": "sha256:8191ce634cb1e1f60d4c99595c6a8a427689eff31e4d9067dd23af87c219e542",
-        "workflow_run": {
-          "id": 40048647471,
-          "repository_id": 1415992262,
-          "head_repository_id": 1415992262,
-          "head_branch": "audit/v0.1.0-final-qualification",
-          "head_sha": "93da65a7e43fc244f2a32d7eb3ee6c4c3fb3e122"
-        }
-      }
-    ]
-  },
-  "final_head": "See the current PR #25 qualification result; historical records above retain their own SHAs.",
-  "campaign_24h": {
-    "status": "BLOCKED",
-    "reason": "Registration, scope, isolation and availability of authorized pg-audit-isolated runner are unverified."
-  },
-  "limitations": [
-    "C++ ordinary allocations in Lane workers; not libpq/OpenSSL malloc or universal OS OOM.",
-    "TSan runs worker/queue concurrency without global operator new replacement.",
-    "No production services, local test workloads, tags, releases or changes to published RC artifacts."
-  ],
-  "supplemental_descriptor_diagnostic": {
-    "component_run": 40051203920,
-    "component_commit": "4a84446f0642cda34e690469e87dc819cb97267b",
-    "component_job": 120744214075,
-    "result": "FAIL",
-    "diagnostic": "UBSan invalid vptr in std::thread at actual EMFILE",
-    "independent_run": 40051890695,
-    "independent_job": 120746161268,
-    "independent_commit": "fbf87000381c5ee79bef0a245621286815636c59",
-    "independent_exit_code": 0,
-    "independent_diagnostic_result": "FAIL (runtime diagnostic); not a sanitizer PASS",
-    "component_code_linked_in_control": false,
-    "classification": "Reproduced sanitizer runtime limitation at complete FD exhaustion",
-    "final_combination_status": "NOT RUN: ASan/UBSan with complete FD exhaustion; normal/TSan FD tests and ASan/UBSan worker allocation tests remain enabled",
-    "simple_control": {
-      "run_id": 40051733934,
-      "job_id": 120745671252,
-      "commit": "c832833446d031a4ea73afc1708794309f7dab53",
-      "exit_code": 0,
-      "diagnostic": "std::thread invalid vptr under EMFILE",
-      "result": "FAIL (runtime diagnostic); not a sanitizer PASS",
-      "correction": "The initial summary incorrectly treated the job's successful exit as no reproduction. Full stderr reproduces the diagnostic."
     }
-  }
 }

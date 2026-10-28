@@ -41,21 +41,21 @@ CTest supervisor. Every proxy is one-shot except the fragmentation relay. Recove
 may create a physical session; old application transactions require explicit finish
 and a fresh BEGIN. No original uncertain job is submitted again.
 
-| ID | Introduced fault and independent oracle | Required assertions |
-| --- | --- | --- |
-| begin | Drop BEGIN CommandComplete | UNCERTAIN, connection cause, item/context identity, old backend closed, explicit new transaction |
-| savepoint | Drop SAVEPOINT confirmation after an INSERT | UNCERTAIN; old transaction rejected before dispatch; zero rows and one identity attempt |
-| rollback_to | Drop ROLLBACK TO SAVEPOINT confirmation | Same transaction/session separation and persisted rollback oracle |
-| release | Drop RELEASE SAVEPOINT confirmation | Same transaction/session separation and persisted rollback oracle |
-| commit | Drop executed COMMIT confirmation | UNCERTAIN despite exactly one persistent row and one identity attempt |
-| rollback | Drop executed ROLLBACK confirmation | UNCERTAIN despite zero persistent rows and one identity attempt |
-| insert | Drop autocommit INSERT confirmation | One persistent row; identity sequence detects attempted duplicate execution |
-| hold | Keep socket open and withhold INSERT response | Timeout cause, UNCERTAIN, one committed row, subsequent explicit SQL succeeds |
-| partial_parse | Forward all but the final byte of a marked Parse frame and close | Conservative UNCERTAIN; zero rows; sequence is_called=false proves no INSERT attempt |
-| batch | Drop second item's INSERT confirmation | Confirmed prefix, uncertain current item, NOT_EXECUTED suffix; one row and one identity attempt |
-| fragment | Send frontend/backend frames in seven-byte application writes | Exact large result, successful BEGIN/savepoint/rollback-to/release/COMMIT |
-| tls_hold | Withhold opaque server TLS bytes after observing exact PID/SQL/PgSleep in PostgreSQL | TLS verified independently; timeout/UNCERTAIN; queued write fails NOT_EXECUTED; sequence unchanged; explicit new work |
-| tls_shutdown | Same opaque TLS hold, then destroy Engine with a queued write | Bounded destruction; dispatched uncertain/cancelled cause versus queued CANCELLED; original backend gone; no queued write |
+| ID            | Introduced fault and independent oracle                                              | Required assertions                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| begin         | Drop BEGIN CommandComplete                                                           | UNCERTAIN, connection cause, item/context identity, old backend closed, explicit new transaction                          |
+| savepoint     | Drop SAVEPOINT confirmation after an INSERT                                          | UNCERTAIN; old transaction rejected before dispatch; zero rows and one identity attempt                                   |
+| rollback_to   | Drop ROLLBACK TO SAVEPOINT confirmation                                              | Same transaction/session separation and persisted rollback oracle                                                         |
+| release       | Drop RELEASE SAVEPOINT confirmation                                                  | Same transaction/session separation and persisted rollback oracle                                                         |
+| commit        | Drop executed COMMIT confirmation                                                    | UNCERTAIN despite exactly one persistent row and one identity attempt                                                     |
+| rollback      | Drop executed ROLLBACK confirmation                                                  | UNCERTAIN despite zero persistent rows and one identity attempt                                                           |
+| insert        | Drop autocommit INSERT confirmation                                                  | One persistent row; identity sequence detects attempted duplicate execution                                               |
+| hold          | Keep socket open and withhold INSERT response                                        | Timeout cause, UNCERTAIN, one committed row, subsequent explicit SQL succeeds                                             |
+| partial_parse | Forward all but the final byte of a marked Parse frame and close                     | Conservative UNCERTAIN; zero rows; sequence is_called=false proves no INSERT attempt                                      |
+| batch         | Drop second item's INSERT confirmation                                               | Confirmed prefix, uncertain current item, NOT_EXECUTED suffix; one row and one identity attempt                           |
+| fragment      | Send frontend/backend frames in seven-byte application writes                        | Exact large result, successful BEGIN/savepoint/rollback-to/release/COMMIT                                                 |
+| tls_hold      | Withhold opaque server TLS bytes after observing exact PID/SQL/PgSleep in PostgreSQL | TLS verified independently; timeout/UNCERTAIN; queued write fails NOT_EXECUTED; sequence unchanged; explicit new work     |
+| tls_shutdown  | Same opaque TLS hold, then destroy Engine with a queued write                        | Bounded destruction; dispatched uncertain/cancelled cause versus queued CANCELLED; original backend gone; no queued write |
 
 Terminal delivery counts must be exactly one for each notifying job while its Engine
 is polled. Job/result ownership is checked using invalidated handles and weak-pointer
@@ -78,19 +78,19 @@ provider. They are not the official graphical client, NPCs or synthetic callback
 
 ## Coverage before and after
 
-| Boundary | Baseline | Added qualification |
-| --- | --- | --- |
-| TCP/SSLRequest/TLS/startup stalls | Three protocol stall phases, timeout/retry/disconnect/unload/destruction | Preserved; repeated real server overlap and startup during outage |
-| BEGIN and savepoint response ambiguity | Normal transactions/savepoint and cancellation coverage | Four explicit lost transaction-command responses |
-| COMMIT/ROLLBACK response ambiguity | Existing real-server loss/deferred COMMIT termination | One-shot loss with identity-attempt oracle and explicit logical recovery |
-| Partial transport / withheld replies | Fragmented fixture controls and stalls | Real Engine partial Parse, seven-byte framed relay, committed response hold and opaque TLS hold |
-| Batch interruption | Existing cancellation/resource/lifecycle tests | Confirmed/uncertain/unsent item vector and persistent/sequence oracle |
-| Database restart | Real restart and failed-pool recreation | Exact PID/SQL precondition and recovery with real playerid reuse |
-| Sessions | Nineteen cases per x86 platform | All nineteen retained plus two new cases |
-| Physical partition / OS short writes | NOT RUN | NOT RUN; proxy writes do not prove OS syscall short-write coverage |
-| Official graphical/encrypted client | NOT RUN | NOT RUN |
-| ASan/UBSan plus total descriptors | NOT RUN; external-runtime limitation confirmed | Unchanged; not reopened |
-| 24-hour campaign | BLOCKED | BLOCKED; never dispatched |
+| Boundary                               | Baseline                                                                 | Added qualification                                                                             |
+| -------------------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| TCP/SSLRequest/TLS/startup stalls      | Three protocol stall phases, timeout/retry/disconnect/unload/destruction | Preserved; repeated real server overlap and startup during outage                               |
+| BEGIN and savepoint response ambiguity | Normal transactions/savepoint and cancellation coverage                  | Four explicit lost transaction-command responses                                                |
+| COMMIT/ROLLBACK response ambiguity     | Existing real-server loss/deferred COMMIT termination                    | One-shot loss with identity-attempt oracle and explicit logical recovery                        |
+| Partial transport / withheld replies   | Fragmented fixture controls and stalls                                   | Real Engine partial Parse, seven-byte framed relay, committed response hold and opaque TLS hold |
+| Batch interruption                     | Existing cancellation/resource/lifecycle tests                           | Confirmed/uncertain/unsent item vector and persistent/sequence oracle                           |
+| Database restart                       | Real restart and failed-pool recreation                                  | Exact PID/SQL precondition and recovery with real playerid reuse                                |
+| Sessions                               | Nineteen cases per x86 platform                                          | All nineteen retained plus two new cases                                                        |
+| Physical partition / OS short writes   | NOT RUN                                                                  | NOT RUN; proxy writes do not prove OS syscall short-write coverage                              |
+| Official graphical/encrypted client    | NOT RUN                                                                  | NOT RUN                                                                                         |
+| ASan/UBSan plus total descriptors      | NOT RUN; external-runtime limitation confirmed                           | Unchanged; not reopened                                                                         |
+| 24-hour campaign                       | BLOCKED                                                                  | BLOCKED; never dispatched                                                                       |
 
 ## Commands and evidence contract
 

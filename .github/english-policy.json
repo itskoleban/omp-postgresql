@@ -1,745 +1,745 @@
 {
-  "schema_version": 1,
-  "purpose": "Explicit legacy residue checks and frozen historical/license identities; English prose still requires human review",
-  "source_commit": "c8528bf89068dfd33fd96bf7350ee59e599d278f",
-  "residue_patterns": [
-    {
-      "id": "legacy-term-1",
-      "pattern": "\\bcalificaci\u00f3n\\b"
-    },
-    {
-      "id": "legacy-term-2",
-      "pattern": "\\bpruebas\\b"
-    },
-    {
-      "id": "legacy-term-3",
-      "pattern": "\\barchivos\\b"
-    },
-    {
-      "id": "legacy-term-4",
-      "pattern": "\\bcontrase\u00f1as\\b"
-    },
-    {
-      "id": "legacy-term-5",
-      "pattern": "\\bejecuci\u00f3n\\b"
-    },
-    {
-      "id": "legacy-term-6",
-      "pattern": "\\bconexi\u00f3n\\b"
-    },
-    {
-      "id": "legacy-term-7",
-      "pattern": "\\bverificaci\u00f3n\\b"
-    },
-    {
-      "id": "legacy-term-8",
-      "pattern": "\\breproducci\u00f3n\\b"
-    },
-    {
-      "id": "legacy-term-9",
-      "pattern": "\\bpendiente\\b"
-    },
-    {
-      "id": "legacy-term-10",
-      "pattern": "\\bentorno\\b"
-    },
-    {
-      "id": "legacy-term-11",
-      "pattern": "\\binfraestructura\\b"
+    "schema_version": 1,
+    "purpose": "Explicit legacy residue checks and frozen historical/license identities; English prose still requires human review",
+    "source_commit": "c8528bf89068dfd33fd96bf7350ee59e599d278f",
+    "residue_patterns": [
+        {
+            "id": "legacy-term-1",
+            "pattern": "\\bcalificaci\u00f3n\\b"
+        },
+        {
+            "id": "legacy-term-2",
+            "pattern": "\\bpruebas\\b"
+        },
+        {
+            "id": "legacy-term-3",
+            "pattern": "\\barchivos\\b"
+        },
+        {
+            "id": "legacy-term-4",
+            "pattern": "\\bcontrase\u00f1as\\b"
+        },
+        {
+            "id": "legacy-term-5",
+            "pattern": "\\bejecuci\u00f3n\\b"
+        },
+        {
+            "id": "legacy-term-6",
+            "pattern": "\\bconexi\u00f3n\\b"
+        },
+        {
+            "id": "legacy-term-7",
+            "pattern": "\\bverificaci\u00f3n\\b"
+        },
+        {
+            "id": "legacy-term-8",
+            "pattern": "\\breproducci\u00f3n\\b"
+        },
+        {
+            "id": "legacy-term-9",
+            "pattern": "\\bpendiente\\b"
+        },
+        {
+            "id": "legacy-term-10",
+            "pattern": "\\bentorno\\b"
+        },
+        {
+            "id": "legacy-term-11",
+            "pattern": "\\binfraestructura\\b"
+        }
+    ],
+    "frozen_files": {
+        "LICENSE": {
+            "sha256": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
+            "reason": "Original legal wording and attribution"
+        },
+        "audit/final-evidence/asan-descriptor-failure.log": {
+            "sha256": "63586c9ded2e9a1ce0ed78d80706689a3065482c0474b897c58e00f419e03b13",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/final-evidence/independent-descriptor-diagnostic.log": {
+            "sha256": "6e4072679b95d18c67f3540c016d34529cd075312836ae7a1fd46c1c120064df",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/final-evidence/independent-descriptor-thread-diagnostic.log": {
+            "sha256": "edcf8e3cc0fa24d2d23738390ff31c2a792940902015d7a9bde8095415821a6a",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/final-evidence/queue-negative.log": {
+            "sha256": "42872200d0273bf5bdf2b682387feaae2929d5c6837110001dfeb254c64b0990",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/final-evidence/r1-ledger.json": {
+            "sha256": "22b6f27a157ad10627aa46958ea207c534899545ccdcb33d6d5386ae55772b3f",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/final-evidence/worker-fixed.log": {
+            "sha256": "71ed6e11f708f4b02d23dff1e8a4734783f3e205a993a732138f0631e8b27c77",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/final-evidence/worker-negative-trace.log": {
+            "sha256": "993aacbc9224b623b39264e948845ffc1e02d371780ae168bda02fcb5b47247e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/final-evidence/worker-negative.log": {
+            "sha256": "51ba23657986f243e0c709e7ef329aef371a339e08926c583ab0a249d00b0a0c",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/qualification-71cdf6f.json": {
+            "sha256": "502c058a906059577524fc2546b0eddadf003f705ab886556c0966ddabc836f4",
+            "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
+        },
+        "audit/real-session-evidence/client-build-linux.json": {
+            "sha256": "c425db52ac949f324d936f383ccaff8385a4c4ac345e6c6de0bc5c2ededa6f89",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/client-build-windows.json": {
+            "sha256": "bd3c72edfcd479314921674020852c4b9ddb6fd19d7db5daf35f521c4d148ebc",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/ctest-linux.xml": {
+            "sha256": "33719337e5f0df7ffb7124c04d0f94cb9a7548f451160be6d6d13f92a60f26db",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/ctest-windows.xml": {
+            "sha256": "33ed7b3aaf2dd792815f596d08391f6e4661a58800ff1f8916b1ec70c93203e4",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/development-failures/ci-recovery-oracle/results.json": {
+            "sha256": "a8825bad2d96882d65b0f9dee688ff6acc3ddacb0132dd6053c4731594ed4f8e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/development-failures/ci-recovery-oracle/server-output.txt": {
+            "sha256": "a54a36c37c3b91b1970ad7b46622c97a746f88e27e99001a5922d9c5cdb8a837",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/development-failures/final-windows-custom-load.txt": {
+            "sha256": "21d0d7e101fbdccf5c727f8e6e80fe41aca4742d4770f72c80314253319703ee",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/development-failures/final-windows-custom-save.txt": {
+            "sha256": "a5af65d2879f48b505a9eb4b638665f1ab5e076db88a4ff016408d272b83dcc2",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/development-failures/qualified-windows-duplicate-two.txt": {
+            "sha256": "f8c72a46ac181d91be4df262ba8fa78fb7f422377414232480e809a006aa8b19",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/development-failures/windows-tls-postgres.txt": {
+            "sha256": "6f16221af9b175962263c732ff4d97aa31beaddf8338d1b17425156a55ac6ceb",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/cancel-lookup/QCancelA-596b24/client-output.txt": {
+            "sha256": "27abf3c4bfa896bad659d21959f8b1161eb92185f4a95dd70a1d6e8cb5b27f72",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/cancel-lookup/QCancelB-3c64ea/client-output.txt": {
+            "sha256": "9e7042fa3f40ea204f1d68c7501e30a4ac9fdf05493b7484d4a8e0e3d45ca330",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/cancel-lookup/server-output.txt": {
+            "sha256": "1744e5ab5ecde8c19c754c86f56af3b7a1818b9540268a64360d691c32f28e0e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/concurrent-verify/QConcurrentA-9335f7/client-output.txt": {
+            "sha256": "04a7eb0b3aaa95cd2c5c18f1e31bb39c2f479d5c8514131c4d97633f36fd0e72",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/concurrent-verify/QConcurrentB-4c109a/client-output.txt": {
+            "sha256": "de1cd9f1043a0119328a48fdf5d2d1d64e6c20d75fe76ce16ab6504abf41100f",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/concurrent-verify/server-output.txt": {
+            "sha256": "c18ab8686f53b207846e72e112a20f24ecc8bab4c0743f47bbc65a2fc6c62664",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/custom-load/QCustomA-57aebf/client-output.txt": {
+            "sha256": "a06a8633bab9c8df04b03fdd042cec1553e1ad8bbf7c5f680adc0e0f32ce635a",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/custom-load/QCustomB-b52bb9/client-output.txt": {
+            "sha256": "a4b0e5782257ddc5d871619721be08dd80463d5ecf2e470c409fefef3c35c7eb",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/custom-load/server-output.txt": {
+            "sha256": "8635d41b122faa9568a981c15d9d10cd3c4b4ebab1e1ecba67a3245404b92f59",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/custom-save/QCustomA-eb2163/client-output.txt": {
+            "sha256": "906eaa66322442c8f2d9cd8ac11569268d60f8cd4a9e7b5a911628b7ae6de85f",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/custom-save/QCustomB-b46aea/client-output.txt": {
+            "sha256": "287332d5cc2c2cefdc0ad0e4d3208548f2a6409d472667b244fcc1abfab1eed4",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/custom-save/server-output.txt": {
+            "sha256": "de8c4ff6490b09a0c61742769b75afa2a8ccb6245c8c0e5ebb2e5e098abb6582",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/database-recovery/QSeed-82260a/client-output.txt": {
+            "sha256": "edf515dddcf13cbebe979371ee33e98131b8c9c941342362122cd34b1e3d7d8d",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/database-recovery/server-output.txt": {
+            "sha256": "19903de355588755aff54bf331c0d141c7336b6ae236552c92763ad2f08e8bb9",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/duplicate-one/QDuplicate-d1812b/client-output.txt": {
+            "sha256": "5aab0d4bdd8489cb8167008bcd90070ec5120eb84dfda2a222927114d16ec4e8",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/duplicate-one/server-output.txt": {
+            "sha256": "445fdb87f918bb5f1009d04a4748c4c520a44e239a881b49a79cfaf3848b805d",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/duplicate-two/QDuplicate-170eb8/client-output.txt": {
+            "sha256": "19090af6fe923257f84482de2dab79ec733fec9c308ecbdf19a86f0349ac3f9e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/duplicate-two/server-output.txt": {
+            "sha256": "a98f6f0356318f05979ca7d6ded72201db95a9f0ff007985d059b5a83b3522dd",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/gmx-provider/QReload-357acc/client-output.txt": {
+            "sha256": "c90c0ace2d8b20c44799962d633ee1b11193163e544a9e1159ffa456c0017c19",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/gmx-provider/server-output.txt": {
+            "sha256": "346f1f0a4d23de1279d4ef2a4bab16e37769104ea842ae11b8c0d4f6a7f1a513",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/insert-response-loss/QLostWrite-5e2004/client-output.txt": {
+            "sha256": "822d6b99ce1fcd3c448e21584e0f0de1549582892b937a6b6dc487014676ab3d",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/insert-response-loss/QLostWrite-6c1dbf/client-output.txt": {
+            "sha256": "efe5cc6aac941364934e9cd3eb7e2554af7a603b141eb0ec9dca1a9ab7518e7e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/insert-response-loss/server-output.txt": {
+            "sha256": "3c02d1469a1097731cd80718af2712bea7e6ea4d578a8e8ad4a0f38c633e20c7",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-hash/QHashA-8bbadc/client-output.txt": {
+            "sha256": "977fb3157f92dc9cb72c8a8f3dd09c665e2b4e22821250dcc2b2123948b44e35",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-hash/QHashB-d514e8/client-output.txt": {
+            "sha256": "2d5ad16cd3cdfdf91ee0e255cdb19228ecbf81d127dbfd0352f1a8351d1ec2c3",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-hash/server-output.txt": {
+            "sha256": "c9aae2f2c4b2aa70a2f9df7b5b59ffbd79eeeba5f1a36a6c24315a9e10e59037",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-insert/QInsertA-d23ede/client-output.txt": {
+            "sha256": "55096c7e0cba08137151b3ae6717f30da7c6a65464433b1c0e44c44e5848a276",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-insert/QInsertB-e21641/client-output.txt": {
+            "sha256": "7506769bf85c757e6a889fc5176790ddb9f1c8d6d33063e2b0f7096157a5daec",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-insert/server-output.txt": {
+            "sha256": "1cc6520fec679319ec525f65e89a1bd6dfa1a116807f732a3632f8af9e4ed005",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-lookup/QLookA-f8b052/client-output.txt": {
+            "sha256": "92adb33ffa83a3fc301e428cb5496a026523be4ae4d3ac023aeadaa46ead4f9e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-lookup/QLookB-12c5a8/client-output.txt": {
+            "sha256": "168fc76fc045840f9624e0291a3368e489b722b86a3d0cd740f4f79998cc50f1",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-lookup/server-output.txt": {
+            "sha256": "cdd290ed2dfa81d7836c2e1c3fcc51c5be65a3098c386ba6953dd9cad868cc39",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-verify/QVerifyA-94d3d7/client-output.txt": {
+            "sha256": "eab7d22eeb1bbb82750f60b9b57db04d04ba681a510b700b4171dd9c2f86d974",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-verify/QVerifyB-947d43/client-output.txt": {
+            "sha256": "6b878d89de0d50f68672ae388f5b929b6beae14ad7373caffa55be49042ad5e1",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/late-verify/server-output.txt": {
+            "sha256": "d1113d3692e468b69bcf13781749b8a465aa925b979527ac1a9d7035568757fc",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/login/QSeed-c0b8be/client-output.txt": {
+            "sha256": "17f4ab59d14d97bbdd01b636e79e606d12223ceb670aca92c221b30ff100a1fc",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/login/server-output.txt": {
+            "sha256": "2a702176ee53c90a8311ac880afb4de2c20eb31cbbee964992f7973640ab6f6e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/official-npc/QNpcControl-288ffd/client-output.txt": {
+            "sha256": "6c53911508ec15aa94a453d773b7d52b4e1fd6a4c667026b3a8cbf6395d63ead",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/official-npc/server-output.txt": {
+            "sha256": "8868e1c8dc55db2a1a876898878ee02dc607cc8375ef0278047e35d802234ee6",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/postgres-recovery.txt": {
+            "sha256": "1e71001bad1c6c15d18b94ca0c08e4b5c2e03092a42c069bcc69255efa07a2c2",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/postgres-restarted.txt": {
+            "sha256": "b83470b18a4ee932d78479d7cc56c2588b8da57493d50eebedc8c4d31bf6d729",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/provider-timeout/QTimeout-5029aa/client-output.txt": {
+            "sha256": "da0a6e41697629808afb12749cf7cd1906c5157e9fbfb5323d12a52fd8ca719a",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/provider-timeout/server-output.txt": {
+            "sha256": "7fd15af44bdad0cd632571e4eeaf37b193ac380c608647d26aed71b175efde52",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/registration/QSeed-6aa396/client-output.txt": {
+            "sha256": "f1af3d5d9f79a677fa493e3a510800b28190521f814a0bfdb632102530dd63e1",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/registration/server-output.txt": {
+            "sha256": "d1e6ff45736a008215ca4d042d71da011159cdd9954a774f1ba483c45d512790",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/results.json": {
+            "sha256": "45f721dd122bb05fcb17a2532ce00eefe276d43e868fb23fca7127c6fae06bf5",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/shutdown/QShutdown-2c024c/client-output.txt": {
+            "sha256": "53c8550dc4775d499d1638c9cd0cdf58ea81fd035d20deb75c32e7933602da4f",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/shutdown/server-output.txt": {
+            "sha256": "71620ad01bcf880637bfdd4f2d62825e594d12901d94c2ee478abb13e071eaee",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/slow-seed/QSlow-3d52b1/client-output.txt": {
+            "sha256": "fffea4d1f7ba219d87db520a1ef66e17032b3b2dccb2ac36042ad4647ac833da",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/slow-seed/server-output.txt": {
+            "sha256": "97e2ebaf9da337e45c2129ce674ac945cbdf23ca163add6ee352c6df328e08ac",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/wrong/QSeed-da5aa4/client-output.txt": {
+            "sha256": "a74a5127f8298e6ba14d08906a803f08421db8967c42b312f2e85e29fc52fce0",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-complete-28933d1/wrong/server-output.txt": {
+            "sha256": "1f390a861ae0cc943c8e64ca98371b023bff95a23e13a082c2492108bd301f2e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-insert-replay-063191e/insert-response-loss/QLostWrite-8cbe2e/client-output.txt": {
+            "sha256": "7f84c5f44af55eb5f97476847482e23c0a3801385b951d9b704a589fded2da96",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-insert-replay-063191e/insert-response-loss/QLostWrite-ec4230/client-output.txt": {
+            "sha256": "160304808e67859ebfe183ad4dcf5747112eb682f17a3c5d6a6d73ab72bc241e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-insert-replay-063191e/insert-response-loss/server-output.txt": {
+            "sha256": "b683a63fb6ac0a484a31163309905dc7daf3589cbc1a03cf57a46664d87676a6",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-insert-replay-063191e/registration/QSeed-599907/client-output.txt": {
+            "sha256": "59fe195fd6b9c90a18934b7270ba1d862194509d91379b973730bf988e987fc7",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-insert-replay-063191e/registration/server-output.txt": {
+            "sha256": "be8810f68967a83d6ae4e38eddb14ff343a85c276b017cc1b21622f4551f6c15",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/linux-insert-replay-063191e/results.json": {
+            "sha256": "784ced9d1d0790ba04c79cb107189e9ac8bef6372764c3f803fefb58607362fc",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/original-sha256.json": {
+            "sha256": "25d05c1d1bd0b6faaf6c119d62b797bb693d21e5ec01a5a4edc2437d9b81059b",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/python-tests.txt": {
+            "sha256": "7714a297ae1badf2b59ac74af6ac5e16afd64a39ef3216b465987addbb600cde",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/sanitization.json": {
+            "sha256": "d14c62bc2ca343520a98a3642cec3d44209e07e21bf71007ae1f6181ab61faaa",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/sha256.json": {
+            "sha256": "875e0268d54753d31605b9dba037b64f718f2426acc159231d9ba3365b3db0c0",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/cancel-lookup/QCancelA-da98ba/client-output.txt": {
+            "sha256": "167c147ea1d835aedaf986ab7000f08f9df7637fe9f0c918ff628df61ec5e561",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/cancel-lookup/QCancelB-9a98ab/client-output.txt": {
+            "sha256": "b67fe8a58cd8a74602ef837462a41e69cac793924145b35c8ace76668fcc1ba6",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/cancel-lookup/server-output.txt": {
+            "sha256": "340f8934db4bb22348bd25280e03ec7c6bb695a3f9e51b7ec946acfeff4f09b2",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/concurrent-verify/QConcurrentA-d98c68/client-output.txt": {
+            "sha256": "9479cb8b49735c21ef92bde7e891b773d9883a300f79e9f8ca1827a88391c988",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/concurrent-verify/QConcurrentB-04a5a1/client-output.txt": {
+            "sha256": "2c2f3f506e2bd01a49cd65660f38b1d198e634beb65737a35729f9ccff7ac74b",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/concurrent-verify/server-output.txt": {
+            "sha256": "f7fd1f8f9e3e3344c4de11a61ae4e179c030b8f3dd28c35ebaa362ede8516aff",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/custom-load/QCustomA-8a1d54/client-output.txt": {
+            "sha256": "854f1e14732537d122132fba3f3e25c6c3301d522eaf10f742f54d91d68f10ad",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/custom-load/QCustomB-629a49/client-output.txt": {
+            "sha256": "9f36bb19dd850fa52ac491960018a937110450ebb7a9cf27feb709245c27afde",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/custom-load/server-output.txt": {
+            "sha256": "8f357ac30c5d8ff999c1da3b293c104ec3a20e001a7d3436d29a1d6c25c85542",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/custom-save/QCustomA-389b49/client-output.txt": {
+            "sha256": "4a6cbcd0df55974e4cd418661173416a2ca39cccc2410596b304df31b633904e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/custom-save/QCustomB-09fbe2/client-output.txt": {
+            "sha256": "f81713d19a24eed7ba3f19271f1b05089847bff96540c7520713d666c903842d",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/custom-save/server-output.txt": {
+            "sha256": "5a3464cab4c3f07432b6cb6f20822e2507288ce199e4b41f80d715c15421bfd1",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/database-recovery/QSeed-0ab6f4/client-output.txt": {
+            "sha256": "41a8d6dbe21dd171b8975813e960ed34979a8f0a0a1f947242f9a8b12ee1225b",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/database-recovery/server-output.txt": {
+            "sha256": "7d10b52f538058624e5fffd36f9c8bba4db961ca1474948024f91804b69812a6",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/duplicate-one/QDuplicate-201597/client-output.txt": {
+            "sha256": "1a1672717c3e42cfb3b18b9cb6421c053c5f2d734f601e4c561a2366d3e754fc",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/duplicate-one/server-output.txt": {
+            "sha256": "76354849475fe5435f8454159c0a2a2b5c390cfc1f6ad7b84737c7205c40e996",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/duplicate-two/QDuplicate-cdbc2e/client-output.txt": {
+            "sha256": "6eda425b932a733e747e85f4efd3c0cb3430f9eb0876d1a1b0bf94c899b50db9",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/duplicate-two/server-output.txt": {
+            "sha256": "d5dcff51e3e6386a41cfbc9fa2923f727008aabbee07516315bc4af5cec63a93",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/gmx-provider/QReload-1d89d8/client-output.txt": {
+            "sha256": "9d66705530415e54fef0dc3ce235a69dd4e478e91fd9cff37722e27224621cfa",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/gmx-provider/server-output.txt": {
+            "sha256": "7f63f1f78ce377f08d7d78b2fa1f9cccfce7783cdada79e7b0020956e5e85aec",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/insert-response-loss/QLostWrite-764e5a/client-output.txt": {
+            "sha256": "8e83c9b3b2ac8a43df62fc97d044162828c0ca0d40e548b3c9396651479e288e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/insert-response-loss/QLostWrite-eb1799/client-output.txt": {
+            "sha256": "b38c53547361889b0987e675e364a063cf55996681cfd0673ae2bdbba19044f2",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/insert-response-loss/server-output.txt": {
+            "sha256": "f2446bbeaf5484ddcb6857b6e696ba83d47d336be294dfb4a82d53de7a9130f5",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-hash/QHashA-8d3699/client-output.txt": {
+            "sha256": "57854cc9718d909b950d2a9e7cfaebdd2df7c42e4ae0a1b376e0ef406b6eebc4",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-hash/QHashB-d09695/client-output.txt": {
+            "sha256": "75a4986c2bae67bcc288785a16509734f2e5a660380af3c8c00bd4033e087be3",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-hash/server-output.txt": {
+            "sha256": "173efa01f417097e8561f2360abec63c2d7068293c8fbcee8a1671e24cb8fd90",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-insert/QInsertA-805278/client-output.txt": {
+            "sha256": "06cbafaa3d20169294a7285eaceba9bc4cdf6644cb9b7745610222174ee6b3bc",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-insert/QInsertB-d3478e/client-output.txt": {
+            "sha256": "cb79427210e0522af6cf41c937792d184295700cfe6faa0212e2c5cc42ab0553",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-insert/server-output.txt": {
+            "sha256": "cc238fcd05ef365688a6ddd9c065e9e7954faeaec782011251253851b1f0b0fa",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-lookup/QLookA-dbe140/client-output.txt": {
+            "sha256": "0678a765838556f299bbd40fed34edfc15db9ec9b59a41e61e3803c9263f3d71",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-lookup/QLookB-e45d2c/client-output.txt": {
+            "sha256": "d4c438ea52a7f7e2771a8391f1bdfc73268fb4ccfaadb5d930cb1451aa1129e2",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-lookup/server-output.txt": {
+            "sha256": "7d48b142149b1e729f7a1011962e346ea7c8ea55c63b0ea983de7f03a42dd929",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-verify/QVerifyA-5677da/client-output.txt": {
+            "sha256": "72136d5de1f87fe24eab7cf212f99294b7796da79f35d7545304d310ca2210f0",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-verify/QVerifyB-edd977/client-output.txt": {
+            "sha256": "f35e1f93e41ed28913d7b69898de14334686cc36ac327268d66b2a86ef2fefb9",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/late-verify/server-output.txt": {
+            "sha256": "cf830984fa444d5c21e7ccd646220581f9483f1348bad693759262950374ccfa",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/login/QSeed-95ad74/client-output.txt": {
+            "sha256": "d2fc287a12d3ba21ee46b0099ef47b6626c718d317e1135ddc32828fcfe1a023",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/login/server-output.txt": {
+            "sha256": "a216a2c57abbec7b011ee75cdd465c12707634e7684b57ff55231a5723ef86f7",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/official-npc/QNpcControl-a13b77/client-output.txt": {
+            "sha256": "c47c3f58f085a298d17a868d04d5521ca4faf00768a5b44a0ec0658ec323aa28",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/official-npc/server-output.txt": {
+            "sha256": "8f138356978e05da2aed7ad4892bdb512cfc9591a92e55d67862b439a2a59ac4",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/postgres-recovery.txt": {
+            "sha256": "b77ad30cda1127c22f69f2343ff74539e64e6f803226cb19b05aad5bb2ab23bc",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/postgres-restarted.txt": {
+            "sha256": "d657822e5fe3f4e39ace8b36321520018acd3d90ca821f0cd14064430c4e7f7c",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/provider-timeout/QTimeout-83886e/client-output.txt": {
+            "sha256": "f38afdab059a3e1dfe960e4aeeeec3266c8f7046195f551ef48f142103555365",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/provider-timeout/server-output.txt": {
+            "sha256": "5d346fc589a9584404f844010b8c3a8437b1ad47919d60d9cf1f6e6d677f09a9",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/registration/QSeed-4f35b2/client-output.txt": {
+            "sha256": "75e3644f00c44a8f91198266f536daf345dc72a68ab2252d5ae2eef3193ad367",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/registration/server-output.txt": {
+            "sha256": "ccf6fabf519b318c6d6f2c23dc502b882e841dcf3c92b1b9846c5f115173d511",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/results.json": {
+            "sha256": "a1abc1358909c864f92324007e836844ffa8a002564933189d364ad531df06a2",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/shutdown/QShutdown-85a6dc/client-output.txt": {
+            "sha256": "9dafaf129472d7f81a53fe516e91f89b674e1259f7094943d7a0aaa65388f12d",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/shutdown/server-output.txt": {
+            "sha256": "6bdaad74f7f7a7655503e22134bd8e4789bfcfad684205174a0dfffd31b8c880",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/slow-seed/QSlow-f1e9d4/client-output.txt": {
+            "sha256": "14f012cd1eeb2c46e0ccba620544735af256a6f4d321feaaf00b5f848b0c64ae",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/slow-seed/server-output.txt": {
+            "sha256": "d00d10bcd88e545d68e0c5900967b549fd37135e93b351c9822b5daf3af28f8a",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/wrong/QSeed-e86088/client-output.txt": {
+            "sha256": "4eb3476ad870fc856945fdc2bc3e642386349c004b3a0ded78c6131a26b35a01",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-complete-063191e/wrong/server-output.txt": {
+            "sha256": "415309052cfdcd0a5eddfa28d57be30ba9152ecf634691c20edc6ff76aa0d35e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-insert-replay-063191e/insert-response-loss/QLostWrite-595b25/client-output.txt": {
+            "sha256": "9618086439f67a82d17799375fe6698eb5403d24ad88a3380755f61fcbef9039",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-insert-replay-063191e/insert-response-loss/QLostWrite-9fe56d/client-output.txt": {
+            "sha256": "92ffadd16e03b7b5fd973073bea1585ba69b4f4fb7ccc79b84bddd60a224cf1c",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-insert-replay-063191e/insert-response-loss/server-output.txt": {
+            "sha256": "f9c54610893dfd8515c7857876896013ed2f2456a2f57e0bfb3785eaccd8c178",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-insert-replay-063191e/registration/QSeed-322271/client-output.txt": {
+            "sha256": "8b387d68beb88a9c95430abd70d524abb9fb25813d0f1263fc5137c4b761ba46",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-insert-replay-063191e/registration/server-output.txt": {
+            "sha256": "d46a7b909946fc2654c2b1a223ceb31f6129cc11c7bf73ca40034badda6bc96f",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-evidence/windows-insert-replay-063191e/results.json": {
+            "sha256": "a408b651c014b239af1df9f0f7e4eed6216d0a3cf1e92ece51593d8cf0d488d2",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/real-session-matrix.csv": {
+            "sha256": "bb83a72fb7a1c464a9e76820c826aa6a50ae955768828704e532b14eadf15254",
+            "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
+        },
+        "audit/stability-evidence/SHA256SUMS.txt": {
+            "sha256": "682247309578faadc79f65fbf4fd04196d200b14967d1a64bc29744ae9e64525",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/SHA256SUMS.txt": {
+            "sha256": "f6b1e3d116079a366113fb06d5819b65c30688c7d72a6d327b0a5f72357b5802",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/ledger.json": {
+            "sha256": "dcc115f3c1393c223a5c88e1414153095d6a4a5930469e0ce2e6f703b20d4ad9",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/mutation-audit-head.txt": {
+            "sha256": "460492bf0feda985670342d49b7df52f60f8021cb075525f3a54122a3b07b44b",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/mutation-original.txt": {
+            "sha256": "a92c5d75ecf9167e46f9bded3d3dc7a2fc992db574b282845d4088fdd4d447cd",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/mutations.json": {
+            "sha256": "70fd97e90c9d6d20b4fdf270dcf9fac4e5317fce13f4196d5a10f88b828abe4e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/original-repro-after.txt": {
+            "sha256": "7a0bcfe0ac8c4261a339806ee6d7f290a14ee376ab418593dec18338eb445c24",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/python.txt": {
+            "sha256": "a5e83b50fc007ebbeb1854bae90bd5c2e104e841f8ee3770c513f2aeacb43181",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/windows-x64.xml": {
+            "sha256": "f5f9f8844b2f6b5c7002cab99e199d653bf5b279f9f25488a332856bc7496606",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/a1-a2/windows-x86.xml": {
+            "sha256": "98b34e74428da4993a17624d77ad4e67aaf6c0e8d0370a3f462bad9c66f89e7e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/asan-100000-incomplete.txt": {
+            "sha256": "e4269f91bb7b63a5dc964173f4529d1f4b9e29b97c94b18f6fff0f2a653be92e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/asan-ubsan-helpers.txt": {
+            "sha256": "d5e642bf190ae610f382ae6adfdce4cfa887ed55942679b16a41d950d381175e",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/baseline-provider-18.4.xml": {
+            "sha256": "7c8d00b64a6a81c6f309a266658bab3e32c22614952548e9fe6123c57028beab",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/cancel-before.txt": {
+            "sha256": "773a32eaa47cdbfb4185d08a8554c367839b5807854e65eb2a900fc5ef7b00c8",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/extended-fuzz.txt": {
+            "sha256": "34b1f18815b9f30e040c3a101d9b37741b328302526af741a5e232bfca678548",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/external-runner-summary.json": {
+            "sha256": "16876f8cad71fd796e43acb0093ee0649e02a131d5d0b6ba8c7653a227f07b68",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/historical-ci-excerpts.json": {
+            "sha256": "59131bcaa1bb35a48acc99698319a2ab83aa1deb57f09f4aca14a6eeb3523304",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/ledger.json": {
+            "sha256": "d8b81636c96afccf0bb1dfe3ae2873d9bd16ae7b13d8cf68ee9bc7e25fbd97a1",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/metrics-summary.json": {
+            "sha256": "481fdbe72dc8691d8e403ec2ad731e23fe6f26d0a6e25267ffc59c69b88efab6",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/openmp-source-excerpts.txt": {
+            "sha256": "0f12db03010b81741e67df83e76db3bb554aa7cb2e72de0a3efc3681373a6e94",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/provider-18.4-excerpts.txt": {
+            "sha256": "680861a9c6041a9f5c431c4f17965867d897052dee3e79c5a46e9c34e643c688",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/python-final.txt": {
+            "sha256": "579b508c7492119c81d9e3b4966c8d03398be668331297af718430adabfbf9c6",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/stress-x64.csv": {
+            "sha256": "553eab7434e84bf0750bb70fc2f0bebbfac5cb4136f1a0ed2c7b9a6620cb13bc",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/stress-x86.csv": {
+            "sha256": "6f184516cc9f4213432ecd3d052510a0e1fb57f9fef49840cb775254265ee46d",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/windows-x64-ctest.txt": {
+            "sha256": "d7e9d0764ffedbf99b0f397525fa2910cd55d30c349356c19f57cf5bb0ec6eaa",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/windows-x64.xml": {
+            "sha256": "928d9a05216347b0c77f034b8e6df1be5c47e3cc321d6faf7fc404cef31ffb73",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/windows-x86-ctest.txt": {
+            "sha256": "c41884b91b244b59b7f60cfdf37b7529455bff6bf2e489161e2f88c0a27b8629",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-evidence/windows-x86.xml": {
+            "sha256": "27b8585fbcf0a89c0d5f774f63965c301831d14476fb76511b1a2ce450f7d05d",
+            "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
+        },
+        "audit/stability-matrix.csv": {
+            "sha256": "17e904d86b701a71e9e67c43fff60ff8037641e0a613760e9d3f610893cd17d7",
+            "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
+        },
+        "audit/v0.1.0-pre-24h-qualification.md": {
+            "sha256": "c6da2c229c7caac795c9e01491a180fab87a1c3c15482731079d77a542fb5b79",
+            "reason": "Hash-bound original qualification report"
+        },
+        "audit/v0.1.0-qualification-evidence.json": {
+            "sha256": "0430303ee1262b83c19808c387427c8de8c698186753c42dbc209dc934454964",
+            "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
+        },
+        "audit/v0.1.0-qualification-matrix.csv": {
+            "sha256": "f69cec38a0aa706274c5483c3e50f31f08a0e337be66daa31e4bf2239cb80850",
+            "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
+        }
     }
-  ],
-  "frozen_files": {
-    "LICENSE": {
-      "sha256": "2137c3a3422e0f58299aa400afc0229b8bce926da9797404799443cbbd13f6d4",
-      "reason": "Original legal wording and attribution"
-    },
-    "audit/final-evidence/asan-descriptor-failure.log": {
-      "sha256": "63586c9ded2e9a1ce0ed78d80706689a3065482c0474b897c58e00f419e03b13",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/final-evidence/independent-descriptor-diagnostic.log": {
-      "sha256": "6e4072679b95d18c67f3540c016d34529cd075312836ae7a1fd46c1c120064df",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/final-evidence/independent-descriptor-thread-diagnostic.log": {
-      "sha256": "edcf8e3cc0fa24d2d23738390ff31c2a792940902015d7a9bde8095415821a6a",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/final-evidence/queue-negative.log": {
-      "sha256": "42872200d0273bf5bdf2b682387feaae2929d5c6837110001dfeb254c64b0990",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/final-evidence/r1-ledger.json": {
-      "sha256": "22b6f27a157ad10627aa46958ea207c534899545ccdcb33d6d5386ae55772b3f",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/final-evidence/worker-fixed.log": {
-      "sha256": "71ed6e11f708f4b02d23dff1e8a4734783f3e205a993a732138f0631e8b27c77",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/final-evidence/worker-negative-trace.log": {
-      "sha256": "993aacbc9224b623b39264e948845ffc1e02d371780ae168bda02fcb5b47247e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/final-evidence/worker-negative.log": {
-      "sha256": "51ba23657986f243e0c709e7ef329aef371a339e08926c583ab0a249d00b0a0c",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/qualification-71cdf6f.json": {
-      "sha256": "502c058a906059577524fc2546b0eddadf003f705ab886556c0966ddabc836f4",
-      "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
-    },
-    "audit/real-session-evidence/client-build-linux.json": {
-      "sha256": "c425db52ac949f324d936f383ccaff8385a4c4ac345e6c6de0bc5c2ededa6f89",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/client-build-windows.json": {
-      "sha256": "bd3c72edfcd479314921674020852c4b9ddb6fd19d7db5daf35f521c4d148ebc",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/ctest-linux.xml": {
-      "sha256": "33719337e5f0df7ffb7124c04d0f94cb9a7548f451160be6d6d13f92a60f26db",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/ctest-windows.xml": {
-      "sha256": "33ed7b3aaf2dd792815f596d08391f6e4661a58800ff1f8916b1ec70c93203e4",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/development-failures/ci-recovery-oracle/results.json": {
-      "sha256": "a8825bad2d96882d65b0f9dee688ff6acc3ddacb0132dd6053c4731594ed4f8e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/development-failures/ci-recovery-oracle/server-output.txt": {
-      "sha256": "a54a36c37c3b91b1970ad7b46622c97a746f88e27e99001a5922d9c5cdb8a837",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/development-failures/final-windows-custom-load.txt": {
-      "sha256": "21d0d7e101fbdccf5c727f8e6e80fe41aca4742d4770f72c80314253319703ee",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/development-failures/final-windows-custom-save.txt": {
-      "sha256": "a5af65d2879f48b505a9eb4b638665f1ab5e076db88a4ff016408d272b83dcc2",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/development-failures/qualified-windows-duplicate-two.txt": {
-      "sha256": "f8c72a46ac181d91be4df262ba8fa78fb7f422377414232480e809a006aa8b19",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/development-failures/windows-tls-postgres.txt": {
-      "sha256": "6f16221af9b175962263c732ff4d97aa31beaddf8338d1b17425156a55ac6ceb",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/cancel-lookup/QCancelA-596b24/client-output.txt": {
-      "sha256": "27abf3c4bfa896bad659d21959f8b1161eb92185f4a95dd70a1d6e8cb5b27f72",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/cancel-lookup/QCancelB-3c64ea/client-output.txt": {
-      "sha256": "9e7042fa3f40ea204f1d68c7501e30a4ac9fdf05493b7484d4a8e0e3d45ca330",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/cancel-lookup/server-output.txt": {
-      "sha256": "1744e5ab5ecde8c19c754c86f56af3b7a1818b9540268a64360d691c32f28e0e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/concurrent-verify/QConcurrentA-9335f7/client-output.txt": {
-      "sha256": "04a7eb0b3aaa95cd2c5c18f1e31bb39c2f479d5c8514131c4d97633f36fd0e72",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/concurrent-verify/QConcurrentB-4c109a/client-output.txt": {
-      "sha256": "de1cd9f1043a0119328a48fdf5d2d1d64e6c20d75fe76ce16ab6504abf41100f",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/concurrent-verify/server-output.txt": {
-      "sha256": "c18ab8686f53b207846e72e112a20f24ecc8bab4c0743f47bbc65a2fc6c62664",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/custom-load/QCustomA-57aebf/client-output.txt": {
-      "sha256": "a06a8633bab9c8df04b03fdd042cec1553e1ad8bbf7c5f680adc0e0f32ce635a",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/custom-load/QCustomB-b52bb9/client-output.txt": {
-      "sha256": "a4b0e5782257ddc5d871619721be08dd80463d5ecf2e470c409fefef3c35c7eb",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/custom-load/server-output.txt": {
-      "sha256": "8635d41b122faa9568a981c15d9d10cd3c4b4ebab1e1ecba67a3245404b92f59",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/custom-save/QCustomA-eb2163/client-output.txt": {
-      "sha256": "906eaa66322442c8f2d9cd8ac11569268d60f8cd4a9e7b5a911628b7ae6de85f",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/custom-save/QCustomB-b46aea/client-output.txt": {
-      "sha256": "287332d5cc2c2cefdc0ad0e4d3208548f2a6409d472667b244fcc1abfab1eed4",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/custom-save/server-output.txt": {
-      "sha256": "de8c4ff6490b09a0c61742769b75afa2a8ccb6245c8c0e5ebb2e5e098abb6582",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/database-recovery/QSeed-82260a/client-output.txt": {
-      "sha256": "edf515dddcf13cbebe979371ee33e98131b8c9c941342362122cd34b1e3d7d8d",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/database-recovery/server-output.txt": {
-      "sha256": "19903de355588755aff54bf331c0d141c7336b6ae236552c92763ad2f08e8bb9",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/duplicate-one/QDuplicate-d1812b/client-output.txt": {
-      "sha256": "5aab0d4bdd8489cb8167008bcd90070ec5120eb84dfda2a222927114d16ec4e8",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/duplicate-one/server-output.txt": {
-      "sha256": "445fdb87f918bb5f1009d04a4748c4c520a44e239a881b49a79cfaf3848b805d",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/duplicate-two/QDuplicate-170eb8/client-output.txt": {
-      "sha256": "19090af6fe923257f84482de2dab79ec733fec9c308ecbdf19a86f0349ac3f9e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/duplicate-two/server-output.txt": {
-      "sha256": "a98f6f0356318f05979ca7d6ded72201db95a9f0ff007985d059b5a83b3522dd",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/gmx-provider/QReload-357acc/client-output.txt": {
-      "sha256": "c90c0ace2d8b20c44799962d633ee1b11193163e544a9e1159ffa456c0017c19",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/gmx-provider/server-output.txt": {
-      "sha256": "346f1f0a4d23de1279d4ef2a4bab16e37769104ea842ae11b8c0d4f6a7f1a513",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/insert-response-loss/QLostWrite-5e2004/client-output.txt": {
-      "sha256": "822d6b99ce1fcd3c448e21584e0f0de1549582892b937a6b6dc487014676ab3d",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/insert-response-loss/QLostWrite-6c1dbf/client-output.txt": {
-      "sha256": "efe5cc6aac941364934e9cd3eb7e2554af7a603b141eb0ec9dca1a9ab7518e7e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/insert-response-loss/server-output.txt": {
-      "sha256": "3c02d1469a1097731cd80718af2712bea7e6ea4d578a8e8ad4a0f38c633e20c7",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-hash/QHashA-8bbadc/client-output.txt": {
-      "sha256": "977fb3157f92dc9cb72c8a8f3dd09c665e2b4e22821250dcc2b2123948b44e35",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-hash/QHashB-d514e8/client-output.txt": {
-      "sha256": "2d5ad16cd3cdfdf91ee0e255cdb19228ecbf81d127dbfd0352f1a8351d1ec2c3",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-hash/server-output.txt": {
-      "sha256": "c9aae2f2c4b2aa70a2f9df7b5b59ffbd79eeeba5f1a36a6c24315a9e10e59037",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-insert/QInsertA-d23ede/client-output.txt": {
-      "sha256": "55096c7e0cba08137151b3ae6717f30da7c6a65464433b1c0e44c44e5848a276",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-insert/QInsertB-e21641/client-output.txt": {
-      "sha256": "7506769bf85c757e6a889fc5176790ddb9f1c8d6d33063e2b0f7096157a5daec",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-insert/server-output.txt": {
-      "sha256": "1cc6520fec679319ec525f65e89a1bd6dfa1a116807f732a3632f8af9e4ed005",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-lookup/QLookA-f8b052/client-output.txt": {
-      "sha256": "92adb33ffa83a3fc301e428cb5496a026523be4ae4d3ac023aeadaa46ead4f9e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-lookup/QLookB-12c5a8/client-output.txt": {
-      "sha256": "168fc76fc045840f9624e0291a3368e489b722b86a3d0cd740f4f79998cc50f1",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-lookup/server-output.txt": {
-      "sha256": "cdd290ed2dfa81d7836c2e1c3fcc51c5be65a3098c386ba6953dd9cad868cc39",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-verify/QVerifyA-94d3d7/client-output.txt": {
-      "sha256": "eab7d22eeb1bbb82750f60b9b57db04d04ba681a510b700b4171dd9c2f86d974",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-verify/QVerifyB-947d43/client-output.txt": {
-      "sha256": "6b878d89de0d50f68672ae388f5b929b6beae14ad7373caffa55be49042ad5e1",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/late-verify/server-output.txt": {
-      "sha256": "d1113d3692e468b69bcf13781749b8a465aa925b979527ac1a9d7035568757fc",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/login/QSeed-c0b8be/client-output.txt": {
-      "sha256": "17f4ab59d14d97bbdd01b636e79e606d12223ceb670aca92c221b30ff100a1fc",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/login/server-output.txt": {
-      "sha256": "2a702176ee53c90a8311ac880afb4de2c20eb31cbbee964992f7973640ab6f6e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/official-npc/QNpcControl-288ffd/client-output.txt": {
-      "sha256": "6c53911508ec15aa94a453d773b7d52b4e1fd6a4c667026b3a8cbf6395d63ead",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/official-npc/server-output.txt": {
-      "sha256": "8868e1c8dc55db2a1a876898878ee02dc607cc8375ef0278047e35d802234ee6",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/postgres-recovery.txt": {
-      "sha256": "1e71001bad1c6c15d18b94ca0c08e4b5c2e03092a42c069bcc69255efa07a2c2",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/postgres-restarted.txt": {
-      "sha256": "b83470b18a4ee932d78479d7cc56c2588b8da57493d50eebedc8c4d31bf6d729",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/provider-timeout/QTimeout-5029aa/client-output.txt": {
-      "sha256": "da0a6e41697629808afb12749cf7cd1906c5157e9fbfb5323d12a52fd8ca719a",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/provider-timeout/server-output.txt": {
-      "sha256": "7fd15af44bdad0cd632571e4eeaf37b193ac380c608647d26aed71b175efde52",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/registration/QSeed-6aa396/client-output.txt": {
-      "sha256": "f1af3d5d9f79a677fa493e3a510800b28190521f814a0bfdb632102530dd63e1",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/registration/server-output.txt": {
-      "sha256": "d1e6ff45736a008215ca4d042d71da011159cdd9954a774f1ba483c45d512790",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/results.json": {
-      "sha256": "45f721dd122bb05fcb17a2532ce00eefe276d43e868fb23fca7127c6fae06bf5",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/shutdown/QShutdown-2c024c/client-output.txt": {
-      "sha256": "53c8550dc4775d499d1638c9cd0cdf58ea81fd035d20deb75c32e7933602da4f",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/shutdown/server-output.txt": {
-      "sha256": "71620ad01bcf880637bfdd4f2d62825e594d12901d94c2ee478abb13e071eaee",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/slow-seed/QSlow-3d52b1/client-output.txt": {
-      "sha256": "fffea4d1f7ba219d87db520a1ef66e17032b3b2dccb2ac36042ad4647ac833da",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/slow-seed/server-output.txt": {
-      "sha256": "97e2ebaf9da337e45c2129ce674ac945cbdf23ca163add6ee352c6df328e08ac",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/wrong/QSeed-da5aa4/client-output.txt": {
-      "sha256": "a74a5127f8298e6ba14d08906a803f08421db8967c42b312f2e85e29fc52fce0",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-complete-28933d1/wrong/server-output.txt": {
-      "sha256": "1f390a861ae0cc943c8e64ca98371b023bff95a23e13a082c2492108bd301f2e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-insert-replay-063191e/insert-response-loss/QLostWrite-8cbe2e/client-output.txt": {
-      "sha256": "7f84c5f44af55eb5f97476847482e23c0a3801385b951d9b704a589fded2da96",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-insert-replay-063191e/insert-response-loss/QLostWrite-ec4230/client-output.txt": {
-      "sha256": "160304808e67859ebfe183ad4dcf5747112eb682f17a3c5d6a6d73ab72bc241e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-insert-replay-063191e/insert-response-loss/server-output.txt": {
-      "sha256": "b683a63fb6ac0a484a31163309905dc7daf3589cbc1a03cf57a46664d87676a6",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-insert-replay-063191e/registration/QSeed-599907/client-output.txt": {
-      "sha256": "59fe195fd6b9c90a18934b7270ba1d862194509d91379b973730bf988e987fc7",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-insert-replay-063191e/registration/server-output.txt": {
-      "sha256": "be8810f68967a83d6ae4e38eddb14ff343a85c276b017cc1b21622f4551f6c15",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/linux-insert-replay-063191e/results.json": {
-      "sha256": "784ced9d1d0790ba04c79cb107189e9ac8bef6372764c3f803fefb58607362fc",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/original-sha256.json": {
-      "sha256": "25d05c1d1bd0b6faaf6c119d62b797bb693d21e5ec01a5a4edc2437d9b81059b",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/python-tests.txt": {
-      "sha256": "7714a297ae1badf2b59ac74af6ac5e16afd64a39ef3216b465987addbb600cde",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/sanitization.json": {
-      "sha256": "d14c62bc2ca343520a98a3642cec3d44209e07e21bf71007ae1f6181ab61faaa",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/sha256.json": {
-      "sha256": "875e0268d54753d31605b9dba037b64f718f2426acc159231d9ba3365b3db0c0",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/cancel-lookup/QCancelA-da98ba/client-output.txt": {
-      "sha256": "167c147ea1d835aedaf986ab7000f08f9df7637fe9f0c918ff628df61ec5e561",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/cancel-lookup/QCancelB-9a98ab/client-output.txt": {
-      "sha256": "b67fe8a58cd8a74602ef837462a41e69cac793924145b35c8ace76668fcc1ba6",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/cancel-lookup/server-output.txt": {
-      "sha256": "340f8934db4bb22348bd25280e03ec7c6bb695a3f9e51b7ec946acfeff4f09b2",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/concurrent-verify/QConcurrentA-d98c68/client-output.txt": {
-      "sha256": "9479cb8b49735c21ef92bde7e891b773d9883a300f79e9f8ca1827a88391c988",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/concurrent-verify/QConcurrentB-04a5a1/client-output.txt": {
-      "sha256": "2c2f3f506e2bd01a49cd65660f38b1d198e634beb65737a35729f9ccff7ac74b",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/concurrent-verify/server-output.txt": {
-      "sha256": "f7fd1f8f9e3e3344c4de11a61ae4e179c030b8f3dd28c35ebaa362ede8516aff",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/custom-load/QCustomA-8a1d54/client-output.txt": {
-      "sha256": "854f1e14732537d122132fba3f3e25c6c3301d522eaf10f742f54d91d68f10ad",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/custom-load/QCustomB-629a49/client-output.txt": {
-      "sha256": "9f36bb19dd850fa52ac491960018a937110450ebb7a9cf27feb709245c27afde",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/custom-load/server-output.txt": {
-      "sha256": "8f357ac30c5d8ff999c1da3b293c104ec3a20e001a7d3436d29a1d6c25c85542",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/custom-save/QCustomA-389b49/client-output.txt": {
-      "sha256": "4a6cbcd0df55974e4cd418661173416a2ca39cccc2410596b304df31b633904e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/custom-save/QCustomB-09fbe2/client-output.txt": {
-      "sha256": "f81713d19a24eed7ba3f19271f1b05089847bff96540c7520713d666c903842d",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/custom-save/server-output.txt": {
-      "sha256": "5a3464cab4c3f07432b6cb6f20822e2507288ce199e4b41f80d715c15421bfd1",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/database-recovery/QSeed-0ab6f4/client-output.txt": {
-      "sha256": "41a8d6dbe21dd171b8975813e960ed34979a8f0a0a1f947242f9a8b12ee1225b",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/database-recovery/server-output.txt": {
-      "sha256": "7d10b52f538058624e5fffd36f9c8bba4db961ca1474948024f91804b69812a6",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/duplicate-one/QDuplicate-201597/client-output.txt": {
-      "sha256": "1a1672717c3e42cfb3b18b9cb6421c053c5f2d734f601e4c561a2366d3e754fc",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/duplicate-one/server-output.txt": {
-      "sha256": "76354849475fe5435f8454159c0a2a2b5c390cfc1f6ad7b84737c7205c40e996",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/duplicate-two/QDuplicate-cdbc2e/client-output.txt": {
-      "sha256": "6eda425b932a733e747e85f4efd3c0cb3430f9eb0876d1a1b0bf94c899b50db9",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/duplicate-two/server-output.txt": {
-      "sha256": "d5dcff51e3e6386a41cfbc9fa2923f727008aabbee07516315bc4af5cec63a93",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/gmx-provider/QReload-1d89d8/client-output.txt": {
-      "sha256": "9d66705530415e54fef0dc3ce235a69dd4e478e91fd9cff37722e27224621cfa",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/gmx-provider/server-output.txt": {
-      "sha256": "7f63f1f78ce377f08d7d78b2fa1f9cccfce7783cdada79e7b0020956e5e85aec",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/insert-response-loss/QLostWrite-764e5a/client-output.txt": {
-      "sha256": "8e83c9b3b2ac8a43df62fc97d044162828c0ca0d40e548b3c9396651479e288e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/insert-response-loss/QLostWrite-eb1799/client-output.txt": {
-      "sha256": "b38c53547361889b0987e675e364a063cf55996681cfd0673ae2bdbba19044f2",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/insert-response-loss/server-output.txt": {
-      "sha256": "f2446bbeaf5484ddcb6857b6e696ba83d47d336be294dfb4a82d53de7a9130f5",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-hash/QHashA-8d3699/client-output.txt": {
-      "sha256": "57854cc9718d909b950d2a9e7cfaebdd2df7c42e4ae0a1b376e0ef406b6eebc4",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-hash/QHashB-d09695/client-output.txt": {
-      "sha256": "75a4986c2bae67bcc288785a16509734f2e5a660380af3c8c00bd4033e087be3",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-hash/server-output.txt": {
-      "sha256": "173efa01f417097e8561f2360abec63c2d7068293c8fbcee8a1671e24cb8fd90",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-insert/QInsertA-805278/client-output.txt": {
-      "sha256": "06cbafaa3d20169294a7285eaceba9bc4cdf6644cb9b7745610222174ee6b3bc",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-insert/QInsertB-d3478e/client-output.txt": {
-      "sha256": "cb79427210e0522af6cf41c937792d184295700cfe6faa0212e2c5cc42ab0553",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-insert/server-output.txt": {
-      "sha256": "cc238fcd05ef365688a6ddd9c065e9e7954faeaec782011251253851b1f0b0fa",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-lookup/QLookA-dbe140/client-output.txt": {
-      "sha256": "0678a765838556f299bbd40fed34edfc15db9ec9b59a41e61e3803c9263f3d71",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-lookup/QLookB-e45d2c/client-output.txt": {
-      "sha256": "d4c438ea52a7f7e2771a8391f1bdfc73268fb4ccfaadb5d930cb1451aa1129e2",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-lookup/server-output.txt": {
-      "sha256": "7d48b142149b1e729f7a1011962e346ea7c8ea55c63b0ea983de7f03a42dd929",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-verify/QVerifyA-5677da/client-output.txt": {
-      "sha256": "72136d5de1f87fe24eab7cf212f99294b7796da79f35d7545304d310ca2210f0",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-verify/QVerifyB-edd977/client-output.txt": {
-      "sha256": "f35e1f93e41ed28913d7b69898de14334686cc36ac327268d66b2a86ef2fefb9",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/late-verify/server-output.txt": {
-      "sha256": "cf830984fa444d5c21e7ccd646220581f9483f1348bad693759262950374ccfa",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/login/QSeed-95ad74/client-output.txt": {
-      "sha256": "d2fc287a12d3ba21ee46b0099ef47b6626c718d317e1135ddc32828fcfe1a023",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/login/server-output.txt": {
-      "sha256": "a216a2c57abbec7b011ee75cdd465c12707634e7684b57ff55231a5723ef86f7",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/official-npc/QNpcControl-a13b77/client-output.txt": {
-      "sha256": "c47c3f58f085a298d17a868d04d5521ca4faf00768a5b44a0ec0658ec323aa28",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/official-npc/server-output.txt": {
-      "sha256": "8f138356978e05da2aed7ad4892bdb512cfc9591a92e55d67862b439a2a59ac4",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/postgres-recovery.txt": {
-      "sha256": "b77ad30cda1127c22f69f2343ff74539e64e6f803226cb19b05aad5bb2ab23bc",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/postgres-restarted.txt": {
-      "sha256": "d657822e5fe3f4e39ace8b36321520018acd3d90ca821f0cd14064430c4e7f7c",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/provider-timeout/QTimeout-83886e/client-output.txt": {
-      "sha256": "f38afdab059a3e1dfe960e4aeeeec3266c8f7046195f551ef48f142103555365",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/provider-timeout/server-output.txt": {
-      "sha256": "5d346fc589a9584404f844010b8c3a8437b1ad47919d60d9cf1f6e6d677f09a9",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/registration/QSeed-4f35b2/client-output.txt": {
-      "sha256": "75e3644f00c44a8f91198266f536daf345dc72a68ab2252d5ae2eef3193ad367",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/registration/server-output.txt": {
-      "sha256": "ccf6fabf519b318c6d6f2c23dc502b882e841dcf3c92b1b9846c5f115173d511",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/results.json": {
-      "sha256": "a1abc1358909c864f92324007e836844ffa8a002564933189d364ad531df06a2",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/shutdown/QShutdown-85a6dc/client-output.txt": {
-      "sha256": "9dafaf129472d7f81a53fe516e91f89b674e1259f7094943d7a0aaa65388f12d",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/shutdown/server-output.txt": {
-      "sha256": "6bdaad74f7f7a7655503e22134bd8e4789bfcfad684205174a0dfffd31b8c880",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/slow-seed/QSlow-f1e9d4/client-output.txt": {
-      "sha256": "14f012cd1eeb2c46e0ccba620544735af256a6f4d321feaaf00b5f848b0c64ae",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/slow-seed/server-output.txt": {
-      "sha256": "d00d10bcd88e545d68e0c5900967b549fd37135e93b351c9822b5daf3af28f8a",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/wrong/QSeed-e86088/client-output.txt": {
-      "sha256": "4eb3476ad870fc856945fdc2bc3e642386349c004b3a0ded78c6131a26b35a01",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-complete-063191e/wrong/server-output.txt": {
-      "sha256": "415309052cfdcd0a5eddfa28d57be30ba9152ecf634691c20edc6ff76aa0d35e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-insert-replay-063191e/insert-response-loss/QLostWrite-595b25/client-output.txt": {
-      "sha256": "9618086439f67a82d17799375fe6698eb5403d24ad88a3380755f61fcbef9039",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-insert-replay-063191e/insert-response-loss/QLostWrite-9fe56d/client-output.txt": {
-      "sha256": "92ffadd16e03b7b5fd973073bea1585ba69b4f4fb7ccc79b84bddd60a224cf1c",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-insert-replay-063191e/insert-response-loss/server-output.txt": {
-      "sha256": "f9c54610893dfd8515c7857876896013ed2f2456a2f57e0bfb3785eaccd8c178",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-insert-replay-063191e/registration/QSeed-322271/client-output.txt": {
-      "sha256": "8b387d68beb88a9c95430abd70d524abb9fb25813d0f1263fc5137c4b761ba46",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-insert-replay-063191e/registration/server-output.txt": {
-      "sha256": "d46a7b909946fc2654c2b1a223ceb31f6129cc11c7bf73ca40034badda6bc96f",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-evidence/windows-insert-replay-063191e/results.json": {
-      "sha256": "a408b651c014b239af1df9f0f7e4eed6216d0a3cf1e92ece51593d8cf0d488d2",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/real-session-matrix.csv": {
-      "sha256": "bb83a72fb7a1c464a9e76820c826aa6a50ae955768828704e532b14eadf15254",
-      "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
-    },
-    "audit/stability-evidence/SHA256SUMS.txt": {
-      "sha256": "682247309578faadc79f65fbf4fd04196d200b14967d1a64bc29744ae9e64525",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/SHA256SUMS.txt": {
-      "sha256": "f6b1e3d116079a366113fb06d5819b65c30688c7d72a6d327b0a5f72357b5802",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/ledger.json": {
-      "sha256": "dcc115f3c1393c223a5c88e1414153095d6a4a5930469e0ce2e6f703b20d4ad9",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/mutation-audit-head.txt": {
-      "sha256": "460492bf0feda985670342d49b7df52f60f8021cb075525f3a54122a3b07b44b",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/mutation-original.txt": {
-      "sha256": "a92c5d75ecf9167e46f9bded3d3dc7a2fc992db574b282845d4088fdd4d447cd",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/mutations.json": {
-      "sha256": "70fd97e90c9d6d20b4fdf270dcf9fac4e5317fce13f4196d5a10f88b828abe4e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/original-repro-after.txt": {
-      "sha256": "7a0bcfe0ac8c4261a339806ee6d7f290a14ee376ab418593dec18338eb445c24",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/python.txt": {
-      "sha256": "a5e83b50fc007ebbeb1854bae90bd5c2e104e841f8ee3770c513f2aeacb43181",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/windows-x64.xml": {
-      "sha256": "f5f9f8844b2f6b5c7002cab99e199d653bf5b279f9f25488a332856bc7496606",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/a1-a2/windows-x86.xml": {
-      "sha256": "98b34e74428da4993a17624d77ad4e67aaf6c0e8d0370a3f462bad9c66f89e7e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/asan-100000-incomplete.txt": {
-      "sha256": "e4269f91bb7b63a5dc964173f4529d1f4b9e29b97c94b18f6fff0f2a653be92e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/asan-ubsan-helpers.txt": {
-      "sha256": "d5e642bf190ae610f382ae6adfdce4cfa887ed55942679b16a41d950d381175e",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/baseline-provider-18.4.xml": {
-      "sha256": "7c8d00b64a6a81c6f309a266658bab3e32c22614952548e9fe6123c57028beab",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/cancel-before.txt": {
-      "sha256": "773a32eaa47cdbfb4185d08a8554c367839b5807854e65eb2a900fc5ef7b00c8",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/extended-fuzz.txt": {
-      "sha256": "34b1f18815b9f30e040c3a101d9b37741b328302526af741a5e232bfca678548",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/external-runner-summary.json": {
-      "sha256": "16876f8cad71fd796e43acb0093ee0649e02a131d5d0b6ba8c7653a227f07b68",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/historical-ci-excerpts.json": {
-      "sha256": "59131bcaa1bb35a48acc99698319a2ab83aa1deb57f09f4aca14a6eeb3523304",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/ledger.json": {
-      "sha256": "d8b81636c96afccf0bb1dfe3ae2873d9bd16ae7b13d8cf68ee9bc7e25fbd97a1",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/metrics-summary.json": {
-      "sha256": "481fdbe72dc8691d8e403ec2ad731e23fe6f26d0a6e25267ffc59c69b88efab6",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/openmp-source-excerpts.txt": {
-      "sha256": "0f12db03010b81741e67df83e76db3bb554aa7cb2e72de0a3efc3681373a6e94",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/provider-18.4-excerpts.txt": {
-      "sha256": "680861a9c6041a9f5c431c4f17965867d897052dee3e79c5a46e9c34e643c688",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/python-final.txt": {
-      "sha256": "579b508c7492119c81d9e3b4966c8d03398be668331297af718430adabfbf9c6",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/stress-x64.csv": {
-      "sha256": "553eab7434e84bf0750bb70fc2f0bebbfac5cb4136f1a0ed2c7b9a6620cb13bc",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/stress-x86.csv": {
-      "sha256": "6f184516cc9f4213432ecd3d052510a0e1fb57f9fef49840cb775254265ee46d",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/windows-x64-ctest.txt": {
-      "sha256": "d7e9d0764ffedbf99b0f397525fa2910cd55d30c349356c19f57cf5bb0ec6eaa",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/windows-x64.xml": {
-      "sha256": "928d9a05216347b0c77f034b8e6df1be5c47e3cc321d6faf7fc404cef31ffb73",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/windows-x86-ctest.txt": {
-      "sha256": "c41884b91b244b59b7f60cfdf37b7529455bff6bf2e489161e2f88c0a27b8629",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-evidence/windows-x86.xml": {
-      "sha256": "27b8585fbcf0a89c0d5f774f63965c301831d14476fb76511b1a2ce450f7d05d",
-      "reason": "Original historical capture or ledger; localized external diagnostics and original results are immutable"
-    },
-    "audit/stability-matrix.csv": {
-      "sha256": "17e904d86b701a71e9e67c43fff60ff8037641e0a613760e9d3f610893cd17d7",
-      "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
-    },
-    "audit/v0.1.0-pre-24h-qualification.md": {
-      "sha256": "c6da2c229c7caac795c9e01491a180fab87a1c3c15482731079d77a542fb5b79",
-      "reason": "Hash-bound original qualification report"
-    },
-    "audit/v0.1.0-qualification-evidence.json": {
-      "sha256": "0430303ee1262b83c19808c387427c8de8c698186753c42dbc209dc934454964",
-      "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
-    },
-    "audit/v0.1.0-qualification-matrix.csv": {
-      "sha256": "f69cec38a0aa706274c5483c3e50f31f08a0e337be66daa31e4bf2239cb80850",
-      "reason": "Historical machine-readable evidence; original fields, observations and text values are immutable"
-    }
-  }
 }

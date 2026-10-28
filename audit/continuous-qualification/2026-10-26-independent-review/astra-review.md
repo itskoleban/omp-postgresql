@@ -73,12 +73,12 @@ I inspected `work/ci-40362033043/candidate-final-summary.json` and `verification
 
 The coordinator now selects the following **master-built** distributions for subsequent preparation. They supersede the PR-built packages as the selected candidate inputs; the independent PR qualification remains preserved separately.
 
-| Identity (SHA-256) | Linux x86 | Windows x86 |
-| --- | --- | --- |
+| Identity (SHA-256)   | Linux x86                                                          | Windows x86                                                        |
+| -------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | Distribution archive | `78ae88751f1c85df7d7677d7b73d6730da8ee847f33d97a637287bc86db1e238` | `f721065113f032e667eb6e988055ba6a9358b09b98e9b05ad6cf1ac4f5fdc5f4` |
-| Package manifest | `8402bfe35ddc105e114d7acd9d57c9b1bd92ee1f3bbe569b4b16a3f62e210a01` | `6c3db113fe6747d2e9c83ba5d9974305c8728fdcbce55eb974b22215fc0b6f1d` |
-| Installed component | `89b231247efef0e6e99a8b607ce50e59b8f6bd74eaea9355c4b89ffd8f262d09` | `cbfb2caa8320f44571d40c931d9c2368ebee6facf7985a9518fcab3fc56b6ff8` |
-| Packaged libpq | `b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241` | `54977931a08a223742bf25cd2205b5155b8723dcc8ad62f41155ed21fa00d483` |
+| Package manifest     | `8402bfe35ddc105e114d7acd9d57c9b1bd92ee1f3bbe569b4b16a3f62e210a01` | `6c3db113fe6747d2e9c83ba5d9974305c8728fdcbce55eb974b22215fc0b6f1d` |
+| Installed component  | `89b231247efef0e6e99a8b607ce50e59b8f6bd74eaea9355c4b89ffd8f262d09` | `cbfb2caa8320f44571d40c931d9c2368ebee6facf7985a9518fcab3fc56b6ff8` |
+| Packaged libpq       | `b3f0931624c6052441de7ceded26c92ed09fd25c9c15fc18ebe4ea2708263241` | `54977931a08a223742bf25cd2205b5155b8723dcc8ad62f41155ed21fa00d483` |
 
 Archive names are `omp-postgresql-0.1.0.4dd188bfb1ea-linux-x86.zip` (644,533 bytes) and `omp-postgresql-0.1.0.4dd188bfb1ea-windows-x86.zip` (3,157,471 bytes). These are the inner distribution ZIP identities, distinct from the enclosing GitHub artifact ZIP hashes. The verifier reports matching checksum sidecars, 69/72 payload files verified, and installed-session manifest/component/runtime bindings. Windows packaged `libcrypto-3.dll` is `2e203c3c141a4f224817f62ade05b1123ac873f06893612320a7aecc7334b20f`; `libssl-3.dll` is `b95ee88aa81fb417b8d72d52a46a6b3b353d335f47bd27c6ddce410a8721d1ab`. The Windows component and libpq identities differ from the earlier PR artifacts; they must not inherit the earlier byte identities merely because the source trees match. The new run supplies their own finite qualification. Linux source-build and installed component identities remain distinct and each has its own suite.
 

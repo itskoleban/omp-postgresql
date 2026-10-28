@@ -1,4 +1,5 @@
 <a id="resolución-de-a1-y-a2--pr-24"></a>
+
 # A1 and A2 resolution - PR #24
 
 English translation of the maintained narrative at `c8528bf89068dfd33fd96bf7350ee59e599d278f`. Historical statements retain their original dates and scope; this translation does not rerun tests or change evidence. Numeric spelling and legacy heading IDs are preserved.
@@ -8,6 +9,7 @@ Review base: `0fbea5f7c7a3e209be3f38b516490b4ea9414f21`; master remains
 `3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f`. This document and its evidence do not change runtime behavior.
 
 <a id="a1-conservar-la-causa-observada"></a>
+
 ## A1: preserve the observed cause
 
 `Lane::wait_socket()` now returns `Error`, using `Error::none` to continue.
@@ -30,6 +32,7 @@ SQL. An already processed definitive response can win over later cancellation;
 requesting cancellation does not mean ROLLBACK. Pawn signatures and constants are unchanged.
 
 <a id="a2-demostrar-el-punto-de-ejecución"></a>
+
 ## A2: demonstrate the execution point
 
 The new `socket_wait_unit` compiles the actual `src/session.cpp` body with libpq,
@@ -56,19 +59,20 @@ observable condition; it does not decide the critical schedule. The deterministi
 test complements real PostgreSQL rather than replacing it.
 
 <a id="pruebas-negativas-y-reproducción-original"></a>
+
 ## Negative tests and original reproduction
 
 Disposable copies were built with the historical runtime and the new test, adding
 only the syscall selector needed for injection (without changing historical wait/receive).
 
-| Runtime | Case | Verified phase | Expected and observed result |
-| --- | --- | --- | --- |
-| 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f | cancel_entry | sends=1, select=0 | Exit 1: uncertain/connection; should preserve cancelled |
-| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | transport_cancel | sends=1, select=1 | Exit 1: uncertain/cancelled; should preserve connection |
-| 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f | timeout_entry | sends=1, select=0 | Exit 1: connection instead of timeout |
-| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | transport_timeout | sends=1, select=1 | Exit 1: timeout instead of connection |
-| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | eintr_retry | sends=1, select=1 | Exit 1: uncertain/connection instead of completing after retry |
-| ba384fffbdef757e3a22c0dc00901af18c6c9512 | All | 20 Windows cases | PASS; metadata and completion verified |
+| Runtime                                  | Case              | Verified phase    | Expected and observed result                                   |
+| ---------------------------------------- | ----------------- | ----------------- | -------------------------------------------------------------- |
+| 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f | cancel_entry      | sends=1, select=0 | Exit 1: uncertain/connection; should preserve cancelled        |
+| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | transport_cancel  | sends=1, select=1 | Exit 1: uncertain/cancelled; should preserve connection        |
+| 3cbf99849de57de09e4fa8317b9bb40f8e2d2f8f | timeout_entry     | sends=1, select=0 | Exit 1: connection instead of timeout                          |
+| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | transport_timeout | sends=1, select=1 | Exit 1: timeout instead of connection                          |
+| 0fbea5f7c7a3e209be3f38b516490b4ea9414f21 | eintr_retry       | sends=1, select=1 | Exit 1: uncertain/connection instead of completing after retry |
+| ba384fffbdef757e3a22c0dc00901af18c6c9512 | All               | 20 Windows cases  | PASS; metadata and completion verified                         |
 
 The original audit reproduction, linked to corrected pg_core, publishes connection
 in its three select-error modes, including concurrent cancel/deadline; its fourth
@@ -76,6 +80,7 @@ mode preserves predispatch cancellation with zero sends. See
 [evidence and hashes](stability-evidence/a1-a2/SHA256SUMS.txt).
 
 <a id="validación-local-y-ci"></a>
+
 ## Local validation and CI
 
 Local evidence includes Windows x64 JUnit (18/18), Windows x86/MSVC (20/20),
@@ -108,6 +113,7 @@ On Windows, select a toolchain and libpq of the same architecture and provide
 as a pg_socket_wait_tests argument to reproduce an individual interleaving.
 
 <a id="riesgos-restantes-y-decisión"></a>
+
 ## Remaining risks and decision
 
 A1 and A2 are corrected and covered by deterministic oracles and real integration.

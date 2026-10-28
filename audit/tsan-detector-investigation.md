@@ -27,10 +27,10 @@ TSan race and exit 66. All twenty startup-only executions passed. The existing o
 correctly classified the missing diagnostic as FAIL. It must never be relabeled PASS.
 This evidence does not establish a PostgreSQL component data race.
 
-| Historical executable | SHA-256 |
-| --- | --- |
-| Race fixture | `1f4eb1807bdeed12d46b88e499414353d5bc85414d089574e585d96100e5a2ef` |
-| Startup fixture | `00439497091f9cbbe60bbadfbb42c0b070046c5db4e3e0f300df52a15d23e66c` |
+| Historical executable | SHA-256                                                            |
+| --------------------- | ------------------------------------------------------------------ |
+| Race fixture          | `1f4eb1807bdeed12d46b88e499414353d5bc85414d089574e585d96100e5a2ef` |
+| Startup fixture       | `00439497091f9cbbe60bbadfbb42c0b070046c5db4e3e0f300df52a15d23e66c` |
 
 These same executable hashes occur in the successful PR #29 qualification at
 [workflow 40140847210](https://github.com/itskoleban/omp-postgresql/actions/runs/40140847210),
@@ -49,17 +49,17 @@ binary bytes and omitted commands are not invented.
 
 ## Independent hypotheses
 
-| Hypothesis | Evidence and conclusion |
-| --- | --- |
-| 1. A genuine race occurs | Both workers write the same non-atomic `value` after startup. The startup RMW/load operations do not order those later writes. GDB reached the actual instrumented access in both workers. |
-| 2. Optimization changes accesses | Confirmed in Clang 19.1.1 IR and disassembly: the original arithmetic loop retains only one instrumented value store per worker. Source loop count does not imply 10,000 detector opportunities. |
-| 3. Both workers reach the race point | Confirmed in the debugger reproductions. The historical empty-stream execution lacks per-worker observability, so its exact progress cannot be independently reconstructed. The corrected fixture publishes that both workers started before releasing them. |
-| 4. Startup synchronization eliminates the race | Rejected by happens-before analysis. Each conflicting write follows the final startup release/RMW. Neither write can be carried by an earlier release. Joining workers later orders main's read, not one worker's write before the other's. |
-| 5. Initialization/instrumentation is incomplete | The historical exit 0 is not a startup-error signature, and the same binary detected races nineteen times. This does not prove internal startup correctness for iteration 3. A separate local Docker startup denial was captured and remains a failed environment control. Actual callbacks and the runtime archive were inspected. |
-| 6. Compiler/linker/library/runtime behavior explains the failure | Compiler store sinking and the linked runtime's concurrent shadow-snapshot mechanism are demonstrated. The same historical binary hashes exclude a changed binary as the observed differentiator. No component/library defect is inferred from that fact. |
-| 7. The oracle misclassifies the failed child | Rejected for the historical outcome: exit 0 and empty stderr fail. Separate regressions strengthen report validation, timeout handling and forged-message rejection without accepting that outcome. |
-| 8. Scheduling affects detection | Confirmed: constraining only the original workers' callback schedule reproduced exit 0 without a report. The original and volatile-only fixtures both admitted this schedule. |
-| 9. The evaluated runtime has a relevant limitation | Confirmed in actual LLVM 19 execution and supported by upstream source. Simultaneous shadow snapshots can each omit the conflicting access. This demonstrates a sufficient mechanism; it does not recover the historical schedule. |
+| Hypothesis                                                       | Evidence and conclusion                                                                                                                                                                                                                                                                                                             |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. A genuine race occurs                                         | Both workers write the same non-atomic `value` after startup. The startup RMW/load operations do not order those later writes. GDB reached the actual instrumented access in both workers.                                                                                                                                          |
+| 2. Optimization changes accesses                                 | Confirmed in Clang 19.1.1 IR and disassembly: the original arithmetic loop retains only one instrumented value store per worker. Source loop count does not imply 10,000 detector opportunities.                                                                                                                                    |
+| 3. Both workers reach the race point                             | Confirmed in the debugger reproductions. The historical empty-stream execution lacks per-worker observability, so its exact progress cannot be independently reconstructed. The corrected fixture publishes that both workers started before releasing them.                                                                        |
+| 4. Startup synchronization eliminates the race                   | Rejected by happens-before analysis. Each conflicting write follows the final startup release/RMW. Neither write can be carried by an earlier release. Joining workers later orders main's read, not one worker's write before the other's.                                                                                         |
+| 5. Initialization/instrumentation is incomplete                  | The historical exit 0 is not a startup-error signature, and the same binary detected races nineteen times. This does not prove internal startup correctness for iteration 3. A separate local Docker startup denial was captured and remains a failed environment control. Actual callbacks and the runtime archive were inspected. |
+| 6. Compiler/linker/library/runtime behavior explains the failure | Compiler store sinking and the linked runtime's concurrent shadow-snapshot mechanism are demonstrated. The same historical binary hashes exclude a changed binary as the observed differentiator. No component/library defect is inferred from that fact.                                                                           |
+| 7. The oracle misclassifies the failed child                     | Rejected for the historical outcome: exit 0 and empty stderr fail. Separate regressions strengthen report validation, timeout handling and forged-message rejection without accepting that outcome.                                                                                                                                 |
+| 8. Scheduling affects detection                                  | Confirmed: constraining only the original workers' callback schedule reproduced exit 0 without a report. The original and volatile-only fixtures both admitted this schedule.                                                                                                                                                       |
+| 9. The evaluated runtime has a relevant limitation               | Confirmed in actual LLVM 19 execution and supported by upstream source. Simultaneous shadow snapshots can each omit the conflicting access. This demonstrates a sufficient mechanism; it does not recover the historical schedule.                                                                                                  |
 
 ## Actual-runtime reproduction
 
@@ -128,12 +128,12 @@ the demonstrated failure mechanism.
 
 ## Bounded controls and environment limitations
 
-| Variant | Default Docker seccomp, 20 attempts | Startup-permitted container, 20 attempts |
-| --- | --- | --- |
-| Original | 20 startup failures, zero reports | 20 genuine reports, exit 66 |
-| Volatile loop | 16 startup failures, 4 genuine reports | 20 genuine reports, exit 66 |
-| Relaxed aligned handoff | 18 startup failures, 2 genuine reports | 20 genuine reports, exit 66 |
-| Release/acquire handoff | 17 startup failures, 3 normal exits | 20 normal exits, zero reports |
+| Variant                 | Default Docker seccomp, 20 attempts    | Startup-permitted container, 20 attempts |
+| ----------------------- | -------------------------------------- | ---------------------------------------- |
+| Original                | 20 startup failures, zero reports      | 20 genuine reports, exit 66              |
+| Volatile loop           | 16 startup failures, 4 genuine reports | 20 genuine reports, exit 66              |
+| Relaxed aligned handoff | 18 startup failures, 2 genuine reports | 20 genuine reports, exit 66              |
+| Release/acquire handoff | 17 startup failures, 3 normal exits    | 20 normal exits, zero reports            |
 
 All 71 default-profile startup failures remain **FAIL**. Their diagnostics identify
 the denied `personality` call at `tsan_platform_linux.cpp:290`. They are not missed
@@ -161,12 +161,12 @@ original/sanitized identities separately. Complete CI artifacts remain authorita
 large historical logs are not duplicated in Git. Important local
 original transcript identities are:
 
-| Transcript | SHA-256 |
-| --- | --- |
-| Original adversarial nondetection | `f9a4fc809f95bbca840d4f8c8da8a21e27283e5837e066898f268fb6e86ed321` |
+| Transcript                             | SHA-256                                                            |
+| -------------------------------------- | ------------------------------------------------------------------ |
+| Original adversarial nondetection      | `f9a4fc809f95bbca840d4f8c8da8a21e27283e5837e066898f268fb6e86ed321` |
 | Volatile-only adversarial nondetection | `309a81b570f041ea9361c6835f1d1ad5bfe8b837ca27b6cf2a9d8a1725179606` |
-| Experimental handoff diagnostic | `31ccd64c9d1f3963f9adb49989f91ca951751cea759932d670b2a48e899517cc` |
-| Maintained handoff diagnostic | `4a0fd2c761cd2b3b7580187d21e6b9993e04aa561ee96a3513e8716593817634` |
+| Experimental handoff diagnostic        | `31ccd64c9d1f3963f9adb49989f91ca951751cea759932d670b2a48e899517cc` |
+| Maintained handoff diagnostic          | `4a0fd2c761cd2b3b7580187d21e6b9993e04aa561ee96a3513e8716593817634` |
 
 The original default-profile manifest SHA-256 is
 `73832a006ec19232afb2c00cb1c938d9904b77ed146a466c4ad748c6fb6fa30f`;
@@ -214,15 +214,15 @@ Final PR-head results are recorded in the new PR's description and immutable Git
 check suite. The following table describes this report's pre-CI checkpoint, not the
 later result. No earlier PASS is inherited by that head:
 
-| Required qualification | Status |
-| --- | --- |
-| Detector oracle and positive/negative controls | Pending final recorded source |
+| Required qualification                                     | Status                        |
+| ---------------------------------------------------------- | ----------------------------- |
+| Detector oracle and positive/negative controls             | Pending final recorded source |
 | Worker recovery/shutdown/allocation regressions under TSan | Pending final recorded source |
-| Network/TLS/PostgreSQL recovery | Pending final recorded source |
-| Complete Python and English validation | Pending final recorded source |
-| Linux normal; ASan/UBSan; TSan | NOT RUN on final PR head |
-| Linux x86/open.mp; Windows x86/open.mp; Windows x64 | NOT RUN on final PR head |
-| Downloaded package verification | NOT RUN on final PR head |
+| Network/TLS/PostgreSQL recovery                            | Pending final recorded source |
+| Complete Python and English validation                     | Pending final recorded source |
+| Linux normal; ASan/UBSan; TSan                             | NOT RUN on final PR head      |
+| Linux x86/open.mp; Windows x86/open.mp; Windows x64        | NOT RUN on final PR head      |
+| Downloaded package verification                            | NOT RUN on final PR head      |
 
 The nineteen original and two PR #29 real-player scenarios on each x86 platform must
 remain enabled. The final CI must identify the exact proposed PR head. Until those

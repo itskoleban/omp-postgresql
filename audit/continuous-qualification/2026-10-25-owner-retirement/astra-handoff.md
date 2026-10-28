@@ -26,14 +26,14 @@ identity; do not generalize one dependency build to another.
 
 ## Finite qualification scope
 
-| Phase | Existing implementation and regressions | Candidate evidence |
-| --- | --- | --- |
-| Memory/resources | PR #30 allocation, terminal queue, callbacks and worker handling; PR #32 handle/token limits; PR #35 batch admission; PR #36 allocation-free owner unload and finish-marker reclamation | PASS in normal, ASan/UBSan, TSan and Windows configurations; TSan retains its allocator interceptors |
-| Files/storage | PR #32 bounded SQL reading including SIZE_MAX and no partial dispatch; PR #33 interrupted stream, permission and descriptor tests; logging short writes and ENOSPC | Configured exact-source cases PASS; local and historical negatives preserved |
-| Connections/concurrency | TLS/auth, cancellation, timeout, recovery, transactions, shutdown and 13 wire-fault scenarios; uncertain SQL never replays | New retirement and configured integrations PASS; bounded-schedule limits remain |
-| open.mp | Pawn callbacks, AMX reload, authentication/registration, stale playerid responses, bcrypt and reconnect; 23 current real-session scenarios per x86 platform | PASS 23/23 per platform; installed-package smoke tests qualify their separate binaries |
-| Automated/fuzz | Parameter/type conversions, SQL sections, lifetime tests, PR #34 numeric/byte fuzz, PR #35 randomized admission recovery; 143 Python tests | Configured hosted suites PASS, with no configured skips |
-| Multiplatform/package | Six build/test configurations plus downloaded-distribution verification | PASS 7/7 jobs, 194/194 CTest executions, directly verified artifact identities |
+| Phase                   | Existing implementation and regressions                                                                                                                                                 | Candidate evidence                                                                                   |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Memory/resources        | PR #30 allocation, terminal queue, callbacks and worker handling; PR #32 handle/token limits; PR #35 batch admission; PR #36 allocation-free owner unload and finish-marker reclamation | PASS in normal, ASan/UBSan, TSan and Windows configurations; TSan retains its allocator interceptors |
+| Files/storage           | PR #32 bounded SQL reading including SIZE_MAX and no partial dispatch; PR #33 interrupted stream, permission and descriptor tests; logging short writes and ENOSPC                      | Configured exact-source cases PASS; local and historical negatives preserved                         |
+| Connections/concurrency | TLS/auth, cancellation, timeout, recovery, transactions, shutdown and 13 wire-fault scenarios; uncertain SQL never replays                                                              | New retirement and configured integrations PASS; bounded-schedule limits remain                      |
+| open.mp                 | Pawn callbacks, AMX reload, authentication/registration, stale playerid responses, bcrypt and reconnect; 23 current real-session scenarios per x86 platform                             | PASS 23/23 per platform; installed-package smoke tests qualify their separate binaries               |
+| Automated/fuzz          | Parameter/type conversions, SQL sections, lifetime tests, PR #34 numeric/byte fuzz, PR #35 randomized admission recovery; 143 Python tests                                              | Configured hosted suites PASS, with no configured skips                                              |
+| Multiplatform/package   | Six build/test configurations plus downloaded-distribution verification                                                                                                                 | PASS 7/7 jobs, 194/194 CTest executions, directly verified artifact identities                       |
 
 Earlier reports can contain superseded PENDING rows. Use the continuous
 checkpoints, actual workflow inventories and final exact-SHA artifacts together;

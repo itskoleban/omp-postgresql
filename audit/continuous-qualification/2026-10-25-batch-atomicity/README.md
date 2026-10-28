@@ -5,6 +5,7 @@ No qualification PR was open at start. Branch:
 qualify/v0.1.0-batch-atomicity.
 
 ## Scope
+
 Extend the existing hosted semantic fuzz target with randomized two-column
 batches and exact byte budgets. No production defect is claimed.
 Check that a missing trailing parameter leaves the partially copied row
@@ -18,6 +19,7 @@ These are local Statement admission guarantees, not PostgreSQL transaction
 atomicity or database durability claims.
 
 ## Validation
+
 GCC 13.3.0 C++20, -Wall -Wextra -Wpedantic -Werror:
 100000 full semantic iterations PASS, seed 1096107081, normal -O2.
 100000 full iterations PASS, seed 9876543, -O1 -g with
@@ -37,6 +39,7 @@ Hosted exact-head qualification PENDING. No local PostgreSQL, open.mp,
 Windows, ASan or TSan execution claimed.
 
 ## Continuity and release gates
+
 PR #34 head 00fb1657c89705cb55f608c02d8481df90a44379 passed hosted
 run 40250018869. Earlier master c849ab3 passed run 40249743442.
 Current master post-merge run 40251830291 was still in progress at checkpoint.

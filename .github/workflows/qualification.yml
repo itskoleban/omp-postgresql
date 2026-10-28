@@ -63,9 +63,9 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    - {sanitize: "OFF", seconds: 1200, seed: 1592594996}
-                    - {sanitize: "ON", seconds: 600, seed: 1592594997}
-                    - {sanitize: "THREAD", seconds: 600, seed: 1592594998}
+                    - { sanitize: "OFF", seconds: 1200, seed: 1592594996 }
+                    - { sanitize: "ON", seconds: 600, seed: 1592594997 }
+                    - { sanitize: "THREAD", seconds: 600, seed: 1592594998 }
         env:
             ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
             UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1

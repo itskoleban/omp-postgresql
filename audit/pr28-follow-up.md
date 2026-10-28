@@ -75,10 +75,10 @@ object identities and complete merged-output diagnostics are retained. The check
 record transparently includes the then-untracked baseline publication; tracked code
 was unchanged. Relevant input hashes were captured before and checked after execution.
 
-| Compiler/runtime | Uninstrumented | ASan/UBSan | Actual EMFILE |
-| --- | --- | --- | --- |
-| GCC 13.3.0 | PASS, exit 0 | FAIL, exit 1 | Observed in both |
-| Clang 19.1.1 | PASS, exit 0 | FAIL, exit 1 | Observed in both |
+| Compiler/runtime | Uninstrumented | ASan/UBSan   | Actual EMFILE    |
+| ---------------- | -------------- | ------------ | ---------------- |
+| GCC 13.3.0       | PASS, exit 0   | FAIL, exit 1 | Observed in both |
+| Clang 19.1.1     | PASS, exit 0   | FAIL, exit 1 | Observed in both |
 
 The controls contain a valid external polymorphic object and no component code or
 database. **ENVIRONMENT LIMITATION CONFIRMED** remains the classification for the

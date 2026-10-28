@@ -1,4 +1,5 @@
 <a id="integración-real-de-openmp--omp-postgresql-v010"></a>
+
 # Real open.mp integration - omp-postgresql v0.1.0
 
 English translation of the maintained narrative at `c8528bf89068dfd33fd96bf7350ee59e599d278f`. Historical statements retain their original dates and scope; this translation does not rerun tests or change evidence. Numeric spelling and legacy heading IDs are preserved.
@@ -12,6 +13,7 @@ original results and hashes are retained in [the evidence contract](real-session
 New CI is evaluated against its own SHA and does not inherit historical results.
 
 <a id="identidad-y-alcance"></a>
+
 ## Identity and scope
 
 The inspected and rechecked `master` is
@@ -32,18 +34,19 @@ actually executes `samp-bcrypt`; it neither substitutes a fictional hash nor
 synthetically calls `OnPlayerConnect` or `OnPlayerDisconnect`.
 
 <a id="viabilidad-comprobada"></a>
+
 ## Verified feasibility
 
-| Capability | Evidence and conclusion |
-| --- | --- |
-| Official server | open.mp **1.5.8.3079 x86** started and loaded the component and Pawn on Windows and Linux. This is the project-pinned version; the conclusion does not extend to other servers. |
-| Automated client | RakSAMP-cli `f75af4cb97fed341cb45b49aff489f9f20665e99`, built from source. Uses normal player RakNet handshake/RPC, answers dialogs over the network and runs in an external process. The server observed `IsPlayerNPC=0`, connections, disconnections and new sessions. |
+| Capability        | Evidence and conclusion                                                                                                                                                                                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Official server   | open.mp **1.5.8.3079 x86** started and loaded the component and Pawn on Windows and Linux. This is the project-pinned version; the conclusion does not extend to other servers.                                                                                                                                   |
+| Automated client  | RakSAMP-cli `f75af4cb97fed341cb45b49aff489f9f20665e99`, built from source. Uses normal player RakNet handshake/RPC, answers dialogs over the network and runs in an external process. The server observed `IsPlayerNPC=0`, connections, disconnections and new sessions.                                          |
 | Client adaptation | The retained patch supports piped stdin, avoids interactive dialog UI and avoids interpreting `-n/-p` fragments in Windows paths as legacy options. It does not change the protocol. LuaJIT was built from `a4c064539ea931274d407e1249b4bb575424a0f4`; the prebuilt requiring unavailable MSVCR120 was discarded. |
-| Real reuse | A and B were distinct client processes; the same `playerid=0`, different tokens and A's callback after B connected were observed. Verified for lookup, hash, verify, INSERT, custom load and save. |
-| Official NPC | `NPC_Create`/`NPC_Destroy` executed; `npc=1`, slot 7 and deferred removal were observed. These exercise server-entity callbacks and cleanup and are not counted as player connections. |
-| Provider | **samp-bcrypt 0.4.1** x86 binaries, revision `c60e68d483a95d109855fdd7517425c0363fd10c`. Real hash/verification callbacks were observed, with tokens passed through `args`. |
-| GitHub Actions | Linux/Windows x86 jobs prepare pinned clients/provider, compile both fixtures and run the bounded suite. This compatibility protocol needs neither GTA, a desktop nor a private runner. |
-| Dedicated runner | An official graphical client and the open.mp client's encryption path require an authorized game installation and a suitable Windows runner. That path was not evaluated and cannot be inferred from RakSAMP. |
+| Real reuse        | A and B were distinct client processes; the same `playerid=0`, different tokens and A's callback after B connected were observed. Verified for lookup, hash, verify, INSERT, custom load and save.                                                                                                                |
+| Official NPC      | `NPC_Create`/`NPC_Destroy` executed; `npc=1`, slot 7 and deferred removal were observed. These exercise server-entity callbacks and cleanup and are not counted as player connections.                                                                                                                            |
+| Provider          | **samp-bcrypt 0.4.1** x86 binaries, revision `c60e68d483a95d109855fdd7517425c0363fd10c`. Real hash/verification callbacks were observed, with tokens passed through `args`.                                                                                                                                       |
+| GitHub Actions    | Linux/Windows x86 jobs prepare pinned clients/provider, compile both fixtures and run the bounded suite. This compatibility protocol needs neither GTA, a desktop nor a private runner.                                                                                                                           |
+| Dedicated runner  | An official graphical client and the open.mp client's encryption path require an authorized game installation and a suitable Windows runner. That path was not evaluated and cannot be inferred from RakSAMP.                                                                                                     |
 
 Primary sources:
 [official release](https://github.com/openmultiplayer/open.mp/releases/tag/v1.5.8.3079),
@@ -53,6 +56,7 @@ Primary sources:
 [provider and dispatcher](https://github.com/Sreyas-Sreelal/samp-bcrypt/tree/c60e68d483a95d109855fdd7517425c0363fd10c).
 
 <a id="entorno-aislado-y-dependencias"></a>
+
 ## Isolated environment and dependencies
 
 Server and PostgreSQL bound exclusively to `127.0.0.1`. There was no announcement,
@@ -66,16 +70,16 @@ loss peer, on loopback without TLS to identify and discard exactly
 `CommandComplete INSERT 0 1`. This exception is confined to the tested fault. The
 harness did not retry write SQL after the uncertain result.
 
-| Dependency | Local Windows | Local Linux |
-| --- | --- | --- |
-| Server/component architecture | PE32 x86 / MSVC 19.51.36248 | ELF32 x86 / GCC 13.3.0 |
-| open.mp server | Official 1.5.8.3079 | Official 1.5.8.3079 dynssl |
-| libpq | 17.11, repository mutex patch | 17.11, TLS and `-m32` |
-| PostgreSQL backend | 17.11, retained EDB x64 tools | Ubuntu 16.15, isolated process; CI uses PostgreSQL 17 |
-| SDK | `473b732b2de159773b2e2908fd11aa99f07db284` | same |
-| Pawn | 3.10.11 / `29f1a8c7fd2e01929807cd8c50353fbc93bbd651` | same |
-| stdlib | `46a5d1d7ac8985e4104f745c462a247a0c2eb6a0` | same |
-| bcrypt | 0.4.1 x86, normal cost 12 | same |
+| Dependency                    | Local Windows                                        | Local Linux                                           |
+| ----------------------------- | ---------------------------------------------------- | ----------------------------------------------------- |
+| Server/component architecture | PE32 x86 / MSVC 19.51.36248                          | ELF32 x86 / GCC 13.3.0                                |
+| open.mp server                | Official 1.5.8.3079                                  | Official 1.5.8.3079 dynssl                            |
+| libpq                         | 17.11, repository mutex patch                        | 17.11, TLS and `-m32`                                 |
+| PostgreSQL backend            | 17.11, retained EDB x64 tools                        | Ubuntu 16.15, isolated process; CI uses PostgreSQL 17 |
+| SDK                           | `473b732b2de159773b2e2908fd11aa99f07db284`           | same                                                  |
+| Pawn                          | 3.10.11 / `29f1a8c7fd2e01929807cd8c50353fbc93bbd651` | same                                                  |
+| stdlib                        | `46a5d1d7ac8985e4104f745c462a247a0c2eb6a0`           | same                                                  |
+| bcrypt                        | 0.4.1 x86, normal cost 12                            | same                                                  |
 
 The container was Ubuntu 24.04, image
 `sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac`.
@@ -83,6 +87,7 @@ An unprivileged user ran initdb, PostgreSQL and Linux tests. No user remote serv
 were used.
 
 <a id="método-y-controles-de-las-pruebas"></a>
+
 ## Test method and controls
 
 Fixtures include the original examples with renamed callbacks and wrap them to
@@ -126,18 +131,19 @@ generated passwords and bcrypt hashes. The evidence package is inspected again b
 hash; it excludes the cluster, TLS keys and service profiles.
 
 <a id="resultados"></a>
+
 ## Results
 
 The CSV matrix contains one row per scenario/platform, with commit, method, result
 and log path. JSON retains assertions, control SQL and nonsensitive results; logs
 retain ordered events, tokens, handles and codes.
 
-| Local execution | Test commit | Result |
-| --- | --- | --- |
-| Linux x86, complete suite | `28933d1` | **19/19 PASS**, clean checkout |
-| Windows x86, final complete suite | `063191e` | **19/19 PASS**, clean checkout |
-| Linux, uncertain INSERT and sequence | `063191e` | **2/2 PASS**, fixture registration and confirmation loss |
-| Windows, uncertain INSERT and sequence | `063191e` | **2/2 PASS**, independent repetition |
+| Local execution                        | Test commit | Result                                                   |
+| -------------------------------------- | ----------- | -------------------------------------------------------- |
+| Linux x86, complete suite              | `28933d1`   | **19/19 PASS**, clean checkout                           |
+| Windows x86, final complete suite      | `063191e`   | **19/19 PASS**, clean checkout                           |
+| Linux, uncertain INSERT and sequence   | `063191e`   | **2/2 PASS**, fixture registration and confirmation loss |
+| Windows, uncertain INSERT and sequence | `063191e`   | **2/2 PASS**, independent repetition                     |
 
 These are **19 distinct scenarios per platform**, not 42 distinct scenarios.
 Repetition alone does not expand coverage. The identity sequence advanced only once
@@ -156,6 +162,7 @@ descriptor-exhaustion test; local builds did not enable the optional benchmark o
 ENOSPC tmpfs. CI retains its additional gates.
 
 <a id="fallos-de-preparación-y-límites-conservados"></a>
+
 ## Preparation failures and retained limits
 
 Earlier attempts were retained as development, not final qualification: missing
@@ -180,6 +187,7 @@ Completed-job invalidation and clean process exit are checked; historical saniti
 and current CI have their own scope and do not instrument all official third-party binaries.
 
 <a id="pendientes-y-recomendación"></a>
+
 ## Pending work and recommendation
 
 The requested critical functional paths were observed with real network clients and
@@ -205,6 +213,7 @@ That campaign was neither started, scheduled nor dispatched. No tag was created,
 release published, PR merged or direct master modification performed.
 
 <a id="reproducción"></a>
+
 ## Reproduction
 
 Start from the stated commit in a clean checkout. Build the x86 component and Pawn
@@ -240,12 +249,12 @@ by `scripts/prepare_real_clients.py` with its manifest and hashes retained.
 
 Downloaded-input SHA-256 values:
 
-| Input | SHA-256 |
-| --- | --- |
-| open.mp Windows | `d1b5ea1d09e7de0f144bf0055183e3ceaad5ff8a0a8e791021141e8973f84e03` |
-| open.mp Linux dynssl | `2be12550e3aaff0e60510ae8823e18b9759990eca3f02c101a49bcb3c985d222` |
-| samp-bcrypt Windows | `673e7511699a8e92452a323d4e35567e2c990c0779e1ef2d20b298940cd031c3` |
-| samp-bcrypt Linux | `ebf76b12d799046a605e3063bb7b64b08e1fad9bdb3c299b357ec215a0793b5d` |
+| Input                   | SHA-256                                                            |
+| ----------------------- | ------------------------------------------------------------------ |
+| open.mp Windows         | `d1b5ea1d09e7de0f144bf0055183e3ceaad5ff8a0a8e791021141e8973f84e03` |
+| open.mp Linux dynssl    | `2be12550e3aaff0e60510ae8823e18b9759990eca3f02c101a49bcb3c985d222` |
+| samp-bcrypt Windows     | `673e7511699a8e92452a323d4e35567e2c990c0779e1ef2d20b298940cd031c3` |
+| samp-bcrypt Linux       | `ebf76b12d799046a605e3063bb7b64b08e1fad9bdb3c299b357ec215a0793b5d` |
 | PostgreSQL 17.11 source | `5367f6fb2ec97efe1eb2e0c7926bb33438e51b0bd3a9733b88498056a7dc9a7e` |
 
 Hashes of the actually executed component, AMX, client, provider, server and runtimes
