@@ -275,10 +275,12 @@ jobs:
                       mingw-w64-ucrt-x86_64-ninja mingw-w64-ucrt-x86_64-postgresql
                       mingw-w64-ucrt-x86_64-python git
             - shell: msys2 {0}
+              id: windows_build
               run: |
                   cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPG_BUILD_BENCHMARK=ON -DPG_STRESS_SECONDS="$PG_STRESS_SECONDS"
                   cmake --build build --parallel 4
             - name: Obtain isolated PostgreSQL server tools
+              id: postgres_tools
               shell: pwsh
               run: |
                   Invoke-WebRequest `
@@ -288,9 +290,31 @@ jobs:
                   	throw 'PostgreSQL archive checksum changed'
                   }
                   Expand-Archive postgres.zip -DestinationPath build-server
-            - shell: msys2 {0}
+            - name: Repeat all stalled-handshake scenarios in fresh TLS clusters
+              if: always() && steps.windows_build.outcome == 'success' && steps.postgres_tools.outcome == 'success'
+              shell: msys2 {0}
               run: |
-                  python tests/run_postgres.py --build build --postgres-bin build-server/pgsql/bin
+                  for attempt in 1 2 3 4 5; do
+                    target="build/stall-repetitions/attempt-$attempt"
+                    mkdir -p "$target"
+                    status=0
+                    python tests/run_postgres.py --build build --postgres-bin build-server/pgsql/bin \
+                      --stalls-only --stall-diagnostics > "$target/runner.log" 2>&1 || status=$?
+                    cat "$target/runner.log"
+                    for file in build/Testing/Temporary/stall-*.log build/Testing/Temporary/server.log \
+                        build/Testing/Temporary/LastTest.log build/Testing/Temporary/LastTestsFailed.log \
+                        build/Testing/Temporary/qualification.xml; do
+                      if [ -f "$file" ]; then cp "$file" "$target/"; fi
+                    done
+                    printf '{"attempt":%s,"exit_code":%s}\n' "$attempt" "$status" > "$target/outcome.json"
+                    # Preserve the first negative and stop; a later pass cannot replace it.
+                    if [ "$status" -ne 0 ]; then exit "$status"; fi
+                  done
+            - name: Run the complete core and TLS suite
+              if: always() && steps.windows_build.outcome == 'success' && steps.postgres_tools.outcome == 'success'
+              shell: msys2 {0}
+              run: |
+                  python tests/run_postgres.py --build build --postgres-bin build-server/pgsql/bin --stall-diagnostics
             - name: Verify CTest qualification regressions
               shell: msys2 {0}
               run: python -m unittest discover -s tests -p test_ctest_qualification.py -v
@@ -302,6 +326,7 @@ jobs:
                   path: |
                       build/Testing/Temporary/*.log
                       build/Testing/Temporary/qualification.xml
+                      build/stall-repetitions/
     windows-x86:
         name: Windows x86 MSVC and open.mp
         runs-on: windows-latest

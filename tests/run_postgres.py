@@ -23,6 +23,8 @@ from ctest_qualification import qualify_ctest
 from stall_server import StallServer
 from wire_fault_proxy import WireFaultProxy
 from network_diagnostic import Collector as NetworkDiagnostic
+from postgres_tls import create_certificates
+from stall_diagnostic import StallDiagnostic, clear_stall_output, retain_stall_evidence
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--build", default="build")
@@ -46,6 +48,8 @@ parser.add_argument("--component")
 parser.add_argument("--real-sessions", help="JSON configuration for the optional real network client suite")
 parser.add_argument("--only-real-sessions", action="store_true")
 parser.add_argument("--network-only", action="store_true", help="Run only the bounded wire regression in a fresh cluster")
+parser.add_argument("--stalls-only", action="store_true", help="Run all stalled-handshake scenarios in a fresh cluster")
+parser.add_argument("--stall-diagnostics", action="store_true", help="Retain bounded SQL/TLS state observations during the stall test")
 parser.add_argument("--gamemode")
 parser.add_argument("--runtime", action="append", default=[])
 parser.add_argument("--unload-script")
@@ -70,6 +74,14 @@ parser.add_argument(
     help="Use fresh PostgreSQL fixture and run only server smoke",
 )
 args = parser.parse_args()
+if args.network_only and args.stalls_only:
+    parser.error("--network-only and --stalls-only select different regressions")
+if args.stalls_only and (args.only_openmp or args.only_real_sessions or args.network_diagnostics):
+    parser.error("--stalls-only cannot be combined with a different suite selector or network capture")
+if args.stall_diagnostics and (args.network_only or args.only_openmp or args.only_real_sessions):
+    parser.error("--stall-diagnostics requires the core or stalled-handshake suite")
+if not args.only_openmp and not args.only_real_sessions:
+    clear_stall_output(args.build)
 if args.only_real_sessions and not args.real_sessions:
     parser.error("--only-real-sessions requires --real-sessions")
 if bool(args.logging_performance_gamemode) != bool(args.logging_performance_csv):
@@ -147,68 +159,7 @@ with socket.socket() as sock:
     sock.bind(("127.0.0.1", 0))
     port = sock.getsockname()[1]
 run(["initdb", "-D", str(data), "-U", "omp_test", "-A", "trust", "--encoding=UTF8", "--no-locale"])
-run(
-    [
-        "openssl",
-        "req",
-        "-x509",
-        "-newkey",
-        "rsa:2048",
-        "-noenc",
-        "-days",
-        "1",
-        "-subj",
-        "/CN=localhost",
-        "-addext",
-        "subjectAltName=DNS:localhost",
-        "-keyout",
-        str(data / "server.key"),
-        "-out",
-        str(data / "server.crt"),
-    ],
-    stdout=subprocess.DEVNULL,
-    stderr=subprocess.DEVNULL,
-)
-os.chmod(data / "server.key", 0o600)
-run(
-    [
-        "openssl",
-        "req",
-        "-new",
-        "-newkey",
-        "rsa:2048",
-        "-noenc",
-        "-subj",
-        "/CN=omp_cert",
-        "-keyout",
-        str(root / "client.key"),
-        "-out",
-        str(root / "client.csr"),
-    ],
-    stdout=subprocess.DEVNULL,
-    stderr=subprocess.DEVNULL,
-)
-run(
-    [
-        "openssl",
-        "x509",
-        "-req",
-        "-in",
-        str(root / "client.csr"),
-        "-CA",
-        str(data / "server.crt"),
-        "-CAkey",
-        str(data / "server.key"),
-        "-CAcreateserial",
-        "-days",
-        "1",
-        "-out",
-        str(root / "client.crt"),
-    ],
-    stdout=subprocess.DEVNULL,
-    stderr=subprocess.DEVNULL,
-)
-os.chmod(root / "client.key", 0o600)
+create_certificates(run, root, data)
 (data / "pg_hba.conf").write_text(
     "hostssl all omp_cert 127.0.0.1/32 cert\nhost all omp_password 127.0.0.1/32 scram-sha-256\nhost all all 127.0.0.1/32 trust\n",
     encoding="utf8",
@@ -268,6 +219,7 @@ stall_servers = []
 wire_proxies = []
 monitor = None
 network_diagnostic = None
+stall_diagnostic = None
 try:
     startup_attempted = True
     run(["pg_ctl", "-D", str(data), "-l", str(root / "server.log"), "-w", "start"])
@@ -315,7 +267,7 @@ try:
     if not args.only_openmp and not args.only_real_sessions:
         wire_root = root / "wire"
         env["OMP_PG_TEST_WIRE_ROOT"] = str(wire_root)
-        for name, mode, tag in (
+        wire_cases = (
             ("begin", "lose", b"BEGIN"),
             ("savepoint", "lose", b"SAVEPOINT"),
             ("rollback_to", "lose", b"ROLLBACK"),
@@ -329,7 +281,8 @@ try:
             ("fragment", "fragment", b"INSERT 0 1"),
             ("tls_hold", "tls_hold", b"INSERT 0 1"),
             ("tls_shutdown", "tls_hold", b"INSERT 0 1"),
-        ):
+        )
+        for name, mode, tag in (() if args.stalls_only else wire_cases):
             wire = WireFaultProxy(port, wire_root / name, mode, tag)
             wire_proxies.append(wire)
             transport = (
@@ -357,15 +310,34 @@ try:
         if args.network_diagnostics:
             network_diagnostic = NetworkDiagnostic(args.build, env, root / "server.log")
             network_diagnostic.start()
+        if args.stall_diagnostics:
+            with (root / "stall-certificates.log").open("wb") as output:
+                for certificate in (data / "server.crt", root / "client.crt"):
+                    run(["openssl", "x509", "-in", str(certificate), "-noout", "-dates",
+                         "-fingerprint", "-sha256", "-subject", "-issuer"],
+                        stdout=output, stderr=subprocess.STDOUT)
+            if os.name == "nt":
+                with (root / "stall-key-acl.log").open("wb") as output:
+                    for path in (root, data / "server.key", root / "client.key"):
+                        run(["icacls", str(path)], stdout=output, stderr=subprocess.STDOUT)
+            else:
+                (root / "stall-key-acl.log").write_text(json.dumps({
+                    path.name: oct(path.stat().st_mode & 0o777)
+                    for path in (data / "server.key", root / "client.key")}) + "\n", encoding="utf8")
+            psql = Path(args.postgres_bin).resolve() / ("psql.exe" if os.name == "nt" else "psql") if args.postgres_bin else "psql"
+            stall_diagnostic = StallDiagnostic(root, env, psql)
+            stall_diagnostic.start()
+        test_regex = ("^network_recovery_integration$" if args.network_only else
+                      "^connection_stalls_integration$" if args.stalls_only else None)
         qualify_ctest(args.build, args.config, env, run,
-                      test_regex="^network_recovery_integration$" if args.network_only else None)
+                      test_regex=test_regex)
         if any(not wire.injected for wire in wire_proxies if wire.mode != "fragment"):
             raise RuntimeError("Required wire fault was not exercised")
         if restart_errors:
             raise RuntimeError("PostgreSQL restart fixture failed") from restart_errors[0]
-        if not args.network_only and not proxy.dropped.is_set():
+        if not args.network_only and not args.stalls_only and not proxy.dropped.is_set():
             raise RuntimeError("COMMIT response loss was not exercised")
-        if not args.network_only and not rollback_proxy.dropped.is_set():
+        if not args.network_only and not args.stalls_only and not rollback_proxy.dropped.is_set():
             raise RuntimeError("ROLLBACK response loss was not exercised")
         for stalled in ([] if args.network_only else stall_servers):
             if stalled.errors or len(list(stalled.directory.glob("ready-*"))) != 20:
@@ -514,8 +486,15 @@ try:
 finally:
     exception_in_flight = sys.exc_info()[0] is not None
     network_diagnostic_ok = True
+    stall_diagnostic_ok = True
     if network_diagnostic:
         network_diagnostic_ok = network_diagnostic.finish()
+    if stall_diagnostic:
+        try:
+            stall_diagnostic_ok = stall_diagnostic.finish()
+        except Exception as error:
+            stall_diagnostic_ok = False
+            print(f"Stall diagnostic shutdown failed: {type(error).__name__}; continuing fixture cleanup", file=sys.stderr)
     stop_monitor.set()
     if monitor:
         monitor.join(timeout=15)
@@ -555,6 +534,13 @@ finally:
             if not exception_in_flight:
                 raise
     print(f"Isolated test artifacts: {root}")
+    try:
+        retain_stall_evidence(root, args.build)
+    except Exception as error:
+        if exception_in_flight:
+            print(f"Stall evidence retention failed; original test failure retained: {error}", file=sys.stderr)
+        else:
+            raise
     if not network_diagnostic_ok:
         if exception_in_flight:
             print("Network diagnostic collection failed; original test failure retained", file=sys.stderr)
@@ -565,5 +551,10 @@ finally:
             print("Wire cleanup errors: " + "; ".join(wire_errors), file=sys.stderr)
         else:
             raise RuntimeError("Wire cleanup failed: " + "; ".join(wire_errors))
+    if not stall_diagnostic_ok:
+        if exception_in_flight:
+            print("Stall diagnostic collection failed; original test failure retained", file=sys.stderr)
+        else:
+            raise RuntimeError("Stall diagnostic collection failed; inspect stall-observer.log")
     if not exception_in_flight and any(stalled.errors for stalled in stall_servers):
         raise RuntimeError("Stall fixture failed; inspect stall-*.log in the fixture directory")
