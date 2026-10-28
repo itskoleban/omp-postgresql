@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -148,6 +149,7 @@ def prepare(packages, output, source=ROOT):
         ],
         cwd=source,
         check=True,
+        env={**os.environ, "TZ": "UTC"},
     )
     (output / "RELEASE-NOTES.md").write_text(
         f"{notes}\n## Exact source identity\n\nSource commit: `{commit}`.\n"
