@@ -1,11 +1,13 @@
 """Check fault boundaries and cleanup independently of the libpq integration suite."""
 
 from pathlib import Path
+import json
 import socket
 import struct
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 
 from stall_server import StallServer
 
@@ -69,6 +71,15 @@ class StallServerTests(unittest.TestCase):
         self.assertTrue(all(not worker.is_alive() for worker in server.workers))
         self.assertEqual(client.recv(1), b"")
         self.assertFalse(server.errors)
+        rows = [json.loads(line) for line in (server.directory.parent / 'stall-startup-events.log').read_text().splitlines()]
+        self.assertEqual(rows[-1], {'event': 'footer', 'records': len(rows)-1, 'dropped': 0})
+        events = rows[:-1]
+        self.assertEqual([row['seq'] for row in events], list(range(len(events))))
+        self.assertEqual([row['event'] for row in events if row['peer'] == 1],
+                         ['accepted', 'ready', 'closed'])
+        self.assertEqual(sorted(row['monotonic_ns'] for row in events),
+                         [row['monotonic_ns'] for row in events])
+        self.assertTrue((server.directory / 'accepted-1').is_file())
 
     def test_partial_peer_shutdown_does_not_claim_boundary(self):
         server, client = self.start("ssl")
@@ -77,6 +88,22 @@ class StallServerTests(unittest.TestCase):
         self.until(lambda: (server.directory / "closed-1").exists())
         self.assertFalse(list(server.directory.glob("ready-*")))
         self.assertFalse(server.errors)
+
+    def test_accepted_marker_failure_is_explicit_and_does_not_change_protocol_boundary(self):
+        original = Path.touch
+        def touch(path, *args, **kwargs):
+            if path.name.startswith('accepted-'):
+                raise PermissionError('fixture marker denied')
+            return original(path, *args, **kwargs)
+        with patch('stall_server.Path.touch', new=touch):
+            server, client = self.start('startup')
+            payload = b'user\0omp_test\0\0'
+            client.sendall(struct.pack('!II', 8 + len(payload), 196608) + payload)
+            self.until(lambda: (server.directory / 'ready-1').exists())
+            client.close()
+            self.until(lambda: (server.directory / 'closed-1').exists())
+        self.assertTrue(any('accepted marker write failed' in error for error in server.errors))
+        self.assertTrue(server.thread.is_alive())
 
     def test_malformed_startup_fails_fixture(self):
         server, client = self.start("startup")
