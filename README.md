@@ -1,9 +1,13 @@
 # omp-postgresql
 
 A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
-[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1) is a
-published testing Pre-release, not a stable or production-certified release. Review the
-[validated platforms and known limitations](docs/validation.md) before deploying it.
+This source identifies **v0.1.0-rc.2**, a Release Candidate for testing and evaluation.
+Obtain public packages from the [releases page](https://github.com/itskoleban/omp-postgresql/releases)
+and verify their exact source identity and checksums. Stable v0.1.0 is not published;
+a Release Candidate does not certify production suitability. The historical
+[v0.1.0-rc.1 Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
+retains its original source and assets. Review the
+[validated platforms and known limitations](docs/validation.md) before testing.
 The [RC readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
 qualification work and publication gates.
 
@@ -116,7 +120,7 @@ It does not modify existing tables. Compile with the official open.mp Pawn 3.10.
 32-bit cells, and official includes:
 
 ```sh
-pawncc examples/smoke.pwn -ipawn -i/path/to/omp-stdlib -obuild/smoke.amx
+pawncc examples/smoke.pwn -E -ipawn -i/path/to/omp-stdlib -obuild/smoke.amx
 ```
 
 Install the AMX as the gamemode of a test instance, configure the `game` profile, start the
@@ -132,11 +136,14 @@ gamemodes cover VM lifecycle regressions. [sections.pwn](examples/sections.pwn) 
 saves and statement reuse; see the [section format and capture rules](docs/sql-sections.md).
 All thirteen examples are compiled with warnings treated as errors in CI, including from
 the extracted x86 packages. Basic CRUD, scalar values, saving strategies and a guarded bank
-transfer complement the original six unattended server scenarios. The interactive
-[account tutorial](docs/accounts.md) has an optional external hashing provider and is
-explicitly separate from unattended runtime qualification. Together with
-[logging.pwn](examples/logging.pwn), eleven public examples run unattended; accounts and
-custom gameplay remain compile-checked interactive tutorials.
+transfer complement the original six unattended server scenarios. Together with
+[logging.pwn](examples/logging.pwn), eleven public examples run unattended. The interactive
+[account tutorial](docs/accounts.md) uses an optional external hashing provider; its default
+build denies authentication. Separate [bounded real-client qualification](docs/validation.md#real-player-sessions-october-24-2026)
+exercises account and custom gameplay flows with ordinary-protocol headless clients and
+an external bcrypt provider on both x86 platforms. Coverage excludes rendered clients,
+the official-client encrypted connection path, untested providers/environments and the
+24-hour stability campaign.
 
 See the [API execution guide](docs/api.md), [69-native reference](docs/native-reference.md),
 [architecture and reference analysis](docs/design.md),
@@ -210,7 +217,8 @@ New code can submit `pg_execute(statement, 0, 0, 0, true, "OnAccountLoaded", "ii
 The public receives `(job, playerid, session)` with copied arguments. Existing
 `OnPgComplete(job, context)` programs and compiled AMX calls remain supported.
 Use `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")` for named SQL;
-`pg_prepare_section` was removed before 1.0; migrate and recompile affected AMX files.
+`pg_prepare_section` was removed before RC.1; older pre-RC.1 programs that use it must
+migrate and recompile affected AMX files. RC.2 preserves RC.1's public Pawn signatures.
 See [cleanup and migration](docs/prestable-cleanup.md). Read the
 [callback contract](docs/callbacks.md) and [bounded API audit](docs/api-modernization.md)
 before migrating; include and component versions must match.

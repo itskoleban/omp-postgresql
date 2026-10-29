@@ -1,4 +1,4 @@
-# Native reference 0.1.0-rc.1
+# Native reference 0.1.0-rc.2
 
 This reference covers all 69 declarations in [the public include](../pawn/omp-postgresql.inc).
 Use the [operation selector](quick-reference.md) and [execution contract](api.md) first.
@@ -510,7 +510,8 @@ native pg_commit(transaction, context = 0, bool:notify = true, const callback[] 
 After a required failure, execute ROLLBACK and report FAILED/PG_ERROR_TRANSACTION. Dispatch
 of the finish job releases the reservation. Lost COMMIT response can mean UNCERTAIN.
 **Return/errors:** Finish job or 0 for invalid/unconfirmed/already ending transaction or submission
-failure. Local rejection restores the ending marker. Confirmed SQL durability follows server policy.
+failure. Local rejection removes the ending marker and preserves the transaction reservation.
+Confirmed SQL durability follows server policy.
 Deferred constraints can reject COMMIT after earlier successful statements: the finish job
 is FAILED/PG_ERROR_SQL with its SQLSTATE, without replay. An idle server session is immediately
 reusable after dispatch; another post-error session state is discarded before recovery.

@@ -1,13 +1,17 @@
 # Installing omp-postgresql
 
-## Published testing Release Candidate
+## Testing Release Candidate distributions
 
-For a known, versioned distribution, start with the published
-[v0.1.0-rc.1 Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1).
+Start with the repository's [Releases page](https://github.com/itskoleban/omp-postgresql/releases)
+and select a public testing Pre-release. This source prepares **v0.1.0-rc.2**; use its
+assets only after that release is public and its exact-commit qualification is complete.
 Choose the Windows x86 or Linux x86 distribution ZIP and its matching `.zip.sha256` file.
-Its full source identity is `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`; later repository
-documentation does not change that tag or its assets. The source ZIP contains build inputs,
-not a prebuilt component. This is a testing release, not production certification.
+The source ZIP contains build inputs, not a prebuilt component. RC.2 is intended for
+testing and evaluation, not production certification; stable v0.1.0 is not published.
+
+The historical [v0.1.0-rc.1 Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
+retains source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`, its original tag and assets.
+Later documentation does not change that release.
 
 ## Development CI artifacts
 
@@ -43,6 +47,75 @@ bytes; the unsigned inventory is not an authenticated build attestation. Avoid a
 `LD_LIBRARY_PATH` entry, which makes the [loader](https://man7.org/linux/man-pages/man8/ld.so.8.html)
 search the current directory.
 
+### Windows x86
+
+Install the supported Microsoft Visual C++ v14 Redistributable **x86** separately.
+Download the Windows ZIP and sidecar from the selected release. In PowerShell, replace
+`COMMIT` with the twelve-character source prefix in the actual asset name, and set
+`$server` to a stopped, disposable official open.mp 1.5.8.3079 x86 installation:
+
+```powershell
+$archive = 'omp-postgresql-0.1.0-rc.2.COMMIT-windows-x86.zip'
+$server = 'C:\openmp-test'
+$expected = ((Get-Content -LiteralPath "$archive.sha256" -Raw).Trim() -split '\s+')[0]
+$actual = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash
+if ($actual -ine $expected) { throw 'Distribution checksum mismatch' }
+if (Test-Path -LiteralPath '.\rc2-extracted') { throw 'Use a fresh extraction directory' }
+Expand-Archive -LiteralPath $archive -DestinationPath '.\rc2-extracted' -ErrorAction Stop
+Get-Content -LiteralPath '.\rc2-extracted\omp-postgresql\manifest.json'
+```
+
+Inspect the displayed manifest, then copy the package:
+
+```powershell
+Copy-Item -Path '.\rc2-extracted\omp-postgresql\*' -Destination $server -Recurse -Force -ErrorAction Stop
+```
+
+The destination must already contain the
+official server; the component archive does not include it. Keep all packaged root DLLs
+beside `omp-server.exe`. A missing-runtime or wrong-architecture loader error is not a
+successful installation; see [troubleshooting](troubleshooting.md).
+
+### Linux x86 on Ubuntu 24.04
+
+Install the external i386 runtimes, plus `unzip` for extraction:
+
+```sh
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install libc6:i386 libstdc++6:i386 libgcc-s1:i386 libssl3t64:i386 unzip
+```
+
+Download the Linux ZIP and sidecar from the selected release. Replace `COMMIT` with the
+actual twelve-character source prefix, and set `server` to a stopped, disposable
+official open.mp 1.5.8.3079 x86 **dynssl** installation owned by your user:
+
+```sh
+archive='omp-postgresql-0.1.0-rc.2.COMMIT-linux-x86.zip'
+server='/srv/openmp-test'
+sha256sum --strict --check "$archive.sha256" || exit 1
+test ! -e rc2-extracted || exit 1
+unzip "$archive" -d rc2-extracted || exit 1
+cat rc2-extracted/omp-postgresql/manifest.json
+```
+
+Inspect the manifest, then copy the package and check loader dependencies:
+
+```sh
+cp -a rc2-extracted/omp-postgresql/. "$server/"
+cd "$server"
+export LD_LIBRARY_PATH="$PWD/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+ldd components/omp-postgresql.so
+ldd lib/libpq.so.5
+```
+
+Inspect the manifest before copying and require every loader dependency to resolve.
+Use a fresh extraction directory. Other distributions need equivalent compatible
+i386 libraries and separate validation; these Ubuntu package names are not universal.
+Launch `./omp-server` from this directory after configuring the service profile below.
+
+### Service profile and first test
+
 Configure `PGSERVICEFILE`, `PGPASSFILE` and trusted certificates outside the package.
 The supplied [profile](../examples/pg_service.conf) is a credential-free example; replace
 its connection details. Use `sslmode=verify-full` for remote services and Unix permissions
@@ -65,8 +138,8 @@ No existing PostgreSQL cluster or production server is used by those tests.
 Read [API guarantees](api.md), [security](security.md), [validation limits](validation.md)
 and the [packaging procedure](packaging.md) before deploying. The independent Astra audit
 and confirmed corrections are recorded in [the audit report](independent-audit.md).
-RC.1 publication is complete; future releases require separate qualification and owner
-authorization. See [current readiness](rc-readiness.md) for evidence and remaining limits, and
+Every release requires separate qualification and owner authorization. See
+[current readiness](rc-readiness.md) for evidence and remaining limits, and
 [getting started](getting-started.md) for service configuration and your first CRUD example.
 
 ## Source builds

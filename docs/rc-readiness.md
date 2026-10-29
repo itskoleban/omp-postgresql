@@ -1,10 +1,39 @@
 # Release Candidate readiness
 
-[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
-is published as a testing Pre-release. It is not stable-release or production
-certification; later repository changes do not alter that tag or its assets.
+This source prepares **v0.1.0-rc.2**, a candidate for testing and evaluation. Consult the
+[Releases page](https://github.com/itskoleban/omp-postgresql/releases) for public release
+availability. An RC does not certify production suitability; stable v0.1.0 is not published.
 
-## Verified baseline and current gates
+## RC.2 exact-source gates
+
+The pre-preparation baseline is `master`
+**`02323260583a5c6fbbcb58d933f0bc0c4121bcf5`**, with all seven jobs successful in
+[CI 40799996089](https://github.com/itskoleban/omp-postgresql/actions/runs/40799996089).
+RC.2 preparation and any corrections require their own exact-head PR validation.
+After integration, all seven jobs must pass again on the exact final `master` commit.
+PR CI and this baseline run cannot substitute for that final run.
+
+Before publication, require both Windows x86 and Linux x86 distributions from that
+same commit, installed-package official open.mp checks and real-session evidence,
+matching version `0.1.0-rc.2`/channel `rc`, source archive, dependency manifests, release
+inventory, English notes and verified checksums. Preserve all frozen historical files
+and the portable checksum ordering. The tag must resolve to that integrated commit;
+the manual [release workflow](releasing.md) must preserve Pre-release classification.
+Public availability and the completed inventory are verified separately after publication.
+
+Issue [#31](https://github.com/itskoleban/omp-postgresql/issues/31) remains unresolved:
+the historical ASan network cleanup timeout has no established root cause. Historical
+intermittent Windows connection stalls, a Linux logging anomaly with incomplete original
+evidence, and environment-specific MinGW/libpq observations are not claimed fixed by
+passing CI. The 24-hour sustained campaign has not been completed and is outside this
+release task. Untested providers, systems and operational limits remain documented in
+[validation](validation.md) and the [release notes](release-notes.md).
+
+## Historical RC.1 baseline and gates
+
+[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
+is a published testing Pre-release. Its original tag and assets remain unchanged.
+The following table records RC.1-era qualification, not completion of RC.2 gates.
 
 Published source: **`db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`**, with all seven
 jobs successful in [CI 39515353213](https://github.com/itskoleban/omp-postgresql/actions/runs/39515353213)
@@ -74,5 +103,5 @@ These development results do not replace RC.1's tagged source or qualification. 
 changes need their own checks; future releases need separate owner authorization under
 the [release procedure](releasing.md).
 
-Publication of the testing RC is complete. Audit preservation and later documentation
+Publication of RC.1 is complete. Audit preservation and later documentation
 maintenance do not extend its audit scope or certify production safety.
