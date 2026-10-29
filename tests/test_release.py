@@ -259,7 +259,11 @@ class ReleaseTests(unittest.TestCase):
                 {p.name: p.read_bytes() for p in first.iterdir()},
                 {p.name: p.read_bytes() for p in second.iterdir()},
             )
-            for line in (first / "SHA256SUMS").read_text().splitlines():
+            checksum_lines = (first / "SHA256SUMS").read_text().splitlines()
+            # Portable byte order: pathlib ordering folds case on Windows.
+            checksum_names = [line.split("  ")[1] for line in checksum_lines]
+            self.assertEqual(checksum_names, sorted(checksum_names))
+            for line in checksum_lines:
                 digest, name = line.split("  ")
                 self.assertEqual(digest, release.package.digest((first / name).read_bytes()))
             with zipfile.ZipFile(first / inventory["source_archive"]) as archive:
