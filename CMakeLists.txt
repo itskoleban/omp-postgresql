@@ -6,7 +6,7 @@ project(
 )
 # Zero selects a stable source identity; positive values retain the RC route.
 # This is intentionally source-controlled, never a cache/build override.
-set(PG_RELEASE_CANDIDATE 0)
+set(PG_RELEASE_CANDIDATE 2)
 if(PG_RELEASE_CANDIDATE EQUAL 0)
     set(PG_DISTRIBUTION_VERSION "${PROJECT_VERSION}")
     set(PG_RELEASE_CHANNEL "stable")

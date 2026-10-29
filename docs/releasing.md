@@ -1,11 +1,12 @@
 # Versioning and owner-controlled publication
 
-The source is configured for **v0.1.0 stable**, with CMake's numeric `PROJECT_VERSION`
-set to `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` set to zero. A positive
-candidate number selects `0.1.0-rc.N` and the prerelease channel instead. Package names,
-manifests and the component's SDK `SemanticVersion` derive from those same source values.
-Preparing stable assets does not authorize publication or establish readiness; final
-qualification and explicit owner approval remain required. No Pawn signature changes.
+The source is configured for **v0.1.0-rc.2**, with CMake's numeric `PROJECT_VERSION`
+set to `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` set to `2`. This selects
+distribution version `0.1.0-rc.2` and channel `rc`. Zero selects a stable source identity;
+no stable release is authorized by this RC preparation. Package names, manifests and
+the component's SDK `SemanticVersion` derive from those same source values.
+Exact-commit qualification and owner authorization remain publication gates. The public
+Pawn include is unchanged from RC.1. This candidate is for testing and evaluation.
 
 The public [v0.1.0-rc.1 testing Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
 retains its tag, assets and source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc` unchanged.

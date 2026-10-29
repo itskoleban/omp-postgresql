@@ -48,8 +48,12 @@ CI repeats compilation using the extracted package's `qawno/include`. It runs th
 six server scenarios plus basic/values/saving/transfer and logging: eleven unattended
 public examples against a disposable TLS PostgreSQL instance. The separate
 [real Pawn measurement fixture](logging-qualification.md) is under `tests/` and is not a
-fourteenth public example. Interactive players, password-provider behavior and adversarial account races
-require separate qualification; see [validation](validation.md).
+fourteenth public example. Separate [bounded real-client qualification](validation.md#real-player-sessions-october-24-2026)
+exercises account/custom flows, player-slot reuse, external bcrypt callbacks and uncertain
+registration with ordinary-protocol headless clients on both x86 platforms. Those finite
+scenarios exclude rendered clients, the official-client encrypted connection path,
+untested providers/environments and the deferred 24-hour campaign. Validate your own
+interactive client, provider and application policies before deployment.
 
 ## Cleanup and adapting fixtures
 
@@ -82,8 +86,9 @@ Use the [callback contract](callbacks.md) and [API audit](api-modernization.md) 
 ## Pre-stable cleanup
 
 Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
-The removed `pg_prepare_section` requires source migration and AMX recompilation; other
-leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+`pg_prepare_section` was removed before RC.1. Older pre-RC.1 programs that use it require
+source migration and AMX recompilation; RC.2 preserves RC.1's public Pawn signatures.
+Other leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
 and [internal diagnostics](debugging.md).
 
 ## Logging and source diagnostics

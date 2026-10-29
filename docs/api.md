@@ -348,8 +348,9 @@ prevent further operations in that transaction. COMMIT after a required failure 
 ROLLBACK and reports FAILED/PG_ERROR_TRANSACTION. Once completion is dispatched, close
 both the final job and the BEGIN job.
 
-The total transaction deadline closes the session and rolls back unconfirmed work. Finishing
-the transaction handle releases the logical reservation. A lost connection during COMMIT
+The total transaction deadline abandons the physical session. PostgreSQL rolls back an open,
+uncommitted transaction when it detects the disconnect; this is not a confirmed ROLLBACK.
+Dispatching a finish job releases the logical reservation. A lost connection during COMMIT
 may leave its result UNCERTAIN.
 
 PostgreSQL can reject COMMIT itself, for example with a deferred unique/foreign-key constraint,

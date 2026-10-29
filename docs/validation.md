@@ -1,21 +1,44 @@
 # Validation results and known limitations
 
-The published testing candidate is **v0.1.0-rc.1**. Passing a finite suite verifies its listed
-scenarios; it does not certify production suitability. Current evidence
-is separated below from the historical qualification records that follow.
+This source prepares **v0.1.0-rc.2** for testing and evaluation. Public availability is
+recorded on the [Releases page](https://github.com/itskoleban/omp-postgresql/releases).
+Passing a finite suite verifies its listed scenarios; it does not certify production
+suitability. Current preparation gates are separate from historical qualification records.
 
 | Evidence                  | Where to start                                                                                | Scope                                                                            |
 | ------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| RC.2 preparation          | [Exact-source gates](#rc2-preparation-and-exact-source-gates)                                    | Baseline evidence and mandatory final integrated qualification.                  |
 | Published RC.1            | [Publication record](#published-release-candidate-october-21-2026-utc)                        | Exact tagged source `db2bfb9`; immutable release assets.                         |
 | Development documentation | [Current checks](#development-documentation-checks)                                           | Current checkout/PR; compilation and disposable SQL checks have explicit limits. |
 | Historical qualification  | [October 20 baseline](#verified-master-baseline-october-20-2026-utc) and later dated sections | Original source identities, counts and measurements remain historical.           |
 | Unqualified scenarios     | [Remaining coverage](#remaining-release-qualification)                                        | Work not established by the finite suites or measurements.                       |
 
+## RC.2 preparation and exact-source gates
+
+Release preparation started from `master` commit
+**`02323260583a5c6fbbcb58d933f0bc0c4121bcf5`**. All seven jobs passed in
+[baseline CI 40799996089](https://github.com/itskoleban/omp-postgresql/actions/runs/40799996089).
+That run qualifies the pre-preparation source; it does not qualify later RC.2 edits.
+The preparation PR must pass its own exact-head CI, followed by a separate successful
+seven-job `build-and-test` run on the exact integrated `master` commit before tagging.
+Both x86 distributions, extracted-package official-server checks, real-session evidence,
+source archive, manifests, notes, inventory and checksums must match that final source.
+The [release procedure](releasing.md) describes the publication checks. A public release
+and its inventory identify the completed publication; this baseline is not a publication record.
+
+Issue [#31](https://github.com/itskoleban/omp-postgresql/issues/31), the historical ASan
+network cleanup timeout, has no established root cause. Historical intermittent Windows
+connection stalls, the Linux logging anomaly with incomplete original evidence, and
+environment-specific MinGW/libpq observations also remain limitations. Passing later
+finite runs does not resolve every historical failure. The 24-hour sustained campaign
+has not been completed or started as part of this release preparation. See the
+[release notes](release-notes.md) for the candidate's remaining risks.
+
 ## Development documentation checks
 
 ### Phase 2 network, TLS and recovery
 
-The [Phase 2 report](https://github.com/itskoleban/omp-postgresql/blob/test/v0.1.0-network-recovery-qualification/audit/network-recovery-qualification.md) defines thirteen
+The [Phase 2 report](https://github.com/itskoleban/omp-postgresql/blob/02323260583a5c6fbbcb58d933f0bc0c4121bcf5/audit/network-recovery-qualification.md) defines thirteen
 bounded real Engine/PostgreSQL wire scenarios and two additional official open.mp
 session cases, preserving all nineteen existing cases. It distinguishes conservative
 uncertainty from confirmed PostgreSQL execution, physical transport recovery from
@@ -31,8 +54,8 @@ representations. The evidence ledger retains original and sanitized hashes and
 observation fingerprints; historical outcomes are unchanged. New source snapshots
 separate tracked edits from generated/untracked entries while retaining the aggregate
 `source_dirty` flag. Windows startup aborts remain a known limitation without a
-confirmed cause, rather than a defect marked fixed after a pass. This follow-up
-requires full CI for its own head, with all 19 scenarios and existing gates intact.
+confirmed cause, rather than a defect marked fixed after a pass. These changes are
+integrated; their original PR evidence remains distinct from final RC.2 qualification.
 The 24-hour gate remains BLOCKED pending infrastructure, formal freeze and explicit
 owner authorization.
 
@@ -45,9 +68,9 @@ uncertain INSERT reconciliation, GMX and the custom tutorial's load/save routing
 The report/matrix bind each run to its exact source; earlier Windows TLS readiness
 failures remain recorded with successful follow-ups, without an invented cause.
 
-The new x86 CI steps build pinned clients, verify the provider archive, run bounded
-fixtures against a fresh TLS cluster and retain individual results and logs. See
-the PR for the latest exact-source CI status. Retain-work/provider-drop/RCON-gate
+The x86 CI steps build pinned clients, verify the provider archive, run bounded
+fixtures against a fresh TLS cluster and retain individual results and logs. Check
+the exact-source run for each candidate. Retain-work/provider-drop/RCON-gate
 fixture controls, ordinary compatibility protocol and NPC scope are explicit.
 No rendered/official-client encryption claim, stable-release approval or 24-hour
 campaign follows from these results. Historical results below retain their original
