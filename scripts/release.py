@@ -180,7 +180,8 @@ def prepare(packages, output, source=ROOT):
         json.dumps(inventory, indent=4, sort_keys=True) + "\n", encoding="utf8", newline="\n"
     )
     checksums = "".join(
-        f"{package.digest(path.read_bytes())}  {path.name}\n" for path in sorted(output.iterdir())
+        f"{package.digest(path.read_bytes())}  {path.name}\n"
+        for path in sorted(output.iterdir(), key=lambda path: path.name)
     )
     (output / "SHA256SUMS").write_text(checksums, encoding="utf8", newline="\n")
     print(f"Prepared {version} from {commit}: {output}")
