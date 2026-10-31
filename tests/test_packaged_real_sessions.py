@@ -29,12 +29,12 @@ def installed_fixture(root, system):
         binary = bytearray(100)
         binary[:6] = b"\x7fELF\x01\x01"
         struct.pack_into("<H", binary, 18, 3)
-        del files["components/omp-postgresql.dll"], files["libpq.dll"]
-        files["components/omp-postgresql.so"] = bytes(binary)
+        del files["components/PostgreSQL.dll"], files["libpq.dll"]
+        files["components/PostgreSQL.so"] = bytes(binary)
         files["lib/libpq.so.5"] = bytes(binary)
         manifest.update(platform="linux", archive=manifest["archive"].replace("windows", "linux"))
         manifest["build"]["system"] = "Linux"
-        manifest["dependencies"] = {"components/omp-postgresql.so": {"imports": ["libpq.so.5"]},
+        manifest["dependencies"] = {"components/PostgreSQL.so": {"imports": ["libpq.so.5"]},
                                     "lib/libpq.so.5": {"imports": ["libc.so.6"]}}
         manifest["files"] = {name: digest(data) for name, data in files.items()}
     for name, data in files.items():
@@ -53,7 +53,10 @@ class PackagedRealSessionTests(unittest.TestCase):
                 manifest = installed_fixture(root, system)
                 component, runtime, include, identity = package_inputs(root, system, manifest["commit"])
                 self.assertEqual(component.parent, root / "components")
+                self.assertEqual(component.name, "PostgreSQL." + ("dll" if system == "windows" else "so"))
+                self.assertEqual(list(component.parent.iterdir()), [component])
                 self.assertEqual(include, root / "qawno/include")
+                self.assertTrue((include / "omp_postgresql.inc").is_file())
                 self.assertEqual({p.relative_to(root).as_posix() for p in runtime},
                                  set(manifest["dependencies"]) - {component.relative_to(root).as_posix()})
                 self.assertEqual(identity["component_sha256"], digest(component.read_bytes()))
@@ -61,13 +64,32 @@ class PackagedRealSessionTests(unittest.TestCase):
                 self.assertEqual(identity["manifest_sha256"], digest((root / "manifest.json").read_bytes()))
 
     def test_modified_component_runtime_include_and_extra_files_are_rejected(self):
-        for name in ("components/omp-postgresql.dll", "libpq.dll", "qawno/include/omp-postgresql.inc", "extra.dll"):
+        for name in ("components/PostgreSQL.dll", "libpq.dll", "qawno/include/omp_postgresql.inc", "extra.dll"):
             with self.subTest(name=name), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
                 manifest = installed_fixture(root, "windows")
                 (root / name).write_bytes(b"altered")
                 with self.assertRaises(ValueError):
                     package_inputs(root, "windows", manifest["commit"])
+
+    def test_both_platforms_reject_manifested_legacy_and_duplicate_component_files(self):
+        for system in ("windows", "linux"):
+            suffix = "dll" if system == "windows" else "so"
+            for name in (
+                f"components/omp-postgresql.{suffix}",
+                f"components/PostgreSQL-copy.{suffix}",
+                "components/libPostgreSQL.so",
+                "qawno/include/omp-postgresql.inc",
+            ):
+                with self.subTest(system=system, name=name), tempfile.TemporaryDirectory() as directory:
+                    root = Path(directory)
+                    manifest = installed_fixture(root, system)
+                    data = (root / f"components/PostgreSQL.{suffix}").read_bytes()
+                    (root / name).write_bytes(data)
+                    manifest["files"][name] = digest(data)
+                    (root / "manifest.json").write_text(json.dumps(manifest), encoding="utf8")
+                    with self.assertRaisesRegex(ValueError, "Unexpected package file"):
+                        package_inputs(root, system, manifest["commit"])
 
     def test_stale_source_or_other_platform_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:

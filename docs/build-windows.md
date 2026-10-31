@@ -63,7 +63,9 @@ Build the Windows component for the server's ABI and verify actual loading befor
 
 ## Server package
 
-The package consists of `components/omp-postgresql.dll`, the Pawn include, and documentation.
+The `omp-postgresql` CMake target produces `PostgreSQL.dll`. The package consists of
+`components/PostgreSQL.dll`, `qawno/include/omp_postgresql.inc`, and documentation.
+Pawn sources include `<open.mp>` followed by `<omp_postgresql>`; see [RC migration](installation.md#migrating-from-previous-release-candidates).
 Place `libpq.dll`, `libssl-3.dll`, `libcrypto-3.dll`, and any other dependencies of the chosen
 build where the server's Windows loader can find them. Inspect dependencies with dumpbin
 or objdump; do not substitute a DLL of another architecture. Install the supported MSVC x86
@@ -86,7 +88,7 @@ python tests/run_postgres.py `
     --build build-win32 `
     --postgres-bin C:/deps/server-pg/bin `
     --openmp-dir C:/openmp-test `
-    --component build-win32/Release/omp-postgresql.dll `
+    --component build-win32/Release/PostgreSQL.dll `
     --gamemode build/smoke.amx `
     --unload-script build/unload.amx `
     --callback-gamemode build/callbacks.amx `

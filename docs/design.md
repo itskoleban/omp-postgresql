@@ -34,7 +34,7 @@ Dependencies retain their original licenses.
 | Module                           | Responsibility                                                                                          |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | component.cpp / component.hpp    | IComponent entry point, SDK events, VM generations, and callbacks.                                      |
-| natives.cpp / omp-postgresql.inc | Pawn contract, memory validation, and native registration.                                              |
+| natives.cpp / omp_postgresql.inc | Pawn contract, memory validation, and native registration.                                              |
 | engine.cpp / engine.hpp          | Handles, owners, logical pools, transaction reservations, acceptance, and retained results.             |
 | session.cpp / session.hpp        | Exclusive PGconn, FIFO worker and queue, nonblocking libpq, preparation, reconnection, and publication. |
 | statement.cpp / statement.hpp    | Staging, snapshots, stable types, and confined SQL file loading.                                        |

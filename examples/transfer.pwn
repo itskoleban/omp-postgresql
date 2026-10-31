@@ -1,6 +1,6 @@
 // A small bank transfer, using a reserved lane and constraints. See docs/transactions.md.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 
 enum { CREATE = 1, SEED, BEGIN, LOCK, DEBIT, CREDIT, COMMIT, VERIFY, ROLLBACK };
 new Database;

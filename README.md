@@ -1,12 +1,15 @@
 # omp-postgresql
 
 A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
-This source identifies **v0.1.0-rc.2**, a Release Candidate for testing and evaluation.
+This development source retains the **v0.1.0-rc.2** version semantics and changes the
+distributed filenames to `omp_postgresql.inc`, `PostgreSQL.dll` and `PostgreSQL.so`.
+The project and internal component identity remain `omp-postgresql`.
 Obtain public packages from the [releases page](https://github.com/itskoleban/omp-postgresql/releases)
 and verify their exact source identity and checksums. Stable v0.1.0 is not published;
-a Release Candidate does not certify production suitability. The historical
-[v0.1.0-rc.1 Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
-retains its original source and assets. Review the
+a Release Candidate does not certify production suitability. The published
+[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1) and
+[v0.1.0-rc.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2)
+retain their original tags, assets, checksums and release notes. Review the
 [validated platforms and known limitations](docs/validation.md) before testing.
 The [RC readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
 qualification work and publication gates.
@@ -84,9 +87,23 @@ describes exact-source inventories and the separate owner-triggered publication 
 
 ## Installation and connections
 
-Copy `omp-postgresql.dll` or `.so` into `components/` and install the Pawn include in your
+Copy `PostgreSQL.dll` or `PostgreSQL.so` into `components/` and install `omp_postgresql.inc` in your
 compiler's include directory. Keep the open.mp Pawn component enabled. Do not register this
 component as a legacy SA-MP plugin.
+
+<!-- pawn-fragment: Include directives only; add the script's declarations and callbacks. -->
+
+```pawn
+#include <open.mp>
+#include <omp_postgresql>
+```
+
+When moving from RC.1 or RC.2 to this development source, replace `#include <omp-postgresql>`
+with `#include <omp_postgresql>` and recompile your Pawn scripts. Stop the server and replace
+the old component binary with the matching `PostgreSQL.dll` or `PostgreSQL.so`; keep only
+one copy of this component in `components/`. The Pawn API, UID, internal component name
+and runtime behavior are unchanged. See
+[migration details](docs/installation.md#migrating-from-previous-release-candidates).
 
 Set `PGSERVICEFILE` in the server process environment; see the [example profile](examples/pg_service.conf).
 Use `PGPASSFILE`/`.pgpass` with Unix permissions 0600, certificate authentication, or another

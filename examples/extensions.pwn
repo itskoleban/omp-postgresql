@@ -1,6 +1,6 @@
 // Regression gamemode for the additive API; uses only queries and temporary state.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 #pragma dynamic 16384
 
 enum {

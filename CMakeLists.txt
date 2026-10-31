@@ -130,7 +130,7 @@ if(PG_BUILD_COMPONENT)
         )
     endif()
     target_link_libraries(omp-postgresql PRIVATE pg_core OMP-SDK)
-    set_target_properties(omp-postgresql PROPERTIES PREFIX "")
+    set_target_properties(omp-postgresql PROPERTIES OUTPUT_NAME "PostgreSQL" PREFIX "")
     execute_process(
         COMMAND git rev-parse HEAD
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -219,7 +219,7 @@ if(BUILD_TESTING)
         target_compile_definitions(
             pg_native_tests
             PRIVATE HAVE_STDINT_H=1 PAWN_CELL_SIZE=32
-                    PG_PAWN_API_PATH="${CMAKE_CURRENT_SOURCE_DIR}/pawn/omp-postgresql.inc"
+                    PG_PAWN_API_PATH="${CMAKE_CURRENT_SOURCE_DIR}/pawn/omp_postgresql.inc"
         )
         if(WIN32)
             target_compile_definitions(pg_native_tests PRIVATE HAVE_ALLOCA_H=0)
@@ -479,7 +479,7 @@ if(BUILD_TESTING)
     )
 endif()
 install(
-    FILES pawn/omp-postgresql.inc
+    FILES pawn/omp_postgresql.inc
     DESTINATION ${PG_PAWN_INCLUDE_DIR}
     COMPONENT omp-postgresql
 )

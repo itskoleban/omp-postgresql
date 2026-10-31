@@ -1,7 +1,7 @@
 // Self-contained startup example: temporary fixtures belong to lane 0 only.
 // Replace the fixture setup and trusted SELECTs with your application's schema.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 #pragma dynamic 16384
 
 #define MAX_PROPERTIES (64)

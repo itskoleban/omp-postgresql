@@ -4,6 +4,12 @@ First decide **where** the operation failed. A positive handle is local acceptan
 terminal inspection establishes its outcome. Keep player-facing messages generic and
 filter operator diagnostics, which can contain SQL, row data, database names or addresses.
 
+For this development source, check that the server has exactly one matching
+`components/PostgreSQL.dll` or `components/PostgreSQL.so`, and that Pawn sources use
+`#include <omp_postgresql>` with `omp_postgresql.inc` from the same distribution.
+When upgrading from a published RC, follow [the migration steps](installation.md#migrating-from-previous-release-candidates)
+to replace the previous binary and include before restarting or recompiling.
+
 | Symptom                                | Inspect                                                             | Next action                                                                                                                                                                       |
 | -------------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Component does not load                | Architecture, dependency loader output, invalid `OMP_PG_*` settings | Follow [installation](installation.md) and [dependencies](../DEPENDENCIES.md). Match x86 binaries and install the remaining CRT/system libraries.                                 |

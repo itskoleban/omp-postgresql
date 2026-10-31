@@ -205,13 +205,13 @@ class ReleaseTests(unittest.TestCase):
                 binary = bytearray(52)
                 binary[:6] = b"\x7fELF\x01\x01"
                 struct.pack_into("<H", binary, 18, 3)
-                del files["components/omp-postgresql.dll"], files["libpq.dll"]
+                del files["components/PostgreSQL.dll"], files["libpq.dll"]
                 files.update(
-                    {"components/omp-postgresql.so": bytes(binary), "lib/libpq.so.5": bytes(binary)}
+                    {"components/PostgreSQL.so": bytes(binary), "lib/libpq.so.5": bytes(binary)}
                 )
                 manifest["build"]["system"] = "Linux"
                 manifest["dependencies"] = {
-                    "components/omp-postgresql.so": {"imports": ["libpq.so.5"]},
+                    "components/PostgreSQL.so": {"imports": ["libpq.so.5"]},
                     "lib/libpq.so.5": {"imports": ["libc.so.6"]},
                 }
                 del manifest["libpq_build"]

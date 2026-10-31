@@ -307,7 +307,7 @@ def capture(output, content, server, component, gamemode, samples, runtime_paths
                     "tests/logging_performance.pwn",
                     "tests/run_openmp.py",
                     "tests/openmp_performance.py",
-                    "pawn/omp-postgresql.inc",
+                    "pawn/omp_postgresql.inc",
                 )
             },
         },

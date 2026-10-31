@@ -1,6 +1,6 @@
 // Scalar binders, NULL, JSONB and exact BIGINT transport without a table.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 
 new Database;
 new bool:Started;

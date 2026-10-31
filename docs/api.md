@@ -1,6 +1,6 @@
 # Pawn API contract 0.1
 
-[omp-postgresql.inc](../pawn/omp-postgresql.inc) is the authoritative source of signatures and
+[omp_postgresql.inc](../pawn/omp_postgresql.inc) is the authoritative source of signatures and
 default arguments. Handles are positive; 0 is invalid. Each handle belongs to the VM that created
 it and is never recycled. Do not share handles between scripts. All Pawn calls return immediately:
 they validate, copy, enqueue, or read memory. Callbacks run on the main thread when a tick
@@ -153,7 +153,7 @@ explicitly in SQL.
 
 ### Insert and delete one record
 
-These fragments use `<open.mp>` and `<omp-postgresql>`, a ready `Database` connection,
+These fragments use `<open.mp>` and `<omp_postgresql>`, a ready `Database` connection,
 and the `ReportLocalPgError` / `InspectPgFailure` application helpers shown in
 [diagnostics](debugging.md#inspect-local-and-job-errors). They are functions to integrate
 into a gamemode, not a complete program. As the schema owner, create this illustrative
