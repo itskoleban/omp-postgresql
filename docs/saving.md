@@ -30,7 +30,7 @@ logical statement when parameter types must change.
 
 ## One account, repeated snapshots, or one set-based update
 
-These fragments assume `#include <open.mp>`, `#include <omp-postgresql>`, a connection
+These fragments assume `#include <open.mp>`, `#include <omp_postgresql>`, a connection
 confirmed ready by `OnPgConnection`, and the `tutorial_saves(id integer PRIMARY KEY,
 score integer NOT NULL)` table from [saving.pwn](../examples/saving.pwn), seeded with IDs
 1, 2 and 3. Use lane 0 for that example's temporary table. Each function returns an accepted

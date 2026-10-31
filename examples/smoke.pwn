@@ -1,5 +1,5 @@
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 #pragma dynamic 8192
 
 new Database;

@@ -150,7 +150,7 @@ lossless or durable audit trail.
 ## Inspect local and job errors
 
 The following are application helpers, not additional natives. Include `<open.mp>` and
-`<omp-postgresql>`. They keep only the most recently inspected diagnostic in private script
+`<omp_postgresql>`. They keep only the most recently inspected diagnostic in private script
 buffers and print fixed text/numeric metadata. Add your own access-controlled inspection
 or redaction before exposing these strings; they can contain SQL or database values.
 Clear the buffers after inspection. The 512-cell sizes are illustrative, not a maximum

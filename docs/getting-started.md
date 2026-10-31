@@ -70,7 +70,7 @@ step is intentional; an earlier error is a failed run. No persistent tables are 
 4. `OnPgComplete(job, context)` reads terminal status, checks result shape and converts data.
 5. `pg_job_close(job)` releases that job and its results. Connection shutdown is separate.
 
-These fragments belong to the same script, with `<open.mp>` and `<omp-postgresql>`
+These fragments belong to the same script, with `<open.mp>` and `<omp_postgresql>`
 included. Merge the callbacks into your existing gamemode; they are not four standalone
 programs. The `game` service profile is configured as above. A nonzero connection handle
 means the request was accepted locally, not that authentication or TLS has succeeded:

@@ -1,6 +1,6 @@
 // Three save strategies, variable array counts, immutable snapshots and file loading.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 
 enum { CREATE = 1, SEED, INDIVIDUAL, SNAPSHOTS, BULK, VERIFY };
 new Database;

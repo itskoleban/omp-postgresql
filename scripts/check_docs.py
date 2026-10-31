@@ -86,13 +86,13 @@ def check(root):
     paths = [root / name for name in ("README.md", "DEPENDENCIES.md", "NOTICE.md", "LICENSE")]
     paths += list((root / "docs").glob("*.md"))
     paths += [p for p in (root / "examples").rglob("*") if p.suffix in {".pwn", ".sql", ".conf"}]
-    paths += [root / "pawn/omp-postgresql.inc", root / "qawno/include/omp-postgresql.inc"]
+    paths += [root / "pawn/omp_postgresql.inc", root / "qawno/include/omp_postgresql.inc"]
     files = {
         p.relative_to(root).as_posix(): p.read_text(encoding="utf8") for p in paths if p.is_file()
     }
     errors = validate_links(files)
     include = files.get(
-        "pawn/omp-postgresql.inc", files.get("qawno/include/omp-postgresql.inc", "")
+        "pawn/omp_postgresql.inc", files.get("qawno/include/omp_postgresql.inc", "")
     )
     if not include:
         errors.append("Missing public include")

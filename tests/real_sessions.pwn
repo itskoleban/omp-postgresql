@@ -1,7 +1,7 @@
 // Test instrumentation around the actual tutorial; never install this gamemode.
 // Connections and dialogs arrive through the ordinary player network protocol.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 #include <samp_bcrypt>
 #define TUTORIAL_BCRYPT (1)
 

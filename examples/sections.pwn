@@ -1,7 +1,7 @@
 // Copy sql/accounts.sql to scriptfiles/sql/accounts.sql in a disposable test server.
 // All temporary fixtures and this transaction belong to lane 0.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 #pragma dynamic 8192
 
 enum {

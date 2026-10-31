@@ -1,7 +1,7 @@
 // Interactive custom-callback tutorial. Install the schema in docs/callbacks.md first.
 // Commands require an RCON administrator; integrate real application authorization separately.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 
 #define CUSTOM_TOKEN "pg_custom_session"
 enum { ACCOUNT_LOAD, CLAN_LOAD, ACCOUNT_SAVE, PROPERTY_SAVE, REQUESTS };

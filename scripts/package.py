@@ -183,10 +183,10 @@ def validate_payload(files, manifest):
     )
     if manifest["archive"] != expected_name:
         raise ValueError("Archive name does not match version/commit/platform")
-    component = f"components/omp-postgresql.{ 'dll' if platform == 'windows' else 'so'}"
+    component = f"components/PostgreSQL.{ 'dll' if platform == 'windows' else 'so'}"
     required = {
         component,
-        "qawno/include/omp-postgresql.inc",
+        "qawno/include/omp_postgresql.inc",
         "README.md",
         "LICENSE",
         "NOTICE.md",
@@ -385,7 +385,7 @@ def create(args):
         )
         platform = args.platform
         component = (
-            stage / "components" / f"omp-postgresql.{'dll' if platform == 'windows' else 'so'}"
+            stage / "components" / f"PostgreSQL.{'dll' if platform == 'windows' else 'so'}"
         )
         copy(args.libpq, stage / ("libpq.dll" if platform == "windows" else "lib/libpq.so.5"))
         copy(args.postgres_license, stage / "licenses/libpq/COPYRIGHT")
@@ -393,7 +393,7 @@ def create(args):
         for document in (stage / "docs").glob("*.md"):
             document.write_bytes(
                 document.read_bytes().replace(
-                    b"../pawn/omp-postgresql.inc", b"../qawno/include/omp-postgresql.inc"
+                    b"../pawn/omp_postgresql.inc", b"../qawno/include/omp_postgresql.inc"
                 )
             )
         dependencies = {}

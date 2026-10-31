@@ -1,7 +1,7 @@
 # Custom asynchronous callbacks
 
 For new applications, specify a public callback when submitting a job. These related
-fragments assume `<open.mp>` and `<omp-postgresql>`, the
+fragments assume `<open.mp>` and `<omp_postgresql>`, the
 [`tutorial_inline_accounts` schema](api.md), and application globals `Database`,
 `bool:Ready`, `Token[MAX_PLAYERS]` and `PendingJob[MAX_PLAYERS]`.
 `accountid` is the authenticated player's authorized int32 database ID; this lookup is

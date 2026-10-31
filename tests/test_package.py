@@ -45,7 +45,7 @@ def payload():
             "examples/logging.pwn",
             "docs/prestable-cleanup.md",
             "examples/sql/accounts.sql",
-            "qawno/include/omp-postgresql.inc",
+            "qawno/include/omp_postgresql.inc",
             "licenses/libpq/COPYRIGHT",
             "share/omp-postgresql/LICENSE",
             "share/omp-postgresql/NOTICE.md",
@@ -59,7 +59,7 @@ def payload():
             for name, license in package.LICENSES.items()
         }
     )
-    files.update({"components/omp-postgresql.dll": pe(), "libpq.dll": pe()})
+    files.update({"components/PostgreSQL.dll": pe(), "libpq.dll": pe()})
     commit = "a" * 40
     name = f"omp-postgresql-0.1.0-experimental.{commit[:12]}-windows-x86.zip"
     manifest = {
@@ -83,7 +83,7 @@ def payload():
             "mutex_patch_sha256": package.digest(b"notice"),
         },
         "dependencies": {
-            "components/omp-postgresql.dll": {"imports": ["libpq.dll"]},
+            "components/PostgreSQL.dll": {"imports": ["libpq.dll"]},
             "libpq.dll": {"imports": ["kernel32.dll"]},
         },
         "files": {name: package.digest(data) for name, data in files.items()},
@@ -229,7 +229,7 @@ class PackageTests(unittest.TestCase):
             package.validate_payload(self.files, self.manifest)
 
     def test_broken_documentation_link(self):
-        for target in ("missing.md", "../pawn/omp-postgresql.inc", "../secret.key"):
+        for target in ("missing.md", "../pawn/omp_postgresql.inc", "../secret.key"):
             with self.subTest(target=target):
                 files = {**self.files, "docs/api.md": f"[example]({target})".encode()}
                 manifest = {
@@ -311,8 +311,28 @@ class PackageTests(unittest.TestCase):
             destination = Path(temp) / "installation"
             package.verify(archive, destination)
             self.assertEqual((destination / "omp-postgresql/libpq.dll").read_bytes(), pe())
+            component = destination / "omp-postgresql/components/PostgreSQL.dll"
+            self.assertEqual(component.read_bytes(), pe())
+            self.assertEqual(list(component.parent.iterdir()), [component])
+            self.assertTrue((destination / "omp-postgresql/qawno/include/omp_postgresql.inc").is_file())
             with self.assertRaises(FileExistsError):
                 package.verify(archive, destination)
+
+    def test_legacy_or_duplicate_distributed_files_are_rejected_with_valid_hashes(self):
+        for name in (
+            "components/omp-postgresql.dll",
+            "components/PostgreSQL-copy.dll",
+            "components/PostgreSQL.so",
+            "PostgreSQL.dll",
+            "qawno/include/omp-postgresql.inc",
+        ):
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temp:
+                self.files, self.manifest = payload()
+                self.files[name] = pe()
+                self.manifest["files"][name] = package.digest(self.files[name])
+                archive = self.write_archive(temp)
+                with self.assertRaisesRegex(ValueError, "Unexpected package file"):
+                    package.verify(archive)
 
     def test_archive_checksum_failure(self):
         with tempfile.TemporaryDirectory() as temp:

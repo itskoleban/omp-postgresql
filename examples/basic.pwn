@@ -1,6 +1,6 @@
 // First query tutorial. Uses session-local data; see docs/getting-started.md.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 
 enum { CREATE = 1, INSERT, SELECT, UPDATE, DELETE, SQL_ERROR };
 new Database;

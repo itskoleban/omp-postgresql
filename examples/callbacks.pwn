@@ -1,7 +1,7 @@
 // Isolated regression gamemode. The sleep and divide-by-zero below are deliberate:
 // an asynchronous callback must not replace main()'s suspended continuation.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 #pragma dynamic 8192
 
 #define CROSS_COUNT (24)

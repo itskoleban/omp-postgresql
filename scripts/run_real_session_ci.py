@@ -37,7 +37,7 @@ def package_inputs(root, system, commit):
         if path.is_file() and path != manifest_path:
             files[path.relative_to(root).as_posix()] = path.read_bytes()
     validate_payload(files, manifest)
-    component = "components/omp-postgresql." + ("dll" if system == "windows" else "so")
+    component = "components/PostgreSQL." + ("dll" if system == "windows" else "so")
     runtime = [root / name for name in sorted(manifest["dependencies"]) if name != component]
     identity = {"archive": manifest["archive"], "commit": manifest["commit"],
                 "manifest_sha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),

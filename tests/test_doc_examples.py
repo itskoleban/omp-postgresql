@@ -15,7 +15,7 @@ import check_doc_examples as snippets
 import check_doc_sql as sql
 
 ROOT = Path(__file__).parents[1]
-INCLUDE = (ROOT / "pawn/omp-postgresql.inc").read_text(encoding="utf8")
+INCLUDE = (ROOT / "pawn/omp_postgresql.inc").read_text(encoding="utf8")
 
 
 class SnippetTests(unittest.TestCase):
@@ -26,7 +26,7 @@ class SnippetTests(unittest.TestCase):
         root = Path(directory)
         (root / "docs").mkdir()
         (root / "pawn").mkdir()
-        (root / "pawn/omp-postgresql.inc").write_text(INCLUDE, encoding="utf8")
+        (root / "pawn/omp_postgresql.inc").write_text(INCLUDE, encoding="utf8")
         (root / "docs/guide.md").write_text(text or self.example(), encoding="utf8")
         manifest = root / "wrappers.json"
         manifest.write_text(

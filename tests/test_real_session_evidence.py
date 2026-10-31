@@ -20,12 +20,12 @@ class EvidencePrivacyTests(unittest.TestCase):
         self.assertEqual(verify(directory),127)
 
     def test_json_keeps_statuses_tokens_and_binary_hashes(self):
-        value = {"inputs":{"component":{"path":personal_path("omp-postgresql\\build-msvc32\\Release\\omp-postgresql.dll"), "sha256":"a"*64}},
+        value = {"inputs":{"component":{"path":personal_path("omp-postgresql\\build-msvc32\\Release\\PostgreSQL.dll"), "sha256":"a"*64}},
                  "results":[{"status":s,"token":i,"job":17} for i,s in enumerate(("PASS","FAIL","BLOCKED","NOT RUN"))]}
         old = json.dumps(value).encode()
         data, changes = sanitized_bytes(old, ".json")
         result = json.loads(data)
-        self.assertEqual(result["inputs"]["component"]["path"], "<WORKSPACE>/build-msvc32/Release/omp-postgresql.dll")
+        self.assertEqual(result["inputs"]["component"]["path"], "<WORKSPACE>/build-msvc32/Release/PostgreSQL.dll")
         self.assertEqual(result["inputs"]["component"]["sha256"], "a"*64)
         self.assertEqual(result["results"], value["results"])
         self.assertTrue(changes)

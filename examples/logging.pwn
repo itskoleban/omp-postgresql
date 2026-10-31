@@ -1,7 +1,7 @@
 // Copy sql/accounts.sql to scriptfiles/sql/accounts.sql. Uses a disposable service profile.
 // This deliberately misspells a valid section name to demonstrate a parser failure.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 
 new Database;
 new bool:Started;

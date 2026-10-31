@@ -41,6 +41,10 @@ cmake --build build-linux32 --parallel 4
 cmake --install build-linux32 --prefix /path/to/openmp-test
 ```
 
+The `omp-postgresql` target produces `PostgreSQL.so` without a `lib` prefix. Installation
+places it in `components/` and `omp_postgresql.inc` in `qawno/include/` by default. Pawn
+sources include `<open.mp>` followed by `<omp_postgresql>`; see [RC migration](installation.md#migrating-from-previous-release-candidates).
+
 If the system has an x64 installation, explicit paths keep CMake from linking the wrong client.
 The SDK and Pawn headers are fetched at pinned commits. Install libpq in the system loader's
 search path or set LD_LIBRARY_PATH for the server process:
@@ -67,7 +71,7 @@ for login; it is not one of the unattended scenarios below.
 ```sh
 python3 tests/run_postgres.py --build build-linux32 \
     --openmp-dir /path/to/openmp-test \
-    --component build-linux32/omp-postgresql.so \
+    --component build-linux32/PostgreSQL.so \
     --gamemode build/smoke.amx --unload-script build/unload.amx \
     --callback-gamemode build/callbacks.amx \
     --extension-gamemode build/extensions.amx --bootstrap-gamemode build/bootstrap.amx \

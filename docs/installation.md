@@ -2,16 +2,18 @@
 
 ## Testing Release Candidate distributions
 
-Start with the repository's [Releases page](https://github.com/itskoleban/omp-postgresql/releases)
-and select a public testing Pre-release. This source prepares **v0.1.0-rc.2**; use its
-assets only after that release is public and its exact-commit qualification is complete.
+The repository's [Releases page](https://github.com/itskoleban/omp-postgresql/releases)
+contains previously published testing Pre-releases. For those distributions, follow
+the installation guide shipped in the selected archive; their filenames remain unchanged.
 Choose the Windows x86 or Linux x86 distribution ZIP and its matching `.zip.sha256` file.
 The source ZIP contains build inputs, not a prebuilt component. RC.2 is intended for
 testing and evaluation, not production certification; stable v0.1.0 is not published.
 
 The historical [v0.1.0-rc.1 Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
-retains source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`, its original tag and assets.
-Later documentation does not change that release.
+retains source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`. Both it and
+[v0.1.0-rc.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2)
+retain their original tags, assets, checksums, release notes and historical evidence.
+The development filename change does not modify either release or prepare a new release.
 
 ## Development CI artifacts
 
@@ -22,6 +24,34 @@ can remain the same across later development commits, so it is not enough to ide
 build. Each platform artifact contains a ZIP and checksum sidecar. The build workflow has
 read-only repository permissions and creates neither tags nor Releases.
 
+This development source keeps the project name and internal component name `omp-postgresql`,
+with the same UID and version semantics. Its distributed files are `omp_postgresql.inc`,
+`PostgreSQL.dll` and `PostgreSQL.so`. Archive names and the top-level `omp-postgresql/`
+package directory keep the project name. The instructions below describe these development
+packages; check the exact commit in the manifest to distinguish them from published RCs.
+
+## Migrating from previous release candidates
+
+When moving from RC.1 or RC.2 to this development source:
+
+1. Stop the server and remove its previous `components/omp-postgresql.dll` or
+   `components/omp-postgresql.so` before installing the matching `components/PostgreSQL.dll`
+   or `components/PostgreSQL.so`. Keep a single binary for this component in `components/`.
+2. Replace the previous `omp-postgresql.inc` with `omp_postgresql.inc` in the compiler's
+   include directory. Use the include and binary from the same distribution.
+3. Replace `#include <omp-postgresql>` with `#include <omp_postgresql>` in your Pawn sources
+   and recompile them. Public native names, signatures, constants and callbacks are unchanged.
+
+<!-- pawn-fragment: Include directives only; add the script's declarations and callbacks. -->
+
+```pawn
+#include <open.mp>
+#include <omp_postgresql>
+```
+
+No compatibility aliases or duplicate binaries are installed. The component UID, internal
+identity, version semantics and database behavior remain unchanged.
+
 ## Verify and install a distribution
 
 Verify SHA-256 before extraction (`sha256sum --check NAME.zip.sha256` on Linux, or
@@ -30,8 +60,8 @@ Check `manifest.json`: version, full source commit, Release configuration, platf
 dependency imports and per-file hashes. Copy the contents of its `omp-postgresql/`
 directory into a disposable server installation for your first test.
 
-- `components/omp-postgresql.dll` or `.so` belongs in the server's `components/` directory.
-- `qawno/include/omp-postgresql.inc` belongs in the compiler's include directory.
+- `components/PostgreSQL.dll` or `components/PostgreSQL.so` belongs in the server's `components/` directory.
+- `qawno/include/omp_postgresql.inc` belongs in the compiler's include directory.
 - Windows runtime DLLs at the package root belong beside `omp-server.exe`.
 - Linux `lib/libpq.so.5` belongs in an operator-controlled directory. Export its absolute
   path in `LD_LIBRARY_PATH` before starting the server, for example
@@ -50,7 +80,7 @@ search the current directory.
 ### Windows x86
 
 Install the supported Microsoft Visual C++ v14 Redistributable **x86** separately.
-Download the Windows ZIP and sidecar from the selected release. In PowerShell, replace
+Download the Windows ZIP and sidecar from the selected development artifact. In PowerShell, replace
 `COMMIT` with the twelve-character source prefix in the actual asset name, and set
 `$server` to a stopped, disposable official open.mp 1.5.8.3079 x86 installation:
 
@@ -86,7 +116,7 @@ sudo apt-get update
 sudo apt-get install libc6:i386 libstdc++6:i386 libgcc-s1:i386 libssl3t64:i386 unzip
 ```
 
-Download the Linux ZIP and sidecar from the selected release. Replace `COMMIT` with the
+Download the Linux ZIP and sidecar from the selected development artifact. Replace `COMMIT` with the
 actual twelve-character source prefix, and set `server` to a stopped, disposable
 official open.mp 1.5.8.3079 x86 **dynssl** installation owned by your user:
 
@@ -105,7 +135,7 @@ Inspect the manifest, then copy the package and check loader dependencies:
 cp -a rc2-extracted/omp-postgresql/. "$server/"
 cd "$server"
 export LD_LIBRARY_PATH="$PWD/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-ldd components/omp-postgresql.so
+ldd components/PostgreSQL.so
 ldd lib/libpq.so.5
 ```
 

@@ -1,6 +1,6 @@
 # Native reference 0.1.0-rc.2
 
-This reference covers all 69 declarations in [the public include](../pawn/omp-postgresql.inc).
+This reference covers all 69 declarations in [the public include](../pawn/omp_postgresql.inc).
 Use the [operation selector](quick-reference.md) and [execution contract](api.md) first.
 Signatures below preserve Pawn tags, reference
 arguments and defaults. This is an internal source review, not an independent Astra audit.

@@ -1,6 +1,6 @@
 #define FILTERSCRIPT
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 
 new Database;
 forward OnUnloadCustom(job, const text[]);

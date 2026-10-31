@@ -2,7 +2,7 @@
 // GetTickCount has millisecond resolution. Callback latency is end-to-end; timer
 // lateness is scheduling delay, never the component's tick execution time.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 #pragma dynamic 16384
 
 #define JOBS (64)

@@ -18,10 +18,17 @@ copied by a recursive repository sweep.
 Documentation include links are adjusted to the installed `qawno/include` location;
 all relative Markdown links are checked against the payload before packaging/extraction.
 
-The RC.2 candidate name is `omp-postgresql-0.1.0-rc.2.COMMIT-PLATFORM-x86.zip`, where
+The CMake target and installation component remain `omp-postgresql`; the target's
+`OUTPUT_NAME` is `PostgreSQL`. Its existing empty `PREFIX` produces `PostgreSQL.so`
+on Linux and `PostgreSQL.dll` on Windows. Packages install that one platform binary in
+`components/` and the public include as `qawno/include/omp_postgresql.inc`. Include usage is
+`#include <omp_postgresql>` after `#include <open.mp>`. The project name, internal component
+identity, UID and version semantics are unchanged; see [RC migration](installation.md#migrating-from-previous-release-candidates).
+
+The archive name remains `omp-postgresql-0.1.0-rc.2.COMMIT-PLATFORM-x86.zip`, where
 `COMMIT` is the first twelve characters of the exact source SHA and `PLATFORM` is
 `windows` or `linux`. The source archive uses the same version/commit identity with
-the suffix `-source.zip`. Historical RC.1 and
+the suffix `-source.zip`. The naming change does not prepare a new release. Published RC.1, RC.2 and
 `0.1.0-experimental.COMMIT` packages remain verifiable and are never relabelled. Each contains a
 single `omp-postgresql/` directory, public include, component, docs, examples, legal
 notices, selected runtime files and `manifest.json`. The manifest records full commit,

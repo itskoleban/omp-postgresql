@@ -10,7 +10,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "tests/doc_examples.json"
-PRELUDE = "#include <open.mp>\n#include <omp-postgresql>\n"
+PRELUDE = "#include <open.mp>\n#include <omp_postgresql>\n"
 DECLARATION = re.compile(r"^(?:native|forward)\s+[^;\n]+;\s*$")
 MARKER = re.compile(r"^\s*\{\{([a-z][a-z0-9.-]*)\}\}\s*$")
 
@@ -145,7 +145,7 @@ def catalog(files, include):
 
 
 def include_text(root):
-    for name in ("pawn/omp-postgresql.inc", "qawno/include/omp-postgresql.inc"):
+    for name in ("pawn/omp_postgresql.inc", "qawno/include/omp_postgresql.inc"):
         if (root / name).is_file():
             return (root / name).read_text(encoding="utf8")
     raise ValueError("Missing public include")

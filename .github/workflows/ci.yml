@@ -172,7 +172,7 @@ jobs:
             - name: Test the x86 core, real server, VM unload and callback regressions
               run: |
                   python3 tests/run_postgres.py --build build-linux32 --config Release --openmp-dir "$OPENMP_DIR" \
-                  	--component build-linux32/omp-postgresql.so --gamemode build-linux32/smoke.amx --unload-script \
+                      --component build-linux32/PostgreSQL.so --gamemode build-linux32/smoke.amx --unload-script \
                   	build-linux32/unload.amx --callback-gamemode build-linux32/callbacks.amx \
                       --extension-gamemode build-linux32/extensions.amx --bootstrap-gamemode build-linux32/bootstrap.amx \
                       --section-gamemode build-linux32/sections.amx --logging-gamemode build-linux32/logging.amx --section-sql examples/sql/accounts.sql --runtime \
@@ -183,7 +183,7 @@ jobs:
               if: ${{ !cancelled() && steps.x86_build.outcome == 'success' && steps.x86_pawn.outcome == 'success' && steps.x86_server.outcome == 'success' }}
               run: |
                   python3 scripts/run_real_session_ci.py --output build-real-sessions \
-                      --component build-linux32/omp-postgresql.so --server "$OPENMP_DIR" \
+                      --component build-linux32/PostgreSQL.so --server "$OPENMP_DIR" \
                       --compiler build-pawn32/pawncc --stdlib build-stdlib \
                       --pawn-include build-linux32/_deps/pawn-src/include \
                       --runtime "$PWD/libpq32/lib/libpq.so.5"
@@ -211,7 +211,7 @@ jobs:
                   export LD_LIBRARY_PATH="$PWD/build-package-check/omp-postgresql/lib"
                   python3 tests/run_postgres.py --build build-linux32 --only-openmp \
                       --openmp-dir "$RUNNER_TEMP/openmp-package/Server" \
-                      --component build-package-check/omp-postgresql/components/omp-postgresql.so \
+                      --component build-package-check/omp-postgresql/components/PostgreSQL.so \
                       --gamemode build-linux32/packaged-smoke.amx --unload-script build-linux32/packaged-unload.amx \
                       --callback-gamemode build-linux32/packaged-callbacks.amx \
                       --extension-gamemode build-linux32/packaged-extensions.amx \
@@ -447,7 +447,7 @@ jobs:
               run: |
                   python tests/run_postgres.py --build build-msvc32 --config Release --postgres-bin `
                   	build-server/pgsql/bin --openmp-dir build-openmp/Server --component `
-                  	build-msvc32/Release/omp-postgresql.dll --gamemode build-msvc32/smoke.amx --unload-script `
+                      build-msvc32/Release/PostgreSQL.dll --gamemode build-msvc32/smoke.amx --unload-script `
                   	build-msvc32/unload.amx --callback-gamemode build-msvc32/callbacks.amx `
                       --extension-gamemode build-msvc32/extensions.amx --bootstrap-gamemode build-msvc32/bootstrap.amx `
                       --section-gamemode build-msvc32/sections.amx --logging-gamemode build-msvc32/logging.amx --section-sql examples/sql/accounts.sql --runtime `
@@ -463,7 +463,7 @@ jobs:
               shell: pwsh
               run: |
                   python scripts/run_real_session_ci.py --output build-real-sessions `
-                      --component build-msvc32/Release/omp-postgresql.dll --server build-openmp/Server `
+                      --component build-msvc32/Release/PostgreSQL.dll --server build-openmp/Server `
                       --compiler build-pawn32/Release/pawncc.exe --stdlib build-stdlib `
                       --pawn-include build-msvc32/_deps/pawn-src/include --postgres-bin build-server/pgsql/bin `
                       --mingw-bin "$env:MINGW32_ROOT/bin" --bash "$env:MINGW32_ROOT/../usr/bin/bash.exe" `
@@ -513,7 +513,7 @@ jobs:
                   & "$env:pythonLocation/python.exe" tests/run_postgres.py --build build-msvc32 --only-openmp `
                       --postgres-bin build-server/pgsql/bin --openssl "$env:MINGW32_ROOT/bin/openssl.exe" `
                       --openmp-dir build-openmp-package/Server `
-                      --component build-package-check/omp-postgresql/components/omp-postgresql.dll `
+                      --component build-package-check/omp-postgresql/components/PostgreSQL.dll `
                       --gamemode build-msvc32/packaged-smoke.amx --unload-script build-msvc32/packaged-unload.amx `
                       --callback-gamemode build-msvc32/packaged-callbacks.amx `
                       --extension-gamemode build-msvc32/packaged-extensions.amx `

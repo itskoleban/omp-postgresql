@@ -1,7 +1,7 @@
 // Interactive account tutorial. Read docs/accounts.md and install its schema first.
 // Authentication FAILS CLOSED unless TUTORIAL_BCRYPT is defined and samp_bcrypt is loaded.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 #if defined TUTORIAL_BCRYPT
 	#include <samp_bcrypt>
 #endif

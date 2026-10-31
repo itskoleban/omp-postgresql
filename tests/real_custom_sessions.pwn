@@ -1,6 +1,6 @@
 // Isolated fixture: actual custom.pwn routing; only its RCON gate is bypassed.
 #include <open.mp>
-#include <omp-postgresql>
+#include <omp_postgresql>
 forward CustomInit();
 forward CustomExit();
 forward CustomConnection(connection, connection_state);
