@@ -36,6 +36,29 @@ has not been completed or started as part of this release preparation. See the
 
 ## Development documentation checks
 
+### Bounded network diagnostic collection
+
+The Linux ASan/UBSan CI job enables `PG_NETWORK_DIAGNOSTICS` and passes
+`--network-diagnostics` to the disposable PostgreSQL runner. Each job executes the
+existing thirteen-scenario network test once, with its original 1500 ms command
+deadline and 90-second outer limit. The normal and TSan jobs retain uninstrumented
+network coverage. There is no retry-until-success loop.
+
+The `network-diagnostic` artifact retains the actual executable, source/runtime
+identities, fixed-capacity client trace, server log, independent activity/lock samples
+and process/thread resource samples. SQL values and credentials are absent from the
+client trace; raw server/activity logging is restricted to the disposable test fixture.
+The observer must configure its own 100 ms statement timeout. Every retained activity
+sample must contain a successful SQL result and the expected snapshot; a nonempty
+file of observer errors does not qualify collection. Collection failure preserves
+the original workload failure and prevents a successful qualification claim.
+
+Instrumentation adds overhead and may change scheduling. Captures identify the
+evaluated commit only. Issue [#31](https://github.com/itskoleban/omp-postgresql/issues/31)
+remains **ROOT CAUSE UNKNOWN**: the historical failed run is unchanged, and a passing
+capture cannot prove its cause or resolve the residual release risk. The new observer
+validation corrects diagnostic qualification, not the historical SQL cleanup timeout.
+
 ### Phase 2 network, TLS and recovery
 
 The [Phase 2 report](https://github.com/itskoleban/omp-postgresql/blob/02323260583a5c6fbbcb58d933f0bc0c4121bcf5/audit/network-recovery-qualification.md) defines thirteen

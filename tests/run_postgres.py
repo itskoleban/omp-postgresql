@@ -488,7 +488,11 @@ finally:
     network_diagnostic_ok = True
     stall_diagnostic_ok = True
     if network_diagnostic:
-        network_diagnostic_ok = network_diagnostic.finish()
+        try:
+            network_diagnostic_ok = network_diagnostic.finish()
+        except Exception as error:
+            network_diagnostic_ok = False
+            print(f"Network diagnostic shutdown failed: {type(error).__name__}; continuing fixture cleanup", file=sys.stderr)
     if stall_diagnostic:
         try:
             stall_diagnostic_ok = stall_diagnostic.finish()
