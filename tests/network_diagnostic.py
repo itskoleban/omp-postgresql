@@ -29,6 +29,21 @@ def fnv(text):
     return value
 
 
+def validate_activity(path):
+    """A nonempty error stream is not a successful database observation."""
+    rows = [json.loads(line) for line in Path(path).read_text().splitlines()]
+    if not rows:
+        raise ValueError('Missing activity samples')
+    for row in rows:
+        snapshot = row.get('snapshot')
+        if (row.get('status') != 2 or not isinstance(snapshot, dict) or
+                not isinstance(snapshot.get('server_utc'), str) or
+                not isinstance(snapshot.get('activity'), list) or
+                not isinstance(snapshot.get('locks'), list)):
+            raise ValueError('Incomplete activity sample or unsuccessful observer SQL')
+    return len(rows)
+
+
 def summarize(path):
     header, events = read_trace(path)
     cleanup = [e for e in events if e['phase'] == 'deadline' and
@@ -197,7 +212,9 @@ class Collector:
                 return status, lib.PQgetvalue(result,0,0).decode() if status == 2 else None
             finally:
                 lib.PQclear(result)
-        execute("SET statement_timeout='100ms'")
+        if execute("SET statement_timeout='100ms'")[0] != 1:
+            lib.PQfinish(conn)
+            raise RuntimeError('Diagnostic observer statement timeout was not configured')
         query = """SELECT json_build_object('server_utc',clock_timestamp(),
           'activity',(SELECT coalesce(json_agg(row_to_json(a)),'[]'::json) FROM
             (SELECT pid,backend_start,xact_start,query_start,state_change,state,
@@ -244,6 +261,10 @@ class Collector:
             path=self.directory/name
             if not path.exists() or not path.stat().st_size:
                 self.errors.append('Missing observer capture: '+name)
+        try:
+            validate_activity(self.directory/'activity.jsonl')
+        except Exception as error:
+            self.errors.append('Invalid activity capture: '+str(error))
         (self.directory/'collection.json').write_text(json.dumps(dict(errors=self.errors,
             status='FAIL' if self.errors else 'PASS', attempts=1),indent=2)+'\n')
         manifest = {p.name:dict(bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest())

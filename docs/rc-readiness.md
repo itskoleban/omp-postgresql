@@ -4,6 +4,36 @@ This source prepares **v0.1.0-rc.2**, a candidate for testing and evaluation. Co
 [Releases page](https://github.com/itskoleban/omp-postgresql/releases) for public release
 availability. An RC does not certify production suitability; stable v0.1.0 is not published.
 
+## Development after RC.2
+
+RC.2 was published from `3c3b3185c24362be12eb3e281383ad05d5dcd9b6`.
+The subsequent merge of [PR #43](https://github.com/itskoleban/omp-postgresql/pull/43)
+at `79fdc31b1ed82bd59123640e2e06e9530775b735` changed distributed filenames;
+the original RC.2 assets retain their original names and hashes. Development packages
+use `PostgreSQL.dll` / `PostgreSQL.so` and `omp_postgresql.inc`. Follow the
+[migration instructions](installation.md#migrating-from-previous-release-candidates).
+
+The worker admission correction changes behavior during an unexpected worker exit:
+a submission racing with final shutdown is rejected synchronously instead of retaining
+a job in a stopped queue. Existing accepted jobs still require one terminal publication,
+and uncertain SQL is never replayed. The deterministic regression exercises actual
+Engine/Lane code with transport and C++ allocation checkpoints; it is not evidence that
+libpq throws C++ exceptions or a diagnosis of historical issue #31.
+
+Validate another candidate before stable publication: the changed installed layout and
+worker lifetime behavior have not been distributed together in a published RC. After
+integration and exact-source qualification, RC.3 is the recommended next testing release.
+This recommendation does not select a new source version, create a tag or authorize
+publication. Every PR and the final integrated source need their own seven-job CI,
+fresh x86 package/runtime evidence and checksum verification.
+
+Stable v0.1.0 remains blocked. Issue #31 needs a demonstrated correction or an explicit
+pre-release residual-risk disposition; later passing runs do not establish causation.
+Complete the candidate review and resource/storage/fuzz/integration gates, freeze the
+exact source, binary/dependency hashes, TLS configuration and seed, and verify an
+available isolated runner with a bounded preflight before the 24-hour campaign. No
+24-hour result is established by the finite suites or historical campaigns below.
+
 ## RC.2 exact-source gates
 
 The pre-preparation baseline is `master`
