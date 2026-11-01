@@ -72,6 +72,12 @@ terminal completion. Other lanes remain available.
 pool is ready. Reconnection invalidates session preparation. Affected jobs fail without
 automatic replay. A write sent without a definitive response is classified as uncertain.
 
+Pool readiness is an atomic snapshot, not a reservation of a worker's lifetime. Lane
+queue admission independently rejects work after stop, including unexpected worker
+failure. Closing admission precedes the final locked queue drain: previously accepted
+jobs receive terminal publication, and rejected submissions retain no job handle or
+transaction reservation. Rejected prepared executions restore their staged snapshots.
+
 ## Uniform execution contract
 
 `pg_prepare` accepts SQL, an explicit parameter count, and prepared/direct mode.

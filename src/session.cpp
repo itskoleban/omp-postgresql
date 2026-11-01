@@ -153,6 +153,11 @@ void Lane::record_completion(const Job &job, Status status) {
 
 void Lane::enqueue(std::shared_ptr<Job> job) {
 	std::lock_guard lock(mutex_);
+	// Engine readiness is a snapshot: shutdown or an unexpected worker failure
+	// may complete before this lock is acquired. Never accept into a dead queue.
+	if (stop_.load()) {
+		throw Failure(Error::not_ready, "Session worker no longer accepts jobs");
+	}
 	queue_.push_back(std::move(job));
 	if (diagnostics_) {
 		diagnostics_->emit(job_record(LogEvent::job_accepted, *queue_.back()));
@@ -257,6 +262,7 @@ bool Lane::connect() {
 	}
 	{
 		std::lock_guard lock(mutex_);
+		PG_ALLOCATION_CHECKPOINT("connect_diagnostic");
 		diagnostic_ = PQerrorMessage(conn_.get());
 		diagnostic_.resize(std::min<std::size_t>(diagnostic_.size(), 4096));
 		if (diagnostic_.empty()) {
@@ -903,6 +909,9 @@ void Lane::run() {
 			}
 		}
 	} catch (...) {
+		// Close admission before the final locked queue drain. Enqueues ordered
+		// before this store are settled; later enqueues fail synchronously.
+		stop_.store(true);
 		state.store(State::failed);
 		log(LogEvent::worker_failed);
 	}
