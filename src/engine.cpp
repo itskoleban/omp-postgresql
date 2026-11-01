@@ -10,6 +10,12 @@
 #define PG_POLL_ALLOCATION_CHECKPOINT() ((void)0)
 #endif
 
+// The admission regression stops a worker after the pool readiness snapshot.
+// Production has no hook, state or additional exported symbol.
+#ifndef PG_SUBMIT_QUEUE_CHECKPOINT
+#define PG_SUBMIT_QUEUE_CHECKPOINT(lane) ((void)0)
+#endif
+
 namespace pg {
 
 namespace {
@@ -224,6 +230,7 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	                       ItemStatus::not_executed);
 	jobs_.emplace(j->id, j);
 	try {
+		PG_SUBMIT_QUEUE_CHECKPOINT(*c.lanes[j->lane]);
 		c.lanes[j->lane]->enqueue(j);
 	} catch (...) {
 		jobs_.erase(j->id);
