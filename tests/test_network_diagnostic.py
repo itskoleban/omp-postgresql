@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from network_diagnostic import fnv, read_trace, summarize
+from network_diagnostic import Collector, fnv, read_trace, summarize
 
 
 class DiagnosticEvidenceTests(unittest.TestCase):
@@ -55,6 +55,35 @@ class DiagnosticEvidenceTests(unittest.TestCase):
             path.write_text('\n'.join(map(json.dumps,rows)))
             with self.assertRaisesRegex(ValueError,'Missing required'):
                 summarize(path)
+
+    def collection(self, directory, activity):
+        collector = Collector(Path(directory) / 'build', {}, Path(directory) / 'server.log')
+        path, _ = self.trace(collector.directory)
+        path.rename(collector.directory / 'client.jsonl')
+        (collector.directory / 'resources.jsonl').write_text('{"pid":42}\n')
+        (collector.directory / 'activity.jsonl').write_text(json.dumps(activity) + '\n')
+        return collector
+
+    def test_failed_activity_sample_does_not_qualify_collection(self):
+        with tempfile.TemporaryDirectory() as directory:
+            collector = self.collection(directory, dict(status=7, snapshot=None))
+            self.assertFalse(collector.finish())
+            record = json.loads((collector.directory / 'collection.json').read_text())
+            self.assertEqual(record['status'], 'FAIL')
+            self.assertTrue(any('activity' in error for error in record['errors']))
+
+    def test_success_without_activity_snapshot_does_not_qualify_collection(self):
+        with tempfile.TemporaryDirectory() as directory:
+            collector = self.collection(directory, dict(status=2, snapshot=None))
+            self.assertFalse(collector.finish())
+
+    def test_complete_activity_qualifies_collection_without_resolving_history(self):
+        with tempfile.TemporaryDirectory() as directory:
+            collector = self.collection(directory, dict(status=2, snapshot=dict(
+                server_utc='2026-10-31T12:00:00+00:00', activity=[], locks=[])))
+            self.assertTrue(collector.finish())
+            summary = json.loads((collector.directory / 'summary.json').read_text())
+            self.assertFalse(summary['historical_cause_established'])
 
 
 if __name__ == '__main__':
