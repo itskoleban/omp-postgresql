@@ -43,21 +43,11 @@ def main():
     temporary.mkdir()
     env["TEMP"] = env["TMP"] = env["TMPDIR"] = str(temporary)
     flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
-    sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
-    dirty = subprocess.check_output(["git", "status", "--porcelain"], cwd=root, text=True)
-    manifest = {"commit": sha, "dirty": dirty, "seconds": args.seconds, "seed": args.seed,
-                "started_unix": time.time(), "stages": [], "status": "RUNNING"}
-    manifest["platform"] = platform.platform()
-    manifest["python"] = sys.version
-    manifest["tool_versions"] = {}
-    for tool in (["cmake", "--version"], ["pg_config", "--version"],
-                 ["postgres", "--version"], ["openssl", "version"]):
-        result = subprocess.run(tool, capture_output=True, text=True, env=env,
-                                creationflags=flags, timeout=30)
-        manifest["tool_versions"][" ".join(tool)] = {
-            "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
-    for info in build.glob("package-build-info-*.json"):
-        manifest.setdefault("build_info", {})[info.name] = json.loads(info.read_text(encoding="utf8"))
+    # Persist before discovery: missing tools, timeouts and malformed inventories are
+    # negative preflight evidence too, even when no integration stage was launched.
+    manifest = {"commit": None, "dirty": None, "seconds": args.seconds, "seed": args.seed,
+                "started_unix": time.time(), "stages": [], "status": "RUNNING",
+                "preflight": {"status": "RUNNING"}, "tool_versions": {}}
     fuzz = build / ("pg_audit_fuzz.exe" if os.name == "nt" else "pg_audit_fuzz")
     if not fuzz.is_file():
         fuzz = build / args.config / fuzz.name
@@ -69,6 +59,30 @@ def main():
     if args.postgres_bin:
         command += ["--postgres-bin", str(Path(args.postgres_bin).resolve())]
     try:
+        manifest["commit"] = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+        manifest["dirty"] = subprocess.check_output(
+            ["git", "status", "--porcelain"], cwd=root, text=True)
+        manifest["platform"] = platform.platform()
+        manifest["python"] = sys.version
+        # pg_config describes the client development toolchain on PATH; postgres
+        # must identify the actual fixture server selected by --postgres-bin.
+        postgres = str(Path(args.postgres_bin).resolve() / (
+            "postgres.exe" if os.name == "nt" else "postgres")) if args.postgres_bin else "postgres"
+        for tool in (["cmake", "--version"], ["pg_config", "--version"],
+                     [postgres, "--version"], ["openssl", "version"]):
+            manifest["preflight"]["command"] = tool
+            save()
+            result = subprocess.run(tool, capture_output=True, text=True, env=env,
+                                    creationflags=flags, timeout=30)
+            manifest["tool_versions"][" ".join(tool)] = {
+                "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
+            save()
+            result.check_returncode()
+        for info in build.glob("package-build-info-*.json"):
+            manifest.setdefault("build_info", {})[info.name] = json.loads(info.read_text(encoding="utf8"))
+        manifest["preflight"]["status"] = "PASS"
+        save()
         for name, argv, budget in [
             ("integration-soak", command, args.seconds + 900),
             ("extended-fuzz", [str(fuzz)], 600),
@@ -116,6 +130,8 @@ def main():
                 raise subprocess.CalledProcessError(returncode, argv)
         manifest["status"] = "PASS"
     except BaseException as error:
+        if manifest["preflight"]["status"] == "RUNNING":
+            manifest["preflight"]["status"] = "FAIL"
         manifest["status"] = "FAIL"
         manifest["error"] = repr(error)
         raise

@@ -13,15 +13,27 @@ def analyze(text, seconds):
     if len(complete) != 1 or not samples:
         raise ValueError("Missing complete stress log or metrics")
     final = complete[0]
+    if not {"minimum_seconds", "load_elapsed_us", "load_sql_operations"} <= final.keys():
+        raise ValueError("Incomplete final load counters")
     if final.get("minimum_seconds") != seconds or final.get("load_elapsed_us", 0) < seconds * 1_000_000:
         raise ValueError("Measured sustained load is shorter than requested duration")
+    quiescent = {"pending", "errors", "primary_failed_jobs", "primary_cancelled_jobs",
+                 "primary_uncertain_jobs"}
     required = {"elapsed_us", "rss_kib", "cpu_us", "p50_us", "p95_us", "p99_us",
-                "sql_operations", "threads", "descriptors_or_handles"}
+                "sql_operations", "threads", "descriptors_or_handles", "primary_reconnects"} | quiescent
     if any(not required <= sample.keys() for sample in samples):
         raise ValueError("Incomplete resource metrics")
     if any(a["elapsed_us"] >= b["elapsed_us"] or a["sql_operations"] >= b["sql_operations"]
+           or a["cpu_us"] > b["cpu_us"] or a["primary_reconnects"] > b["primary_reconnects"]
            for a, b in zip(samples, samples[1:])):
         raise ValueError("Nonmonotonic stress observations")
+    if (samples[-1]["elapsed_us"] > final["load_elapsed_us"]
+            or samples[-1]["sql_operations"] > final["load_sql_operations"]):
+        raise ValueError("Final counters precede retained observations")
+    if any(any(sample[key] != 0 for key in quiescent) for sample in samples):
+        raise ValueError("Failed quiescent stress invariant")
+    if any(not sample["p50_us"] <= sample["p95_us"] <= sample["p99_us"] for sample in samples):
+        raise ValueError("Invalid latency percentile order")
     rss = [sample["rss_kib"] for sample in samples]
     window = max(1, len(rss) // 5)
     summary = {
@@ -35,6 +47,8 @@ def analyze(text, seconds):
         "first_window_median_rss_kib": statistics.median(rss[:window]),
         "last_window_median_rss_kib": statistics.median(rss[-window:]),
         "cpu_seconds_to_last_sample": samples[-1]["cpu_us"] / 1_000_000,
+        "last_quiescent_counters": {key: samples[-1][key] for key in sorted(quiescent)},
+        "primary_reconnects_to_last_sample": samples[-1]["primary_reconnects"],
         "threads_range": [min(s["threads"] for s in samples), max(s["threads"] for s in samples)],
         "descriptors_or_handles_range": [
             min(s["descriptors_or_handles"] for s in samples),

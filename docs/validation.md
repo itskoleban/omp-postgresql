@@ -36,6 +36,28 @@ has not been completed or started as part of this release preparation. See the
 
 ## Development documentation checks
 
+### Dedicated campaign preflight and metrics
+
+`scripts/audit_long.py` writes its initial manifest before tool discovery and build
+inventory parsing. Missing tools, version-probe timeouts, nonzero version exits and
+malformed inventories leave `status=FAIL` with the error, available diagnostics and
+timestamps. Failed preflight launches no integration stage. `--postgres-bin` selects
+both the disposable fixture server and its recorded `postgres --version`;
+`pg_config` on PATH separately identifies the client development toolchain.
+
+Metric extraction rejects final counters preceding retained samples, regressing
+cumulative CPU/reconnection counts, nonzero quiescent pending/error/failure counters
+and impossible percentile order. Summaries retain primary reconnects and the last
+quiescent counters, alongside resource samples after Engine destruction. These are
+consistency checks, not new timing thresholds or proof of leak-free operation;
+side connections and real Pawn callback latency retain their existing scope limits.
+
+Before the 24-hour run, verify isolated non-root infrastructure without production
+credentials/data, review remaining risks and required resource/storage/fuzz/integration
+evidence, and freeze the exact source, binaries, dependencies and configuration.
+Changed inputs require their affected checks. A successful preflight or bounded run
+does not qualify the runner or constitute a 24-hour result.
+
 ### Phase 2 network, TLS and recovery
 
 The [Phase 2 report](https://github.com/itskoleban/omp-postgresql/blob/02323260583a5c6fbbcb58d933f0bc0c4121bcf5/audit/network-recovery-qualification.md) defines thirteen
