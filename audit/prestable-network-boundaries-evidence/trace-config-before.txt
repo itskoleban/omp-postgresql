@@ -1,0 +1,26 @@
+test_diagnostic_invocations_have_distinct_writable_capture_paths (test_network_trace_configuration.NetworkTraceConfigurationTests.test_diagnostic_invocations_have_distinct_writable_capture_paths) ...
+  test_diagnostic_invocations_have_distinct_writable_capture_paths (test_network_trace_configuration.NetworkTraceConfigurationTests.test_diagnostic_invocations_have_distinct_writable_capture_paths) (test='network_boundaries_integration') ... FAIL
+test_diagnostic_invocations_have_distinct_writable_capture_paths (test_network_trace_configuration.NetworkTraceConfigurationTests.test_diagnostic_invocations_have_distinct_writable_capture_paths) ... FAIL
+
+======================================================================
+FAIL: test_diagnostic_invocations_have_distinct_writable_capture_paths (test_network_trace_configuration.NetworkTraceConfigurationTests.test_diagnostic_invocations_have_distinct_writable_capture_paths) (test='network_boundaries_integration')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "[worktree]\tests\test_network_trace_configuration.py", line 46, in test_diagnostic_invocations_have_distinct_writable_capture_paths
+    self.assertIn("OMP_PG_NETWORK_TRACE", environment)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'OMP_PG_NETWORK_TRACE' not found in {}
+
+======================================================================
+FAIL: test_diagnostic_invocations_have_distinct_writable_capture_paths (test_network_trace_configuration.NetworkTraceConfigurationTests.test_diagnostic_invocations_have_distinct_writable_capture_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "[worktree]\tests\test_network_trace_configuration.py", line 60, in test_diagnostic_invocations_have_distinct_writable_capture_paths
+    self.assertEqual(len(set(paths)), 2, "Independent processes must not share an O_EXCL trace file")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 2 : Independent processes must not share an O_EXCL trace file
+
+----------------------------------------------------------------------
+Ran 1 test in 7.518s
+
+FAILED (failures=2)

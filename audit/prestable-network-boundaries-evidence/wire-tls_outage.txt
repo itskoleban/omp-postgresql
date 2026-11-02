@@ -1,0 +1,10 @@
+{"event": "accepted", "monotonic_ns": 36638366475100, "utc": "2026-11-02T15:28:54.073317+00:00"}
+{"bytes": 171, "event": "opaque_tls_response_held", "monotonic_ns": 36638627488600, "utc": "2026-11-02T15:28:54.334303+00:00"}
+{"backend": false, "event": "relay_closed", "monotonic_ns": 36640107427500, "utc": "2026-11-02T15:28:55.814269+00:00"}
+{"backend": true, "event": "relay_closed", "monotonic_ns": 36640108685500, "utc": "2026-11-02T15:28:55.815526+00:00"}
+{"event": "reconnect_held", "monotonic_ns": 36640109936500, "utc": "2026-11-02T15:28:55.816782+00:00"}
+{"event": "reconnect_held", "monotonic_ns": 36642180318500, "utc": "2026-11-02T15:28:57.887161+00:00"}
+{"event": "accepted", "monotonic_ns": 36644203762100, "utc": "2026-11-02T15:28:59.910606+00:00"}
+{"backend": false, "event": "relay_closed", "monotonic_ns": 36644386223600, "utc": "2026-11-02T15:29:00.093066+00:00"}
+{"backend": true, "event": "relay_closed", "monotonic_ns": 36644387040300, "utc": "2026-11-02T15:29:00.093886+00:00"}
+{"event": "fixture_closed", "injected": true, "monotonic_ns": 36644564318600, "utc": "2026-11-02T15:29:00.271161+00:00", "workers": 6}

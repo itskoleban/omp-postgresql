@@ -1,0 +1,153 @@
+{
+  "baseline": "b715a971e71047a9c73f6b85489fc342317ba86b",
+  "implementation_commit": "a00cb8f475b2b1ffd584e7fb84168ca2dcd6ae6e",
+  "run_source_scope": "Baseline plus original network implementation before commit; original implementation commit differs from executed source only by clang-format whitespace/include ordering. The implementation was subsequently rebased onto independent release-tooling and fixture-cleanup fixes. Retained runtime evidence does not qualify those independent fixes or the complete rebased source. This is bounded local development evidence, not exact-commit CI or package qualification.",
+  "platform": "Windows x64",
+  "compiler": "GCC 16.1.0 UCRT64",
+  "libpq": "18.4 (PQlibVersion 180004)",
+  "postgres": "17.11 disposable loopback TLS cluster",
+  "run_utc": "2026-11-02T15:28:46Z",
+  "integration": {
+    "test": "network_boundaries_integration",
+    "scenarios": 7,
+    "checks": 1110,
+    "seconds": 13.3811,
+    "failures": 0,
+    "skips": 0
+  },
+  "unit": {
+    "methods": 8,
+    "result": "PASS",
+    "seconds": 0.715
+  },
+  "negative_attempts": [
+    {
+      "scope": "sandbox loopback capability",
+      "result": "FAIL",
+      "cause": "WinError 10013 blocked loopback connections before scenario execution; no component failure. Same bounded commands outside sandbox passed."
+    }
+  ],
+  "cleanup": "Supervisor reports PostgreSQL stopped. Every retained wire journal ends fixture_closed; old backend absence asserted before table cleanup.",
+  "files": [
+    {
+      "file": "boundaries-attempt-1.txt",
+      "original_sha256": "ae93b1176baec4a6ff9794e30c6e83844e76e6146cddcab2ebf21fed12e73e52",
+      "original_bytes": 2221,
+      "public_sha256": "760604738cbe20634528856e259648a3d010d12ed25d4ce7c7d750d764725500",
+      "public_bytes": 1648
+    },
+    {
+      "file": "proxy-unit.txt",
+      "original_sha256": "581623a483bf6f8236b60ba8e7f6aaaf5e4e6ae3b58e2a546b08c86bb5bd56f2",
+      "original_bytes": 1189,
+      "public_sha256": "f40f12ccc4399eb8ca577fc84cdce218e45b73c8d3dea27ffcfe5b9b2d8cfbaa",
+      "public_bytes": 1176
+    },
+    {
+      "file": "LastTest.txt",
+      "original_sha256": "c2c0286ca2e01ed02923a13497097b1c38a5d7d647887467e6575a240886f695",
+      "original_bytes": 13986,
+      "public_sha256": "4c123acf84ad4633258412042e4984150265bb19f7d3c1f62f7ef176c651cf48",
+      "public_bytes": 13519
+    },
+    {
+      "file": "qualification.xml",
+      "original_sha256": "cfb7539e3f396471c4a8fb2ca32745d2b16ee435d181cb5c83fc26dbe204d7ac",
+      "original_bytes": 1616,
+      "public_sha256": "56e8375893d656a8d7962a4f2cdf35f297fbd31469f173a7d0c1f1c49383339a",
+      "public_bytes": 1581
+    },
+    {
+      "file": "wire-boundary_begin_hold.txt",
+      "original_sha256": "0aca73dee1b16421fc8f298939315d2879c366882cf0f668806e8a9097f181a0",
+      "original_bytes": 1201,
+      "public_sha256": "428d0df33fabc40389c4483f11ad96b1a3e72a14035246952ad238c3f61d9f5b",
+      "public_bytes": 1191
+    },
+    {
+      "file": "wire-boundary_begin_partial.txt",
+      "original_sha256": "0b98967beca5d0ea7534ea737d8e7ec0e06ddb7c3e124ee5d2bd125717a9178f",
+      "original_bytes": 1180,
+      "public_sha256": "568fd5cf520859bafe308dc205535a424195758a7ead4c76e9a846a2edbfdd88",
+      "public_bytes": 1170
+    },
+    {
+      "file": "wire-boundary_commit_hold.txt",
+      "original_sha256": "655ab0027ea69f1d04f475984cfd1ac96a771c0ac622eea57e5e8438d9853226",
+      "original_bytes": 1201,
+      "public_sha256": "3589adf327d403117337e26ff87869e993d07276cc314552eb6f88496d017a9f",
+      "public_bytes": 1191
+    },
+    {
+      "file": "wire-boundary_commit_partial.txt",
+      "original_sha256": "f57e30927e00581341b0ee4bcd8cbcadaf25160827a79ba2bf1eaa628d96cbb4",
+      "original_bytes": 1180,
+      "public_sha256": "b8d007b70e7b7a99a12cf4db8a4f2e027f18be115e79b6efd19d8e9e65d623a0",
+      "public_bytes": 1170
+    },
+    {
+      "file": "wire-boundary_rollback_hold.txt",
+      "original_sha256": "b168efa56ed14d6b5d075a0742524757249ae49dc7193b20235bcb605910040c",
+      "original_bytes": 1204,
+      "public_sha256": "a348ebc5666f3c49e537aa0319b5828a67e480c2caf658e6e139203667202ae5",
+      "public_bytes": 1194
+    },
+    {
+      "file": "wire-boundary_rollback_partial.txt",
+      "original_sha256": "529bc97b03730fad4e2bf636a150ee55d06ceb81bff988338509f16a43a1e797",
+      "original_bytes": 1179,
+      "public_sha256": "74055a92b8c6284a119e3879f78a3049aa212dd62951eebd1a3c73b382dbaaf8",
+      "public_bytes": 1169
+    },
+    {
+      "file": "wire-tls_outage.txt",
+      "original_sha256": "312ec89a3c876a232a21bcf19a5a8bf55538ebd36b3633d99f7f0c23fd1684ab",
+      "original_bytes": 1146,
+      "public_sha256": "1ced9e2f76a4f581a5a7021943e80fee73d0ee9178d2f8717ea39ba7a1a66500",
+      "public_bytes": 1136
+    },
+    {
+      "file": "trace-config-before.txt",
+      "original_sha256": "0196ae9a612773f6c38f8096fc5d21ab71c4fb3e53f5c872b02ccde6b7fb1bfc",
+      "original_bytes": 2503,
+      "public_sha256": "34ae9352fbdb3ab74cd8ecfd98d188d9fafb4cf33c1cc7daaa831fb1dae3c2f2",
+      "public_bytes": 2298
+    },
+    {
+      "file": "trace-config-after.txt",
+      "original_sha256": "6047f0913c0bf1e5c3f0484153d4606649b92774e1d1c3790b6c83645916d6d4",
+      "original_bytes": 306,
+      "public_sha256": "7ef66feeae61d88d49465cbdf42168b27abe4780f607a6ca80f9d8d42a3616d6",
+      "public_bytes": 300
+    }
+  ],
+  "binaries": [
+    {
+      "file": "pg_network_recovery.exe",
+      "sha256": "a74df50f253ffa22170b783349a3a261a385f02719e1e8b6f2d03012efd68972",
+      "bytes": 8392676
+    },
+    {
+      "file": "libpq.dll",
+      "sha256": "17a3dd4991aceed4ef3bca8109be6e7e755c01eec918956d58d6c7cc9c055e4c",
+      "bytes": 438359
+    },
+    {
+      "file": "g++.exe",
+      "sha256": "798a6eb495b30cf771dc759b5508d269ecb0dddac739719e8b30fe0ac0744b69",
+      "bytes": 3309821
+    }
+  ],
+  "sanitization": "Public captures replace personal local paths, username and hostname with labelled placeholders and summarize localized host-tool banners. SQL/results, scenario outcomes and wire timestamps are retained. Original hashes identify retained local raw captures.",
+  "original_implementation_commit": "a78e21c8aa683ad177957e6c381209c52b6ff081",
+  "public_capture_hash_scope": "All 13 public_sha256/public_bytes pairs were verified against staged Git blob bytes, not Windows checkout bytes; every pair matches. Public captures are normalized LF; original raw-capture hashes and sizes remain unchanged.",
+  "diagnostic_configuration_correction": {
+    "failed_ci_run": 41473863113,
+    "failed_head": "704a4581fb8648d6689b58a7c6756996222e2edf",
+    "failed_job": 125374786445,
+    "cause": "OMP_PG_NETWORK_TRACE absent from new test environment; instrumented capture rejected before scenario execution.",
+    "regression_before": "FAIL: actual diagnostic CTest environment absent",
+    "regression_after": "PASS: actual diagnostic CTest environment has distinct writable O_EXCL paths",
+    "runtime_scope": "Windows configuration-only Linux target; corrected Linux ASan runtime CI remains pending."
+  }
+}

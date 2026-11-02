@@ -1,6 +1,6 @@
 // Real Engine/libpq with disposable PostgreSQL and bounded loopback wire faults.
-#include "pg/engine.hpp"
 #include "../src/network_trace.hpp"
+#include "pg/engine.hpp"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -126,7 +126,11 @@ struct Test {
 	}
 };
 
-void response_loss(const char *service, const std::string &name) {
+void response_loss(const char *service, const std::string &name,
+                   const std::string &operation = "") {
+	const auto command = operation.empty() ? name : operation;
+	const bool partial = name.ends_with("_partial");
+	const bool held = name.ends_with("_hold") || name == "hold";
 	scenario = name;
 	PG_NETWORK_SCENARIO(scenario);
 	std::cout << "SCENARIO " << scenario << " start" << std::endl;
@@ -136,7 +140,7 @@ void response_loss(const char *service, const std::string &name) {
 	t.sql(t.observer,
 	      "CREATE TABLE " + table + "(id bigint GENERATED ALWAYS AS IDENTITY, n integer)");
 	pg::Id tx = 0, id = 0;
-	if (name == "begin") {
+	if (command == "begin") {
 		id = t.engine.begin(owner, t.writer, 0, context, true);
 	} else if (name == "savepoint" || name == "rollback_to" || name == "release") {
 		tx = t.begin();
@@ -152,15 +156,15 @@ void response_loss(const char *service, const std::string &name) {
 		                        : name == "rollback_to" ? pg::Kind::rollback_to
 		                                                : pg::Kind::release_savepoint,
 		                        context, true);
-	} else if (name == "commit" || name == "rollback") {
+	} else if (command == "commit" || command == "rollback") {
 		tx = t.begin();
 		t.sql(t.writer, "INSERT INTO " + table + "(n) VALUES(1)", tx);
-		id = t.engine.finish(owner, tx, name == "commit", context, true);
+		id = t.engine.finish(owner, tx, command == "commit", context, true);
 	} else {
 		id = t.query(t.writer, "INSERT INTO " + table + "(n) VALUES(1) /* phase2_fault */");
 	}
 	auto job = t.wait(id);
-	t.uncertain(job, name == "hold" ? pg::Error::timeout : pg::Error::connection);
+	t.uncertain(job, held ? pg::Error::timeout : pg::Error::connection);
 	check(job->transaction == tx, "Transaction identity retained");
 	t.release(job);
 	if (name == "savepoint" || name == "rollback_to" || name == "release") {
@@ -182,10 +186,11 @@ void response_loss(const char *service, const std::string &name) {
 	until([&] {
 		return t.sql(t.observer, "SELECT count(*) FROM pg_stat_activity WHERE pid=" + pid) == "0";
 	});
-	const auto expected = (name == "commit" || name == "insert" || name == "hold") ? "1" : "0";
+	const auto expected =
+	    (!partial && (command == "commit" || name == "insert" || name == "hold")) ? "1" : "0";
 	check(t.sql(t.observer, "SELECT count(*) FROM " + table) == expected,
 	      "Independent PostgreSQL row count matches committed/aborted operation");
-	if (name != "begin") {
+	if (command != "begin") {
 		// Identity sequences are not transactional: replay attempts advance them even on rollback.
 		check(t.sql(t.observer, "SELECT last_value FROM " + table + "_id_seq") == "1",
 		      "Sequence proves one write attempt, including aborted transactions");
@@ -339,9 +344,85 @@ void tls_hold(const char *service, const std::filesystem::path &root, bool shutd
 	}
 	std::cout << "SCENARIO " << scenario << " PASS" << std::endl;
 }
+
+void prolonged_outage(const char *service, const std::filesystem::path &root) {
+	scenario = "tls_outage";
+	PG_NETWORK_SCENARIO(scenario);
+	std::cout << "SCENARIO " << scenario << " start" << std::endl;
+	Test t(service, "wire_tls_outage");
+	const auto pid = t.sql(t.writer, "SELECT pg_backend_pid()");
+	check(t.sql(t.observer, "SELECT ssl FROM pg_stat_ssl WHERE pid=" + pid) == "t",
+	      "Outage profile uses real end-to-end TLS");
+	t.sql(t.observer,
+	      "CREATE TABLE phase2_outage(id bigint GENERATED ALWAYS AS IDENTITY, n integer)");
+	const auto text = "SELECT pg_sleep(60) /* phase2_outage */";
+	auto active = t.engine.job(owner, t.query(t.writer, text));
+	until([&] {
+		return t.sql(t.observer, "SELECT count(*) FROM pg_stat_activity WHERE pid=" + pid +
+		                             " AND state='active' AND wait_event='PgSleep' AND query='" +
+		                             text + "'") == "1";
+	});
+	{
+		std::ofstream arm(root / scenario / "arm");
+		check(bool(arm), "Arm sustained opaque TLS outage");
+	}
+	auto queued = t.engine.job(owner, t.query(t.writer, "INSERT INTO phase2_outage(n) VALUES(1)"));
+	check(t.sql(t.observer, "SELECT pg_cancel_backend(" + pid + ")") == "t",
+	      "Release observed server response into outage");
+	until([&] {
+		return std::filesystem::exists(root / scenario / "injected");
+	});
+	auto completed = t.wait(active->id);
+	t.uncertain(completed, pg::Error::timeout);
+	auto pending = t.wait(queued->id);
+	check(pending->status.load() == pg::Status::failed && pending->error == pg::Error::connection &&
+	          pending->completed == 0 && pending->error_index == -1 &&
+	          pending->items_status == std::vector{pg::ItemStatus::not_executed},
+	      "Outage settles unsent SQL without replay");
+	until([&] {
+		t.poll();
+		return t.engine.connection(owner, t.writer).state() == pg::State::failed;
+	});
+	const auto stats = t.engine.connection(owner, t.writer).lanes[0]->snapshot();
+	check(stats.connection_attempts == 3 && stats.queued_jobs == 0 && stats.running_jobs == 0,
+	      "Outage outlasts query deadline and both bounded recovery handshakes");
+	check(t.sql(t.observer, "SELECT 42") == "42",
+	      "Independent connection progresses during outage");
+	bool rejected = false;
+	try {
+		t.query(t.writer, "INSERT INTO phase2_outage(n) VALUES(2)");
+	} catch (const pg::Failure &failure) {
+		rejected = failure.code == pg::Error::not_ready;
+	}
+	check(rejected, "Exhausted pool rejects new SQL before dispatch");
+	active.reset();
+	queued.reset();
+	t.release(completed);
+	t.release(pending);
+	{
+		std::ofstream release(root / scenario / "release");
+		check(bool(release), "Explicitly release sustained outage");
+	}
+	t.engine.disconnect(owner, t.writer);
+	t.writer = t.engine.connect(owner, "wire_tls_outage", 1);
+	t.recovered(pid);
+	until([&] {
+		return t.sql(t.observer, "SELECT count(*) FROM pg_stat_activity WHERE pid=" + pid) == "0";
+	});
+	check(t.sql(t.observer, "SELECT count(*) FROM phase2_outage") == "0" &&
+	          t.sql(t.observer, "SELECT is_called FROM phase2_outage_id_seq") == "f",
+	      "Explicit pool recreation never resubmits uncertain or unsent SQL");
+	t.sql(t.observer, "DROP TABLE phase2_outage");
+	std::cout << "SCENARIO " << scenario << " PASS" << std::endl;
+}
 } // namespace
 
-int main() {
+int main(int argc, char **argv) {
+	const bool boundaries = argc == 2 && std::string(argv[1]) == "--boundaries";
+	if (argc != 1 && !boundaries) {
+		std::cerr << "Expected no arguments or --boundaries\n";
+		return 1;
+	}
 	const auto service = std::getenv("OMP_PG_TEST_SERVICE");
 	const auto root = std::getenv("OMP_PG_TEST_WIRE_ROOT");
 	if (!service || !root) {
@@ -356,6 +437,16 @@ int main() {
 	try {
 		std::cout << "network_recovery libpq=" << PQlibVersion()
 		          << " pointer_bytes=" << sizeof(void *) << std::endl;
+		if (boundaries) {
+			for (const std::string command : {"begin", "commit", "rollback"}) {
+				for (const std::string phase : {"partial", "hold"}) {
+					response_loss(service, "boundary_" + command + "_" + phase, command);
+				}
+			}
+			prolonged_outage(service, root);
+			std::cout << "network_boundaries PASS scenarios=7 checks=" << checks << std::endl;
+			return capture.finish() ? 0 : 1;
+		}
 		for (const std::string name : {"begin", "savepoint", "rollback_to", "release", "commit",
 		                               "rollback", "insert", "hold", "partial_parse"}) {
 			response_loss(service, name);

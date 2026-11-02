@@ -15,7 +15,7 @@ import time
 
 
 class WireFaultProxy:
-    MODES = {"lose", "hold", "partial_parse", "fragment", "tls_hold"}
+    MODES = {"lose", "hold", "partial_parse", "partial_command", "fragment", "tls_hold", "tls_outage"}
 
     def __init__(self, port, directory, mode, tag=b"INSERT 0 1"):
         if mode not in self.MODES or tag not in (
@@ -57,7 +57,7 @@ class WireFaultProxy:
                     )
                     + "\n"
                 )
-            if event in ("partial_parse", "command_response_withheld", "opaque_tls_response_held"):
+            if event in ("partial_parse", "partial_command", "command_response_withheld", "opaque_tls_response_held"):
                 (self.directory / "injected").touch()
 
     def claim(self):
@@ -77,6 +77,15 @@ class WireFaultProxy:
                 return
             with self.lock:
                 self.sockets.append(client)
+            if self.mode == "tls_outage" and self.injected and not (self.directory / "release").exists():
+                # Keep reconnect TCP sessions open without reaching PostgreSQL.
+                # The fault remains armed until the test explicitly releases it.
+                client.settimeout(0.2)
+                self.event("reconnect_held")
+                worker = threading.Thread(target=self.stall, args=(client,))
+                self.workers.append(worker)
+                worker.start()
+                continue
             try:
                 upstream = socket.create_connection(("127.0.0.1", self.upstream_port), timeout=2)
             except OSError:
@@ -114,10 +123,23 @@ class WireFaultProxy:
         for offset in range(0, len(data), step):
             target.sendall(data[offset : offset + step])
 
+    def stall(self, client):
+        try:
+            while not self.stop.is_set():
+                try:
+                    if not client.recv(65536):
+                        break
+                except socket.timeout:
+                    continue
+        except OSError:
+            pass
+        finally:
+            client.close()
+
     def relay(self, source, target, backend):
         held = False
         try:
-            if self.mode == "tls_hold":
+            if self.mode in ("tls_hold", "tls_outage"):
                 while not self.stop.is_set():
                     try:
                         chunk = source.recv(65536)
@@ -148,13 +170,14 @@ class WireFaultProxy:
                     self.event("backend_identity", pid=struct.unpack("!I", frame[5:9])[0])
                 if (
                     not backend
-                    and self.mode == "partial_parse"
+                    and self.mode in ("partial_parse", "partial_command")
                     and header[:1] == b"P"
-                    and b"phase2_fault" in frame
+                    and (b"phase2_fault" in frame if self.mode == "partial_parse"
+                         else frame[5:] == b"\0" + self.tag + b"\0\0\0")
                     and self.claim()
                 ):
                     self.send(target, frame[:-1])
-                    self.event("partial_parse", sent=len(frame) - 1, total=len(frame))
+                    self.event(self.mode, sent=len(frame) - 1, total=len(frame))
                     return
                 if (
                     backend

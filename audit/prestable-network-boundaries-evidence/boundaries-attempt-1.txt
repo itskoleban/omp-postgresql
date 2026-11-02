@@ -1,0 +1,53 @@
+[sanitized localized host-tool success banner]
+[sanitized localized host-tool success banner]
+
+The files belonging to this database system will be owned by user "[local-test-user]".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "C".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+creating directory [disposable-cluster]/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... windows
+selecting default "max_connections" ... 100
+selecting default "shared_buffers" ... 128MB
+selecting default time zone ... America/Bogota
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+Success. You can now start the database server using:
+
+[sanitized initdb command hint]
+
+
+waiting for server to start.... done
+server started
+
+CREATE ROLE
+CREATE ROLE
+
+Test project [worktree]/build-network
+    Start 14: network_boundaries_integration
+1/1 Test #14: network_boundaries_integration ...   Passed   13.38 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Label Time Summary:
+network     =  13.38 sec*proc (1 test)
+recovery    =  13.38 sec*proc (1 test)
+
+Total Test time (real) =  13.39 sec
+
+CTest qualification: 1 tests executed successfully; report: [worktree]\build-network\Testing\Temporary\qualification.xml
+mode=ssl accepted=0 ready=0 closed=0
+mode=tls accepted=0 ready=0 closed=0
+mode=startup accepted=0 ready=0 closed=0
+waiting for server to shut down.... done
+server stopped
+
+Isolated test artifacts: [disposable-cluster]

@@ -420,9 +420,16 @@ if(BUILD_TESTING)
     set_tests_properties(audit_faults_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60 LABELS "audit;stress")
     add_test(NAME network_recovery_integration COMMAND pg_network_recovery)
     set_tests_properties(network_recovery_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS "network;recovery")
+    add_test(NAME network_boundaries_integration COMMAND pg_network_recovery --boundaries)
+    set_tests_properties(network_boundaries_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS "network;recovery")
     if(PG_NETWORK_DIAGNOSTICS)
         set_property(TEST network_recovery_integration APPEND PROPERTY ENVIRONMENT
             "OMP_PG_NETWORK_TRACE=${CMAKE_BINARY_DIR}/network-diagnostic/client.jsonl"
+            "PGOPTIONS=-c log_min_duration_statement=0 -c log_statement=all -c log_parameter_max_length=0 -c log_lock_waits=on")
+        # A separate invocation requires a separate O_EXCL capture. Its parent
+        # already exists even when --network-boundaries-only omits the collector.
+        set_property(TEST network_boundaries_integration APPEND PROPERTY ENVIRONMENT
+            "OMP_PG_NETWORK_TRACE=${CMAKE_BINARY_DIR}/network-boundaries-client.jsonl"
             "PGOPTIONS=-c log_min_duration_statement=0 -c log_statement=all -c log_parameter_max_length=0 -c log_lock_waits=on")
     endif()
     add_test(NAME diagnostics_unit COMMAND pg_diagnostics_tests)
