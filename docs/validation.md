@@ -1,17 +1,58 @@
 # Validation results and known limitations
 
-This source prepares **v0.1.0-rc.2** for testing and evaluation. Public availability is
+This source prepares **v0.1.0-rc.3** for testing and evaluation. Public availability is
 recorded on the [Releases page](https://github.com/itskoleban/omp-postgresql/releases).
 Passing a finite suite verifies its listed scenarios; it does not certify production
 suitability. Current preparation gates are separate from historical qualification records.
 
 | Evidence                  | Where to start                                                                                | Scope                                                                            |
 | ------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| RC.2 preparation          | [Exact-source gates](#rc2-preparation-and-exact-source-gates)                                    | Baseline evidence and mandatory final integrated qualification.                  |
+| RC.3 preparation          | [Exact-source gates](#rc3-preparation-and-exact-source-gates)                                    | Baseline evidence and mandatory final integrated qualification.                  |
 | Published RC.1            | [Publication record](#published-release-candidate-october-21-2026-utc)                        | Exact tagged source `db2bfb9`; immutable release assets.                         |
 | Development documentation | [Current checks](#development-documentation-checks)                                           | Current checkout/PR; compilation and disposable SQL checks have explicit limits. |
 | Historical qualification  | [October 20 baseline](#verified-master-baseline-october-20-2026-utc) and later dated sections | Original source identities, counts and measurements remain historical.           |
 | Unqualified scenarios     | [Remaining coverage](#remaining-release-qualification)                                        | Work not established by the finite suites or measurements.                       |
+
+## RC.3 preparation and exact-source gates
+
+The verified integrated baseline is `master`
+**`27e09b7cffa34968b78cb0025c121fce0a713e65`**. All seven jobs passed in
+[CI 41312759129](https://github.com/itskoleban/omp-postgresql/actions/runs/41312759129),
+including both x86 official-server/package jobs and downloaded-distribution verification.
+That successful integrated run retains its exact-source scope; it is not rerun merely
+because RC.3 preparation begins. The source still identified itself as RC.2 at that
+baseline. RC.3 metadata and subsequent corrections require their own PR validation,
+then successful seven-job qualification of the exact integrated `master` source before
+an owner-authorized tag/publication. Check final manifests, inventory, notes, dependency
+identities and SHA-256 files against that same commit.
+
+The [preserved integrated baseline](https://github.com/itskoleban/omp-postgresql/blob/master/audit/integrated-master-2026-11-01.md)
+records 206 main CTest cases plus five directed Windows executions, 92 real-session
+scenarios and verified original package/source identities. The
+[Windows handle investigation](https://github.com/itskoleban/omp-postgresql/blob/master/audit/windows-resource-handles-2026-11-01.md)
+reproduces the +64 residual with direct libpq TLS in a joined thread without an
+Engine. Its type vector matches the Engine/stress observations, remains stable
+through repeated cycles, and clears at complete process exit. This establishes a
+dependency/Windows initialization path, not universal leak freedom or allocation-stack
+ownership of every object. The Windows-only `pg_windows_resource_probe` preserves
+the controlled comparison for future diagnostics; it does not add count thresholds.
+
+The [network investigation and supervisor regression](https://github.com/itskoleban/omp-postgresql/blob/master/audit/network-recovery-2026-11-01.md)
+preserve the historical failure and correct wire-journal storage errors that could
+interrupt fixture shutdown. The new regression fails before that correction and
+passes afterward. This independent fixture defect does not explain issue #31.
+
+Current resource/network investigation evidence must be reviewed with the candidate.
+Issue [#31](https://github.com/itskoleban/omp-postgresql/issues/31) remains open and the
+historical ASan timeout remains **ROOT CAUSE UNKNOWN**. Later success does not establish
+causation. `UNCERTAIN` SQL is never automatically replayed. Historical failed captures
+retain their outcomes. A newly reproduced defect requires correction and qualification.
+
+The [RC.3 readiness checklist](rc-readiness.md) records concrete campaign preconditions,
+measurement/stop criteria and remaining limits. No verified isolated Linux runner or
+frozen RC.3 deployment has been established; no 24-hour campaign is started here.
+Finite RSS/handle/descriptor samples do not prove leak freedom. Stable release remains
+subject to risk disposition, prolonged qualification and the final owner gate.
 
 ## RC.2 preparation and exact-source gates
 
@@ -59,6 +100,13 @@ Changed inputs require their affected checks. A successful preflight or bounded 
 does not qualify the runner or constitute a 24-hour result.
 
 ### Bounded network diagnostic collection
+
+Wire-fault journal retention failures cannot bypass later proxy/stall cleanup or
+disposable PostgreSQL shutdown. Regressions cover an actual destination-directory
+collision and an injected copy failure after successful and failed workloads. The
+original workload exception remains primary; a retention failure after a successful
+workload fails qualification after cleanup. This corrects fixture exception handling,
+not the historical cleanup SQL timeout in issue #31.
 
 The Linux ASan/UBSan CI job enables `PG_NETWORK_DIAGNOSTICS` and passes
 `--network-diagnostics` to the disposable PostgreSQL runner. Each job executes the

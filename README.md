@@ -1,8 +1,8 @@
 # omp-postgresql
 
 A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
-This development source retains the **v0.1.0-rc.2** version semantics and changes the
-distributed filenames to `omp_postgresql.inc`, `PostgreSQL.dll` and `PostgreSQL.so`.
+This source prepares **v0.1.0-rc.3** for testing and evaluation, with distributed files
+`omp_postgresql.inc`, `PostgreSQL.dll` and `PostgreSQL.so`.
 The project and internal component identity remain `omp-postgresql`.
 Obtain public packages from the [releases page](https://github.com/itskoleban/omp-postgresql/releases)
 and verify their exact source identity and checksums. Stable v0.1.0 is not published;
@@ -98,7 +98,7 @@ component as a legacy SA-MP plugin.
 #include <omp_postgresql>
 ```
 
-When moving from RC.1 or RC.2 to this development source, replace `#include <omp-postgresql>`
+When moving from RC.1 or RC.2 to RC.3, replace `#include <omp-postgresql>`
 with `#include <omp_postgresql>` and recompile your Pawn scripts. Stop the server and replace
 the old component binary with the matching `PostgreSQL.dll` or `PostgreSQL.so`; keep only
 one copy of this component in `components/`. The Pawn API, UID, internal component name
@@ -235,7 +235,7 @@ The public receives `(job, playerid, session)` with copied arguments. Existing
 `OnPgComplete(job, context)` programs and compiled AMX calls remain supported.
 Use `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")` for named SQL;
 `pg_prepare_section` was removed before RC.1; older pre-RC.1 programs that use it must
-migrate and recompile affected AMX files. RC.2 preserves RC.1's public Pawn signatures.
+migrate and recompile affected AMX files. RC.3 preserves RC.1/RC.2's public Pawn signatures.
 See [cleanup and migration](docs/prestable-cleanup.md). Read the
 [callback contract](docs/callbacks.md) and [bounded API audit](docs/api-modernization.md)
 before migrating; include and component versions must match.

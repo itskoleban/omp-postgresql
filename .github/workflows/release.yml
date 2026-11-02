@@ -7,7 +7,7 @@ on:
                 type: string
                 required: true
             tag:
-                description: Existing owner-approved stable or RC tag (v0.1.0 or v0.1.0-rc.2)
+                description: Existing owner-approved stable or RC tag (v0.1.0 or v0.1.0-rc.3)
                 type: string
                 required: true
             confirmation:
