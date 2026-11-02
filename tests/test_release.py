@@ -21,6 +21,60 @@ release = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(release)
 
 
+class ReleaseNoteLinkTests(unittest.TestCase):
+    base = "https://github.com/itskoleban/omp-postgresql/blob/" + "a" * 40 + "/docs/"
+
+    def test_absolute_urls_and_local_anchors_are_preserved(self):
+        for target in (
+            "https://example.invalid/guide#section",
+            "http://example.invalid/a_(b)?q=c#d",
+            "mailto:maintainer@example.invalid",
+            "//example.invalid/guide",
+            "/absolute/path",
+            "#overview",
+        ):
+            with self.subTest(target=target):
+                notes = f"Before [reference]({target}) after."
+                self.assertEqual(release.release_note_links(notes, self.base), notes)
+
+    def test_relative_documentation_links_keep_queries_and_fragments(self):
+        for target, expected in (
+            ("installation.md", self.base + "installation.md"),
+            ("./installation.md#migration", self.base + "installation.md#migration"),
+            ("../DEPENDENCIES.md", self.base.removesuffix("docs/") + "DEPENDENCIES.md"),
+            ("guide_(draft).md?q=1#section", self.base + "guide_(draft).md?q=1#section"),
+        ):
+            with self.subTest(target=target):
+                self.assertEqual(
+                    release.release_note_links(f"[reference]({target})", self.base),
+                    f"[reference]({expected})",
+                )
+
+    def test_malformed_and_nested_links_are_not_partially_rewritten(self):
+        for notes in (
+            "](installation.md)",
+            "[missing](installation.md",
+            "[missing [inner](installation.md)",
+            "[outer [inner](installation.md)](validation.md)",
+            "[outer](before[inner](installation.md))",
+            "[title](installation.md \"Installation\")",
+            "[empty]()",
+            r"[escaped](guide\(draft\).md)",
+            r"\[literal](installation.md)",
+            "![image](installation.md)",
+        ):
+            with self.subTest(notes=notes):
+                self.assertEqual(release.release_note_links(notes, self.base), notes)
+
+    def test_preserved_construct_does_not_hide_a_later_valid_link(self):
+        notes = "[outer [inner](ignored.md)](ignored.md) [valid](installation.md)"
+        self.assertEqual(
+            release.release_note_links(notes, self.base),
+            "[outer [inner](ignored.md)](ignored.md) "
+            f"[valid]({self.base}installation.md)",
+        )
+
+
 class ReleaseTests(unittest.TestCase):
     def setUp(self):
         self.commit = "a" * 40
@@ -175,7 +229,9 @@ class ReleaseTests(unittest.TestCase):
         (source / "docs/release-notes.md").write_text(
             "# omp-postgresql 0.1.0-rc.1\n\nTesting release.\n"
             "[API](native-reference.md) [audit](independent-audit.md) [validation](validation.md) "
-            "[dependencies](../DEPENDENCIES.md) [installation](installation.md)\n",
+            "[dependencies](../DEPENDENCIES.md) [installation](installation.md)\n"
+            "[external](https://example.invalid/release) [local](#overview)\n"
+            "[outer [inner](unchanged.md)](unchanged.md)\n",
             encoding="utf8",
         )
         subprocess.run(["git", "add", "."], cwd=source, check=True)
@@ -255,6 +311,8 @@ class ReleaseTests(unittest.TestCase):
             ):
                 self.assertIn(f"]({prefix}{path})", notes)
             self.assertIn("](native-reference.md)", (source / "docs/release-notes.md").read_text())
+            self.assertIn("[external](https://example.invalid/release) [local](#overview)", notes)
+            self.assertIn("[outer [inner](unchanged.md)](unchanged.md)", notes)
             self.assertEqual(
                 {p.name: p.read_bytes() for p in first.iterdir()},
                 {p.name: p.read_bytes() for p in second.iterdir()},

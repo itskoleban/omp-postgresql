@@ -7,7 +7,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlsplit
 
 import package
 
@@ -110,6 +110,73 @@ def check_remote_tag(repository, tag, commit):
     raise ValueError("Remote tag does not resolve to a commit within eight objects")
 
 
+def release_note_links(notes, base_url):
+    """Pin plain relative inline links, preserving other Markdown byte for byte.
+
+    Consume complete balanced constructs before considering a replacement. A suffix
+    regex can otherwise rewrite an inner link or only half of a destination.
+    Nested labels, titles and escaped destinations are deliberately left unchanged.
+    """
+    output = []
+    cursor = 0
+    while cursor < len(notes):
+        start = cursor
+        if notes[cursor] == "\\":
+            cursor += 2
+        elif notes[cursor] == "[":
+            depth, nested = 1, False
+            cursor += 1
+            while cursor < len(notes) and depth:
+                char = notes[cursor]
+                if char == "\\":
+                    cursor += 2
+                    continue
+                if char == "[":
+                    depth += 1
+                    nested = True
+                elif char == "]":
+                    depth -= 1
+                cursor += 1
+            if depth:
+                output.append(notes[start:])
+                break
+            if cursor < len(notes) and notes[cursor] == "(":
+                destination_start = cursor + 1
+                depth = 1
+                cursor += 1
+                while cursor < len(notes) and depth:
+                    char = notes[cursor]
+                    if char == "\\":
+                        cursor += 2
+                        continue
+                    if char == "(":
+                        depth += 1
+                    elif char == ")":
+                        depth -= 1
+                    cursor += 1
+                if depth:
+                    output.append(notes[start:])
+                    break
+                target = notes[destination_start : cursor - 1]
+                if (
+                    not nested
+                    and not (start and notes[start - 1] == "!")
+                    and target
+                    and not any(char.isspace() or char in "[]<>\\" for char in target)
+                    and not target.startswith(("#", "/"))
+                ):
+                    url = urlsplit(target)
+                    if not url.scheme and not url.netloc:
+                        output.append(notes[start:destination_start])
+                        output.append(urljoin(base_url, target))
+                        output.append(")")
+                        continue
+        else:
+            cursor += 1
+        output.append(notes[start:cursor])
+    return "".join(output)
+
+
 def prepare(packages, output, source=ROOT):
     package.ensure_checkout(source)
     commit, version = source_identity(source)
@@ -132,7 +199,7 @@ def prepare(packages, output, source=ROOT):
     if not notes.startswith(f"# omp-postgresql {version}\n"):
         raise ValueError("Release notes do not match the source version")
     base_url = f"https://github.com/itskoleban/omp-postgresql/blob/{commit}/docs/"
-    notes = re.sub(r"\]\(([^)]+)\)", lambda match: f"]({urljoin(base_url, match[1])})", notes)
+    notes = release_note_links(notes, base_url)
     output.mkdir(parents=True, exist_ok=False)
     for name in sorted(expected):
         shutil.copyfile(packages / name, output / name)
