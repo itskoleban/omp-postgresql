@@ -563,11 +563,9 @@ finally:
     except Exception as error:
         cleanup_failure("retain evidence", error)
     if cleanup_errors:
-        if exception_in_flight:
-            print("Fixture cleanup errors; original test failure retained: " +
-                  "; ".join(cleanup_errors), file=sys.stderr)
-        else:
-            raise RuntimeError("Fixture cleanup failed: " + "; ".join(cleanup_errors))
+        suffix = "; original test failure retained" if exception_in_flight else ""
+        print("Fixture cleanup errors" + suffix + ": " + "; ".join(cleanup_errors),
+              file=sys.stderr)
     if not network_diagnostic_ok:
         if exception_in_flight:
             print("Network diagnostic collection failed; original test failure retained", file=sys.stderr)
@@ -585,3 +583,5 @@ finally:
             raise RuntimeError("Stall diagnostic collection failed; inspect stall-observer.log")
     if not exception_in_flight and any(stalled.errors for stalled in stall_servers):
         raise RuntimeError("Stall fixture failed; inspect stall-*.log in the fixture directory")
+    if not exception_in_flight and cleanup_errors:
+        raise RuntimeError("Fixture cleanup failed: " + "; ".join(cleanup_errors))
