@@ -48,8 +48,10 @@ snapshots warm the instrumentation before the baseline. Module snapshot handles
 are closed before the next measurement. Each control uses the same linked
 binary, DLLs and regular-file stdout/stderr redirection, a fresh process, one
 operation followed by ten complete repeated cycles, and a settled checkpoint.
-Native API errors fail the diagnostic rather than silently accepting an
-incomplete snapshot. Unsupported Windows native APIs are a diagnostic limitation.
+Process-snapshot API errors fail the diagnostic. Individual type/name query
+errors are recorded explicitly with native status and type index; handle closure
+and reuse can race active-work inspection. File-name queries are deliberately
+skipped. Unsupported Windows native APIs are a diagnostic limitation.
 
 | Experiment | Warm baseline | First active | Destroyed | After ten more cycles | Fresh processes |
 | --- | ---: | ---: | ---: | ---: | ---: |
