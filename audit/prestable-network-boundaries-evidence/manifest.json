@@ -1,7 +1,7 @@
 {
   "baseline": "b715a971e71047a9c73f6b85489fc342317ba86b",
-  "implementation_commit": "a78e21c8aa683ad177957e6c381209c52b6ff081",
-  "run_source_scope": "Baseline plus implementation before commit; final implementation commit differs from executed source only by clang-format whitespace/include ordering. This is bounded local development evidence, not exact-commit CI or package qualification.",
+  "implementation_commit": "a00cb8f475b2b1ffd584e7fb84168ca2dcd6ae6e",
+  "run_source_scope": "Baseline plus original network implementation before commit; original implementation commit differs from executed source only by clang-format whitespace/include ordering. The implementation was subsequently rebased onto independent release-tooling and fixture-cleanup fixes. Retained runtime evidence does not qualify those independent fixes or the complete rebased source. This is bounded local development evidence, not exact-commit CI or package qualification.",
   "platform": "Windows x64",
   "compiler": "GCC 16.1.0 UCRT64",
   "libpq": "18.4 (PQlibVersion 180004)",
@@ -124,5 +124,7 @@
       "bytes": 3309821
     }
   ],
-  "sanitization": "Public captures replace personal local paths, username and hostname with labelled placeholders and summarize localized host-tool banners. SQL/results, scenario outcomes and wire timestamps are retained. Original hashes identify retained local raw captures."
+  "sanitization": "Public captures replace personal local paths, username and hostname with labelled placeholders and summarize localized host-tool banners. SQL/results, scenario outcomes and wire timestamps are retained. Original hashes identify retained local raw captures.",
+  "original_implementation_commit": "a78e21c8aa683ad177957e6c381209c52b6ff081",
+  "public_capture_hash_scope": "All 11 public_sha256/public_bytes pairs were verified against git show HEAD:<path> blob bytes, not Windows checkout bytes; every pair matches. Public captures are normalized LF; original raw-capture hashes and sizes remain unchanged."
 }
