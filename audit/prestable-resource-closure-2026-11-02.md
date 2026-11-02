@@ -45,9 +45,12 @@ ordered sequence through both proxies, wire/stall fixtures, cluster-stop attempt
 evidence-retention attempt. The failed stop remains a failure; no successful shutdown
 is fabricated and there is no retry-until-success.
 
-Negative control on uncorrected `b715a97`: all twelve new combinations failed their
-contract (nine errors and three assertion failures), while the four existing unittest
-methods passed. After correction, all six methods passed locally on Windows/Python
+Negative control on uncorrected `b715a97`: the new test run produced nine errors and
+three assertion failures, while the four existing unittest methods passed. The
+retention-with-primary-error case already preserved the workload exception; its
+assertion failure was the older diagnostic wording, not an additional lost-cleanup
+defect. The other failures exposed early exits or ignored monitor liveness.
+After correction, all six methods passed locally on Windows/Python
 3.13. This is fixture exception-control evidence, not a real OS failure of `pg_ctl` or
 a new component/runtime qualification. `git diff --check` passed. Black was unavailable
 in the local Python environment and is not claimed as run successfully.
