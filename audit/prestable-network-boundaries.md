@@ -37,3 +37,35 @@ failing semantic seed was discovered. No minimized reproduction is therefore cre
 Historical issue #31 remains ROOT CAUSE UNKNOWN; successful new cases do not resolve it.
 The 24-hour campaign was not started. Exact final-source CI and frozen-host preflight
 remain separate prerequisites under the release freeze procedure.
+
+## Diagnostic-build configuration correction
+
+[Exact-head CI 41473863113](https://github.com/itskoleban/omp-postgresql/actions/runs/41473863113)
+at `704a4581fb8648d6689b58a7c6756996222e2edf` is **FAIL**. Its Linux ASan job
+[125374786445](https://github.com/itskoleban/omp-postgresql/actions/runs/41473863113/job/125374786445)
+passed the original network test and the other 33 cases, but the new boundaries
+test stopped before any scenario with `Network diagnostic capture initialization failed`.
+The instrumented executable requires `OMP_PG_NETWORK_TRACE`; CMake had configured
+that environment only for its original invocation. This is a new test-configuration
+defect, not a reproduced SQL/Engine failure or an explanation of historical issue #31.
+The failed run and its
+[ASan artifact](https://github.com/itskoleban/omp-postgresql/actions/runs/41473863113/artifacts/13156761819)
+retain that negative result.
+
+Both diagnostic test invocations now receive distinct exclusive-create trace paths.
+The boundaries trace is `build/network-boundaries-client.jsonl`, whose parent already
+exists even for the standalone boundaries selector. The original collector retains
+exclusive creation of `build/network-diagnostic`; no directory is precreated for it
+and neither capture overwrites the other. The existing sensitive-value log restriction,
+Capture write/overflow checks and always-upload evidence behavior remain enforced.
+
+The new regression configures the actual CMake diagnostic build, reads its actual
+CTest JSON inventory, and creates both reserved trace files with exclusive-create
+semantics. It **FAILs before** the correction because the boundaries environment is
+absent and **PASSes after** it. The local Windows check is configuration-only with a
+Linux target; it does not claim execution of Linux ASan code. Its sanitized
+[before](prestable-network-boundaries-evidence/trace-config-before.txt) and
+[after](prestable-network-boundaries-evidence/trace-config-after.txt) outputs retain
+the outcome. Corrected exact-head CI is **PENDING** until its own run completes;
+the failed run is not relabelled as successful and no successful runtime suite was
+repeated locally for this correction.

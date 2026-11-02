@@ -99,6 +99,7 @@ jobs:
                       build/Testing/Temporary/qualification.xml
                       build/tsan-evidence/**
                       build/network-diagnostic/**
+                      build/network-boundaries-client.jsonl
                       /tmp/omp-pg-integration-*/command-*.log
                       /tmp/omp-pg-integration-*/server.log
             - name: Unmount the isolated log filesystem

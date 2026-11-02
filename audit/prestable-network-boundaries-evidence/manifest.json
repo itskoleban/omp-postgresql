@@ -105,6 +105,20 @@
       "original_bytes": 1146,
       "public_sha256": "1ced9e2f76a4f581a5a7021943e80fee73d0ee9178d2f8717ea39ba7a1a66500",
       "public_bytes": 1136
+    },
+    {
+      "file": "trace-config-before.txt",
+      "original_sha256": "0196ae9a612773f6c38f8096fc5d21ab71c4fb3e53f5c872b02ccde6b7fb1bfc",
+      "original_bytes": 2503,
+      "public_sha256": "34ae9352fbdb3ab74cd8ecfd98d188d9fafb4cf33c1cc7daaa831fb1dae3c2f2",
+      "public_bytes": 2298
+    },
+    {
+      "file": "trace-config-after.txt",
+      "original_sha256": "6047f0913c0bf1e5c3f0484153d4606649b92774e1d1c3790b6c83645916d6d4",
+      "original_bytes": 306,
+      "public_sha256": "7ef66feeae61d88d49465cbdf42168b27abe4780f607a6ca80f9d8d42a3616d6",
+      "public_bytes": 300
     }
   ],
   "binaries": [
@@ -126,5 +140,14 @@
   ],
   "sanitization": "Public captures replace personal local paths, username and hostname with labelled placeholders and summarize localized host-tool banners. SQL/results, scenario outcomes and wire timestamps are retained. Original hashes identify retained local raw captures.",
   "original_implementation_commit": "a78e21c8aa683ad177957e6c381209c52b6ff081",
-  "public_capture_hash_scope": "All 11 public_sha256/public_bytes pairs were verified against git show HEAD:<path> blob bytes, not Windows checkout bytes; every pair matches. Public captures are normalized LF; original raw-capture hashes and sizes remain unchanged."
+  "public_capture_hash_scope": "All 13 public_sha256/public_bytes pairs were verified against staged Git blob bytes, not Windows checkout bytes; every pair matches. Public captures are normalized LF; original raw-capture hashes and sizes remain unchanged.",
+  "diagnostic_configuration_correction": {
+    "failed_ci_run": 41473863113,
+    "failed_head": "704a4581fb8648d6689b58a7c6756996222e2edf",
+    "failed_job": 125374786445,
+    "cause": "OMP_PG_NETWORK_TRACE absent from new test environment; instrumented capture rejected before scenario execution.",
+    "regression_before": "FAIL: actual diagnostic CTest environment absent",
+    "regression_after": "PASS: actual diagnostic CTest environment has distinct writable O_EXCL paths",
+    "runtime_scope": "Windows configuration-only Linux target; corrected Linux ASan runtime CI remains pending."
+  }
 }

@@ -1,0 +1,6 @@
+test_diagnostic_invocations_have_distinct_writable_capture_paths (test_network_trace_configuration.NetworkTraceConfigurationTests.test_diagnostic_invocations_have_distinct_writable_capture_paths) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 7.627s
+
+OK

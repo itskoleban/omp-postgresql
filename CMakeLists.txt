@@ -426,6 +426,11 @@ if(BUILD_TESTING)
         set_property(TEST network_recovery_integration APPEND PROPERTY ENVIRONMENT
             "OMP_PG_NETWORK_TRACE=${CMAKE_BINARY_DIR}/network-diagnostic/client.jsonl"
             "PGOPTIONS=-c log_min_duration_statement=0 -c log_statement=all -c log_parameter_max_length=0 -c log_lock_waits=on")
+        # A separate invocation requires a separate O_EXCL capture. Its parent
+        # already exists even when --network-boundaries-only omits the collector.
+        set_property(TEST network_boundaries_integration APPEND PROPERTY ENVIRONMENT
+            "OMP_PG_NETWORK_TRACE=${CMAKE_BINARY_DIR}/network-boundaries-client.jsonl"
+            "PGOPTIONS=-c log_min_duration_statement=0 -c log_statement=all -c log_parameter_max_length=0 -c log_lock_waits=on")
     endif()
     add_test(NAME diagnostics_unit COMMAND pg_diagnostics_tests)
     set_tests_properties(diagnostics_unit PROPERTIES TIMEOUT 30)
