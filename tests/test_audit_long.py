@@ -8,7 +8,7 @@ import sys
 import tempfile
 import unittest
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
 import audit_long
@@ -149,6 +149,31 @@ class AuditLongTests(unittest.TestCase):
             audit_long.main()
         self.assertEqual(self.manifest()["status"], "FAIL")
         self.assertFalse((self.output / "bounded-preflight-qualification.xml").exists())
+
+    def test_post_launch_manifest_failure_terminates_and_joins_the_child(self):
+        launch_stage = self.stage_fixture([0, 0])
+        process = SimpleNamespace(pid=54321, returncode=-9, wait=Mock(return_value=-9))
+        def launch(command, **kwargs):
+            return process if "--soak-only" in command else launch_stage(command, **kwargs)
+        original_write = Path.write_text
+        injected = []
+        def write(path, data, **kwargs):
+            if path.name == "manifest.json" and json.loads(data)["campaign_started"] and not injected:
+                injected.append(True)
+                raise OSError("injected post-launch ENOSPC")
+            return original_write(path, data, **kwargs)
+        with patch.object(sys, "argv", self.argv), self.successful_tools(), patch.object(
+            audit_long.subprocess, "Popen", side_effect=launch
+        ), patch.object(Path, "write_text", write), patch.object(
+            audit_long.os, "killpg", create=True
+        ) as kill_group, self.assertRaisesRegex(OSError, "post-launch ENOSPC"):
+            audit_long.main()
+        process.wait.assert_called_once_with(timeout=30)
+        if os.name != "nt":
+            kill_group.assert_called_once()
+        manifest = self.manifest()
+        self.assertEqual(manifest["status"], "FAIL")
+        self.assertIn("post-launch ENOSPC", manifest["error"])
 
     def manifest(self):
         self.assertTrue((self.output / "manifest.json").is_file())

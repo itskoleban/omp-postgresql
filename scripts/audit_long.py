@@ -135,10 +135,10 @@ def main():
                     creationflags=flags | (subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0),
                     start_new_session=os.name != "nt",
                 )
-                if name == "integration-soak":
-                    manifest["campaign_started"] = True
-                    save()
                 try:
+                    if name == "integration-soak":
+                        manifest["campaign_started"] = True
+                        save()
                     returncode = process.wait(timeout=budget)
                 except BaseException as error:
                     # Kill only this newly launched process tree, never a server discovered globally.
