@@ -48,6 +48,7 @@ parser.add_argument("--component")
 parser.add_argument("--real-sessions", help="JSON configuration for the optional real network client suite")
 parser.add_argument("--only-real-sessions", action="store_true")
 parser.add_argument("--network-only", action="store_true", help="Run only the bounded wire regression in a fresh cluster")
+parser.add_argument("--network-boundaries-only", action="store_true", help="Run only the seven pre-stable transaction/outage boundaries")
 parser.add_argument("--stalls-only", action="store_true", help="Run all stalled-handshake scenarios in a fresh cluster")
 parser.add_argument("--stall-diagnostics", action="store_true", help="Retain bounded SQL/TLS state observations during the stall test")
 parser.add_argument("--gamemode")
@@ -74,11 +75,13 @@ parser.add_argument(
     help="Use fresh PostgreSQL fixture and run only server smoke",
 )
 args = parser.parse_args()
-if args.network_only and args.stalls_only:
-    parser.error("--network-only and --stalls-only select different regressions")
+if sum((args.network_only, args.network_boundaries_only, args.stalls_only)) > 1:
+    parser.error("Network and stalled-handshake selectors select different regressions")
+if args.network_boundaries_only and (args.only_openmp or args.only_real_sessions or args.network_diagnostics):
+    parser.error("--network-boundaries-only cannot select another suite or the original network capture")
 if args.stalls_only and (args.only_openmp or args.only_real_sessions or args.network_diagnostics):
     parser.error("--stalls-only cannot be combined with a different suite selector or network capture")
-if args.stall_diagnostics and (args.network_only or args.only_openmp or args.only_real_sessions):
+if args.stall_diagnostics and (args.network_only or args.network_boundaries_only or args.only_openmp or args.only_real_sessions):
     parser.error("--stall-diagnostics requires the core or stalled-handshake suite")
 if not args.only_openmp and not args.only_real_sessions:
     clear_stall_output(args.build)
@@ -282,12 +285,21 @@ try:
             ("tls_hold", "tls_hold", b"INSERT 0 1"),
             ("tls_shutdown", "tls_hold", b"INSERT 0 1"),
         )
+        boundary_cases = tuple(
+            (f"boundary_{command}_{phase}", mode, command.upper().encode("ascii"))
+            for command in ("begin", "commit", "rollback")
+            for phase, mode in (("partial", "partial_command"), ("hold", "hold"))
+        ) + (("tls_outage", "tls_outage", b"INSERT 0 1"),)
+        if args.network_boundaries_only:
+            wire_cases = boundary_cases
+        elif not args.network_only:
+            wire_cases += boundary_cases
         for name, mode, tag in (() if args.stalls_only else wire_cases):
             wire = WireFaultProxy(port, wire_root / name, mode, tag)
             wire_proxies.append(wire)
             transport = (
                 f"host=localhost\nhostaddr=127.0.0.1\nsslmode=verify-full\nsslrootcert={data / 'server.crt'}\n"
-                if mode == "tls_hold" else "host=127.0.0.1\nsslmode=disable\n"
+                if mode in ("tls_hold", "tls_outage") else "host=127.0.0.1\nsslmode=disable\n"
             )
             with service.open("a", encoding="utf8") as f:
                 f.write(f"\n[wire_{name}]\n{transport}port={wire.port}\n"
@@ -327,7 +339,8 @@ try:
             psql = Path(args.postgres_bin).resolve() / ("psql.exe" if os.name == "nt" else "psql") if args.postgres_bin else "psql"
             stall_diagnostic = StallDiagnostic(root, env, psql)
             stall_diagnostic.start()
-        test_regex = ("^network_recovery_integration$" if args.network_only else
+        test_regex = ("^network_boundaries_integration$" if args.network_boundaries_only else
+                      "^network_recovery_integration$" if args.network_only else
                       "^connection_stalls_integration$" if args.stalls_only else None)
         qualify_ctest(args.build, args.config, env, run,
                       test_regex=test_regex)
@@ -335,11 +348,11 @@ try:
             raise RuntimeError("Required wire fault was not exercised")
         if restart_errors:
             raise RuntimeError("PostgreSQL restart fixture failed") from restart_errors[0]
-        if not args.network_only and not args.stalls_only and not proxy.dropped.is_set():
+        if not args.network_only and not args.network_boundaries_only and not args.stalls_only and not proxy.dropped.is_set():
             raise RuntimeError("COMMIT response loss was not exercised")
-        if not args.network_only and not args.stalls_only and not rollback_proxy.dropped.is_set():
+        if not args.network_only and not args.network_boundaries_only and not args.stalls_only and not rollback_proxy.dropped.is_set():
             raise RuntimeError("ROLLBACK response loss was not exercised")
-        for stalled in ([] if args.network_only else stall_servers):
+        for stalled in ([] if args.network_only or args.network_boundaries_only else stall_servers):
             if stalled.errors or len(list(stalled.directory.glob("ready-*"))) != 20:
                 raise RuntimeError(f"Stalled {stalled.mode} handshakes were not fully exercised")
     elif not args.openmp_dir and not args.only_real_sessions:
