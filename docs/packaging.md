@@ -25,10 +25,12 @@ on Linux and `PostgreSQL.dll` on Windows. Packages install that one platform bin
 `#include <omp_postgresql>` after `#include <open.mp>`. The project name, internal component
 identity, UID and version semantics are unchanged; see [RC migration](installation.md#migrating-from-previous-release-candidates).
 
-The RC.3 archive name is `omp-postgresql-0.1.0-rc.3.COMMIT-PLATFORM-x86.zip`, where
+The prepared v0.1.0 archive name is `omp-postgresql-0.1.0.COMMIT-PLATFORM-x86.zip`, where
 `COMMIT` is the first twelve characters of the exact source SHA and `PLATFORM` is
 `windows` or `linux`. The source archive uses the same version/commit identity with
-the suffix `-source.zip`. Preparing these packages does not publish a release. Published RC.1, RC.2 and
+the suffix `-source.zip`. Both package/build manifests must identify version `0.1.0`
+and channel `stable`; this source metadata does not establish stable readiness.
+Preparing these packages does not publish a release. Published RC.1, RC.2 and
 `0.1.0-experimental.COMMIT` packages remain verifiable and are never relabelled. Each contains a
 single `omp-postgresql/` directory, public include, component, docs, examples, legal
 notices, selected runtime files and `manifest.json`. The manifest records full commit,
@@ -92,5 +94,5 @@ turn a branch/preview build into an integrated candidate. See [release gates](re
 Use `pg_prepare_file(connection, filename, parameters, prepared, section)` for named SQL.
 `pg_prepare_section` was removed before RC.1. Programs using that older API require
 source migration and AMX recompilation; RC.1/RC.2 users have no new signature migration
-for RC.3. Other leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
+for this source. Other leading argument/default positions remain supported. See [migration](prestable-cleanup.md)
 and [internal diagnostics](debugging.md).

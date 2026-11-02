@@ -1,4 +1,4 @@
-# Native reference 0.1.0-rc.3
+# Native reference 0.1.0
 
 This reference covers all 69 declarations in [the public include](../pawn/omp_postgresql.inc).
 Use the [operation selector](quick-reference.md) and [execution contract](api.md) first.

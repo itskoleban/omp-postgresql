@@ -11,18 +11,39 @@ limitations below remain historical; the checklist is the current finite disposi
 The final 24-hour campaign has not run. Future stable source still requires exact
 integrated-source CI, host/deployment freeze, risk disposition and owner authorization.
 
-This source prepares **v0.1.0-rc.3** for testing and evaluation. Public availability is
+This draft prepares the future **v0.1.0 source identity**. Stable qualification remains
+blocked; preparation does not establish readiness or authorize publication. Public availability is
 recorded on the [Releases page](https://github.com/itskoleban/omp-postgresql/releases).
 Passing a finite suite verifies its listed scenarios; it does not certify production
 suitability. Current preparation gates are separate from historical qualification records.
 
 | Evidence                  | Where to start                                                                                | Scope                                                                            |
 | ------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Future stable source      | [Final-source gates](#future-stable-source-preparation)                                        | Draft identity only; qualification and owner gates remain pending.               |
 | RC.3 preparation          | [Exact-source gates](#rc3-preparation-and-exact-source-gates)                                    | Baseline evidence and mandatory final integrated qualification.                  |
 | Published RC.1            | [Publication record](#published-release-candidate-october-21-2026-utc)                        | Exact tagged source `db2bfb9`; immutable release assets.                         |
 | Development documentation | [Current checks](#development-documentation-checks)                                           | Current checkout/PR; compilation and disposable SQL checks have explicit limits. |
 | Historical qualification  | [October 20 baseline](#verified-master-baseline-october-20-2026-utc) and later dated sections | Original source identities, counts and measurements remain historical.           |
 | Unqualified scenarios     | [Remaining coverage](#remaining-release-qualification)                                        | Work not established by the finite suites or measurements.                       |
+
+## Future stable source preparation
+
+The integrated RC.3 source `b715a971e71047a9c73f6b85489fc342317ba86b` passed all seven
+jobs in [CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054).
+Its valid core, sanitizer, filesystem, official-server, real-session and package results
+remain reusable within their recorded scope. They do not qualify subsequent corrections
+or the draft `0.1.0` / `stable` source metadata.
+
+Required corrections and release documentation must receive owner-approved integration,
+then all seven jobs must pass on the exact final `master` source. Freeze its packages,
+installed bytes, dependencies, fixtures, configuration and seed. Complete all required
+preflight checks and 100,000 semantic fuzz cases on the verified isolated host before the
+final 24-hour sustained campaign. That final campaign remains unexecuted and requires
+separate owner authorization. Recording or reviewing evidence must not mutate the frozen
+source; changed source/deployment inputs require impact review, affected checks and a
+new freeze/final campaign. See [the release procedure](releasing.md#freeze-before-the-final-campaign).
+
+The sections below retain the historical RC qualification context and its limitations.
 
 ## RC.3 preparation and exact-source gates
 
@@ -641,15 +662,19 @@ runtime, test assertions or existing test deadlines.
 - Validation applies to these tested compiler/client/server combinations. Requalify changes
   to execution code, the bridge, dependencies or the workflow; other distributions are not
   covered by this successful matrix.
-- Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, exhausted
-  handles and extreme backpressure need more adversarial coverage. The combined lifecycle
-  stress described below covers a bounded, reproducible subset of cancellation/expiry/shutdown.
+- Bounded BEGIN/COMMIT/ROLLBACK request/response interruption, recovery exhaustion,
+  process-local descriptors and application backpressure have the explicit PASS scopes
+  in the [finite pre-soak checklist](pre-soak-checklist.md). Physical/hours-long partitions
+  and global handle-table exhaustion are OUT OF SCOPE; no elapsed-hours claim follows
+  from these finite cases. The final 24-hour campaign remains NOT RUN.
 - One startup/destruction deadlock has a native-stack diagnosis and deterministic
   dependency regression; see the October 17 Windows libpq investigation below. Its fix
   requires the corrected DLL. Every historical extension/stress timeout has not been
   independently mapped to that defect, and other client providers require verification.
-- Malformed AMX file/bytecode fuzzing and hours-long soak qualification remain unestablished.
-  ThreadSanitizer and the ten-minute sustained load are now qualified as recorded above.
+- Malformed AMX loader/interpreter fuzzing is OUT OF SCOPE for this component; its
+  native and semantic input boundaries have the finite coverage recorded in the checklist.
+  The final 24-hour qualification remains NOT RUN. ThreadSanitizer and the historical
+  ten-minute sustained load retain their recorded source scopes.
   Native argument/address tests cover a bounded SDK memory model, not the AMX loader or interpreter. Stress tests
   record process peak memory and verify object release, but do not establish a strict RSS limit;
   libpq can allocate a large row before the component checks it. DNS/authentication/file providers can delay
@@ -668,7 +693,7 @@ runtime, test assertions or existing test deadlines.
 - The original six lifecycle examples remain part of the current thirteen-example
   [inventory](examples.md), with eleven unattended examples. The bounded independent
   Astra audit and its corrections are completed at their recorded revisions; they do not
-  certify all later code. Final RC artifacts require successful exact-master qualification
+  certify all later code. Final candidate artifacts require successful exact-master qualification
   and owner review. No new tag or release was created by this documentation review.
 
 ## Reproducing validation

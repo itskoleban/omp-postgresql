@@ -1,18 +1,20 @@
-# omp-postgresql 0.1.0-rc.3
+# omp-postgresql 0.1.0
 
 ## Overview
 
-RC.3 prepares a testing Release Candidate for the asynchronous PostgreSQL component
-for open.mp. It incorporates the distributed filename migration, worker-admission
-correction and qualification improvements integrated since RC.2. These notes do not
-publish a release or certify production suitability; stable `v0.1.0` remains blocked.
+These draft notes prepare the future stable source identity for the asynchronous
+PostgreSQL component for open.mp. The source incorporates the distributed filename
+migration, worker-admission correction and qualification improvements integrated since
+RC.2. Stable `v0.1.0` remains blocked pending correction integration, exact final-source
+qualification and the separately authorized final 24-hour campaign. These notes do not
+publish a release or establish stable readiness.
 
 [RC.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2) was
 published from `3c3b3185c24362be12eb3e281383ad05d5dcd9b6`. Its tag, assets,
 checksums and notes remain unchanged. The
 [RC.2-to-current-source comparison](https://github.com/itskoleban/omp-postgresql/compare/v0.1.0-rc.2...master)
 identifies integrated development changes; the final release inventory must identify
-the exact qualified RC.3 commit. Consult the
+the exact qualified final commit. Consult the
 [releases page](https://github.com/itskoleban/omp-postgresql/releases) for availability.
 
 ## Changes since RC.2
@@ -58,6 +60,28 @@ imposing universal handle-count thresholds. The
 [network evidence](https://github.com/itskoleban/omp-postgresql/blob/master/audit/network-recovery-2026-11-01.md) remain separate from #31's
 unknown historical cause.
 
+## Pre-stable qualification changes after RC.3
+
+This draft includes the proposed focused corrections and their finite evidence:
+
+- [PR #49](https://github.com/itskoleban/omp-postgresql/pull/49) pins complete relative
+  documentation links in standalone notes while preserving absolute URLs, local anchors
+  and malformed/nested Markdown constructs.
+- [PR #50](https://github.com/itskoleban/omp-postgresql/pull/50) attempts remaining
+  disposable-fixture cleanup and evidence retention after monitor/proxy/cluster finalizer
+  failures, preserving the primary failure and rejecting an incompletely joined monitor.
+- [PR #52](https://github.com/itskoleban/omp-postgresql/pull/52) adds seven bounded
+  Engine/PostgreSQL transaction-interruption and sustained reconnect-exhaustion cases.
+  Independent SQL/backend/sequence checks preserve UNCERTAIN outcomes and no replay.
+- [PR #53](https://github.com/itskoleban/omp-postgresql/pull/53) completes the 100,000-case
+  semantic fuzz stage and bounded preflight before the final load campaign, preserves
+  negative evidence and corpus files, and defaults the dedicated workflow to preflight
+  only. The practical checklist reuses valid RC.3 storage and real open.mp results.
+
+See the [finite dispositions and exact launch prerequisites](pre-soak-checklist.md).
+The local bounded results do not replace exact final-source CI, frozen-host checks,
+reviewed risk disposition or the separately owner-authorized 24-hour campaign.
+
 ## Compatibility and migration
 
 The public Pawn API retains **69 natives and three callbacks** with unchanged
@@ -67,7 +91,7 @@ matching include. Remove the old `components/omp-postgresql.dll` or `.so` before
 installing the matching renamed component; keep only one binary with this UID.
 See [installation and migration](installation.md#migrating-from-previous-release-candidates).
 
-The distribution and SDK component version advance to `0.1.0-rc.3`, channel `rc`;
+The prepared distribution and SDK component version is `0.1.0`, channel `stable`;
 the numeric project version remains `0.1.0`. No database-schema migration is required.
 Use the component, include and runtime files from the same exact-source package.
 Unchanged API signatures do not qualify every provider, ABI or target environment.
@@ -92,13 +116,21 @@ Follow [installation](installation.md), [dependencies](../DEPENDENCIES.md) and t
 
 ## Exact-source qualification and publication gates
 
-The pre-preparation integrated baseline is
-`27e09b7cffa34968b78cb0025c121fce0a713e65`, with all seven jobs successful in
-[master CI 41312759129](https://github.com/itskoleban/omp-postgresql/actions/runs/41312759129).
-That run qualifies its RC.2-versioned development inputs, not later RC.3 edits.
-RC.3 needs successful exact-head PR CI, followed after owner-approved integration by
-all seven successful jobs on the exact final `master` commit. No tag or publication
-is authorized by preparation or passing CI.
+The verified integrated RC.3 baseline is
+`b715a971e71047a9c73f6b85489fc342317ba86b`, with all seven jobs successful in
+[master CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054).
+Reuse that result for its verified scope. It does not qualify later corrections or
+this stable-source identity. Required corrections and release documentation need
+successful exact-head PR checks and, after owner-approved integration, all seven
+successful jobs on the exact final `master` commit.
+
+Freeze the final source, packages, installed bytes, dependencies, fixtures and configuration.
+Complete the required isolated-host preflight and 100,000 semantic fuzz cases before the
+24-hour sustained campaign, which must be the final testing campaign. The campaign is
+not run during this preparation and requires separate owner authorization. Preserve
+results outside the frozen checkout. Any later source/deployment change requires impact
+review, affected checks and a new freeze/final campaign. Evidence review after the
+campaign does not authorize a merge, tag or publication; those remain owner decisions.
 
 Both x86 distributions must pass source and fresh extracted-package official-server
 and real-session checks, compile all thirteen public Pawn examples with warnings as
@@ -146,11 +178,12 @@ COPY, LISTEN/NOTIFY reception, Engine pipeline mode, ORM and migration managemen
 remain outside this candidate. Review [operations](security.md),
 [transactions](transactions.md) and [validation limits](validation.md).
 
-## Upgrade from RC.1 or RC.2
+## Upgrade from a release candidate
 
 1. Stop the test server and retain a rollback copy of its component/include/runtime files.
-   Download the selected RC.3 platform ZIP and its SHA-256 sidecar after it is available.
-2. Verify the sidecar and `SHA256SUMS`. Check `0.1.0-rc.3`, channel `rc`, the full commit
+   Download the selected v0.1.0 platform ZIP and its SHA-256 sidecar only after an
+   owner-authorized release is available.
+2. Verify the sidecar and `SHA256SUMS`. Check `0.1.0`, channel `stable`, the full commit
    and platform in `release-inventory.json` and the package's `manifest.json`.
 3. Follow the filename migration above and replace the matching component, include and
    packaged runtimes together. Preserve external credentials and check system runtimes.

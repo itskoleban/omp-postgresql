@@ -1,18 +1,41 @@
 # Versioning and owner-controlled publication
 
-The source is configured for **v0.1.0-rc.3**, with CMake's numeric `PROJECT_VERSION`
-set to `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` set to `3`. This selects
-distribution version `0.1.0-rc.3` and channel `rc`. Zero selects a stable source identity;
-no stable release is authorized by this RC preparation. Package names, manifests and
+This draft configures the future **v0.1.0 source**, with CMake's numeric `PROJECT_VERSION`
+set to `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` set to `0`. This selects
+distribution version `0.1.0` and channel `stable`; positive values retain the RC route.
+Stable readiness and publication remain blocked. Package names, manifests and
 the component's SDK `SemanticVersion` derive from those same source values.
 Exact-commit qualification and owner authorization remain publication gates. The public
-Pawn include is unchanged from RC.1. This candidate is for testing and evaluation.
+Pawn API signatures are unchanged. This source preparation authorizes no merge, tag or release.
 
 The public [v0.1.0-rc.1 testing Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
 retains its tag, assets and source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc` unchanged.
 Later development bundles do not replace that release. Historical experimental packages
 also retain their original identities. Any new stable or RC source identity requires
 matching release notes and exact-commit qualification.
+
+## Freeze before the final campaign
+
+Reuse the successful seven-job RC.3 baseline at
+`b715a971e71047a9c73f6b85489fc342317ba86b` from
+[CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054)
+for its verified scope. It does not qualify later corrections or this stable-source identity.
+After owner-approved integration of all required corrections and release documentation,
+require successful exact-head checks and all seven jobs on the exact final `master` commit.
+Freeze that source SHA, both tested x86 packages, source archive, installed bytes,
+dependencies, loader/runtime identities, fixtures, configuration and seed.
+
+On the verified isolated host, complete all required preflight checks and the 100,000-case
+extended semantic fuzzing stage before requesting campaign authorization. Record reviewed
+historical-risk dispositions and fixed acceptance/stop criteria. The 24-hour sustained
+campaign must be the final testing campaign; it is not authorized or executed by this draft.
+
+After the final campaign, review retained evidence without running another testing campaign.
+Retain the results outside the frozen source checkout so recording them does not change
+the tested commit. A tracked change or changed deployed input invalidates the freeze:
+review its impact, qualify the affected checks, freeze again and complete a new final
+campaign before claiming qualification. Only a separately owner-authorized tag and release
+may identify the exact source that completed this process.
 
 ## Read-only preparation
 
@@ -55,12 +78,13 @@ Only the owner may authorize main integration, creation of the final tag and pub
 publication. No automation run in this project creates tags, merges branches or invokes
 the publication workflow on the owner's behalf without that authorization.
 
-After reviewing/merging the candidate, wait for a successful `build-and-test` push or
+After owner-authorized integration of the candidate, wait for a successful `build-and-test` push or
 manual run on **master at the exact final commit**. Review all seven jobs, their no-skips
 CTest qualification, thirteen compiled public examples and eleven unattended public-example
 scenarios on each platform, the separate real Pawn measurement fixture, dependency
-inventories, remaining limits and the completed independent audit. The owner then
-creates the corresponding tag on that exact tested commit.
+inventories, remaining limits and the preserved independent audit. For stable v0.1.0,
+complete the freeze/preflight/final-campaign process above before the owner separately
+authorizes creation of the corresponding tag on that exact tested commit.
 
 Manually dispatch **manual release** (`.github/workflows/release.yml`) from master with:
 

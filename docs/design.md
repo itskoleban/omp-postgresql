@@ -2,7 +2,7 @@
 
 Original architecture review: October 13, 2026. API/documentation contract rechecked against
 `master` at `3a5215d` on October 17, 2026; see the [native reference](native-reference.md).
-Candidate version 0.1.0-rc.3 retains this architecture. These are internal design reviews;
+The prepared 0.1.0 source retains this architecture. These are internal design reviews;
 the completed independent Astra review is recorded in [the audit report](independent-audit.md).
 
 ## References examined
