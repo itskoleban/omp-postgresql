@@ -1,4 +1,4 @@
-# Release Candidate readiness
+# Release readiness and historical candidate context
 
 The [finite pre-soak checklist](pre-soak-checklist.md) records the November 2 follow-up
 to successful RC.3 [CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054).
@@ -6,10 +6,31 @@ It closes practical bounded gaps within their stated scopes and defines the exac
 final-source/host prerequisites. The final 24-hour campaign remains unexecuted and
 requires separate owner authorization; stable readiness remains blocked.
 
-This source prepares **v0.1.0-rc.3** for testing and evaluation. The
+This draft prepares the future **v0.1.0 source identity**, version `0.1.0` and channel
+`stable`. The
 [Releases page](https://github.com/itskoleban/omp-postgresql/releases) records public
 availability. Preparation does not create a tag, publish assets or certify production
 suitability. Stable v0.1.0 remains blocked.
+
+## Future stable-source gates
+
+The integrated RC.3 source `b715a971e71047a9c73f6b85489fc342317ba86b` passed all seven
+jobs in [CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054).
+Reuse its valid results for their recorded scope without repeating successful suites
+merely to create another audit. This draft metadata and subsequent corrections require
+their own checks; no stable readiness follows from that RC.3 baseline.
+
+Owner-approved integration of required corrections and release documentation must precede
+successful seven-job CI on the exact final `master` commit. Freeze that source, both x86
+packages, installed files, dependencies/runtime, fixtures, configuration and seed. Complete
+all required isolated-host preflight checks and 100,000 semantic fuzz cases before the
+separately authorized final 24-hour sustained campaign. The campaign must be the final
+testing campaign and is not executed by this preparation. Preserve its results outside
+the frozen checkout; subsequent source/deployment changes require impact review, affected
+checks and a new freeze/final campaign. The tag and publication require separate owner
+authorization. See [the release procedure](releasing.md#freeze-before-the-final-campaign).
+
+The following RC.3 sections preserve their historical preparation scope and risk findings.
 
 ## RC.3 integrated baseline and scope
 

@@ -1,17 +1,20 @@
 # omp-postgresql
 
 A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
-This source prepares **v0.1.0-rc.3** for testing and evaluation, with distributed files
+This draft prepares the future **v0.1.0** source identity, with distributed files
 `omp_postgresql.inc`, `PostgreSQL.dll` and `PostgreSQL.so`.
 The project and internal component identity remain `omp-postgresql`.
 Obtain public packages from the [releases page](https://github.com/itskoleban/omp-postgresql/releases)
-and verify their exact source identity and checksums. Stable v0.1.0 is not published;
-a Release Candidate does not certify production suitability. The published
+and verify their exact source identity and checksums. Stable v0.1.0 remains blocked:
+source preparation does not authorize publication or establish stable readiness.
+Corrections must be integrated with owner approval, followed by exact final-source CI,
+freeze and preflight including 100,000 semantic fuzz cases before the final 24-hour
+campaign. The campaign and release each require separate owner authorization. The published
 [v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1) and
 [v0.1.0-rc.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2)
 retain their original tags, assets, checksums and release notes. Review the
 [validated platforms and known limitations](docs/validation.md) before testing.
-The [RC readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
+The [release readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
 qualification work and publication gates.
 
 Start with [your first query](docs/getting-started.md), follow the
@@ -98,11 +101,11 @@ component as a legacy SA-MP plugin.
 #include <omp_postgresql>
 ```
 
-When moving from RC.1 or RC.2 to RC.3, replace `#include <omp-postgresql>`
+When moving from RC.1 or RC.2 to the current source, replace `#include <omp-postgresql>`
 with `#include <omp_postgresql>` and recompile your Pawn scripts. Stop the server and replace
 the old component binary with the matching `PostgreSQL.dll` or `PostgreSQL.so`; keep only
-one copy of this component in `components/`. The Pawn API, UID, internal component name
-and runtime behavior are unchanged. See
+one copy of this component in `components/`. The Pawn signatures, UID and internal component
+name remain unchanged. See
 [migration details](docs/installation.md#migrating-from-previous-release-candidates).
 
 Set `PGSERVICEFILE` in the server process environment; see the [example profile](examples/pg_service.conf).
@@ -235,7 +238,7 @@ The public receives `(job, playerid, session)` with copied arguments. Existing
 `OnPgComplete(job, context)` programs and compiled AMX calls remain supported.
 Use `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")` for named SQL;
 `pg_prepare_section` was removed before RC.1; older pre-RC.1 programs that use it must
-migrate and recompile affected AMX files. RC.3 preserves RC.1/RC.2's public Pawn signatures.
+migrate and recompile affected AMX files. This source preserves RC.1/RC.2's public Pawn signatures.
 See [cleanup and migration](docs/prestable-cleanup.md). Read the
 [callback contract](docs/callbacks.md) and [bounded API audit](docs/api-modernization.md)
 before migrating; include and component versions must match.

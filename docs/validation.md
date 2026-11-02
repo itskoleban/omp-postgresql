@@ -11,18 +11,39 @@ limitations below remain historical; the checklist is the current finite disposi
 The final 24-hour campaign has not run. Future stable source still requires exact
 integrated-source CI, host/deployment freeze, risk disposition and owner authorization.
 
-This source prepares **v0.1.0-rc.3** for testing and evaluation. Public availability is
+This draft prepares the future **v0.1.0 source identity**. Stable qualification remains
+blocked; preparation does not establish readiness or authorize publication. Public availability is
 recorded on the [Releases page](https://github.com/itskoleban/omp-postgresql/releases).
 Passing a finite suite verifies its listed scenarios; it does not certify production
 suitability. Current preparation gates are separate from historical qualification records.
 
 | Evidence                  | Where to start                                                                                | Scope                                                                            |
 | ------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Future stable source      | [Final-source gates](#future-stable-source-preparation)                                        | Draft identity only; qualification and owner gates remain pending.               |
 | RC.3 preparation          | [Exact-source gates](#rc3-preparation-and-exact-source-gates)                                    | Baseline evidence and mandatory final integrated qualification.                  |
 | Published RC.1            | [Publication record](#published-release-candidate-october-21-2026-utc)                        | Exact tagged source `db2bfb9`; immutable release assets.                         |
 | Development documentation | [Current checks](#development-documentation-checks)                                           | Current checkout/PR; compilation and disposable SQL checks have explicit limits. |
 | Historical qualification  | [October 20 baseline](#verified-master-baseline-october-20-2026-utc) and later dated sections | Original source identities, counts and measurements remain historical.           |
 | Unqualified scenarios     | [Remaining coverage](#remaining-release-qualification)                                        | Work not established by the finite suites or measurements.                       |
+
+## Future stable source preparation
+
+The integrated RC.3 source `b715a971e71047a9c73f6b85489fc342317ba86b` passed all seven
+jobs in [CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054).
+Its valid core, sanitizer, filesystem, official-server, real-session and package results
+remain reusable within their recorded scope. They do not qualify subsequent corrections
+or the draft `0.1.0` / `stable` source metadata.
+
+Required corrections and release documentation must receive owner-approved integration,
+then all seven jobs must pass on the exact final `master` source. Freeze its packages,
+installed bytes, dependencies, fixtures, configuration and seed. Complete all required
+preflight checks and 100,000 semantic fuzz cases on the verified isolated host before the
+final 24-hour sustained campaign. That final campaign remains unexecuted and requires
+separate owner authorization. Recording or reviewing evidence must not mutate the frozen
+source; changed source/deployment inputs require impact review, affected checks and a
+new freeze/final campaign. See [the release procedure](releasing.md#freeze-before-the-final-campaign).
+
+The sections below retain the historical RC qualification context and its limitations.
 
 ## RC.3 preparation and exact-source gates
 

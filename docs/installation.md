@@ -1,38 +1,40 @@
 # Installing omp-postgresql
 
-## Testing Release Candidate distributions
+## Distribution status and testing
 
 The repository's [Releases page](https://github.com/itskoleban/omp-postgresql/releases)
 contains previously published testing Pre-releases. For those distributions, follow
 the installation guide shipped in the selected archive; their filenames remain unchanged.
 Choose the Windows x86 or Linux x86 distribution ZIP and its matching `.zip.sha256` file.
-The source ZIP contains build inputs, not a prebuilt component. RC.3 is intended for
-testing and evaluation, not production certification; stable v0.1.0 is not published.
+The source ZIP contains build inputs, not a prebuilt component. This draft prepares
+the future v0.1.0 source identity; stable qualification and publication remain blocked.
+Until a separately owner-authorized release is available, use development artifacts
+only for testing and evaluation.
 
 The historical [v0.1.0-rc.1 Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
 retains source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`. Both it and
 [v0.1.0-rc.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2)
 retain their original tags, assets, checksums, release notes and historical evidence.
-RC.3 preparation does not modify either release or publish a new release.
+Future stable-source preparation does not modify existing releases or publish a new release.
 
 ## Development CI artifacts
 
 Use artifacts from a successful [`build-and-test` run](https://github.com/itskoleban/omp-postgresql/actions/workflows/ci.yml)
 only when deliberately testing development changes. Check the run's full source commit,
-event and branch; a PR preview is distinct from integrated `master`. The RC version string
+event and branch; a PR preview is distinct from integrated `master`. The version string
 can remain the same across later development commits, so it is not enough to identify a
 build. Each platform artifact contains a ZIP and checksum sidecar. The build workflow has
 read-only repository permissions and creates neither tags nor Releases.
 
-This RC.3 source keeps the project name and internal component name `omp-postgresql`,
+This source keeps the project name and internal component name `omp-postgresql`,
 with the same UID. Its distributed files are `omp_postgresql.inc`,
 `PostgreSQL.dll` and `PostgreSQL.so`. Archive names and the top-level `omp-postgresql/`
-package directory keep the project name. The instructions below describe these RC.3
+package directory keep the project name. The instructions below describe future v0.1.0
 packages; check the exact commit in the manifest to distinguish them from published RCs.
 
 ## Migrating from previous release candidates
 
-When moving from RC.1 or RC.2 to RC.3 or its development artifacts:
+When moving from RC.1 or RC.2 to the current source or its development artifacts:
 
 1. Stop the server and remove its previous `components/omp-postgresql.dll` or
    `components/omp-postgresql.so` before installing the matching `components/PostgreSQL.dll`
@@ -50,8 +52,9 @@ When moving from RC.1 or RC.2 to RC.3 or its development artifacts:
 ```
 
 No compatibility aliases or duplicate binaries are installed. The component UID, internal
-identity and public Pawn API remain unchanged. The candidate version advances to
-`0.1.0-rc.3`; the worker-admission correction rejects jobs after worker termination
+identity and public Pawn API remain unchanged. The prepared source version is
+`0.1.0`, channel `stable`; this metadata does not establish stable readiness.
+The worker-admission correction rejects jobs after worker termination
 instead of leaving them pending. No database-schema migration is required.
 
 ## Verify and install a distribution
@@ -87,7 +90,7 @@ Download the Windows ZIP and sidecar from the selected development artifact. In 
 `$server` to a stopped, disposable official open.mp 1.5.8.3079 x86 installation:
 
 ```powershell
-$archive = 'omp-postgresql-0.1.0-rc.3.COMMIT-windows-x86.zip'
+$archive = 'omp-postgresql-0.1.0.COMMIT-windows-x86.zip'
 $server = 'C:\openmp-test'
 $expected = ((Get-Content -LiteralPath "$archive.sha256" -Raw).Trim() -split '\s+')[0]
 $actual = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash
@@ -123,7 +126,7 @@ actual twelve-character source prefix, and set `server` to a stopped, disposable
 official open.mp 1.5.8.3079 x86 **dynssl** installation owned by your user:
 
 ```sh
-archive='omp-postgresql-0.1.0-rc.3.COMMIT-linux-x86.zip'
+archive='omp-postgresql-0.1.0.COMMIT-linux-x86.zip'
 server='/srv/openmp-test'
 sha256sum --strict --check "$archive.sha256" || exit 1
 test ! -e rc3-extracted || exit 1
