@@ -30,25 +30,25 @@
   "cleanup": "Supervisor reports PostgreSQL stopped. Every retained wire journal ends fixture_closed; old backend absence asserted before table cleanup.",
   "files": [
     {
-      "file": "boundaries-attempt-1.log",
+      "file": "boundaries-attempt-1.txt",
       "original_sha256": "ae93b1176baec4a6ff9794e30c6e83844e76e6146cddcab2ebf21fed12e73e52",
       "original_bytes": 2221,
-      "public_sha256": "1868e95e4bab015f5caa091b9a6fd17334524c8a891621b4750e36650ae463bc",
-      "public_bytes": 1651
+      "public_sha256": "760604738cbe20634528856e259648a3d010d12ed25d4ce7c7d750d764725500",
+      "public_bytes": 1648
     },
     {
-      "file": "proxy-unit.log",
+      "file": "proxy-unit.txt",
       "original_sha256": "581623a483bf6f8236b60ba8e7f6aaaf5e4e6ae3b58e2a546b08c86bb5bd56f2",
       "original_bytes": 1189,
       "public_sha256": "f40f12ccc4399eb8ca577fc84cdce218e45b73c8d3dea27ffcfe5b9b2d8cfbaa",
       "public_bytes": 1176
     },
     {
-      "file": "LastTest.log",
+      "file": "LastTest.txt",
       "original_sha256": "c2c0286ca2e01ed02923a13497097b1c38a5d7d647887467e6575a240886f695",
       "original_bytes": 13986,
-      "public_sha256": "f42efc4d8c283c9fa97d91d55048a890f3c4fbc37aa490a9ddf01a5a352bd802",
-      "public_bytes": 13572
+      "public_sha256": "4c123acf84ad4633258412042e4984150265bb19f7d3c1f62f7ef176c651cf48",
+      "public_bytes": 13519
     },
     {
       "file": "qualification.xml",
@@ -58,49 +58,49 @@
       "public_bytes": 1581
     },
     {
-      "file": "wire-boundary_begin_hold.log",
+      "file": "wire-boundary_begin_hold.txt",
       "original_sha256": "0aca73dee1b16421fc8f298939315d2879c366882cf0f668806e8a9097f181a0",
       "original_bytes": 1201,
       "public_sha256": "428d0df33fabc40389c4483f11ad96b1a3e72a14035246952ad238c3f61d9f5b",
       "public_bytes": 1191
     },
     {
-      "file": "wire-boundary_begin_partial.log",
+      "file": "wire-boundary_begin_partial.txt",
       "original_sha256": "0b98967beca5d0ea7534ea737d8e7ec0e06ddb7c3e124ee5d2bd125717a9178f",
       "original_bytes": 1180,
       "public_sha256": "568fd5cf520859bafe308dc205535a424195758a7ead4c76e9a846a2edbfdd88",
       "public_bytes": 1170
     },
     {
-      "file": "wire-boundary_commit_hold.log",
+      "file": "wire-boundary_commit_hold.txt",
       "original_sha256": "655ab0027ea69f1d04f475984cfd1ac96a771c0ac622eea57e5e8438d9853226",
       "original_bytes": 1201,
       "public_sha256": "3589adf327d403117337e26ff87869e993d07276cc314552eb6f88496d017a9f",
       "public_bytes": 1191
     },
     {
-      "file": "wire-boundary_commit_partial.log",
+      "file": "wire-boundary_commit_partial.txt",
       "original_sha256": "f57e30927e00581341b0ee4bcd8cbcadaf25160827a79ba2bf1eaa628d96cbb4",
       "original_bytes": 1180,
       "public_sha256": "b8d007b70e7b7a99a12cf4db8a4f2e027f18be115e79b6efd19d8e9e65d623a0",
       "public_bytes": 1170
     },
     {
-      "file": "wire-boundary_rollback_hold.log",
+      "file": "wire-boundary_rollback_hold.txt",
       "original_sha256": "b168efa56ed14d6b5d075a0742524757249ae49dc7193b20235bcb605910040c",
       "original_bytes": 1204,
       "public_sha256": "a348ebc5666f3c49e537aa0319b5828a67e480c2caf658e6e139203667202ae5",
       "public_bytes": 1194
     },
     {
-      "file": "wire-boundary_rollback_partial.log",
+      "file": "wire-boundary_rollback_partial.txt",
       "original_sha256": "529bc97b03730fad4e2bf636a150ee55d06ceb81bff988338509f16a43a1e797",
       "original_bytes": 1179,
       "public_sha256": "74055a92b8c6284a119e3879f78a3049aa212dd62951eebd1a3c73b382dbaaf8",
       "public_bytes": 1169
     },
     {
-      "file": "wire-tls_outage.log",
+      "file": "wire-tls_outage.txt",
       "original_sha256": "312ec89a3c876a232a21bcf19a5a8bf55538ebd36b3633d99f7f0c23fd1684ab",
       "original_bytes": 1146,
       "public_sha256": "1ced9e2f76a4f581a5a7021943e80fee73d0ee9178d2f8717ea39ba7a1a66500",
@@ -123,5 +123,6 @@
       "sha256": "798a6eb495b30cf771dc759b5508d269ecb0dddac739719e8b30fe0ac0744b69",
       "bytes": 3309821
     }
-  ]
+  ],
+  "sanitization": "Public captures replace personal local paths, username and hostname with labelled placeholders and summarize localized host-tool banners. SQL/results, scenario outcomes and wire timestamps are retained. Original hashes identify retained local raw captures."
 }

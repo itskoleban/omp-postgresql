@@ -1,0 +1,251 @@
+Start testing: Nov 02 10:28 [host local timezone]
+----------------------------------------------------------
+14/25 Testing: network_boundaries_integration
+14/25 Test: network_boundaries_integration
+Command: "[worktree]/build-network/pg_network_recovery.exe" "--boundaries"
+Directory: [worktree]/build-network
+"network_boundaries_integration" start time: Nov 02 10:28 [host local timezone]
+Output:
+----------------------------------------------------------
+network_recovery libpq=180004 pointer_bytes=8
+SCENARIO boundary_begin_partial start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=26864 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_boundary_begin_partial(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=27320 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=26864
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_boundary_begin_partial
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_boundary_begin_partial
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO boundary_begin_partial PASS
+SCENARIO boundary_begin_hold start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=29648 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_boundary_begin_hold(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=4 error=6 completed=0 error_index=0 items=3, message=Interrupted after dispatch; outcome may be unknown
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=26744 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=29648
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_boundary_begin_hold
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_boundary_begin_hold
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO boundary_begin_hold PASS
+SCENARIO boundary_commit_partial start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=27668 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_boundary_commit_partial(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_boundary_commit_partial(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=26232 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=27668
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_boundary_commit_partial
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_boundary_commit_partial_id_seq
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_boundary_commit_partial
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO boundary_commit_partial PASS
+SCENARIO boundary_commit_hold start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=9932 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_boundary_commit_hold(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_boundary_commit_hold(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=6 completed=0 error_index=0 items=3, message=Interrupted after dispatch; outcome may be unknown
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=17608 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=9932
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_boundary_commit_hold
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_boundary_commit_hold_id_seq
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_boundary_commit_hold
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO boundary_commit_hold PASS
+SCENARIO boundary_rollback_partial start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=32336 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_boundary_rollback_partial(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_boundary_rollback_partial(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=5 completed=0 error_index=0 items=3, message=Connection lost after dispatch
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=2392 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=32336
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_boundary_rollback_partial
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_boundary_rollback_partial_id_seq
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_boundary_rollback_partial
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO boundary_rollback_partial PASS
+SCENARIO boundary_rollback_hold start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=15244 affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_boundary_rollback_hold(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=2 tx=5 INSERT INTO phase2_boundary_rollback_hold(n) VALUES(1)
+job=6 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=1
+job=7 status=4 error=6 completed=0 error_index=0 items=3, message=Interrupted after dispatch; outcome may be unknown
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=8 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=23528 affected=1
+SQL connection=2 tx=0 SELECT 42
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=15244
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_boundary_rollback_hold
+job=11 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT last_value FROM phase2_boundary_rollback_hold_id_seq
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL connection=1 tx=0 DROP TABLE phase2_boundary_rollback_hold
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO boundary_rollback_hold PASS
+SCENARIO tls_outage start
+SQL connection=2 tx=0 SELECT pg_backend_pid()
+job=3 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=28692 affected=1
+SQL connection=1 tx=0 SELECT ssl FROM pg_stat_ssl WHERE pid=28692
+job=4 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=t affected=1
+SQL connection=1 tx=0 CREATE TABLE phase2_outage(id bigint GENERATED ALWAYS AS IDENTITY, n integer)
+job=5 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SQL connection=2 tx=0 SELECT pg_sleep(60) /* phase2_outage */
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=28692 AND state='active' AND wait_event='PgSleep' AND query='SELECT pg_sleep(60) /* phase2_outage */'
+job=7 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=1 affected=1
+SQL connection=2 tx=0 INSERT INTO phase2_outage(n) VALUES(1)
+SQL connection=1 tx=0 SELECT pg_cancel_backend(28692)
+job=9 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=t affected=1
+job=6 status=4 error=6 completed=0 error_index=0 items=3, message=Interrupted after dispatch; outcome may be unknown
+job=8 status=3 error=5 completed=0 error_index=-1 items=0, message=Not dispatched: session interrupted
+SQL connection=1 tx=0 SELECT 42
+job=10 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=2 tx=0 INSERT INTO phase2_outage(n) VALUES(2)
+SQL connection=11 tx=0 SELECT pg_backend_pid()
+job=12 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=28212 affected=1
+SQL connection=11 tx=0 SELECT 42
+job=13 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=42 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM pg_stat_activity WHERE pid=28692
+job=14 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT count(*) FROM phase2_outage
+job=15 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=0 affected=1
+SQL connection=1 tx=0 SELECT is_called FROM phase2_outage_id_seq
+job=16 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result=f affected=1
+SQL connection=1 tx=0 DROP TABLE phase2_outage
+job=17 status=2 error=0 completed=1 error_index=-1 items=1, message=
+SQL result= affected=0
+SCENARIO tls_outage PASS
+network_boundaries PASS scenarios=7 checks=1110
+<end of output>
+Test time =  13.38 sec
+----------------------------------------------------------
+Test Passed.
+"network_boundaries_integration" end time: Nov 02 10:29 [host local timezone]
+"network_boundaries_integration" time elapsed: 00:00:13
+----------------------------------------------------------
+
+End testing: Nov 02 10:29 [host local timezone]
+
+network =  13.38 sec*proc
+
+recovery =  13.38 sec*proc

@@ -1,0 +1,13 @@
+test_each_transaction_parse_is_incomplete_before_postgres_can_execute (test_wire_fault_proxy.WireProxyTests.test_each_transaction_parse_is_incomplete_before_postgres_can_execute) ... ok
+test_fault_is_one_shot (test_wire_fault_proxy.WireProxyTests.test_fault_is_one_shot) ... ok
+test_fragmented_frontend_and_backend (test_wire_fault_proxy.WireProxyTests.test_fragmented_frontend_and_backend) ... ok
+test_hold_discards_remaining_response (test_wire_fault_proxy.WireProxyTests.test_hold_discards_remaining_response) ... ok
+test_opaque_outage_holds_reconnections_until_explicit_release (test_wire_fault_proxy.WireProxyTests.test_opaque_outage_holds_reconnections_until_explicit_release) ... ok
+test_partial_parse_cannot_complete (test_wire_fault_proxy.WireProxyTests.test_partial_parse_cannot_complete) ... ok
+test_selected_response_loss_preserves_prefix (test_wire_fault_proxy.WireProxyTests.test_selected_response_loss_preserves_prefix) ... ok
+test_unsupported_modes_fail_before_listening (test_wire_fault_proxy.WireProxyTests.test_unsupported_modes_fail_before_listening) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.715s
+
+OK
