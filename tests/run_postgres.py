@@ -485,6 +485,13 @@ try:
                 run(command, env=env)
 finally:
     exception_in_flight = sys.exc_info()[0] is not None
+    cleanup_errors = []
+
+    def cleanup_failure(stage, error):
+        cleanup_errors.append(f"{stage}: {type(error).__name__}: {error}")
+        print(f"Fixture cleanup failed at {stage}: {type(error).__name__}; continuing cleanup",
+              file=sys.stderr)
+
     network_diagnostic_ok = True
     stall_diagnostic_ok = True
     if network_diagnostic:
@@ -501,11 +508,18 @@ finally:
             print(f"Stall diagnostic shutdown failed: {type(error).__name__}; continuing fixture cleanup", file=sys.stderr)
     stop_monitor.set()
     if monitor:
-        monitor.join(timeout=15)
-    if proxy:
-        proxy.close()
-    if rollback_proxy:
-        rollback_proxy.close()
+        try:
+            monitor.join(timeout=15)
+            if monitor.is_alive():
+                raise RuntimeError("monitor alive after bounded join")
+        except Exception as error:
+            cleanup_failure("monitor join", error)
+    for name, peer in (("commit proxy close", proxy), ("rollback proxy close", rollback_proxy)):
+        if peer:
+            try:
+                peer.close()
+            except Exception as error:
+                cleanup_failure(name, error)
     wire_errors = []
     for wire in wire_proxies:
         try:
@@ -539,17 +553,21 @@ finally:
     if startup_attempted and (data / "postmaster.pid").is_file():
         try:
             run(["pg_ctl", "-D", str(data), "-m", "immediate", "-w", "stop"])
-        except subprocess.CalledProcessError:
-            if not exception_in_flight:
-                raise
+        except Exception as error:
+            # Keep the failed stop visible and still retain all available evidence.
+            # Do not retry or report that the postmaster has been stopped.
+            cleanup_failure("postgres stop", error)
     print(f"Isolated test artifacts: {root}")
     try:
         retain_stall_evidence(root, args.build)
     except Exception as error:
+        cleanup_failure("retain evidence", error)
+    if cleanup_errors:
         if exception_in_flight:
-            print(f"Stall evidence retention failed; original test failure retained: {error}", file=sys.stderr)
+            print("Fixture cleanup errors; original test failure retained: " +
+                  "; ".join(cleanup_errors), file=sys.stderr)
         else:
-            raise
+            raise RuntimeError("Fixture cleanup failed: " + "; ".join(cleanup_errors))
     if not network_diagnostic_ok:
         if exception_in_flight:
             print("Network diagnostic collection failed; original test failure retained", file=sys.stderr)
