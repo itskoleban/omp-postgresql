@@ -3,6 +3,7 @@
 Configure/build first with PG_STRESS_SECONDS equal to --seconds (120..86400).
 Requires the existing run_postgres.py tools; creates its own loopback TLS cluster.
 Keeps per-stage logs and a manifest even on timeout/failure. Never publishes anything.
+Extended fuzz and every bounded integration check precede the final load campaign.
 """
 import argparse
 import json
@@ -14,6 +15,7 @@ import time
 import signal
 import shutil
 import platform
+import hashlib
 from qualification_metrics import analyze
 
 
@@ -25,6 +27,8 @@ def main():
     parser.add_argument("--seed", type=int, default=1592594996)
     parser.add_argument("--config", default="Release")
     parser.add_argument("--postgres-bin")
+    parser.add_argument("--preflight-only", action="store_true",
+                        help="Complete fuzz and bounded checks without starting the load campaign")
     args = parser.parse_args()
     if not 120 <= args.seconds <= 86400 or not 1 <= args.seed <= 4294967295:
         parser.error("seconds must be 120..86400; seed must be 1..4294967295")
@@ -47,15 +51,20 @@ def main():
     # negative preflight evidence too, even when no integration stage was launched.
     manifest = {"commit": None, "dirty": None, "seconds": args.seconds, "seed": args.seed,
                 "started_unix": time.time(), "stages": [], "status": "RUNNING",
-                "preflight": {"status": "RUNNING"}, "tool_versions": {}}
+                "preflight": {"status": "RUNNING"}, "tool_versions": {},
+                "mode": "preflight-only" if args.preflight_only else "preflight-and-load",
+                "campaign_started": False}
     fuzz = build / ("pg_audit_fuzz.exe" if os.name == "nt" else "pg_audit_fuzz")
     if not fuzz.is_file():
         fuzz = build / args.config / fuzz.name
+    stress = build / ("pg_stress_tests.exe" if os.name == "nt" else "pg_stress_tests")
+    if not stress.is_file():
+        stress = build / args.config / stress.name
     def save():
         (output / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf8")
     save()
     command = [sys.executable, "tests/run_postgres.py", "--build", str(build),
-               "--config", args.config, "--doc-sql"]
+               "--config", args.config]
     if args.postgres_bin:
         command += ["--postgres-bin", str(Path(args.postgres_bin).resolve())]
     try:
@@ -63,6 +72,8 @@ def main():
             ["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
         manifest["dirty"] = subprocess.check_output(
             ["git", "status", "--porcelain"], cwd=root, text=True)
+        if manifest["dirty"] and not args.preflight_only:
+            raise RuntimeError("Load campaign requires a clean, frozen source checkout")
         manifest["platform"] = platform.platform()
         manifest["python"] = sys.version
         # pg_config describes the client development toolchain on PATH; postgres
@@ -81,20 +92,47 @@ def main():
             result.check_returncode()
         for info in build.glob("package-build-info-*.json"):
             manifest.setdefault("build_info", {})[info.name] = json.loads(info.read_text(encoding="utf8"))
-        manifest["preflight"]["status"] = "PASS"
+        manifest["executable_sha256"] = {
+            str(binary): hashlib.sha256(binary.read_bytes()).hexdigest()
+            for binary in (fuzz, stress)}
         save()
-        for name, argv, budget in [
-            ("integration-soak", command, args.seconds + 900),
+        stages = [
             ("extended-fuzz", [str(fuzz)], 600),
-        ]:
+            ("bounded-preflight", command + ["--preflight-only", "--doc-sql"], 900),
+        ]
+        if not args.preflight_only:
+            stages.append(("integration-soak", command + ["--soak-only"], args.seconds + 900))
+        for name, argv, budget in stages:
+            # Source/executable changes invalidate preflight. Do not start a load
+            # campaign on different bytes or claim its checks belong to new inputs.
+            if name == "integration-soak":
+                if manifest["preflight"]["status"] != "PASS":
+                    raise RuntimeError("Load campaign requires completed preflight")
+                for filename, expected in manifest["executable_sha256"].items():
+                    if hashlib.sha256(Path(filename).read_bytes()).hexdigest() != expected:
+                        raise RuntimeError("Executable changed after preflight: " + filename)
+                if subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip() != manifest["commit"]:
+                    raise RuntimeError("Source commit changed after preflight")
+                if subprocess.check_output(["git", "status", "--porcelain"], cwd=root, text=True) != manifest["dirty"]:
+                    raise RuntimeError("Source worktree changed after preflight")
+                manifest["campaign_started"] = True
             stage = {"name": name, "command": argv, "started_unix": time.time()}
             manifest["stages"].append(stage)
             save()
+            stage_env = env.copy()
             if name == "extended-fuzz":
-                env["OMP_PG_FUZZ_CASES"] = "100000"
+                stage_env["OMP_PG_FUZZ_CASES"] = "100000"
+            # A failing fuzz run writes its corpus in this stage's retained directory.
+            stage_directory = output / name
+            stage_directory.mkdir()
+            stage["working_directory"] = str(stage_directory if name == "extended-fuzz" else root)
+            if name in ("bounded-preflight", "integration-soak"):
+                # Even a launch/import failure must never relabel an earlier report.
+                for filename in ("LastTest.log", "qualification.xml"):
+                    (build / "Testing/Temporary" / filename).unlink(missing_ok=True)
             with (output / f"{name}.log").open("wb") as log:
                 process = subprocess.Popen(
-                    argv, cwd=root, env=env, stdout=log, stderr=subprocess.STDOUT,
+                    argv, cwd=stage["working_directory"], env=stage_env, stdout=log, stderr=subprocess.STDOUT,
                     creationflags=flags | (subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0),
                     start_new_session=os.name != "nt",
                 )
@@ -113,14 +151,14 @@ def main():
                     save()
                     raise
             stage.update(returncode=returncode, elapsed_seconds=time.time()-stage["started_unix"])
-            # Preserve the complete soak before another tool can replace LastTest.log.
-            if name == "integration-soak":
+            # Preserve each CTest report before the next stage can replace it.
+            if name in ("bounded-preflight", "integration-soak"):
                 for filename in ("LastTest.log", "qualification.xml"):
                     original = build / "Testing/Temporary" / filename
                     if original.is_file():
-                        shutil.copyfile(original, output / ("integration-" + filename))
-                if returncode == 0:
-                    summary, csv = analyze((output / "integration-LastTest.log").read_text(
+                        shutil.copyfile(original, output / (name + "-" + filename))
+                if name == "integration-soak" and returncode == 0:
+                    summary, csv = analyze((output / (name + "-LastTest.log")).read_text(
                         encoding="utf8", errors="replace"), args.seconds)
                     (output / "metrics-summary.json").write_text(json.dumps(summary, indent=2), encoding="utf8")
                     (output / "metrics.csv").write_text(csv, encoding="utf8", newline="")
@@ -128,6 +166,9 @@ def main():
             save()
             if returncode:
                 raise subprocess.CalledProcessError(returncode, argv)
+            if name == "bounded-preflight":
+                manifest["preflight"]["status"] = "PASS"
+                save()
         manifest["status"] = "PASS"
     except BaseException as error:
         if manifest["preflight"]["status"] == "RUNNING":

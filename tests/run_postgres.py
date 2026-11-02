@@ -50,6 +50,8 @@ parser.add_argument("--only-real-sessions", action="store_true")
 parser.add_argument("--network-only", action="store_true", help="Run only the bounded wire regression in a fresh cluster")
 parser.add_argument("--network-boundaries-only", action="store_true", help="Run only the seven pre-stable transaction/outage boundaries")
 parser.add_argument("--stalls-only", action="store_true", help="Run all stalled-handshake scenarios in a fresh cluster")
+parser.add_argument("--preflight-only", action="store_true", help="Run the complete bounded preflight, with stress load seconds set to zero")
+parser.add_argument("--soak-only", action="store_true", help="Run only the configured stress campaign in a fresh cluster; no later test suite")
 parser.add_argument("--stall-diagnostics", action="store_true", help="Retain bounded SQL/TLS state observations during the stall test")
 parser.add_argument("--gamemode")
 parser.add_argument("--runtime", action="append", default=[])
@@ -75,6 +77,13 @@ parser.add_argument(
     help="Use fresh PostgreSQL fixture and run only server smoke",
 )
 args = parser.parse_args()
+if args.preflight_only or args.soak_only:
+    if (args.preflight_only and args.soak_only) or any((args.network_only, args.network_boundaries_only, args.stalls_only,
+            args.only_openmp, args.only_real_sessions, args.openmp_dir, args.real_sessions,
+            args.benchmark, args.network_diagnostics, args.stall_diagnostics)):
+        parser.error("Campaign selectors cannot be combined with another suite or diagnostic selector")
+    if args.soak_only and args.doc_sql:
+        parser.error("Documentation SQL must complete before --soak-only")
 if sum((args.network_only, args.network_boundaries_only, args.stalls_only)) > 1:
     parser.error("Network and stalled-handshake selectors select different regressions")
 if args.network_boundaries_only and (args.only_openmp or args.only_real_sessions or args.network_diagnostics):
@@ -294,7 +303,7 @@ try:
             wire_cases = boundary_cases
         elif not args.network_only:
             wire_cases += boundary_cases
-        for name, mode, tag in (() if args.stalls_only else wire_cases):
+        for name, mode, tag in (() if args.stalls_only or args.soak_only else wire_cases):
             wire = WireFaultProxy(port, wire_root / name, mode, tag)
             wire_proxies.append(wire)
             transport = (
@@ -305,7 +314,7 @@ try:
                 f.write(f"\n[wire_{name}]\n{transport}port={wire.port}\n"
                         "dbname=postgres\nuser=omp_test\ngssencmode=disable\n")
         env["OMP_PG_TEST_STALL_ROOT"] = str(root)
-        for mode in ("ssl", "tls", "startup"):
+        for mode in (() if args.soak_only else ("ssl", "tls", "startup")):
             stalled = StallServer(mode, root / mode)
             stall_servers.append(stalled)
             # Plaintext startup is used only by a non-authenticating fault peer.
@@ -341,16 +350,26 @@ try:
             stall_diagnostic.start()
         test_regex = ("^network_boundaries_integration$" if args.network_boundaries_only else
                       "^network_recovery_integration$" if args.network_only else
-                      "^connection_stalls_integration$" if args.stalls_only else None)
+                      "^connection_stalls_integration$" if args.stalls_only else
+                      "^stress_integration$" if args.soak_only else None)
         qualify_ctest(args.build, args.config, env, run,
-                      test_regex=test_regex)
+                      test_regex=test_regex,
+                      exclude_regex="^stress_integration$" if args.preflight_only else None)
+        if args.preflight_only:
+            # CTest fixes the configured long duration on stress_integration. Execute
+            # the identical binary once here with no timed load, retaining every
+            # load/lifecycle assertion before the final campaign can begin.
+            stress = Path(args.build).resolve() / ("pg_stress_tests.exe" if os.name == "nt" else "pg_stress_tests")
+            if not stress.is_file():
+                stress = stress.parent / args.config / stress.name
+            run([str(stress)], env={**env, "OMP_PG_STRESS_SECONDS": "0"}, timeout=180)
         if any(not wire.injected for wire in wire_proxies if wire.mode != "fragment"):
             raise RuntimeError("Required wire fault was not exercised")
         if restart_errors:
             raise RuntimeError("PostgreSQL restart fixture failed") from restart_errors[0]
-        if not args.network_only and not args.network_boundaries_only and not args.stalls_only and not proxy.dropped.is_set():
+        if not args.network_only and not args.network_boundaries_only and not args.stalls_only and not args.soak_only and not proxy.dropped.is_set():
             raise RuntimeError("COMMIT response loss was not exercised")
-        if not args.network_only and not args.network_boundaries_only and not args.stalls_only and not rollback_proxy.dropped.is_set():
+        if not args.network_only and not args.network_boundaries_only and not args.stalls_only and not args.soak_only and not rollback_proxy.dropped.is_set():
             raise RuntimeError("ROLLBACK response loss was not exercised")
         for stalled in ([] if args.network_only or args.network_boundaries_only else stall_servers):
             if stalled.errors or len(list(stalled.directory.glob("ready-*"))) != 20:

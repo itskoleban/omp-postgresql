@@ -125,6 +125,7 @@ jobs:
                       build-qualification-evidence/*.xml
                       build-qualification-evidence/*.log
                       build-qualification-evidence/temporary/**/*.log
+                      build-qualification-evidence/extended-fuzz/**
                       build-qualified/Testing/Temporary/
                       build-qualified/audit-fuzz-failure.bin
                   if-no-files-found: error

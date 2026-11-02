@@ -10,6 +10,10 @@ on:
                 description: Reproducible positive uint32 seed
                 type: string
                 default: "1592594996"
+            preflight_only:
+                description: Complete bounded preflight only; false starts the separately authorized final load
+                type: boolean
+                default: true
 permissions:
     contents: read
 jobs:
@@ -21,6 +25,7 @@ jobs:
         env:
             AUDIT_SECONDS: ${{ inputs.seconds }}
             AUDIT_SEED: ${{ inputs.seed }}
+            PREFLIGHT_ONLY: ${{ inputs.preflight_only }}
             ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
             UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
         steps:
@@ -33,15 +38,27 @@ jobs:
                       value = os.environ[name]
                       assert value.isascii() and value.isdecimal() and low <= int(value) <= high, name
                   PY
+            - name: Prepare the isolated one-MiB filesystem fault fixture
+              run: |
+                  test "$(id -u)" -ne 0
+                  logfs=$(mktemp -d "$RUNNER_TEMP/omp-pg-logfs.XXXXXX")
+                  sudo mount -t tmpfs -o "size=1m,mode=0700,uid=$(id -u),gid=$(id -g),nosuid,nodev,noexec" tmpfs "$logfs"
+                  echo "PG_LOG_ENOSPC_BASE=$logfs" >> "$GITHUB_ENV"
             - name: Build with ASan and UBSan
               run: |
                   cmake -S . -B build-long -G Ninja -DCMAKE_BUILD_TYPE=Debug \
-                    -DPG_SANITIZE=ON -DPG_BUILD_BENCHMARK=ON -DPG_STRESS_SECONDS="$AUDIT_SECONDS"
+                    -DPG_SANITIZE=ON -DPG_BUILD_BENCHMARK=ON -DPG_STRESS_SECONDS="$AUDIT_SECONDS" \
+                    -DPG_LOG_ENOSPC_BASE="$PG_LOG_ENOSPC_BASE"
                   cmake --build build-long --parallel 4
-            - name: Run disposable TLS integration, soak and semantic fuzz
+            - name: Complete extended fuzz and bounded preflight before the final load
               run: |
+                  preflight_args=()
+                  if [[ "$PREFLIGHT_ONLY" == true ]]; then
+                      preflight_args+=(--preflight-only)
+                  fi
                   python3 scripts/audit_long.py --build build-long --config Debug \
-                    --output build-audit-evidence --seconds "$AUDIT_SECONDS" --seed "$AUDIT_SEED"
+                    --output build-audit-evidence --seconds "$AUDIT_SECONDS" --seed "$AUDIT_SEED" \
+                    "${preflight_args[@]}"
             - name: Preserve evidence even after failure
               if: always()
               uses: actions/upload-artifact@v4
@@ -53,6 +70,13 @@ jobs:
                       build-audit-evidence/*.json
                       build-audit-evidence/*.log
                       build-audit-evidence/temporary/**/*.log
+                      build-audit-evidence/extended-fuzz/**
                       build-long/Testing/Temporary/
                       build-long/audit-fuzz-failure.bin
                   if-no-files-found: error
+            - name: Release only this invocation's isolated fault filesystem
+              if: always() && env.PG_LOG_ENOSPC_BASE != ''
+              run: |
+                  [[ "$PG_LOG_ENOSPC_BASE" == "$RUNNER_TEMP"/omp-pg-logfs.* ]]
+                  sudo umount -- "$PG_LOG_ENOSPC_BASE"
+                  rmdir -- "$PG_LOG_ENOSPC_BASE"
