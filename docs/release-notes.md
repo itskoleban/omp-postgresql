@@ -1,168 +1,160 @@
-# omp-postgresql 0.1.0-rc.2
+# omp-postgresql 0.1.0-rc.3
 
 ## Overview
 
-RC.2 is a testing Release Candidate for the asynchronous PostgreSQL component for
-open.mp. It incorporates runtime corrections, qualification coverage and release
-engineering integrated since RC.1. It is intended for testing and evaluation, not
-production certification. No stable `v0.1.0` release is established by these notes.
+RC.3 prepares a testing Release Candidate for the asynchronous PostgreSQL component
+for open.mp. It incorporates the distributed filename migration, worker-admission
+correction and qualification improvements integrated since RC.2. These notes do not
+publish a release or certify production suitability; stable `v0.1.0` remains blocked.
 
-The historical [RC.1 Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
-was published on October 21, 2026 from `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`.
-Its tag, notes and assets remain unchanged. The
-[RC.1-to-RC.2 comparison](https://github.com/itskoleban/omp-postgresql/compare/v0.1.0-rc.1...v0.1.0-rc.2)
-identifies the changes when the qualified RC.2 tag is created. Use the
-[releases page](https://github.com/itskoleban/omp-postgresql/releases) to confirm availability;
-preparing a branch, CI artifact or these notes does not itself publish a release.
+[RC.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2) was
+published from `3c3b3185c24362be12eb3e281383ad05d5dcd9b6`. Its tag, assets,
+checksums and notes remain unchanged. The
+[RC.2-to-current-source comparison](https://github.com/itskoleban/omp-postgresql/compare/v0.1.0-rc.2...master)
+identifies integrated development changes; the final release inventory must identify
+the exact qualified RC.3 commit. Consult the
+[releases page](https://github.com/itskoleban/omp-postgresql/releases) for availability.
 
-## Changes since RC.1
+## Changes since RC.2
 
-### Runtime corrections
+- [PR #43](https://github.com/itskoleban/omp-postgresql/pull/43) aligns installed
+  filenames with open.mp conventions: `components/PostgreSQL.dll` on Windows,
+  `components/PostgreSQL.so` on Linux and `qawno/include/omp_postgresql.inc`.
+  Package names, the internal component name and UID keep the project identity.
+- [PR #44](https://github.com/itskoleban/omp-postgresql/pull/44) closes queue admission
+  when a worker terminates unexpectedly. A submission racing final worker shutdown is
+  rejected synchronously instead of remaining in a stopped queue. Deterministic tests
+  cover actual Engine/Lane admission and accepted-job terminal publication. This
+  correction does not establish a cause for the historical issue #31 timeout.
+- [PR #45](https://github.com/itskoleban/omp-postgresql/pull/45) preserves recovery
+  cleanup and validates bounded network diagnostic captures. Linux ASan/UBSan retains
+  the actual executable, client trace, server/activity/lock samples and source/runtime
+  identities. Observer errors cannot qualify as successful activity collection.
+  Workload deadlines, SQL-confirmation assertions and no-replay semantics are retained.
+- [PR #46](https://github.com/itskoleban/omp-postgresql/pull/46) preserves campaign
+  preflight failures and rejects inconsistent metrics. Missing tools, failed probes and
+  malformed inventories leave negative evidence; impossible counters or percentile
+  order cannot produce a passing campaign summary. The selected disposable PostgreSQL
+  server has an explicit recorded identity.
+- Preserve disposable PostgreSQL shutdown when retaining a wire-fault journal fails.
+  A destination-directory collision or copy error previously could abort the fixture's
+  remaining cleanup and replace the original workload exception. Regression cases cover
+  both retention failures after successful and failed workloads. Cleanup now completes,
+  the original workload failure is retained, and a successful workload still fails
+  qualification if required evidence cannot be preserved. This fixture correction does
+  not explain or resolve the historical issue #31 timeout.
 
-- Preserve cancellation and timeout causes across socket-wait races, distinguishing
-  interruption before dispatch from a potentially uncertain SQL outcome after dispatch.
-- Publish accepted jobs without further allocation during worker recovery and shutdown,
-  retain FIFO ownership, and preserve completion delivery when diagnostic allocation fails.
-  These targeted corrections do not guarantee recovery from arbitrary out-of-memory faults.
-- Bound SQL-file reads and enforce size limits when a file grows during reading.
-  Handle allocation uses directly tested checked 32-bit counters.
-- Make owner teardown allocation-free and retire transaction finish markers with their
-  resources. When an earlier transaction failure causes COMMIT to be rejected locally,
-  keep the substitute ROLLBACK from becoming a confirmed COMMIT if result retention
-  encounters an allocation failure.
+These are bounded corrections and qualification controls within the existing
+architecture. Diagnostic overhead can change scheduling. Finite successful runs do
+not explain historical failures or prove freedom from leaks and concurrency defects.
 
-These runtime changes are included in PRs
-[#24](https://github.com/itskoleban/omp-postgresql/pull/24),
-[#25](https://github.com/itskoleban/omp-postgresql/pull/25),
-[#30](https://github.com/itskoleban/omp-postgresql/pull/30),
-[#32](https://github.com/itskoleban/omp-postgresql/pull/32),
-[#33](https://github.com/itskoleban/omp-postgresql/pull/33),
-[#36](https://github.com/itskoleban/omp-postgresql/pull/36) and
-[#37](https://github.com/itskoleban/omp-postgresql/pull/37).
+The Windows-only `pg_windows_resource_probe` adds controlled observer, empty Engine,
+thread, shell, Winsock and direct-libpq comparisons. The
+[resource investigation](https://github.com/itskoleban/omp-postgresql/blob/master/audit/windows-resource-handles-2026-11-01.md) reproduces
+the residual +64 handles without an Engine and distinguishes process initialization
+from per-Engine cleanup. It records native object types and module inventories without
+imposing universal handle-count thresholds. The
+[fixture correction](https://github.com/itskoleban/omp-postgresql/pull/47) and its
+[network evidence](https://github.com/itskoleban/omp-postgresql/blob/master/audit/network-recovery-2026-11-01.md) remain separate from #31's
+unknown historical cause.
 
-### Tests and qualification
+## Compatibility and migration
 
-PRs [#26](https://github.com/itskoleban/omp-postgresql/pull/26) through
-[#38](https://github.com/itskoleban/omp-postgresql/pull/38) extend bounded coverage for
-network ambiguity/recovery, TLS rejection, worker allocation failures, descriptors,
-SQL-read faults, numeric/BYTEA round trips, batch atomicity and resource/result lifecycles.
-Real open.mp x86 sessions exercise ordinary-protocol clients, external samp-bcrypt,
-player-slot reuse, late callbacks, token exhaustion, GMX and uncertain INSERT reconciliation.
-Source and extracted-package component/runtime identities are checked separately.
-TSan detector controls and diagnostic captures have their own qualification.
+The public Pawn API retains **69 natives and three callbacks** with unchanged
+signatures, constants and callback ownership contracts. Change the include directive
+from `#include <omp-postgresql>` to `#include <omp_postgresql>` and recompile with the
+matching include. Remove the old `components/omp-postgresql.dll` or `.so` before
+installing the matching renamed component; keep only one binary with this UID.
+See [installation and migration](installation.md#migrating-from-previous-release-candidates).
 
-PR [#40](https://github.com/itskoleban/omp-postgresql/pull/40) keeps disposable TLS
-certificates valid through the configured fixture lifetime and retains stalled-connection
-diagnostics for each attempt. This fixture work does not complete a prolonged campaign.
-Not every PR introduces a user-visible feature. Historical failures retain their original
-outcomes; later passes do not explain them.
+The distribution and SDK component version advance to `0.1.0-rc.3`, channel `rc`;
+the numeric project version remains `0.1.0`. No database-schema migration is required.
+Use the component, include and runtime files from the same exact-source package.
+Unchanged API signatures do not qualify every provider, ABI or target environment.
+`pg_prepare_file(connection, filename, parameters, prepared, section)` remains the
+named-SQL entry point; the pre-RC.1 `pg_prepare_section` API remains unsupported.
 
-### Documentation and release engineering
+## Supported test environments
 
-PRs [#22](https://github.com/itskoleban/omp-postgresql/pull/22) and
-[#23](https://github.com/itskoleban/omp-postgresql/pull/23) preserve historical evidence
-and validate classified Markdown examples. Current documentation identifies RC.2,
-clarifies transaction/session behavior and provides consistent x86 installation guidance.
-Source-controlled version/channel metadata supports stable and RC identities without
-relabelling experimental packages.
+- **Windows x86**, official open.mp **1.5.8.3079**. The distribution supplies patched
+  libpq 17.11 and required non-system dependencies. Install the Microsoft Visual C++ v14
+  **x86** Redistributable separately, including on 64-bit Windows.
+- **Linux x86**, official open.mp **1.5.8.3079 dynssl**, qualified on Ubuntu 24.04.
+  The distribution supplies `lib/libpq.so.5`. Compatible i386 OpenSSL 3, glibc,
+  libstdc++ and libgcc remain system prerequisites; inspect symbol-version requirements.
 
-PR [#39](https://github.com/itskoleban/omp-postgresql/pull/39) normalizes source ZIP
-timestamps to UTC. PR [#41](https://github.com/itskoleban/omp-postgresql/pull/41) fixes
-cross-platform `SHA256SUMS` filename ordering and preserves frozen evidence byte identities.
-Deterministic assembly for identical inputs does not establish reproducible compilation.
-
-## Compatibility
-
-The public Pawn include, including **69 natives and three callbacks**, is unchanged from
-RC.1. No new signature migration is required for RC.1 users. Named SQL uses
-`pg_prepare_file(connection, filename, parameters, prepared, section)`;
-`pg_prepare_section` was removed before RC.1 and remains unsupported. See the
-[historical migration guidance](prestable-cleanup.md) for older programs.
-
-Version metadata advances to `0.1.0-rc.2`, channel `rc`; the numeric project version stays
-`0.1.0`. Runtime corrections change failure-path behavior. Unchanged Pawn signatures do
-not establish full binary compatibility with every provider or toolchain. Use matching
-component, include and runtime files. No new installation or database-schema migration
-is introduced relative to RC.1; review the actual dependency manifest for your host.
-
-## Supported platforms
-
-- **Windows x86**, tested with official open.mp **1.5.8.3079**. The package supplies its
-  patched libpq 17.11 and required non-system dependencies. Install the supported Microsoft
-  Visual C++ v14 **x86** Redistributable separately, including on 64-bit Windows.
-- **Linux x86**, tested with official open.mp **1.5.8.3079 dynssl** on Ubuntu 24.04.
-  The package supplies `lib/libpq.so.5`; compatible i386 OpenSSL 3, glibc, libstdc++ and
-  libgcc remain system prerequisites. Review manifest symbol-version requirements.
-
-x64 Engine tests do not qualify x64 open.mp distributions. x86 CI uses disposable
-PostgreSQL 17 servers (Windows pins 17.11; Linux installs the maintained PostgreSQL 17
-package). This is not an exhaustive server compatibility matrix.
-Source builds need CMake 3.24+, Git, a C++20 compiler and libpq 17+ with TLS/thread support,
-all matching the target architecture and ABI.
-
-## Installation
-
+x64 Engine tests do not qualify x64 open.mp distributions. Disposable PostgreSQL 17
+fixtures provide the tested server scope, with Windows pinned to 17.11. This is not
+an exhaustive server matrix. Source builds require CMake 3.24+, Git, C++20 and libpq
+17+ with TLS/thread support, matching the target architecture and ABI.
 Follow [installation](installation.md), [dependencies](../DEPENDENCIES.md) and the
-[Windows](build-windows.md) or [Linux](build-linux.md) build guide. Keep service profiles
-and credentials outside Pawn/source control; verify remote TLS identity. Password hashing
-requires an external provider and is not built into the component.
+[Windows](build-windows.md) or [Linux](build-linux.md) build guide.
 
-## Verification
+## Exact-source qualification and publication gates
 
-Publication requires seven successful `build-and-test` jobs on the **exact integrated
-master commit**, followed by the separate [manual release workflow](releasing.md).
-PR CI alone does not qualify the release. The workflow validates tag/version/channel/commit
-agreement, downloads both original tested distributions, rechecks packages and assembles
-the tracked source ZIP, notes, dependency inventory and SHA-256 ledger.
+The pre-preparation integrated baseline is
+`27e09b7cffa34968b78cb0025c121fce0a713e65`, with all seven jobs successful in
+[master CI 41312759129](https://github.com/itskoleban/omp-postgresql/actions/runs/41312759129).
+That run qualifies its RC.2-versioned development inputs, not later RC.3 edits.
+RC.3 needs successful exact-head PR CI, followed after owner-approved integration by
+all seven successful jobs on the exact final `master` commit. No tag or publication
+is authorized by preparation or passing CI.
 
-For a published RC.2, both distributions have passed source and extracted-package checks
-in fresh official open.mp servers, compiled all thirteen public Pawn examples with
-warnings as errors, and run unattended examples and separate real-session fixtures.
-The matrix checks Markdown examples/links, disposable documented SQL, English policy,
-frozen evidence, negative publication cases and sanitizer configurations. Conditional
-workflow setup steps are distinct from skipped qualification tests.
+Both x86 distributions must pass source and fresh extracted-package official-server
+and real-session checks, compile all thirteen public Pawn examples with warnings as
+errors, and retain the eleven unattended example scenarios. The matrix also checks
+Markdown/API/SQL examples, filesystem faults, sanitizer configurations, frozen evidence,
+English policy and negative packaging/publication cases. Conditional tool-setup steps
+are distinct from skipped qualification tests.
 
-The inventory records the full commit, build/dependency metadata and payload/archive
-hashes; standalone notes append the exact source commit. Verify the successful master
-CI and public asset hashes independently. See [validation and limits](validation.md).
-The inventory is unsigned and does not constitute a signed build attestation.
+The final download job rechecks original tested distributions and prepares the tracked
+source archive, dependency manifests, exact source inventory, notes and SHA-256 ledger.
+Require version/channel/commit agreement across all assets and verify every checksum.
+The [manual release procedure](releasing.md) requires separate owner authorization for
+a tag and publication. Inventory hashes are unsigned integrity evidence; deterministic
+assembly for identical inputs does not establish reproducible compilation or a signed
+build attestation.
 
-## Known limitations and residual risks
+## Residual risks and limits
 
-- [Issue #31](https://github.com/itskoleban/omp-postgresql/issues/31) remains open: the
-  historical ASan network cleanup timeout has an unknown root cause. Later passes
-  neither explain nor correct that failure.
-- Historical intermittent Windows connection-stall/startup timeouts remain unexplained.
-- The historical Linux logging anomaly remains unresolved. The retained original
-  artifact omitted the component log, leaving incomplete evidence of the failure.
-- Local GCC/MinGW/PostgreSQL 18.4 full-suite failures remain failures. A component-free
-  libpq control reproduced a backend exception in that installation; this does not
-  establish a general upstream cause or explain every observed failure.
-- The **24-hour sustained campaign has not been completed**. Finite CI is not prolonged
-  stability or production certification. A new blocking failure requires investigation
-  and requalification.
-- Rendered/encrypted official-client behavior, external provider multi-VM dispatch,
-  arbitrary OOM, fully instrumented dependencies, exhaustive schedules/fuzzing, physical
-  storage faults and every target host remain unqualified. Diagnostic queues can drop
-  events; file output has no durable-flush or hard shutdown-deadline guarantee.
+- [Issue #31](https://github.com/itskoleban/omp-postgresql/issues/31) remains open.
+  The historical ASan network cleanup timeout remains **ROOT CAUSE UNKNOWN**.
+  Later diagnostic passes do not establish its cause or correct that historical result.
+  A recurrence or demonstrated Engine/Lane/fixture defect is a new release blocker.
+- Controlled Windows experiments reproduce the +64 retained-handle vector through
+  direct libpq TLS on a joined worker, without an Engine. Counts stay stable in the
+  bounded cycles and reach zero after complete process exit. This supports an
+  initialization/retention path in dependencies and Windows; exact allocator stacks
+  of unnamed objects remain unavailable. Finite resource samples do not prove
+  general leak freedom or replace long-duration qualification.
+- Historical intermittent Windows connection-stall/startup timeouts and the Linux
+  logging anomaly with incomplete original evidence remain unexplained.
+- Local MinGW/PostgreSQL 18.4 failures retain their original failed outcomes. A libpq-only
+  control reproduced a backend exception in that installation, without establishing a
+  general upstream cause or explaining every observation.
+- The **24-hour sustained campaign has not been completed**. Verified isolated non-root
+  Linux infrastructure, source/dependency freeze, reviewed risks and bounded preflight
+  are prerequisites; see [readiness](rc-readiness.md).
+- Fully instrumented dependencies, exhaustive schedules/fuzzing, physical storage faults,
+  every host/provider and rendered/encrypted official-client behavior remain unqualified.
+  Diagnostic queues can drop events; file output has no durable-flush or hard
+  shutdown-deadline guarantee.
 - `UNCERTAIN` writes require application reconciliation and are never automatically
   replayed. Reconnection does not restore transactions or player authentication.
 
-Passing CI does not prove the absence of every concurrency or network issue. COPY,
-LISTEN/NOTIFY reception, Engine pipeline mode, ORM and migration management remain
-outside this candidate. Review [operations](security.md) and [transactions](transactions.md).
+COPY, LISTEN/NOTIFY reception, Engine pipeline mode, ORM and migration management
+remain outside this candidate. Review [operations](security.md),
+[transactions](transactions.md) and [validation limits](validation.md).
 
-## Upgrade from RC.1
+## Upgrade from RC.1 or RC.2
 
 1. Stop the test server and retain a rollback copy of its component/include/runtime files.
-   Download the selected RC.2 platform ZIP and its SHA-256 sidecar.
-2. Verify the sidecar and `SHA256SUMS`; check version, full commit and platform in
-   `release-inventory.json` and the package's `manifest.json`.
-3. Replace the compatible component, include and packaged runtime files together. Preserve
-   external credentials and check system dependencies. Do not substitute x64 or unrelated
-   provider libraries.
-4. Recompile and validate your Pawn programs with the supplied include. Run the smoke
-   example and application player/session, transaction and uncertain-write checks in an
-   isolated environment. RC.1 users need no new signature migration.
+   Download the selected RC.3 platform ZIP and its SHA-256 sidecar after it is available.
+2. Verify the sidecar and `SHA256SUMS`. Check `0.1.0-rc.3`, channel `rc`, the full commit
+   and platform in `release-inventory.json` and the package's `manifest.json`.
+3. Follow the filename migration above and replace the matching component, include and
+   packaged runtimes together. Preserve external credentials and check system runtimes.
+4. Recompile and validate Pawn programs in an isolated environment. Run the smoke example
+   and application player/session, transaction and uncertain-write reconciliation checks.
 
 These testing assets do not authorize production deployment.

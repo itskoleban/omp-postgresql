@@ -1,63 +1,114 @@
 # Release Candidate readiness
 
-This source prepares **v0.1.0-rc.2**, a candidate for testing and evaluation. Consult the
-[Releases page](https://github.com/itskoleban/omp-postgresql/releases) for public release
-availability. An RC does not certify production suitability; stable v0.1.0 is not published.
+This source prepares **v0.1.0-rc.3** for testing and evaluation. The
+[Releases page](https://github.com/itskoleban/omp-postgresql/releases) records public
+availability. Preparation does not create a tag, publish assets or certify production
+suitability. Stable v0.1.0 remains blocked.
 
-## Development after RC.2
+## RC.3 integrated baseline and scope
 
-RC.2 was published from `3c3b3185c24362be12eb3e281383ad05d5dcd9b6`.
-The subsequent merge of [PR #43](https://github.com/itskoleban/omp-postgresql/pull/43)
-at `79fdc31b1ed82bd59123640e2e06e9530775b735` changed distributed filenames;
-the original RC.2 assets retain their original names and hashes. Development packages
-use `PostgreSQL.dll` / `PostgreSQL.so` and `omp_postgresql.inc`. Follow the
+The verified pre-preparation `master` is
+**`27e09b7cffa34968b78cb0025c121fce0a713e65`**, after PRs
+[#43](https://github.com/itskoleban/omp-postgresql/pull/43),
+[#44](https://github.com/itskoleban/omp-postgresql/pull/44),
+[#45](https://github.com/itskoleban/omp-postgresql/pull/45) and
+[#46](https://github.com/itskoleban/omp-postgresql/pull/46).
+All seven jobs passed in
+[master CI 41312759129](https://github.com/itskoleban/omp-postgresql/actions/runs/41312759129).
+This integrated-source result is distinct from PR checks. Its successful qualification
+is retained as baseline evidence; it does not qualify subsequent RC.3 metadata or fixes.
+
+RC.2 was published from `3c3b3185c24362be12eb3e281383ad05d5dcd9b6`; its original
+assets retain their names and hashes. RC.3 combines the renamed `PostgreSQL.dll` /
+`PostgreSQL.so` and `omp_postgresql.inc` with the worker-admission correction and
+network/campaign diagnostic improvements. Follow the
 [migration instructions](installation.md#migrating-from-previous-release-candidates).
+The public Pawn signatures, constants, callbacks and component UID are unchanged.
+The fixture evidence-storage correction is delivered separately in
+[PR #47](https://github.com/itskoleban/omp-postgresql/pull/47) and included in this
+candidate source. It completes shutdown after journal mkdir/copy failures and
+preserves the workload's original failure.
 
-The worker admission correction changes behavior during an unexpected worker exit:
-a submission racing with final shutdown is rejected synchronously instead of retaining
-a job in a stopped queue. Existing accepted jobs still require one terminal publication,
-and uncertain SQL is never replayed. The deterministic regression exercises actual
-Engine/Lane code with transport and C++ allocation checkpoints; it is not evidence that
-libpq throws C++ exceptions or a diagnosis of historical issue #31.
+The worker correction rejects submissions after admission closes during unexpected
+worker termination instead of leaving them pending in a stopped queue. Already accepted
+jobs still require terminal publication. The deterministic Engine/Lane regression does
+not claim that libpq throws C++ exceptions or explain historical issue #31.
 
-Validate another candidate before stable publication: the changed installed layout and
-worker lifetime behavior have not been distributed together in a published RC. After
-integration and exact-source qualification, RC.3 is the recommended next testing release.
-This recommendation does not select a new source version, create a tag or authorize
-publication. Every PR and the final integrated source need their own seven-job CI,
-fresh x86 package/runtime evidence and checksum verification.
+## RC.3 exact-source gates
 
-Stable v0.1.0 remains blocked. Issue #31 needs a demonstrated correction or an explicit
-pre-release residual-risk disposition; later passing runs do not establish causation.
-Complete the candidate review and resource/storage/fuzz/integration gates, freeze the
-exact source, binary/dependency hashes, TLS configuration and seed, and verify an
-available isolated runner with a bounded preflight before the 24-hour campaign. No
-24-hour result is established by the finite suites or historical campaigns below.
+The dedicated preparation PR needs successful exact-head CI. After separate owner
+approval and integration, all seven jobs must pass on the **exact final `master`
+commit**. The prior baseline and PR preview cannot substitute for this integrated run.
+Changes after qualification require the affected checks and a final matching source.
 
-## RC.2 exact-source gates
+Require both Windows x86 and Linux x86 distributions from that commit, installed-package
+official open.mp 1.5.8.3079 checks and real-session evidence, version `0.1.0-rc.3` /
+channel `rc`, tracked source archive, dependency/payload manifests, release inventory,
+English notes and verified SHA-256 ledger/sidecars. Preserve frozen historical evidence.
+The [manual release procedure](releasing.md) requires the separately authorized tag to
+resolve to that exact integrated commit and preserves Pre-release classification.
+No tag, merge or public release is authorized by preparation or CI.
 
-The pre-preparation baseline is `master`
-**`02323260583a5c6fbbcb58d933f0bc0c4121bcf5`**, with all seven jobs successful in
-[CI 40799996089](https://github.com/itskoleban/omp-postgresql/actions/runs/40799996089).
-RC.2 preparation and any corrections require their own exact-head PR validation.
-After integration, all seven jobs must pass again on the exact final `master` commit.
-PR CI and this baseline run cannot substitute for that final run.
+## Residual-risk disposition
 
-Before publication, require both Windows x86 and Linux x86 distributions from that
-same commit, installed-package official open.mp checks and real-session evidence,
-matching version `0.1.0-rc.2`/channel `rc`, source archive, dependency manifests, release
-inventory, English notes and verified checksums. Preserve all frozen historical files
-and the portable checksum ordering. The tag must resolve to that integrated commit;
-the manual [release workflow](releasing.md) must preserve Pre-release classification.
-Public availability and the completed inventory are verified separately after publication.
+[Issue #31](https://github.com/itskoleban/omp-postgresql/issues/31) remains open with
+**ROOT CAUSE UNKNOWN** for the historical ASan network cleanup timeout. Diagnostic
+collection now requires successful observer results, but successful later captures do
+not establish historical causation. Preserve `UNCERTAIN` SQL outcomes and never replay
+uncertain writes automatically. A recurrence or newly demonstrated defect blocks the
+candidate until it has a specific disposition and correction where justified.
 
-Issue [#31](https://github.com/itskoleban/omp-postgresql/issues/31) remains unresolved:
-the historical ASan network cleanup timeout has no established root cause. Historical
-intermittent Windows connection stalls, a Linux logging anomaly with incomplete original
-evidence, and environment-specific MinGW/libpq observations are not claimed fixed by
-passing CI. The 24-hour sustained campaign has not been completed and is outside this
-release task. Untested providers, systems and operational limits remain documented in
-[validation](validation.md) and the [release notes](release-notes.md).
+The [resource investigation](https://github.com/itskoleban/omp-postgresql/blob/master/audit/windows-resource-handles-2026-11-01.md)
+reproduces the exact residual +64 with direct libpq TLS on a joined thread, without
+an Engine; repeated cycles are stable and complete process exit clears the handles.
+The vector and shell-only control identify dependency/Windows initialization as a
+sufficient path. Individual unnamed allocator stacks remain unavailable. No plugin
+cleanup defect is established by these observations, so the residual count does not
+block an evaluation RC.3. This disposition does not claim leak freedom or stable readiness.
+
+RC.3 is an evaluation vehicle for integrated corrections, subject to final CI.
+Resource samples alone cannot prove leak freedom. Historical Windows stalls,
+the Linux logging anomaly and local MinGW/libpq failures retain their original outcomes
+and documented limits. Stable release requires a defensible disposition of these risks,
+prolonged qualification and the final owner gate; a later passing run is not a correction.
+See [validation](validation.md) and [release notes](release-notes.md).
+
+## Dedicated 24-hour campaign preconditions
+
+**Status: BLOCKED; not started.** The existing
+`dedicated stability audit` workflow targets a manually verified disposable Linux x64
+runner labelled `pg-audit-isolated`; a label in YAML does not establish that such a
+runner exists or is isolated. Historical owner confirmation recorded no available
+isolated runner. Read-only local checks on November 1 found only the stopped
+`docker-desktop` WSL distribution, an unavailable Docker daemon, and no configured
+`pg-audit-isolated` SSH target. GitHub runner registration/host isolation remains
+unverified. No services or infrastructure were provisioned or started by those checks.
+No new usable isolated Linux runner has been verified for this candidate.
+Do not dispatch the 24-hour workflow until all of these concrete gates are recorded:
+
+| Gate | Required evidence before starting |
+| --- | --- |
+| Risk review | Explicit candidate-specific disposition of issue #31, resource ownership findings, historical failures and any remaining coverage gaps; no unexplained newly reproduced blocker. |
+| Source and deployment freeze | Final source SHA, installed component/include bytes, complete dependency and actual loader/runtime hashes, compiler/fixture/provider revisions, TLS configuration and positive uint32 seed; read-only staged deployment. |
+| Runner isolation | Existing local/self-hosted Linux host, non-root UID, no production credentials/data, disposable loopback PostgreSQL cluster, writable evidence storage and sufficient free capacity. Verify process-tree cleanup and absence of leftover fixture backends. Do not purchase/provision paid services. |
+| Bounded target preflight | Build/sanitizer provenance plus complete applicable core, TLS/network, real ENOSPC/EACCES/short-write, semantic-fuzz and installed official open.mp/real-session checks on the selected bytes and host. Preserve failed attempts and restarts. |
+| Measurement contract | Freeze 86400 measured load seconds, seed, warm-up and sampling schedule; collect SQL operation counts, retained results, quiescent queues, terminal counters, backend activity, thread/handle/FD ownership, CPU/RSS and wave latency percentiles. Root-cause attribution remains separate from trend measurements. |
+| Acceptance and stop criteria | Zero sanitizer findings, crashes, deadlocks, lost/duplicate terminal publications, semantic/transaction violations, unexpected uncertain outcomes or quiescent pending/errors. Stop on recurrence of issue #31, fixture cleanup failure or evidence-collection failure. Select numerical RSS/resource/latency growth and shutdown budgets from bounded measurements on the frozen host before launch; do not invent them afterward. |
+| Preservation and review | Record all stage commands, timestamps, exact binaries, source/dependency identities, server/client/observer traces, raw CTest XML/logs, samples and failures; retain SHA-256 ledger outside the disposable cluster. Confirm storage/retention and inspect complete evidence independently after the campaign. |
+| Owner authorization | Explicit authorization to start the qualified campaign. Preparation and passing preflight provide no such authorization. |
+
+The current supervisor enforces requested duration, records failed preflight and rejects
+inconsistent metrics. It does not verify isolation, freeze deployed bytes, choose
+host-specific growth thresholds or establish a completed campaign. The Engine soak and
+semantic fuzz alone do not run a 24-hour Pawn/server session; record that coverage limit
+or add a separately justified component campaign before making such a claim.
+
+## Historical RC.2 qualification context
+
+RC.2 preparation began at `02323260583a5c6fbbcb58d933f0bc0c4121bcf5`, whose seven
+jobs passed in [CI 40799996089](https://github.com/itskoleban/omp-postgresql/actions/runs/40799996089).
+That historical baseline is separate from RC.2's published commit and from RC.3.
+Published RC.1/RC.2 tags, assets and qualification records remain unchanged.
 
 ## Historical RC.1 baseline and gates
 

@@ -1,8 +1,8 @@
 # Versioning and owner-controlled publication
 
-The source is configured for **v0.1.0-rc.2**, with CMake's numeric `PROJECT_VERSION`
-set to `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` set to `2`. This selects
-distribution version `0.1.0-rc.2` and channel `rc`. Zero selects a stable source identity;
+The source is configured for **v0.1.0-rc.3**, with CMake's numeric `PROJECT_VERSION`
+set to `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` set to `3`. This selects
+distribution version `0.1.0-rc.3` and channel `rc`. Zero selects a stable source identity;
 no stable release is authorized by this RC preparation. Package names, manifests and
 the component's SDK `SemanticVersion` derive from those same source values.
 Exact-commit qualification and owner authorization remain publication gates. The public
@@ -65,7 +65,7 @@ creates the corresponding tag on that exact tested commit.
 Manually dispatch **manual release** (`.github/workflows/release.yml`) from master with:
 
 - `ci_run`: the successful main CI run ID.
-- `tag`: the existing approved new tag, such as `v0.1.0` or a separately qualified `v0.1.0-rc.2`.
+- `tag`: the existing approved new tag, such as `v0.1.0` or a separately qualified `v0.1.0-rc.3`.
 - `confirmation`: that identical tag, acknowledging the selected release action.
 - `action`: `draft` (default) or `publish` (explicit public stable/RC publication authorization).
 

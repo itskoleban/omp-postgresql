@@ -6,7 +6,7 @@ project(
 )
 # Zero selects a stable source identity; positive values retain the RC route.
 # This is intentionally source-controlled, never a cache/build override.
-set(PG_RELEASE_CANDIDATE 2)
+set(PG_RELEASE_CANDIDATE 3)
 if(PG_RELEASE_CANDIDATE EQUAL 0)
     set(PG_DISTRIBUTION_VERSION "${PROJECT_VERSION}")
     set(PG_RELEASE_CHANNEL "stable")
@@ -374,6 +374,9 @@ if(BUILD_TESTING)
     add_executable(pg_lane_admission_tests tests/lane_admission.cpp)
     if(WIN32)
         target_link_libraries(pg_stress_tests PRIVATE psapi)
+        # Explicit diagnostic modes record ownership evidence without a global leak threshold.
+        add_executable(pg_windows_resource_probe tests/windows_resource_probe.cpp)
+        target_link_libraries(pg_windows_resource_probe PRIVATE pg_core)
     endif()
     foreach(
         test_target
