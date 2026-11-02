@@ -1,0 +1,2 @@
+semantic_fuzz seed=1592594996 cases=100000
+semantic_fuzz PASS cases=100000

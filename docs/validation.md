@@ -1,5 +1,16 @@
 # Validation results and known limitations
 
+## Finite pre-soak follow-up: November 2, 2026
+
+RC.3 integrated source `b715a971e71047a9c73f6b85489fc342317ba86b` passed all seven
+jobs in [CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054).
+The [finite pre-soak checklist](pre-soak-checklist.md) reuses those results, records
+the justified new link/cleanup/network regressions and 100,000-case semantic fuzz,
+and assigns PASS/FAIL/OUT OF SCOPE within explicit source boundaries. Historical
+limitations below remain historical; the checklist is the current finite disposition.
+The final 24-hour campaign has not run. Future stable source still requires exact
+integrated-source CI, host/deployment freeze, risk disposition and owner authorization.
+
 This source prepares **v0.1.0-rc.3** for testing and evaluation. Public availability is
 recorded on the [Releases page](https://github.com/itskoleban/omp-postgresql/releases).
 Passing a finite suite verifies its listed scenarios; it does not certify production
