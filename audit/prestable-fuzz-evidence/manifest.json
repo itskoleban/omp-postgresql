@@ -15,8 +15,8 @@
     "bytes": 2204430
   },
   "capture": {
-    "sha256": "c42a7ca85ab0196a886e9adbccc34b5f433c7b0161e1ff1ac9d9dc2ea3fe1a43",
-    "bytes": 77
+    "sha256": "107fe9e3e9f2a2d71a206a0bbd27b071a79798f46738dee65d5f7f005bd5d153",
+    "bytes": 75
   },
   "source_files": {
     "tests/audit_fuzz.cpp": {
@@ -52,5 +52,10 @@
     "No AMX loader/interpreter fuzzing.",
     "No 24-hour campaign.",
     "No failing seed or reproduction was generated; none was observed."
-  ]
+  ],
+  "original_capture": {
+    "sha256": "c42a7ca85ab0196a886e9adbccc34b5f433c7b0161e1ff1ac9d9dc2ea3fe1a43",
+    "bytes": 77
+  },
+  "capture_normalization": "Public capture uses LF line endings; original capture hash and bytes are retained separately. No outcome text changed."
 }
