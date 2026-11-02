@@ -662,15 +662,19 @@ runtime, test assertions or existing test deadlines.
 - Validation applies to these tested compiler/client/server combinations. Requalify changes
   to execution code, the bridge, dependencies or the workflow; other distributions are not
   covered by this successful matrix.
-- Prolonged network partitions, interruption at all BEGIN/ROLLBACK stages, exhausted
-  handles and extreme backpressure need more adversarial coverage. The combined lifecycle
-  stress described below covers a bounded, reproducible subset of cancellation/expiry/shutdown.
+- Bounded BEGIN/COMMIT/ROLLBACK request/response interruption, recovery exhaustion,
+  process-local descriptors and application backpressure have the explicit PASS scopes
+  in the [finite pre-soak checklist](pre-soak-checklist.md). Physical/hours-long partitions
+  and global handle-table exhaustion are OUT OF SCOPE; no elapsed-hours claim follows
+  from these finite cases. The final 24-hour campaign remains NOT RUN.
 - One startup/destruction deadlock has a native-stack diagnosis and deterministic
   dependency regression; see the October 17 Windows libpq investigation below. Its fix
   requires the corrected DLL. Every historical extension/stress timeout has not been
   independently mapped to that defect, and other client providers require verification.
-- Malformed AMX file/bytecode fuzzing and hours-long soak qualification remain unestablished.
-  ThreadSanitizer and the ten-minute sustained load are now qualified as recorded above.
+- Malformed AMX loader/interpreter fuzzing is OUT OF SCOPE for this component; its
+  native and semantic input boundaries have the finite coverage recorded in the checklist.
+  The final 24-hour qualification remains NOT RUN. ThreadSanitizer and the historical
+  ten-minute sustained load retain their recorded source scopes.
   Native argument/address tests cover a bounded SDK memory model, not the AMX loader or interpreter. Stress tests
   record process peak memory and verify object release, but do not establish a strict RSS limit;
   libpq can allocate a large row before the component checks it. DNS/authentication/file providers can delay
@@ -689,7 +693,7 @@ runtime, test assertions or existing test deadlines.
 - The original six lifecycle examples remain part of the current thirteen-example
   [inventory](examples.md), with eleven unattended examples. The bounded independent
   Astra audit and its corrections are completed at their recorded revisions; they do not
-  certify all later code. Final RC artifacts require successful exact-master qualification
+  certify all later code. Final candidate artifacts require successful exact-master qualification
   and owner review. No new tag or release was created by this documentation review.
 
 ## Reproducing validation
