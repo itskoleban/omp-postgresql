@@ -1,0 +1,61 @@
+{
+  "source_base": "b715a971e71047a9c73f6b85489fc342317ba86b",
+  "source_scope": "Fuzz implementation/helper bytes match RC.3. Built locally before unrelated fixture/campaign changes; this is finite input-helper evidence, not final stable-source or distribution qualification.",
+  "completed_utc": "2026-11-02T15:27:27.969121+00:00",
+  "platform": "Windows x64",
+  "compiler": "GCC 16.1.0 UCRT64",
+  "libpq": "18.4; semantic helper test does not connect to a server",
+  "seed": 1592594996,
+  "cases": 100000,
+  "result": "PASS",
+  "genuine_failure": false,
+  "command": "OMP_PG_FUZZ_CASES=100000 OMP_PG_FUZZ_SEED=1592594996 pg_audit_fuzz.exe",
+  "binary": {
+    "sha256": "8c0bf97e69605239103ef07d99f826bf8024c2bc2e802058f1adc9a30b0cc9a3",
+    "bytes": 2204430
+  },
+  "capture": {
+    "sha256": "107fe9e3e9f2a2d71a206a0bbd27b071a79798f46738dee65d5f7f005bd5d153",
+    "bytes": 75
+  },
+  "source_files": {
+    "tests/audit_fuzz.cpp": {
+      "sha256": "9cc5d62e1c47a2e0fed446d0d16f9514e2e6705c20197fa9a0d45d43dba9d9d5",
+      "bytes": 10695
+    },
+    "include/pg/parameters.hpp": {
+      "sha256": "99dc1e43d5cf772d9b3186543b55b2d7cf531198cca15bc5b09ad7a82876b4f0",
+      "bytes": 688
+    },
+    "include/pg/statement.hpp": {
+      "sha256": "ec9818fae84e29c596cde408d50254ad882b3ab2b3f3e92c17b28e0db7061b1e",
+      "bytes": 586
+    },
+    "include/pg/sql_sections.hpp": {
+      "sha256": "c1f442c35864f870b1fe4202c6d34e7d2b1ce554f860ad5fbc99f4f5ad63c2da",
+      "bytes": 1010
+    },
+    "src/parameters.cpp": {
+      "sha256": "77ad941db253bc24fdde709d81420da5bdad93ddf8173539e342bef5db458e00",
+      "bytes": 6032
+    },
+    "src/statement.cpp": {
+      "sha256": "b2a591383dce51c529c6095434cf2f52af096d8a08bb1ad24ae0c986a8e79573",
+      "bytes": 6226
+    },
+    "src/sql_sections.cpp": {
+      "sha256": "5f496debc02215b094b98ee6b35291d1b1fbadb39ea40cd0ce3fc01b70af6e58",
+      "bytes": 10194
+    }
+  },
+  "limits": [
+    "No AMX loader/interpreter fuzzing.",
+    "No 24-hour campaign.",
+    "No failing seed or reproduction was generated; none was observed."
+  ],
+  "original_capture": {
+    "sha256": "c42a7ca85ab0196a886e9adbccc34b5f433c7b0161e1ff1ac9d9dc2ea3fe1a43",
+    "bytes": 77
+  },
+  "capture_normalization": "Public capture uses LF line endings; original capture hash and bytes are retained separately. No outcome text changed."
+}

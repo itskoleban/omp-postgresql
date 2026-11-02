@@ -60,6 +60,17 @@ class QualificationTests(unittest.TestCase):
             self.qualify()
         self.assertEqual(self.results[-1].returncode, 0)
 
+    def test_preflight_exclusion_preserves_inventory_and_rejects_other_skips(self):
+        self.add_case("stress_integration", "raise SystemExit(1)")
+        self.add_case("unit")
+        qualify_ctest(self.build, "Release", dict(os.environ), self.run_command,
+                      exclude_regex="^stress_integration$")
+        self.assertEqual(verify_report(self.report, ["unit"]), 1)
+        self.add_case("integration", "raise SystemExit(77)", "SKIP_RETURN_CODE 77")
+        with self.assertRaisesRegex(RuntimeError, "unsuccessful tests: integration"):
+            qualify_ctest(self.build, "Release", dict(os.environ), self.run_command,
+                          exclude_regex="^stress_integration$")
+
     def test_disabled_case_is_rejected_despite_ctest_success(self):
         self.add_case("unit")
         self.add_case("integration", properties="DISABLED TRUE")

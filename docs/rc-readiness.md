@@ -1,5 +1,11 @@
 # Release Candidate readiness
 
+The [finite pre-soak checklist](pre-soak-checklist.md) records the November 2 follow-up
+to successful RC.3 [CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054).
+It closes practical bounded gaps within their stated scopes and defines the exact
+final-source/host prerequisites. The final 24-hour campaign remains unexecuted and
+requires separate owner authorization; stable readiness remains blocked.
+
 This source prepares **v0.1.0-rc.3** for testing and evaluation. The
 [Releases page](https://github.com/itskoleban/omp-postgresql/releases) records public
 availability. Preparation does not create a tag, publish assets or certify production
