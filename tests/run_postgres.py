@@ -513,10 +513,15 @@ finally:
         except Exception as error:
             wire_errors.append(str(error))
         finally:
-            log_directory = Path(args.build) / "Testing" / "Temporary"
-            log_directory.mkdir(parents=True, exist_ok=True)
-            if (wire.directory / "wire.jsonl").is_file():
-                shutil.copyfile(wire.directory / "wire.jsonl", log_directory / f"wire-{wire.directory.name}.log")
+            try:
+                log_directory = Path(args.build) / "Testing" / "Temporary"
+                log_directory.mkdir(parents=True, exist_ok=True)
+                if (wire.directory / "wire.jsonl").is_file():
+                    shutil.copyfile(wire.directory / "wire.jsonl", log_directory / f"wire-{wire.directory.name}.log")
+            except Exception as error:
+                # Evidence storage must not prevent closing other peers or the cluster.
+                wire_errors.append("Wire evidence retention failed: " + str(error))
+                print(f"Wire evidence retention failed: {type(error).__name__}; continuing fixture cleanup", file=sys.stderr)
     for stalled in stall_servers:
         try:
             stalled.close()
