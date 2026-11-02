@@ -115,7 +115,6 @@ def main():
                     raise RuntimeError("Source commit changed after preflight")
                 if subprocess.check_output(["git", "status", "--porcelain"], cwd=root, text=True) != manifest["dirty"]:
                     raise RuntimeError("Source worktree changed after preflight")
-                manifest["campaign_started"] = True
             stage = {"name": name, "command": argv, "started_unix": time.time()}
             manifest["stages"].append(stage)
             save()
@@ -136,6 +135,9 @@ def main():
                     creationflags=flags | (subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0),
                     start_new_session=os.name != "nt",
                 )
+                if name == "integration-soak":
+                    manifest["campaign_started"] = True
+                    save()
                 try:
                     returncode = process.wait(timeout=budget)
                 except BaseException as error:
