@@ -60,6 +60,28 @@ imposing universal handle-count thresholds. The
 [network evidence](https://github.com/itskoleban/omp-postgresql/blob/master/audit/network-recovery-2026-11-01.md) remain separate from #31's
 unknown historical cause.
 
+## Pre-stable qualification changes after RC.3
+
+This draft includes the proposed focused corrections and their finite evidence:
+
+- [PR #49](https://github.com/itskoleban/omp-postgresql/pull/49) pins complete relative
+  documentation links in standalone notes while preserving absolute URLs, local anchors
+  and malformed/nested Markdown constructs.
+- [PR #50](https://github.com/itskoleban/omp-postgresql/pull/50) attempts remaining
+  disposable-fixture cleanup and evidence retention after monitor/proxy/cluster finalizer
+  failures, preserving the primary failure and rejecting an incompletely joined monitor.
+- [PR #52](https://github.com/itskoleban/omp-postgresql/pull/52) adds seven bounded
+  Engine/PostgreSQL transaction-interruption and sustained reconnect-exhaustion cases.
+  Independent SQL/backend/sequence checks preserve UNCERTAIN outcomes and no replay.
+- [PR #53](https://github.com/itskoleban/omp-postgresql/pull/53) completes the 100,000-case
+  semantic fuzz stage and bounded preflight before the final load campaign, preserves
+  negative evidence and corpus files, and defaults the dedicated workflow to preflight
+  only. The practical checklist reuses valid RC.3 storage and real open.mp results.
+
+See the [finite dispositions and exact launch prerequisites](pre-soak-checklist.md).
+The local bounded results do not replace exact final-source CI, frozen-host checks,
+reviewed risk disposition or the separately owner-authorized 24-hour campaign.
+
 ## Compatibility and migration
 
 The public Pawn API retains **69 natives and three callbacks** with unchanged
