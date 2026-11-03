@@ -2,12 +2,10 @@
     {
         "name": "introduction",
         "lines": [
-            "main() {}",
-            "public OnGameModeInit() {",
+            "{{intro.setup}}",
+            "{{intro.init}}",
             "{{intro.connection}}",
-            "printf(\"Connection request handle: %d\", database);",
-            "return 1;",
-            "}"
+            "{{intro.close}}"
         ]
     },
     {
