@@ -1,61 +1,159 @@
 # omp-postgresql
 
-A C++20 component for open.mp with libpq and an asynchronous, parameterized Pawn API.
-This draft prepares the future **v0.1.0** source identity, with distributed files
-`omp_postgresql.inc`, `PostgreSQL.dll` and `PostgreSQL.so`.
-The project and internal component identity remain `omp-postgresql`.
-Obtain public packages from the [releases page](https://github.com/itskoleban/omp-postgresql/releases)
-and verify their exact source identity and checksums. Stable v0.1.0 remains blocked:
-source preparation does not authorize publication or establish stable readiness.
-Corrections must be integrated with owner approval, followed by exact final-source CI,
-freeze and preflight including 100,000 semantic fuzz cases before the final 24-hour
-campaign. The campaign and release each require separate owner authorization. The published
-[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1) and
-[v0.1.0-rc.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2)
-retain their original tags, assets, checksums and release notes. Review the
-[validated platforms and known limitations](docs/validation.md) before testing.
-The [release readiness checklist](docs/rc-readiness.md) separates integrated capabilities,
-qualification work and publication gates.
+[Introduction](#introduction) · [Installation](#installation) · [Quick Start](#quick-start) ·
+[Documentation](#documentation) · [Building and Testing](#building-and-testing) · [License](#license)
 
-Start with [your first query](docs/getting-started.md), follow the
-[example learning path](docs/examples.md), and use [troubleshooting](docs/troubleshooting.md)
-when a submission or callback behaves unexpectedly. Practical guides cover
-[accounts and player sessions](docs/accounts.md), [saving](docs/saving.md), and
-[safe transactions](docs/transactions.md). The [native reference](docs/native-reference.md)
-provides the exact signatures after those introductions.
-Use the [operation quick reference](docs/quick-reference.md) to choose between a query,
-prepared snapshots, a heterogeneous batch, streaming and a transaction.
+## Introduction
+
+omp-postgresql is a C++20 component that brings PostgreSQL to open.mp through libpq and
+an asynchronous, parameterized Pawn API. Database work runs on background workers;
+callbacks deliver connection changes and results on server ticks.
+
+- Service-profile connections, FIFO lanes, timeouts, cancellation and progressive reconnection.
+- Typed parameters, immutable snapshots, bounded batches and SQL files with named sections.
+- Transactions, savepoints, explicit per-operation results and bounded streaming with backpressure.
+- NULL, RETURNING, SQLSTATE, column metadata, exact numeric/temporal text, BYTEA and typed arrays.
+- VM-generation ownership, custom completion callbacks and configurable bounded diagnostics.
+
+There is no ORM, query builder, password hashing, application cache or synchronous Pawn query
+API. Uncertain writes are never replayed automatically. Pipeline mode is benchmarked separately;
+the execution engine does not use it. See the [execution guide](docs/api.md) for API guarantees.
+
+**Development status:** stable **v0.1.0 remains blocked**. Source preparation and version metadata
+do not establish stable readiness or authorize publication. Use development artifacts only for
+testing and evaluation; review the [release gates](#release-status-and-publication) and
+[validated platforms and known limitations](docs/validation.md).
+
+## Installation
+
+1. Choose a matching package from the [releases page](https://github.com/itskoleban/omp-postgresql/releases)
+   or a development CI artifact, and verify its exact source identity and SHA-256.
+2. Copy `PostgreSQL.dll` or `PostgreSQL.so` into `components/`, and `omp_postgresql.inc` into
+   your Pawn compiler's include directory. Keep the include and binary from the same distribution.
+3. Install the [runtime dependencies](DEPENDENCIES.md) and configure the service profile below.
+   Keep the open.mp Pawn component enabled; do not register this as a legacy SA-MP plugin.
+
+Follow the [installation guide](docs/installation.md) for package verification, runtime placement
+and a first server test. Published RC packages retain their original filenames; the names above
+apply to the current source. Validated server distributions target **open.mp 1.5.8.3079 x86**
+on Windows and Linux (dynssl). Match every dependency's architecture and ABI: an x64 DLL cannot
+load into an x86 server, and x64 engine tests do not establish x64 server compatibility.
+
+When migrating from RC.1/RC.2, replace `#include <omp-postgresql>` with
+`#include <omp_postgresql>` and recompile. Stop the server before replacing the old binary;
+keep only one copy of the component. Public Pawn signatures, UID and the internal
+`omp-postgresql` identity remain unchanged. See the
+[migration instructions](docs/installation.md#migrating-from-previous-release-candidates).
+
+Keep passwords out of Pawn and version control. Use `PGPASSFILE`/`.pgpass` with Unix permissions
+0600 (restricted service-account ACLs on Windows), certificate authentication or another
+libpq-managed mechanism. For remote services, use `sslmode=verify-full`, a trusted CA and a
+hostname matching the certificate; `require` encrypts without the same identity guarantee.
+Client certificates use `sslcert`/`sslkey` and suitable PostgreSQL authentication rules.
+See [secure configuration](docs/security.md), [libpq SSL](https://www.postgresql.org/docs/17/libpq-ssl.html)
+and [service profiles](https://www.postgresql.org/docs/17/libpq-pgservice.html).
+
+## Quick Start
+
+`pg_connect("game")` uses the PostgreSQL service profile named `game`. Configure its connection
+details and `PGSERVICEFILE` **before starting the server**, following
+[Install and configure](docs/getting-started.md#install-and-configure) and the
+[example profile](examples/pg_service.conf). The request is asynchronous: a valid handle means
+local acceptance; wait for `OnPgConnection` to report `PG_CONNECTED` before using the connection.
+
+<!-- pawn-example: intro.connection -->
+
+```pawn
+#include <open.mp>
+#include <omp_postgresql>
+
+new g_Database = PG_INVALID;
+
+public OnGameModeInit() {
+	g_Database = pg_connect("game");
+
+	if (g_Database == PG_INVALID) {
+		new error[256];
+
+		pg_last_error(error);
+		printf("[PostgreSQL] Connection request rejected: %s", error);
+	}
+
+	return 1;
+}
+
+public OnPgConnection(connection, connection_state) {
+	if (connection != g_Database) return 1;
+
+	switch (connection_state) {
+		case PG_CONNECTED: {
+			print("[PostgreSQL] Connected successfully.");
+		}
+
+		case PG_CONNECTION_FAILED: {
+			new error[256];
+
+			if (pg_connection_message(connection, 0, error) && error[0]) {
+				printf("[PostgreSQL] Connection failed: %s", error);
+			} else {
+				print("[PostgreSQL] Connection failed.");
+			}
+
+			pg_connection_close(connection);
+			g_Database = PG_INVALID;
+		}
+
+		case PG_DISCONNECTED: {
+			g_Database = PG_INVALID;
+		}
+	}
+
+	return 1;
+}
+
+public OnGameModeExit() {
+	if (g_Database != PG_INVALID) {
+		pg_connection_close(g_Database);
+		g_Database = PG_INVALID;
+	}
+
+	return 1;
+}
+```
+
+The default is one lane (lane 0). `PG_CONNECTED` means every configured lane is ready, not that
+future operations are guaranteed to succeed; `pg_connection_ready` reports connected physical
+sessions. Additional lanes are an explicit concurrency decision described in the
+[execution guide](docs/api.md). Callbacks must return promptly without `sleep`; callback
+continuations are unsupported. Connection diagnostics can contain sensitive information:
+keep test output private and redact or restrict production logs as explained in
+[security](docs/security.md) and [error inspection](docs/debugging.md#inspect-local-and-job-errors).
+
+## Documentation
+
+| Topic | Guides |
+| --- | --- |
+| Start here | [Installation](docs/installation.md), [Getting started](docs/getting-started.md), [Examples and learning path](docs/examples.md) |
+| Choose and use the API | [Quick reference](docs/quick-reference.md), [Execution guide](docs/api.md), [Native reference](docs/native-reference.md), [Callbacks](docs/callbacks.md), [Types](docs/types.md) |
+| Build gameplay features | [Accounts and player sessions](docs/accounts.md), [Saving](docs/saving.md), [Transactions](docs/transactions.md), [SQL file sections](docs/sql-sections.md) |
+| Operate safely | [Troubleshooting](docs/troubleshooting.md), [Debugging and logging](docs/debugging.md), [Security and concurrency](docs/security.md) |
+| Understand and contribute | [Architecture](docs/design.md), [Windows builds](docs/build-windows.md), [Linux builds](docs/build-linux.md), [Language policy](docs/language-policy.md) |
+| Review evidence and limits | [Validation](docs/validation.md), [Performance](docs/performance.md), [Pawn logging qualification](docs/logging-qualification.md), [Independent audit](docs/independent-audit.md) |
+| Package and release | [Packaging](docs/packaging.md), [Readiness](docs/rc-readiness.md), [Pre-soak checklist](docs/pre-soak-checklist.md), [Release procedure](docs/releasing.md), [Release notes](docs/release-notes.md) |
 
 Prefer [custom completion callbacks](docs/callbacks.md) for new application code;
-`OnPgComplete(job, context)` remains supported for existing programs.
+`OnPgComplete(job, context)` remains supported. Pre-RC.1 code using the removed
+`pg_prepare_section` must migrate to `pg_prepare_file(..., section)` and recompile;
+see [cleanup and migration](docs/prestable-cleanup.md) and the
+[bounded API audit](docs/api-modernization.md). Include and component versions must match.
 
-## Implemented features
+## Building and Testing
 
-- Connections through libpq service profiles, a pool of FIFO lanes, and a worker that owns each session.
-- Deferred session preparation, typed parameters, immutable snapshots, and bounded batches.
-- Nonblocking extended query protocol, tick-driven callbacks, and ownership by VM generation.
-- Explicit results per job and statement, NULL, RETURNING, SQLSTATE, duration, and affected rows.
-- Transactions that reserve a lane, commit/rollback, and rollback after a required operation fails.
-- Cancellation, timeouts, and progressive reconnection without replaying uncertain writes.
-- Worker-based SQL file loading with path confinement and UTF-8 validation.
-- Unified `pg_prepare_file(..., section)` for whole files and exact named sections, with bounded worker capture.
-- Custom completion handlers with owned integer, Float, boolean and string arguments.
-- Simple queries, heterogeneous batches, per-operation outcomes, and column OID metadata.
-- Exact numeric/temporal text transport, BYTEA cells, and typed arrays with NULL elements.
-- Explicit isolation/read-only options, savepoints, and asynchronous savepoint recovery.
-- Bounded streaming blocks, slow-consumer backpressure, and session/job statistics.
-- Configurable bounded diagnostics through `pg_log_config`, with console/file/both outputs,
-  asynchronous file rotation, and SQL-file parser locations in original lines/byte columns.
-
-There is no ORM, query builder, password hashing, application cache, or synchronous Pawn query API.
-Pipeline mode is evaluated by a standalone benchmark; the initial execution engine does not use it.
-
-## Building
-
-Requirements: CMake 3.24+, a C++20 compiler, Git, and libpq **17 or later** with TLS and thread support.
-FetchContent obtains the open.mp SDK and Pawn headers at pinned commits.
-Boost and pawn-natives are not required. Build **all** dependencies for the target server's
-architecture and ABI. An x64 DLL cannot load into an x86 server.
+Requirements: **CMake 3.24+**, a **C++20** compiler, Git and **libpq 17+** with TLS and thread
+support. FetchContent obtains the SDK and Pawn headers at pinned commits; Boost and pawn-natives
+are not required. Build all dependencies for the server's architecture and ABI. Linux x86 needs
+a multilib toolchain and 32-bit libpq; Windows MSVC/MinGW builds need compatible import libraries.
+Follow the [Windows](docs/build-windows.md) or [Linux](docs/build-linux.md) guide for details.
 
 ```sh
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPostgreSQL_ROOT=/path/to/postgresql
@@ -64,185 +162,71 @@ ctest --test-dir build --output-on-failure
 cmake --install build --prefix /path/to/server
 ```
 
-On Linux, install the system libpq headers and library. An x86 server requires a multilib
-toolchain and 32-bit libpq. On Windows, use MSVC or MinGW with compatible libpq architecture
-and ABI. `PostgreSQL_ROOT` contains include/lib directories; validate the import library format
-before combining MSVC and MinGW libraries. `PG_BUILD_COMPONENT=OFF` builds only the engine
-and tests. `PG_SANITIZE=ON` enables ASan/UBSan on supported toolchains.
-Use a separate Linux x64 build with `PG_THREAD_SANITIZE=ON` for race detection.
-`PG_STRESS_SECONDS=600` extends the seeded integration load to at least ten minutes;
-see [qualification controls and limits](docs/validation.md#sanitizers-and-server-integration).
+`PostgreSQL_ROOT` contains the include/lib directories. `PG_BUILD_COMPONENT=OFF` builds only
+the engine and tests. `PG_PAWN_INCLUDE_DIR` overrides the install destination, `qawno/include`.
+Use `PG_SANITIZE=ON` for ASan/UBSan on supported toolchains, or a separate Linux x64 build
+with `PG_THREAD_SANITIZE=ON`. See [qualification controls](docs/validation.md#sanitizers-and-server-integration)
+for stress reproduction and limits.
 
-On Windows, distribute `libpq.dll` and its dependencies, including TLS and runtime libraries,
-from the same provider and architecture. On Linux, install the corresponding runtime package.
-x86 distributions include selected runtime dependencies and their licenses;
-see [DEPENDENCIES.md](DEPENDENCIES.md) for the remaining system dependencies.
-The SDK and Pawn retain their licenses; neither reference plugin is linked or copied.
-See the [Windows x86 build and runtime guide](docs/build-windows.md) and the
-[Linux x86 build, TLS, and server guide](docs/build-linux.md).
-Installation includes license notices in `share/omp-postgresql`. `PG_PAWN_INCLUDE_DIR`
-can override the default include destination, `qawno/include`.
-The CI workflow generates Windows/Linux x86 ZIPs and SHA-256 only after testing a fresh
-server with the extracted package. See [package installation](docs/installation.md) and
-[reproducible archive assembly](docs/packaging.md). These are qualification artifacts;
-the published RC retains its exact tagged source and assets. The [release procedure](docs/releasing.md)
-describes exact-source inventories and the separate owner-triggered publication workflow.
+Compile Pawn with the official open.mp **3.10.11** compiler, **32-bit cells**, official includes
+and warnings treated as errors (`-E`). CI compiles all thirteen public examples and the
+classified Markdown examples, including from extracted x86 packages. Start with
+[smoke.pwn](examples/smoke.pwn) and expect `PG SMOKE PASS` in a disposable server; the
+[example catalogue](docs/examples.md) describes the broader learning and validation paths.
+Eleven public examples run unattended. The interactive account example requires an optional
+external hashing provider and denies authentication by default. The
+[bounded real-client qualification](docs/validation.md#real-player-sessions-october-24-2026)
+excludes rendered clients, the official-client encrypted connection path, untested
+providers/environments and the 24-hour campaign.
 
-## Installation and connections
-
-Copy `PostgreSQL.dll` or `PostgreSQL.so` into `components/` and install `omp_postgresql.inc` in your
-compiler's include directory. Keep the open.mp Pawn component enabled. Do not register this
-component as a legacy SA-MP plugin.
-
-<!-- pawn-fragment: Include directives only; add the script's declarations and callbacks. -->
-
-```pawn
-#include <open.mp>
-#include <omp_postgresql>
-```
-
-When moving from RC.1 or RC.2 to the current source, replace `#include <omp-postgresql>`
-with `#include <omp_postgresql>` and recompile your Pawn scripts. Stop the server and replace
-the old component binary with the matching `PostgreSQL.dll` or `PostgreSQL.so`; keep only
-one copy of this component in `components/`. The Pawn signatures, UID and internal component
-name remain unchanged. See
-[migration details](docs/installation.md#migrating-from-previous-release-candidates).
-
-Set `PGSERVICEFILE` in the server process environment; see the [example profile](examples/pg_service.conf).
-Use `PGPASSFILE`/`.pgpass` with Unix permissions 0600, certificate authentication, or another
-authentication mechanism managed by libpq. Keep passwords out of the gamemode.
-
-The following fragment belongs inside `OnGameModeInit`. See
-[smoke.pwn](examples/smoke.pwn) for a complete gamemode and callback implementation.
-
-<!-- pawn-example: intro.connection -->
-
-```pawn
-new database = pg_connect("game", 2);
-// Wait for OnPgConnection(database, PG_CONNECTED) before submitting queries.
-```
-
-`PG_CONNECTED` means every lane is ready to accept jobs. `pg_connection_ready` reports how
-many physical sessions are connected. This does not guarantee that future operations will
-succeed. The default lane is 0; selecting another lane is an explicit concurrency decision.
-
-For remote connections, use `sslmode=verify-full`, a trusted CA, and a host name matching the
-certificate. `require` encrypts the connection but does not provide the same identity guarantee.
-Configure client certificates with `sslcert`/`sslkey` and suitable PostgreSQL authentication rules.
-See [libpq SSL](https://www.postgresql.org/docs/17/libpq-ssl.html) and
-[service profiles](https://www.postgresql.org/docs/17/libpq-pgservice.html).
-
-## Runnable example
-
-[examples/smoke.pwn](examples/smoke.pwn) creates a temporary table within a transaction,
-inserts 20 rows through `pg_add`, updates them with arrays/UNNEST, and commits.
-It does not modify existing tables. Compile with the official open.mp Pawn 3.10.11 compiler,
-32-bit cells, and official includes:
+For a temporary, loopback-only TLS database and CTest (put `initdb`, `pg_ctl`, `psql`, `openssl`
+and `ctest` on PATH; use a non-root Unix account):
 
 ```sh
-pawncc examples/smoke.pwn -E -ipawn -i/path/to/omp-stdlib -obuild/smoke.amx
-```
-
-Install the AMX as the gamemode of a test instance, configure the `game` profile, start the
-server, and look for `PG SMOKE PASS`. Asynchronous callbacks must return without `sleep`;
-callback continuations are unsupported.
-
-[extensions.pwn](examples/extensions.pwn) exercises heterogeneous typed batches, binary
-values, savepoint recovery, and a bounded streaming consumer. [bootstrap.pwn](examples/bootstrap.pwn)
-loads properties, vehicles, and clans on the session owning its temporary fixtures, validates
-the results, and keeps players gated until initialization succeeds. The callback and unload
-gamemodes cover VM lifecycle regressions. [sections.pwn](examples/sections.pwn) uses
-[accounts.sql](examples/sql/accounts.sql) for asynchronous account loading, individual/bulk
-saves and statement reuse; see the [section format and capture rules](docs/sql-sections.md).
-All thirteen examples are compiled with warnings treated as errors in CI, including from
-the extracted x86 packages. Basic CRUD, scalar values, saving strategies and a guarded bank
-transfer complement the original six unattended server scenarios. Together with
-[logging.pwn](examples/logging.pwn), eleven public examples run unattended. The interactive
-[account tutorial](docs/accounts.md) uses an optional external hashing provider; its default
-build denies authentication. Separate [bounded real-client qualification](docs/validation.md#real-player-sessions-october-24-2026)
-exercises account and custom gameplay flows with ordinary-protocol headless clients and
-an external bcrypt provider on both x86 platforms. Coverage excludes rendered clients,
-the official-client encrypted connection path, untested providers/environments and the
-24-hour stability campaign.
-
-See the [API execution guide](docs/api.md), [69-native reference](docs/native-reference.md),
-[architecture and reference analysis](docs/design.md),
-[security and concurrency guide](docs/security.md), and [tests and limitations](docs/validation.md).
-Original project code is licensed under [MIT](LICENSE); dependencies retain their notices.
-
-## Integration tests and performance
-
-```sh
-# Put initdb, pg_ctl, psql, openssl, and ctest on PATH; use a non-root Unix account.
 python tests/run_postgres.py --build build
 ```
 
-The runner creates a temporary loopback-only instance, test certificate, and TLS service
-profiles. It runs CTest and shuts down the instance even if a test fails. It does not open an
-existing database. Its temporary directory remains available for inspection.
-CTest skips integration with exit code 77 when `OMP_PG_TEST_SERVICE` is unset;
-a skipped test is not a successful integration run.
+The runner shuts down its temporary instance even on failure and leaves the directory for
+inspection; it does not use an existing database. CTest skips integration with exit code 77
+when `OMP_PG_TEST_SERVICE` is unset; a skip is not a successful integration run. See
+[validation](docs/validation.md) for lifecycle, stalled-connection, native-boundary and stress
+coverage. Use the existing [benchmark procedure](docs/performance.md) and
+[Pawn workload evidence](docs/logging-qualification.md) with their recorded source identities:
+local samples are not performance guarantees, do not isolate component tick cost and do not
+establish superiority over other components. Direct libpq/engine probes do not measure Pawn ticks.
 
-The default run also exercises 4,640 seeded SQL operations across four lanes and ten
-combined lifecycle stress rounds with blocked streams, saturated job limits and
-transaction rollback verification. See [stress reproduction and memory limits](docs/validation.md#combined-engine-stress).
-An additional [connection lifecycle suite](docs/validation.md#concurrent-connection-lifecycle)
-repeatedly starts and destroys eight-worker pools, including startup and retry interruption.
-The [stalled connection suite](docs/validation.md#stalled-connection-protocol-tests) holds
-four peers at each of three startup protocol boundaries and verifies bounded retry,
-disconnect, owner unload and destruction while an independent TLS connection progresses.
-When the component is enabled, it also checks the actual native wrappers against the
-public Pawn declarations, invalid AMX addresses and immutable snapshots. See
-[native boundary validation](docs/validation.md#pawn-native-boundary-tests) for its scope.
+Keep comments, diagnostics, examples and documentation in natural technical English. Follow
+`.editorconfig` and `.clang-format`; C++/Pawn use tabs displayed as four columns. Pawn formatting
+is manual and compiler-checked. Run checks appropriate to the change; documentation checks are:
 
 ```sh
-cmake -S . -B build -DPG_BUILD_BENCHMARK=ON
-cmake --build build --parallel
-# Run both benchmarks in a fresh disposable TLS database, after CTest.
-python tests/run_postgres.py --build build --benchmark --benchmark-repetitions 7
+python scripts/check_docs.py
+python scripts/check_english.py
+python scripts/compile_examples.py --compiler /path/to/pawncc --include pawn --include /path/to/omp-stdlib --include /path/to/pawn/include --output build --docs
 ```
 
-The transport probe compares direct libpq prepared queries, pipeline with Sync and UNNEST.
-The Engine benchmark compares individual jobs, 20 snapshots, grouped UNNEST, heterogeneous
-batches, four explicit lanes, buffered reads and streaming. It verifies all returned values
-and final database contents, then reports repeated job/queue/worker p50/p95/p99, CPU and
-process peak memory. The existing CI matrix runs a small correctness smoke with no timing
-thresholds. Neither probe measures Pawn or open.mp ticks. See [measurement definitions and
-reproduction](docs/performance.md); local samples are not performance guarantees.
+For code changes, format C++ with clang-format, check Python/CMake with
+`python -m black --check tests` and `python -m cmakelang.format --check CMakeLists.txt`, and run
+the relevant unit, integration and server checks before publishing.
 
-A separate [real Pawn workload](docs/logging-qualification.md) has measured callback
-latency, timer scheduling lateness and whole-server CPU/RSS on both x86 CI platforms.
-These measurements do not isolate component tick execution cost or establish superiority
-over other database components. The [published RC evidence](docs/validation.md#published-release-candidate-october-21-2026-utc)
-identifies `db2bfb9`; historical measurements retain their original source identities.
+### Release status and publication
 
-## Maintenance conventions
+Stable v0.1.0 remains blocked. Required corrections need owner-approved integration and
+successful CI on the **exact final `master` commit**, followed by a freeze and isolated-host preflight
+including **100,000 semantic fuzz cases** before the final **24-hour campaign**. The campaign
+and tag/publication each require separate owner authorization. Later source or deployment
+changes require impact review, affected checks and a new freeze/final campaign; see
+[readiness](docs/rc-readiness.md) and the [release procedure](docs/releasing.md).
 
-Keep code comments, diagnostics, examples, and documentation in natural technical English.
-Follow the checked-in `.editorconfig` and `.clang-format`: tabs display as four columns in
-C++ and Pawn, while Python, YAML, Markdown, and CMake use four-space indentation.
-Keep function boundaries and control-flow blocks easy to scan. Format C++ changes with
-clang-format and run the relevant unit, integration, and server checks before publishing.
-Pawn formatting is maintained manually and checked with the compiler. Black and cmakelang
-read the checked-in Python and CMake settings:
+CI produces Windows/Linux x86 ZIPs and SHA-256 after fresh-server tests of extracted packages.
+These are qualification artifacts; building them does not publish a release. The existing
+[v0.1.0-rc.1](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1) and
+[v0.1.0-rc.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2)
+retain their original tags, assets, checksums, release notes and historical evidence.
 
-```sh
-python -m black --check tests
-python -m cmakelang.format --check CMakeLists.txt
-```
+## License
 
-## Custom completion handlers
-
-New code can submit `pg_execute(statement, 0, 0, 0, true, "OnAccountLoaded", "ii", playerid, session)`.
-The public receives `(job, playerid, session)` with copied arguments. Existing
-`OnPgComplete(job, context)` programs and compiled AMX calls remain supported.
-Use `pg_prepare_file(connection, "accounts.sql", 1, true, "load_account")` for named SQL;
-`pg_prepare_section` was removed before RC.1; older pre-RC.1 programs that use it must
-migrate and recompile affected AMX files. This source preserves RC.1/RC.2's public Pawn signatures.
-See [cleanup and migration](docs/prestable-cleanup.md). Read the
-[callback contract](docs/callbacks.md) and [bounded API audit](docs/api-modernization.md)
-before migrating; include and component versions must match.
-
-Internal diagnostics: [logging setup, levels and bounds](docs/debugging.md). Default WARN;
-`OMP_PG_LOG_LEVEL=OFF` disables startup logs. Optional `pg_log_config` selects console,
-file or both at runtime; see the guide for bounded delivery and permitted paths.
+Original project code is licensed under [MIT](LICENSE). Dependencies, the SDK and Pawn retain
+their licenses and notices; no reference plugin is linked or copied. Retain the installed
+notices in `share/omp-postgresql` and the packaged dependency licenses. See
+[NOTICE.md](NOTICE.md) and [DEPENDENCIES.md](DEPENDENCIES.md) for attribution and runtime requirements.
