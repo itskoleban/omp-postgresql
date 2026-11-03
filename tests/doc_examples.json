@@ -2,7 +2,10 @@
     {
         "name": "introduction",
         "lines": [
-            "{{intro.connection}}"
+            "{{intro.setup}}",
+            "{{intro.init}}",
+            "{{intro.connection}}",
+            "{{intro.close}}"
         ]
     },
     {

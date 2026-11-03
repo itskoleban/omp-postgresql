@@ -61,14 +61,26 @@ details and `PGSERVICEFILE` **before starting the server**, following
 [example profile](examples/pg_service.conf). The request is asynchronous: a valid handle means
 local acceptance; wait for `OnPgConnection` to report `PG_CONNECTED` before using the connection.
 
-<!-- pawn-example: intro.connection -->
+### 1. Declare the connection handle
+
+Include open.mp and omp-postgresql, then initialize the connection handle as invalid.
+
+<!-- pawn-example: intro.setup -->
 
 ```pawn
 #include <open.mp>
 #include <omp_postgresql>
 
 new g_Database = PG_INVALID;
+```
 
+### 2. Request a connection
+
+`OnGameModeInit` requests a connection using the `game` service profile. A valid handle confirms only that the request was accepted locally; it does not mean the database is ready.
+
+<!-- pawn-example: intro.init -->
+
+```pawn
 public OnGameModeInit() {
 	g_Database = pg_connect("game");
 
@@ -81,7 +93,15 @@ public OnGameModeInit() {
 
 	return 1;
 }
+```
 
+### 3. Handle connection events
+
+`OnPgConnection` reports when PostgreSQL is ready. On a connection failure, inspect the diagnostic message for lane 0 and close the failed connection. A disconnection also invalidates the stored handle.
+
+<!-- pawn-example: intro.connection -->
+
+```pawn
 public OnPgConnection(connection, connection_state) {
 	if (connection != g_Database) return 1;
 
@@ -110,7 +130,15 @@ public OnPgConnection(connection, connection_state) {
 
 	return 1;
 }
+```
 
+### 4. Close the connection on shutdown
+
+`OnGameModeExit` closes an existing connection when the gamemode unloads.
+
+<!-- pawn-example: intro.close -->
+
+```pawn
 public OnGameModeExit() {
 	if (g_Database != PG_INVALID) {
 		pg_connection_close(g_Database);
