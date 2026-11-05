@@ -388,7 +388,10 @@ void allocation_sweep(bool begin) {
 		}
 		identity_test::allocation_countdown = -1;
 		if (!failed) {
-			check(identity_test::accepted == accepted + 1 && denied >= 4,
+			// Allocator call counts depend on the STL/toolchain. Every preceding
+			// countdown must reject, but no fixed number of calls is portable.
+			check(identity_test::accepted == accepted + 1 && denied > 0 &&
+			          denied == static_cast<unsigned>(countdown),
 			      "Allocation sweep missed pre-admission allocations");
 			std::cout << "allocation_sweep kind=" << (begin ? "BEGIN" : "FINISH")
 			          << " denied_sites=" << denied << " PASS\n";

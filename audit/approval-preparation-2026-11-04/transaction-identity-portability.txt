@@ -1,0 +1,7 @@
+Test project C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build
+    Start 6: transaction_identity_unit
+1/1 Test #6: transaction_identity_unit ........   Passed    0.38 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.41 sec

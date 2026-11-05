@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "date_local": "2026-11-04",
+  "timezone": "America/Bogota",
+  "parent_commit": "83edd0551e819a60142fc88e6c30b98e48ad271d",
+  "patch_scope": "test-only portable first-success allocation-sweep success assertion; no Engine/CMake/public-API changes",
+  "original_artifacts_manifest_unchanged": {
+    "path": "audit/approval-preparation-2026-11-04/transaction-artifacts.json",
+    "bytes": 5325,
+    "sha256": "9be573002b289b5800735fedd67688c39aa51f28fec0a9f116d91f6171df0006"
+  },
+  "ci_failure": {
+    "status": "FAIL preserved",
+    "run_id": 41963848824,
+    "job_id": 127036554837,
+    "head_sha": "83edd0551e819a60142fc88e6c30b98e48ad271d",
+    "url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41963848824/job/127036554837",
+    "observed_finish_denied_sites": 4,
+    "begin_denied_sites": "not printed before failing guard; exact count unclaimed",
+    "raw_log": {
+      "path": "C:/Users/esteb/.codex/visualizations/2026/11/05/01a1a9c2-b653-7421-93c6-42b7a42c364a/omp-v010-closeout/ci/job-127036554837-attempt1-fail.txt",
+      "bytes": 444106,
+      "sha256": "eeedfb6d6c5329706fea4e3a11fe2b20b9b32b3a91cacbb6b439530eec89bf20"
+    }
+  },
+  "local_verification": {
+    "test": "transaction_identity_unit",
+    "selected": 1,
+    "passed": 1,
+    "identity_scenarios": 24,
+    "ctest_total_seconds": 0.41,
+    "test_body_seconds": 0.38,
+    "finish_denied_sites": 5,
+    "begin_denied_sites": 4,
+    "windows_x86_confirmation": "PENDING new PR commit CI",
+    "scope": "Engine admission model, no real SQL/network/sanitizers/campaign"
+  },
+  "unchanged_runtime_sources": [
+    {
+      "path": "src/engine.cpp",
+      "bytes": 21528,
+      "sha256": "5e224e1da91f1d4e4cdead16c547eed191949f5b31f50e038e2fff8f60d34716",
+      "matches_parent_text": true
+    },
+    {
+      "path": "include/pg/engine.hpp",
+      "bytes": 4011,
+      "sha256": "96ebf03a4fe8f68c81e1b705bac24795a6e282ba23c77393dbe7abd8a85feddd",
+      "matches_parent_text": true
+    },
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 30128,
+      "sha256": "a4785c42dc06802e5afe9112f9127bc8eb258e92f5c6bd0df4c2f3445d83a1ae",
+      "matches_parent_text": true
+    }
+  ],
+  "files": [
+    {
+      "path": "tests/transaction_identity.cpp",
+      "bytes": 17030,
+      "sha256": "087456339abc682d1faa9131b7422e7514ec0275f2970b48921867a7e86a0c7e"
+    },
+    {
+      "path": "build/pg_transaction_identity.exe",
+      "bytes": 1929601,
+      "sha256": "ddae48c037885d56a4261c6567c508e1c2ca3a895714d067b8f8e2b2d644e25b"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-review.md",
+      "bytes": 14780,
+      "sha256": "de1defbfa08ddee37f90912583d4aabf710776368ab6cec7db61eeb0a4b5d4f3"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-review-83edd05.md",
+      "bytes": 11856,
+      "sha256": "0b75d28d4b18fccd5f928ef8bb250a106fb90901c2eefd10508321c537e6b263"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-artifacts-83edd05.json",
+      "bytes": 5325,
+      "sha256": "9be573002b289b5800735fedd67688c39aa51f28fec0a9f116d91f6171df0006"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-artifacts.json",
+      "bytes": 5325,
+      "sha256": "9be573002b289b5800735fedd67688c39aa51f28fec0a9f116d91f6171df0006"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-portability.txt",
+      "bytes": 270,
+      "sha256": "fad6eb316489a3abe702ab999166ab9dd046bca0078c2bbd6bf21139a6ab3f1d"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-portability-details.txt",
+      "bytes": 1100,
+      "sha256": "46c71a0d32cc558889d08cb73cfd57dba41c74af1be7b7d9b989e6e88aa4d080"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-portability-details.raw.log",
+      "bytes": 1113,
+      "sha256": "f58fc16443d815323a610432ff5c285a283a480cd124e7e5683d34bff67fc6b2"
+    }
+  ]
+}

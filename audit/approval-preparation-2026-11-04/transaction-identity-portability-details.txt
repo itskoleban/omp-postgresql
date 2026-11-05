@@ -1,0 +1,21 @@
+Start testing: Nov 04 23:01 Hora est. Pacífico, Sudamérica
+----------------------------------------------------------
+6/31 Testing: transaction_identity_unit
+6/31 Test: transaction_identity_unit
+Command: "C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build/pg_transaction_identity.exe"
+Directory: C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build
+"transaction_identity_unit" start time: Nov 04 23:01 Hora est. Pacífico, Sudamérica
+Output:
+----------------------------------------------------------
+allocation_sweep kind=FINISH denied_sites=5 PASS
+allocation_sweep kind=BEGIN denied_sites=4 PASS
+transaction_identity PASS scenarios=24 SQL=not_run network=not_run Lane=deterministic_admission_model
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"transaction_identity_unit" end time: Nov 04 23:01 Hora est. Pacífico, Sudamérica
+"transaction_identity_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 04 23:01 Hora est. Pacífico, Sudamérica

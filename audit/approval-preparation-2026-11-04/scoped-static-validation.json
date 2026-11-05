@@ -17,5 +17,11 @@
     "baseline_sha256": "00cd9369e2451b04daeb1b5b82ee0077ec21fe9a20f1760fb12e86f976280a81",
     "unchanged": true
   },
-  "whitespace_check": "PASS at last git diff --check"
+  "whitespace_check": "PASS at last git diff --check",
+  "portability_followup_english": {
+    "status": "PASS",
+    "maintained_files": 563,
+    "frozen_identities": 173,
+    "reason": "new test comment and appended evidence records"
+  }
 }

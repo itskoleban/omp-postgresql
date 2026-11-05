@@ -178,3 +178,46 @@ No general audit or successful unrelated campaign was repeated here. Full frozen
 candidate CI, live tests, actual sanitizers, calibration, 24-hour campaign, and stable
 release are **NOT RUN / PENDING** for this proposed change. This correction does not
 resolve Issue #31, and the historical cleanup timeout's cause remains **UNKNOWN**.
+
+## Follow-up: portable allocation-sweep assertion
+
+This section supersedes the assertion-portability assumption in the original local
+snapshot above. The original report and manifest are preserved byte-for-byte as
+[the 83edd05 report snapshot](transaction-identity-review-83edd05.md) and
+[the 83edd05 artifact snapshot](transaction-artifacts-83edd05.json). The original
+`transaction-artifacts.json` remains untouched; new hashes are recorded separately
+in [the portability artifact index](transaction-artifacts-portability.json).
+
+PR #55 head `83edd0551e819a60142fc88e6c30b98e48ad271d` had a real Windows x86 CI
+**FAIL** in job `127036554837`, run `41963848824`:
+[original failed job](https://github.com/itskoleban/omp-postgresql/actions/runs/41963848824/job/127036554837).
+The test printed `FINISH denied_sites=4 PASS`, then rejected the BEGIN allocation
+sweep using its hard-coded `denied >= 4` minimum. The BEGIN count was not printed
+before that rejection, so its exact count is not claimed. The allocator/STL is free
+to implement a valid operation with fewer allocating calls than the local UCRT64
+build. That test assertion was not portable. The failed CI result and original raw
+job log remain preserved; this change does not relabel them PASS or attribute the
+failure to an Engine defect.
+
+Only the test's success guard changes. The sweep still starts at countdown zero,
+increments exactly once after each failed allocation, checks rejection/registry/
+reservation/cursor invariants at every failed position, and stops only at its first
+successful admission. On that success it now requires one accepted job, at least
+one denied allocation, and `denied == countdown`. No fixed toolchain call count is
+required. Its 32-position watchdog and all state checks remain intact. Engine,
+header, CMake, worker code, and public signatures are unchanged by this follow-up.
+
+Only `transaction_identity_unit` was rebuilt and rerun locally for this test change:
+**24 scenarios PASS**, CTest total 0.41 seconds (test body 0.38 seconds). The UCRT64
+run still observed FINISH five and BEGIN four denied positions. See
+[portability test summary](transaction-identity-portability.txt) and
+[portability test details](transaction-identity-portability-details.txt). No other
+successful suite was repeated, and no SQL, Docker, or prolonged load was started.
+The raw CTest detail copy remains local as `.raw.log`; its readable copy uses the
+same reversible CP1252-to-UTF-8 and CRLF-to-LF normalization as earlier evidence.
+
+The new local test executable is a parent-83edd05 build plus this uncommitted test
+patch, not a frozen release artifact. New source/binary/log hashes and the preserved
+CI failure hash are in the separate portability index. Windows x86 CI confirmation
+of this correction is **PENDING** until the new PR commit runs; local UCRT64 PASS
+alone does not establish MSVC PASS. Existing production/campaign blockers remain.

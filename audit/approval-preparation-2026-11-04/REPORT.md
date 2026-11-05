@@ -33,6 +33,16 @@ restart was performed.
    maintenance validation passed; unchanged historical identities were retained.
    The transaction review records the separate negative baseline control and
    exact binary/source/config hashes. No SQL or host container was needed.
+   The first hosted PR run subsequently passed five jobs, failed Windows x86
+   on a new test's nonportable minimum allocator-call count, and skipped the
+   dependent distribution job. That FAIL remains preserved. A test-only follow-up
+   removes the STL-specific minimum while retaining exhaustive injection and all
+   state invariants; only identity was rerun locally, 24 scenarios PASS in 0.41 s.
+   Its Windows x86 confirmation and renewed PR checks are pending at this snapshot.
+   Engine/header/CMake are unchanged by that follow-up. See the transaction
+   review's portability addendum and separate artifact index. The initial
+   `preparation-SHA256.json` identifies the original 83edd05 snapshot; the
+   follow-up ledger identifies subsequently changed files without overwriting it.
 4. **Issue #31 disposed provisionally.** The fresh issue is OPEN. Preserve the
    original FAIL; **ROOT CAUSE UNKNOWN**. The owner-directed conditional
    candidate-specific residual-risk acceptance is in

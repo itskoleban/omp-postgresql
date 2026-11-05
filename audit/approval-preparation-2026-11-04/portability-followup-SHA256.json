@@ -1,0 +1,62 @@
+{
+  "scope": "Test portability follow-up; original initial ledger and negative evidence remain immutable",
+  "parent_proposal_sha": "83edd0551e819a60142fc88e6c30b98e48ad271d",
+  "engine_header_cmake_unchanged": true,
+  "files": [
+    {
+      "path": "audit/approval-preparation-2026-11-04/REPORT.md",
+      "sha256": "5c15d637a5e1d3ab2e81fbeca2fb64dcee515ffc41f2971ca35e1ddbae0fb130",
+      "canonical_lf_sha256": "5c15d637a5e1d3ab2e81fbeca2fb64dcee515ffc41f2971ca35e1ddbae0fb130",
+      "bytes": 9939
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/scoped-static-validation.json",
+      "sha256": "f6fe46bd44ab685e569f3bb1ba8badb501df5d8d2b2f7238e18d375d97772d51",
+      "canonical_lf_sha256": "f6fe46bd44ab685e569f3bb1ba8badb501df5d8d2b2f7238e18d375d97772d51",
+      "bytes": 853
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-artifacts-83edd05.json",
+      "sha256": "9be573002b289b5800735fedd67688c39aa51f28fec0a9f116d91f6171df0006",
+      "canonical_lf_sha256": "9be573002b289b5800735fedd67688c39aa51f28fec0a9f116d91f6171df0006",
+      "bytes": 5325
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-artifacts-portability.json",
+      "sha256": "579855f021865430d1c89546e9db8292da03c5f88ebfddb9b3fd76457453e81b",
+      "canonical_lf_sha256": "579855f021865430d1c89546e9db8292da03c5f88ebfddb9b3fd76457453e81b",
+      "bytes": 3999
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-portability-details.txt",
+      "sha256": "46c71a0d32cc558889d08cb73cfd57dba41c74af1be7b7d9b989e6e88aa4d080",
+      "canonical_lf_sha256": "46c71a0d32cc558889d08cb73cfd57dba41c74af1be7b7d9b989e6e88aa4d080",
+      "bytes": 1100
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-portability.txt",
+      "sha256": "fad6eb316489a3abe702ab999166ab9dd046bca0078c2bbd6bf21139a6ab3f1d",
+      "canonical_lf_sha256": "fad6eb316489a3abe702ab999166ab9dd046bca0078c2bbd6bf21139a6ab3f1d",
+      "bytes": 270
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-review-83edd05.md",
+      "sha256": "0b75d28d4b18fccd5f928ef8bb250a106fb90901c2eefd10508321c537e6b263",
+      "canonical_lf_sha256": "0b75d28d4b18fccd5f928ef8bb250a106fb90901c2eefd10508321c537e6b263",
+      "bytes": 11856
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-review.md",
+      "sha256": "de1defbfa08ddee37f90912583d4aabf710776368ab6cec7db61eeb0a4b5d4f3",
+      "canonical_lf_sha256": "de1defbfa08ddee37f90912583d4aabf710776368ab6cec7db61eeb0a4b5d4f3",
+      "bytes": 14780
+    },
+    {
+      "path": "tests/transaction_identity.cpp",
+      "sha256": "087456339abc682d1faa9131b7422e7514ec0275f2970b48921867a7e86a0c7e",
+      "canonical_lf_sha256": "087456339abc682d1faa9131b7422e7514ec0275f2970b48921867a7e86a0c7e",
+      "bytes": 17030
+    }
+  ],
+  "campaign_started": false
+}
