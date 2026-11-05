@@ -1,0 +1,591 @@
+{
+  "generated_utc": "2026-11-05T03:36:46.275612+00:00",
+  "timezone_for_user": "America/Bogota",
+  "candidate": "3a5df8439881bd514727a2c5e360f9ec0bafaf43",
+  "original_root": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103",
+  "operation": "Read-only archive/selected-ledger integrity verification; no test rerun or workload",
+  "status": "PASS",
+  "checked_members": 50,
+  "checks": [
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "campaign_launcher.py",
+      "expected_sha256": "effb547ce9cfd37c8580bd274b95963f392d99300433056b5485177a1ae44f45",
+      "actual_sha256": "effb547ce9cfd37c8580bd274b95963f392d99300433056b5485177a1ae44f45",
+      "bytes": 26775,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "campaign-plan.review-20261104.json",
+      "expected_sha256": "48861732a40bc26e859bb8dcfc011b215a7c2cd07787b28d01603e4c74135784",
+      "actual_sha256": "48861732a40bc26e859bb8dcfc011b215a7c2cd07787b28d01603e4c74135784",
+      "bytes": 30412,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "campaign-plan.review-draft.json",
+      "expected_sha256": "1d178e05a89fe14189b30e479d9b7cd88dd23f7fbfdc1930a527c3d6dff0bb07",
+      "actual_sha256": "1d178e05a89fe14189b30e479d9b7cd88dd23f7fbfdc1930a527c3d6dff0bb07",
+      "bytes": 30087,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "campaign-plan.review-final.json",
+      "expected_sha256": "4fadbb66e44b03daebf674cfab47eb7c3712441632bbda131ff683f51432e1b9",
+      "actual_sha256": "4fadbb66e44b03daebf674cfab47eb7c3712441632bbda131ff683f51432e1b9",
+      "bytes": 30096,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "campaign-plan.review-v2.json",
+      "expected_sha256": "01cfd53dfdffbbe7903beface1876482bb9e7c88170ac9a19b84c3439007ecbd",
+      "actual_sha256": "01cfd53dfdffbbe7903beface1876482bb9e7c88170ac9a19b84c3439007ecbd",
+      "bytes": 30095,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "Host-PrelaunchProbe.ps1",
+      "expected_sha256": "3212bfdd5d1dc07645d375c32ff5aefdea4923799387b7796eb393aa09affc49",
+      "actual_sha256": "3212bfdd5d1dc07645d375c32ff5aefdea4923799387b7796eb393aa09affc49",
+      "bytes": 380,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "INDEPENDENT-REVIEW-20261104.md",
+      "expected_sha256": "8d0f6e5b5868e88515592c8d19ebe11629ae3d158aeb6dff1326321b87fbc90f",
+      "actual_sha256": "8d0f6e5b5868e88515592c8d19ebe11629ae3d158aeb6dff1326321b87fbc90f",
+      "bytes": 2425,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "Launch-Campaign.ps1",
+      "expected_sha256": "dd74d382d7f785bb12460ab1461bf22716f4e88ee7a2591e620791d8a7eb859a",
+      "actual_sha256": "dd74d382d7f785bb12460ab1461bf22716f4e88ee7a2591e620791d8a7eb859a",
+      "bytes": 888,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "launcher-settings.draft.json",
+      "expected_sha256": "f4cbb6ea0a8212d5c35ea081aa67b455137c57ff00576a57378ca61faf95a01e",
+      "actual_sha256": "f4cbb6ea0a8212d5c35ea081aa67b455137c57ff00576a57378ca61faf95a01e",
+      "bytes": 2342,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "offline-verification.json",
+      "expected_sha256": "d7f7e9768a4a9a63fa189f041ce9bd05cd57da56dfad5c07403c2b6ce86a20d4",
+      "actual_sha256": "d7f7e9768a4a9a63fa189f041ce9bd05cd57da56dfad5c07403c2b6ce86a20d4",
+      "bytes": 2440,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "offline-verification.review-20261104.json",
+      "expected_sha256": "d1d4854ee53afa8ab7537b986f704b4b88ad2182c23c225077118fa7a500a7df",
+      "actual_sha256": "d1d4854ee53afa8ab7537b986f704b4b88ad2182c23c225077118fa7a500a7df",
+      "bytes": 2880,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "powershell-parser.json",
+      "expected_sha256": "a2a28ecf0479b09a4c2e7aeed2108c427244cda3dd46f190dc438252d4fde1f2",
+      "actual_sha256": "a2a28ecf0479b09a4c2e7aeed2108c427244cda3dd46f190dc438252d4fde1f2",
+      "bytes": 195,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "powershell-parser.review.json",
+      "expected_sha256": "ba93e1e7aafe397b9106d666763885d912973f9f8858c81bf3018bbf25918a3e",
+      "actual_sha256": "ba93e1e7aafe397b9106d666763885d912973f9f8858c81bf3018bbf25918a3e",
+      "bytes": 185,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "prelaunch_probe.py",
+      "expected_sha256": "5cab887662931bbc9fbed7bc25594f67f2df8636177481bec62e5575b86a791b",
+      "actual_sha256": "5cab887662931bbc9fbed7bc25594f67f2df8636177481bec62e5575b86a791b",
+      "bytes": 2269,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "README.md",
+      "expected_sha256": "42015f45d3aee35b5e6405b5b481fae994d05131ac9acde078d971d5c95b597b",
+      "actual_sha256": "42015f45d3aee35b5e6405b5b481fae994d05131ac9acde078d971d5c95b597b",
+      "bytes": 10186,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "test_campaign_launcher.py",
+      "expected_sha256": "e5a47cd905efd70aa902c0ce8b7b605bfc7fb51196f686871bb1e9d0859e156d",
+      "actual_sha256": "e5a47cd905efd70aa902c0ce8b7b605bfc7fb51196f686871bb1e9d0859e156d",
+      "bytes": 18255,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "unit-tests.review.txt",
+      "expected_sha256": "c5c2467ec341d8a3e44e9bdca9973c013e3aebb46679e80db7a76fe27275ba7e",
+      "actual_sha256": "c5c2467ec341d8a3e44e9bdca9973c013e3aebb46679e80db7a76fe27275ba7e",
+      "bytes": 4138,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "unit-tests.txt",
+      "expected_sha256": "a58a64f5174e5eabbb9eaaf2ba79a5e922fd82f07844774e062005c028e9ef85",
+      "actual_sha256": "a58a64f5174e5eabbb9eaaf2ba79a5e922fd82f07844774e062005c028e9ef85",
+      "bytes": 3423,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "file": "verify_offline_review.py",
+      "expected_sha256": "b0fdec7c4f719e02e124099e2679314567a12ba6306173fa94995c1e11a0cfd0",
+      "actual_sha256": "b0fdec7c4f719e02e124099e2679314567a12ba6306173fa94995c1e11a0cfd0",
+      "bytes": 2549,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "capture_policy.py",
+      "expected_sha256": "9ca4018c03333a26eef60ceb4a3a83afd3afb6ae4fbd6c77fbede52a770a0042",
+      "actual_sha256": "9ca4018c03333a26eef60ceb4a3a83afd3afb6ae4fbd6c77fbede52a770a0042",
+      "bytes": 3292,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "close_artifacts.py",
+      "expected_sha256": "2ab583b2021cc062013d0a328ef31d67f58ac7e8fc54248538f79ff3c2dec67d",
+      "actual_sha256": "2ab583b2021cc062013d0a328ef31d67f58ac7e8fc54248538f79ff3c2dec67d",
+      "bytes": 2335,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "closure-capabilities.json",
+      "expected_sha256": "b182dba1990f8d59ffe4a7291e29700cfc5c44f84f0b09082ee9a57f713c1fb1",
+      "actual_sha256": "b182dba1990f8d59ffe4a7291e29700cfc5c44f84f0b09082ee9a57f713c1fb1",
+      "bytes": 1142,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "collector.py",
+      "expected_sha256": "7e4426de7598e9fbd44deb1a873c205cee36d7eb4500fb9fb7156d36047272de",
+      "actual_sha256": "7e4426de7598e9fbd44deb1a873c205cee36d7eb4500fb9fb7156d36047272de",
+      "bytes": 16054,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "detached_launcher.py",
+      "expected_sha256": "0026b776358c1a0b315ccbbc7d08622e86432ed7b480ba552d574a535d2c4a1a",
+      "actual_sha256": "0026b776358c1a0b315ccbbc7d08622e86432ed7b480ba552d574a535d2c4a1a",
+      "bytes": 1246,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "final_review.py",
+      "expected_sha256": "7c3e6f56062ae59564c5919343be405d9a54be8417c4eab584d893116ce4bb3d",
+      "actual_sha256": "7c3e6f56062ae59564c5919343be405d9a54be8417c4eab584d893116ce4bb3d",
+      "bytes": 11954,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "guarded_entry.py",
+      "expected_sha256": "be2bb885f57ddd1a4a9863283358ed83b0aa7f0c332c6656d59c734e56e1cf72",
+      "actual_sha256": "be2bb885f57ddd1a4a9863283358ed83b0aa7f0c332c6656d59c734e56e1cf72",
+      "bytes": 7096,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "harness.py",
+      "expected_sha256": "4250fb6d08e13b58fcb5d92fa781e2651d597a484c9bd1ac2f30872678e69d6a",
+      "actual_sha256": "4250fb6d08e13b58fcb5d92fa781e2651d597a484c9bd1ac2f30872678e69d6a",
+      "bytes": 2921,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "live_trials.py",
+      "expected_sha256": "378c46c7c45ff70c27ee97020223c0827d3e60bc53594c2a6462c69c11fbf515",
+      "actual_sha256": "378c46c7c45ff70c27ee97020223c0827d3e60bc53594c2a6462c69c11fbf515",
+      "bytes": 7683,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "original-source-sha256.json",
+      "expected_sha256": "dbbb6204e404f911d5ad7b5c26649659f97485bc8663e7cf49607232fcfec112",
+      "actual_sha256": "dbbb6204e404f911d5ad7b5c26649659f97485bc8663e7cf49607232fcfec112",
+      "bytes": 3635,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "README.md",
+      "expected_sha256": "d21ecf92f0169019d5c7e99d574a87e887a62d06a1472094273e5d0869bac212",
+      "actual_sha256": "d21ecf92f0169019d5c7e99d574a87e887a62d06a1472094273e5d0869bac212",
+      "bytes": 4930,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "start_hidden.ps1",
+      "expected_sha256": "6d0eb52ca521a80ed393f6636201cd03b08e4d9664808644df22fcff0c0b2879",
+      "actual_sha256": "6d0eb52ca521a80ed393f6636201cd03b08e4d9664808644df22fcff0c0b2879",
+      "bytes": 767,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "start_wmi_hidden.ps1",
+      "expected_sha256": "6adc536c5cc6e590d6aa367190fa62f5d26ea7e0fe824e9b29fcf3509f4b8666",
+      "actual_sha256": "6adc536c5cc6e590d6aa367190fa62f5d26ea7e0fe824e9b29fcf3509f4b8666",
+      "bytes": 1973,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "tee_exec.py",
+      "expected_sha256": "cbf08ac3940aa56bad0a1eea1c0c835250400bc853915eda6f44774aa2c32db8",
+      "actual_sha256": "cbf08ac3940aa56bad0a1eea1c0c835250400bc853915eda6f44774aa2c32db8",
+      "bytes": 1885,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "test_closure_v2.py",
+      "expected_sha256": "4d6904e8472fa9307d600caad71237c5973d19f9a6f49d813ab4885ca693749e",
+      "actual_sha256": "4d6904e8472fa9307d600caad71237c5973d19f9a6f49d813ab4885ca693749e",
+      "bytes": 9306,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "test_collector_bounded.py",
+      "expected_sha256": "ea7efde227a8ea6339df271091c98c012e20c99a8c19a2ccac4d176b40202ca7",
+      "actual_sha256": "ea7efde227a8ea6339df271091c98c012e20c99a8c19a2ccac4d176b40202ca7",
+      "bytes": 11883,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "test_rss_peak.py",
+      "expected_sha256": "2a062f2e786f91778d69e730ac3faeee85fb4d30b024eea9948e7921b55677b7",
+      "actual_sha256": "2a062f2e786f91778d69e730ac3faeee85fb4d30b024eea9948e7921b55677b7",
+      "bytes": 3791,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "test_watchdog.py",
+      "expected_sha256": "7d843568843d30bef6ee85eee7df82070a56dd639e2334917c63655a05aea663",
+      "actual_sha256": "7d843568843d30bef6ee85eee7df82070a56dd639e2334917c63655a05aea663",
+      "bytes": 7805,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "test_watchdog_bounded.py",
+      "expected_sha256": "779a1def086afffccc1119c3d70f2e654476b9bb2b617378359b5a729cae464e",
+      "actual_sha256": "779a1def086afffccc1119c3d70f2e654476b9bb2b617378359b5a729cae464e",
+      "bytes": 9088,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "unit-tests-final.txt",
+      "expected_sha256": "888f22dccc8aa6f836663436804ad5baf7305a3de4f808d95d1427e5a873006c",
+      "actual_sha256": "888f22dccc8aa6f836663436804ad5baf7305a3de4f808d95d1427e5a873006c",
+      "bytes": 9121,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "unit-tests.txt",
+      "expected_sha256": "c98f6369959349e2019b004732f3fcd9de2b128a54b087e3f91bfad62592c6cc",
+      "actual_sha256": "c98f6369959349e2019b004732f3fcd9de2b128a54b087e3f91bfad62592c6cc",
+      "bytes": 8972,
+      "status": "PASS"
+    },
+    {
+      "ledger": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "file": "watchdog.py",
+      "expected_sha256": "7a64f00f43330c50cd64bbe4023fcfe503dc322876d7905bd2eb19210ef97b99",
+      "actual_sha256": "7a64f00f43330c50cd64bbe4023fcfe503dc322876d7905bd2eb19210ef97b99",
+      "bytes": 34044,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration600-20261104T0621Z/SHA256.json",
+      "file": "docker-info.json",
+      "expected_sha256": "3932f8fe776c31e1f97669424cfcadc43705d1c5e10f10b531944f8a275aa2fa",
+      "actual_sha256": "3932f8fe776c31e1f97669424cfcadc43705d1c5e10f10b531944f8a275aa2fa",
+      "bytes": 17027,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration600-20261104T0621Z/SHA256.json",
+      "file": "docker-version.txt",
+      "expected_sha256": "67367cb642005b8d27855cba969cc670b1b2180bdb62f232817a51aa9ab9b7dc",
+      "actual_sha256": "67367cb642005b8d27855cba969cc670b1b2180bdb62f232817a51aa9ab9b7dc",
+      "bytes": 1144,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration600-20261104T0621Z/SHA256.json",
+      "file": "gate.json",
+      "expected_sha256": "4b3daa6e66e92e29ddf7a68c91e3d610377879b62baf78f72a121ea67175478c",
+      "actual_sha256": "4b3daa6e66e92e29ddf7a68c91e3d610377879b62baf78f72a121ea67175478c",
+      "bytes": 669,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration600-20261104T0621Z/SHA256.json",
+      "file": "host.json",
+      "expected_sha256": "aaf1a2e4a85f26b705f53e2342e5d4ec75211e54c2788265a2f623a6cff623e5",
+      "actual_sha256": "aaf1a2e4a85f26b705f53e2342e5d4ec75211e54c2788265a2f623a6cff623e5",
+      "bytes": 371,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration600-20261104T0621Z/SHA256.json",
+      "file": "REPORT.md",
+      "expected_sha256": "4e41af5f9d21bd148c8405a0276f60e30de82c0d42fd187904fcc1c189d1e25d",
+      "actual_sha256": "4e41af5f9d21bd148c8405a0276f60e30de82c0d42fd187904fcc1c189d1e25d",
+      "bytes": 3577,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration600-20261104T0621Z/SHA256.json",
+      "file": "result.json",
+      "expected_sha256": "9ab2acd375d63e6ea61e64e691e58814a5d4c4840ab088c882a9d26e86d1f37c",
+      "actual_sha256": "9ab2acd375d63e6ea61e64e691e58814a5d4c4840ab088c882a9d26e86d1f37c",
+      "bytes": 2135,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration600-20261104T0621Z/SHA256.json",
+      "file": "write_report.py",
+      "expected_sha256": "dbd154fa3ef0b157a301e596d8a6a9aa5051af06ba04e049cdba706bbbaeabfe",
+      "actual_sha256": "dbd154fa3ef0b157a301e596d8a6a9aa5051af06ba04e049cdba706bbbaeabfe",
+      "bytes": 7224,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration-complete1/recovered/calibration-complete1.tar.gz.sha256.json",
+      "file": "calibration-complete1.tar.gz",
+      "expected_sha256": "09ae042f97fe6aa1a54ee184b63da28481a2a398aa74a13939e4116b494982d5",
+      "actual_sha256": "09ae042f97fe6aa1a54ee184b63da28481a2a398aa74a13939e4116b494982d5",
+      "bytes": 10575956,
+      "status": "PASS"
+    },
+    {
+      "ledger": "calibration-interrupt1/recovered/calibration-interrupt1.tar.gz.sha256.json",
+      "file": "calibration-interrupt1.tar.gz",
+      "expected_sha256": "cb47d2ba31ae5e6ce522e84df253b35842f7836b6acf53858d9f7c5add280695",
+      "actual_sha256": "cb47d2ba31ae5e6ce522e84df253b35842f7836b6acf53858d9f7c5add280695",
+      "bytes": 4998364,
+      "status": "PASS"
+    }
+  ],
+  "files": [
+    {
+      "relative_to_original_root": "focused-closure/launcher/LAUNCHER-SHA256.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\LAUNCHER-SHA256.json",
+      "bytes": 3316,
+      "sha256": "7a933ab1369e5115910afa2b1d61d9cc37aee3c7abee86d47752384f5d18cfec"
+    },
+    {
+      "relative_to_original_root": "focused-closure/supervisor-v2/SUPERVISOR-V2-SHA256.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\SUPERVISOR-V2-SHA256.json",
+      "bytes": 3511,
+      "sha256": "6ee39a973cb8db8321d3a4e9a867d2fa9b722a2a93aa94a031c22fc47d70aa45"
+    },
+    {
+      "relative_to_original_root": "calibration600-20261104T0621Z/SHA256.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration600-20261104T0621Z\\SHA256.json",
+      "bytes": 1147,
+      "sha256": "69849fe7316fe2bf53e6634ba7b24aa53d07250915a3b81ee324f7568be3b6eb"
+    },
+    {
+      "relative_to_original_root": "focused-closure/FOCUSED-SHA256.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\FOCUSED-SHA256.json",
+      "bytes": 20156,
+      "sha256": "80896520afbde9502bcde8e4471143e2739beda1cb74f2482ae44de190f68ebf"
+    },
+    {
+      "relative_to_original_root": "focused-closure/FOCUSED-VERIFICATION.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\FOCUSED-VERIFICATION.json",
+      "bytes": 519,
+      "sha256": "291144d2cb3482ec5b7a4b9fc29c4e759837a3f1fa39e59d00caf5500e13b815"
+    },
+    {
+      "relative_to_original_root": "focused-closure/final-plan-verification.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\final-plan-verification.json",
+      "bytes": 5350,
+      "sha256": "84db46ac6f2f9443e0e30fdeaa5100b44da63e97d7835e8e981c20b43f201884"
+    },
+    {
+      "relative_to_original_root": "focused-closure/campaign-plan.v2-proposal.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\campaign-plan.v2-proposal.json",
+      "bytes": 31822,
+      "sha256": "c2618aee3b41d1326a477dcb4c1f89f5a69ac391c7c597eeb9a548f5f1848cc4"
+    },
+    {
+      "relative_to_original_root": "focused-closure/launcher/unit-tests.review.txt",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\unit-tests.review.txt",
+      "bytes": 4138,
+      "sha256": "c5c2467ec341d8a3e44e9bdca9973c013e3aebb46679e80db7a76fe27275ba7e"
+    },
+    {
+      "relative_to_original_root": "focused-closure/supervisor-v2/unit-tests-final.txt",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\unit-tests-final.txt",
+      "bytes": 9121,
+      "sha256": "888f22dccc8aa6f836663436804ad5baf7305a3de4f808d95d1427e5a873006c"
+    },
+    {
+      "relative_to_original_root": "focused-closure/supervisor-v2/closure-capabilities.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\closure-capabilities.json",
+      "bytes": 1142,
+      "sha256": "b182dba1990f8d59ffe4a7291e29700cfc5c44f84f0b09082ee9a57f713c1fb1"
+    },
+    {
+      "relative_to_original_root": "focused-closure/budgets/resource600-policy.pre-run.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\resource600-policy.pre-run.json",
+      "bytes": 4552,
+      "sha256": "e247786351e02d66f83b5e12c0fde1d72c5412b22d8215f73970fa42c1538cc2"
+    },
+    {
+      "relative_to_original_root": "focused-closure/budgets/budget-closure.proposal.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\budget-closure.proposal.json",
+      "bytes": 7582,
+      "sha256": "8285cf1a4d40c6d630cea4f317d235409af2c61b349e7438f037afcd543f908a"
+    },
+    {
+      "relative_to_original_root": "focused-closure/budgets/prior120-additional-evidence.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\prior120-additional-evidence.json",
+      "bytes": 7003,
+      "sha256": "e7edd9471f4db85b042ff2dffad2c614c8e6d26421c2b813ea37978ab5b81dd7"
+    },
+    {
+      "relative_to_original_root": "focused-closure/budgets/BUDGET-CLOSURE-SHA256.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\BUDGET-CLOSURE-SHA256.json",
+      "bytes": 954,
+      "sha256": "5a92a2556a9598cb2f7724b7d81821a4c9f3f88df10470bf247f5c33e595e60a"
+    },
+    {
+      "relative_to_original_root": "calibration600-20261104T0621Z/gate.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration600-20261104T0621Z\\gate.json",
+      "bytes": 669,
+      "sha256": "4b3daa6e66e92e29ddf7a68c91e3d610377879b62baf78f72a121ea67175478c"
+    },
+    {
+      "relative_to_original_root": "calibration600-20261104T0621Z/result.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration600-20261104T0621Z\\result.json",
+      "bytes": 2135,
+      "sha256": "9ab2acd375d63e6ea61e64e691e58814a5d4c4840ab088c882a9d26e86d1f37c"
+    },
+    {
+      "relative_to_original_root": "target-preflight-attempt5/qualification-summary.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\target-preflight-attempt5\\qualification-summary.json",
+      "bytes": 1228,
+      "sha256": "272d6259791bad94e4ac7fd16f6fe233983aecb8acfe0bf9343b8d33554bd787"
+    },
+    {
+      "relative_to_original_root": "target-preflight-attempt5/monitor/result.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\target-preflight-attempt5\\monitor\\result.json",
+      "bytes": 991,
+      "sha256": "046ced57b4fbfde8f877920ac971c12dca089bd87507d2d32fe82cdc5c61e713"
+    },
+    {
+      "relative_to_original_root": "target-preflight-attempt5/recovered/preflight-attempt5/manifest.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\target-preflight-attempt5\\recovered\\preflight-attempt5\\manifest.json",
+      "bytes": 2799,
+      "sha256": "8495aa4f26fc6837e78bac1cbf78d4ee17e9572941512c12a5ae8ec2d69d010c"
+    },
+    {
+      "relative_to_original_root": "calibration-complete1/recovered/calibration-complete1/calibration-manifest.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration-complete1\\recovered\\calibration-complete1\\calibration-manifest.json",
+      "bytes": 4891,
+      "sha256": "4d0b7c58bc0fecbb25aacc4f1fd017b5d510982faccd4f30040b149b743a3141"
+    },
+    {
+      "relative_to_original_root": "calibration-complete1/verification-summary.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration-complete1\\verification-summary.json",
+      "bytes": 417,
+      "sha256": "6657bdfe6ce8f0de9592d3b271142b80525990d5a53f19d22118f022aa18d305"
+    },
+    {
+      "relative_to_original_root": "calibration-complete1/monitor/result.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration-complete1\\monitor\\result.json",
+      "bytes": 993,
+      "sha256": "054642cf1af59c1ebec9dcbe9b0f5e00980b0779b89dd9f01387009285e2ea7c"
+    },
+    {
+      "relative_to_original_root": "calibration-complete1/recovered/calibration-complete1.tar.gz.sha256.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration-complete1\\recovered\\calibration-complete1.tar.gz.sha256.json",
+      "bytes": 206,
+      "sha256": "f995522f27188a0c19bd8ab5de44c726ad6cfdbfd6add8f51b6355a675b64930"
+    },
+    {
+      "relative_to_original_root": "calibration-interrupt1/drill-timing.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration-interrupt1\\drill-timing.json",
+      "bytes": 801,
+      "sha256": "f6d3e3f16d42b71cf7f6a2a53669d78b8a756a37c1f8fced8b94b6f049c42325"
+    },
+    {
+      "relative_to_original_root": "calibration-interrupt1/recovered/calibration-interrupt1.tar.gz.sha256.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\calibration-interrupt1\\recovered\\calibration-interrupt1.tar.gz.sha256.json",
+      "bytes": 206,
+      "sha256": "7d02c0f70a86ad8421b6972b71ed7e91e468c3b6bd083327bc190cce2c555655"
+    },
+    {
+      "relative_to_original_root": "energy/Set-TemporaryCampaignEnergy.ps1",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\energy\\Set-TemporaryCampaignEnergy.ps1",
+      "bytes": 3807,
+      "sha256": "56f101a7189f05c5f0dc7ffc0b7a901bbd9e745339c463d12aeb4914b730e86e"
+    },
+    {
+      "relative_to_original_root": "acceptance-contract.latest-draft.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\acceptance-contract.latest-draft.json",
+      "bytes": 25642,
+      "sha256": "a993af5d27330f036d6bdafdf10efe41edf6dacb1dca6b0109ab9b0dc4b67a76"
+    },
+    {
+      "relative_to_original_root": "EVIDENCE-SHA256-LATEST.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\EVIDENCE-SHA256-LATEST.json",
+      "bytes": 2394358,
+      "sha256": "4cef61c34c7d721e91d4b20f9bc2a5ec8ef9aba1303a019b30a2c4c3d8cc0c94"
+    },
+    {
+      "relative_to_original_root": "EVIDENCE-VERIFICATION-LATEST.json",
+      "absolute_path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\EVIDENCE-VERIFICATION-LATEST.json",
+      "bytes": 1003,
+      "sha256": "d8005582d58a5232a78a086cf433a10d8ad85a13c308af736aa04e155b5479fa"
+    }
+  ],
+  "new_live_supervisor_v2_result": "NOT RUN",
+  "new_calibration600_result": "NOT RUN",
+  "campaign_started": false,
+  "source_scope": "Old candidate evidence retains old source/runtime/configuration identity; proposed Engine correction requires a new freeze and affected validation."
+}

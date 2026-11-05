@@ -1,0 +1,196 @@
+{
+  "scope": "Review snapshot source/test/documentation/evidence; excludes this self-ledger and ignored local raw logs/build binaries, indexed separately in transaction-artifacts.json",
+  "baseline_sha": "3a5df8439881bd514727a2c5e360f9ec0bafaf43",
+  "campaign_started": false,
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 30128,
+      "sha256": "a4785c42dc06802e5afe9112f9127bc8eb258e92f5c6bd0df4c2f3445d83a1ae",
+      "canonical_lf_sha256": "a4785c42dc06802e5afe9112f9127bc8eb258e92f5c6bd0df4c2f3445d83a1ae",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/REPORT.md",
+      "bytes": 9148,
+      "sha256": "c8dd0b5c51dd2329647e2c5bd3e6cd79c50188525fa2d6dcd9798e800fbfc768",
+      "canonical_lf_sha256": "c8dd0b5c51dd2329647e2c5bd3e6cd79c50188525fa2d6dcd9798e800fbfc768",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/baseline-integrity-check.json",
+      "bytes": 61225,
+      "sha256": "b24db32fdb8db2f8b068db37f6f20aec189141751dfec2a323ef5f6b6187cafb",
+      "canonical_lf_sha256": "a0782def8f8f388b703408e5cf1d04e5386e38a1e62053d60ffe755eee68c605",
+      "crlf_pairs": 903
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/candidate-and-evidence.md",
+      "bytes": 6129,
+      "sha256": "e26ba672464a591165be98d7e7eee16bf00342b7e3b6a657510f9a2a7bb83888",
+      "canonical_lf_sha256": "e26ba672464a591165be98d7e7eee16bf00342b7e3b6a657510f9a2a7bb83888",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/github-baseline.json",
+      "bytes": 2541,
+      "sha256": "8f1f676091e28b7e33559a6dc321fb0c1d2af844f37ea125b19b04911a930d93",
+      "canonical_lf_sha256": "8f1f676091e28b7e33559a6dc321fb0c1d2af844f37ea125b19b04911a930d93",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/handles-v010.md",
+      "bytes": 15676,
+      "sha256": "51fa9e82212324708a9a32d544c477726a25ea3c9536713aa336274f98e1cff2",
+      "canonical_lf_sha256": "51fa9e82212324708a9a32d544c477726a25ea3c9536713aa336274f98e1cff2",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/handles-v020-proposal.md",
+      "bytes": 6314,
+      "sha256": "43d2ba33db207683e58b158d04ecd0cbd9a1231be1aae4174404294e9f2331c7",
+      "canonical_lf_sha256": "43d2ba33db207683e58b158d04ecd0cbd9a1231be1aae4174404294e9f2331c7",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/issue31-disposition.md",
+      "bytes": 4483,
+      "sha256": "3f56fb9fa46d6055c6ba46e5406f51cbb413ad4e68106cbf746975db8b08ef25",
+      "canonical_lf_sha256": "3f56fb9fa46d6055c6ba46e5406f51cbb413ad4e68106cbf746975db8b08ef25",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/issue31-original-snapshot.json",
+      "bytes": 4414,
+      "sha256": "8a17aa1e7b2fd10cc003497e37535c20e32360d77dec22cda1efa4236860fac5",
+      "canonical_lf_sha256": "8a17aa1e7b2fd10cc003497e37535c20e32360d77dec22cda1efa4236860fac5",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/operational-budgets.md",
+      "bytes": 17224,
+      "sha256": "d5b229dfac39ed40412654fd9a4a7b569db59706da730caa0922d27aa1877d46",
+      "canonical_lf_sha256": "d5b229dfac39ed40412654fd9a4a7b569db59706da730caa0922d27aa1877d46",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/operational-evidence-index.json",
+      "bytes": 31015,
+      "sha256": "cc5232347428c7fea38741d8d4b6a690cb02594d22711b27a4792fc1ed5560c4",
+      "canonical_lf_sha256": "8f41736785eb70f338513f0130fc1c8ca043594fe7acfdbcb679500510d16b45",
+      "crlf_pairs": 591
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/physical-capacity-gate.json",
+      "bytes": 870,
+      "sha256": "b76e842ce52dccc54f1177d32d8b75e1ea904c09517958b37ec8e7244e94c99c",
+      "canonical_lf_sha256": "4a9e5cf9ef7c302f956bc758bb366c78eeb5c03ecd8b60f8eb697b2deadb066d",
+      "crlf_pairs": 29
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/readiness-contract.json",
+      "bytes": 4145,
+      "sha256": "f474e09ba9dba5f386c7c5c6e4adfb4064feed46ed9120b8b0db2c6737a0cf09",
+      "canonical_lf_sha256": "f474e09ba9dba5f386c7c5c6e4adfb4064feed46ed9120b8b0db2c6737a0cf09",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/scoped-static-validation.json",
+      "bytes": 668,
+      "sha256": "a59d27d13038645ea10c958baf43590341e6e8ac0c0cfdb0db28b59dd6023f25",
+      "canonical_lf_sha256": "a59d27d13038645ea10c958baf43590341e6e8ac0c0cfdb0db28b59dd6023f25",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-artifacts.json",
+      "bytes": 5325,
+      "sha256": "9be573002b289b5800735fedd67688c39aa51f28fec0a9f116d91f6171df0006",
+      "canonical_lf_sha256": "9be573002b289b5800735fedd67688c39aa51f28fec0a9f116d91f6171df0006",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-baseline-control.txt",
+      "bytes": 126,
+      "sha256": "b50c35c626f524f78b20fecb5aa6033ac13269b8c44900c77f71ccd9ea7eba35",
+      "canonical_lf_sha256": "b50c35c626f524f78b20fecb5aa6033ac13269b8c44900c77f71ccd9ea7eba35",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-baseline-reproducer.cpp",
+      "bytes": 1599,
+      "sha256": "c531bc684cd151ddae7421203423a1805535016da54e1dac306bebb2aa7b03cf",
+      "canonical_lf_sha256": "57886b5e0e10b4292a3c463edb30fdacb36be71cb6ca6f0a920bd822fdf69a35",
+      "crlf_pairs": 36
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-focused-ctest-details.txt",
+      "bytes": 3661,
+      "sha256": "6c1bbc3d25c5380ef016565cdf82340d11e1fd5eb4dc1777b432deb051f01182",
+      "canonical_lf_sha256": "6c1bbc3d25c5380ef016565cdf82340d11e1fd5eb4dc1777b432deb051f01182",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-focused-ctest.txt",
+      "bytes": 577,
+      "sha256": "486f88fc325f613afbc22d0559e78ee52cc8c708414568100285f2465609df01",
+      "canonical_lf_sha256": "486f88fc325f613afbc22d0559e78ee52cc8c708414568100285f2465609df01",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-final-details.txt",
+      "bytes": 1100,
+      "sha256": "e2a3a3a98755df5581b7ea48c22a3d56e5d36c6e90a4af96b725b0be923c0fd6",
+      "canonical_lf_sha256": "e2a3a3a98755df5581b7ea48c22a3d56e5d36c6e90a4af96b725b0be923c0fd6",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-final.txt",
+      "bytes": 270,
+      "sha256": "6855ce0f6dd65e712b624f8d6e8571cbaa39adebfca51356079517b37603e323",
+      "canonical_lf_sha256": "6855ce0f6dd65e712b624f8d6e8571cbaa39adebfca51356079517b37603e323",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-review.md",
+      "bytes": 11856,
+      "sha256": "0b75d28d4b18fccd5f928ef8bb250a106fb90901c2eefd10508321c537e6b263",
+      "canonical_lf_sha256": "0b75d28d4b18fccd5f928ef8bb250a106fb90901c2eefd10508321c537e6b263",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "docs/api.md",
+      "bytes": 30664,
+      "sha256": "e6351d5c7b25f449b79e04c0334b03e082811f5e5488ca39f0b03eeb65465539",
+      "canonical_lf_sha256": "e6351d5c7b25f449b79e04c0334b03e082811f5e5488ca39f0b03eeb65465539",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "docs/release-notes.md",
+      "bytes": 13362,
+      "sha256": "a8f5662bb05a1cb8bf9cca236bcfd078bdbc43d5bf30cc542675d13cd1e6055b",
+      "canonical_lf_sha256": "a8f5662bb05a1cb8bf9cca236bcfd078bdbc43d5bf30cc542675d13cd1e6055b",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "include/pg/engine.hpp",
+      "bytes": 4011,
+      "sha256": "96ebf03a4fe8f68c81e1b705bac24795a6e282ba23c77393dbe7abd8a85feddd",
+      "canonical_lf_sha256": "96ebf03a4fe8f68c81e1b705bac24795a6e282ba23c77393dbe7abd8a85feddd",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "src/engine.cpp",
+      "bytes": 21528,
+      "sha256": "5e224e1da91f1d4e4cdead16c547eed191949f5b31f50e038e2fff8f60d34716",
+      "canonical_lf_sha256": "5e224e1da91f1d4e4cdead16c547eed191949f5b31f50e038e2fff8f60d34716",
+      "crlf_pairs": 0
+    },
+    {
+      "path": "tests/transaction_identity.cpp",
+      "bytes": 16828,
+      "sha256": "9c0bd1bf4beeb1e6450608a0111414ed3805d3925de82ffa63ccf36349ba7790",
+      "canonical_lf_sha256": "9c0bd1bf4beeb1e6450608a0111414ed3805d3925de82ffa63ccf36349ba7790",
+      "crlf_pairs": 0
+    }
+  ]
+}

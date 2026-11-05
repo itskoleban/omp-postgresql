@@ -1,0 +1,21 @@
+{
+  "documentation_check": {
+    "status": "PASS",
+    "command": "python -B scripts/check_docs.py",
+    "natives": 69,
+    "callbacks": 3
+  },
+  "english_maintenance": {
+    "status": "PASS",
+    "maintained_files": 557,
+    "frozen_identities": 173,
+    "scope": "tracked inventory plus every new maintained preparation record and identity test"
+  },
+  "pawn_include": {
+    "path": "pawn/omp_postgresql.inc",
+    "sha256": "00cd9369e2451b04daeb1b5b82ee0077ec21fe9a20f1760fb12e86f976280a81",
+    "baseline_sha256": "00cd9369e2451b04daeb1b5b82ee0077ec21fe9a20f1760fb12e86f976280a81",
+    "unchanged": true
+  },
+  "whitespace_check": "PASS at last git diff --check"
+}

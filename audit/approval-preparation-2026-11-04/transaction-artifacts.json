@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "date_local": "2026-11-04",
+  "timezone": "America/Bogota",
+  "baseline_source_sha": "3a5df8439881bd514727a2c5e360f9ec0bafaf43",
+  "proposed_source": "working-tree content hashes below; commit/tree assigned by PR publication",
+  "purpose": "diagnostic and focused offline verification; not release binaries or campaign evidence",
+  "encoding": "Reviewable .txt files normalized CP1252 to UTF-8 when needed, then CRLF to LF. Raw .log files hashed without transformation and preserved locally; ignored by Git.",
+  "initial_ctest": {
+    "passed": 4,
+    "selected": 4,
+    "seconds": 2.41,
+    "identity_scenarios": 23
+  },
+  "final_ctest": {
+    "passed": 1,
+    "selected": 1,
+    "seconds": 0.31,
+    "identity_scenarios": 24,
+    "reason": "new high-water probe scenario added; only the changed test rerun"
+  },
+  "files": [
+    {
+      "path": "src/engine.cpp",
+      "bytes": 21528,
+      "sha256": "5e224e1da91f1d4e4cdead16c547eed191949f5b31f50e038e2fff8f60d34716"
+    },
+    {
+      "path": "include/pg/engine.hpp",
+      "bytes": 4011,
+      "sha256": "96ebf03a4fe8f68c81e1b705bac24795a6e282ba23c77393dbe7abd8a85feddd"
+    },
+    {
+      "path": "tests/transaction_identity.cpp",
+      "bytes": 16828,
+      "sha256": "9c0bd1bf4beeb1e6450608a0111414ed3805d3925de82ffa63ccf36349ba7790"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 30128,
+      "sha256": "a4785c42dc06802e5afe9112f9127bc8eb258e92f5c6bd0df4c2f3445d83a1ae"
+    },
+    {
+      "path": "build/pg_transaction_identity.exe",
+      "bytes": 1929601,
+      "sha256": "f5cf98809056f58fc52be685d4a39c58141769f508fce82849af810d4b7a843b"
+    },
+    {
+      "path": "build/pg_lane_admission_tests.exe",
+      "bytes": 2289032,
+      "sha256": "5aeb39d247624b03554ffa641c836e1bf03c466ddcbec6ae93add263e893d3a4"
+    },
+    {
+      "path": "build/pg_transaction_retirement.exe",
+      "bytes": 2322067,
+      "sha256": "6083733e5f21b487f1f4bb6bc2fd4d25c6b8a767a08f49c0dc8a35209f998f7c"
+    },
+    {
+      "path": "build/pg_tests.exe",
+      "bytes": 2434440,
+      "sha256": "d67f3ed57df59b48b80975fa329d053d35351b34d7a1c21d0a166721ed21cc6b"
+    },
+    {
+      "path": "build/transaction-baseline-control/engine.cpp",
+      "bytes": 20394,
+      "sha256": "84006c05c05d0b386970fae2275f6f1465fc6bee60fef9ebe8fb9d3d1d4668ce"
+    },
+    {
+      "path": "build/transaction-baseline-control/include/pg/engine.hpp",
+      "bytes": 3881,
+      "sha256": "24a22bca5e1a372cee411dcc0cdd5db6c86e5016f33c7b2f37e17d1ac7f054a4"
+    },
+    {
+      "path": "build/transaction-baseline-control/reproducer.cpp",
+      "bytes": 1599,
+      "sha256": "c531bc684cd151ddae7421203423a1805535016da54e1dac306bebb2aa7b03cf"
+    },
+    {
+      "path": "build/transaction-baseline-control/reproducer.exe",
+      "bytes": 1828943,
+      "sha256": "e9f9151d2024bbeb75a0bcf0b43fcbee4db48b41928bac21bef7707755927464"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-baseline-control.txt",
+      "bytes": 126,
+      "sha256": "b50c35c626f524f78b20fecb5aa6033ac13269b8c44900c77f71ccd9ea7eba35"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-baseline-reproducer.cpp",
+      "bytes": 1599,
+      "sha256": "c531bc684cd151ddae7421203423a1805535016da54e1dac306bebb2aa7b03cf"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-focused-ctest-details.log",
+      "bytes": 3715,
+      "sha256": "0e27630ef2d9baca72932f632a3bb72ede084917224c597ebc64668e787b9253"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-focused-ctest-details.txt",
+      "bytes": 3661,
+      "sha256": "6c1bbc3d25c5380ef016565cdf82340d11e1fd5eb4dc1777b432deb051f01182"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-focused-ctest.log",
+      "bytes": 590,
+      "sha256": "973ef67339d94853b11aaca4604b68deda65fc705d7bb25fca0e1f60a92f3e05"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-focused-ctest.txt",
+      "bytes": 577,
+      "sha256": "486f88fc325f613afbc22d0559e78ee52cc8c708414568100285f2465609df01"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-final-details.raw.log",
+      "bytes": 1113,
+      "sha256": "5ef039cbcc2026b53467c7de63b5496fc3c8ea9376b06592b2f9735decd1abc4"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-final-details.txt",
+      "bytes": 1100,
+      "sha256": "e2a3a3a98755df5581b7ea48c22a3d56e5d36c6e90a4af96b725b0be923c0fd6"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-final.txt",
+      "bytes": 270,
+      "sha256": "6855ce0f6dd65e712b624f8d6e8571cbaa39adebfca51356079517b37603e323"
+    },
+    {
+      "path": "audit/approval-preparation-2026-11-04/transaction-identity-review.md",
+      "bytes": 11856,
+      "sha256": "0b75d28d4b18fccd5f928ef8bb250a106fb90901c2eefd10508321c537e6b263"
+    },
+    {
+      "path": "build/package-build-info-.json",
+      "bytes": 413,
+      "sha256": "d3386ed06ccefb85573f34d009924735df865f0b66e679d852fef2f333985255"
+    }
+  ],
+  "local_build_provenance": "package-build-info records baseline HEAD only; source content hashes identify uncommitted patch; binaries are local diagnostic test builds, not final frozen candidate artifacts"
+}

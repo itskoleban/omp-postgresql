@@ -1,0 +1,903 @@
+{
+  "operation": "Read-only integrity verification; no successful tests repeated",
+  "status": "PASS",
+  "checked_files": 128,
+  "checks": [
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\github\\candidate-release-3a5df843.zip",
+      "expected_sha256": "276a4a18e59e6c281a7ab34df5c796f3c4d319d7b9d414f9aa607602e5dee8bf",
+      "actual_sha256": "276a4a18e59e6c281a7ab34df5c796f3c4d319d7b9d414f9aa607602e5dee8bf",
+      "status": "PASS",
+      "kind": "original artifact wrapper"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\github\\release-download\\RELEASE-NOTES.md",
+      "expected_sha256": "6ed6d4605481004fe73ec2695a14d58aacfec3d57294e65639ac520814d28951",
+      "actual_sha256": "6ed6d4605481004fe73ec2695a14d58aacfec3d57294e65639ac520814d28951",
+      "status": "PASS",
+      "kind": "retained SHA256SUMS payload"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\github\\release-download\\omp-postgresql-0.1.0.3a5df8439881-linux-x86.zip",
+      "expected_sha256": "b337fe1f9f9eedae45d366d9defbd5ce4a9636d191e47ad055ae9d4c5ca85fa7",
+      "actual_sha256": "b337fe1f9f9eedae45d366d9defbd5ce4a9636d191e47ad055ae9d4c5ca85fa7",
+      "status": "PASS",
+      "kind": "retained SHA256SUMS payload"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\github\\release-download\\omp-postgresql-0.1.0.3a5df8439881-linux-x86.zip.sha256",
+      "expected_sha256": "fbea0cdda92d6b31fdc0e82e7147bf88c010d6bf991e9615fb417981798c2652",
+      "actual_sha256": "fbea0cdda92d6b31fdc0e82e7147bf88c010d6bf991e9615fb417981798c2652",
+      "status": "PASS",
+      "kind": "retained SHA256SUMS payload"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\github\\release-download\\omp-postgresql-0.1.0.3a5df8439881-source.zip",
+      "expected_sha256": "0a3c5f0476a0e60aab9c7a7ff41c58af71de3868b3c0893a88907c49001f1679",
+      "actual_sha256": "0a3c5f0476a0e60aab9c7a7ff41c58af71de3868b3c0893a88907c49001f1679",
+      "status": "PASS",
+      "kind": "retained SHA256SUMS payload"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\github\\release-download\\omp-postgresql-0.1.0.3a5df8439881-windows-x86.zip",
+      "expected_sha256": "9a0debf70d192389c4ecdaa115379efb10434ba3e52119e68ca54ee6ee4de764",
+      "actual_sha256": "9a0debf70d192389c4ecdaa115379efb10434ba3e52119e68ca54ee6ee4de764",
+      "status": "PASS",
+      "kind": "retained SHA256SUMS payload"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\github\\release-download\\omp-postgresql-0.1.0.3a5df8439881-windows-x86.zip.sha256",
+      "expected_sha256": "9e89e13d1dd74709522775bdefbbf0076bb9d32f85d0a31a2cfa3e71b42d318a",
+      "actual_sha256": "9e89e13d1dd74709522775bdefbbf0076bb9d32f85d0a31a2cfa3e71b42d318a",
+      "status": "PASS",
+      "kind": "retained SHA256SUMS payload"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\github\\release-download\\release-inventory.json",
+      "expected_sha256": "aa757518b888d711757abea9efdabf9348a346ea17ce043e12cae481f80d4a93",
+      "actual_sha256": "aa757518b888d711757abea9efdabf9348a346ea17ce043e12cae481f80d4a93",
+      "status": "PASS",
+      "kind": "retained SHA256SUMS payload"
+    },
+    {
+      "path": "tests\\audit_fuzz.cpp",
+      "expected_sha256": "9cc5d62e1c47a2e0fed446d0d16f9514e2e6705c20197fa9a0d45d43dba9d9d5",
+      "actual_sha256": "9cc5d62e1c47a2e0fed446d0d16f9514e2e6705c20197fa9a0d45d43dba9d9d5",
+      "status": "PASS",
+      "kind": "unchanged semantic helper/fuzzer"
+    },
+    {
+      "path": "include\\pg\\parameters.hpp",
+      "expected_sha256": "99dc1e43d5cf772d9b3186543b55b2d7cf531198cca15bc5b09ad7a82876b4f0",
+      "actual_sha256": "99dc1e43d5cf772d9b3186543b55b2d7cf531198cca15bc5b09ad7a82876b4f0",
+      "status": "PASS",
+      "kind": "unchanged semantic helper/fuzzer"
+    },
+    {
+      "path": "include\\pg\\statement.hpp",
+      "expected_sha256": "ec9818fae84e29c596cde408d50254ad882b3ab2b3f3e92c17b28e0db7061b1e",
+      "actual_sha256": "ec9818fae84e29c596cde408d50254ad882b3ab2b3f3e92c17b28e0db7061b1e",
+      "status": "PASS",
+      "kind": "unchanged semantic helper/fuzzer"
+    },
+    {
+      "path": "include\\pg\\sql_sections.hpp",
+      "expected_sha256": "c1f442c35864f870b1fe4202c6d34e7d2b1ce554f860ad5fbc99f4f5ad63c2da",
+      "actual_sha256": "c1f442c35864f870b1fe4202c6d34e7d2b1ce554f860ad5fbc99f4f5ad63c2da",
+      "status": "PASS",
+      "kind": "unchanged semantic helper/fuzzer"
+    },
+    {
+      "path": "src\\parameters.cpp",
+      "expected_sha256": "77ad941db253bc24fdde709d81420da5bdad93ddf8173539e342bef5db458e00",
+      "actual_sha256": "77ad941db253bc24fdde709d81420da5bdad93ddf8173539e342bef5db458e00",
+      "status": "PASS",
+      "kind": "unchanged semantic helper/fuzzer"
+    },
+    {
+      "path": "src\\statement.cpp",
+      "expected_sha256": "b2a591383dce51c529c6095434cf2f52af096d8a08bb1ad24ae0c986a8e79573",
+      "actual_sha256": "b2a591383dce51c529c6095434cf2f52af096d8a08bb1ad24ae0c986a8e79573",
+      "status": "PASS",
+      "kind": "unchanged semantic helper/fuzzer"
+    },
+    {
+      "path": "src\\sql_sections.cpp",
+      "expected_sha256": "5f496debc02215b094b98ee6b35291d1b1fbadb39ea40cd0ce3fc01b70af6e58",
+      "actual_sha256": "5f496debc02215b094b98ee6b35291d1b1fbadb39ea40cd0ce3fc01b70af6e58",
+      "status": "PASS",
+      "kind": "unchanged semantic helper/fuzzer"
+    },
+    {
+      "path": "audit\\prestable-fuzz-evidence\\extended-fuzz.txt",
+      "expected_sha256": "107fe9e3e9f2a2d71a206a0bbd27b071a79798f46738dee65d5f7f005bd5d153",
+      "actual_sha256": "107fe9e3e9f2a2d71a206a0bbd27b071a79798f46738dee65d5f7f005bd5d153",
+      "status": "PASS",
+      "kind": "preserved semantic fuzz capture"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\analyze_bounded_resources.py",
+      "expected_sha256": "b994659deaa3d2c6d101e5797969f330bd56ba6e0b66f37dcfd788d09d2436d9",
+      "actual_sha256": "b994659deaa3d2c6d101e5797969f330bd56ba6e0b66f37dcfd788d09d2436d9",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\BUDGET-CLOSURE-SHA256.json",
+      "expected_sha256": "5a92a2556a9598cb2f7724b7d81821a4c9f3f88df10470bf247f5c33e595e60a",
+      "actual_sha256": "5a92a2556a9598cb2f7724b7d81821a4c9f3f88df10470bf247f5c33e595e60a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\BUDGET-CLOSURE.md",
+      "expected_sha256": "9f018db74a5aaab645c6bdc8698a0aff0571a147e61b0c1f5d332b9503dd15b7",
+      "actual_sha256": "9f018db74a5aaab645c6bdc8698a0aff0571a147e61b0c1f5d332b9503dd15b7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\budget-closure.proposal.json",
+      "expected_sha256": "8285cf1a4d40c6d630cea4f317d235409af2c61b349e7438f037afcd543f908a",
+      "actual_sha256": "8285cf1a4d40c6d630cea4f317d235409af2c61b349e7438f037afcd543f908a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\prior120-additional-evidence.json",
+      "expected_sha256": "e7edd9471f4db85b042ff2dffad2c614c8e6d26421c2b813ea37978ab5b81dd7",
+      "actual_sha256": "e7edd9471f4db85b042ff2dffad2c614c8e6d26421c2b813ea37978ab5b81dd7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\resource600-policy.pre-run.json",
+      "expected_sha256": "e247786351e02d66f83b5e12c0fde1d72c5412b22d8215f73970fa42c1538cc2",
+      "actual_sha256": "e247786351e02d66f83b5e12c0fde1d72c5412b22d8215f73970fa42c1538cc2",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\budgets\\source-assertion-provenance.json",
+      "expected_sha256": "674e575ab0f4947f2dd77b18ad3a224db5ac7c4a7543eb3a9d1bf977f625f1d5",
+      "actual_sha256": "674e575ab0f4947f2dd77b18ad3a224db5ac7c4a7543eb3a9d1bf977f625f1d5",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\campaign-plan.v2-proposal.json",
+      "expected_sha256": "c2618aee3b41d1326a477dcb4c1f89f5a69ac391c7c597eeb9a548f5f1848cc4",
+      "actual_sha256": "c2618aee3b41d1326a477dcb4c1f89f5a69ac391c7c597eeb9a548f5f1848cc4",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\close-attempt1-error.txt",
+      "expected_sha256": "de9574a64fd77c639d8b15939b87830ff209680c85c578a8a0e3ef1dbcc8938b",
+      "actual_sha256": "de9574a64fd77c639d8b15939b87830ff209680c85c578a8a0e3ef1dbcc8938b",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\close_focused_evidence.py",
+      "expected_sha256": "a72a5d6b32fa98dd5cd186c52a3287c3c6228cb002f04c5f9a03fa106bd5a379",
+      "actual_sha256": "a72a5d6b32fa98dd5cd186c52a3287c3c6228cb002f04c5f9a03fa106bd5a379",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\containers-at-entry.json",
+      "expected_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "actual_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\docker-after-resume-20261104.json",
+      "expected_sha256": "80d9de27540dabbc20e28f56aa67b9fdfe08900be9fed228c9a8cc1f1ba9e6b0",
+      "actual_sha256": "80d9de27540dabbc20e28f56aa67b9fdfe08900be9fed228c9a8cc1f1ba9e6b0",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\docker-at-entry.json",
+      "expected_sha256": "d356429940131fb28462fe7a5346d179bb054b129ac5d49d04c1937aa154ebe5",
+      "actual_sha256": "d356429940131fb28462fe7a5346d179bb054b129ac5d49d04c1937aa154ebe5",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\docker-inventory-interpretation.json",
+      "expected_sha256": "103e8e66693070c2bd85b083625f161e25c28ca0f9cff1ba6336d8c7f68b2218",
+      "actual_sha256": "103e8e66693070c2bd85b083625f161e25c28ca0f9cff1ba6336d8c7f68b2218",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\energy-after-resume-20261104.json",
+      "expected_sha256": "4862d8b4b68e6a684e43674fe81b3617295bfcdb0db35777f683e9f9e17ba70f",
+      "actual_sha256": "4862d8b4b68e6a684e43674fe81b3617295bfcdb0db35777f683e9f9e17ba70f",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\energy-at-entry.json",
+      "expected_sha256": "d33e78f5534219294a0a3bc6596de4f4d521205d96b294043806fa2dd6265046",
+      "actual_sha256": "d33e78f5534219294a0a3bc6596de4f4d521205d96b294043806fa2dd6265046",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\ENERGY-DECISION.md",
+      "expected_sha256": "b13ad5d6f46e83afaab9cca2d493df8123389cb81e52171de317ff9d70d24ced",
+      "actual_sha256": "b13ad5d6f46e83afaab9cca2d493df8123389cb81e52171de317ff9d70d24ced",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\final-plan-verification.json",
+      "expected_sha256": "84db46ac6f2f9443e0e30fdeaa5100b44da63e97d7835e8e981c20b43f201884",
+      "actual_sha256": "84db46ac6f2f9443e0e30fdeaa5100b44da63e97d7835e8e981c20b43f201884",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\focused-status.json",
+      "expected_sha256": "b09c3046a2f048193cd43d0fea8b4d96dccb827f83f4bce98680e78d7f7abb8f",
+      "actual_sha256": "b09c3046a2f048193cd43d0fea8b4d96dccb827f83f4bce98680e78d7f7abb8f",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\FOCUSED-SUMMARY.md",
+      "expected_sha256": "e1177f533ab3146413c509c998fd4c5fec20ffaff55c99c81c2a4e875d33a120",
+      "actual_sha256": "e1177f533ab3146413c509c998fd4c5fec20ffaff55c99c81c2a4e875d33a120",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\git-after-resume.json",
+      "expected_sha256": "a35bb8128579ddf10ae05c138d8407a01cb49318c40c5ce3896d478cf6bd2379",
+      "actual_sha256": "a35bb8128579ddf10ae05c138d8407a01cb49318c40c5ce3896d478cf6bd2379",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\host-after-resume-20261104.json",
+      "expected_sha256": "bd63744c5d897e0254fbd6493df7ad1abcefebe7b667f28eb71d938b9c982c2a",
+      "actual_sha256": "bd63744c5d897e0254fbd6493df7ad1abcefebe7b667f28eb71d938b9c982c2a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\host-at-entry.json",
+      "expected_sha256": "9518f0ea9a5b05536d22d6517999c8dc43261de1a82be8d52efff2aaf560748a",
+      "actual_sha256": "9518f0ea9a5b05536d22d6517999c8dc43261de1a82be8d52efff2aaf560748a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\issue31-current.json",
+      "expected_sha256": "d8b3b67a43e0cd3ececc2aac23d683c19921f56bf9409261fe744993bd6c818c",
+      "actual_sha256": "d8b3b67a43e0cd3ececc2aac23d683c19921f56bf9409261fe744993bd6c818c",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\campaign-plan.review-20261104.json",
+      "expected_sha256": "48861732a40bc26e859bb8dcfc011b215a7c2cd07787b28d01603e4c74135784",
+      "actual_sha256": "48861732a40bc26e859bb8dcfc011b215a7c2cd07787b28d01603e4c74135784",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\campaign-plan.review-draft.json",
+      "expected_sha256": "1d178e05a89fe14189b30e479d9b7cd88dd23f7fbfdc1930a527c3d6dff0bb07",
+      "actual_sha256": "1d178e05a89fe14189b30e479d9b7cd88dd23f7fbfdc1930a527c3d6dff0bb07",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\campaign-plan.review-final.json",
+      "expected_sha256": "4fadbb66e44b03daebf674cfab47eb7c3712441632bbda131ff683f51432e1b9",
+      "actual_sha256": "4fadbb66e44b03daebf674cfab47eb7c3712441632bbda131ff683f51432e1b9",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\campaign-plan.review-v2.json",
+      "expected_sha256": "01cfd53dfdffbbe7903beface1876482bb9e7c88170ac9a19b84c3439007ecbd",
+      "actual_sha256": "01cfd53dfdffbbe7903beface1876482bb9e7c88170ac9a19b84c3439007ecbd",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\campaign_launcher.py",
+      "expected_sha256": "effb547ce9cfd37c8580bd274b95963f392d99300433056b5485177a1ae44f45",
+      "actual_sha256": "effb547ce9cfd37c8580bd274b95963f392d99300433056b5485177a1ae44f45",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\Host-PrelaunchProbe.ps1",
+      "expected_sha256": "3212bfdd5d1dc07645d375c32ff5aefdea4923799387b7796eb393aa09affc49",
+      "actual_sha256": "3212bfdd5d1dc07645d375c32ff5aefdea4923799387b7796eb393aa09affc49",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\INDEPENDENT-REVIEW-20261104.md",
+      "expected_sha256": "8d0f6e5b5868e88515592c8d19ebe11629ae3d158aeb6dff1326321b87fbc90f",
+      "actual_sha256": "8d0f6e5b5868e88515592c8d19ebe11629ae3d158aeb6dff1326321b87fbc90f",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\Launch-Campaign.ps1",
+      "expected_sha256": "dd74d382d7f785bb12460ab1461bf22716f4e88ee7a2591e620791d8a7eb859a",
+      "actual_sha256": "dd74d382d7f785bb12460ab1461bf22716f4e88ee7a2591e620791d8a7eb859a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\launcher-settings.draft.json",
+      "expected_sha256": "f4cbb6ea0a8212d5c35ea081aa67b455137c57ff00576a57378ca61faf95a01e",
+      "actual_sha256": "f4cbb6ea0a8212d5c35ea081aa67b455137c57ff00576a57378ca61faf95a01e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\LAUNCHER-SHA256.json",
+      "expected_sha256": "7a933ab1369e5115910afa2b1d61d9cc37aee3c7abee86d47752384f5d18cfec",
+      "actual_sha256": "7a933ab1369e5115910afa2b1d61d9cc37aee3c7abee86d47752384f5d18cfec",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\offline-verification.json",
+      "expected_sha256": "d7f7e9768a4a9a63fa189f041ce9bd05cd57da56dfad5c07403c2b6ce86a20d4",
+      "actual_sha256": "d7f7e9768a4a9a63fa189f041ce9bd05cd57da56dfad5c07403c2b6ce86a20d4",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\offline-verification.review-20261104.json",
+      "expected_sha256": "d1d4854ee53afa8ab7537b986f704b4b88ad2182c23c225077118fa7a500a7df",
+      "actual_sha256": "d1d4854ee53afa8ab7537b986f704b4b88ad2182c23c225077118fa7a500a7df",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\powershell-parser.json",
+      "expected_sha256": "a2a28ecf0479b09a4c2e7aeed2108c427244cda3dd46f190dc438252d4fde1f2",
+      "actual_sha256": "a2a28ecf0479b09a4c2e7aeed2108c427244cda3dd46f190dc438252d4fde1f2",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\powershell-parser.review.json",
+      "expected_sha256": "ba93e1e7aafe397b9106d666763885d912973f9f8858c81bf3018bbf25918a3e",
+      "actual_sha256": "ba93e1e7aafe397b9106d666763885d912973f9f8858c81bf3018bbf25918a3e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\prelaunch_probe.py",
+      "expected_sha256": "5cab887662931bbc9fbed7bc25594f67f2df8636177481bec62e5575b86a791b",
+      "actual_sha256": "5cab887662931bbc9fbed7bc25594f67f2df8636177481bec62e5575b86a791b",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\README.md",
+      "expected_sha256": "42015f45d3aee35b5e6405b5b481fae994d05131ac9acde078d971d5c95b597b",
+      "actual_sha256": "42015f45d3aee35b5e6405b5b481fae994d05131ac9acde078d971d5c95b597b",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\test_campaign_launcher.py",
+      "expected_sha256": "e5a47cd905efd70aa902c0ce8b7b605bfc7fb51196f686871bb1e9d0859e156d",
+      "actual_sha256": "e5a47cd905efd70aa902c0ce8b7b605bfc7fb51196f686871bb1e9d0859e156d",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\unit-tests.review.txt",
+      "expected_sha256": "c5c2467ec341d8a3e44e9bdca9973c013e3aebb46679e80db7a76fe27275ba7e",
+      "actual_sha256": "c5c2467ec341d8a3e44e9bdca9973c013e3aebb46679e80db7a76fe27275ba7e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\unit-tests.txt",
+      "expected_sha256": "a58a64f5174e5eabbb9eaaf2ba79a5e922fd82f07844774e062005c028e9ef85",
+      "actual_sha256": "a58a64f5174e5eabbb9eaaf2ba79a5e922fd82f07844774e062005c028e9ef85",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher\\verify_offline_review.py",
+      "expected_sha256": "b0fdec7c4f719e02e124099e2679314567a12ba6306173fa94995c1e11a0cfd0",
+      "actual_sha256": "b0fdec7c4f719e02e124099e2679314567a12ba6306173fa94995c1e11a0cfd0",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\launcher-settings.v2-proposal.json",
+      "expected_sha256": "8586f6678dbb9c2956f26105eb60867c90d8ab25fb1af0f044dc084fa68bdef7",
+      "actual_sha256": "8586f6678dbb9c2956f26105eb60867c90d8ab25fb1af0f044dc084fa68bdef7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\prepare_resource600.py",
+      "expected_sha256": "9719c04b829a41bcec1a6fa345507fc95043796a1db139d9fb5806f6372b558b",
+      "actual_sha256": "9719c04b829a41bcec1a6fa345507fc95043796a1db139d9fb5806f6372b558b",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\remote-after-resume-20261104.json",
+      "expected_sha256": "eb264a866854d5636110f22158e90a6ef409cf73c9e04e7371652b78f4b65f99",
+      "actual_sha256": "eb264a866854d5636110f22158e90a6ef409cf73c9e04e7371652b78f4b65f99",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\remote-master.json",
+      "expected_sha256": "b7f5cdd5fffabb0b28e465457fcb708bec20976826dfbf5801a8c6d8a2729a5f",
+      "actual_sha256": "b7f5cdd5fffabb0b28e465457fcb708bec20976826dfbf5801a8c6d8a2729a5f",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\capacity-gate.json",
+      "expected_sha256": "94aea47e887d8c963849f37dcfcc0dd3463a4405d539c5379f5b9769755e0014",
+      "actual_sha256": "94aea47e887d8c963849f37dcfcc0dd3463a4405d539c5379f5b9769755e0014",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\prep-frozen\\calibrate.py",
+      "expected_sha256": "0189431a2e47e29aff0c23b701deabc29ffb17f0ae2c2f2f4e31c2f6c0e04178",
+      "actual_sha256": "0189431a2e47e29aff0c23b701deabc29ffb17f0ae2c2f2f4e31c2f6c0e04178",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\collector.py",
+      "expected_sha256": "bb85cbde6dc6ba81000b9f9ad43aee5e4bc2fa777d47f2aba98a9cef18da426e",
+      "actual_sha256": "bb85cbde6dc6ba81000b9f9ad43aee5e4bc2fa777d47f2aba98a9cef18da426e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\detached_launcher.py",
+      "expected_sha256": "0026b776358c1a0b315ccbbc7d08622e86432ed7b480ba552d574a535d2c4a1a",
+      "actual_sha256": "0026b776358c1a0b315ccbbc7d08622e86432ed7b480ba552d574a535d2c4a1a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\guarded_entry.py",
+      "expected_sha256": "6439085916cbe6334a1659f38d38d2ab06fe9f439486fec5f6adef5cc6a98bb3",
+      "actual_sha256": "6439085916cbe6334a1659f38d38d2ab06fe9f439486fec5f6adef5cc6a98bb3",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\harness.py",
+      "expected_sha256": "4250fb6d08e13b58fcb5d92fa781e2651d597a484c9bd1ac2f30872678e69d6a",
+      "actual_sha256": "4250fb6d08e13b58fcb5d92fa781e2651d597a484c9bd1ac2f30872678e69d6a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\live_trials.py",
+      "expected_sha256": "378c46c7c45ff70c27ee97020223c0827d3e60bc53594c2a6462c69c11fbf515",
+      "actual_sha256": "378c46c7c45ff70c27ee97020223c0827d3e60bc53594c2a6462c69c11fbf515",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\start_hidden.ps1",
+      "expected_sha256": "6d0eb52ca521a80ed393f6636201cd03b08e4d9664808644df22fcff0c0b2879",
+      "actual_sha256": "6d0eb52ca521a80ed393f6636201cd03b08e4d9664808644df22fcff0c0b2879",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\start_wmi_hidden.ps1",
+      "expected_sha256": "6adc536c5cc6e590d6aa367190fa62f5d26ea7e0fe824e9b29fcf3509f4b8666",
+      "actual_sha256": "6adc536c5cc6e590d6aa367190fa62f5d26ea7e0fe824e9b29fcf3509f4b8666",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\tee_exec.py",
+      "expected_sha256": "cbf08ac3940aa56bad0a1eea1c0c835250400bc853915eda6f44774aa2c32db8",
+      "actual_sha256": "cbf08ac3940aa56bad0a1eea1c0c835250400bc853915eda6f44774aa2c32db8",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\test_collector_bounded.py",
+      "expected_sha256": "ea7efde227a8ea6339df271091c98c012e20c99a8c19a2ccac4d176b40202ca7",
+      "actual_sha256": "ea7efde227a8ea6339df271091c98c012e20c99a8c19a2ccac4d176b40202ca7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\test_rss_peak.py",
+      "expected_sha256": "2a062f2e786f91778d69e730ac3faeee85fb4d30b024eea9948e7921b55677b7",
+      "actual_sha256": "2a062f2e786f91778d69e730ac3faeee85fb4d30b024eea9948e7921b55677b7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\test_watchdog.py",
+      "expected_sha256": "7d843568843d30bef6ee85eee7df82070a56dd639e2334917c63655a05aea663",
+      "actual_sha256": "7d843568843d30bef6ee85eee7df82070a56dd639e2334917c63655a05aea663",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\test_watchdog_bounded.py",
+      "expected_sha256": "779a1def086afffccc1119c3d70f2e654476b9bb2b617378359b5a729cae464e",
+      "actual_sha256": "779a1def086afffccc1119c3d70f2e654476b9bb2b617378359b5a729cae464e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\calibration-resource600-1\\supervisor-frozen\\watchdog.py",
+      "expected_sha256": "1e75f37260f8605b751037aff928a69564a54dcf02ecc7e7c4f764956b73791b",
+      "actual_sha256": "1e75f37260f8605b751037aff928a69564a54dcf02ecc7e7c4f764956b73791b",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\gate-tests.txt",
+      "expected_sha256": "35d2c25080e122980d2fdc090e9cf44d0ea3f0757dd3dec33ee962a12f3399ab",
+      "actual_sha256": "35d2c25080e122980d2fdc090e9cf44d0ea3f0757dd3dec33ee962a12f3399ab",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\launch-error.txt",
+      "expected_sha256": "5eb4a38cade004a4f9ab79e5fbb1884c332cb976636cc2febf823233a45c69eb",
+      "actual_sha256": "5eb4a38cade004a4f9ab79e5fbb1884c332cb976636cc2febf823233a45c69eb",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\launch-resource600.ps1",
+      "expected_sha256": "d8a4fa149296912a76fd0e9a941a052603e4e24dad07dfacc236a21a6e417e77",
+      "actual_sha256": "d8a4fa149296912a76fd0e9a941a052603e4e24dad07dfacc236a21a6e417e77",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\prep\\calibrate.py",
+      "expected_sha256": "0189431a2e47e29aff0c23b701deabc29ffb17f0ae2c2f2f4e31c2f6c0e04178",
+      "actual_sha256": "0189431a2e47e29aff0c23b701deabc29ffb17f0ae2c2f2f4e31c2f6c0e04178",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\run-intent.json",
+      "expected_sha256": "7ed05983a9f1e0b1acec09281c13adaed2ff776a10d6d36b1854524dea9246d0",
+      "actual_sha256": "7ed05983a9f1e0b1acec09281c13adaed2ff776a10d6d36b1854524dea9246d0",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\source-copy-ledger.json",
+      "expected_sha256": "fd03c955857070449beea707a60cac955cc8a2e3fdf8e0529d18246fedb05758",
+      "actual_sha256": "fd03c955857070449beea707a60cac955cc8a2e3fdf8e0529d18246fedb05758",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\collector.py",
+      "expected_sha256": "bb85cbde6dc6ba81000b9f9ad43aee5e4bc2fa777d47f2aba98a9cef18da426e",
+      "actual_sha256": "bb85cbde6dc6ba81000b9f9ad43aee5e4bc2fa777d47f2aba98a9cef18da426e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\detached_launcher.py",
+      "expected_sha256": "0026b776358c1a0b315ccbbc7d08622e86432ed7b480ba552d574a535d2c4a1a",
+      "actual_sha256": "0026b776358c1a0b315ccbbc7d08622e86432ed7b480ba552d574a535d2c4a1a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\guarded_entry.py",
+      "expected_sha256": "6439085916cbe6334a1659f38d38d2ab06fe9f439486fec5f6adef5cc6a98bb3",
+      "actual_sha256": "6439085916cbe6334a1659f38d38d2ab06fe9f439486fec5f6adef5cc6a98bb3",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\harness.py",
+      "expected_sha256": "4250fb6d08e13b58fcb5d92fa781e2651d597a484c9bd1ac2f30872678e69d6a",
+      "actual_sha256": "4250fb6d08e13b58fcb5d92fa781e2651d597a484c9bd1ac2f30872678e69d6a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\live_trials.py",
+      "expected_sha256": "378c46c7c45ff70c27ee97020223c0827d3e60bc53594c2a6462c69c11fbf515",
+      "actual_sha256": "378c46c7c45ff70c27ee97020223c0827d3e60bc53594c2a6462c69c11fbf515",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\start_hidden.ps1",
+      "expected_sha256": "6d0eb52ca521a80ed393f6636201cd03b08e4d9664808644df22fcff0c0b2879",
+      "actual_sha256": "6d0eb52ca521a80ed393f6636201cd03b08e4d9664808644df22fcff0c0b2879",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\start_wmi_hidden.ps1",
+      "expected_sha256": "6adc536c5cc6e590d6aa367190fa62f5d26ea7e0fe824e9b29fcf3509f4b8666",
+      "actual_sha256": "6adc536c5cc6e590d6aa367190fa62f5d26ea7e0fe824e9b29fcf3509f4b8666",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\tee_exec.py",
+      "expected_sha256": "cbf08ac3940aa56bad0a1eea1c0c835250400bc853915eda6f44774aa2c32db8",
+      "actual_sha256": "cbf08ac3940aa56bad0a1eea1c0c835250400bc853915eda6f44774aa2c32db8",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\test_collector_bounded.py",
+      "expected_sha256": "ea7efde227a8ea6339df271091c98c012e20c99a8c19a2ccac4d176b40202ca7",
+      "actual_sha256": "ea7efde227a8ea6339df271091c98c012e20c99a8c19a2ccac4d176b40202ca7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\test_rss_peak.py",
+      "expected_sha256": "2a062f2e786f91778d69e730ac3faeee85fb4d30b024eea9948e7921b55677b7",
+      "actual_sha256": "2a062f2e786f91778d69e730ac3faeee85fb4d30b024eea9948e7921b55677b7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\test_watchdog.py",
+      "expected_sha256": "7d843568843d30bef6ee85eee7df82070a56dd639e2334917c63655a05aea663",
+      "actual_sha256": "7d843568843d30bef6ee85eee7df82070a56dd639e2334917c63655a05aea663",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\test_watchdog_bounded.py",
+      "expected_sha256": "779a1def086afffccc1119c3d70f2e654476b9bb2b617378359b5a729cae464e",
+      "actual_sha256": "779a1def086afffccc1119c3d70f2e654476b9bb2b617378359b5a729cae464e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\supervisor\\watchdog.py",
+      "expected_sha256": "1e75f37260f8605b751037aff928a69564a54dcf02ecc7e7c4f764956b73791b",
+      "actual_sha256": "1e75f37260f8605b751037aff928a69564a54dcf02ecc7e7c4f764956b73791b",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\resource600\\test_resource_gate.py",
+      "expected_sha256": "bedd5d57b1a7ac4cb6ceb0ae84057d90a8dc259c095189ed2c8b21dbbdc98233",
+      "actual_sha256": "bedd5d57b1a7ac4cb6ceb0ae84057d90a8dc259c095189ed2c8b21dbbdc98233",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\review\\handle-model-result.json",
+      "expected_sha256": "460c914e68f5c181cd45cff72f5f522d8a38f92d70a987079fc76e8d98febf7e",
+      "actual_sha256": "460c914e68f5c181cd45cff72f5f522d8a38f92d70a987079fc76e8d98febf7e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\review\\handle_model.py",
+      "expected_sha256": "aafc09e5bda7a349837ef62316081d195081b10f0c0e0a1fc81871ca84308a11",
+      "actual_sha256": "aafc09e5bda7a349837ef62316081d195081b10f0c0e0a1fc81871ca84308a11",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\review\\review-result.json",
+      "expected_sha256": "74c523de79b932c768d5795310f8dd83debd28fa9885852e89f8cd91b8d075bc",
+      "actual_sha256": "74c523de79b932c768d5795310f8dd83debd28fa9885852e89f8cd91b8d075bc",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\review\\REVIEW-SHA256.json",
+      "expected_sha256": "98c64651094fa06f4b6e2dcbebc76ea98612d5aeac258439999d8801cce54083",
+      "actual_sha256": "98c64651094fa06f4b6e2dcbebc76ea98612d5aeac258439999d8801cce54083",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\review\\RISK-AND-TOOLING-REVIEW.md",
+      "expected_sha256": "47f052f7edb5ef1330d6fa58d815aa525045bc3a9e75dc1a56a1a11e485e7b66",
+      "actual_sha256": "47f052f7edb5ef1330d6fa58d815aa525045bc3a9e75dc1a56a1a11e485e7b66",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\capture_policy.py",
+      "expected_sha256": "9ca4018c03333a26eef60ceb4a3a83afd3afb6ae4fbd6c77fbede52a770a0042",
+      "actual_sha256": "9ca4018c03333a26eef60ceb4a3a83afd3afb6ae4fbd6c77fbede52a770a0042",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\close_artifacts.py",
+      "expected_sha256": "2ab583b2021cc062013d0a328ef31d67f58ac7e8fc54248538f79ff3c2dec67d",
+      "actual_sha256": "2ab583b2021cc062013d0a328ef31d67f58ac7e8fc54248538f79ff3c2dec67d",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\closure-capabilities.json",
+      "expected_sha256": "b182dba1990f8d59ffe4a7291e29700cfc5c44f84f0b09082ee9a57f713c1fb1",
+      "actual_sha256": "b182dba1990f8d59ffe4a7291e29700cfc5c44f84f0b09082ee9a57f713c1fb1",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\collector.py",
+      "expected_sha256": "7e4426de7598e9fbd44deb1a873c205cee36d7eb4500fb9fb7156d36047272de",
+      "actual_sha256": "7e4426de7598e9fbd44deb1a873c205cee36d7eb4500fb9fb7156d36047272de",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\detached_launcher.py",
+      "expected_sha256": "0026b776358c1a0b315ccbbc7d08622e86432ed7b480ba552d574a535d2c4a1a",
+      "actual_sha256": "0026b776358c1a0b315ccbbc7d08622e86432ed7b480ba552d574a535d2c4a1a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\final_review.py",
+      "expected_sha256": "7c3e6f56062ae59564c5919343be405d9a54be8417c4eab584d893116ce4bb3d",
+      "actual_sha256": "7c3e6f56062ae59564c5919343be405d9a54be8417c4eab584d893116ce4bb3d",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\guarded_entry.py",
+      "expected_sha256": "be2bb885f57ddd1a4a9863283358ed83b0aa7f0c332c6656d59c734e56e1cf72",
+      "actual_sha256": "be2bb885f57ddd1a4a9863283358ed83b0aa7f0c332c6656d59c734e56e1cf72",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\harness.py",
+      "expected_sha256": "4250fb6d08e13b58fcb5d92fa781e2651d597a484c9bd1ac2f30872678e69d6a",
+      "actual_sha256": "4250fb6d08e13b58fcb5d92fa781e2651d597a484c9bd1ac2f30872678e69d6a",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\live_trials.py",
+      "expected_sha256": "378c46c7c45ff70c27ee97020223c0827d3e60bc53594c2a6462c69c11fbf515",
+      "actual_sha256": "378c46c7c45ff70c27ee97020223c0827d3e60bc53594c2a6462c69c11fbf515",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\original-source-sha256.json",
+      "expected_sha256": "dbbb6204e404f911d5ad7b5c26649659f97485bc8663e7cf49607232fcfec112",
+      "actual_sha256": "dbbb6204e404f911d5ad7b5c26649659f97485bc8663e7cf49607232fcfec112",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\README.md",
+      "expected_sha256": "d21ecf92f0169019d5c7e99d574a87e887a62d06a1472094273e5d0869bac212",
+      "actual_sha256": "d21ecf92f0169019d5c7e99d574a87e887a62d06a1472094273e5d0869bac212",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\start_hidden.ps1",
+      "expected_sha256": "6d0eb52ca521a80ed393f6636201cd03b08e4d9664808644df22fcff0c0b2879",
+      "actual_sha256": "6d0eb52ca521a80ed393f6636201cd03b08e4d9664808644df22fcff0c0b2879",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\start_wmi_hidden.ps1",
+      "expected_sha256": "6adc536c5cc6e590d6aa367190fa62f5d26ea7e0fe824e9b29fcf3509f4b8666",
+      "actual_sha256": "6adc536c5cc6e590d6aa367190fa62f5d26ea7e0fe824e9b29fcf3509f4b8666",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\SUPERVISOR-V2-SHA256.json",
+      "expected_sha256": "6ee39a973cb8db8321d3a4e9a867d2fa9b722a2a93aa94a031c22fc47d70aa45",
+      "actual_sha256": "6ee39a973cb8db8321d3a4e9a867d2fa9b722a2a93aa94a031c22fc47d70aa45",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\tee_exec.py",
+      "expected_sha256": "cbf08ac3940aa56bad0a1eea1c0c835250400bc853915eda6f44774aa2c32db8",
+      "actual_sha256": "cbf08ac3940aa56bad0a1eea1c0c835250400bc853915eda6f44774aa2c32db8",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\test_closure_v2.py",
+      "expected_sha256": "4d6904e8472fa9307d600caad71237c5973d19f9a6f49d813ab4885ca693749e",
+      "actual_sha256": "4d6904e8472fa9307d600caad71237c5973d19f9a6f49d813ab4885ca693749e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\test_collector_bounded.py",
+      "expected_sha256": "ea7efde227a8ea6339df271091c98c012e20c99a8c19a2ccac4d176b40202ca7",
+      "actual_sha256": "ea7efde227a8ea6339df271091c98c012e20c99a8c19a2ccac4d176b40202ca7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\test_rss_peak.py",
+      "expected_sha256": "2a062f2e786f91778d69e730ac3faeee85fb4d30b024eea9948e7921b55677b7",
+      "actual_sha256": "2a062f2e786f91778d69e730ac3faeee85fb4d30b024eea9948e7921b55677b7",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\test_watchdog.py",
+      "expected_sha256": "7d843568843d30bef6ee85eee7df82070a56dd639e2334917c63655a05aea663",
+      "actual_sha256": "7d843568843d30bef6ee85eee7df82070a56dd639e2334917c63655a05aea663",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\test_watchdog_bounded.py",
+      "expected_sha256": "779a1def086afffccc1119c3d70f2e654476b9bb2b617378359b5a729cae464e",
+      "actual_sha256": "779a1def086afffccc1119c3d70f2e654476b9bb2b617378359b5a729cae464e",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\unit-tests-final.txt",
+      "expected_sha256": "888f22dccc8aa6f836663436804ad5baf7305a3de4f808d95d1427e5a873006c",
+      "actual_sha256": "888f22dccc8aa6f836663436804ad5baf7305a3de4f808d95d1427e5a873006c",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\unit-tests.txt",
+      "expected_sha256": "c98f6369959349e2019b004732f3fcd9de2b128a54b087e3f91bfad62592c6cc",
+      "actual_sha256": "c98f6369959349e2019b004732f3fcd9de2b128a54b087e3f91bfad62592c6cc",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\supervisor-v2\\watchdog.py",
+      "expected_sha256": "7a64f00f43330c50cd64bbe4023fcfe503dc322876d7905bd2eb19210ef97b99",
+      "actual_sha256": "7a64f00f43330c50cd64bbe4023fcfe503dc322876d7905bd2eb19210ef97b99",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    },
+    {
+      "path": "C:\\Users\\esteb\\.codex\\visualizations\\2026\\11\\03\\01a1a183-d181-79b1-94d3-e95627612b75\\omp-v010-preparation\\continuation-20261103\\focused-closure\\verify_final_plan.py",
+      "expected_sha256": "b8c1e02102df037210a7b5b6c264131a41250b93494385ea47750c144a291a0d",
+      "actual_sha256": "b8c1e02102df037210a7b5b6c264131a41250b93494385ea47750c144a291a0d",
+      "status": "PASS",
+      "kind": "existing focused evidence ledger"
+    }
+  ]
+}

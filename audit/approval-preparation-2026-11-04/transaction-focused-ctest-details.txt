@@ -1,0 +1,74 @@
+Start testing: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+----------------------------------------------------------
+5/31 Testing: transaction_retirement_unit
+5/31 Test: transaction_retirement_unit
+Command: "C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build/pg_transaction_retirement.exe"
+Directory: C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build
+"transaction_retirement_unit" start time: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+Output:
+----------------------------------------------------------
+transaction_retirement PASS scenarios=6 unrelated_markers=preserved
+<end of output>
+Test time =   1.02 sec
+----------------------------------------------------------
+Test Passed.
+"transaction_retirement_unit" end time: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+"transaction_retirement_unit" time elapsed: 00:00:01
+----------------------------------------------------------
+
+6/31 Testing: transaction_identity_unit
+6/31 Test: transaction_identity_unit
+Command: "C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build/pg_transaction_identity.exe"
+Directory: C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build
+"transaction_identity_unit" start time: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+Output:
+----------------------------------------------------------
+allocation_sweep kind=FINISH denied_sites=5 PASS
+allocation_sweep kind=BEGIN denied_sites=4 PASS
+transaction_identity PASS scenarios=23 SQL=not_run network=not_run Lane=deterministic_admission_model
+<end of output>
+Test time =   0.28 sec
+----------------------------------------------------------
+Test Passed.
+"transaction_identity_unit" end time: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+"transaction_identity_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/31 Testing: unit
+13/31 Test: unit
+Command: "C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build/pg_tests.exe"
+Directory: C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build
+"unit" start time: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+Output:
+----------------------------------------------------------
+32 checks passed
+<end of output>
+Test time =   0.45 sec
+----------------------------------------------------------
+Test Passed.
+"unit" end time: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+"unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/31 Testing: lane_admission_unit
+16/31 Test: lane_admission_unit
+Command: "C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build/pg_lane_admission_tests.exe"
+Directory: C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build
+"lane_admission_unit" start time: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+Output:
+----------------------------------------------------------
+readiness_stop_race kind=0 PASS rejected=not_ready retained_jobs=0 queued=0 commands=1 uncertain=1
+readiness_stop_race kind=1 PASS rejected=not_ready retained_jobs=0 queued=0 commands=1 uncertain=1
+readiness_stop_race kind=2 PASS rejected=not_ready retained_jobs=0 queued=0 commands=1 uncertain=1
+worker_start_exception PASS rejected=not_ready queued=0
+accepted_before_stop PASS completions=1 cancelled=1 commands=0
+lane_admission PASS cases=5
+<end of output>
+Test time =   0.59 sec
+----------------------------------------------------------
+Test Passed.
+"lane_admission_unit" end time: Nov 04 22:40 Hora est. Pacífico, Sudamérica
+"lane_admission_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 04 22:40 Hora est. Pacífico, Sudamérica

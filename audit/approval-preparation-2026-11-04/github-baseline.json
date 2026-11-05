@@ -1,0 +1,78 @@
+{
+  "checked_utc": "2026-11-05T03:35:02.468Z",
+  "source": "connected GitHub read-only API",
+  "master": {
+    "sha": "3a5df8439881bd514727a2c5e360f9ec0bafaf43",
+    "tree": "21cea7c3b4620c361484be7aa76ad8f73132c545",
+    "url": "https://github.com/itskoleban/omp-postgresql/tree/master"
+  },
+  "ci": [
+    {
+      "id": 41579975396,
+      "head_sha": "3a5df8439881bd514727a2c5e360f9ec0bafaf43",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "workflow_dispatch",
+      "attempt": 1,
+      "created_at": "2026-11-03T04:45:39Z",
+      "updated_at": "2026-11-03T05:02:31Z",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41579975396"
+    }
+  ],
+  "jobs": [
+    {
+      "id": 125732269969,
+      "name": "windows",
+      "conclusion": "success",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41579975396/job/125732269969"
+    },
+    {
+      "id": 125732270065,
+      "name": "linux (ON)",
+      "conclusion": "success",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41579975396/job/125732270065"
+    },
+    {
+      "id": 125732270185,
+      "name": "linux (THREAD)",
+      "conclusion": "success",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41579975396/job/125732270185"
+    },
+    {
+      "id": 125732270202,
+      "name": "linux (OFF)",
+      "conclusion": "success",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41579975396/job/125732270202"
+    },
+    {
+      "id": 125732270207,
+      "name": "Linux x86 and open.mp",
+      "conclusion": "success",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41579975396/job/125732270207"
+    },
+    {
+      "id": 125732270228,
+      "name": "Windows x86 MSVC and open.mp",
+      "conclusion": "success",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41579975396/job/125732270228"
+    },
+    {
+      "id": 125737210027,
+      "name": "Verify downloaded x86 distributions",
+      "conclusion": "success",
+      "html_url": "https://github.com/itskoleban/omp-postgresql/actions/runs/41579975396/job/125737210027"
+    }
+  ],
+  "open_issues": [
+    {
+      "number": 31,
+      "state": "open",
+      "title": "v0.1.0 residual risk: historical ASan network cleanup timeout (root cause unknown)",
+      "updated_at": "2026-10-25T14:33:59Z",
+      "url": "https://github.com/itskoleban/omp-postgresql/issues/31"
+    }
+  ],
+  "open_prs": {
+    "issues": []
+  }
+}

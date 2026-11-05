@@ -82,6 +82,13 @@ See the [finite dispositions and exact launch prerequisites](pre-soak-checklist.
 The local bounded results do not replace exact final-source CI, frozen-host checks,
 reviewed risk disposition or the separately owner-authorized 24-hour campaign.
 
+The pending Engine change reserves identifier capacity for COMMIT/ROLLBACK when
+BEGIN is admitted. Other handle consumers cannot spend that capacity; rejected
+finalizer admission leaves it available without recycling issued IDs. Its focused
+regression checks do not replace affected final-source qualification or the final
+campaign. Public handles remain 32-bit, with a finite cumulative allocation limit
+and required operational maintenance; see [handle lifetime](api.md#handle-lifetime-and-exhaustion).
+
 ## Compatibility and migration
 
 The public Pawn API retains **69 natives and three callbacks** with unchanged

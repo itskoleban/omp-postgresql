@@ -1,0 +1,30 @@
+{
+  "issue": {
+    "url": "https://github.com/itskoleban/omp-postgresql/issues/31",
+    "title": "v0.1.0 residual risk: historical ASan network cleanup timeout (root cause unknown)",
+    "issue_number": 31,
+    "body": "## Residual risk accepted for continued development — not for stable release\n\n**Source:** PR #30; historical GitHub Actions run [40164306733](https://github.com/itskoleban/omp-postgresql/actions/runs/40164306733), job [121082357048](https://github.com/itskoleban/omp-postgresql/actions/runs/40164306733/job/121082357048), source `7ca0d1df1e970e622fad09240bd099b939a563c8`.\n\n**Observed:** Linux ASan/UBSan `network_recovery_integration` / `phase2_hold` timed out while confirming cleanup `DROP TABLE phase2_hold` after the intended INSERT fault, successful reconnection, independent row/sequence checks and confirmed fresh BEGIN/ROLLBACK. Returned `uncertain/error6/completed0`. Original run remains **FAIL**; historical root cause remains **ROOT CAUSE UNKNOWN**. No PostgreSQL, plugin, fixture, sanitizer or runner cause was demonstrated.\n\n**Subsequent evidence:** PR #30 source `d345061841b0239973b0258759769ce99ae7cb39`, hosted [run 40200045946](https://github.com/itskoleban/omp-postgresql/actions/runs/40200045946) **PASS 7/7 jobs, 160/160 CTest, zero skips** including one instrumented ASan network execution and all 13 scenarios. Bounded evidence demonstrates successful SQL completion and conservatively correct handling of deliberate faults, but **does not reproduce, explain, or correct the historical timeout**. A PostgreSQL lock wait and delayed receive independently yield the same uncertain result; neither is established as the historical cause. No SQL-confirmation assertion, 1500 ms deadline, or no-replay property was weakened.\n\n### Explicit owner decision — 2026-10-25\n\nThe repository owner explicitly authorized proceeding with merging PR #30 **to continue development** and starting a fresh qualification branch from the resulting master despite this **documented residual availability/recovery risk**. This is a narrowly scoped acceptance of uncertainty for **development integration only**, not a claim that the historical failure is resolved and **not** permission to qualify or publish stable v0.1.0.\n\n### Required follow-up and release gates\n\n- Preserve the failed historical CI and original artifact identities as immutable negative evidence; never relabel FAIL as PASS/RESOLVED.\n- Treat a recurrence of the hold cleanup timeout or new evidence of an Engine/Lane/fixture bug as a new actionable release blocker; capture contemporaneous server/client/lock/scheduler evidence, test before/after, and fix where technically justified.\n- Evaluate this residual risk explicitly in the final independent audit and pre-release risk review. Document either a justified acceptance for release or a proven correction, without treating a passing rerun alone as causation.\n- Maintain original **UNCERTAIN** terminal semantics and prohibition on automatic replay of uncertain SQL.\n- Complete resource/memory, storage, fuzzing, and required integration scenarios; freeze the candidate and verify isolated authorized infrastructure before contemplating the 24-hour campaign.\n- **24-hour campaign BLOCKED; no stable release, tag, RC alteration, or production authorization.**\n\nThis tracking issue must remain open after PR #30 merges until pre-release disposition is explicitly recorded.",
+    "state": "open",
+    "user": {
+      "login": "itskoleban",
+      "name": "itskoleban",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/205335121?v=4",
+      "id": 205335121
+    },
+    "assignees": null,
+    "labels": null,
+    "milestone": null,
+    "state_reason": null,
+    "comments": 0,
+    "created_at": "2026-10-25T14:33:59Z",
+    "updated_at": "2026-10-25T14:33:59Z",
+    "closed_at": null,
+    "display_url": "https://github.com/itskoleban/omp-postgresql/issues/31",
+    "display_title": "v0.1.0 residual risk: historical ASan network cleanup timeout (root cause unknown)"
+  },
+  "url": "https://github.com/itskoleban/omp-postgresql/issues/31",
+  "title": "v0.1.0 residual risk: historical ASan network cleanup timeout (root cause unknown)",
+  "display_url": "https://github.com/itskoleban/omp-postgresql/issues/31",
+  "display_title": "v0.1.0 residual risk: historical ASan network cleanup timeout (root cause unknown)"
+}

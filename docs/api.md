@@ -10,6 +10,26 @@ Use the [per-native reference](native-reference.md) for all 69 exact signatures,
 argument limits, return/error sentinels, ownership rules and call examples. This guide
 explains how those operations fit together.
 
+## Handle lifetime and exhaustion
+
+All connections, statements, batches and jobs share one monotonically increasing
+32-bit identifier space per Engine lifetime: **1 through 2,147,483,646**, at most
+2,147,483,646 allocations. Closing objects, reconnecting, reloading a script or
+changing the gamemode does not reset that space. A rejected call can still consume
+an ID if allocation preceded its failure. SQL execution counters therefore cannot
+measure the remaining handle budget.
+
+BEGIN reserves identity capacity for its eventual COMMIT or ROLLBACK as well as
+job capacity. Ordinary allocations cannot consume that reservation. This protects
+finalization from identifier exhaustion; it does not guarantee network or SQL success.
+
+Operators must measure aggregate allocation consumption across all scripts, choose
+an enforced workload and reaction/drain horizon, and schedule a controlled full
+process restart before exhaustion. Drain transactions, reconcile uncertain effects
+and discard all old handles before restart. No universal safe request rate or
+unlimited process lifetime is qualified for v0.1.0. Handle reuse is deferred for
+separate architectural evaluation in v0.2.0; the public API is unchanged here.
+
 For a first working query, begin with [getting started](getting-started.md). The
 [example catalogue](examples.md) links practical flows and their external prerequisites.
 

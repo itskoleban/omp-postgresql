@@ -1,0 +1,13 @@
+Test project C:/Users/esteb/OneDrive/Documents/Repositories/omp-postgresql/build
+    Start  5: transaction_retirement_unit
+1/4 Test  #5: transaction_retirement_unit ......   Passed    1.02 sec
+    Start  6: transaction_identity_unit
+2/4 Test  #6: transaction_identity_unit ........   Passed    0.28 sec
+    Start 13: unit
+3/4 Test #13: unit .............................   Passed    0.45 sec
+    Start 16: lane_admission_unit
+4/4 Test #16: lane_admission_unit ..............   Passed    0.59 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   2.41 sec

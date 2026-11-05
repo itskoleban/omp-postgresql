@@ -1,0 +1,29 @@
+{
+  "utc": "2026-11-05T03:34:10Z",
+  "unix": 1793849650.9298682,
+  "monotonic": 75709.2089729,
+  "pid": 24560,
+  "total_physical_bytes": 16786780160,
+  "available_physical_bytes": 4144308224,
+  "physical_load_percent": 75,
+  "commit_limit_bytes": 24571408384,
+  "commit_available_bytes": 10905587712,
+  "commit_used_bytes": 13665820672,
+  "power": {
+    "ac_line_status": 0,
+    "battery_percent": 48
+  },
+  "windows_disk": {
+    "total_bytes": 510240559104,
+    "used_bytes": 303596978176,
+    "free_bytes": 206643580928
+  },
+  "required_available_strictly_greater_than_bytes": 2894368768,
+  "margin_bytes": 1249939456,
+  "status": "BLOCKED",
+  "docker_container_started": false,
+  "sql_executed": false,
+  "load_started": false,
+  "campaign_started": false,
+  "docker_linux_storage_supervision": "NOT CHECKED AFTER FAILED PHYSICAL GATE"
+}

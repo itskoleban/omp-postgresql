@@ -268,6 +268,12 @@ if(BUILD_TESTING)
     add_executable(pg_transaction_retirement tests/transaction_retirement.cpp)
     add_test(NAME transaction_retirement_unit COMMAND pg_transaction_retirement)
     set_tests_properties(transaction_retirement_unit PROPERTIES TIMEOUT 30)
+    add_executable(pg_transaction_identity tests/transaction_identity.cpp)
+    if(PG_THREAD_SANITIZE)
+        target_compile_definitions(pg_transaction_identity PRIVATE PG_TEST_ALLOCATIONS=0)
+    endif()
+    add_test(NAME transaction_identity_unit COMMAND pg_transaction_identity)
+    set_tests_properties(transaction_identity_unit PROPERTIES TIMEOUT 30)
     # Named result-insertion exceptions retain every sanitizer allocator interceptor.
     add_executable(pg_confirmed_allocation tests/confirmed_allocation.cpp)
     add_test(NAME confirmed_result_allocation_integration COMMAND pg_confirmed_allocation)
@@ -389,6 +395,7 @@ if(BUILD_TESTING)
         pg_sql_section_tests
         pg_sql_file_fault_tests
         pg_transaction_retirement
+        pg_transaction_identity
         pg_confirmed_allocation
         pg_unload_allocation
         pg_diagnostics_tests
