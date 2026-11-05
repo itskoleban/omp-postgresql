@@ -87,7 +87,9 @@ private:
 	std::unordered_map<Id, Batch> batches_;
 	std::unordered_map<Id, std::shared_ptr<Job>> jobs_;
 	std::unordered_map<Id, bool> ending_;
-	Id id();
+	std::size_t finishing_slots() const;
+	Id preview_id(std::size_t extra_reservations = 0) const;
+	Id id(std::size_t extra_reservations = 0);
 	Id submit(std::shared_ptr<Job> job);
 	Batch &batch(Owner owner, Id id);
 	int transaction_lane(Owner owner, Id connection, Id transaction, int lane);

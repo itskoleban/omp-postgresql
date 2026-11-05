@@ -82,6 +82,18 @@ See the [finite dispositions and exact launch prerequisites](pre-soak-checklist.
 The local bounded results do not replace exact final-source CI, frozen-host checks,
 reviewed risk disposition or the separately owner-authorized 24-hour campaign.
 
+BEGIN reserves an identifier for COMMIT or ROLLBACK. Other allocations preserve
+that capacity, and a finalizer rejected before queue acceptance leaves it
+available for retry. See [handle lifetime](api.md#handle-lifetime-and-exhaustion)
+for the cumulative limit and operating requirements.
+
+The [initial PR validation](https://github.com/itskoleban/omp-postgresql/actions/runs/41963848824)
+failed on Windows x86 because the new test assumed a minimum number of STL
+allocations. The test-only correction preserves failure injection through the
+first successful admission. The [follow-up validation](https://github.com/itskoleban/omp-postgresql/actions/runs/41965426705)
+passed all seven jobs. The identity model covers 24 scenarios, with both custom
+allocator sweeps omitted under ThreadSanitizer to preserve its interceptors.
+
 ## Compatibility and migration
 
 The public Pawn API retains **69 natives and three callbacks** with unchanged
