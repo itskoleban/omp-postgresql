@@ -10,6 +10,34 @@ Use the [per-native reference](native-reference.md) for all 69 exact signatures,
 argument limits, return/error sentinels, ownership rules and call examples. This guide
 explains how those operations fit together.
 
+## Handle lifetime and exhaustion
+
+All connections, statements, batches and jobs share one monotonically increasing
+32-bit identifier space per Engine lifetime: **1 through 2,147,483,646**, at most
+2,147,483,646 allocations. Closing objects, reconnecting, reloading a script or
+changing the gamemode does not reset that space. A rejected call can still consume
+an ID if allocation preceded its failure. SQL execution counters therefore cannot
+measure the remaining handle budget.
+
+BEGIN reserves identity capacity for its eventual COMMIT or ROLLBACK as well as
+job capacity. Ordinary allocations cannot consume that reservation. This protects
+finalization from identifier exhaustion; it does not guarantee network or SQL success.
+
+Count allocating attempts across every script, including retries and probes, since
+an attempt can consume an ID even when it fails. A successful empty batch creation
+followed by batch close gives the last issued ID at the instant of creation and
+spends one ID. Between observations, subtract an upper bound for intervening
+allocations and outstanding finish reservations from the remaining capacity.
+
+Enforce an aggregate rate and burst limit and set warning and stop thresholds
+while enough capacity remains to react, stop admission and drain transactions.
+The stop margin must cover all allocating attempts allowed during the drain
+interval plus a safety margin. Include finalizers in the accounting without
+counting the same reserved capacity twice. The thresholds depend on the verified
+workload and maintenance window. Drain transactions, reconcile uncertain effects
+and discard all old handles during a controlled full server process restart.
+Handle reuse is deferred for separate architectural evaluation in v0.2.0.
+
 For a first working query, begin with [getting started](getting-started.md). The
 [example catalogue](examples.md) links practical flows and their external prerequisites.
 

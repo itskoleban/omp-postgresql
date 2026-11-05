@@ -87,8 +87,32 @@ Engine::~Engine() {
 	connections_.clear();
 }
 
-Id Engine::id() {
-	return detail::take_handle(next_);
+std::size_t Engine::finishing_slots() const {
+	std::size_t slots = 0;
+	for (const auto &[handle, connection] : connections_) {
+		for (auto transaction : connection->reservations) {
+			if (transaction && !ending_.contains(transaction)) {
+				++slots;
+			}
+		}
+	}
+	return slots;
+}
+
+Id Engine::preview_id(std::size_t extra_reservations) const {
+	constexpr auto maximum = std::numeric_limits<Id>::max();
+	if (next_ <= 0 || next_ >= maximum ||
+	    static_cast<std::size_t>(maximum - next_) <= finishing_slots() + extra_reservations) {
+		throw Failure(Error::limit,
+		              "Handle space exhausted (including transaction finish reservations)");
+	}
+	return next_;
+}
+
+Id Engine::id(std::size_t extra_reservations) {
+	const auto handle = preview_id(extra_reservations);
+	++next_;
+	return handle;
 }
 
 Id Engine::connect(Owner owner, std::string profile, int size) {
@@ -196,18 +220,11 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	if (j->lane < 0 || static_cast<std::size_t>(j->lane) >= c.lanes.size()) {
 		throw Failure(Error::invalid, "Channel out of range");
 	}
-	std::size_t finishing_slots = 0;
-	for (const auto &[handle, connection] : connections_) {
-		for (auto transaction : connection->reservations) {
-			if (transaction && !ending_.contains(transaction)) {
-				++finishing_slots;
-			}
-		}
-	}
+	const auto finishing_reservations = finishing_slots();
 	// Every live BEGIN reserves capacity for its eventual COMMIT/ROLLBACK.
 	// Other jobs cannot consume that capacity, even when all retained jobs are BEGINs.
 	auto new_slots = j->kind == Kind::begin ? 2u : 1u;
-	if (jobs_.size() + finishing_slots + new_slots > limits_.jobs) {
+	if (jobs_.size() + finishing_reservations + new_slots > limits_.jobs) {
 		auto record = job_record(LogEvent::admission_rejected, *j);
 		record.error = Error::limit;
 		diagnostics_.emit(record);
@@ -221,7 +238,11 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	    ending_.contains(j->transaction)) {
 		throw Failure(Error::transaction, "Transaction is ending");
 	}
-	j->id = id();
+	const bool finishing = j->kind == Kind::commit || j->kind == Kind::rollback;
+	// BEGIN protects a free identity as well as its eventual result slot. A finish
+	// previews its identity without advancing the allocator: enqueue rejection has
+	// no accepted job and must leave that final identity available for a retry.
+	j->id = finishing ? preview_id() : id(j->kind == Kind::begin ? 1 : 0);
 	j->accepted_at = Clock::now();
 	PG_NETWORK_TRACE("submit", j.get(), c.lanes[j->lane].get(), nullptr, {}, 0, 0, j->accepted_at);
 	j->items_status.assign(j->kind == Kind::execute
@@ -235,6 +256,11 @@ Id Engine::submit(std::shared_ptr<Job> j) {
 	} catch (...) {
 		jobs_.erase(j->id);
 		throw;
+	}
+	// Lane::enqueue throws only before acceptance. All Engine allocation runs on
+	// the owning main thread, so committing this preview cannot race another ID.
+	if (finishing) {
+		++next_;
 	}
 	return j->id;
 }
