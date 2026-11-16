@@ -103,7 +103,11 @@ private:
 	void log(LogEvent event, std::uint64_t value = 0) noexcept;
 	void run();
 	bool connect();
-	Error wait_socket(bool writing, Clock::time_point deadline, const Job *job);
+	struct SocketWait {
+		Error error = Error::none;
+		bool ready = false;
+	};
+	SocketWait wait_socket(bool writing, Clock::time_point deadline, const Job *job);
 	Result receive(Job &job, Clock::time_point deadline, std::size_t &bytes,
 	               bool stream_rows = false);
 	Result command(Job &job, const std::string &sql, const Params &params, bool prepared,

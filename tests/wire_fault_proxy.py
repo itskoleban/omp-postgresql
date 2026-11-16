@@ -1,7 +1,8 @@
 """Bounded loopback proxy faults, never a physical network partition.
 
 Framed scenarios deliberately disable TLS only on their disposable profile.
-tls_hold relays opaque TLS bytes and never terminates or inspects encryption.
+TLS modes never terminate encryption. tls_delay withholds the SSLRequest reply
+and first TLS server record, then relays the rest of the session unchanged.
 No SQL, credentials, keys, startup payloads or bind values are logged.
 """
 
@@ -15,9 +16,10 @@ import time
 
 
 class WireFaultProxy:
-    MODES = {"lose", "hold", "partial_parse", "partial_command", "fragment", "tls_hold", "tls_outage"}
+    MODES = {"lose", "hold", "partial_parse", "partial_command", "fragment", "tls_hold", "tls_outage",
+             "tls_delay"}
 
-    def __init__(self, port, directory, mode, tag=b"INSERT 0 1"):
+    def __init__(self, port, directory, mode, tag=b"INSERT 0 1", *, startup_delay_ms=0):
         if mode not in self.MODES or tag not in (
             b"BEGIN",
             b"COMMIT",
@@ -27,9 +29,15 @@ class WireFaultProxy:
             b"INSERT 0 1",
         ):
             raise ValueError("Unsupported bounded wire fault")
+        if (mode == "tls_delay" and not 0 < startup_delay_ms <= 1000) or (
+            mode != "tls_delay" and startup_delay_ms != 0
+        ):
+            raise ValueError("Invalid TLS startup delay")
         self.directory = Path(directory)
         self.directory.mkdir(parents=True, exist_ok=False)
         self.mode, self.tag, self.upstream_port = mode, tag, port
+        self.startup_delay_ms = startup_delay_ms
+        self.startup_delays = []
         self.stop = threading.Event()
         self.injected = False
         self.lock = threading.Lock()
@@ -136,10 +144,37 @@ class WireFaultProxy:
         finally:
             client.close()
 
+    def delay_startup(self, target, payload, phase):
+        start = time.monotonic_ns()
+        deadline = start + self.startup_delay_ms * 1_000_000
+        remaining_ns = deadline - time.monotonic_ns()
+        while remaining_ns > 0:
+            if self.stop.wait(remaining_ns / 1_000_000_000):
+                return False
+            remaining_ns = deadline - time.monotonic_ns()
+        held_ns = time.monotonic_ns() - start
+        target.sendall(payload)
+        self.event("tls_startup_released", phase=phase, delay_ms=self.startup_delay_ms,
+                   held_ns=held_ns)
+        with self.lock:
+            self.startup_delays.append(phase)
+        return True
+
     def relay(self, source, target, backend):
         held = False
         try:
-            if self.mode in ("tls_hold", "tls_outage"):
+            if self.mode == "tls_delay" and backend:
+                response = self.read(source, 1)
+                if response != b"S":
+                    raise ValueError("Expected the PostgreSQL SSLRequest reply")
+                if not self.delay_startup(target, response, "ssl_reply"):
+                    return
+                header = self.read(source, 5)
+                if header[:2] != b"\x16\x03":
+                    raise ValueError("Expected the first TLS server handshake record")
+                if not self.delay_startup(target, header, "tls_record"):
+                    return
+            if self.mode in ("tls_hold", "tls_outage", "tls_delay"):
                 while not self.stop.is_set():
                     try:
                         chunk = source.recv(65536)
@@ -147,7 +182,8 @@ class WireFaultProxy:
                         continue
                     if not chunk:
                         break
-                    if backend and (self.directory / "arm").exists() and self.claim():
+                    if (self.mode != "tls_delay" and backend and
+                        (self.directory / "arm").exists() and self.claim()):
                         held = True
                         self.event("opaque_tls_response_held", bytes=len(chunk))
                     if not held:

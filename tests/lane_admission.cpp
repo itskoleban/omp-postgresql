@@ -8,11 +8,17 @@
 #include <new>
 #include <stdexcept>
 #include <thread>
+#ifdef _WIN32
+#include <winsock2.h>
+#else
+#include <sys/select.h>
+#endif
 
 namespace admission_test {
 bool fail_start = false;
 bool fail_recovery = false;
 bool stop_before_enqueue = false; // Main-thread-only checkpoint control.
+bool connecting = false; // These scenarios run one worker at a time.
 std::atomic<unsigned> starts{0};
 std::atomic<bool> receiving{false}, release_failure{false};
 
@@ -28,6 +34,7 @@ template <class Predicate> void until(Predicate predicate) {
 }
 PGconn *start(const char *const *, const char *const *, int) {
 	starts.fetch_add(1);
+	connecting = true;
 	// Real opaque storage and RAII deleter; no socket is opened.
 	return PQconnectStart("invalid_admission_test_option=1");
 }
@@ -38,9 +45,17 @@ PostgresPollingStatusType poll(PGconn *) {
 void allocation_checkpoint(std::string_view site) {
 	if (site == "connect_diagnostic") throw std::bad_alloc();
 }
-int nonblocking(PGconn *, int) { return 0; }
+int nonblocking(PGconn *, int) {
+	connecting = false;
+	return 0;
+}
 PQnoticeProcessor notice(PGconn *, PQnoticeProcessor, void *) { return nullptr; }
-ConnStatusType status(const PGconn *) { return CONNECTION_OK; }
+ConnStatusType status(const PGconn *) { return connecting ? CONNECTION_STARTED : CONNECTION_OK; }
+int socket(const PGconn *) { return 42; }
+int select(int, fd_set *, fd_set *write, fd_set *, const timeval *) {
+	check(write && FD_ISSET(42, write), "Admission fixture must wait for startup write readiness");
+	return 1;
+}
 int send(PGconn *, const char *, int, const Oid *, const char *const *, const int *,
          const int *, int) { return 1; }
 int single_row(PGconn *) { return 1; }
@@ -66,17 +81,21 @@ void checkpoint(pg::Lane &lane) {
 #define PQsetnonblocking admission_test::nonblocking
 #define PQsetNoticeProcessor admission_test::notice
 #define PQstatus admission_test::status
+#define PQsocket admission_test::socket
 #define PQsendQueryParams admission_test::send
 #define PQsetSingleRowMode admission_test::single_row
 #define PQflush admission_test::flush
 #define PQconsumeInput admission_test::consume
+#define PG_SOCKET_SELECT admission_test::select
 #define PG_ALLOCATION_CHECKPOINT(site) admission_test::allocation_checkpoint(site)
 #include "../src/session.cpp"
 #undef PG_ALLOCATION_CHECKPOINT
+#undef PG_SOCKET_SELECT
 #undef PQconsumeInput
 #undef PQflush
 #undef PQsetSingleRowMode
 #undef PQsendQueryParams
+#undef PQsocket
 #undef PQstatus
 #undef PQsetNoticeProcessor
 #undef PQsetnonblocking

@@ -263,6 +263,7 @@ if(BUILD_TESTING)
     add_executable(pg_stress_tests tests/stress.cpp)
     add_executable(pg_connection_tests tests/connection_lifecycle.cpp)
     add_executable(pg_connection_stall_tests tests/connection_stalls.cpp)
+    add_executable(pg_connection_delay_tests tests/connection_delays.cpp)
     add_executable(pg_sql_section_tests tests/sql_sections.cpp)
     add_executable(pg_sql_file_fault_tests tests/sql_file_faults.cpp)
     add_executable(pg_transaction_retirement tests/transaction_retirement.cpp)
@@ -392,6 +393,7 @@ if(BUILD_TESTING)
         pg_stress_tests
         pg_connection_tests
         pg_connection_stall_tests
+        pg_connection_delay_tests
         pg_sql_section_tests
         pg_sql_file_fault_tests
         pg_transaction_retirement
@@ -460,6 +462,8 @@ if(BUILD_TESTING)
     add_test(NAME stress_integration COMMAND pg_stress_tests)
     add_test(NAME connection_lifecycle_integration COMMAND pg_connection_tests)
     add_test(NAME connection_stalls_integration COMMAND pg_connection_stall_tests)
+    add_test(NAME connection_delays_integration COMMAND pg_connection_delay_tests)
+    set_tests_properties(connection_delays_integration PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS network)
     add_test(NAME sql_sections_unit COMMAND pg_sql_section_tests)
     add_test(NAME sql_file_stream_faults COMMAND pg_sql_file_fault_tests)
     set_tests_properties(sql_file_stream_faults PROPERTIES TIMEOUT 15)

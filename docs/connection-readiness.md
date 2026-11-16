@@ -1,0 +1,71 @@
+# Connection readiness qualification
+
+[Issue #58](https://github.com/itskoleban/omp-postgresql/issues/58) tracks Winsock 10057
+during direct Neon startup with RC.3. The RC.3 driver enters libpq's polling state
+machine before the first write-readiness notification, and it can reenter after a
+`select` timeout or interruption. These defects are reproducible in `socket_wait_unit`.
+A local delayed TLS test exercises libpq over a real connection. The authorized Neon
+comparison below is required to resolve the cause of the reported Windows incident.
+
+The connection driver waits for the direction requested by libpq and retrieves the
+current socket on each wait. Winsock also reports failed nonblocking connects through
+the exceptional set. This allows libpq to inspect the socket error and handle address
+fallback. A 10 ms maximum wait slice bounds shutdown detection during socket waits.
+`OMP_PG_CONNECT_MS` is the component's per-attempt elapsed budget, including time
+spent inside libpq. A synchronous resolver or other provider call inside libpq can
+delay when the worker observes the deadline or shutdown. The profile's `connect_timeout`
+applies to the blocking `psql` control. See the
+[libpq 17 connection contract](https://www.postgresql.org/docs/17/libpq-connect.html#LIBPQ-PQCONNECTSTARTPARAMS)
+and [Winsock select](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-select).
+
+## Reproduce on an authorized Neon project
+
+Use two disposable installations of official Windows x86 open.mp 1.6.7.3218. Use the
+verified [RC.3 distribution](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.3)
+in both copies. In the candidate copy replace `components/PostgreSQL.dll` with the
+Windows x86 test artifact built from the corrected source. Keep the RC.3 libpq and
+OpenSSL DLLs resident in both server directories and remove unrelated PostgreSQL
+directories from the server's search path. While each server is running, verify that
+the loaded `libpq.dll`, `libssl-3.dll` and `libcrypto-3.dll` match the intended copies
+by path and SHA-256. PowerShell's `Get-Process -Id <pid> -Module` lists loaded modules.
+
+Use your existing private `[game]` service with the direct endpoint and a private
+password file. For the incident comparison the service settings are `sslmode=require`,
+`channel_binding=require`, and `connect_timeout=15`. Keep `sslmode=verify-full` with an
+appropriate CA and server identity in a separate verification run. Limit the test role
+to login and read-only access needed for the probe. Follow the
+[private file setup](getting-started.md#install-and-configure) for permissions.
+
+Set the following in the PowerShell session that launches the disposable servers and
+run the SQL control. The component settings must be identical for both servers. A
+second comparison can retain the original retry and component deadline settings.
+
+```powershell
+$env:PGSERVICEFILE = 'C:/private/pg_service.conf'
+$env:PGPASSFILE = 'C:/private/pgpass'
+$env:OMP_PG_CONNECT_MS = '15000'
+$env:OMP_PG_RECONNECT_ATTEMPTS = '0'
+psql -X -w 'service=game' -v ON_ERROR_STOP=1 -c 'SELECT 1'
+```
+
+Compile the Pawn probe at `tests/neon_connection.pwn` in the source checkout using
+Pawn 3.10.11 and the official open.mp standard library. Create `build/` first.
+
+```powershell
+pawncc tests/neon_connection.pwn -E -ipawn -iC:/path/to/omp-stdlib -obuild/neon_connection.amx
+```
+
+Install the AMX as `gamemodes/neon_connection.amx` in each server. Configure
+`pawn.main_scripts` to contain `neon_connection 1` and bind the test instances to
+loopback. Run the RC.3 server, then the candidate with the same service. The probe
+opens a one-lane pool, runs a read-only query, closes it, then opens a two-lane pool
+and checks both queries and distinct backend PIDs. It prints only a phase marker,
+ready lane count or elapsed time. If neither terminal marker appears after both
+attempts have had time to finish, stop the disposable server and record the timeout
+as an observation. Repeat in alternating order to reduce the effect of Neon wake-up
+and repeat on 1.5.8.3079 if that version is part of qualification.
+
+Record open.mp/component versions, runtime identities, terminal markers and timings.
+Keep endpoint names, profile contents, connection strings, environment dumps,
+password files and unredacted diagnostic messages private. A baseline that also
+succeeds leaves the original incident unconfirmed, even if the candidate passes.
