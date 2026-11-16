@@ -235,8 +235,6 @@ proxy = None
 rollback_proxy = None
 stall_servers = []
 wire_proxies = []
-tls_delay_proxies = []
-refused_socket = None
 monitor = None
 network_diagnostic = None
 stall_diagnostic = None
@@ -322,22 +320,18 @@ try:
                 f.write(f"\n[wire_{name}]\n{transport}port={wire.port}\n"
                         "dbname=postgres\nuser=omp_test\ngssencmode=disable\n")
         if not (args.network_only or args.network_boundaries_only or args.stalls_only or args.soak_only):
-            # Reserved without listen(), so no unrelated process can accept the first
-            # address and libpq must advance to the second address on this attempt.
-            refused_socket = socket.socket()
-            refused_socket.bind(("127.0.0.1", 0))
-            refused_port = refused_socket.getsockname()[1]
             tls_profile = (f"dbname=postgres\nuser=omp_password\npassword=test-only\nsslrootcert={cert}\n"
                            "sslmode=verify-full\nsslnegotiation=postgres\nchannel_binding=require\n"
                            "gssencmode=disable\n")
             for delay in (10, 50, 100, 200, 500, 1000):
                 profile = f"tls_delay_{delay}"
                 peer = WireFaultProxy(port, wire_root / profile, "tls_delay", startup_delay_ms=delay)
-                tls_delay_proxies.append(peer)
+                wire_proxies.append(peer)
                 with service.open("a", encoding="utf8") as f:
                     f.write(f"\n[{profile}]\nhost=localhost\nhostaddr=127.0.0.1\nport={peer.port}\n"
                             f"{tls_profile}")
                     if delay == 10:
+                        refused_port = peer.reserve_refused_port()
                         f.write("\n[tls_delay_fallback]\nhost=localhost,localhost\n"
                                 "hostaddr=127.0.0.1,127.0.0.1\nload_balance_hosts=disable\n"
                                 f"port={refused_port},{peer.port}\n{tls_profile}")
@@ -393,7 +387,7 @@ try:
             if not stress.is_file():
                 stress = stress.parent / args.config / stress.name
             run([str(stress)], env={**env, "OMP_PG_STRESS_SECONDS": "0"}, timeout=180)
-        if any(not wire.injected for wire in wire_proxies if wire.mode != "fragment"):
+        if any(not wire.injected for wire in wire_proxies if wire.mode not in ("fragment", "tls_delay")):
             raise RuntimeError("Required wire fault was not exercised")
         if restart_errors:
             raise RuntimeError("PostgreSQL restart fixture failed") from restart_errors[0]
@@ -402,7 +396,7 @@ try:
                 raise RuntimeError("COMMIT response loss was not exercised")
             if not rollback_proxy.dropped.is_set():
                 raise RuntimeError("ROLLBACK response loss was not exercised")
-        for peer in tls_delay_proxies:
+        for peer in (wire for wire in wire_proxies if wire.mode == "tls_delay"):
             with peer.lock:
                 observed = sorted(peer.startup_delays)
             count = 4 if peer.startup_delay_ms == 10 else 3
@@ -589,13 +583,8 @@ finally:
                 peer.close()
             except Exception as error:
                 cleanup_failure(name, error)
-    if refused_socket:
-        try:
-            refused_socket.close()
-        except OSError as error:
-            cleanup_failure("refused port close", error)
     wire_errors = []
-    for wire in [*wire_proxies, *tls_delay_proxies]:
+    for wire in wire_proxies:
         try:
             wire.close()
         except Exception as error:

@@ -4,8 +4,11 @@
 during direct Neon startup with RC.3. The RC.3 driver enters libpq's polling state
 machine before the first write-readiness notification, and it can reenter after a
 `select` timeout or interruption. These defects are reproducible in `socket_wait_unit`.
-A local delayed TLS test exercises libpq over a real connection. The authorized Neon
-comparison below is required to resolve the cause of the reported Windows incident.
+In a controlled Windows x86 run, a full TCP accept queue held connections pending
+for one second. RC.3 on open.mp 1.6.7.3218 returned the same Winsock 10057 before the
+gate opened. With the RC.3 libpq and OpenSSL DLLs, the corrected driver waited and
+completed TLS, SCRAM channel binding and `SELECT 1` after the gate opened. The Neon
+comparison below is required to confirm the reported deployment.
 
 The connection driver waits for the direction requested by libpq and retrieves the
 current socket on each wait. Winsock also reports failed nonblocking connects through
@@ -27,7 +30,8 @@ Windows x86 test artifact built from the corrected source. Keep the RC.3 libpq a
 OpenSSL DLLs resident in both server directories and remove unrelated PostgreSQL
 directories from the server's search path. While each server is running, verify that
 the loaded `libpq.dll`, `libssl-3.dll` and `libcrypto-3.dll` match the intended copies
-by path and SHA-256. PowerShell's `Get-Process -Id <pid> -Module` lists loaded modules.
+by path and SHA-256. From 32-bit PowerShell on Windows use
+`Get-Process -Id <pid> -Module` to list the x86 server's loaded modules.
 
 Use your existing private `[game]` service with the direct endpoint and a private
 password file. For the incident comparison the service settings are `sslmode=require`,
@@ -58,12 +62,13 @@ pawncc tests/neon_connection.pwn -E -ipawn -iC:/path/to/omp-stdlib -obuild/neon_
 Install the AMX as `gamemodes/neon_connection.amx` in each server. Configure
 `pawn.main_scripts` to contain `neon_connection 1` and bind the test instances to
 loopback. Run the RC.3 server, then the candidate with the same service. The probe
-opens a one-lane pool, runs a read-only query, closes it, then opens a two-lane pool
-and checks both queries and distinct backend PIDs. It prints only a phase marker,
-ready lane count or elapsed time. If neither terminal marker appears after both
-attempts have had time to finish, stop the disposable server and record the timeout
-as an observation. Repeat in alternating order to reduce the effect of Neon wake-up
-and repeat on 1.5.8.3079 if that version is part of qualification.
+attempts a one-lane pool, then a two-lane pool even if the first attempt fails. It
+checks a read-only query on each ready lane and distinct backend PIDs for two lanes.
+It prints only a phase marker, ready lane count or elapsed time. If the two-lane
+terminal marker does not appear after both attempts have had time to finish, stop
+the disposable server and record which stage stalled. Repeat in alternating order
+to reduce the effect of Neon wake-up and repeat on 1.5.8.3079 if that version is part
+of qualification.
 
 Record open.mp/component versions, runtime identities, terminal markers and timings.
 Keep endpoint names, profile contents, connection strings, environment dumps,

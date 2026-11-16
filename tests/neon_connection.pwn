@@ -60,12 +60,8 @@ public OnPgComplete(job, context) {
 			Fail("backend identity");
 			return 1;
 		}
-		ClosePool();
 		printf("PG NEON PASS lanes=%d", PoolSize);
-		if (PoolSize == 1) {
-			PoolSize = 2;
-			StartPool();
-		}
+		FinishPool();
 	}
 	return 1;
 }
@@ -84,7 +80,15 @@ stock ClosePool() {
 	Connection = 0;
 }
 
+stock FinishPool() {
+	ClosePool();
+	if (PoolSize == 1) {
+		PoolSize = 2;
+		StartPool();
+	}
+}
+
 stock Fail(const phase[]) {
 	printf("PG NEON FAIL lanes=%d phase=%s", PoolSize, phase);
-	ClosePool();
+	FinishPool();
 }

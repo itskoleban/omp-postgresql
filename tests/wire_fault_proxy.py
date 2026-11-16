@@ -75,6 +75,15 @@ class WireFaultProxy:
             self.injected = True
             return True
 
+    def reserve_refused_port(self):
+        # Reserve without listen(), so the OS refuses the first libpq candidate
+        # and another process cannot accidentally supply a successful endpoint.
+        reservation = socket.socket()
+        with self.lock:
+            self.sockets.append(reservation)
+        reservation.bind(("127.0.0.1", 0))
+        return reservation.getsockname()[1]
+
     def accept(self):
         while not self.stop.is_set():
             try:
