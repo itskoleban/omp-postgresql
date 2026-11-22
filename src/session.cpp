@@ -166,6 +166,12 @@ void Lane::enqueue(std::shared_ptr<Job> job) {
 	cv_.notify_one();
 }
 
+void Lane::ConnDelete::operator()(PGconn *p) const {
+	if (p) {
+		PQfinish(p);
+	}
+}
+
 void Lane::drop() {
 	PG_NETWORK_TRACE("drop_enter", nullptr, this, conn_.get());
 	conn_.reset();
@@ -178,57 +184,64 @@ void Lane::drop() {
 
 Lane::SocketWait Lane::wait_socket(bool writing, Clock::time_point deadline, const Job *job) {
 	if (stop_.load() || (job && job->cancel.load())) {
-		return {Error::cancelled};
+		return SocketWait::cancelled;
 	}
 	const auto now = Clock::now();
 	if (now >= deadline) {
 		PG_NETWORK_TRACE("wait_expired", job, this, conn_.get(), deadline);
-		return {Error::timeout};
+		return SocketWait::timeout;
 	}
-	const int socket = PQsocket(conn_.get());
-	if (socket < 0) {
-		return {Error::connection};
+	const int descriptor = PQsocket(conn_.get());
+	if (descriptor < 0) {
+		return SocketWait::failed;
 	}
-#ifndef _WIN32
+#ifdef _WIN32
+	const auto socket = static_cast<SOCKET>(descriptor);
+	const int nfds = 0; // Winsock ignores this argument.
+	fd_set exceptions;
+	fd_set *exceptfds = nullptr;
+	if (!job && writing) {
+		FD_ZERO(&exceptions);
+		FD_SET(socket, &exceptions);
+		exceptfds = &exceptions;
+	}
+#else
+	const auto socket = descriptor;
 	if (socket >= FD_SETSIZE) {
-		return {Error::connection};
+		return SocketWait::failed;
 	}
+	const int nfds = socket + 1;
+	fd_set *exceptfds = nullptr;
 #endif
 	fd_set fds;
 	FD_ZERO(&fds);
-	fd_set *exceptions = nullptr;
-#ifdef _WIN32
-	const auto descriptor = static_cast<SOCKET>(socket);
-	constexpr int nfds = 0; // Winsock ignores the first argument.
-	fd_set failed_connect;
-	if (!job && writing) {
-		// A failed nonblocking connect appears in exceptfds on Winsock.
-		// Let libpq inspect SO_ERROR and try the next address, if any.
-		FD_ZERO(&failed_connect);
-		FD_SET(descriptor, &failed_connect);
-		exceptions = &failed_connect;
-	}
-#else
-	const int descriptor = socket;
-	const int nfds = socket + 1;
-#endif
-	FD_SET(descriptor, &fds);
+	FD_SET(socket, &fds);
 	const auto slice = std::min(std::chrono::microseconds(10000),
 	                            std::chrono::ceil<std::chrono::microseconds>(deadline - now));
 	timeval timeout{0, static_cast<long>(slice.count())};
 	PG_NETWORK_TRACE("select_enter", job, this, conn_.get(), deadline, writing);
 	const int rc = PG_SOCKET_SELECT(nfds, writing ? nullptr : &fds, writing ? &fds : nullptr,
-	                                exceptions, &timeout);
+	                               exceptfds, &timeout);
 #ifdef _WIN32
-	const bool failed = rc < 0 && WSAGetLastError() != WSAEINTR;
+	const bool interrupted = rc < 0 && WSAGetLastError() == WSAEINTR;
 #else
-	const bool failed = rc < 0 && errno != EINTR;
+	const bool interrupted = rc < 0 && errno == EINTR;
 #endif
-	const bool ready = rc > 0 && (FD_ISSET(descriptor, &fds) ||
-	                              (exceptions && FD_ISSET(descriptor, exceptions)));
+	const bool ready = rc > 0 && FD_ISSET(socket, &fds);
+	const bool connect_exception = rc > 0 && exceptfds && FD_ISSET(socket, exceptfds);
 	PG_NETWORK_TRACE("select_exit", job, this, conn_.get(), deadline, rc,
-	                 (writing ? 2u : 0u) | (ready ? 1u : 0u));
-	return {failed ? Error::connection : Error::none, ready};
+	                 (writing ? 2u : 0u) | (ready ? 1u : 0u) | (connect_exception ? 4u : 0u));
+	if (rc < 0) {
+		return interrupted ? SocketWait::interrupted : SocketWait::failed;
+	}
+	if (rc == 0) {
+		return SocketWait::slice_elapsed;
+	}
+	if (connect_exception) {
+		// PQconnectPoll reads and clears SO_ERROR and can try the next address.
+		return SocketWait::connect_exception;
+	}
+	return ready ? SocketWait::ready : SocketWait::failed;
 }
 
 bool Lane::connect() {
@@ -241,72 +254,79 @@ bool Lane::connect() {
 	connection_attempts_.fetch_add(1, std::memory_order_relaxed);
 	const char *keys[] = {"service", "client_encoding", "application_name", nullptr};
 	const char *values[] = {service_.c_str(), "UTF8", "omp-postgresql", nullptr};
-	const auto deadline = Clock::now() + std::chrono::milliseconds(limits_.connect_ms);
 	conn_.reset(PQconnectStartParams(keys, values, 0));
 	if (!conn_) {
 		return false;
 	}
-	// libpq requires write readiness before the first poll. It can replace the
-	// socket during a poll, so each wait obtains the current descriptor.
-	auto status = PQstatus(conn_.get()) == CONNECTION_BAD ? PGRES_POLLING_FAILED
-	                                                      : PGRES_POLLING_WRITING;
 	PQsetNoticeProcessor(conn_.get(), quiet_notice, nullptr);
-	auto interrupted = [&] {
-		if (stop_.load()) {
-			return Error::cancelled;
-		}
-		return Clock::now() >= deadline ? Error::timeout : Error::none;
-	};
-	auto cause = Error::none;
-	while (status == PGRES_POLLING_WRITING || status == PGRES_POLLING_READING) {
-		const auto wait = wait_socket(status == PGRES_POLLING_WRITING, deadline, nullptr);
-		cause = wait.error;
-		if (cause != Error::none) {
-			break;
-		}
-		if (!wait.ready) {
+	const auto deadline = Clock::now() + std::chrono::milliseconds(limits_.connect_ms);
+	// libpq requires write readiness before the first poll on a valid connection.
+	auto status = PQstatus(conn_.get()) == CONNECTION_BAD ? PGRES_POLLING_FAILED
+	                                                     : PGRES_POLLING_WRITING;
+	auto wait = SocketWait::ready;
+	while (status == PGRES_POLLING_READING || status == PGRES_POLLING_WRITING) {
+		wait = wait_socket(status == PGRES_POLLING_WRITING, deadline, nullptr);
+		if (wait == SocketWait::slice_elapsed || wait == SocketWait::interrupted) {
 			continue;
 		}
-		cause = interrupted();
-		if (cause != Error::none) {
+		if (wait != SocketWait::ready && wait != SocketWait::connect_exception) {
+			break;
+		}
+		if (stop_.load()) {
+			wait = SocketWait::cancelled;
+			break;
+		}
+		if (Clock::now() >= deadline) {
+			wait = SocketWait::timeout;
 			break;
 		}
 		status = PQconnectPoll(conn_.get());
-	}
-	if (status == PGRES_POLLING_OK) {
-		cause = interrupted();
-		if (cause == Error::none && PQsetnonblocking(conn_.get(), 1) == 0) {
+		if (status == PGRES_POLLING_OK) {
+			if (Clock::now() >= deadline) {
+				wait = SocketWait::timeout;
+				break;
+			}
+			if (PQsetnonblocking(conn_.get(), 1) != 0) {
+				break;
+			}
 			{
 				std::lock_guard lock(mutex_);
 				diagnostic_.clear();
 			}
-			auto previous = state.load();
-			if (!stop_.load() && previous != State::closing &&
-			    state.compare_exchange_strong(previous, State::connected)) {
-				if (connected_once_) {
-					reconnects_.fetch_add(1, std::memory_order_relaxed);
-				}
-				connected_once_ = true;
-				log(LogEvent::lane_ready);
-				PG_NETWORK_TRACE("connect_ready", nullptr, this, conn_.get());
-				return true;
+			auto expected = state.load();
+			if (stop_.load() || expected == State::closing ||
+			    !state.compare_exchange_strong(expected, State::connected)) {
+				wait = SocketWait::cancelled;
+				break;
 			}
-			cause = Error::cancelled;
+			if (connected_once_) {
+				reconnects_.fetch_add(1, std::memory_order_relaxed);
+			}
+			connected_once_ = true;
+			log(LogEvent::lane_ready);
+			PG_NETWORK_TRACE("connect_ready", nullptr, this, conn_.get());
+			return true;
 		}
 	}
 	{
 		std::lock_guard lock(mutex_);
 		PG_ALLOCATION_CHECKPOINT("connect_diagnostic");
-		if (cause == Error::timeout) {
-			diagnostic_ = "Connection timed out";
-		} else if (cause == Error::cancelled) {
-			diagnostic_ = "Connection was closed";
-		} else {
-			diagnostic_ = PQerrorMessage(conn_.get());
-			diagnostic_.resize(std::min<std::size_t>(diagnostic_.size(), 4096));
-			if (diagnostic_.empty()) {
-				diagnostic_ = cause == Error::connection ? "Connection socket wait failed"
-				                                         : "Connection setup failed";
+		diagnostic_ = PQerrorMessage(conn_.get());
+		diagnostic_.resize(std::min<std::size_t>(diagnostic_.size(), 4096));
+		if (diagnostic_.empty()) {
+			switch (wait) {
+			case SocketWait::timeout:
+				diagnostic_ = "Connection timed out";
+				break;
+			case SocketWait::cancelled:
+				diagnostic_ = "Connection was closed";
+				break;
+			case SocketWait::failed:
+				diagnostic_ = "Connection socket wait failed";
+				break;
+			default:
+				diagnostic_ = "Connection setup failed";
+				break;
 			}
 		}
 	}
@@ -364,15 +384,17 @@ Result Lane::receive(Job &job, Clock::time_point deadline, std::size_t &bytes, b
 		const int busy = PQisBusy(conn_.get());
 		PG_NETWORK_TRACE("busy", &job, this, conn_.get(), deadline, busy);
 		if (busy) {
-			// A slice expiry or EINTR still permits probing libpq for buffered input.
-			const auto cause = wait_socket(flush == 1, deadline, &job).error;
-			if (cause != Error::none) {
-				PG_ALLOCATION_CHECKPOINT("interrupted_failure");
-				throw Failure(cause, cause == Error::connection
-				                         ? "Interrupted connection"
-				                         : "Interrupted after dispatch; outcome may be unknown");
+			const auto wait = wait_socket(flush == 1, deadline, &job);
+			if (wait == SocketWait::ready || wait == SocketWait::slice_elapsed ||
+			    wait == SocketWait::interrupted) {
+				continue;
 			}
-			continue;
+			const auto cause = wait == SocketWait::cancelled ? Error::cancelled
+			                   : wait == SocketWait::timeout ? Error::timeout : Error::connection;
+			PG_ALLOCATION_CHECKPOINT("interrupted_failure");
+			throw Failure(cause, cause == Error::connection
+			                         ? "Interrupted connection"
+			                         : "Interrupted after dispatch; outcome may be unknown");
 		}
 		PG_NETWORK_TRACE("getresult_enter", &job, this, conn_.get(), deadline);
 		PgResult r(PQgetResult(conn_.get()));
@@ -762,14 +784,12 @@ void Lane::run() {
 			if (attempt) {
 				log(LogEvent::lane_retry, static_cast<std::uint64_t>(attempt));
 				std::unique_lock lock(mutex_);
-				if (cv_.wait_for(lock,
-				                 std::chrono::milliseconds(limits_.reconnect_base_ms *
-				                                           (1 << std::min(attempt - 1, 10))),
-				                 [&] {
-					                 return stop_.load();
-				                 })) {
-					break;
-				}
+				cv_.wait_for(lock,
+				             std::chrono::milliseconds(limits_.reconnect_base_ms *
+				                                       (1 << std::min(attempt - 1, 10))),
+				             [&] {
+					             return stop_.load();
+				             });
 			}
 			if (connect()) {
 				return true;

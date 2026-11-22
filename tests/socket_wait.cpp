@@ -40,7 +40,8 @@ enum class Case {
 	completed_timeout,
 	predispatch_cancel,
 	flush_cancel,
-	consume_cancel
+	consume_cancel,
+	recovery_handshake_retry
 };
 enum class Startup {
 	query_fixture,
@@ -49,8 +50,10 @@ enum class Startup {
 	deadline,
 	ready_after_deadline,
 	transport_failure,
+	refused,
 #ifdef _WIN32
 	connect_exception,
+	connect_fallback,
 #endif
 	close_pending
 };
@@ -59,6 +62,7 @@ enum class StartupEvent {
 	wait_write,
 	wait_read,
 	wrong_socket,
+	refused,
 	poll
 };
 struct Control {
@@ -72,6 +76,9 @@ struct Control {
 	std::atomic<bool> startup_waiting{false};
 	bool startup_wait_released = false;
 	bool connecting = false;
+	bool ownership_error = false;
+	PGconn *active = nullptr;
+	int starts = 0, finishes = 0;
 	int startup_selects = 0, startup_polls = 0;
 	std::vector<StartupEvent> startup_events;
 	int sends = 0, busy = 0, selects = 0, results = 0;
@@ -86,11 +93,27 @@ void expire() {
 }
 PGconn *connect(const char *const *, const char *const *, int) {
 	control->connecting = true;
-	// A valid opaque PGconn for the real RAII deleter, rejected before any network I/O.
-	return PQconnectStart("invalid_socket_test_option=1");
+	++control->starts;
+	control->ownership_error |= control->active != nullptr;
+	// Allocate a real opaque PGconn without opening a socket.
+	control->active = PQconnectStart("invalid_socket_test_option=1");
+	return control->active;
+}
+void finish(PGconn *conn) {
+	++control->finishes;
+	if (conn != control->active) {
+		control->ownership_error = true;
+		return;
+	}
+	control->active = nullptr;
+	control->connecting = false;
+	PQfinish(conn);
 }
 PostgresPollingStatusType poll(PGconn *) {
 	if (control->startup == Startup::query_fixture) {
+		if (control->which == Case::recovery_handshake_retry && control->starts == 2) {
+			return PGRES_POLLING_FAILED;
+		}
 		return PGRES_POLLING_OK;
 	}
 	control->startup_events.push_back(StartupEvent::poll);
@@ -101,12 +124,15 @@ PostgresPollingStatusType poll(PGconn *) {
 		}
 		return control->startup_polls == 2 ? PGRES_POLLING_WRITING : PGRES_POLLING_OK;
 	}
-	if (control->startup == Startup::invalid_profile) {
+	if (control->startup == Startup::invalid_profile || control->startup == Startup::refused) {
 		return PGRES_POLLING_FAILED;
 	}
 #ifdef _WIN32
 	if (control->startup == Startup::connect_exception) {
 		return PGRES_POLLING_FAILED;
+	}
+	if (control->startup == Startup::connect_fallback) {
+		return control->startup_polls == 1 ? PGRES_POLLING_WRITING : PGRES_POLLING_OK;
 	}
 #endif
 	// Let the old poll-first implementation reach the simulated wait as well.
@@ -224,17 +250,20 @@ void set_wait_error(bool interrupted) {
 	errno = interrupted ? EINTR : EBADF;
 #endif
 }
-int select_startup(fd_set *read, fd_set *write, [[maybe_unused]] fd_set *except) {
-	if (control->startup == Startup::query_fixture) {
-		return 1;
-	}
+int select_startup(fd_set *read, fd_set *write, fd_set *except) {
 	const auto descriptor = 42 + control->startup_polls;
 	const auto descriptor_ready = [&](fd_set *set) {
 		return set && FD_ISSET(descriptor, set);
 	};
-	control->startup_events.push_back(descriptor_ready(write) ? StartupEvent::wait_write
-	                                  : descriptor_ready(read) ? StartupEvent::wait_read
-	                                                           : StartupEvent::wrong_socket);
+	const bool writing = !read && descriptor_ready(write);
+	const bool reading = !write && descriptor_ready(read);
+	const auto wanted = writing ? StartupEvent::wait_write
+	                            : reading ? StartupEvent::wait_read : StartupEvent::wrong_socket;
+	if (control->startup == Startup::query_fixture) {
+		if (except) FD_ZERO(except);
+		return writing ? 1 : -1;
+	}
+	control->startup_events.push_back(wanted);
 	const int attempt = ++control->startup_selects;
 	switch (control->startup) {
 	case Startup::delayed:
@@ -245,23 +274,26 @@ int select_startup(fd_set *read, fd_set *write, [[maybe_unused]] fd_set *except)
 			set_wait_error(true);
 			return -1;
 		}
-		return 1;
+		break;
 	case Startup::deadline:
 		expire();
 		return 0;
 	case Startup::ready_after_deadline:
 		expire();
-		return 1;
+		break;
 	case Startup::transport_failure:
 		set_wait_error(false);
 		return -1;
 #ifdef _WIN32
 	case Startup::connect_exception:
-		if (descriptor_ready(except)) {
-			if (write) {
-				FD_ZERO(write);
-			}
+	case Startup::connect_fallback:
+		if (attempt == 1 && writing && descriptor_ready(except)) {
+			FD_ZERO(write);
+			control->startup_events.push_back(StartupEvent::refused);
 			return 1;
+		}
+		if (attempt == 2 && control->startup == Startup::connect_fallback) {
+			break;
 		}
 		expire();
 		return 0;
@@ -272,11 +304,13 @@ int select_startup(fd_set *read, fd_set *write, [[maybe_unused]] fd_set *except)
 		control->published.wait_for(lock, std::chrono::seconds(5), [] {
 			return control->startup_wait_released;
 		});
-		return 1;
+		break;
 	}
 	default:
-		return 1;
+		break;
 	}
+	if (except) FD_ZERO(except);
+	return 1;
 }
 int select(int, fd_set *read, fd_set *write, fd_set *except, const timeval *) {
 	if (control->connecting) {
@@ -331,6 +365,7 @@ struct SocketTestClock {
 // All headers are already included: substitution affects only the production body.
 // No test hooks or fake clock are compiled into the shipped pg_core/component.
 #define PQconnectStartParams socket_test::connect
+#define PQfinish socket_test::finish
 #define PQconnectPoll socket_test::poll
 #define PQsetnonblocking socket_test::nonblocking
 #define PQsetNoticeProcessor socket_test::notice
@@ -360,6 +395,7 @@ struct SocketTestClock {
 #undef PQsetNoticeProcessor
 #undef PQsetnonblocking
 #undef PQconnectPoll
+#undef PQfinish
 #undef PQconnectStartParams
 
 namespace {
@@ -380,6 +416,7 @@ void exercise_startup(socket_test::Startup which, const char *name, pg::State ex
 	socket_test::Control state;
 	state.startup = which;
 	socket_test::control = &state;
+	pg::State final_state;
 	{
 		constexpr pg::Owner owner = 91;
 		pg::Limits limits;
@@ -400,15 +437,20 @@ void exercise_startup(socket_test::Startup which, const char *name, pg::State ex
 			state.published.notify_one();
 		}
 		until([&] {
-			return connection.state() == expected;
+			final_state = connection.state();
+			return final_state == pg::State::connected || final_state == pg::State::failed ||
+			       final_state == pg::State::disconnected;
 		});
 		check(connection.lanes[0]->snapshot().connection_attempts == 1,
 		      "Unexpected startup retry");
 	}
 	socket_test::control = nullptr;
 	std::cout << name << " observed select=" << state.startup_selects
-	          << " poll=" << state.startup_polls << std::endl;
+	          << " poll=" << state.startup_polls << " finish=" << state.finishes << std::endl;
 	check(state.startup_events == events, "Unexpected readiness/poll sequence during startup");
+	check(final_state == expected, "Wrong terminal startup state");
+	check(state.starts == 1 && state.finishes == 1 && !state.active && !state.ownership_error,
+	      "Startup did not release its PGconn exactly once");
 	std::cout << name << " PASS\n";
 }
 void exercise(socket_test::Case which, const char *name, pg::Status expected, pg::Error error,
@@ -418,6 +460,10 @@ void exercise(socket_test::Case which, const char *name, pg::Status expected, pg
 	{
 		pg::Limits limits;
 		limits.query_ms = 40;
+		if (which == socket_test::Case::recovery_handshake_retry) {
+			limits.reconnect_attempts = 1;
+			limits.reconnect_base_ms = 1;
+		}
 		pg::Engine engine(limits);
 		const auto c = engine.connect(91, "socket_stub", 1);
 		until([&] {
@@ -463,6 +509,10 @@ void exercise(socket_test::Case which, const char *name, pg::Status expected, pg
 			check(engine.connection(91, c).lanes[0]->snapshot().reconnects == 1,
 			      "Interrupted session not replaced");
 		}
+		if (which == socket_test::Case::recovery_handshake_retry) {
+			check(state.lane->snapshot().connection_attempts == 3,
+			      "Recovery did not retry its failed handshake exactly once");
+		}
 		for (int n = 0; n != 4; ++n) {
 			poll();
 		}
@@ -473,6 +523,11 @@ void exercise(socket_test::Case which, const char *name, pg::Status expected, pg
 		          << " status=" << int(expected) << " error=" << int(error) << '\n';
 	}
 	socket_test::control = nullptr;
+	if (which == socket_test::Case::recovery_handshake_retry) {
+		check(state.starts == 3 && state.finishes == 3 && !state.active && !state.ownership_error,
+		      "Recovery did not release every PGconn exactly once");
+		std::cout << name << " cleanup PASS attempts=3 finish=3\n";
+	}
 }
 } // namespace
 
@@ -513,6 +568,7 @@ int main(int argc, char **argv) {
 		run(C::predispatch_cancel, "predispatch_cancel", S::cancelled, E::cancelled, 0);
 		run(C::flush_cancel, "flush_cancel", S::uncertain, E::connection, 0);
 		run(C::consume_cancel, "consume_cancel", S::uncertain, E::connection, 0);
+		run(C::recovery_handshake_retry, "recovery_handshake_retry", S::uncertain, E::connection, 1);
 		auto startup = [&](Startup which, const char *name, pg::State expected,
 		                   const std::vector<Event> &events) {
 			if (argc == 1 || std::string_view(argv[1]) == name) {
@@ -532,9 +588,14 @@ int main(int argc, char **argv) {
 		        {Event::status, Event::wait_write});
 		startup(Startup::transport_failure, "startup_transport_failure", pg::State::failed,
 		        {Event::status, Event::wait_write});
+		startup(Startup::refused, "startup_refused", pg::State::failed,
+		        {Event::status, Event::wait_write, Event::poll});
 #ifdef _WIN32
 		startup(Startup::connect_exception, "startup_connect_exception", pg::State::failed,
-		        {Event::status, Event::wait_write, Event::poll});
+		        {Event::status, Event::wait_write, Event::refused, Event::poll});
+		startup(Startup::connect_fallback, "startup_connect_fallback", pg::State::connected,
+		        {Event::status, Event::wait_write, Event::refused, Event::poll,
+		         Event::wait_write, Event::poll});
 #endif
 		startup(Startup::close_pending, "startup_close_pending", pg::State::disconnected,
 		        {Event::status, Event::wait_write});
