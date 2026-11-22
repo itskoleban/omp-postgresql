@@ -11,9 +11,10 @@ completed TLS, SCRAM channel binding and `SELECT 1` after the gate opened.
 
 The [original reporter](https://github.com/itskoleban/omp-postgresql/issues/58#issuecomment-7084324361)
 subsequently verified startup and SQL on one and two lanes against their direct Neon
-service on Windows 11 with open.mp 1.6.7.3218, using the corrected Windows x86 CI
-development package and its bundled runtime. The comparison below controls for the
-runtime DLLs to investigate the historical error. A same-session Neon comparison and
+service on Windows 11 with open.mp 1.6.7.3218 and confirmed installing the corrected
+Windows x86 CI development package. Loaded DLL paths and hashes on the reporter's
+host remain unverified. The comparison below controls for the runtime DLLs to
+investigate the historical error. A same-session Neon comparison and
 forced live Neon recovery remain unverified.
 
 The connection driver waits for the direction requested by libpq and retrieves the

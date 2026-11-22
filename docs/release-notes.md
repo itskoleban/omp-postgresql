@@ -3,8 +3,9 @@
 ## Overview
 
 RC.4 is an evaluation candidate for the asynchronous PostgreSQL component for open.mp.
-The distribution and SDK component version is `0.1.0-rc.4`, the release channel is `rc`,
-and the numeric CMake project version is `0.1.0`. The intended tag is `v0.1.0-rc.4`.
+The distribution and component log identify `0.1.0-rc.4` on channel `rc`. The numeric
+CMake project version is `0.1.0` and the open.mp SDK version fields are `0.1.0.4`.
+The intended tag is `v0.1.0-rc.4`.
 Check the [Releases page](https://github.com/itskoleban/omp-postgresql/releases) for
 published distributions. Stable v0.1.0 still requires its own final-source qualification
 and a separately authorized 24-hour sustained stability campaign.
@@ -59,9 +60,9 @@ PG NEON READY lanes=2 elapsed_ms=552
 PG NEON PASS lanes=2
 ```
 
-This evidence is specific to the reporter's setup. CI used disposable PostgreSQL
-fixtures. A same-session RC.3 versus corrected Neon comparison and forced live Neon
-recovery remain unverified. The controlled tests establish a path to the observed
+The reporter confirmed the artifact source. Loaded DLL paths and hashes on that
+host remain unverified. CI used disposable PostgreSQL fixtures. A same-session
+RC.3 versus corrected Neon comparison and forced live Neon recovery remain unverified. The controlled tests establish a path to the observed
 Winsock error under the tested conditions. [Issue #58](https://github.com/itskoleban/omp-postgresql/issues/58)
 records that incident. [Issue #31](https://github.com/itskoleban/omp-postgresql/issues/31)
 tracks a separate historical Linux ASan cleanup timeout whose cause remains unknown.

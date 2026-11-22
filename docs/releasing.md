@@ -2,8 +2,8 @@
 
 This source prepares **v0.1.0-rc.4** for evaluation. The numeric `PROJECT_VERSION`
 is `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` is `4`. The distribution
-version and SDK component version are `0.1.0-rc.4`, the channel is `rc`, and the
-intended tag is `v0.1.0-rc.4`. A candidate value of zero selects stable identity.
+version is `0.1.0-rc.4`, the open.mp SDK version fields are `0.1.0.4`, and the channel
+is `rc`. The intended tag is `v0.1.0-rc.4`. A candidate value of zero selects stable identity.
 Stable qualification remains blocked. See the [RC.4 release notes](release-notes.md)
 for changes and the [readiness record](rc-readiness.md) for qualification gates.
 
