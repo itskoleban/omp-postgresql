@@ -8,6 +8,7 @@ import struct
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 
 spec = importlib.util.spec_from_file_location(
@@ -25,6 +26,57 @@ def pe(machine=0x14C, magic=0x10B):
     struct.pack_into("<H", data, 68, machine)
     struct.pack_into("<H", data, 88, magic)
     return bytes(data)
+
+
+class WindowsRuntimeStaging(unittest.TestCase):
+    def setUp(self):
+        root = Path(self.enterContext(tempfile.TemporaryDirectory()))
+        self.runtime = root / "mingw32"
+        self.runtime.mkdir()
+        self.libpq = root / "stage" / "libpq.dll"
+        self.libpq.parent.mkdir()
+        self.libpq.write_bytes(pe())
+        self.imports = {
+            "libpq.dll": ["libssl-4.dll", "libcrypto-4.dll", "ws2_32.dll"],
+            "libssl-4.dll": ["libcrypto-4.dll", "kernel32.dll"],
+            "libcrypto-4.dll": ["bcrypt.dll"],
+        }
+        for name in self.imports.keys() - {"libpq.dll"}:
+            (self.runtime / name).write_bytes(pe())
+        self.enterContext(patch.object(package, "run", side_effect=self.objdump))
+
+    def objdump(self, argv):
+        return "\n".join(f"DLL Name: {name}" for name in self.imports[Path(argv[-1]).name])
+
+    def stage(self):
+        package.stage_windows_runtime(self.libpq, self.runtime, "objdump")
+
+    def test_stages_imported_x86_openssl_only(self):
+        (self.runtime / "libssl-3.dll").write_bytes(pe())
+        self.stage()
+        self.assertEqual({p.name for p in self.libpq.parent.iterdir()}, self.imports.keys())
+
+    def test_rejects_missing_import(self):
+        (self.runtime / "libcrypto-4.dll").unlink()
+        with self.assertRaises(FileNotFoundError):
+            self.stage()
+
+    def test_rejects_wrong_architecture(self):
+        (self.runtime / "libcrypto-4.dll").write_bytes(pe(0x8664, 0x20B))
+        with self.assertRaisesRegex(ValueError, "x86 PE32"):
+            self.stage()
+
+    def test_rejects_mixed_openssl_majors(self):
+        (self.runtime / "libcrypto-3.dll").write_bytes(pe())
+        self.imports["libcrypto-3.dll"] = ["kernel32.dll"]
+        self.imports["libssl-4.dll"].append("libcrypto-3.dll")
+        with self.assertRaisesRegex(ValueError, "one matched OpenSSL SSL/crypto pair"):
+            self.stage()
+
+    def test_rejects_unrelated_staged_dll(self):
+        (self.libpq.parent / "libssl-3.dll").write_bytes(pe())
+        with self.assertRaisesRegex(ValueError, "Unexpected DLLs in the Windows staging directory"):
+            self.stage()
 
 
 def payload():
@@ -286,6 +338,23 @@ class PackageTests(unittest.TestCase):
         self.manifest["dependencies"]["libcrypto-3.dll"] = {"imports": ["kernel32.dll"]}
         with self.assertRaises(ValueError):
             package.validate_payload(self.files, self.manifest)
+
+    def test_openssl_4_package_requires_its_license(self):
+        self.manifest["dependencies"]["libpq.dll"]["imports"].extend(
+            ("libssl-4.dll", "libcrypto-4.dll")
+        )
+        for name, dependency in (
+            ("libssl-4.dll", "libcrypto-4.dll"),
+            ("libcrypto-4.dll", "bcrypt.dll"),
+        ):
+            self.files[name] = pe()
+            self.manifest["files"][name] = package.digest(pe())
+            self.manifest["dependencies"][name] = {"imports": [dependency]}
+        with self.assertRaisesRegex(ValueError, "Missing OpenSSL license"):
+            package.validate_payload(self.files, self.manifest)
+        self.files["licenses/openssl/LICENSE"] = b"OpenSSL license"
+        self.manifest["files"]["licenses/openssl/LICENSE"] = package.digest(b"OpenSSL license")
+        package.validate_payload(self.files, self.manifest)
 
     def test_unexpected_system_runtime(self):
         self.manifest["dependencies"]["libpq.dll"]["imports"].append("evil.dll")

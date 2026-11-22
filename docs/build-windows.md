@@ -49,10 +49,14 @@ packages include it under `share/omp-postgresql/patches/`.
 For package assembly, record the dependency immediately after building it:
 
 ```powershell
+python scripts/package.py stage-windows-runtime --libpq C:/deps/pg32/bin/libpq.dll `
+    --runtime-dir C:/msys64/mingw32/bin --objdump C:/msys64/mingw32/bin/objdump.exe
 python scripts/package.py record-libpq --libpq C:/deps/pg32/bin/libpq.dll --source C:/deps/postgresql-source
 ```
 
-This checks the applied source patch and writes `libpq-build-info.json` beside the DLL.
+The first command inspects the PE imports and stages the required x86 DLLs next to
+`libpq.dll`. Use the same MinGW directory that provided OpenSSL at build time. The
+second command checks the applied source patch and writes `libpq-build-info.json` beside the DLL.
 Packaging rejects a missing record or mismatched DLL, patch or source/header version.
 Configure with `-DPG_LIBPQ_SOURCE_DIR=C:/deps/postgresql-source` on Windows to compile the
 deterministic mutex regression against that source. CI enables this for its x86 DLL.
@@ -66,10 +70,9 @@ Build the Windows component for the server's ABI and verify actual loading befor
 The `omp-postgresql` CMake target produces `PostgreSQL.dll`. The package consists of
 `components/PostgreSQL.dll`, `qawno/include/omp_postgresql.inc`, and documentation.
 Pawn sources include `<open.mp>` followed by `<omp_postgresql>`; see [RC migration](installation.md#migrating-from-previous-release-candidates).
-Place `libpq.dll`, `libssl-3.dll`, `libcrypto-3.dll`, and any other dependencies of the chosen
-build where the server's Windows loader can find them. Inspect dependencies with dumpbin
-or objdump; do not substitute a DLL of another architecture. Install the supported MSVC x86
-Redistributable separately; retain all redistributed libraries' notices. See the actual
+Place `libpq.dll` and the runtime DLLs staged from its PE imports beside `omp-server.exe`.
+Install the supported MSVC x86 Redistributable separately and retain all redistributed
+libraries' notices. See the
 [package dependency policy](../DEPENDENCIES.md). The project links libpq dynamically and
 does not automatically package arbitrary DLLs from the development machine.
 
@@ -84,9 +87,14 @@ Use `scripts/compile_examples.py` from the [example catalogue](examples.md), wit
 `--output build`. Interactive account/provider behavior requires separate qualification.
 
 ```powershell
+$runtimeArgs = @()
+Get-ChildItem -LiteralPath C:/deps/pg32/bin -Filter '*.dll' -File | ForEach-Object {
+    $runtimeArgs += @('--runtime', $_.FullName)
+}
 python tests/run_postgres.py `
     --build build-win32 `
     --postgres-bin C:/deps/server-pg/bin `
+    --openssl C:/msys64/mingw32/bin/openssl.exe `
     --openmp-dir C:/openmp-test `
     --component build-win32/Release/PostgreSQL.dll `
     --gamemode build/smoke.amx `
@@ -96,10 +104,7 @@ python tests/run_postgres.py `
     --bootstrap-gamemode build/bootstrap.amx `
     --section-gamemode build/sections.amx --section-sql examples/sql/accounts.sql `
     --logging-gamemode build/logging.amx `
-    --runtime C:/deps/pg32/bin/libpq.dll `
-    --runtime C:/deps/openssl32/libssl-3.dll `
-    --runtime C:/deps/openssl32/libcrypto-3.dll `
-    --tutorial-dir build --tutorial-sql-dir examples/sql
+    --tutorial-dir build --tutorial-sql-dir examples/sql @runtimeArgs
 ```
 
 `--openmp-dir` must be a disposable copy: the harness changes its network, gamemode, and

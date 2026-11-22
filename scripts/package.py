@@ -22,7 +22,9 @@ LICENSES = {
     "span-lite": "LICENSE.txt",
     "string-view-lite": "LICENSE.txt",
 }
-WINDOWS_RUNTIME = {"libpq.dll", "libssl-3.dll", "libcrypto-3.dll", "libwinpthread-1.dll"}
+OPENSSL_PAIRS = ({"libssl-3.dll", "libcrypto-3.dll"}, {"libssl-4.dll", "libcrypto-4.dll"})
+OPENSSL_RUNTIME = set.union(*OPENSSL_PAIRS)
+WINDOWS_RUNTIME = {"libpq.dll", "libwinpthread-1.dll"} | OPENSSL_RUNTIME
 WINDOWS_SYSTEM = {
     "advapi32.dll",
     "bcrypt.dll",
@@ -159,6 +161,55 @@ def copy(source, destination):
     shutil.copyfile(source, destination)
 
 
+def collect_dependencies(stage, pending, platform, objdump, runtime_dir=None):
+    dependencies = {}
+    while pending:
+        path = pending.pop()
+        name = path.relative_to(stage).as_posix()
+        if name in dependencies:
+            continue
+        dependencies[name] = inspect_binary(path, platform, objdump)
+        for imported in dependencies[name]["imports"]:
+            if platform == "windows" and not windows_system(imported):
+                if imported not in WINDOWS_RUNTIME:
+                    raise ValueError(f"Unexpected Windows runtime: {imported}")
+                target = stage / imported
+                if not target.exists():
+                    if not runtime_dir:
+                        raise ValueError("Windows runtime directory is required")
+                    copy(runtime_dir / imported, target)
+                pending.append(target)
+            elif (
+                platform == "linux"
+                and imported != "libpq.so.5"
+                and imported not in LINUX_SYSTEM
+            ):
+                raise ValueError(f"Unexpected Linux system runtime: {imported}")
+    return dependencies
+
+
+def require_windows_openssl(dependencies):
+    linked_openssl = OPENSSL_RUNTIME.intersection(dependencies["libpq.dll"]["imports"])
+    if (
+        linked_openssl not in OPENSSL_PAIRS
+        or linked_openssl != OPENSSL_RUNTIME.intersection(dependencies)
+    ):
+        raise ValueError("Windows libpq must import one matched OpenSSL SSL/crypto pair")
+
+
+def stage_windows_runtime(libpq, runtime_dir, objdump):
+    dependencies = collect_dependencies(libpq.parent, [libpq], "windows", objdump, runtime_dir)
+    require_windows_openssl(dependencies)
+    extra_dlls = {path.name for path in libpq.parent.glob("*.dll")} - dependencies.keys()
+    if extra_dlls:
+        raise ValueError(f"Unexpected DLLs in the Windows staging directory: {sorted(extra_dlls)}")
+    for name, info in sorted(dependencies.items()):
+        data = (libpq.parent / name).read_bytes()
+        if name != libpq.name and data != (runtime_dir / name).read_bytes():
+            raise ValueError(f"Staged Windows runtime differs from the selected directory: {name}")
+        print(f"{digest(data)}  {name}: {', '.join(info['imports'])}")
+
+
 def validate_payload(files, manifest):
     platform = manifest["platform"]
     if platform not in ("windows", "linux") or manifest["architecture"] != "x86":
@@ -277,10 +328,7 @@ def validate_payload(files, manifest):
                 windows_system(dependency) if platform == "windows" else dependency in LINUX_SYSTEM
             ):
                 raise ValueError(f"Unaccounted dependency in {name}: {dependency}")
-    if {
-        "libssl-3.dll",
-        "libcrypto-3.dll",
-    } & files.keys() and "licenses/openssl/LICENSE" not in files:
+    if OPENSSL_RUNTIME & files.keys() and "licenses/openssl/LICENSE" not in files:
         raise ValueError("Missing OpenSSL license")
     if "libwinpthread-1.dll" in files and "licenses/libwinpthread/COPYING" not in files:
         raise ValueError("Missing MinGW pthread license")
@@ -396,37 +444,20 @@ def create(args):
                     b"../pawn/omp_postgresql.inc", b"../qawno/include/omp_postgresql.inc"
                 )
             )
-        dependencies = {}
-        pending = [component, stage / ("libpq.dll" if platform == "windows" else "lib/libpq.so.5")]
-        while pending:
-            path = pending.pop()
-            name = path.relative_to(stage).as_posix()
-            if name in dependencies:
-                continue
-            dependencies[name] = inspect_binary(path, platform, args.objdump)
-            for imported in dependencies[name]["imports"]:
-                if platform == "windows" and not windows_system(imported):
-                    if imported not in WINDOWS_RUNTIME:
-                        raise ValueError(f"Unexpected Windows runtime: {imported}")
-                    target = stage / imported
-                    if not target.exists():
-                        if not args.runtime_dir:
-                            raise ValueError("Windows runtime directory is required")
-                        copy(args.runtime_dir / imported, target)
-                    pending.append(target)
-                elif (
-                    platform == "linux"
-                    and imported != "libpq.so.5"
-                    and imported not in LINUX_SYSTEM
-                ):
-                    raise ValueError(f"Unexpected Linux system runtime: {imported}")
-        for binary, license, target in (
-            ("libcrypto-3.dll", args.openssl_license, "licenses/openssl/LICENSE"),
-            ("libwinpthread-1.dll", args.pthread_license, "licenses/libwinpthread/COPYING"),
+        libpq_name = "libpq.dll" if platform == "windows" else "lib/libpq.so.5"
+        dependencies = collect_dependencies(
+            stage, [component, stage / libpq_name], platform, args.objdump, args.runtime_dir
+        )
+        if platform == "windows":
+            require_windows_openssl(dependencies)
+        for binaries, license, target in (
+            (OPENSSL_RUNTIME, args.openssl_license, "licenses/openssl/LICENSE"),
+            ({"libwinpthread-1.dll"}, args.pthread_license, "licenses/libwinpthread/COPYING"),
         ):
-            if (stage / binary).exists():
+            required = binaries.intersection(dependencies)
+            if required:
                 if not license:
-                    raise ValueError(f"License required for {binary}")
+                    raise ValueError(f"License required for {', '.join(sorted(required))}")
                 copy(license, stage / target)
         files = {
             path.relative_to(stage).as_posix(): path.read_bytes()
@@ -481,6 +512,10 @@ def main():
     record = commands.add_parser("record-libpq")
     record.add_argument("--libpq", type=Path, required=True)
     record.add_argument("--source", type=Path, required=True)
+    runtime = commands.add_parser("stage-windows-runtime")
+    runtime.add_argument("--libpq", type=Path, required=True)
+    runtime.add_argument("--runtime-dir", type=Path, required=True)
+    runtime.add_argument("--objdump", default="objdump")
     assemble = commands.add_parser("create")
     assemble.add_argument("--platform", choices=("windows", "linux"), required=True)
     assemble.add_argument("--build", type=Path, required=True)
@@ -497,6 +532,8 @@ def main():
     args = parser.parse_args()
     if args.command == "record-libpq":
         record_libpq_build(args.libpq.resolve(), args.source.resolve())
+    elif args.command == "stage-windows-runtime":
+        stage_windows_runtime(args.libpq.resolve(), args.runtime_dir.resolve(), args.objdump)
     elif args.command == "create":
         create(args)
     else:

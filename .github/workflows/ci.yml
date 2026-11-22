@@ -354,16 +354,21 @@ jobs:
             - name: Build PostgreSQL 17.11 libpq with 32-bit TLS
               shell: msys2 {0}
               run: |
+                  pacman -Q mingw-w64-i686-openssl
                   curl --fail --location --retry 3 \
                   	https://ftp.postgresql.org/pub/source/v17.11/postgresql-17.11.tar.bz2 -o \
                   	postgresql-17.11.tar.bz2
                   echo 'dd27f2b3c59e73ed14aa3324901242bf69a032a6347805f274e6260322d42979  postgresql-17.11.tar.bz2' | sha256sum --check --strict
                   tar -xjf postgresql-17.11.tar.bz2
                   bash scripts/build-libpq-mingw32.sh postgresql-17.11 "$(pwd)/libpq32"
-                  cp /mingw32/bin/libssl-3.dll /mingw32/bin/libcrypto-3.dll libpq32/bin/
-                  cygpath -w /mingw32/bin >> "$GITHUB_PATH"
                   cygpath -w "$PWD/libpq32/bin" >> "$GITHUB_PATH"
                   echo "MINGW32_ROOT=$(cygpath -m /mingw32)" >> "$GITHUB_ENV"
+            - name: Stage the Windows x86 DLLs required by libpq
+              shell: pwsh
+              run: |
+                  python scripts/package.py stage-windows-runtime --libpq libpq32/bin/libpq.dll `
+                      --runtime-dir "$env:MINGW32_ROOT/bin" --objdump "$env:MINGW32_ROOT/bin/objdump.exe"
+                  if ($LASTEXITCODE -ne 0) { throw 'Windows x86 runtime staging failed' }
             - name: Generate the MSVC import library and build the x86 component
               id: x86_build
               shell: pwsh
@@ -446,13 +451,18 @@ jobs:
             - name: Test the x86 core, real server, VM unload and callback regressions
               shell: pwsh
               run: |
+                  $runtimeArgs = @()
+                  Get-ChildItem -LiteralPath libpq32/bin -Filter '*.dll' -File | ForEach-Object {
+                      $runtimeArgs += @('--runtime', $_.FullName)
+                  }
                   python tests/run_postgres.py --build build-msvc32 --config Release --postgres-bin `
-                  	build-server/pgsql/bin --openmp-dir build-openmp/Server --component `
+                      build-server/pgsql/bin --openssl "$env:MINGW32_ROOT/bin/openssl.exe" `
+                      --openmp-dir build-openmp/Server --component `
                       build-msvc32/Release/PostgreSQL.dll --gamemode build-msvc32/smoke.amx --unload-script `
                   	build-msvc32/unload.amx --callback-gamemode build-msvc32/callbacks.amx `
                       --extension-gamemode build-msvc32/extensions.amx --bootstrap-gamemode build-msvc32/bootstrap.amx `
-                      --section-gamemode build-msvc32/sections.amx --logging-gamemode build-msvc32/logging.amx --section-sql examples/sql/accounts.sql --runtime `
-                      libpq32/bin/libpq.dll --runtime libpq32/bin/libssl-3.dll --runtime libpq32/bin/libcrypto-3.dll `
+                      --section-gamemode build-msvc32/sections.amx --logging-gamemode build-msvc32/logging.amx `
+                      --section-sql examples/sql/accounts.sql @runtimeArgs `
                       --tutorial-dir build-msvc32 --tutorial-sql-dir examples/sql `
                       --logging-performance-gamemode build-msvc32/logging-performance.amx `
                       --logging-performance-csv build-msvc32/Testing/Temporary/openmp-source-performance.csv
@@ -463,18 +473,22 @@ jobs:
               if: ${{ !cancelled() && steps.x86_build.outcome == 'success' && steps.x86_pawn.outcome == 'success' && steps.x86_server.outcome == 'success' }}
               shell: pwsh
               run: |
+                  $runtimeArgs = @()
+                  Get-ChildItem -LiteralPath libpq32/bin -Filter '*.dll' -File | ForEach-Object {
+                      $runtimeArgs += @('--runtime', $_.FullName)
+                  }
                   python scripts/run_real_session_ci.py --output build-real-sessions `
                       --component build-msvc32/Release/PostgreSQL.dll --server build-openmp/Server `
                       --compiler build-pawn32/Release/pawncc.exe --stdlib build-stdlib `
                       --pawn-include build-msvc32/_deps/pawn-src/include --postgres-bin build-server/pgsql/bin `
                       --mingw-bin "$env:MINGW32_ROOT/bin" --bash "$env:MINGW32_ROOT/../usr/bin/bash.exe" `
-                      --runtime libpq32/bin/libpq.dll --runtime libpq32/bin/libssl-3.dll --runtime libpq32/bin/libcrypto-3.dll
+                      --openssl "$env:MINGW32_ROOT/bin/openssl.exe" @runtimeArgs
                   if ($LASTEXITCODE -ne 0) { throw 'Real player session qualification failed' }
             - name: Assemble and verify the Windows x86 package
               shell: pwsh
               run: |
                   $packageArgs = @('scripts/package.py', 'create', '--platform', 'windows', '--build', 'build-msvc32',
-                      '--libpq', 'libpq32/bin/libpq.dll', '--runtime-dir', "$env:MINGW32_ROOT/bin",
+                      '--libpq', 'libpq32/bin/libpq.dll', '--runtime-dir', 'libpq32/bin',
                       '--postgres-license', 'postgresql-17.11/COPYRIGHT',
                       '--openssl-license', "$env:MINGW32_ROOT/share/licenses/openssl/LICENSE",
                       '--pthread-license', "$env:MINGW32_ROOT/share/licenses/libwinpthread/COPYING",
