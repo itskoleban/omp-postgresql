@@ -19,8 +19,8 @@ suitability. Current preparation gates are separate from historical qualificatio
 
 | Evidence                  | Where to start                                                                                | Scope                                                                            |
 | ------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Future stable source      | [Final-source gates](#future-stable-source-preparation)                                        | Draft identity only; qualification and owner gates remain pending.               |
-| RC.3 preparation          | [Exact-source gates](#rc3-preparation-and-exact-source-gates)                                    | Baseline evidence and mandatory final integrated qualification.                  |
+| Future stable source      | [Final-source gates](#future-stable-source-preparation)                                       | Draft identity only; qualification and owner gates remain pending.               |
+| RC.3 preparation          | [Exact-source gates](#rc3-preparation-and-exact-source-gates)                                 | Baseline evidence and mandatory final integrated qualification.                  |
 | Published RC.1            | [Publication record](#published-release-candidate-october-21-2026-utc)                        | Exact tagged source `db2bfb9`; immutable release assets.                         |
 | Development documentation | [Current checks](#development-documentation-checks)                                           | Current checkout/PR; compilation and disposable SQL checks have explicit limits. |
 | Historical qualification  | [October 20 baseline](#verified-master-baseline-october-20-2026-utc) and later dated sections | Original source identities, counts and measurements remain historical.           |

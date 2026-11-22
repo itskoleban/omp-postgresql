@@ -159,15 +159,15 @@ keep test output private and redact or restrict production logs as explained in
 
 ## Documentation
 
-| Topic | Guides |
-| --- | --- |
-| Start here | [Installation](docs/installation.md), [Getting started](docs/getting-started.md), [Examples and learning path](docs/examples.md) |
-| Choose and use the API | [Quick reference](docs/quick-reference.md), [Execution guide](docs/api.md), [Native reference](docs/native-reference.md), [Callbacks](docs/callbacks.md), [Types](docs/types.md) |
-| Build gameplay features | [Accounts and player sessions](docs/accounts.md), [Saving](docs/saving.md), [Transactions](docs/transactions.md), [SQL file sections](docs/sql-sections.md) |
-| Operate safely | [Troubleshooting](docs/troubleshooting.md), [Debugging and logging](docs/debugging.md), [Security and concurrency](docs/security.md) |
-| Understand and contribute | [Architecture](docs/design.md), [Windows builds](docs/build-windows.md), [Linux builds](docs/build-linux.md), [Language policy](docs/language-policy.md) |
-| Review evidence and limits | [Validation](docs/validation.md), [Performance](docs/performance.md), [Pawn logging qualification](docs/logging-qualification.md), [Independent audit](docs/independent-audit.md) |
-| Package and release | [Packaging](docs/packaging.md), [Readiness](docs/rc-readiness.md), [Pre-soak checklist](docs/pre-soak-checklist.md), [Release procedure](docs/releasing.md), [Release notes](docs/release-notes.md) |
+| Topic                      | Guides                                                                                                                                                                                              |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Start here                 | [Installation](docs/installation.md), [Getting started](docs/getting-started.md), [Examples and learning path](docs/examples.md)                                                                    |
+| Choose and use the API     | [Quick reference](docs/quick-reference.md), [Execution guide](docs/api.md), [Native reference](docs/native-reference.md), [Callbacks](docs/callbacks.md), [Types](docs/types.md)                    |
+| Build gameplay features    | [Accounts and player sessions](docs/accounts.md), [Saving](docs/saving.md), [Transactions](docs/transactions.md), [SQL file sections](docs/sql-sections.md)                                         |
+| Operate safely             | [Troubleshooting](docs/troubleshooting.md), [Debugging and logging](docs/debugging.md), [Security and concurrency](docs/security.md)                                                                |
+| Understand and contribute  | [Architecture](docs/design.md), [Windows builds](docs/build-windows.md), [Linux builds](docs/build-linux.md), [Language policy](docs/language-policy.md)                                            |
+| Review evidence and limits | [Validation](docs/validation.md), [Performance](docs/performance.md), [Pawn logging qualification](docs/logging-qualification.md), [Independent audit](docs/independent-audit.md)                   |
+| Package and release        | [Packaging](docs/packaging.md), [Readiness](docs/rc-readiness.md), [Pre-soak checklist](docs/pre-soak-checklist.md), [Release procedure](docs/releasing.md), [Release notes](docs/release-notes.md) |
 
 Prefer [custom completion callbacks](docs/callbacks.md) for new application code;
 `OnPgComplete(job, context)` remains supported. Pre-RC.1 code using the removed
