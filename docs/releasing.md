@@ -1,27 +1,23 @@
 # Versioning and owner-controlled publication
 
-This draft configures the future **v0.1.0 source**, with CMake's numeric `PROJECT_VERSION`
-set to `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` set to `0`. This selects
-distribution version `0.1.0` and channel `stable`; positive values retain the RC route.
-Stable readiness and publication remain blocked. Package names, manifests and
-the component's SDK `SemanticVersion` derive from those same source values.
-Exact-commit qualification and owner authorization remain publication gates. The public
-Pawn API signatures are unchanged. This source preparation authorizes no merge, tag or release.
-The direct Neon connection failure in [#58](https://github.com/itskoleban/omp-postgresql/issues/58)
-requires the [incident qualification](connection-readiness.md) before stable publication.
+This source prepares **v0.1.0-rc.4** for evaluation. The numeric `PROJECT_VERSION`
+is `0.1.0` and the tracked, non-cache `PG_RELEASE_CANDIDATE` is `4`. The distribution
+version and SDK component version are `0.1.0-rc.4`, the channel is `rc`, and the
+intended tag is `v0.1.0-rc.4`. A candidate value of zero selects stable identity.
+Stable qualification remains blocked. See the [RC.4 release notes](release-notes.md)
+for changes and the [readiness record](rc-readiness.md) for qualification gates.
 
-The public [v0.1.0-rc.1 testing Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
-retains its tag, assets and source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc` unchanged.
-Later development bundles do not replace that release. Historical experimental packages
-also retain their original identities. Any new stable or RC source identity requires
-matching release notes and exact-commit qualification.
+The published [RC.1, RC.2, and RC.3 releases](https://github.com/itskoleban/omp-postgresql/releases)
+retain their original tags, source identities, and assets. Any new stable or RC
+identity requires matching release notes and exact-commit qualification.
 
 ## Freeze before the final campaign
 
 Reuse the successful seven-job RC.3 baseline at
 `b715a971e71047a9c73f6b85489fc342317ba86b` from
 [CI 41372458054](https://github.com/itskoleban/omp-postgresql/actions/runs/41372458054)
-for its verified scope. It does not qualify later corrections or this stable-source identity.
+for its verified scope. This freeze and campaign apply to future stable v0.1.0.
+An evaluation RC requires its own exact-source CI and owner authorization.
 After owner-approved integration of all required corrections and release documentation,
 require successful exact-head checks and all seven jobs on the exact final `master` commit.
 Freeze that source SHA, both tested x86 packages, source archive, installed bytes,
@@ -72,9 +68,8 @@ The named artifact `omp-postgresql-release-FULL_COMMIT` is preparation, not appr
 
 ## Manual release workflow
 
-The procedure below records the publication controls. RC.1 publication is complete;
-do not redispatch it to replace existing assets. A future release needs a separately
-authorized identity and exact-source qualification.
+Publication of RC.1 through RC.3 is complete. Each new release requires a
+separately authorized identity and exact-source qualification.
 
 Only the owner may authorize main integration, creation of the final tag and public
 publication. No automation run in this project creates tags, merges branches or invokes
@@ -91,7 +86,7 @@ authorizes creation of the corresponding tag on that exact tested commit.
 Manually dispatch **manual release** (`.github/workflows/release.yml`) from master with:
 
 - `ci_run`: the successful main CI run ID.
-- `tag`: the existing approved new tag, such as `v0.1.0` or a separately qualified `v0.1.0-rc.3`.
+- `tag`: the existing approved tag on the qualified commit, `v0.1.0-rc.4` for this candidate.
 - `confirmation`: that identical tag, acknowledging the selected release action.
 - `action`: `draft` (default) or `publish` (explicit public stable/RC publication authorization).
 

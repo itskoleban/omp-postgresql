@@ -7,8 +7,14 @@ machine before the first write-readiness notification, and it can reenter after 
 In a controlled Windows x86 run, a full TCP accept queue held connections pending
 for one second. RC.3 on open.mp 1.6.7.3218 returned the same Winsock 10057 before the
 gate opened. With the RC.3 libpq and OpenSSL DLLs, the corrected driver waited and
-completed TLS, SCRAM channel binding and `SELECT 1` after the gate opened. The Neon
-comparison below is required to confirm the reported deployment.
+completed TLS, SCRAM channel binding and `SELECT 1` after the gate opened.
+
+The [original reporter](https://github.com/itskoleban/omp-postgresql/issues/58#issuecomment-7084324361)
+subsequently verified startup and SQL on one and two lanes against their direct Neon
+service on Windows 11 with open.mp 1.6.7.3218, using the corrected Windows x86 CI
+development package and its bundled runtime. The comparison below controls for the
+runtime DLLs to investigate the historical error. A same-session Neon comparison and
+forced live Neon recovery remain unverified.
 
 The connection driver waits for the direction requested by libpq and retrieves the
 current socket on each wait. Winsock also reports failed nonblocking connects through

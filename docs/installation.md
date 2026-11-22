@@ -6,16 +6,10 @@ The repository's [Releases page](https://github.com/itskoleban/omp-postgresql/re
 contains previously published testing Pre-releases. For those distributions, follow
 the installation guide shipped in the selected archive; their filenames remain unchanged.
 Choose the Windows x86 or Linux x86 distribution ZIP and its matching `.zip.sha256` file.
-The source ZIP contains build inputs, not a prebuilt component. This draft prepares
-the future v0.1.0 source identity; stable qualification and publication remain blocked.
-Until a separately owner-authorized release is available, use development artifacts
-only for testing and evaluation.
-
-The historical [v0.1.0-rc.1 Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
-retains source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc`. Both it and
-[v0.1.0-rc.2](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.2)
-retain their original tags, assets, checksums, release notes and historical evidence.
-Future stable-source preparation does not modify existing releases or publish a new release.
+The source ZIP contains build inputs. This source prepares `v0.1.0-rc.4` for
+evaluation. Use development artifacts in disposable test installations. The
+published RC.1, RC.2, and RC.3 distributions retain their original assets and
+checksums. Stable v0.1.0 still has separate qualification gates.
 
 ## Development CI artifacts
 
@@ -29,8 +23,8 @@ read-only repository permissions and creates neither tags nor Releases.
 This source keeps the project name and internal component name `omp-postgresql`,
 with the same UID. Its distributed files are `omp_postgresql.inc`,
 `PostgreSQL.dll` and `PostgreSQL.so`. Archive names and the top-level `omp-postgresql/`
-package directory keep the project name. The instructions below describe future v0.1.0
-packages; check the exact commit in the manifest to distinguish them from published RCs.
+package directory keep the project name. The examples below use RC.4 package names.
+Check the full source commit in the manifest to identify the exact build.
 
 ## Migrating from previous release candidates
 
@@ -53,7 +47,7 @@ When moving from RC.1 or RC.2 to the current source or its development artifacts
 
 No compatibility aliases or duplicate binaries are installed. The component UID, internal
 identity and public Pawn API remain unchanged. The prepared source version is
-`0.1.0`, channel `stable`; this metadata does not establish stable readiness.
+`0.1.0-rc.4`, channel `rc`.
 The worker-admission correction rejects jobs after worker termination
 instead of leaving them pending. No database-schema migration is required.
 
@@ -61,7 +55,7 @@ instead of leaving them pending. No database-schema migration is required.
 
 Verify SHA-256 before extraction (`sha256sum --check NAME.zip.sha256` on Linux, or
 `Get-FileHash NAME.zip -Algorithm SHA256` on Windows). Extract into a temporary directory.
-Check `manifest.json`: version, full source commit, Release configuration, platform,
+Check `manifest.json` for version, release channel, full source commit, Release configuration, platform,
 dependency imports and per-file hashes. Copy the contents of its `omp-postgresql/`
 directory into a disposable server installation for your first test.
 
@@ -90,20 +84,20 @@ Download the Windows ZIP and sidecar from the selected development artifact. In 
 `$server` to a stopped, disposable official open.mp 1.5.8.3079 x86 installation:
 
 ```powershell
-$archive = 'omp-postgresql-0.1.0.COMMIT-windows-x86.zip'
+$archive = 'omp-postgresql-0.1.0-rc.4.COMMIT-windows-x86.zip'
 $server = 'C:\openmp-test'
 $expected = ((Get-Content -LiteralPath "$archive.sha256" -Raw).Trim() -split '\s+')[0]
 $actual = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash
 if ($actual -ine $expected) { throw 'Distribution checksum mismatch' }
-if (Test-Path -LiteralPath '.\rc3-extracted') { throw 'Use a fresh extraction directory' }
-Expand-Archive -LiteralPath $archive -DestinationPath '.\rc3-extracted' -ErrorAction Stop
-Get-Content -LiteralPath '.\rc3-extracted\omp-postgresql\manifest.json'
+if (Test-Path -LiteralPath '.\rc4-extracted') { throw 'Use a fresh extraction directory' }
+Expand-Archive -LiteralPath $archive -DestinationPath '.\rc4-extracted' -ErrorAction Stop
+Get-Content -LiteralPath '.\rc4-extracted\omp-postgresql\manifest.json'
 ```
 
 Inspect the displayed manifest, then copy the package:
 
 ```powershell
-Copy-Item -Path '.\rc3-extracted\omp-postgresql\*' -Destination $server -Recurse -Force -ErrorAction Stop
+Copy-Item -Path '.\rc4-extracted\omp-postgresql\*' -Destination $server -Recurse -Force -ErrorAction Stop
 ```
 
 The destination must already contain the
@@ -126,18 +120,18 @@ actual twelve-character source prefix, and set `server` to a stopped, disposable
 official open.mp 1.5.8.3079 x86 **dynssl** installation owned by your user:
 
 ```sh
-archive='omp-postgresql-0.1.0.COMMIT-linux-x86.zip'
+archive='omp-postgresql-0.1.0-rc.4.COMMIT-linux-x86.zip'
 server='/srv/openmp-test'
 sha256sum --strict --check "$archive.sha256" || exit 1
-test ! -e rc3-extracted || exit 1
-unzip "$archive" -d rc3-extracted || exit 1
-cat rc3-extracted/omp-postgresql/manifest.json
+test ! -e rc4-extracted || exit 1
+unzip "$archive" -d rc4-extracted || exit 1
+cat rc4-extracted/omp-postgresql/manifest.json
 ```
 
 Inspect the manifest, then copy the package and check loader dependencies:
 
 ```sh
-cp -a rc3-extracted/omp-postgresql/. "$server/"
+cp -a rc4-extracted/omp-postgresql/. "$server/"
 cd "$server"
 export LD_LIBRARY_PATH="$PWD/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 ldd components/PostgreSQL.so
