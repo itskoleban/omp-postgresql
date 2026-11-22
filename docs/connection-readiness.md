@@ -14,10 +14,10 @@ The connection driver waits for the direction requested by libpq and retrieves t
 current socket on each wait. Winsock also reports failed nonblocking connects through
 the exceptional set. This allows libpq to inspect the socket error and handle address
 fallback. A 10 ms maximum wait slice bounds shutdown detection during socket waits.
-`OMP_PG_CONNECT_MS` is the component's per-attempt elapsed budget, including time
-spent inside libpq. A synchronous resolver or other provider call inside libpq can
-delay when the worker observes the deadline or shutdown. The profile's `connect_timeout`
-applies to the blocking `psql` control. See the
+`OMP_PG_CONNECT_MS` bounds the polling phase after `PQconnectStartParams` returns.
+Libpq can run synchronous resolver or provider calls during startup or polling.
+The worker observes the deadline and shutdown between those calls. The profile's
+`connect_timeout` applies to the blocking `psql` control. See the
 [libpq 17 connection contract](https://www.postgresql.org/docs/17/libpq-connect.html#LIBPQ-PQCONNECTSTARTPARAMS)
 and [Winsock select](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-select).
 
