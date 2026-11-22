@@ -9,9 +9,15 @@ compiler, libpq headers, source commit and every payload checksum. Only x86 open
 
 The package places `libpq.dll` and the recursively required non-system DLLs beside the
 server executable. CI builds libpq 17.11 from its checksum-verified official source with
-MSYS2 i686 OpenSSL 3. It copies only required OpenSSL/MinGW runtime DLLs from the explicitly
-selected directory, checks PE machine type and includes their licenses. The component
-itself is built with MSVC; libpq's opaque C objects remain owned by libpq.
+the MSYS2 `mingw-w64-i686-openssl` package and logs the installed package version. It
+checks the built libpq's PE imports for a matched OpenSSL pair, such as `libssl-4.dll`
+and `libcrypto-4.dll` with OpenSSL 4.1, and stages the allowlisted x86 DLLs from the
+same MinGW installation used for linking. Source tests and package assembly use those
+staged DLLs. The manifest records their import names and SHA-256 hashes, and the package
+includes their licenses. MSVC builds the component, and libpq owns its opaque C objects.
+
+OpenSSL 4 removed the legacy ENGINE interface. A libpq build using OpenSSL 4
+cannot use an ENGINE-backed `sslkey`.
 
 The Windows source build applies a downstream mutex-initialization correction. Its patch
 and rationale are included under `share/omp-postgresql/patches/`; the package manifest

@@ -64,11 +64,10 @@ public:
 
 private:
 	struct ConnDelete {
-		void operator()(PGconn *p) const {
-			if (p) {
-				PQfinish(p);
-			}
-		}
+		void operator()(PGconn *p) const;
+	};
+	enum class SocketWait {
+		ready, connect_exception, slice_elapsed, interrupted, timeout, cancelled, failed
 	};
 
 	using Conn = std::unique_ptr<PGconn, ConnDelete>;
@@ -103,7 +102,7 @@ private:
 	void log(LogEvent event, std::uint64_t value = 0) noexcept;
 	void run();
 	bool connect();
-	Error wait_socket(bool writing, Clock::time_point deadline, const Job *job);
+	SocketWait wait_socket(bool writing, Clock::time_point deadline, const Job *job);
 	Result receive(Job &job, Clock::time_point deadline, std::size_t &bytes,
 	               bool stream_rows = false);
 	Result command(Job &job, const std::string &sql, const Params &params, bool prepared,

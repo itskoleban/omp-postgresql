@@ -7,6 +7,8 @@ Stable readiness and publication remain blocked. Package names, manifests and
 the component's SDK `SemanticVersion` derive from those same source values.
 Exact-commit qualification and owner authorization remain publication gates. The public
 Pawn API signatures are unchanged. This source preparation authorizes no merge, tag or release.
+The direct Neon connection failure in [#58](https://github.com/itskoleban/omp-postgresql/issues/58)
+requires the [incident qualification](connection-readiness.md) before stable publication.
 
 The public [v0.1.0-rc.1 testing Pre-release](https://github.com/itskoleban/omp-postgresql/releases/tag/v0.1.0-rc.1)
 retains its tag, assets and source `db2bfb9b816b0042b8ef36e847cf9fb1c24e94fc` unchanged.

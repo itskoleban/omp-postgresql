@@ -46,6 +46,12 @@ void operator delete[](void *value, std::size_t) noexcept {
 
 namespace pg {
 // No worker is started, no libpq connection is attempted, and no SQL is sent.
+void Lane::ConnDelete::operator()(PGconn *connection) const {
+	if (connection) {
+		std::abort();
+	}
+}
+
 Lane::Lane(std::string service, Limits limits, std::filesystem::path root,
            CompletionQueue &completed, Diagnostics *diagnostics, Owner owner, Id connection,
            int lane)
