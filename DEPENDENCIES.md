@@ -16,6 +16,9 @@ same MinGW installation used for linking. Source tests and package assembly use 
 staged DLLs. The manifest records their import names and SHA-256 hashes, and the package
 includes their licenses. MSVC builds the component, and libpq owns its opaque C objects.
 
+OpenSSL 4 removed the legacy ENGINE interface. A libpq build using OpenSSL 4
+cannot use an ENGINE-backed `sslkey`.
+
 The Windows source build applies a downstream mutex-initialization correction. Its patch
 and rationale are included under `share/omp-postgresql/patches/`; the package manifest
 binds the patch SHA-256 and source version to the actual libpq DLL SHA-256. This is a

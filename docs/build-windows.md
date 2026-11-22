@@ -87,6 +87,7 @@ Use `scripts/compile_examples.py` from the [example catalogue](examples.md), wit
 `--output build`. Interactive account/provider behavior requires separate qualification.
 
 ```powershell
+$env:PATH = "C:/deps/pg32/bin;$env:PATH"
 $runtimeArgs = @()
 Get-ChildItem -LiteralPath C:/deps/pg32/bin -Filter '*.dll' -File | ForEach-Object {
     $runtimeArgs += @('--runtime', $_.FullName)

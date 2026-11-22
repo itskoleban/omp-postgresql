@@ -268,7 +268,10 @@ jobs:
             - uses: actions/checkout@v4
               with:
                   ref: ${{ github.event.pull_request.head.sha || github.sha }}
-            - uses: msys2/setup-msys2@v2
+            - uses: msys2/setup-msys2@3c51bf698df1e37b2261f53cb67797b97761185c
+              env:
+                  # This revision supports bypassing the geo-redirect service during mirror outages.
+                  __SETUP_MSYS2_USE_MAIN_MIRROR_ONLY: 'true'
               with:
                   msystem: UCRT64
                   update: true
@@ -344,7 +347,10 @@ jobs:
               with:
                   python-version: "3.13"
                   architecture: x64
-            - uses: msys2/setup-msys2@v2
+            - uses: msys2/setup-msys2@3c51bf698df1e37b2261f53cb67797b97761185c
+              env:
+                  # Keep the same official package origin as the Windows x64 job.
+                  __SETUP_MSYS2_USE_MAIN_MIRROR_ONLY: 'true'
               with:
                   msystem: MINGW32
                   update: true
